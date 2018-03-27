@@ -41,11 +41,19 @@
     <repositories>
         <repository>
             <id>spring-repo</id>
-            <url>https://mvnrepository.com/artifact/org.springframework/</url>
+            <url>https://mvnrepository.com/artifact/org.springframework</url>
         </repository>
         <repository>
             <id>netty-repo</id>
-            <url>https://mvnrepository.com/artifact/io.netty/netty-all/</url>
+            <url>https://mvnrepository.com/artifact/io.netty/netty-all</url>
+        </repository>
+        <repository>
+            <id>guava-repo</id>
+            <url>https://mvnrepository.com/artifact/com.google.guava/guava</url>
+        </repository>
+        <repository>
+            <id>apache-commons-repo</id>
+            <url>https://mvnrepository.com/artifact/org.apache.commons/commons-lang3</url>
         </repository>
     </repositories>
 
@@ -87,5 +95,18 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.22.Final</version>
         </dependency>
+        <!-- Guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>24.1-jre</version>
+        </dependency>
+        <!-- Apache Commons Lang -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.7</version>
+        </dependency>
+
     </dependencies>
 </project>
