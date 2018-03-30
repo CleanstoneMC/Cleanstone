@@ -7,11 +7,13 @@
        http://www.springframework.org/schema/context/spring-context-3.0.xsd"
        default-init-method="init"
        default-destroy-method="destroy">
+
     <context:annotation-config/>
 
-    <import resource="net/Network.xml"/>
-
-    <bean id="cleanstoneServer" class="rocks.cleanstone.CleanstoneServer">
+    <bean id="abstractNetwork" class="rocks.cleanstone.net.AbstractNetwork" abstract="true">
+        <constructor-arg value="25565"/>
     </bean>
 
+    <bean id="netty" class="rocks.cleanstone.net.netty.NettyNetwork" parent="abstractNetwork">
+    </bean>
 </beans>

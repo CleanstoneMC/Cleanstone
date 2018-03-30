@@ -7,10 +7,10 @@ public class Cleanstone {
 
     public static void main(String[] args) {
         AbstractApplicationContext context = new ClassPathXmlApplicationContext("rocks/cleanstone/CleanstoneServer.xml");
-        CleanstoneServer cleanstoneServer = (CleanstoneServer) context.getBean("cleanstoneServer");
-
-        cleanstoneServer.run();
-
         context.registerShutdownHook();
+
+
+        CleanstoneServer cleanstoneServer = (CleanstoneServer) context.getBean("cleanstoneServer");
+        cleanstoneServer.run();
     }
 }
