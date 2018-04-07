@@ -11,7 +11,9 @@
 
     <import resource="net/Network.xml"/>
 
-    <bean id="cleanstoneServer" class="rocks.cleanstone.core.CleanstoneServer">
+    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer" scope="prototype">
+    </bean>
+    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneMainServer" scope="prototype">
     </bean>
 
 </beans>
