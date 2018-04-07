@@ -1,4 +1,4 @@
 package rocks.cleanstone.region.entity;
 
-public class Entity {
+public abstract class Entity {
 }

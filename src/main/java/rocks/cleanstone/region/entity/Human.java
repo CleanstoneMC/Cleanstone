@@ -1,4 +1,4 @@
 package rocks.cleanstone.region.entity;
 
-public class Human {
+public abstract class Human extends Entity {
 }
