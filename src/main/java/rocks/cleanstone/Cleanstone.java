@@ -19,9 +19,8 @@ public class Cleanstone {
         CleanstoneServer cleanstoneServer;
         if (args.length >= 1 && args[0].equalsIgnoreCase("subserver")) {
             cleanstoneServer = (CleanstoneSubServer) context.getBean("cleanstoneSubServer");
-        }else{
+        } else {
             cleanstoneServer = (CleanstoneMainServer) context.getBean("cleanstoneMainServer");
-
         }
         cleanstoneServer.run();
     }

@@ -10,12 +10,8 @@ public class CleanstoneMainServer extends CleanstoneServer {
     private PlayerCommunicationManager playerCommunicationManager;
 
     @Autowired
-    private ServerCommunicationManager serverCommunicationManager;
-
-    @Autowired
     private PlayerManager playerManager;
 
-    @Autowired
     private Set<ExternalServer> externalServers;
 
     public void init() {

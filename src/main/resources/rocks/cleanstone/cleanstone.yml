@@ -1,5 +1,0 @@
-# Cleanstone configuration
-
-port: 25565
-address: 0.0.0.0
-online-mode: true
