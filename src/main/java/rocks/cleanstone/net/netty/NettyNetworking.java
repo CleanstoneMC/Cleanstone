@@ -1,13 +1,13 @@
 package rocks.cleanstone.net.netty;
 
-import rocks.cleanstone.net.AbstractNetwork;
+import rocks.cleanstone.net.AbstractNetworking;
 
 /**
  * Coded by fionera.
  */
-public class NettyNetwork extends AbstractNetwork {
+public class NettyNetworking extends AbstractNetworking {
 
-    public NettyNetwork(int port) {
+    public NettyNetworking(int port) {
         super(port);
         System.out.println("bla");
     }

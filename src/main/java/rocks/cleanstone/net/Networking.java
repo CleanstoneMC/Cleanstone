@@ -3,7 +3,7 @@ package rocks.cleanstone.net;
 /**
  * Coded by fionera.
  */
-public interface NetworkInterface {
+public interface Networking {
 
     public void test();
 }

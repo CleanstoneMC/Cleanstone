@@ -4,6 +4,7 @@ import org.springframework.beans.factory.config.Scope;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.SimpleThreadScope;
+import rocks.cleanstone.core.CleanstoneServer;
 
 public class Cleanstone {
 

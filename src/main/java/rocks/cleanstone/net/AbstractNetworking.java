@@ -3,11 +3,11 @@ package rocks.cleanstone.net;
 /**
  * Coded by fionera.
  */
-public abstract class AbstractNetwork implements NetworkInterface {
+public abstract class AbstractNetworking implements Networking {
 
     protected final int port;
 
-    public AbstractNetwork(int port) {
+    public AbstractNetworking(int port) {
         this.port = port;
     }
 }
