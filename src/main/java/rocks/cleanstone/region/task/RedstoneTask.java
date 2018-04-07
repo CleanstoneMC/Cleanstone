@@ -1,4 +1,10 @@
 package rocks.cleanstone.region.task;
 
-public interface RedstoneTask {
+import rocks.cleanstone.region.Tickable;
+
+public class RedstoneTask implements RegionTask, Tickable {
+    @Override
+    public void tick() {
+
+    }
 }

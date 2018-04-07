@@ -1,4 +1,4 @@
 package rocks.cleanstone.region.task;
 
-public interface ChunkLoadingTask {
+public class ChunkLoadingTask implements RegionTask{
 }
