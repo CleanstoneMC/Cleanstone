@@ -3,22 +3,22 @@ package rocks.cleanstone.io.vanilla.nbt.type;
 import rocks.cleanstone.io.vanilla.nbt.TagType;
 import rocks.cleanstone.io.vanilla.nbt.VanillaTagType;
 
-import java.util.List;
+import java.util.Map;
 
-public class ListTag<T extends AbstractTag> extends AbstractTag<List<T>> {
+public class CompoundTag extends AbstractTag<Map<String, AbstractTag>> {
 
-    public ListTag(byte[] rawData) {
+    public CompoundTag(byte[] rawData) {
         super(rawData);
     }
 
     @Override
-    public List<T> get() {
-
-        return null; //TODO
+    public Map<String, AbstractTag> get() {
+        // TODO
+        return null;
     }
 
     @Override
     public TagType getType() {
-        return VanillaTagType.LIST;
+        return VanillaTagType.COMPOUND;
     }
 }

@@ -3,22 +3,19 @@ package rocks.cleanstone.io.vanilla.nbt.type;
 import rocks.cleanstone.io.vanilla.nbt.TagType;
 import rocks.cleanstone.io.vanilla.nbt.VanillaTagType;
 
-import java.util.List;
+public class EndTag extends AbstractTag<Void> {
 
-public class ListTag<T extends AbstractTag> extends AbstractTag<List<T>> {
-
-    public ListTag(byte[] rawData) {
+    public EndTag(byte[] rawData) {
         super(rawData);
     }
 
     @Override
-    public List<T> get() {
-
-        return null; //TODO
+    public Void get() {
+        return null;
     }
 
     @Override
     public TagType getType() {
-        return VanillaTagType.LIST;
+        return VanillaTagType.END;
     }
 }

@@ -1,13 +1,7 @@
 package rocks.cleanstone.io.vanilla.nbt.type;
 
-import rocks.cleanstone.io.vanilla.nbt.TagTypeInterface;
+import rocks.cleanstone.io.vanilla.nbt.TagType;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
-/**
- * Coded by fionera.
- */
 public abstract class AbstractTag<T> {
 
     protected byte[] rawData;
@@ -18,6 +12,6 @@ public abstract class AbstractTag<T> {
 
     public abstract T get();
 
-    public abstract TagTypeInterface getType();
+    public abstract TagType getType();
 
 }

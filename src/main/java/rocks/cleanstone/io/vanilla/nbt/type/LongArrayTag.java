@@ -3,22 +3,19 @@ package rocks.cleanstone.io.vanilla.nbt.type;
 import rocks.cleanstone.io.vanilla.nbt.TagType;
 import rocks.cleanstone.io.vanilla.nbt.VanillaTagType;
 
-import java.util.List;
+public class LongArrayTag<T extends AbstractTag> extends AbstractTag<long[]> {
 
-public class ListTag<T extends AbstractTag> extends AbstractTag<List<T>> {
-
-    public ListTag(byte[] rawData) {
+    public LongArrayTag(byte[] rawData) {
         super(rawData);
     }
 
     @Override
-    public List<T> get() {
-
+    public long[] get() {
         return null; //TODO
     }
 
     @Override
     public TagType getType() {
-        return VanillaTagType.LIST;
+        return VanillaTagType.LONG_ARRAY;
     }
 }

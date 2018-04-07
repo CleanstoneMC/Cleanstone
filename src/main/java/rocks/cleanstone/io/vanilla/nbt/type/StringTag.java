@@ -1,15 +1,12 @@
 package rocks.cleanstone.io.vanilla.nbt.type;
 
+import rocks.cleanstone.io.vanilla.nbt.VanillaTagType;
 import rocks.cleanstone.io.vanilla.nbt.TagType;
-import rocks.cleanstone.io.vanilla.nbt.TagTypeInterface;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
-/**
- * Coded by fionera.
- */
 public class StringTag extends AbstractTag<String> {
 
     public StringTag(byte[] rawData) {
@@ -22,7 +19,7 @@ public class StringTag extends AbstractTag<String> {
     }
 
     @Override
-    public TagTypeInterface getType() {
-        return TagType.STRING;
+    public TagType getType() {
+        return VanillaTagType.STRING;
     }
 }
