@@ -2,9 +2,6 @@ package rocks.cleanstone.net.netty;
 
 import rocks.cleanstone.net.AbstractNetworking;
 
-/**
- * Coded by fionera.
- */
 public class NettyNetworking extends AbstractNetworking {
 
     public NettyNetworking(int port) {

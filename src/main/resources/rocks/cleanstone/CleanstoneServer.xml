@@ -13,7 +13,7 @@
 
     <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer" scope="prototype">
     </bean>
-    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneMainServer" scope="prototype">
+    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer" scope="prototype">
     </bean>
 
 </beans>
