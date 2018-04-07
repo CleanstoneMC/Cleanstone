@@ -1,6 +1,7 @@
 package rocks.cleanstone.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import rocks.cleanstone.core.player.PlayerManager;
 
 import java.util.Set;
 
