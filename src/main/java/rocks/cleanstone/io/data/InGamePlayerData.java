@@ -1,30 +1,26 @@
 package rocks.cleanstone.io.data;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
 public class InGamePlayerData {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
     private UUID uuid;
-    private GameMode gameMode;
+    private int gameMode;
 
-    protected InGamePlayerData() {}
+    protected InGamePlayerData() {
+    }
 
-    public InGamePlayerData(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public InGamePlayerData(UUID uuid, int gameMode) {
+        this.uuid = uuid;
+        this.gameMode = gameMode;
     }
 
     @Override
     public String toString() {
-        return String.format(
-                "InGamePlayerData[id=%d, firstName='%s', lastName='%s']",
-                id, firstName, lastName);
+        return String.format("InGamePlayerData[uuid=%s, gameMode='%s']",
+                uuid, gameMode);
     }
 }
