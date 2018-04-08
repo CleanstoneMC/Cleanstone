@@ -48,6 +48,10 @@
             <id>apache-commons-repo</id>
             <url>https://mvnrepository.com/artifact/org.apache.commons/commons-lang3</url>
         </repository>
+        <repository>
+            <id>javax-persistence</id>
+            <url>https://mvnrepository.com/artifact/javax.persistence/persistence-api</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -104,6 +108,12 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.7</version>
+        </dependency>
+        <!-- Javax Persistence -->
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0.2</version>
         </dependency>
 
     </dependencies>

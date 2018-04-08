@@ -1,5 +1,7 @@
 package rocks.cleanstone.core.player;
 
+import rocks.cleanstone.io.data.InGamePlayerDataRepository;
+
 import java.util.Collection;
 
 public interface PlayerManager {
@@ -10,5 +12,5 @@ public interface PlayerManager {
 
     Collection<PlayerId> getAllPlayerIds();
 
-    PlayerDataContainer getPlayerDataContainer(PlayerId id);
+    InGamePlayerDataRepository getPlayerDataContainer(PlayerId id);
 }

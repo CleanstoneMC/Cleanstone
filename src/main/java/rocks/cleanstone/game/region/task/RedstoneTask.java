@@ -1,6 +1,6 @@
-package rocks.cleanstone.region.task;
+package rocks.cleanstone.game.region.task;
 
-import rocks.cleanstone.region.Tickable;
+import rocks.cleanstone.game.region.Tickable;
 
 public class RedstoneTask implements RegionTask, Tickable {
     @Override

@@ -1,5 +1,7 @@
 package rocks.cleanstone.core.player;
 
+import rocks.cleanstone.io.data.InGamePlayerDataRepository;
+
 import java.util.Collection;
 
 public class SimplePlayerManager implements PlayerManager {
@@ -19,7 +21,7 @@ public class SimplePlayerManager implements PlayerManager {
     }
 
     @Override
-    public PlayerDataContainer getPlayerDataContainer(PlayerId id) {
+    public InGamePlayerDataRepository getPlayerDataContainer(PlayerId id) {
         return null;
     }
 }

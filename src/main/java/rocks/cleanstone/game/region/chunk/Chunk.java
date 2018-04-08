@@ -1,6 +1,6 @@
-package rocks.cleanstone.region.chunk;
+package rocks.cleanstone.game.region.chunk;
 
-import rocks.cleanstone.region.block.Block;
+import rocks.cleanstone.game.region.block.Block;
 
 import java.util.Collection;
 
