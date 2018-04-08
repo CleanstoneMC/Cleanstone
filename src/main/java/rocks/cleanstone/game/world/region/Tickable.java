@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.region;
+package rocks.cleanstone.game.world.region;
 
 public interface Tickable {
     void tick();

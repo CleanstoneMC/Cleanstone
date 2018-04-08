@@ -1,6 +1,6 @@
-package rocks.cleanstone.game.region;
+package rocks.cleanstone.game.world.region;
 
-import rocks.cleanstone.game.region.chunk.Chunk;
+import rocks.cleanstone.game.world.region.chunk.Chunk;
 
 import java.util.Collection;
 import java.util.concurrent.Future;

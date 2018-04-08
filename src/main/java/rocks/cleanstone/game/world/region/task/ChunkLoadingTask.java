@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.region.task;
+package rocks.cleanstone.game.world.region.task;
 
 public class ChunkLoadingTask implements RegionTask {
 }
