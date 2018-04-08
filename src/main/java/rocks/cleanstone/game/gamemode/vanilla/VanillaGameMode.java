@@ -4,7 +4,10 @@ import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.GameModeRuleSet;
 
 public enum VanillaGameMode implements GameMode {
-    ADVENTURE(2, Adventure.class), CREATIVE(1, Creative.class), SPECTATOR(3, Spectator.class), SURVIVAL(0, Survival.class);
+    SURVIVAL(0, Survival.class),
+    CREATIVE(1, Creative.class),
+    ADVENTURE(2, Adventure.class),
+    SPECTATOR(3, Spectator.class);
 
     private final int typeId;
 
