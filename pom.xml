@@ -21,13 +21,6 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>1.16.16</version>
-                        </path>
-                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
@@ -82,12 +75,11 @@
             <artifactId>spring-beans</artifactId>
             <version>5.0.4.RELEASE</version>
         </dependency>
-        <!-- Lombok -->
+        <!-- Spring Data -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.16</version>
-            <scope>provided</scope>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>2.0.6.RELEASE</version>
         </dependency>
         <!-- Netty -->
         <dependency>
