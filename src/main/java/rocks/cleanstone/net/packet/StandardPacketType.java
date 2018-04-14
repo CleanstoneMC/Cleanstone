@@ -17,4 +17,9 @@ public enum StandardPacketType implements PacketType {
     public int getTypeId() {
         return typeId;
     }
+
+    @Override
+    public Class<? extends Packet> getPacketClass() {
+        return packetClass;
+    }
 }
