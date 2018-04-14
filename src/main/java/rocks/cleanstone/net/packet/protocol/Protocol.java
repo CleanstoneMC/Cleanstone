@@ -1,7 +1,6 @@
 package rocks.cleanstone.net.packet.protocol;
 
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketCodec;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 
 public interface Protocol {

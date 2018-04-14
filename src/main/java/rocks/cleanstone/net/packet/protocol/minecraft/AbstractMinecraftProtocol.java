@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.protocol.minecraft;
 
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketCodec;
+import rocks.cleanstone.net.packet.protocol.PacketCodec;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 

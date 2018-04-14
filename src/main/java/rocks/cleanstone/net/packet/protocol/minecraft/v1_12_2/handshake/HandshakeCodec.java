@@ -3,7 +3,7 @@ package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.handshake;
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.PacketCodec;
+import rocks.cleanstone.net.packet.protocol.PacketCodec;
 import rocks.cleanstone.net.packet.minecraft.receive.HandshakePacket;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
