@@ -7,7 +7,7 @@ import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
 
 public enum MinecraftReceivePacketType implements PacketType {
-    HANDSHAKE(0, HandshakePacket.class, StandardProtocolType.MINECRAFT);
+    HANDSHAKE(0, HandshakePacket.class, StandardProtocolType.MINECRAFT_LATEST);
 
     private final int typeId;
     private final ProtocolType protocolType;
