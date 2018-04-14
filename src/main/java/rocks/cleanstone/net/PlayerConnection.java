@@ -2,10 +2,9 @@ package rocks.cleanstone.net;
 
 import java.net.InetAddress;
 
-public class PlayerConnection {
-    private final InetAddress address;
+public class PlayerConnection implements Connection {
 
-    // TODO connection thingy
+    private final InetAddress address;
 
     public PlayerConnection(InetAddress address) {
         this.address = address;
