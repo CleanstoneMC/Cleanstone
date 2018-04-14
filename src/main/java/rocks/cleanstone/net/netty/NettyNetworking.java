@@ -1,6 +1,7 @@
 package rocks.cleanstone.net.netty;
 
 import java.net.InetAddress;
+import java.util.Collections;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -21,6 +22,8 @@ import rocks.cleanstone.net.protocol.Protocol;
 public class NettyNetworking extends AbstractNetworking {
 
     private final boolean epoll = true;
+    private final int socketBacklog = 128;
+    private final boolean socketKeepAlive = true;
 
     public NettyNetworking(int port, InetAddress address, Protocol protocol) {
         super(port, address, protocol);
@@ -36,12 +39,18 @@ public class NettyNetworking extends AbstractNetworking {
                     .channel(epoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new DiscardServerHandler());
+                        public void initChannel(SocketChannel ch) {
+                            ch.pipeline().addLast(
+                                    new IdentificationHandler(Collections.emptySet()),
+                                    new ByteStreamDecoder(),
+                                    new CompressionDecoder(),
+                                    new InsulatedPacketDecoder(),
+                                    new PacketHandler());
+
                         }
                     })
-                    .option(ChannelOption.SO_BACKLOG, 128)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+                    .option(ChannelOption.SO_BACKLOG, socketBacklog)
+                    .childOption(ChannelOption.SO_KEEPALIVE, socketKeepAlive);
 
             ChannelFuture f = null;
             try {
