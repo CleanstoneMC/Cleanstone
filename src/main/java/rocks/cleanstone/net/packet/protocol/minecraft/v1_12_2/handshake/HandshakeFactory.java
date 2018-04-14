@@ -1,11 +1,11 @@
-package rocks.cleanstone.net.protocol.minecraft.v1_12_2.handshake;
+package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.handshake;
+
+import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.packet.PacketFactory;
 import rocks.cleanstone.net.packet.minecraft.receive.HandshakePacket;
 import rocks.cleanstone.net.utils.ByteBufUtils;
-
-import java.io.IOException;
 
 public class HandshakeFactory implements PacketFactory<HandshakePacket> {
 
