@@ -1,11 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.receive;
 
-import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.StandardPacketType;
-import rocks.cleanstone.net.packet.minecraft.MinecraftPacket;
+import rocks.cleanstone.net.packet.ReceivePacket;
+import rocks.cleanstone.net.packet.minecraft.MinecraftReceivePacketType;
 
-public class TeleportConfirmPacket implements MinecraftPacket {
+public class TeleportConfirmPacket extends ReceivePacket {
 
     private final int teleportID;
 
@@ -19,11 +18,6 @@ public class TeleportConfirmPacket implements MinecraftPacket {
 
     @Override
     public PacketType getType() {
-        return StandardPacketType.MINECRAFT;
-    }
-
-    @Override
-    public PacketDirection getDirection() {
-        return PacketDirection.RECEIVE;
+        return MinecraftReceivePacketType.TELEPORT_CONFIRM;
     }
 }

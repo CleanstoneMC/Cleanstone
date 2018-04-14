@@ -1,14 +1,13 @@
 package rocks.cleanstone.net.packet.minecraft.receive;
 
-import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.StandardPacketType;
-import rocks.cleanstone.net.packet.minecraft.MinecraftPacket;
+import rocks.cleanstone.net.packet.ReceivePacket;
+import rocks.cleanstone.net.packet.minecraft.MinecraftReceivePacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.ChatMode;
 import rocks.cleanstone.net.packet.minecraft.enums.DisplayedSkinParts;
 import rocks.cleanstone.net.packet.minecraft.enums.MainHand;
 
-public class ClientSettingsPacket implements MinecraftPacket {
+public class ClientSettingsPacket extends ReceivePacket {
 
     private final String locale;
     private final int viewDistance;
@@ -35,13 +34,32 @@ public class ClientSettingsPacket implements MinecraftPacket {
         this.mainHand = mainHand;
     }
 
-    @Override
-    public PacketType getType() {
-        return StandardPacketType.MINECRAFT;
+    public String getLocale() {
+        return locale;
+    }
+
+    public int getViewDistance() {
+        return viewDistance;
+    }
+
+    public ChatMode getChatMode() {
+        return chatMode;
+    }
+
+    public boolean isChatColors() {
+        return chatColors;
+    }
+
+    public DisplayedSkinParts[] getDisplayedSkinParts() {
+        return displayedSkinParts;
+    }
+
+    public MainHand getMainHand() {
+        return mainHand;
     }
 
     @Override
-    public PacketDirection getDirection() {
-        return PacketDirection.RECEIVE;
+    public PacketType getType() {
+        return MinecraftReceivePacketType.CLIENT_SETTINGS;
     }
 }

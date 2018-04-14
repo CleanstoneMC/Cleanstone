@@ -1,12 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.receive;
 
-import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.StandardPacketType;
-import rocks.cleanstone.net.packet.minecraft.MinecraftPacket;
+import rocks.cleanstone.net.packet.ReceivePacket;
+import rocks.cleanstone.net.packet.minecraft.MinecraftReceivePacketType;
 import rocks.cleanstone.net.packet.minecraft.data.Slot;
 
-public class ClickWindowPacket implements MinecraftPacket {
+public class ClickWindowPacket extends ReceivePacket {
 
     private final int windowID;
     private final short slot;
@@ -26,11 +25,6 @@ public class ClickWindowPacket implements MinecraftPacket {
 
     @Override
     public PacketType getType() {
-        return StandardPacketType.MINECRAFT;
-    }
-
-    @Override
-    public PacketDirection getDirection() {
-        return PacketDirection.RECEIVE;
+        return MinecraftReceivePacketType.CLICK_WINDOW;
     }
 }

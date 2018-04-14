@@ -1,12 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.receive;
 
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.StandardPacketType;
-import rocks.cleanstone.net.packet.minecraft.MinecraftPacket;
+import rocks.cleanstone.net.packet.ReceivePacket;
+import rocks.cleanstone.net.packet.minecraft.MinecraftReceivePacketType;
 
-public class ChatMessagePacket implements MinecraftPacket {
+public class ChatMessagePacket extends ReceivePacket {
 
     private final String message;
 
@@ -20,11 +18,6 @@ public class ChatMessagePacket implements MinecraftPacket {
 
     @Override
     public PacketType getType() {
-        return StandardPacketType.MINECRAFT;
-    }
-
-    @Override
-    public PacketDirection getDirection() {
-        return PacketDirection.RECEIVE;
+        return MinecraftReceivePacketType.CHAT_MESSAGE;
     }
 }

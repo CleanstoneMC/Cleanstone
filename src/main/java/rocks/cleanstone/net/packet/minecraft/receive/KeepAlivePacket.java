@@ -4,20 +4,20 @@ import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.ReceivePacket;
 import rocks.cleanstone.net.packet.minecraft.MinecraftReceivePacketType;
 
-public class CloseWindowPacket extends ReceivePacket {
+public class KeepAlivePacket extends ReceivePacket {
 
-    private final byte windowID;
+    private final long keepAliveID;
 
-    public CloseWindowPacket(byte windowID) {
-        this.windowID = windowID;
+    public KeepAlivePacket(long keepAliveID) {
+        this.keepAliveID = keepAliveID;
     }
 
-    public byte getWindowID() {
-        return windowID;
+    public long getKeepAliveID() {
+        return keepAliveID;
     }
 
     @Override
     public PacketType getType() {
-        return MinecraftReceivePacketType.CLOSE_WINDOW;
+        return MinecraftReceivePacketType.KEEP_ALIVE;
     }
 }

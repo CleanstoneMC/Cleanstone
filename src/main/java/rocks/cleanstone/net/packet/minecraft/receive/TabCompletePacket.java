@@ -1,12 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.receive;
 
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.StandardPacketType;
+import rocks.cleanstone.net.packet.ReceivePacket;
+import rocks.cleanstone.net.packet.minecraft.MinecraftReceivePacketType;
 import rocks.cleanstone.net.utils.Vector;
 
-public class TabCompletePacket implements Packet {
+public class TabCompletePacket extends ReceivePacket {
 
     private final String text;
     private final boolean assumeCommand;
@@ -39,11 +38,6 @@ public class TabCompletePacket implements Packet {
 
     @Override
     public PacketType getType() {
-        return StandardPacketType.MINECRAFT;
-    }
-
-    @Override
-    public PacketDirection getDirection() {
-        return PacketDirection.RECEIVE;
+        return MinecraftReceivePacketType.TAB_COMPLETE;
     }
 }

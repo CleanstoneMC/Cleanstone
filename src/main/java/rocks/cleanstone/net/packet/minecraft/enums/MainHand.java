@@ -10,6 +10,7 @@ public enum MainHand {
         this.handID = handID;
     }
 
+    @SuppressWarnings("Duplicates")
     public static MainHand fromHandID(int handID) {
         switch (handID) {
             case 0:

@@ -11,6 +11,7 @@ public enum ChatMode {
         this.modeID = modeID;
     }
 
+    @SuppressWarnings("Duplicates")
     public static ChatMode fromModeID(int modeID) {
         switch (modeID) {
             case 0:

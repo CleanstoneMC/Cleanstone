@@ -10,6 +10,7 @@ public enum ClientStatus {
         this.statusID = statusID;
     }
 
+    @SuppressWarnings("Duplicates")
     public static ClientStatus fromStatusID(int statusID) {
         switch (statusID) {
             case 0:

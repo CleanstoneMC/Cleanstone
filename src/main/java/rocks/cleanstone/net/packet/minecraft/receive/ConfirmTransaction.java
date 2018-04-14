@@ -1,11 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.receive;
 
-import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.StandardPacketType;
-import rocks.cleanstone.net.packet.minecraft.MinecraftPacket;
+import rocks.cleanstone.net.packet.ReceivePacket;
+import rocks.cleanstone.net.packet.minecraft.MinecraftReceivePacketType;
 
-public class ConfirmTransaction implements MinecraftPacket {
+public class ConfirmTransaction extends ReceivePacket {
 
     private final byte windowID;
     private final short actionNumber;
@@ -31,11 +30,6 @@ public class ConfirmTransaction implements MinecraftPacket {
 
     @Override
     public PacketType getType() {
-        return StandardPacketType.MINECRAFT;
-    }
-
-    @Override
-    public PacketDirection getDirection() {
-        return PacketDirection.RECEIVE;
+        return MinecraftReceivePacketType.CONFIRM_TRANSACTION;
     }
 }
