@@ -1,6 +1,6 @@
 package rocks.cleanstone.net.utils;
 
-public class Vector implements Cloneable {
+public class Vector {
 
     protected double x;
     protected double y;
@@ -10,6 +10,12 @@ public class Vector implements Cloneable {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public Vector(Vector other) {
+        this.x = other.x;
+        this.y = other.y;
+        this.z = other.z;
     }
 
     public double getX() {
