@@ -1,17 +1,13 @@
 package rocks.cleanstone.net.packet.minecraft.send;
 
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.net.packet.SendPacket;
+import rocks.cleanstone.net.packet.minecraft.MinecraftSendPacketType;
 
-public class KeepAlive implements Packet {
+public class KeepAlive extends SendPacket {
+
     @Override
     public PacketType getType() {
-        return null;
-    }
-
-    @Override
-    public PacketDirection getDirection() {
-        return null;
+        return MinecraftSendPacketType.HANDSHAKE;
     }
 }

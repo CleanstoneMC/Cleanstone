@@ -2,6 +2,7 @@ package rocks.cleanstone.net.packet.minecraft;
 
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.net.packet.SendPacket;
 import rocks.cleanstone.net.packet.minecraft.send.KeepAlive;
 import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
@@ -11,9 +12,9 @@ public enum MinecraftSendPacketType implements PacketType {
 
     private final int typeId;
     private final ProtocolType protocolType;
-    private final Class<? extends Packet> packetClass;
+    private final Class<? extends SendPacket> packetClass;
 
-    MinecraftSendPacketType(int typeId, Class<? extends Packet> packetClass, ProtocolType protocolType) {
+    MinecraftSendPacketType(int typeId, Class<? extends SendPacket> packetClass, ProtocolType protocolType) {
         this.typeId = typeId;
         this.packetClass = packetClass;
         this.protocolType = protocolType;
