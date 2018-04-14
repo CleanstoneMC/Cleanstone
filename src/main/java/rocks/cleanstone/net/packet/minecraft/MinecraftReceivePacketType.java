@@ -7,17 +7,17 @@ import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
 
 public enum MinecraftReceivePacketType implements PacketType {
-    HANDSHAKE(0, HandshakePacket.class, StandardProtocolType.MINECRAFT),
-    CHAT_MESSAGE(1, HandshakePacket.class, StandardProtocolType.MINECRAFT),
-    CLICK_WINDOW(2, ClickWindowPacket.class, StandardProtocolType.MINECRAFT),
-    CLIENT_SETTINGS(3, ClientSettingsPacket.class, StandardProtocolType.MINECRAFT),
-    CLIENT_STATUS(4, ClientStatusPacket.class, StandardProtocolType.MINECRAFT),
-    CLOSE_WINDOW(5, CloseWindowPacket.class, StandardProtocolType.MINECRAFT),
-    CONFIRM_TRANSACTION(6, ConfirmTransaction.class, StandardProtocolType.MINECRAFT),
-    ENCHANT_ITEM(7, EnchantItemPacket.class, StandardProtocolType.MINECRAFT),
-    KEEP_ALIVE(8, KeepAlivePacket.class, StandardProtocolType.MINECRAFT),
-    TAB_COMPLETE(9, TabCompletePacket.class, StandardProtocolType.MINECRAFT),
-    TELEPORT_CONFIRM(10, TeleportConfirmPacket.class, StandardProtocolType.MINECRAFT);
+    HANDSHAKE(0, HandshakePacket.class, StandardProtocolType.MINECRAFT_LATEST),
+    CHAT_MESSAGE(1, HandshakePacket.class, StandardProtocolType.MINECRAFT_LATEST),
+    CLICK_WINDOW(2, ClickWindowPacket.class, StandardProtocolType.MINECRAFT_LATEST),
+    CLIENT_SETTINGS(3, ClientSettingsPacket.class, StandardProtocolType.MINECRAFT_LATEST),
+    CLIENT_STATUS(4, ClientStatusPacket.class, StandardProtocolType.MINECRAFT_LATEST),
+    CLOSE_WINDOW(5, CloseWindowPacket.class, StandardProtocolType.MINECRAFT_LATEST),
+    CONFIRM_TRANSACTION(6, ConfirmTransaction.class, StandardProtocolType.MINECRAFT_LATEST),
+    ENCHANT_ITEM(7, EnchantItemPacket.class, StandardProtocolType.MINECRAFT_LATEST),
+    KEEP_ALIVE(8, KeepAlivePacket.class, StandardProtocolType.MINECRAFT_LATEST),
+    TAB_COMPLETE(9, TabCompletePacket.class, StandardProtocolType.MINECRAFT_LATEST),
+    TELEPORT_CONFIRM(10, TeleportConfirmPacket.class, StandardProtocolType.MINECRAFT_LATEST);
 
     private final int typeId;
     private final ProtocolType protocolType;

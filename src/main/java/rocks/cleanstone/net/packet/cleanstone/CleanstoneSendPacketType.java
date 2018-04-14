@@ -7,7 +7,7 @@ import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
 
 public enum CleanstoneSendPacketType implements PacketType {
-    KEEP_ALIVE(0, KeepAlive.class, StandardProtocolType.MINECRAFT);
+    KEEP_ALIVE(0, KeepAlive.class, StandardProtocolType.CLEANSTONE);
 
     private final int typeId;
     private final ProtocolType protocolType;
