@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.netty;
+package rocks.cleanstone.net.netty.pipeline;
 
 import java.util.List;
 

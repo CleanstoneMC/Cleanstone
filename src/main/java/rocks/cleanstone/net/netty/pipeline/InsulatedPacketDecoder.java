@@ -1,9 +1,10 @@
-package rocks.cleanstone.net.netty;
+package rocks.cleanstone.net.netty.pipeline;
 
 import java.util.List;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
+import rocks.cleanstone.net.netty.InsulatedPacket;
 
 public class InsulatedPacketDecoder extends MessageToMessageDecoder<InsulatedPacket> {
 

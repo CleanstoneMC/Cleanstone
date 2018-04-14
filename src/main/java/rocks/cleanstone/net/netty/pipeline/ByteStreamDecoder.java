@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.netty;
+package rocks.cleanstone.net.netty.pipeline;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +30,9 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
         if (in.readableBytes() < remainingPacketLength) return;
 
         if (!connection.isCompressionEnabled()) {
-            int packetId = ByteBufUtils.readVarInt(in);// TODO save packetId
+            int packetID = ByteBufUtils.readVarInt(in);
+            ctx.channel().attr(AttributeKey.<Integer>valueOf("packetID")).set(packetID);
+
             ByteBuf data = in.readBytes(in.readableBytes());
             out.add(data);
         } else {
