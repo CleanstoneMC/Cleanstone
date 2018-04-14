@@ -18,6 +18,9 @@ public class Vector {
         this.z = other.z;
     }
 
+    public Vector() {
+    }
+
     public double getX() {
         return x;
     }
