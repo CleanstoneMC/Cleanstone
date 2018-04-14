@@ -20,6 +20,6 @@ public class SpectatePacket extends ReceivePacket {
 
     @Override
     public PacketType getType() {
-        return MinecraftReceivePacketType.SPECATE;
+        return MinecraftReceivePacketType.SPECTATE;
     }
 }
