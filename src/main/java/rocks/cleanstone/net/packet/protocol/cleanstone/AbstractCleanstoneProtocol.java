@@ -1,13 +1,13 @@
 package rocks.cleanstone.net.packet.protocol.cleanstone;
 
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketFactory;
+import rocks.cleanstone.net.packet.protocol.PacketCodec;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public abstract class AbstractCleanstoneProtocol implements Protocol {
 
     @Override
-    public <T extends Packet> PacketFactory<T> getFactory(Class<T> packet) {
+    public <T extends Packet> PacketCodec<T> getPacketCodec(Class<T> packet) {
         return null;
     }
 }

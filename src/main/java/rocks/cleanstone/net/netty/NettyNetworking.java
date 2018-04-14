@@ -23,7 +23,7 @@ import rocks.cleanstone.net.netty.pipeline.InsulatedPacketDecoder;
 import rocks.cleanstone.net.netty.pipeline.PacketDataDecoder;
 import rocks.cleanstone.net.netty.pipeline.PacketHandler;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketRegistry;
+import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public class NettyNetworking extends AbstractNetworking {
@@ -32,8 +32,8 @@ public class NettyNetworking extends AbstractNetworking {
     private final int socketBacklog = 128;
     private final boolean socketKeepAlive = true;
 
-    public NettyNetworking(int port, InetAddress address, PacketRegistry packetRegistry, Protocol protocol) {
-        super(port, address, packetRegistry, protocol);
+    public NettyNetworking(int port, InetAddress address, PacketTypeRegistry packetTypeRegistry, Protocol protocol) {
+        super(port, address, packetTypeRegistry, protocol);
     }
 
     @Override

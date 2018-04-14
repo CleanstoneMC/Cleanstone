@@ -2,7 +2,7 @@ package rocks.cleanstone.net;
 
 import java.net.InetAddress;
 
-import rocks.cleanstone.net.packet.PacketRegistry;
+import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public abstract class AbstractNetworking implements Networking {
@@ -11,13 +11,13 @@ public abstract class AbstractNetworking implements Networking {
 
     protected final Protocol protocol;
     private final InetAddress address;
-    private final PacketRegistry packetRegistry;
+    private final PacketTypeRegistry packetTypeRegistry;
 
-    public AbstractNetworking(int port, InetAddress address, PacketRegistry packetRegistry,
+    public AbstractNetworking(int port, InetAddress address, PacketTypeRegistry packetTypeRegistry,
                               Protocol protocol) {
         this.port = port;
         this.address = address;
-        this.packetRegistry = packetRegistry;
+        this.packetTypeRegistry = packetTypeRegistry;
         this.protocol = protocol;
     }
 
@@ -27,8 +27,8 @@ public abstract class AbstractNetworking implements Networking {
     }
 
     @Override
-    public PacketRegistry getPacketRegistry() {
-        return packetRegistry;
+    public PacketTypeRegistry getPacketTypeRegistry() {
+        return packetTypeRegistry;
     }
 
     @Override
