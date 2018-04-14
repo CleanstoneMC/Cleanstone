@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.netty;
+package rocks.cleanstone.net.netty.pipeline;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

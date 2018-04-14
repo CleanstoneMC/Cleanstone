@@ -1,10 +1,10 @@
 package rocks.cleanstone.net.packet;
 
-import io.netty.buffer.ByteBuf;
-
 import java.io.IOException;
 
-public interface PacketFactory<T> {
+import io.netty.buffer.ByteBuf;
+
+public interface PacketFactory<T extends Packet> {
     T decode(ByteBuf byteBuf) throws IOException;
 
     ByteBuf encode(ByteBuf byteBuf, T packet) throws IOException;
