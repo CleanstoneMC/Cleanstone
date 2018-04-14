@@ -1,4 +1,9 @@
 package rocks.cleanstone.net;
 
-public interface ServerConnection extends Connection {
+import java.net.InetAddress;
+
+public abstract class ServerConnection extends Connection {
+    public ServerConnection(InetAddress address) {
+        super(address);
+    }
 }
