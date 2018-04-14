@@ -6,7 +6,6 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import io.netty.handler.codec.compression.JdkZlibDecoder;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.utils.ByteBufUtils;
@@ -14,8 +13,6 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
 public class ByteStreamDecoder extends ByteToMessageDecoder {
 
     private int remainingPacketLength = -1;
-
-    private JdkZlibDecoder compressionDecoder = new JdkZlibDecoder();
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
