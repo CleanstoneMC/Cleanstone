@@ -2,7 +2,8 @@ package rocks.cleanstone.net;
 
 import java.net.InetAddress;
 
-import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.net.packet.SendPacket;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public interface Networking {
@@ -15,7 +16,7 @@ public interface Networking {
 
     void start();
 
-    void sendPacket(Connection connection, Packet packet);
+    void sendPacket(Connection connection, SendPacket packet);
 
-    void registerPacketListener(PacketListener packetListener);
+    void registerPacketListener(PacketListener packetListener, PacketType... packetTypes);
 }

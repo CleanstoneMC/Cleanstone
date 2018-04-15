@@ -15,15 +15,14 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.PacketListener;
 import rocks.cleanstone.net.netty.pipeline.receive.ByteStreamDecoder;
 import rocks.cleanstone.net.netty.pipeline.receive.CompressionDecoder;
 import rocks.cleanstone.net.netty.pipeline.receive.IdentificationHandler;
 import rocks.cleanstone.net.netty.pipeline.receive.InsulatedPacketDecoder;
 import rocks.cleanstone.net.netty.pipeline.receive.PacketDataDecoder;
 import rocks.cleanstone.net.netty.pipeline.receive.PacketHandler;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
+import rocks.cleanstone.net.packet.SendPacket;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public class NettyNetworking extends AbstractNetworking {
@@ -53,7 +52,7 @@ public class NettyNetworking extends AbstractNetworking {
                                     new CompressionDecoder(),
                                     new PacketDataDecoder(),
                                     new InsulatedPacketDecoder(protocol),
-                                    new PacketHandler());
+                                    new PacketHandler(NettyNetworking.this));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, socketBacklog)
@@ -72,12 +71,6 @@ public class NettyNetworking extends AbstractNetworking {
     }
 
     @Override
-    public void sendPacket(Connection connection, Packet packet) {
-
-    }
-
-    @Override
-    public void registerPacketListener(PacketListener packetListener) {
-
+    public void sendPacket(Connection connection, SendPacket packet) {
     }
 }

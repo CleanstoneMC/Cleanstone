@@ -3,8 +3,11 @@ package rocks.cleanstone.net.netty.pipeline.receive;
 import java.util.List;
 
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import rocks.cleanstone.net.netty.InsulatedPacket;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
@@ -33,8 +36,11 @@ public class InsulatedPacketDecoder extends MessageToMessageDecoder<InsulatedPac
 
         PacketType packetType = packetTypeRegistry.getPacketType(
                 protocol.translateIncomingPacketId(in.getPacketID(), clientLayer));
-
-        out.add(protocol.getPacketCodec(packetType.getPacketClass(), clientLayer).decode(in.getData()));
+        Packet packet = protocol.getPacketCodec(packetType.getPacketClass(), clientLayer).decode(in.getData());
+        if (packet.getDirection() == PacketDirection.SEND) {
+            throw new DecoderException("Received packet has invalid direction");
+        }
+        out.add(packet);
     }
 
     @Override
