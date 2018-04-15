@@ -109,7 +109,7 @@ public enum MinecraftSendPacketType implements PacketType {
 
     @Override
     public int getTypeId() {
-        return typeId;
+        return 4000 + typeId;
     }
 
     public Class<? extends SendPacket> getPacketClass() {

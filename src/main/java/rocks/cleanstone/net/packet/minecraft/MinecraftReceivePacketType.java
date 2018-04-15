@@ -53,7 +53,7 @@ public enum MinecraftReceivePacketType implements PacketType {
 
     @Override
     public int getTypeId() {
-        return typeId;
+        return 3000 + typeId;
     }
 
     public Class<? extends ReceivePacket> getPacketClass() {

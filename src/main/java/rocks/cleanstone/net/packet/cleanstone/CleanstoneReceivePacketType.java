@@ -21,7 +21,7 @@ public enum CleanstoneReceivePacketType implements PacketType {
 
     @Override
     public int getTypeId() {
-        return typeId;
+        return 1000+typeId;
     }
 
     public Class<? extends Packet> getPacketClass() {
