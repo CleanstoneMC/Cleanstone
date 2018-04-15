@@ -36,7 +36,11 @@ public class NettyNetworking extends AbstractNetworking {
                     .childHandler(new ServerChannelInitializer(this))
                     .option(ChannelOption.SO_BACKLOG, socketBacklog)
                     .childOption(ChannelOption.SO_KEEPALIVE, socketKeepAlive);
-            bootstrap.bind();
+            try {
+                bootstrap.bind().sync();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
