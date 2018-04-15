@@ -12,5 +12,5 @@ public interface PacketCodec<T extends Packet> {
 
     ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf);
 
-    Packet downgradePOJO(Packet nextLayerPacket);
+    Packet upgradePOJO(Packet previousLayerPacket);
 }

@@ -16,7 +16,7 @@ public abstract class LayeredProtocol implements Protocol {
 
     public void registerProtocolLayer(ServerProtocolLayer protocolLayer) {
         protocolLayers.add(protocolLayer);
-        protocolLayers.sort(Comparator.reverseOrder());
+        protocolLayers.sort(Comparator.naturalOrder());
     }
 
     public Collection<ServerProtocolLayer> getProtocolLayers() {
@@ -31,48 +31,52 @@ public abstract class LayeredProtocol implements Protocol {
             public T decode(ByteBuf byteBuf) throws IOException { // receive from client
                 // downgrade ByteBuf from client version to supported server version
 
-                for (ServerProtocolLayer serverLayer : protocolLayers) { // lower to higher
-                    PacketCodec codec = serverLayer.getPacketCodec(packetClass);
-                    if (serverLayer.getCorrespondingClientLayer().getOrderedID() < clientLayer.getOrderedID()) {
-                        byteBuf = codec.downgradeByteBuf(byteBuf);
-                    } else {
-                        //noinspection unchecked
-                        return (T) serverLayer.getPacketCodec(packetClass).decode(byteBuf);
-                    }
+                for (ServerProtocolLayer serverLayer : protocolLayers) { // higher to lower
+                    if (serverLayer.getCorrespondingClientLayer().getOrderedID() >= clientLayer.getOrderedID())
+                        continue;
+                    PacketCodec serverCodec = serverLayer.getPacketCodec(packetClass);
+                    byteBuf = serverCodec.downgradeByteBuf(byteBuf);
                 }
-                throw new RuntimeException("");
+                // lowest=current serverLayer decodes byteBuf
+                //noinspection unchecked
+                return (T) protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).decode(byteBuf);
             }
 
             @Override
             public ByteBuf encode(ByteBuf byteBuf, T packet) throws IOException { // send to client
                 // upgrade POJO from supported server version to client version
 
-                protocolLayers.sort(Comparator.naturalOrder());
+                protocolLayers.sort(Comparator.reverseOrder());
                 try {
-                    for (ServerProtocolLayer serverLayer : protocolLayers) { // higher to lower
-                        PacketCodec codec = serverLayer.getPacketCodec(packetClass);
-                        if (serverLayer.getCorrespondingClientLayer().getOrderedID() > clientLayer.getOrderedID()) {
-                            byteBuf = codec.upgrade(byteBuf);
-                        } else {
-                            //noinspection unchecked
-                            return serverLayer.getPacketCodec(packetClass).encode(byteBuf, packet);
+                    boolean skippedFirst = false;
+                    for (ServerProtocolLayer serverLayer : protocolLayers) { // lower to higher
+                        if (!skippedFirst) {
+                            skippedFirst = true;
+                            continue;
                         }
+                        if (serverLayer.getCorrespondingClientLayer().getOrderedID() > clientLayer.getOrderedID()) {
+                            break;
+                        }
+                        //noinspection unchecked
+                        packet = (T) serverLayer.getPacketCodec(packetClass).upgradePOJO(packet);
                     }
-                    throw new RuntimeException("");
+                    //noinspection unchecked
+                    return protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).encode(byteBuf, packet);
                 } finally {
-                    protocolLayers.sort(Comparator.reverseOrder());
+                    protocolLayers.sort(Comparator.naturalOrder());
                 }
             }
 
             @Override
             public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-                throw new UnsupportedOperationException("downgradebyteBuf not supported with " +
+                throw new UnsupportedOperationException("downgradeByteBuf is not supported with " +
                         "VersionedProtocol");
             }
 
             @Override
-            public Packet downgradePOJO(Packet nextLayerPacket) {
-                throw new UnsupportedOperationException("downgradePOJO not supported with VersionedProtocol");
+            public Packet upgradePOJO(Packet previousLayerPacket) {
+                throw new UnsupportedOperationException("upgradePOJO is not supported with " +
+                        "VersionedProtocol");
             }
         };
     }
