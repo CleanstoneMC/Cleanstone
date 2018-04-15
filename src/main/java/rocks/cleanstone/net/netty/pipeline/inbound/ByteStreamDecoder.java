@@ -31,7 +31,7 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
 
         if (!connection.isCompressionEnabled()) {
             int packetID = ByteBufUtils.readVarInt(in);
-            ctx.channel().attr(AttributeKey.<Integer>valueOf("packetID")).set(packetID);
+            ctx.channel().attr(AttributeKey.<Integer>valueOf("inPacketID")).set(packetID);
 
             ByteBuf data = in.readBytes(in.readableBytes());
             out.add(data);

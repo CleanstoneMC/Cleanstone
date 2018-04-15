@@ -20,7 +20,7 @@ public class PacketDataDecoder extends ByteToMessageDecoder {
         if (connection.isCompressionEnabled()) {
             packetID = ByteBufUtils.readVarInt(data);
         } else {
-            packetID = ctx.channel().attr(AttributeKey.<Integer>valueOf("packetID")).get();
+            packetID = ctx.channel().attr(AttributeKey.<Integer>valueOf("inPacketID")).get();
         }
         data.discardReadBytes();
         out.add(new InsulatedPacket(packetID, data));
