@@ -32,13 +32,10 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
         if (!connection.isCompressionEnabled()) {
             int packetID = ByteBufUtils.readVarInt(in);
             ctx.channel().attr(AttributeKey.<Integer>valueOf("inPacketID")).set(packetID);
-
-            ByteBuf data = in.readBytes(in.readableBytes());
-            out.add(data);
+            out.add(in);
         } else {
             int uncompressedDataLength = ByteBufUtils.readVarInt(in);
-            ByteBuf data = in.readBytes(in.readableBytes());
-            out.add(data);
+            out.add(in);
         }
     }
 }

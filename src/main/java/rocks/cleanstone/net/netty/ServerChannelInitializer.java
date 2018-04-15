@@ -36,10 +36,10 @@ public class ServerChannelInitializer extends ChannelInitializer {
                 new InsulatedPacketDecoder(nettyNetworking.getProtocol()),
                 new PacketHandler(nettyNetworking));
         // outbound
-        channel.pipeline().addFirst(new PacketEncoder(nettyNetworking));
-        channel.pipeline().addFirst(new CompressionEncoder());
-        channel.pipeline().addFirst(new ByteStreamEncoder());
-        channel.pipeline().addFirst(new EncryptionEncoder());
-
+        channel.pipeline().addFirst(
+                new PacketEncoder(nettyNetworking),
+                new CompressionEncoder(),
+                new ByteStreamEncoder(),
+                new EncryptionEncoder());
     }
 }
