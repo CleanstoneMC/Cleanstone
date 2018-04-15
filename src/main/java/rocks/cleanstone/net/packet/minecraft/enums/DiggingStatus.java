@@ -15,29 +15,18 @@ public enum DiggingStatus {
         this.statusID = statusID;
     }
 
-    @SuppressWarnings("Duplicates")
-    public static DiggingStatus fromStatusID(int statusID) {
-        switch (statusID) {
-            case 0:
-                return STARTED_DIGGING;
-            case 1:
-                return CANCELLED_DIGGING;
-            case 2:
-                return FINISHED_DIGGING;
-            case 3:
-                return DROP_ITEM_STACK;
-            case 4:
-                return DROP_ITEM;
-            case 5:
-                return UPDATE_ITEM_STATE;
-            case 6:
-                return SWAP_ITEM_IN_HAND;
-            default:
-                return null;
-        }
-    }
-
     public int getStatusID() {
         return statusID;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static DiggingStatus fromStatusID(int statusID) {
+        for (DiggingStatus diggingStatus : DiggingStatus.values()) {
+            if (diggingStatus.getStatusID() == statusID) {
+                return diggingStatus;
+            }
+        }
+
+        return null;
     }
 }

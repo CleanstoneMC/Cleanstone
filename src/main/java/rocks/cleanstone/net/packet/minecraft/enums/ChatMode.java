@@ -11,21 +11,18 @@ public enum ChatMode {
         this.modeID = modeID;
     }
 
-    @SuppressWarnings("Duplicates")
-    public static ChatMode fromModeID(int modeID) {
-        switch (modeID) {
-            case 0:
-                return ENABLED;
-            case 1:
-                return COMMANDS_ONLY;
-            case 2:
-                return HIDDEN;
-            default:
-                return null;
-        }
-    }
-
     public int getModeID() {
         return modeID;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static ChatMode fromModeID(int modeID) {
+        for (ChatMode chatMode : ChatMode.values()) {
+            if (chatMode.getModeID() == modeID) {
+                return chatMode;
+            }
+        }
+
+        return null;
     }
 }

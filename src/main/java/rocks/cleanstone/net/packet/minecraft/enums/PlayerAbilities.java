@@ -15,6 +15,10 @@ public enum PlayerAbilities {
         this.bit = bit;
     }
 
+    public int getBit() {
+        return bit;
+    }
+
     public static PlayerAbilities[] fromBitMask(int bitmask) {
         List<PlayerAbilities> playerAbilitiesList = new ArrayList<>();
 
@@ -25,9 +29,5 @@ public enum PlayerAbilities {
         }
 
         return playerAbilitiesList.toArray(new PlayerAbilities[playerAbilitiesList.size()]);
-    }
-
-    public int getBit() {
-        return bit;
     }
 }

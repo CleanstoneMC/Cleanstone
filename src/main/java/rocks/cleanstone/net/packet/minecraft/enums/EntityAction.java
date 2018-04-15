@@ -17,33 +17,18 @@ public enum EntityAction {
         this.actionID = actionID;
     }
 
-    @SuppressWarnings("Duplicates")
-    public static EntityAction fromActionID(int actionID) {
-        switch (actionID) {
-            case 0:
-                return START_SNEAKING;
-            case 1:
-                return STOP_SNEAKING;
-            case 2:
-                return LEAVE_BED;
-            case 3:
-                return START_SPRINTING;
-            case 4:
-                return STOP_SPRINTING;
-            case 5:
-                return START_JUMP_BOOST_WITH_HORSE;
-            case 6:
-                return STOP_JUMP_BOOST_WITH_HORSE;
-            case 7:
-                return OPEN_HORSE_INVENTORY;
-            case 8:
-                return START_FLYING_WITH_ELYTRA;
-            default:
-                return null;
-        }
-    }
-
     public int getActionID() {
         return actionID;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static EntityAction fromActionID(int actionID) {
+        for (EntityAction entityAction : EntityAction.values()) {
+            if (entityAction.getActionID() == actionID) {
+                return entityAction;
+            }
+        }
+
+        return null;
     }
 }

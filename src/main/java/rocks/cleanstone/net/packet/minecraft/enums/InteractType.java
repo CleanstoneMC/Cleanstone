@@ -11,21 +11,18 @@ public enum InteractType {
         this.typeID = typeID;
     }
 
-    @SuppressWarnings("Duplicates")
-    public static InteractType fromTypeID(int typeID) {
-        switch (typeID) {
-            case 0:
-                return INTERACT;
-            case 1:
-                return ATTACK;
-            case 2:
-                return INTERACT_AT;
-            default:
-                return null;
-        }
-    }
-
     public int getTypeID() {
         return typeID;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static InteractType fromTypeID(int typeID) {
+        for (InteractType interactType : InteractType.values()) {
+            if (interactType.getTypeID() == typeID) {
+                return interactType;
+            }
+        }
+
+        return null;
     }
 }
