@@ -11,6 +11,7 @@ import rocks.cleanstone.net.packet.minecraft.receive.PlayerAbilitiesPacket;
 import rocks.cleanstone.net.packet.minecraft.receive.PlayerPositionAndLookPacket;
 import rocks.cleanstone.net.packet.minecraft.receive.PluginMessagePacket;
 import rocks.cleanstone.net.packet.minecraft.receive.TabCompletePacket;
+import rocks.cleanstone.net.packet.minecraft.send.*;
 import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
 
@@ -109,6 +110,10 @@ public enum MinecraftSendPacketType implements PacketType {
     @Override
     public int getTypeId() {
         return typeId;
+    }
+
+    public Class<? extends SendPacket> getPacketClass() {
+        return packetClass;
     }
 
     @Override

@@ -24,6 +24,10 @@ public enum CleanstoneSendPacketType implements PacketType {
         return typeId;
     }
 
+    public Class<? extends Packet> getPacketClass() {
+        return packetClass;
+    }
+
     @Override
     public ProtocolType getProtocolType() {
         return protocolType;

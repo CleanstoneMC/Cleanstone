@@ -32,8 +32,9 @@ public class InsulatedPacketDecoder extends MessageToMessageDecoder<InsulatedPac
         } else clientLayer = CleanstoneClientProtocolLayer.LATEST;
 
         PacketType packetType = packetTypeRegistry.getPacketType(
-                protocol.translateIngoingPacketId(in.getPacketID(), clientLayer));
-        out.add(null/*Packet*/);
+                protocol.translateIncomingPacketId(in.getPacketID(), clientLayer));
+
+        out.add(protocol.getPacketCodec(packetType.getPacketClass(), clientLayer).decode(in.getData()));
     }
 
     @Override

@@ -6,4 +6,6 @@ public interface PacketType {
     int getTypeId();
 
     ProtocolType getProtocolType();
+
+    Class<? extends Packet> getPacketClass();
 }

@@ -25,7 +25,7 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
     }
 
     @Override
-    public int translateIngoingPacketId(int clientPacketId, ClientProtocolLayer clientLayer) {
+    public int translateIncomingPacketId(int clientPacketId, ClientProtocolLayer clientLayer) {
         return 0; // TODO get protocol packet id from codec
     }
 

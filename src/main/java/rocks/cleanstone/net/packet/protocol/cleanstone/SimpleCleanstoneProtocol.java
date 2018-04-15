@@ -31,7 +31,7 @@ public class SimpleCleanstoneProtocol implements Protocol {
     }
 
     @Override
-    public int translateIngoingPacketId(int clientPacketId, ClientProtocolLayer clientLayer) {
+    public int translateIncomingPacketId(int clientPacketId, ClientProtocolLayer clientLayer) {
         return clientPacketId;
     }
 

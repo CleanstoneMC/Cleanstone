@@ -56,6 +56,10 @@ public enum MinecraftReceivePacketType implements PacketType {
         return typeId;
     }
 
+    public Class<? extends ReceivePacket> getPacketClass() {
+        return packetClass;
+    }
+
     @Override
     public ProtocolType getProtocolType() {
         return protocolType;
