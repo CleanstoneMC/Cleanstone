@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.util.AttributeKey;
+import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.netty.InsulatedPacket;
 import rocks.cleanstone.net.packet.Packet;
@@ -28,23 +29,28 @@ public class InsulatedPacketDecoder extends MessageToMessageDecoder<InsulatedPac
 
     @Override
     protected void decode(ChannelHandlerContext ctx, InsulatedPacket in, List<Object> out) throws Exception {
-        PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
-        Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
+        try {
+            PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
+            Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
-        ClientProtocolLayer defaultClientLayer;
-        if (protocol.getClass() == SimpleMinecraftProtocol.class) {
-            defaultClientLayer = MinecraftClientProtocolLayer.MINECRAFT_V1_12_2;
-        } else defaultClientLayer = CleanstoneClientProtocolLayer.LATEST;
+            ClientProtocolLayer defaultClientLayer;
+            if (protocol.getClass() == SimpleMinecraftProtocol.class) {
+                defaultClientLayer = MinecraftClientProtocolLayer.MINECRAFT_V1_12_2;
+            } else defaultClientLayer = CleanstoneClientProtocolLayer.LATEST;
 
-        connection.setClientProtocolLayer(defaultClientLayer);
+            connection.setClientProtocolLayer(defaultClientLayer);
 
-        PacketType packetType = packetTypeRegistry.getPacketType(
-                protocol.translateInboundPacketId(in.getPacketID(), defaultClientLayer));
-        Packet packet = protocol.getPacketCodec(packetType.getPacketClass(), defaultClientLayer).decode(in.getData());
-        if (packet.getDirection() == PacketDirection.OUTBOUND) {
-            throw new DecoderException("Received packet has invalid direction");
+            PacketType packetType = packetTypeRegistry.getPacketType(
+                    protocol.translateInboundPacketId(in.getPacketID(), defaultClientLayer));
+            Packet packet = protocol.getPacketCodec(packetType.getPacketClass(), defaultClientLayer).decode(in.getData());
+
+            if (packet.getDirection() == PacketDirection.OUTBOUND) {
+                throw new DecoderException("Received packet has invalid direction");
+            }
+            out.add(packet);
+        } finally {
+            ReferenceCountUtil.release(in.getData());
         }
-        out.add(packet);
     }
 
     @Override
