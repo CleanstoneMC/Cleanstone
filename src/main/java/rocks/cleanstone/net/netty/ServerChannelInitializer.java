@@ -6,6 +6,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import rocks.cleanstone.net.netty.pipeline.inbound.ByteStreamDecoder;
 import rocks.cleanstone.net.netty.pipeline.inbound.CompressionDecoder;
+import rocks.cleanstone.net.netty.pipeline.inbound.EncryptionDecoder;
 import rocks.cleanstone.net.netty.pipeline.inbound.IdentificationHandler;
 import rocks.cleanstone.net.netty.pipeline.inbound.InsulatedPacketDecoder;
 import rocks.cleanstone.net.netty.pipeline.inbound.PacketDataDecoder;
@@ -26,6 +27,7 @@ public class ServerChannelInitializer extends ChannelInitializer {
         channel.pipeline().addLast(
                 new IdentificationHandler(Collections.emptySet()),
                 new ByteStreamDecoder(),
+                new EncryptionDecoder(),
                 new CompressionDecoder(),
                 new PacketDataDecoder(),
                 new InsulatedPacketDecoder(nettyNetworking.getProtocol()),
