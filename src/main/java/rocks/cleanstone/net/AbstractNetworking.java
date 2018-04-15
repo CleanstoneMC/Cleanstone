@@ -10,6 +10,7 @@ import java.util.Set;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.ReceivePacket;
+import rocks.cleanstone.net.packet.SendPacket;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public abstract class AbstractNetworking implements Networking {
@@ -58,5 +59,10 @@ public abstract class AbstractNetworking implements Networking {
     public void callPacketListeners(ReceivePacket packet, Connection connection) {
         packetTypeListenersMap.get(packet.getType()).forEach(
                 listener -> listener.onReceive(packet, connection));
+    }
+
+    public void callPacketListeners(SendPacket packet, Connection connection) {
+        packetTypeListenersMap.get(packet.getType()).forEach(
+                listener -> listener.onSend(packet, connection));
     }
 }
