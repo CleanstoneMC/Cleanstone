@@ -12,19 +12,18 @@ public enum ResourcePackStatus {
         this.status = statusID;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
     @SuppressWarnings("Duplicates")
     public static ResourcePackStatus fromStatusID(int statusID) {
-        switch (statusID) {
-            case 0:
-                return SUCCESSFULLY_LOADED;
-            case 1:
-                return DECLINED;
-            case 2:
-                return FAILED_DOWNLOAD;
-            case 3:
-                return ACCEPTED;
-            default:
-                return null;
+        for (ResourcePackStatus resourcePackStatus : ResourcePackStatus.values()) {
+            if (resourcePackStatus.getStatus() == statusID) {
+                return resourcePackStatus;
+            }
         }
+
+        return null;
     }
 }

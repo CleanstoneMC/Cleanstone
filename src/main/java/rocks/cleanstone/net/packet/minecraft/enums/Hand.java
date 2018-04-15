@@ -10,19 +10,18 @@ public enum Hand {
         this.handID = handID;
     }
 
-    @SuppressWarnings("Duplicates")
-    public static Hand fromHandID(int handID) {
-        switch (handID) {
-            case 0:
-                return MAIN_HAND;
-            case 1:
-                return OFF_HAND;
-            default:
-                return null;
-        }
-    }
-
     public int getHandID() {
         return handID;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static Hand fromHandID(int handID) {
+        for (Hand hand : Hand.values()) {
+            if (hand.getHandID() == handID) {
+                return hand;
+            }
+        }
+
+        return null;
     }
 }

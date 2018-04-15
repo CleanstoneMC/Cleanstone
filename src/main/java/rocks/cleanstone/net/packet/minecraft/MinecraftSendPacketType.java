@@ -2,6 +2,7 @@ package rocks.cleanstone.net.packet.minecraft;
 
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.SendPacket;
+import rocks.cleanstone.net.packet.minecraft.send.*;
 import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
 
@@ -52,7 +53,7 @@ public enum MinecraftSendPacketType implements PacketType {
     CRAFT_RECIPE_RESPONSE(43, CraftRecipeResponsePacket.class, StandardProtocolType.MINECRAFT_LATEST),
     PLAYER_ABILITIES(44, PlayerAbilitiesPacket.class, StandardProtocolType.MINECRAFT_LATEST),
     COMBAT_EVENT(45, CombatEventPacket.class, StandardProtocolType.MINECRAFT_LATEST),
-    PLAYER_LIST_ITEM(46, PlayerListItemPacket.class, StandardProtocolType.MINECRAFT_LATEST),
+    PLAYER_LISTgetEntityType_ITEM(46, PlayerListItemPacket.class, StandardProtocolType.MINECRAFT_LATEST),
     PLAYER_POSITION_AND_LOOK(47, PlayerPositionAndLookPacket.class, StandardProtocolType.MINECRAFT_LATEST),
     USE_BED(48, UseBedPacket.class, StandardProtocolType.MINECRAFT_LATEST),
     UNLOCK_RECIPES(49, UnlockRecipesPacket.class, StandardProtocolType.MINECRAFT_LATEST),

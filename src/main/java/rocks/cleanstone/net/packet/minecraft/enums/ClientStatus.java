@@ -10,19 +10,18 @@ public enum ClientStatus {
         this.statusID = statusID;
     }
 
-    @SuppressWarnings("Duplicates")
-    public static ClientStatus fromStatusID(int statusID) {
-        switch (statusID) {
-            case 0:
-                return PERFORM_RESPAWN;
-            case 1:
-                return REQUEST_STATS;
-            default:
-                return null;
-        }
-    }
-
     public int getStatusID() {
         return statusID;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static ClientStatus fromStatusID(int statusID) {
+        for (ClientStatus clientStatus : ClientStatus.values()) {
+            if (clientStatus.getStatusID() == statusID) {
+                return clientStatus;
+            }
+        }
+
+        return null;
     }
 }

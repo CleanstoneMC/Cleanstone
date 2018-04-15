@@ -10,19 +10,17 @@ public enum AdvancementTabStatus {
         this.statusID = statusID;
     }
 
-    @SuppressWarnings("Duplicates")
-    public static AdvancementTabStatus fromStatusID(int statusID) {
-        switch (statusID) {
-            case 0:
-                return OPENED;
-            case 1:
-                return CLOSED;
-            default:
-                return null;
-        }
-    }
-
     public int getStatusID() {
         return statusID;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static AdvancementTabStatus fromStatusID(int statusID) {
+        for (AdvancementTabStatus advancementTabStatus : AdvancementTabStatus.values()) {
+            if (advancementTabStatus.getStatusID() == statusID)
+                return advancementTabStatus;
+        }
+
+        return null;
     }
 }

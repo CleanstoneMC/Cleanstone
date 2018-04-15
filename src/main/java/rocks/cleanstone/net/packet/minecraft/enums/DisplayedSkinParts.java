@@ -19,6 +19,10 @@ public enum DisplayedSkinParts {
         this.bit = bit;
     }
 
+    public int getBit() {
+        return bit;
+    }
+
     public static DisplayedSkinParts[] fromBitMask(int bitmask) {
         List<DisplayedSkinParts> displayedSkinPartsList = new ArrayList<>();
 
@@ -29,9 +33,5 @@ public enum DisplayedSkinParts {
         }
 
         return displayedSkinPartsList.toArray(new DisplayedSkinParts[displayedSkinPartsList.size()]);
-    }
-
-    public int getBit() {
-        return bit;
     }
 }

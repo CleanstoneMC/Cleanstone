@@ -16,31 +16,33 @@ public enum Face {
         this.offset = offset;
     }
 
-    @SuppressWarnings("Duplicates")
-    public static Face fromFaceID(int faceID) {
-        switch (faceID) {
-            case 0:
-                return BOTTOM;
-            case 1:
-                return TOP;
-            case 2:
-                return NORTH;
-            case 3:
-                return SOUTH;
-            case 4:
-                return WEST;
-            case 5:
-                return EAST;
-            default:
-                return null;
-        }
-    }
-
     public int getFaceID() {
         return faceID;
     }
 
     public String getOffset() {
         return offset;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static Face fromFaceID(int faceID) {
+        for (Face face : Face.values()) {
+            if (face.getFaceID() == faceID) {
+                return face;
+            }
+        }
+
+        return null;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static Face fromOffset(String offset) {
+        for (Face face : Face.values()) {
+            if (face.getOffset().equals(offset)) {
+                return face;
+            }
+        }
+
+        return null;
     }
 }
