@@ -5,6 +5,8 @@ import java.util.List;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.MessageToMessageDecoder;
+import io.netty.util.AttributeKey;
+import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.netty.InsulatedPacket;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
@@ -27,16 +29,18 @@ public class InsulatedPacketDecoder extends MessageToMessageDecoder<InsulatedPac
     @Override
     protected void decode(ChannelHandlerContext ctx, InsulatedPacket in, List<Object> out) throws Exception {
         PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
+        Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
-        ClientProtocolLayer clientLayer;
+        ClientProtocolLayer defaultClientLayer;
         if (protocol.getClass() == SimpleMinecraftProtocol.class) {
-            // TODO extract from Handshaking packet?
-            clientLayer = MinecraftClientProtocolLayer.MINECRAFT_V1_12_2;
-        } else clientLayer = CleanstoneClientProtocolLayer.LATEST;
+            defaultClientLayer = MinecraftClientProtocolLayer.MINECRAFT_V1_12_2;
+        } else defaultClientLayer = CleanstoneClientProtocolLayer.LATEST;
+
+        connection.setClientProtocolLayer(defaultClientLayer);
 
         PacketType packetType = packetTypeRegistry.getPacketType(
-                protocol.translateInboundPacketId(in.getPacketID(), clientLayer));
-        Packet packet = protocol.getPacketCodec(packetType.getPacketClass(), clientLayer).decode(in.getData());
+                protocol.translateInboundPacketId(in.getPacketID(), defaultClientLayer));
+        Packet packet = protocol.getPacketCodec(packetType.getPacketClass(), defaultClientLayer).decode(in.getData());
         if (packet.getDirection() == PacketDirection.OUTBOUND) {
             throw new DecoderException("Received packet has invalid direction");
         }
