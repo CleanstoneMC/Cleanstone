@@ -12,7 +12,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
-import rocks.cleanstone.net.packet.SendPacket;
+import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public class NettyNetworking extends AbstractNetworking {
@@ -44,6 +44,6 @@ public class NettyNetworking extends AbstractNetworking {
     }
 
     @Override
-    public void sendPacket(Connection connection, SendPacket packet) {
+    public void sendPacket(Connection connection, OutboundPacket packet) {
     }
 }

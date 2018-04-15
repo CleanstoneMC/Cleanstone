@@ -5,7 +5,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.netty.NettyNetworking;
-import rocks.cleanstone.net.packet.ReceivePacket;
+import rocks.cleanstone.net.packet.InboundPacket;
 
 public class PacketHandler extends ChannelInboundHandlerAdapter {
 
@@ -18,7 +18,7 @@ public class PacketHandler extends ChannelInboundHandlerAdapter {
     @Override
 
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ReceivePacket packet = (ReceivePacket) msg;
+        InboundPacket packet = (InboundPacket) msg;
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
         nettyNetworking.callPacketListeners(packet, connection);
     }

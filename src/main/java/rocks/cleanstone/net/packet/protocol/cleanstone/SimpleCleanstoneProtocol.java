@@ -3,8 +3,8 @@ package rocks.cleanstone.net.packet.protocol.cleanstone;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.SimplePacketTypeRegistry;
-import rocks.cleanstone.net.packet.cleanstone.CleanstoneReceivePacketType;
-import rocks.cleanstone.net.packet.cleanstone.CleanstoneSendPacketType;
+import rocks.cleanstone.net.packet.cleanstone.CleanstoneInboundPacketType;
+import rocks.cleanstone.net.packet.cleanstone.CleanstoneOutboundPacketType;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.PacketCodec;
 import rocks.cleanstone.net.packet.protocol.Protocol;
@@ -15,8 +15,8 @@ public class SimpleCleanstoneProtocol implements Protocol {
 
     public void init() {
         registry = new SimplePacketTypeRegistry();
-        registry.registerPacketType(CleanstoneSendPacketType.values());
-        registry.registerPacketType(CleanstoneReceivePacketType.values());
+        registry.registerPacketType(CleanstoneOutboundPacketType.values());
+        registry.registerPacketType(CleanstoneInboundPacketType.values());
     }
 
     @Override
@@ -31,12 +31,12 @@ public class SimpleCleanstoneProtocol implements Protocol {
     }
 
     @Override
-    public int translateIncomingPacketId(int clientPacketId, ClientProtocolLayer clientLayer) {
+    public int translateInboundPacketId(int clientPacketId, ClientProtocolLayer clientLayer) {
         return clientPacketId;
     }
 
     @Override
-    public int translateOutgoingPacketId(int serverPacketId, ClientProtocolLayer clientLayer) {
+    public int translateOutboundPacketId(int serverPacketId, ClientProtocolLayer clientLayer) {
         return serverPacketId;
     }
 }

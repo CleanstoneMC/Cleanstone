@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.minecraft.receive.HandshakePacket;
+import rocks.cleanstone.net.packet.minecraft.inbound.HandshakePacket;
 import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 

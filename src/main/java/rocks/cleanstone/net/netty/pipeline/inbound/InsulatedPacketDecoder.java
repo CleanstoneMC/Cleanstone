@@ -35,9 +35,9 @@ public class InsulatedPacketDecoder extends MessageToMessageDecoder<InsulatedPac
         } else clientLayer = CleanstoneClientProtocolLayer.LATEST;
 
         PacketType packetType = packetTypeRegistry.getPacketType(
-                protocol.translateIncomingPacketId(in.getPacketID(), clientLayer));
+                protocol.translateInboundPacketId(in.getPacketID(), clientLayer));
         Packet packet = protocol.getPacketCodec(packetType.getPacketClass(), clientLayer).decode(in.getData());
-        if (packet.getDirection() == PacketDirection.SEND) {
+        if (packet.getDirection() == PacketDirection.OUTBOUND) {
             throw new DecoderException("Received packet has invalid direction");
         }
         out.add(packet);

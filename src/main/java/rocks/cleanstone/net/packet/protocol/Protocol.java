@@ -8,7 +8,7 @@ public interface Protocol {
 
     PacketTypeRegistry getPacketTypeRegistry();
 
-    int translateIncomingPacketId(int clientPacketId, ClientProtocolLayer clientLayer);
+    int translateInboundPacketId(int clientPacketId, ClientProtocolLayer clientLayer);
 
-    int translateOutgoingPacketId(int serverPacketId, ClientProtocolLayer clientLayer);
+    int translateOutboundPacketId(int serverPacketId, ClientProtocolLayer clientLayer);
 }
