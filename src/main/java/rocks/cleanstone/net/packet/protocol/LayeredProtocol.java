@@ -54,14 +54,14 @@ public abstract class LayeredProtocol implements Protocol {
                             skippedFirst = true;
                             continue;
                         }
-                        if (serverLayer.getCorrespondingClientLayer().getOrderedID() > clientLayer.getOrderedID()) {
-                            break;
-                        }
                         //noinspection unchecked
                         packet = (T) serverLayer.getPacketCodec(packetClass).upgradePOJO(packet);
+                        if (serverLayer.getCorrespondingClientLayer().getOrderedID() == clientLayer.getOrderedID()) {
+                            //noinspection unchecked
+                            return protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).encode(byteBuf, packet);
+                        }
                     }
-                    //noinspection unchecked
-                    return protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).encode(byteBuf, packet);
+                    throw new RuntimeException("Client layer higher than highest supported server layer");
                 } finally {
                     protocolLayers.sort(Comparator.naturalOrder());
                 }
