@@ -24,7 +24,7 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
         String ipAddress = inetaddress.getHostAddress();
         if (addressBlacklist.contains(ipAddress)) ctx.close();
 
-        Connection connection = new Connection(inetaddress);
+        Connection connection = new Connection(inetaddress, ctx.channel());
         ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).set(connection);
 
         ctx.fireChannelRead(msg);
