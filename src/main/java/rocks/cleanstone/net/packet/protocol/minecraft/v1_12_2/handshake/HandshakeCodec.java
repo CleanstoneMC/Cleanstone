@@ -8,10 +8,10 @@ import rocks.cleanstone.net.packet.minecraft.inbound.HandshakePacket;
 import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class HandshakeCodec implements MinecraftPacketCodec<HandshakePacket> {
+public class HandshakeCodec implements MinecraftPacketCodec {
 
     @Override
-    public HandshakePacket decode(ByteBuf byteBuf) throws IOException {
+    public Packet decode(ByteBuf byteBuf) throws IOException {
         final int version = ByteBufUtils.readVarInt(byteBuf);
         final String address = ByteBufUtils.readUTF8(byteBuf);
         final int port = byteBuf.readUnsignedShort();
@@ -21,11 +21,13 @@ public class HandshakeCodec implements MinecraftPacketCodec<HandshakePacket> {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, HandshakePacket packet) throws IOException {
-        ByteBufUtils.writeVarInt(byteBuf, packet.getVersion());
-        ByteBufUtils.writeUTF8(byteBuf, packet.getAddress());
-        byteBuf.writeShort(packet.getPort());
-        ByteBufUtils.writeVarInt(byteBuf, packet.getState());
+    public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
+        HandshakePacket handshakePacket = (HandshakePacket) packet;
+
+        ByteBufUtils.writeVarInt(byteBuf, handshakePacket.getVersion());
+        ByteBufUtils.writeUTF8(byteBuf, handshakePacket.getAddress());
+        byteBuf.writeShort(handshakePacket.getPort());
+        ByteBufUtils.writeVarInt(byteBuf, handshakePacket.getState());
 
         return byteBuf;
     }

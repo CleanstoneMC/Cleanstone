@@ -24,11 +24,11 @@ public abstract class LayeredProtocol implements Protocol {
     }
 
     @Override
-    public <T extends Packet> PacketCodec<T> getPacketCodec(Class<T> packetClass,
+    public PacketCodec getPacketCodec(Class<? extends Packet> packetClass,
                                                             ClientProtocolLayer clientLayer) {
-        return new PacketCodec<T>() {
+        return new PacketCodec() {
             @Override
-            public T decode(ByteBuf byteBuf) throws IOException { // receive from client
+            public Packet decode(ByteBuf byteBuf) throws IOException { // receive from client
                 // downgrade ByteBuf from client version to supported server version
 
                 for (ServerProtocolLayer serverLayer : protocolLayers) { // higher to lower
@@ -39,11 +39,11 @@ public abstract class LayeredProtocol implements Protocol {
                 }
                 // lowest=current serverLayer decodes byteBuf
                 //noinspection unchecked
-                return (T) protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).decode(byteBuf);
+                return protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).decode(byteBuf);
             }
 
             @Override
-            public ByteBuf encode(ByteBuf byteBuf, T packet) throws IOException { // send to client
+            public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException { // send to client
                 // upgrade POJO from supported server version to client version
 
                 protocolLayers.sort(Comparator.reverseOrder());
@@ -55,7 +55,7 @@ public abstract class LayeredProtocol implements Protocol {
                             continue;
                         }
                         //noinspection unchecked
-                        packet = (T) serverLayer.getPacketCodec(packetClass).upgradePOJO(packet);
+                        packet = serverLayer.getPacketCodec(packetClass).upgradePOJO(packet);
                         if (serverLayer.getCorrespondingClientLayer().getOrderedVersionNumber() == clientLayer.getOrderedVersionNumber()) {
                             //noinspection unchecked
                             return protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).encode(byteBuf, packet);
