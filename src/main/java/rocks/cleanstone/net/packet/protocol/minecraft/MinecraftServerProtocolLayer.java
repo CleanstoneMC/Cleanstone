@@ -22,7 +22,6 @@ public abstract class MinecraftServerProtocolLayer extends ServerProtocolLayer {
         getPacketClassCodecMap().forEach((packetClass, packetCodec) -> {
             MinecraftPacketCodec minecraftCodec = (MinecraftPacketCodec) packetCodec;
             if (minecraftCodec.getProtocolPacketID() == protocolPacketID)
-                //noinspection unchecked
                 packetType.set(MinecraftInboundPacketType.byPacketClass(packetClass));
         });
 

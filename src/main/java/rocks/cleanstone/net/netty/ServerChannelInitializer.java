@@ -37,7 +37,8 @@ public class ServerChannelInitializer extends ChannelInitializer {
                 new PacketHandler(nettyNetworking));
         // outbound
         channel.pipeline().addFirst(
-                new PacketEncoder(nettyNetworking),
+                new PacketHandler(nettyNetworking),
+                new PacketEncoder(nettyNetworking.getProtocol()),
                 new CompressionEncoder(),
                 new ByteStreamEncoder(),
                 new EncryptionEncoder());

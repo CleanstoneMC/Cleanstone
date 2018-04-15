@@ -7,27 +7,26 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.netty.NettyNetworking;
 import rocks.cleanstone.net.packet.OutboundPacket;
+import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public class PacketEncoder extends MessageToMessageEncoder<OutboundPacket> {
 
-    private final NettyNetworking nettyNetworking;
+    private final Protocol protocol;
 
-    public PacketEncoder(NettyNetworking nettyNetworking) {
-        this.nettyNetworking = nettyNetworking;
+    public PacketEncoder(Protocol protocol) {
+        this.protocol = protocol;
     }
 
     @Override
     protected void encode(ChannelHandlerContext ctx, OutboundPacket in, List<Object> out) throws Exception {
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-        nettyNetworking.callPacketListeners(in, connection);
 
         ctx.channel().attr(AttributeKey.<Integer>valueOf("outPacketId")).set(
-                nettyNetworking.getProtocol().translateOutboundPacketId(
+                protocol.translateOutboundPacketId(
                         in.getType().getTypeId(), connection.getClientProtocolLayer()));
 
-        ByteBuf data = nettyNetworking.getProtocol().getPacketCodec(in.getClass(), connection
+        ByteBuf data = protocol.getPacketCodec(in.getClass(), connection
                 .getClientProtocolLayer())
                 .encode(ctx.alloc().buffer(), in);
         out.add(data);
