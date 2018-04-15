@@ -20,8 +20,7 @@ public class SimpleCleanstoneProtocol implements Protocol {
     }
 
     @Override
-    public <T extends Packet> PacketCodec<T> getPacketCodec(Class<T> packet,
-                                                            ClientProtocolLayer clientLayer) {
+    public PacketCodec getPacketCodec(Class<? extends Packet> packet, ClientProtocolLayer clientLayer) {
         return null;
     }
 

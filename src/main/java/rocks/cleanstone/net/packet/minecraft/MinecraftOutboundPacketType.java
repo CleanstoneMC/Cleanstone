@@ -1,7 +1,9 @@
 package rocks.cleanstone.net.packet.minecraft;
 
-import rocks.cleanstone.net.packet.PacketType;
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.net.packet.OutboundPacket;
+import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.inbound.AnimationPacket;
 import rocks.cleanstone.net.packet.minecraft.inbound.ChatMessagePacket;
 import rocks.cleanstone.net.packet.minecraft.inbound.CloseWindowPacket;
@@ -105,6 +107,14 @@ public enum MinecraftOutboundPacketType implements PacketType {
         this.typeId = typeId;
         this.packetClass = packetClass;
         this.protocolType = protocolType;
+    }
+
+    @Nullable
+    public static MinecraftOutboundPacketType byTypeId(int typeId) {
+        for (MinecraftOutboundPacketType type : values()) {
+            if (type.getTypeId() == typeId) return type;
+        }
+        return null;
     }
 
     @Override

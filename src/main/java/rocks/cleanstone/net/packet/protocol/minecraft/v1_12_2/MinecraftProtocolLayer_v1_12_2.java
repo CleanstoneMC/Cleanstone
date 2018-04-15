@@ -1,11 +1,11 @@
 package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2;
 
 import rocks.cleanstone.net.packet.minecraft.inbound.HandshakePacket;
-import rocks.cleanstone.net.packet.protocol.ServerProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftClientProtocolLayer;
+import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.handshake.HandshakeCodec;
 
-public class MinecraftProtocolLayer_v1_12_2 extends ServerProtocolLayer {
+public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
     public void init() {
         HandshakeCodec handshakeCodec = new HandshakeCodec();

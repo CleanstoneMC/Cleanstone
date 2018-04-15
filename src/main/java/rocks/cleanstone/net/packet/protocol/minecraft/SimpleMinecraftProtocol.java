@@ -26,11 +26,13 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
 
     @Override
     public int translateInboundPacketId(int clientPacketId, ClientProtocolLayer clientLayer) {
-        return 0; // TODO get protocol packet id from codec
+        return ((MinecraftServerProtocolLayer) getServerLayerFromClientLayer(clientLayer))
+                .getPacketType(clientPacketId).getTypeId();
     }
 
     @Override
     public int translateOutboundPacketId(int serverPacketId, ClientProtocolLayer clientLayer) {
-        return serverPacketId;
+        return ((MinecraftServerProtocolLayer) getServerLayerFromClientLayer(clientLayer))
+                .getProtocolPacketID(MinecraftOutboundPacketType.byTypeId(serverPacketId));
     }
 }

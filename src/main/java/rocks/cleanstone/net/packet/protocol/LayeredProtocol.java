@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.packet.Packet;
 
@@ -23,9 +25,16 @@ public abstract class LayeredProtocol implements Protocol {
         return protocolLayers;
     }
 
+    @Nullable
+    public ServerProtocolLayer getServerLayerFromClientLayer(ClientProtocolLayer clientLayer) {
+        return protocolLayers.stream().filter(
+                serverLayer -> serverLayer.getCorrespondingClientLayer() == clientLayer
+        ).findFirst().orElse(null);
+    }
+
     @Override
     public PacketCodec getPacketCodec(Class<? extends Packet> packetClass,
-                                                            ClientProtocolLayer clientLayer) {
+                                      ClientProtocolLayer clientLayer) {
         return new PacketCodec() {
             @Override
             public Packet decode(ByteBuf byteBuf) throws IOException { // receive from client

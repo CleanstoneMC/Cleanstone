@@ -1,7 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft;
 
-import rocks.cleanstone.net.packet.PacketType;
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.net.packet.InboundPacket;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.inbound.*;
 import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
@@ -49,6 +52,14 @@ public enum MinecraftInboundPacketType implements PacketType {
         this.typeId = typeId;
         this.packetClass = packetClass;
         this.protocolType = protocolType;
+    }
+
+    @Nullable
+    public static MinecraftInboundPacketType byPacketClass(Class<? extends Packet> packetClass) {
+        for (MinecraftInboundPacketType type : values()) {
+            if (type.getPacketClass() == packetClass) return type;
+        }
+        return null;
     }
 
     @Override
