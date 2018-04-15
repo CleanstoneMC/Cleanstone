@@ -11,6 +11,7 @@ import rocks.cleanstone.net.netty.pipeline.inbound.IdentificationHandler;
 import rocks.cleanstone.net.netty.pipeline.inbound.InsulatedPacketDecoder;
 import rocks.cleanstone.net.netty.pipeline.inbound.PacketDataDecoder;
 import rocks.cleanstone.net.netty.pipeline.inbound.PacketHandler;
+import rocks.cleanstone.net.netty.pipeline.outbound.ByteStreamEncoder;
 import rocks.cleanstone.net.netty.pipeline.outbound.CompressionEncoder;
 import rocks.cleanstone.net.netty.pipeline.outbound.EncryptionEncoder;
 import rocks.cleanstone.net.netty.pipeline.outbound.PacketEncoder;
@@ -28,8 +29,8 @@ public class ServerChannelInitializer extends ChannelInitializer {
         // inbound
         channel.pipeline().addLast(
                 new IdentificationHandler(Collections.emptySet()),
-                new ByteStreamDecoder(),
                 new EncryptionDecoder(),
+                new ByteStreamDecoder(),
                 new CompressionDecoder(),
                 new PacketDataDecoder(),
                 new InsulatedPacketDecoder(nettyNetworking.getProtocol()),
@@ -37,6 +38,7 @@ public class ServerChannelInitializer extends ChannelInitializer {
         // outbound
         channel.pipeline().addFirst(new PacketEncoder(nettyNetworking));
         channel.pipeline().addFirst(new CompressionEncoder());
+        channel.pipeline().addFirst(new ByteStreamEncoder());
         channel.pipeline().addFirst(new EncryptionEncoder());
 
     }
