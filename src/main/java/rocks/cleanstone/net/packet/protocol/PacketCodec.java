@@ -9,4 +9,8 @@ public interface PacketCodec<T extends Packet> {
     T decode(ByteBuf byteBuf) throws IOException;
 
     ByteBuf encode(ByteBuf byteBuf, T packet) throws IOException;
+
+    ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf);
+
+    Packet downgradePOJO(Packet nextLayerPacket);
 }

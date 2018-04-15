@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.netty.pipeline;
+package rocks.cleanstone.net.netty.pipeline.receive;
 
 import java.io.IOException;
 import java.util.List;

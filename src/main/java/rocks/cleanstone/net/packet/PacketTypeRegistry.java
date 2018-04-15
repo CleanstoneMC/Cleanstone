@@ -8,4 +8,6 @@ public interface PacketTypeRegistry {
     void unregisterPacketType(PacketType... packetTypes);
 
     Collection<PacketType> getPacketTypes();
+
+    PacketType getPacketType(int packetTypeId);
 }

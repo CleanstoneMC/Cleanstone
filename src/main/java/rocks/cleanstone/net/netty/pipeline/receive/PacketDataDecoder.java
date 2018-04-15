@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.netty.pipeline;
+package rocks.cleanstone.net.netty.pipeline.receive;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +22,7 @@ public class PacketDataDecoder extends ByteToMessageDecoder {
         } else {
             packetID = ctx.channel().attr(AttributeKey.<Integer>valueOf("packetID")).get();
         }
+        data.discardReadBytes();
         out.add(new InsulatedPacket(packetID, data));
     }
 }

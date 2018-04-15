@@ -1,10 +1,10 @@
 package rocks.cleanstone.net.packet.protocol;
 
 import rocks.cleanstone.net.packet.protocol.cleanstone.SimpleCleanstoneProtocol;
-import rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.MinecraftProtocol_v1_12_2;
+import rocks.cleanstone.net.packet.protocol.minecraft.SimpleMinecraftProtocol;
 
 public enum StandardProtocolType implements ProtocolType {
-    CLEANSTONE(0, SimpleCleanstoneProtocol.class), MINECRAFT_LATEST(1, MinecraftProtocol_v1_12_2.class);
+    CLEANSTONE(0, SimpleCleanstoneProtocol.class), MINECRAFT(1, SimpleMinecraftProtocol.class);
 
     private final int typeId;
     private final Class<? extends Protocol> protocolClass;
