@@ -3,8 +3,8 @@ package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.handshake;
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.protocol.PacketCodec;
 import rocks.cleanstone.net.packet.minecraft.receive.HandshakePacket;
+import rocks.cleanstone.net.packet.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class HandshakeCodec implements PacketCodec<HandshakePacket> {
@@ -27,5 +27,15 @@ public class HandshakeCodec implements PacketCodec<HandshakePacket> {
         ByteBufUtils.writeVarInt(byteBuf, packet.getState());
 
         return byteBuf;
+    }
+
+    @Override
+    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
+        return nextLayerByteBuf;
+    }
+
+    @Override
+    public ByteBuf upgrade(ByteBuf previousLayerByteBuf) {
+        return previousLayerByteBuf;
     }
 }

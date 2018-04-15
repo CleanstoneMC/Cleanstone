@@ -16,12 +16,12 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.PacketListener;
-import rocks.cleanstone.net.netty.pipeline.ByteStreamDecoder;
-import rocks.cleanstone.net.netty.pipeline.CompressionDecoder;
-import rocks.cleanstone.net.netty.pipeline.IdentificationHandler;
-import rocks.cleanstone.net.netty.pipeline.InsulatedPacketDecoder;
-import rocks.cleanstone.net.netty.pipeline.PacketDataDecoder;
-import rocks.cleanstone.net.netty.pipeline.PacketHandler;
+import rocks.cleanstone.net.netty.pipeline.receive.ByteStreamDecoder;
+import rocks.cleanstone.net.netty.pipeline.receive.CompressionDecoder;
+import rocks.cleanstone.net.netty.pipeline.receive.IdentificationHandler;
+import rocks.cleanstone.net.netty.pipeline.receive.InsulatedPacketDecoder;
+import rocks.cleanstone.net.netty.pipeline.receive.PacketDataDecoder;
+import rocks.cleanstone.net.netty.pipeline.receive.PacketHandler;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.Protocol;
@@ -52,7 +52,7 @@ public class NettyNetworking extends AbstractNetworking {
                                     new ByteStreamDecoder(),
                                     new CompressionDecoder(),
                                     new PacketDataDecoder(),
-                                    new InsulatedPacketDecoder(),
+                                    new InsulatedPacketDecoder(protocol),
                                     new PacketHandler());
                         }
                     })

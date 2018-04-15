@@ -6,20 +6,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
-import rocks.cleanstone.net.packet.cleanstone.CleanstoneReceivePacketType;
-import rocks.cleanstone.net.packet.cleanstone.CleanstoneSendPacketType;
-import rocks.cleanstone.net.packet.minecraft.MinecraftReceivePacketType;
-import rocks.cleanstone.net.packet.minecraft.MinecraftSendPacketType;
+import javax.annotation.Nullable;
 
 public class SimplePacketTypeRegistry implements PacketTypeRegistry {
 
     private Set<PacketType> packetTypes = Sets.newConcurrentHashSet();
 
     public void init() {
-        registerPacketType(CleanstoneReceivePacketType.values());
-        registerPacketType(CleanstoneSendPacketType.values());
-        registerPacketType(MinecraftReceivePacketType.values());
-        registerPacketType(MinecraftSendPacketType.values());
     }
 
     @Override
@@ -35,5 +28,13 @@ public class SimplePacketTypeRegistry implements PacketTypeRegistry {
     @Override
     public Collection<PacketType> getPacketTypes() {
         return packetTypes;
+    }
+
+    @Override
+    @Nullable
+    public PacketType getPacketType(int packetTypeId) {
+        return packetTypes.stream().filter(
+                (packetType) -> packetType.getTypeId() == packetTypeId
+        ).findFirst().orElse(null);
     }
 }

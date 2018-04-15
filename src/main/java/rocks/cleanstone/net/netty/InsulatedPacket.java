@@ -10,4 +10,12 @@ public class InsulatedPacket {
         this.packetID = packetID;
         this.data = data;
     }
+
+    public int getPacketID() {
+        return packetID;
+    }
+
+    public ByteBuf getData() {
+        return data;
+    }
 }
