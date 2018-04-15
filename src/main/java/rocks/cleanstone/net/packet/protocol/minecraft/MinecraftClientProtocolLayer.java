@@ -3,16 +3,16 @@ package rocks.cleanstone.net.packet.protocol.minecraft;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 
 public enum MinecraftClientProtocolLayer implements ClientProtocolLayer {
-    MINECRAFT_V1_12_2(0);
+    MINECRAFT_V1_12_2(340);
 
-    private final int orderedID;
+    private final int versionNumber;
 
-    MinecraftClientProtocolLayer(int orderedID) {
-        this.orderedID = orderedID;
+    MinecraftClientProtocolLayer(int versionNumber) {
+        this.versionNumber = versionNumber;
     }
 
     @Override
-    public int getOrderedID() {
-        return orderedID;
+    public int getOrderedVersionNumber() {
+        return versionNumber;
     }
 }

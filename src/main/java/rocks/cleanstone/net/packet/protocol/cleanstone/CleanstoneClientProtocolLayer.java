@@ -12,7 +12,7 @@ public enum CleanstoneClientProtocolLayer implements ClientProtocolLayer {
     }
 
     @Override
-    public int getOrderedID() {
+    public int getOrderedVersionNumber() {
         return orderedID;
     }
 }

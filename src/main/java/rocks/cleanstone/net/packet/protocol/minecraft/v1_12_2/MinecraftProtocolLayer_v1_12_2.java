@@ -8,11 +8,17 @@ import rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.handshake.Handshak
 public class MinecraftProtocolLayer_v1_12_2 extends ServerProtocolLayer {
 
     public void init() {
-        registerPacketCodec(new HandshakeCodec(), HandshakePacket.class);
+        HandshakeCodec handshakeCodec = new HandshakeCodec();
+        registerPacketCodec(handshakeCodec, HandshakePacket.class);
     }
 
     @Override
     public MinecraftClientProtocolLayer getCorrespondingClientLayer() {
         return MinecraftClientProtocolLayer.MINECRAFT_V1_12_2;
+    }
+
+    @Override
+    public int getOrderedID() {
+        return 0;
     }
 }

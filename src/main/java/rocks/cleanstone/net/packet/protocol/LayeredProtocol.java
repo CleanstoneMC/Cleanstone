@@ -32,7 +32,7 @@ public abstract class LayeredProtocol implements Protocol {
                 // downgrade ByteBuf from client version to supported server version
 
                 for (ServerProtocolLayer serverLayer : protocolLayers) { // higher to lower
-                    if (serverLayer.getCorrespondingClientLayer().getOrderedID() >= clientLayer.getOrderedID())
+                    if (serverLayer.getCorrespondingClientLayer().getOrderedVersionNumber() >= clientLayer.getOrderedVersionNumber())
                         continue;
                     PacketCodec serverCodec = serverLayer.getPacketCodec(packetClass);
                     byteBuf = serverCodec.downgradeByteBuf(byteBuf);
@@ -56,7 +56,7 @@ public abstract class LayeredProtocol implements Protocol {
                         }
                         //noinspection unchecked
                         packet = (T) serverLayer.getPacketCodec(packetClass).upgradePOJO(packet);
-                        if (serverLayer.getCorrespondingClientLayer().getOrderedID() == clientLayer.getOrderedID()) {
+                        if (serverLayer.getCorrespondingClientLayer().getOrderedVersionNumber() == clientLayer.getOrderedVersionNumber()) {
                             //noinspection unchecked
                             return protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).encode(byteBuf, packet);
                         }
@@ -79,15 +79,5 @@ public abstract class LayeredProtocol implements Protocol {
                         "VersionedProtocol");
             }
         };
-    }
-
-    @Override
-    public int translateIngoingPacketId(int clientPacketId) {
-        return 0;
-    }
-
-    @Override
-    public int translateOutgoingPacketId(int serverPacketId) {
-        return 0;
     }
 }

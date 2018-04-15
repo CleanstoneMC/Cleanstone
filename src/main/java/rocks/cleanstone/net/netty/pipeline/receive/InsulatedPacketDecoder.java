@@ -7,7 +7,11 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 import rocks.cleanstone.net.netty.InsulatedPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
+import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.Protocol;
+import rocks.cleanstone.net.packet.protocol.cleanstone.CleanstoneClientProtocolLayer;
+import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftClientProtocolLayer;
+import rocks.cleanstone.net.packet.protocol.minecraft.SimpleMinecraftProtocol;
 
 public class InsulatedPacketDecoder extends MessageToMessageDecoder<InsulatedPacket> {
 
@@ -20,8 +24,15 @@ public class InsulatedPacketDecoder extends MessageToMessageDecoder<InsulatedPac
     @Override
     protected void decode(ChannelHandlerContext ctx, InsulatedPacket in, List<Object> out) throws Exception {
         PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
+
+        ClientProtocolLayer clientLayer;
+        if (protocol.getClass() == SimpleMinecraftProtocol.class) {
+            // TODO extract from Handshaking packet?
+            clientLayer = MinecraftClientProtocolLayer.MINECRAFT_V1_12_2;
+        } else clientLayer = CleanstoneClientProtocolLayer.LATEST;
+
         PacketType packetType = packetTypeRegistry.getPacketType(
-                protocol.translateIngoingPacketId(in.getPacketID()));
+                protocol.translateIngoingPacketId(in.getPacketID(), clientLayer));
         out.add(null/*Packet*/);
     }
 

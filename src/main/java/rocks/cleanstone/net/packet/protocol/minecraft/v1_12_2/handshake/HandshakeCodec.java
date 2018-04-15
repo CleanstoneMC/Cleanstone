@@ -3,11 +3,12 @@ package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.handshake;
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.minecraft.receive.HandshakePacket;
-import rocks.cleanstone.net.packet.protocol.PacketCodec;
+import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class HandshakeCodec implements PacketCodec<HandshakePacket> {
+public class HandshakeCodec implements MinecraftPacketCodec<HandshakePacket> {
 
     @Override
     public HandshakePacket decode(ByteBuf byteBuf) throws IOException {
@@ -35,7 +36,12 @@ public class HandshakeCodec implements PacketCodec<HandshakePacket> {
     }
 
     @Override
-    public ByteBuf upgrade(ByteBuf previousLayerByteBuf) {
-        return previousLayerByteBuf;
+    public Packet upgradePOJO(Packet previousLayerPacket) {
+        return null;
+    }
+
+    @Override
+    public int getProtocolPacketId() {
+        return 0x00;
     }
 }
