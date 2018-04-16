@@ -41,7 +41,7 @@ public class InsulatedPacketDecoder extends MessageToMessageDecoder<InsulatedPac
             connection.setClientProtocolLayer(defaultClientLayer);
 
             PacketType packetType = packetTypeRegistry.getPacketType(
-                    protocol.translateInboundPacketId(in.getPacketID(), defaultClientLayer));
+                    protocol.translateInboundPacketID(in.getPacketID(), defaultClientLayer));
             Packet packet = protocol.getPacketCodec(packetType.getPacketClass(), defaultClientLayer).decode(in.getData());
 
             if (packet.getDirection() == PacketDirection.OUTBOUND) {

@@ -9,6 +9,7 @@ import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.protocol.Protocol;
+import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class PacketEncoder extends MessageToMessageEncoder<OutboundPacket> {
 
@@ -22,13 +23,19 @@ public class PacketEncoder extends MessageToMessageEncoder<OutboundPacket> {
     protected void encode(ChannelHandlerContext ctx, OutboundPacket in, List<Object> out) throws Exception {
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
-        ctx.channel().attr(AttributeKey.<Integer>valueOf("outPacketId")).set(
-                protocol.translateOutboundPacketId(
-                        in.getType().getTypeId(), connection.getClientProtocolLayer()));
+        int packetID = protocol.translateOutboundPacketID(
+                in.getType().getTypeId(), connection.getClientProtocolLayer());
 
         ByteBuf data = protocol.getPacketCodec(in.getClass(), connection
                 .getClientProtocolLayer())
                 .encode(ctx.alloc().buffer(), in);
+
+        ByteBufUtils.writeVarInt(data, packetID);
+
+        if (connection.isCompressionEnabled())
+            ctx.channel().attr(AttributeKey.<Integer>valueOf("uncompressedPacketLength"))
+                    .set(data.readableBytes());
+
         out.add(data);
     }
 

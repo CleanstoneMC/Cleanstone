@@ -13,7 +13,8 @@ public class CompressionDecoder extends JdkZlibDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-        if (connection.isCompressionEnabled())
+        int uncompressedDataLength = ctx.channel().attr(AttributeKey.<Integer>valueOf("inUncompressedDataLength")).get();
+        if (connection.isCompressionEnabled() && uncompressedDataLength != 0)
             super.decode(ctx, in, out);
         else out.add(in);
     }

@@ -14,24 +14,21 @@ public class ByteStreamEncoder extends MessageToByteEncoder<ByteBuf> {
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
         if (!connection.isCompressionEnabled()) {
-            int packetId = ctx.channel().attr(AttributeKey.<Integer>valueOf("outPacketId")).get();
-            int packetLength = in.readableBytes() + getVarIntSize(packetId);
+            int packetLength = in.readableBytes();
             ByteBufUtils.writeVarInt(out, packetLength);
-            ByteBufUtils.writeVarInt(out, packetId);
             out.writeBytes(in);
         } else {
             int uncompressedPacketLength = ctx.channel().attr(
-                    AttributeKey.<Integer>valueOf("outUncompressedPacketLength")).get();
+                    AttributeKey.<Integer>valueOf("uncompressedPacketLength")).get();
             int packetLength = in.readableBytes() + getVarIntSize(uncompressedPacketLength);
             ByteBufUtils.writeVarInt(out, packetLength);
             ByteBufUtils.writeVarInt(out, uncompressedPacketLength);
-            // packet id is inside compressed data
             out.writeBytes(in);
         }
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
     }

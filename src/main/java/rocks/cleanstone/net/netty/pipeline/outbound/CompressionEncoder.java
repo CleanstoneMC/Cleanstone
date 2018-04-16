@@ -5,7 +5,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.compression.JdkZlibEncoder;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class CompressionEncoder extends JdkZlibEncoder {
 
@@ -15,11 +14,6 @@ public class CompressionEncoder extends JdkZlibEncoder {
         if (connection.isCompressionEnabled()) {
             ctx.channel().attr(AttributeKey.<Integer>valueOf("outUncompressedPacketLength"))
                     .set(uncompressed.readableBytes());
-
-            // packet id is inside compressed data
-            int packetId = ctx.channel().attr(AttributeKey.<Integer>valueOf("outPacketId")).get();
-            ByteBufUtils.writeVarInt(out, packetId);
-
             super.encode(ctx, uncompressed, out);
         } else out.writeBytes(uncompressed);
     }

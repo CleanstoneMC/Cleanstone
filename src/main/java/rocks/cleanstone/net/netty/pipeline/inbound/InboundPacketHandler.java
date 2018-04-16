@@ -1,28 +1,26 @@
-package rocks.cleanstone.net.netty.pipeline.outbound;
+package rocks.cleanstone.net.netty.pipeline.inbound;
 
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelOutboundHandlerAdapter;
-import io.netty.channel.ChannelPromise;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.netty.NettyNetworking;
-import rocks.cleanstone.net.packet.OutboundPacket;
+import rocks.cleanstone.net.packet.InboundPacket;
 
-public class PacketHandler extends ChannelOutboundHandlerAdapter {
+public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
 
     private final NettyNetworking nettyNetworking;
 
-    public PacketHandler(NettyNetworking nettyNetworking) {
+    public InboundPacketHandler(NettyNetworking nettyNetworking) {
         this.nettyNetworking = nettyNetworking;
     }
 
     @Override
-    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
-        OutboundPacket packet = (OutboundPacket) msg;
+
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        InboundPacket packet = (InboundPacket) msg;
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
         nettyNetworking.callPacketListeners(packet, connection);
-
-        ctx.fireChannelRead(msg);
     }
 
     @Override

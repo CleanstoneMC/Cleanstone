@@ -16,13 +16,7 @@ public class PacketDataDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf data, List<Object> out) throws IOException {
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-        int packetID;
-        if (connection.isCompressionEnabled()) {
-            packetID = ByteBufUtils.readVarInt(data);
-        } else {
-            packetID = ctx.channel().attr(AttributeKey.<Integer>valueOf("inPacketID")).get();
-        }
-        data.discardReadBytes();
+        int packetID = ByteBufUtils.readVarInt(data);
         out.add(new InsulatedPacket(packetID, data));
     }
 

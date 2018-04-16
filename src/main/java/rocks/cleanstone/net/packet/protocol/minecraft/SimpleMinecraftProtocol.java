@@ -25,14 +25,14 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
     }
 
     @Override
-    public int translateInboundPacketId(int clientPacketId, ClientProtocolLayer clientLayer) {
+    public int translateInboundPacketID(int clientPacketID, ClientProtocolLayer clientLayer) {
         return ((MinecraftServerProtocolLayer) getServerLayerFromClientLayer(clientLayer))
-                .getPacketType(clientPacketId).getTypeId();
+                .getPacketType(clientPacketID).getTypeId();
     }
 
     @Override
-    public int translateOutboundPacketId(int serverPacketId, ClientProtocolLayer clientLayer) {
+    public int translateOutboundPacketID(int serverPacketID, ClientProtocolLayer clientLayer) {
         return ((MinecraftServerProtocolLayer) getServerLayerFromClientLayer(clientLayer))
-                .getProtocolPacketID(MinecraftOutboundPacketType.byTypeId(serverPacketId));
+                .getProtocolPacketID(MinecraftOutboundPacketType.byTypeId(serverPacketID));
     }
 }
