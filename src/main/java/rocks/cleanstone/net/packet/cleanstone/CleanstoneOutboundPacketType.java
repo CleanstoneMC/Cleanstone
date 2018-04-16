@@ -7,16 +7,14 @@ import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
 
 public enum CleanstoneOutboundPacketType implements PacketType {
-    KEEP_ALIVE(0, KeepAlive.class, StandardProtocolType.CLEANSTONE);
+    KEEP_ALIVE(0, KeepAlive.class);
 
     private final int typeId;
-    private final ProtocolType protocolType;
     private final Class<? extends Packet> packetClass;
 
-    CleanstoneOutboundPacketType(int typeId, Class<? extends Packet> packetClass, ProtocolType protocolType) {
+    CleanstoneOutboundPacketType(int typeId, Class<? extends Packet> packetClass) {
         this.typeId = typeId;
         this.packetClass = packetClass;
-        this.protocolType = protocolType;
     }
 
     @Override
@@ -30,6 +28,6 @@ public enum CleanstoneOutboundPacketType implements PacketType {
 
     @Override
     public ProtocolType getProtocolType() {
-        return protocolType;
+        return StandardProtocolType.CLEANSTONE;
     }
 }
