@@ -42,7 +42,9 @@ public enum MinecraftInboundPacketType implements PacketType {
     ANIMATION(29, AnimationPacket.class),
     SPECTATE(30, SpectatePacket.class),
     PLAYER_BLOCK_PLACEMENT(31, PlayerBlockPlacementPacket.class),
-    USE_ITEM(32, UseItemPacket.class);
+    USE_ITEM(32, UseItemPacket.class),
+    LOGIN_START(33, LoginStartPacket.class),
+    ENCRYPTION_RESPONSE(34, EncryptionResponsePacket.class);
 
     private final int typeId;
     private final Class<? extends InboundPacket> packetClass;

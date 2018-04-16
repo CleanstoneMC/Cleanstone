@@ -2,24 +2,11 @@ package rocks.cleanstone.net;
 
 import java.net.InetAddress;
 
+import io.netty.channel.Channel;
+
 public abstract class PlayerConnection extends Connection {
 
-    private final InetAddress address;
-
-    private boolean compressionEnabled = false;
-
-    public PlayerConnection(InetAddress address) {
-        super(address);
-        this.address = address;
+    public PlayerConnection(InetAddress address, Channel channel) {
+        super(address, channel);
     }
-
-    public boolean isCompressionEnabled() {
-        return compressionEnabled;
-    }
-
-    public void setCompressionEnabled(boolean compressionEnabled) {
-        this.compressionEnabled = compressionEnabled;
-    }
-
-
 }
