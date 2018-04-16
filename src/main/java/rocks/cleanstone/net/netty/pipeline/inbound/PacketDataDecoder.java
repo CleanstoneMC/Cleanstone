@@ -25,4 +25,10 @@ public class PacketDataDecoder extends ByteToMessageDecoder {
         data.discardReadBytes();
         out.add(new InsulatedPacket(packetID, data));
     }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        cause.printStackTrace();
+        ctx.close();
+    }
 }

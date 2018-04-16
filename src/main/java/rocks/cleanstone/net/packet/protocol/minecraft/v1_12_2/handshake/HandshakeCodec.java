@@ -43,7 +43,7 @@ public class HandshakeCodec implements MinecraftPacketCodec {
     }
 
     @Override
-    public int getProtocolPacketId() {
+    public int getProtocolPacketID() {
         return 0x00;
     }
 }

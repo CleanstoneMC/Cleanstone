@@ -1,8 +1,8 @@
 package rocks.cleanstone.game.world.region.chunk;
 
-import rocks.cleanstone.game.world.region.block.Block;
-
 import java.util.Collection;
+
+import rocks.cleanstone.game.world.region.block.Block;
 
 public interface Chunk {
     Collection<Block> getBlocks();

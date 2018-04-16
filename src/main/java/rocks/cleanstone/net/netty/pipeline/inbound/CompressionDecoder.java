@@ -17,4 +17,10 @@ public class CompressionDecoder extends JdkZlibDecoder {
             super.decode(ctx, in, out);
         else out.add(in);
     }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        cause.printStackTrace();
+        ctx.close();
+    }
 }

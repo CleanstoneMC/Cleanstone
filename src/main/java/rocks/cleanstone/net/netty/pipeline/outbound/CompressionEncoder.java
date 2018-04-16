@@ -23,4 +23,10 @@ public class CompressionEncoder extends JdkZlibEncoder {
             super.encode(ctx, uncompressed, out);
         } else out.writeBytes(uncompressed);
     }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        cause.printStackTrace();
+        ctx.close();
+    }
 }
