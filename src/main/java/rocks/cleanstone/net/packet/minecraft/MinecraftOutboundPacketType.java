@@ -2,12 +2,7 @@ package rocks.cleanstone.net.packet.minecraft;
 
 import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.minecraft.inbound.AnimationPacket;
-import rocks.cleanstone.net.packet.minecraft.inbound.ChatMessagePacket;
-import rocks.cleanstone.net.packet.minecraft.inbound.CloseWindowPacket;
-import rocks.cleanstone.net.packet.minecraft.inbound.*;
-import rocks.cleanstone.net.packet.minecraft.inbound.PluginMessagePacket;
-import rocks.cleanstone.net.packet.minecraft.inbound.TabCompletePacket;
+import rocks.cleanstone.net.packet.minecraft.inbound.PlayerAbilitiesPacket;
 import rocks.cleanstone.net.packet.minecraft.outbound.*;
 import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
