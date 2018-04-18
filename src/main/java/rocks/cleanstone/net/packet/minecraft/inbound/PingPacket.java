@@ -4,20 +4,20 @@ import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 
-public class ChatMessagePacket extends InboundPacket {
+public class PingPacket extends InboundPacket {
 
-    private final String message;
+    private final long payload;
 
-    public ChatMessagePacket(String message) {
-        this.message = message;
+    public PingPacket(long payload) {
+        this.payload = payload;
     }
 
-    public String getMessage() {
-        return message;
+    public long getPayload() {
+        return payload;
     }
 
     @Override
     public PacketType getType() {
-        return MinecraftInboundPacketType.CHAT_MESSAGE;
+        return MinecraftInboundPacketType.PING;
     }
 }

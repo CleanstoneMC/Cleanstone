@@ -4,20 +4,13 @@ import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 
-public class ChatMessagePacket extends InboundPacket {
+public class RequestPacket extends InboundPacket {
 
-    private final String message;
-
-    public ChatMessagePacket(String message) {
-        this.message = message;
-    }
-
-    public String getMessage() {
-        return message;
+    public RequestPacket() {
     }
 
     @Override
     public PacketType getType() {
-        return MinecraftInboundPacketType.CHAT_MESSAGE;
+        return MinecraftInboundPacketType.REQUEST;
     }
 }

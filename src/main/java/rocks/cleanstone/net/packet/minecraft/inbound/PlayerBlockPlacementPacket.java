@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
 import rocks.cleanstone.game.world.region.Position;
-import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.InboundPacket;
+import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.Face;
 import rocks.cleanstone.net.packet.minecraft.enums.Hand;

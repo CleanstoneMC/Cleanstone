@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
-import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.InboundPacket;
+import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.ChatMode;
 import rocks.cleanstone.net.packet.minecraft.enums.DisplayedSkinParts;

@@ -2,7 +2,7 @@ package rocks.cleanstone.net.packet.minecraft.enums;
 
 public enum Face {
     BOTTOM(0, "-Y"),
-    TOP(1,"+Y"),
+    TOP(1, "+Y"),
     NORTH(2, "-Z"),
     SOUTH(3, "+Z"),
     WEST(4, "-X"),

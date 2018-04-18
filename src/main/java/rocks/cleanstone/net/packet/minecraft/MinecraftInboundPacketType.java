@@ -1,13 +1,13 @@
 package rocks.cleanstone.net.packet.minecraft;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.inbound.*;
 import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
+
+import javax.annotation.Nullable;
 
 public enum MinecraftInboundPacketType implements PacketType {
     HANDSHAKE(0, HandshakePacket.class),
@@ -44,7 +44,10 @@ public enum MinecraftInboundPacketType implements PacketType {
     PLAYER_BLOCK_PLACEMENT(31, PlayerBlockPlacementPacket.class),
     USE_ITEM(32, UseItemPacket.class),
     LOGIN_START(33, LoginStartPacket.class),
-    ENCRYPTION_RESPONSE(34, EncryptionResponsePacket.class);
+    ENCRYPTION_RESPONSE(34, EncryptionResponsePacket.class),
+    REQUEST(35, RequestPacket.class),
+    PING(36, PingPacket.class);
+
 
     private final int typeId;
     private final Class<? extends InboundPacket> packetClass;

@@ -1,21 +1,18 @@
 package rocks.cleanstone.net.packet.minecraft;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.inbound.AnimationPacket;
 import rocks.cleanstone.net.packet.minecraft.inbound.ChatMessagePacket;
 import rocks.cleanstone.net.packet.minecraft.inbound.CloseWindowPacket;
-import rocks.cleanstone.net.packet.minecraft.inbound.HeldItemChangePacket;
-import rocks.cleanstone.net.packet.minecraft.inbound.KeepAlivePacket;
-import rocks.cleanstone.net.packet.minecraft.inbound.PlayerAbilitiesPacket;
-import rocks.cleanstone.net.packet.minecraft.inbound.PlayerPositionAndLookPacket;
+import rocks.cleanstone.net.packet.minecraft.inbound.*;
 import rocks.cleanstone.net.packet.minecraft.inbound.PluginMessagePacket;
 import rocks.cleanstone.net.packet.minecraft.inbound.TabCompletePacket;
 import rocks.cleanstone.net.packet.minecraft.outbound.*;
 import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
+
+import javax.annotation.Nullable;
 
 public enum MinecraftOutboundPacketType implements PacketType {
     SPAWN_OBJECT(0, SpawnObjectPacket.class),
@@ -97,7 +94,12 @@ public enum MinecraftOutboundPacketType implements PacketType {
     ENTITY_TELEPORT(76, EntityTeleportPacket.class),
     ADVANCEMENTS(77, AdvancementsPacket.class),
     ENTITY_PROPERTIES(78, EntityPropertiesPacket.class),
-    ENTITY_EFFECT(79, EntityEffectPacket.class);
+    ENTITY_EFFECT(79, EntityEffectPacket.class),
+    ENCRYPTION_REQUEST(80, EncryptionRequestPacket.class),
+    SET_COMPRESSION(81, SetCompressionPacket.class),
+    LOGIN_SUCCESS(82, LoginSuccessPacket.class),
+    RESPONSE(83, ResponsePacket.class),
+    PONG(84, PongPacket.class);
 
     private final int typeId;
     private final Class<? extends OutboundPacket> packetClass;
