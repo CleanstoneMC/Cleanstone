@@ -17,7 +17,7 @@ public class NamedSoundEffectPacket extends OutboundPacket {
 
     public NamedSoundEffectPacket(String soundName, int soundCategory, int x, int y, int z, float volume, float pitch) {
         this.soundName = soundName;
-        this.soundCategory = SoundCategory.fromCategoryID(soundCategory);//TODO
+        this.soundCategory = SoundCategory.fromCategoryID(soundCategory);
         this.x = x;
         this.y = y;
         this.z = z;
