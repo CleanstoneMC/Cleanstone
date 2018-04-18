@@ -1,34 +1,31 @@
 package rocks.cleanstone.net.netty.pipeline.inbound;
 
-import java.io.IOException;
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+import rocks.cleanstone.net.utils.NotEnoughReadableBytesException;
+
+import java.io.IOException;
+import java.util.List;
 
 public class ByteStreamDecoder extends ByteToMessageDecoder {
-
-    private int remainingPacketLength = -1;
-
-    @Override
-    public void handlerAdded(ChannelHandlerContext ctx) {
-        remainingPacketLength = -1;
-    }
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws IOException {
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
-        if (remainingPacketLength == -1) {
-            if (in.readableBytes() < 5) return;
+        in.markReaderIndex();
+        int remainingPacketLength;
+        try {
             remainingPacketLength = ByteBufUtils.readVarInt(in);
+            if (in.readableBytes() < remainingPacketLength) throw new NotEnoughReadableBytesException();
+        } catch (NotEnoughReadableBytesException e) {
+            in.resetReaderIndex();
+            return;
         }
-        if (in.readableBytes() < remainingPacketLength) return;
-
         if (!connection.isCompressionEnabled()) {
             out.add(in);
         } else {

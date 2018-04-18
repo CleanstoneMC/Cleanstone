@@ -23,10 +23,10 @@
  */
 package rocks.cleanstone.net.utils;
 
+import io.netty.buffer.ByteBuf;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
-import io.netty.buffer.ByteBuf;
 
 /**
  * A class containing various utility methods that act on byte buffers.
@@ -50,7 +50,7 @@ public class ByteBufUtils {
     /**
      * Writes an UTF8 string to a byte buffer.
      *
-     * @param buf The byte buffer to write too
+     * @param buf   The byte buffer to write too
      * @param value The string to write
      * @throws java.io.IOException If the writing fails
      */
@@ -72,10 +72,13 @@ public class ByteBufUtils {
      * @throws java.io.IOException If the reading fails
      */
     public static int readVarInt(ByteBuf buf) throws IOException {
+        int readableBytes = buf.readableBytes(); // Cleanstone
         int out = 0;
         int bytes = 0;
         byte in;
         while (true) {
+            // Cleanstone: Throw custom exception if there aren't enough readable bytes
+            if (--readableBytes < 0) throw new NotEnoughReadableBytesException("Unable to read varint");
             in = buf.readByte();
             out |= (in & 0x7F) << (bytes++ * 7);
             if (bytes > 5) {
@@ -91,7 +94,7 @@ public class ByteBufUtils {
     /**
      * Writes an integer into the byte buffer using the least possible amount of bits.
      *
-     * @param buf The byte buffer to write too
+     * @param buf   The byte buffer to write too
      * @param value The integer value to write
      */
     public static void writeVarInt(ByteBuf buf, int value) {
@@ -107,6 +110,18 @@ public class ByteBufUtils {
                 break;
             }
         }
+    }
+
+    public static int getVarIntSize(int value) { // Cleanstone
+        int size = 0;
+        while (true) {
+            value >>>= 7;
+            size++;
+            if (value == 0) {
+                break;
+            }
+        }
+        return size;
     }
 
     /**
@@ -136,7 +151,7 @@ public class ByteBufUtils {
     /**
      * Writes an integer into the byte buffer using the least possible amount of bits.
      *
-     * @param buf The byte buffer to write too
+     * @param buf   The byte buffer to write too
      * @param value The long value to write
      */
     public static void writeVarLong(ByteBuf buf, long value) {
