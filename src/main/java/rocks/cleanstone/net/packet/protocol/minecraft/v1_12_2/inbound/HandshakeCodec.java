@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.handshake;
+package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.inbound;
 
 import java.io.IOException;
 

@@ -3,7 +3,7 @@ package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2;
 import rocks.cleanstone.net.packet.minecraft.inbound.HandshakePacket;
 import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftServerProtocolLayer;
-import rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.handshake.HandshakeCodec;
+import rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.inbound.HandshakeCodec;
 
 public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
