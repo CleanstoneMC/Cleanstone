@@ -1,21 +1,11 @@
 package rocks.cleanstone.net.netty;
 
-import java.util.Collections;
-
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
-import rocks.cleanstone.net.netty.pipeline.inbound.ByteStreamDecoder;
-import rocks.cleanstone.net.netty.pipeline.inbound.CompressionDecoder;
-import rocks.cleanstone.net.netty.pipeline.inbound.EncryptionDecoder;
-import rocks.cleanstone.net.netty.pipeline.inbound.IdentificationHandler;
-import rocks.cleanstone.net.netty.pipeline.inbound.InsulatedPacketDecoder;
-import rocks.cleanstone.net.netty.pipeline.inbound.PacketDataDecoder;
-import rocks.cleanstone.net.netty.pipeline.inbound.InboundPacketHandler;
-import rocks.cleanstone.net.netty.pipeline.outbound.ByteStreamEncoder;
-import rocks.cleanstone.net.netty.pipeline.outbound.CompressionEncoder;
-import rocks.cleanstone.net.netty.pipeline.outbound.EncryptionEncoder;
-import rocks.cleanstone.net.netty.pipeline.outbound.OutboundPacketHandler;
-import rocks.cleanstone.net.netty.pipeline.outbound.PacketEncoder;
+import rocks.cleanstone.net.netty.pipeline.inbound.*;
+import rocks.cleanstone.net.netty.pipeline.outbound.*;
+
+import java.util.Collections;
 
 public class ServerChannelInitializer extends ChannelInitializer {
 
@@ -33,8 +23,7 @@ public class ServerChannelInitializer extends ChannelInitializer {
                 new EncryptionDecoder(),
                 new ByteStreamDecoder(),
                 new CompressionDecoder(),
-                new PacketDataDecoder(),
-                new InsulatedPacketDecoder(nettyNetworking.getProtocol()),
+                new PacketDataDecoder(nettyNetworking.getProtocol()),
                 new InboundPacketHandler(nettyNetworking));
         // outbound
         channel.pipeline().addFirst(
