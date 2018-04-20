@@ -9,6 +9,6 @@ public class NotEnoughReadableBytesException extends IOException {
     }
 
     public NotEnoughReadableBytesException(String message) {
-        super(message);
+        super("We need more bytes!" + message);
     }
 }
