@@ -1,8 +1,9 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class PluginMessagePacket {
+public class PluginMessagePacket implements Packet {
 
     private final String channel;
     private final byte[] data;

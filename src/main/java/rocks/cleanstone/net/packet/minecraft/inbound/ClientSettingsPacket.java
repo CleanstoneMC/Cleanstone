@@ -1,12 +1,13 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.ChatMode;
 import rocks.cleanstone.net.packet.minecraft.enums.DisplayedSkinParts;
 import rocks.cleanstone.net.packet.minecraft.enums.MainHand;
 
-public class ClientSettingsPacket {
+public class ClientSettingsPacket implements Packet {
 
     private final String locale;
     private final int viewDistance;

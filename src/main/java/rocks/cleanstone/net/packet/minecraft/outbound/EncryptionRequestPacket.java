@@ -1,9 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
-public class EncryptionRequestPacket {
+public class EncryptionRequestPacket implements Packet {
 
     private String serverID;
 

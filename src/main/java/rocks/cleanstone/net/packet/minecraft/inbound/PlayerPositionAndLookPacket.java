@@ -1,9 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 
-public class PlayerPositionAndLookPacket {
+public class PlayerPositionAndLookPacket implements Packet {
 
     private final double x;
     private final double y;

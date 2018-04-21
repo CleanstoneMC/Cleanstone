@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.Animation;
 
-public class AnimationPacket {
+public class AnimationPacket implements Packet {
 
     private final int entityID;
     private final Animation animation;

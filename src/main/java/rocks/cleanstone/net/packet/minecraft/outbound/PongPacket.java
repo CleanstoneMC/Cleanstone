@@ -1,9 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
-public class PongPacket {
+public class PongPacket implements Packet {
 
     /**
      * Must be the same as sent by the client in PingPacket

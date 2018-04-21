@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.GlobalEntityType;
 
-public class SpawnGlobalEntityPacket {
+public class SpawnGlobalEntityPacket implements Packet {
 
     private final int entityID;
     private final GlobalEntityType type;

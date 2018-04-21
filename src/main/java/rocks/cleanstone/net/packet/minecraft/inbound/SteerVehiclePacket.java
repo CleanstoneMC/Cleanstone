@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.SteerVehicleFlag;
 
-public class SteerVehiclePacket {
+public class SteerVehiclePacket implements Packet {
 
     private final float sideways;
     private final float forward;

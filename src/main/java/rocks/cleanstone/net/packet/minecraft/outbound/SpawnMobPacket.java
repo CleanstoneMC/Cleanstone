@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.data.EntityMetadata;
@@ -7,7 +8,7 @@ import rocks.cleanstone.net.packet.minecraft.enums.MobType;
 
 import java.util.UUID;
 
-public class SpawnMobPacket {
+public class SpawnMobPacket implements Packet {
 
     private final int entityID;
     private final UUID entityUUID;

@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.BossBarAction;
@@ -9,7 +10,7 @@ import rocks.cleanstone.net.packet.minecraft.enums.BossBarFlag;
 
 import java.util.UUID;
 
-public class BossBarPacket {
+public class BossBarPacket implements Packet {
 
     private final UUID uuid;
     private final BossBarAction bossBarAction;

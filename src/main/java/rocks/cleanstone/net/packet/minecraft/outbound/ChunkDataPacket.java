@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
 import rocks.cleanstone.io.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
-public class ChunkDataPacket {
+public class ChunkDataPacket implements Packet {
 
     private final int chunkX;
     private final int chunkZ;

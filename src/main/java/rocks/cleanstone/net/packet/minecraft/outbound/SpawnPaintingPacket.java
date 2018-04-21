@@ -1,13 +1,14 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
 import rocks.cleanstone.game.world.region.Position;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.Direction;
 
 import java.util.UUID;
 
-public class SpawnPaintingPacket {
+public class SpawnPaintingPacket implements Packet {
 
     private final int entityID;
     private final UUID entityUUID;

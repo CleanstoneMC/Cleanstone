@@ -1,9 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
-public class ConfirmTransactionPacket {
+public class ConfirmTransactionPacket implements Packet {
 
     private final byte windowID;
     private final String windowType;

@@ -1,12 +1,13 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.data.BlockRecord;
 
 import java.util.Collection;
 
-public class ExplosionPacket {
+public class ExplosionPacket implements Packet {
 
     private final float x;
     private final float y;

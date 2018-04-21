@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.Hand;
 
-public class UseItemPacket {
+public class UseItemPacket implements Packet {
 
     private final Hand hand;
 

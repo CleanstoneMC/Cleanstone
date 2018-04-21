@@ -1,15 +1,16 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 
-public class ConfirmTransaction {
+public class ConfirmTransactionPacket implements Packet {
 
     private final byte windowID;
     private final short actionNumber;
     private final boolean accepted;
 
-    public ConfirmTransaction(byte windowID, short actionNumber, boolean accepted) {
+    public ConfirmTransactionPacket(byte windowID, short actionNumber, boolean accepted) {
         this.windowID = windowID;
         this.actionNumber = actionNumber;
         this.accepted = accepted;

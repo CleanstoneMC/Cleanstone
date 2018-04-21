@@ -1,9 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 
-public class HeldItemChangePacket {
+public class HeldItemChangePacket implements Packet {
 
     private final short slot;
 

@@ -1,9 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
-public class UnloadChunkPacket {
+public class UnloadChunkPacket implements Packet {
 
     private final int chunkX;
     private final int chunkY;

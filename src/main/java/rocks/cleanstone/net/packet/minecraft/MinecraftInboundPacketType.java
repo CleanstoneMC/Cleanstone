@@ -16,7 +16,7 @@ public enum MinecraftInboundPacketType implements PacketType {
     CLIENT_SETTINGS(3, ClientSettingsPacket.class),
     CLIENT_STATUS(4, ClientStatusPacket.class),
     CLOSE_WINDOW(5, CloseWindowPacket.class),
-    CONFIRM_TRANSACTION(6, ConfirmTransaction.class),
+    CONFIRM_TRANSACTION(6, ConfirmTransactionPacket.class),
     ENCHANT_ITEM(7, EnchantItemPacket.class),
     KEEP_ALIVE(8, KeepAlivePacket.class),
     TAB_COMPLETE(9, TabCompletePacket.class),

@@ -1,11 +1,12 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
 import java.util.List;
 
-public class TabCompletePacket {
+public class TabCompletePacket implements Packet {
 
     private final List<String> matches;
 

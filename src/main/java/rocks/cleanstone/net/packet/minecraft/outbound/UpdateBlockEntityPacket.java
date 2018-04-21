@@ -2,11 +2,12 @@ package rocks.cleanstone.net.packet.minecraft.outbound;
 
 import rocks.cleanstone.game.world.region.Position;
 import rocks.cleanstone.io.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.UpdateBlockAction;
 
-public class UpdateBlockEntityPacket {
+public class UpdateBlockEntityPacket implements Packet {
 
     private final Position location;
     private final UpdateBlockAction action;

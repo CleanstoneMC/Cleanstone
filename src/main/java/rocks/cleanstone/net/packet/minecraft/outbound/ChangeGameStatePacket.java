@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.GameStateChangeReason;
 
-public class ChangeGameStatePacket {
+public class ChangeGameStatePacket implements Packet {
 
     private final GameStateChangeReason reason;
     private final float value;

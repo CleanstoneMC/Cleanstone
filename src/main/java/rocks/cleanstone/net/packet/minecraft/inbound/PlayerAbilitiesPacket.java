@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.PlayerAbilities;
 
-public class PlayerAbilitiesPacket {
+public class PlayerAbilitiesPacket implements Packet {
 
     private final PlayerAbilities[] playerAbilities;
     private final float flyingSpeed;

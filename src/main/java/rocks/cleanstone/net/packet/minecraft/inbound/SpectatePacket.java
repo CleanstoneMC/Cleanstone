@@ -1,11 +1,12 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 
 import java.util.UUID;
 
-public class SpectatePacket {
+public class SpectatePacket implements Packet {
 
     private final UUID targetPlayer;
 
