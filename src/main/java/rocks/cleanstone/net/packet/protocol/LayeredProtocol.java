@@ -45,7 +45,6 @@ public abstract class LayeredProtocol implements Protocol {
                     byteBuf = serverCodec.downgradeByteBuf(byteBuf);
                 }
                 // lowest=current serverLayer decodes byteBuf
-                //noinspection unchecked
                 return protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).decode(byteBuf);
             }
 
@@ -59,13 +58,12 @@ public abstract class LayeredProtocol implements Protocol {
                     for (ServerProtocolLayer serverLayer : protocolLayers) { // lower to higher
                         if (!skippedFirst) {
                             skippedFirst = true;
+                            serverLayer.getPacketCodec(packet.getClass()).encode(byteBuf, packet);
                             continue;
                         }
-                        //noinspection unchecked
-                        packet = serverLayer.getPacketCodec(packetClass).upgradePOJO(packet);
+                        serverLayer.getPacketCodec(packetClass).upgradeByteBuf(byteBuf);
                         if (serverLayer.getCorrespondingClientLayer().getOrderedVersionNumber() == clientLayer.getOrderedVersionNumber()) {
-                            //noinspection unchecked
-                            return protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).encode(byteBuf, packet);
+                            return byteBuf;
                         }
                     }
                     throw new RuntimeException("Client layer higher than highest supported server layer");
@@ -81,8 +79,8 @@ public abstract class LayeredProtocol implements Protocol {
             }
 
             @Override
-            public Packet upgradePOJO(Packet previousLayerPacket) {
-                throw new UnsupportedOperationException("upgradePOJO is not supported with " +
+            public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
+                throw new UnsupportedOperationException("upgradeByteBuf is not supported with " +
                         "VersionedProtocol");
             }
         };

@@ -10,7 +10,7 @@ public interface PacketCodec {
 
     ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException;
 
-    ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf);
+    ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf);
 
-    Packet upgradePOJO(Packet previousLayerPacket);
+    ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf);
 }

@@ -33,13 +33,13 @@ public class HandshakeCodec implements MinecraftPacketCodec {
     }
 
     @Override
-    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-        return nextLayerByteBuf;
+    public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
+        return previousLayerByteBuf;
     }
 
     @Override
-    public Packet upgradePOJO(Packet previousLayerPacket) {
-        return null;
+    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
+        return nextLayerByteBuf;
     }
 
     @Override
