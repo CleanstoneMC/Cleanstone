@@ -1,12 +1,11 @@
 package rocks.cleanstone.net.packet.protocol.minecraft;
 
-import java.util.concurrent.atomic.AtomicReference;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.protocol.ServerProtocolLayer;
+
+import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class MinecraftServerProtocolLayer extends ServerProtocolLayer {
 

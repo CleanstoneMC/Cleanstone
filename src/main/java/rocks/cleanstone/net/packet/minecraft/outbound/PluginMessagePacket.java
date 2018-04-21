@@ -1,10 +1,9 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
-public class PluginMessagePacket extends OutboundPacket {
+public class PluginMessagePacket {
 
     private final String channel;
     private final byte[] data;

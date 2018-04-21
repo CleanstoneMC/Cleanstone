@@ -1,13 +1,12 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.data.BlockChange;
 
 import java.util.List;
 
-public class MultiBlockChangePacket extends OutboundPacket {
+public class MultiBlockChangePacket {
 
     private final int chunkX;
     private final int chunkY;

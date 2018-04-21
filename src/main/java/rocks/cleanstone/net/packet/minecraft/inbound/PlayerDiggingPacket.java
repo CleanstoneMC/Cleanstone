@@ -1,13 +1,12 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
 import rocks.cleanstone.game.world.region.Position;
-import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.DiggingStatus;
 import rocks.cleanstone.net.packet.minecraft.enums.Face;
 
-public class PlayerDiggingPacket extends InboundPacket {
+public class PlayerDiggingPacket {
 
     private final DiggingStatus diggingStatus;
     private final Position location;

@@ -1,11 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
-import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.data.Slot;
 
-public class CreativeInventoryActionPacket extends InboundPacket {
+public class CreativeInventoryActionPacket {
 
     private final short slot;
     private final Slot clickedItem;

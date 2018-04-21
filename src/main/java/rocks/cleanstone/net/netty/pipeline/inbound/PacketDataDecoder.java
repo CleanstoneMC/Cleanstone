@@ -47,9 +47,6 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
                     protocol.translateInboundPacketID(packetID, defaultClientLayer));
             Packet packet = protocol.getPacketCodec(packetType.getPacketClass(), defaultClientLayer).decode(in);
 
-            if (packet.getDirection() == PacketDirection.OUTBOUND) {
-                throw new DecoderException("Received packet has invalid direction");
-            }
             out.add(packet);
         } finally {
             ReferenceCountUtil.release(in);

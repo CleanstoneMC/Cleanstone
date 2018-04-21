@@ -11,7 +11,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.packet.OutboundPacket;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
@@ -48,7 +48,7 @@ public class NettyNetworking extends AbstractNetworking {
     }
 
     @Override
-    public void sendPacket(Connection connection, OutboundPacket packet) {
+    public void sendPacket(Connection connection, Packet packet) {
         connection.getChannel().writeAndFlush(packet);
     }
 }

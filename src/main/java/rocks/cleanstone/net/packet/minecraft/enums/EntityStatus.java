@@ -1,6 +1,6 @@
 package rocks.cleanstone.net.packet.minecraft.enums;
 
-public enum  EntityStatus {
+public enum EntityStatus {
     SPAWN_TIPPED_ARROW_EFFECTS(0);
     //TODO
 

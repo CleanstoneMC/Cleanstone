@@ -1,11 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
 import rocks.cleanstone.game.world.region.Position;
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
-public class BlockChangePacket extends OutboundPacket {
+public class BlockChangePacket {
 
     private final Position location;
     private final int blockID;

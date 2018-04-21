@@ -1,10 +1,9 @@
 package rocks.cleanstone.net;
 
-import rocks.cleanstone.net.packet.InboundPacket;
-import rocks.cleanstone.net.packet.OutboundPacket;
+import rocks.cleanstone.net.packet.Packet;
 
 public interface PacketListener {
-    void onReceive(InboundPacket packet, Connection connection);
+    void onReceive(Packet packet, Connection connection);
 
-    void onSend(OutboundPacket packet, Connection connection);
+    void onSend(Packet packet, Connection connection);
 }

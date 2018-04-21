@@ -1,10 +1,9 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
-public class KeepAlivePacket extends OutboundPacket {
+public class KeepAlivePacket {
 
     private final long keepAliveID;
 

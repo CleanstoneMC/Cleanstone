@@ -1,11 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
 import rocks.cleanstone.game.world.region.Position;
-import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 
-public class UpdateSignPacket extends InboundPacket {
+public class UpdateSignPacket {
 
     private final Position location;
     private final String line1;

@@ -1,11 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
-import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.data.Slot;
 
-public class ClickWindowPacket extends InboundPacket {
+public class ClickWindowPacket {
 
     private final int windowID;
     private final short slot;

@@ -1,11 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
-import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.utils.Vector;
 
-public class TabCompletePacket extends InboundPacket {
+public class TabCompletePacket {
 
     private final String text;
     private final boolean assumeCommand;

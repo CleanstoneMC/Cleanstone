@@ -1,12 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
 import rocks.cleanstone.game.world.region.Position;
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.Effect;
 
-public class EffectPacket extends OutboundPacket {
+public class EffectPacket {
 
     private final Effect effect;
     private final Position location;

@@ -8,4 +8,6 @@ public interface PacketType {
     ProtocolType getProtocolType();
 
     Class<? extends Packet> getPacketClass();
+
+    PacketDirection getDirection();
 }

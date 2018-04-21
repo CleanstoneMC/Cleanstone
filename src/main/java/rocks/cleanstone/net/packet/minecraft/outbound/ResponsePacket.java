@@ -1,10 +1,9 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
-public class ResponsePacket extends OutboundPacket {
+public class ResponsePacket {
 
     private final String jsonResponse;
 

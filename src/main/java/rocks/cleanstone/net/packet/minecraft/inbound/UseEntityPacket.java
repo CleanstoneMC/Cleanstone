@@ -1,12 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
-import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.Hand;
 import rocks.cleanstone.net.packet.minecraft.enums.InteractType;
 
-public class UseEntityPacket extends InboundPacket {
+public class UseEntityPacket {
 
     private final int target;
     private final InteractType interactType;

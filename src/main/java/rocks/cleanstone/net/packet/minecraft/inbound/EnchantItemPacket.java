@@ -1,10 +1,9 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
-import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 
-public class EnchantItemPacket extends InboundPacket {
+public class EnchantItemPacket {
 
     private final byte windowID;
     private final byte enchantment;

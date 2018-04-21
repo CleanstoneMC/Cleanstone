@@ -1,12 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
 import java.util.UUID;
 
-public class LoginSuccessPacket extends OutboundPacket {
+public class LoginSuccessPacket {
 
     private final UUID uuid;
     private final String userName;

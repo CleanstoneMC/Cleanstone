@@ -1,11 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.data.Slot;
 
-public class SetSlotPacket extends OutboundPacket {
+public class SetSlotPacket {
 
     private final byte windowID;
     private final short slot;

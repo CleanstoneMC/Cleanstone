@@ -1,13 +1,12 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.data.EntityMetadata;
 
 import java.util.UUID;
 
-public class SpawnPlayerPacket extends OutboundPacket {
+public class SpawnPlayerPacket {
 
     private final int entityID;
     private final UUID playerUUID;

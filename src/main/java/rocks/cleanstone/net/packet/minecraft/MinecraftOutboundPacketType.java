@@ -1,7 +1,11 @@
 package rocks.cleanstone.net.packet.minecraft;
 
-import rocks.cleanstone.net.packet.OutboundPacket;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.net.packet.minecraft.inbound.HeldItemChangePacket;
+import rocks.cleanstone.net.packet.minecraft.inbound.PlayerAbilitiesPacket;
+import rocks.cleanstone.net.packet.minecraft.inbound.PlayerPositionAndLookPacket;
 import rocks.cleanstone.net.packet.minecraft.outbound.*;
 import rocks.cleanstone.net.packet.protocol.ProtocolType;
 import rocks.cleanstone.net.packet.protocol.StandardProtocolType;
@@ -96,9 +100,9 @@ public enum MinecraftOutboundPacketType implements PacketType {
     PONG(84, PongPacket.class);
 
     private final int typeId;
-    private final Class<? extends OutboundPacket> packetClass;
+    private final Class<? extends Packet> packetClass;
 
-    MinecraftOutboundPacketType(int typeId, Class<? extends OutboundPacket> packetClass) {
+    MinecraftOutboundPacketType(int typeId, Class<? extends Packet> packetClass) {
         this.typeId = typeId;
         this.packetClass = packetClass;
     }
@@ -116,8 +120,13 @@ public enum MinecraftOutboundPacketType implements PacketType {
         return 4000 + typeId;
     }
 
-    public Class<? extends OutboundPacket> getPacketClass() {
+    public Class<? extends Packet> getPacketClass() {
         return packetClass;
+    }
+
+    @Override
+    public PacketDirection getDirection() {
+        return PacketDirection.OUTBOUND;
     }
 
     @Override

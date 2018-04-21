@@ -1,10 +1,9 @@
 package rocks.cleanstone.net.packet.minecraft.inbound;
 
-import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftInboundPacketType;
 
-public class HandshakePacket extends InboundPacket {
+public class HandshakePacket {
 
     private final int version;
     private final String address;

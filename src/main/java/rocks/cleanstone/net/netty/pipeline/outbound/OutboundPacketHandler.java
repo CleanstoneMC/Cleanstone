@@ -3,10 +3,12 @@ package rocks.cleanstone.net.netty.pipeline.outbound;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
+import io.netty.handler.codec.DecoderException;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.netty.NettyNetworking;
-import rocks.cleanstone.net.packet.OutboundPacket;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketDirection;
 
 public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
 
@@ -18,9 +20,13 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
-        OutboundPacket packet = (OutboundPacket) msg;
+        Packet packet = (Packet) msg;
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-        nettyNetworking.callPacketListeners(packet, connection);
+
+        if (packet.getType().getDirection() == PacketDirection.INBOUND) {
+            throw new DecoderException("Sent packet has invalid direction");
+        }
+        nettyNetworking.callSendPacketListeners(packet, connection);
 
         ctx.fireChannelRead(msg);
     }

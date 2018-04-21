@@ -1,10 +1,9 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 
-public class WindowPropertyPacket extends OutboundPacket {
+public class WindowPropertyPacket {
 
     private final byte windowID;
     private final short property;

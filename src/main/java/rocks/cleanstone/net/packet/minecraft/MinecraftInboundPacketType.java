@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.minecraft;
 
-import rocks.cleanstone.net.packet.InboundPacket;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.inbound.*;
 import rocks.cleanstone.net.packet.protocol.ProtocolType;
@@ -50,9 +50,9 @@ public enum MinecraftInboundPacketType implements PacketType {
 
 
     private final int typeId;
-    private final Class<? extends InboundPacket> packetClass;
+    private final Class<? extends Packet> packetClass;
 
-    MinecraftInboundPacketType(int typeId, Class<? extends InboundPacket> packetClass) {
+    MinecraftInboundPacketType(int typeId, Class<? extends Packet> packetClass) {
         this.typeId = typeId;
         this.packetClass = packetClass;
     }
@@ -70,8 +70,13 @@ public enum MinecraftInboundPacketType implements PacketType {
         return 3000 + typeId;
     }
 
-    public Class<? extends InboundPacket> getPacketClass() {
+    public Class<? extends Packet> getPacketClass() {
         return packetClass;
+    }
+
+    @Override
+    public PacketDirection getDirection() {
+        return PacketDirection.INBOUND;
     }
 
     @Override

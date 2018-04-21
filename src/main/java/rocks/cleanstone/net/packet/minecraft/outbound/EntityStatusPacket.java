@@ -1,11 +1,10 @@
 package rocks.cleanstone.net.packet.minecraft.outbound;
 
-import rocks.cleanstone.net.packet.OutboundPacket;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.minecraft.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.minecraft.enums.EntityStatus;
 
-public class EntityStatusPacket extends OutboundPacket {
+public class EntityStatusPacket {
 
     private final int entityID;
     private final EntityStatus entityStatus;

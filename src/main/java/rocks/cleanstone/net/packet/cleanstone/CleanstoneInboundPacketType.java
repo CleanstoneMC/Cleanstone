@@ -1,6 +1,7 @@
 package rocks.cleanstone.net.packet.cleanstone;
 
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.cleanstone.inbound.KeepAlive;
 import rocks.cleanstone.net.packet.protocol.ProtocolType;
@@ -24,6 +25,11 @@ public enum CleanstoneInboundPacketType implements PacketType {
 
     public Class<? extends Packet> getPacketClass() {
         return packetClass;
+    }
+
+    @Override
+    public PacketDirection getDirection() {
+        return PacketDirection.INBOUND;
     }
 
     @Override
