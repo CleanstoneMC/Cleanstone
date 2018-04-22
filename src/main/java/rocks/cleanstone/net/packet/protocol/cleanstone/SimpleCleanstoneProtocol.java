@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.packet.protocol.cleanstone;
 
+import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.SimplePacketTypeRegistry;
@@ -30,12 +31,12 @@ public class SimpleCleanstoneProtocol implements Protocol {
     }
 
     @Override
-    public int translateInboundPacketID(int clientPacketID, ClientProtocolLayer clientLayer) {
+    public int translateInboundPacketID(int clientPacketID, Connection connection) {
         return clientPacketID;
     }
 
     @Override
-    public int translateOutboundPacketID(int serverPacketID, ClientProtocolLayer clientLayer) {
+    public int translateOutboundPacketID(int serverPacketID, Connection connection) {
         return serverPacketID;
     }
 }

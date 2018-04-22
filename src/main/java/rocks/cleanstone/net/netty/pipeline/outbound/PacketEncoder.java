@@ -23,8 +23,7 @@ public class PacketEncoder extends MessageToMessageEncoder<Packet> {
     protected void encode(ChannelHandlerContext ctx, Packet in, List<Object> out) throws Exception {
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
-        int packetID = protocol.translateOutboundPacketID(
-                in.getType().getTypeId(), connection.getClientProtocolLayer());
+        int packetID = protocol.translateOutboundPacketID(in.getType().getTypeId(), connection);
 
         ByteBuf data = protocol.getPacketCodec(in.getClass(), connection
                 .getClientProtocolLayer())

@@ -2,13 +2,11 @@ package rocks.cleanstone.net.netty.pipeline.inbound;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.util.AttributeKey;
 import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
@@ -16,6 +14,7 @@ import rocks.cleanstone.net.packet.protocol.Protocol;
 import rocks.cleanstone.net.packet.protocol.cleanstone.CleanstoneClientProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.minecraft.SimpleMinecraftProtocol;
+import rocks.cleanstone.net.packet.protocol.minecraft.VanillaProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.util.List;
@@ -39,12 +38,15 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
             ClientProtocolLayer defaultClientLayer;
             if (protocol.getClass() == SimpleMinecraftProtocol.class) {
                 defaultClientLayer = MinecraftClientProtocolLayer.MINECRAFT_V1_12_2;
+                if (connection.getProtocolState() == null)
+                    connection.setProtocolState(VanillaProtocolState.HANDSHAKE);
             } else defaultClientLayer = CleanstoneClientProtocolLayer.LATEST;
 
-            connection.setClientProtocolLayer(defaultClientLayer);
+            if (connection.getClientProtocolLayer() == null)
+                connection.setClientProtocolLayer(defaultClientLayer);
 
             PacketType packetType = packetTypeRegistry.getPacketType(
-                    protocol.translateInboundPacketID(packetID, defaultClientLayer));
+                    protocol.translateInboundPacketID(packetID, connection));
             Packet packet = protocol.getPacketCodec(packetType.getPacketClass(), defaultClientLayer).decode(in);
 
             out.add(packet);

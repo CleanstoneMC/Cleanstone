@@ -1,11 +1,11 @@
 package rocks.cleanstone.net;
 
-import java.net.InetAddress;
-
-import javax.crypto.SecretKey;
-
 import io.netty.channel.Channel;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
+import rocks.cleanstone.net.packet.protocol.ProtocolState;
+
+import javax.crypto.SecretKey;
+import java.net.InetAddress;
 
 public class Connection {
 
@@ -14,6 +14,7 @@ public class Connection {
     private boolean compressionEnabled = false, encryptionEnabled = false;
     private ClientProtocolLayer clientProtocolLayer;
     private SecretKey sharedSecret;
+    private ProtocolState protocolState;
 
     public Connection(InetAddress address, Channel channel) {
         this.address = address;
@@ -46,6 +47,14 @@ public class Connection {
 
     public void setClientProtocolLayer(ClientProtocolLayer clientProtocolLayer) {
         this.clientProtocolLayer = clientProtocolLayer;
+    }
+
+    public ProtocolState getProtocolState() {
+        return protocolState;
+    }
+
+    public void setProtocolState(ProtocolState protocolState) {
+        this.protocolState = protocolState;
     }
 
     public SecretKey getSharedSecret() {

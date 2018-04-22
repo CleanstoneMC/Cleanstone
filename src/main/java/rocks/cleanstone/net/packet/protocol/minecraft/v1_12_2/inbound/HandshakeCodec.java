@@ -3,7 +3,9 @@ package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.inbound;
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.minecraft.inbound.HandshakePacket;
+import rocks.cleanstone.net.packet.protocol.ProtocolState;
 import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftPacketCodec;
+import rocks.cleanstone.net.packet.protocol.minecraft.VanillaProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
@@ -45,5 +47,10 @@ public class HandshakeCodec implements MinecraftPacketCodec {
     @Override
     public int getProtocolPacketID() {
         return 0x00;
+    }
+
+    @Override
+    public ProtocolState getProtocolState() {
+        return VanillaProtocolState.HANDSHAKE;
     }
 }
