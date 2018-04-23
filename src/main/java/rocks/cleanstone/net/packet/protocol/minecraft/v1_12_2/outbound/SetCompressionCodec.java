@@ -1,30 +1,26 @@
-package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.inbound;
+package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.minecraft.inbound.HandshakePacket;
+import rocks.cleanstone.net.packet.minecraft.outbound.SetCompressionPacket;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
 import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftPacketCodec;
 import rocks.cleanstone.net.packet.protocol.minecraft.VanillaProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.io.IOException;
-
-public class HandshakeCodec implements MinecraftPacketCodec {
+public class SetCompressionCodec implements MinecraftPacketCodec {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) throws IOException {
-        final int version = ByteBufUtils.readVarInt(byteBuf);
-        final String address = ByteBufUtils.readUTF8(byteBuf);
-        final int port = byteBuf.readUnsignedShort();
-        final int state = ByteBufUtils.readVarInt(byteBuf);
-
-        return new HandshakePacket(version, address, port, state);
+    public Packet decode(ByteBuf byteBuf) {
+        throw new UnsupportedOperationException("SetCompression is outbound and cannot be decoded");
     }
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        throw new UnsupportedOperationException("Handshake is inbound and cannot be encoded");
+        SetCompressionPacket setCompressionPacket = (SetCompressionPacket) packet;
+
+        ByteBufUtils.writeVarInt(byteBuf, setCompressionPacket.getThreshold());
+        return byteBuf;
     }
 
     @Override
@@ -39,11 +35,11 @@ public class HandshakeCodec implements MinecraftPacketCodec {
 
     @Override
     public int getProtocolPacketID() {
-        return 0x00;
+        return 0x03;
     }
 
     @Override
     public ProtocolState getProtocolState() {
-        return VanillaProtocolState.HANDSHAKE;
+        return VanillaProtocolState.LOGIN;
     }
 }

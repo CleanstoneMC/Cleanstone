@@ -2,7 +2,7 @@ package rocks.cleanstone.net.packet.protocol.minecraft.v1_12_2.inbound;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.minecraft.inbound.HandshakePacket;
+import rocks.cleanstone.net.packet.minecraft.inbound.LoginStartPacket;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
 import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftPacketCodec;
 import rocks.cleanstone.net.packet.protocol.minecraft.VanillaProtocolState;
@@ -10,21 +10,17 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 
-public class HandshakeCodec implements MinecraftPacketCodec {
+public class LoginStartCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) throws IOException {
-        final int version = ByteBufUtils.readVarInt(byteBuf);
-        final String address = ByteBufUtils.readUTF8(byteBuf);
-        final int port = byteBuf.readUnsignedShort();
-        final int state = ByteBufUtils.readVarInt(byteBuf);
-
-        return new HandshakePacket(version, address, port, state);
+        final String playerName = ByteBufUtils.readUTF8(byteBuf);
+        return new LoginStartPacket(playerName);
     }
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        throw new UnsupportedOperationException("Handshake is inbound and cannot be encoded");
+        throw new UnsupportedOperationException("LoginStart is inbound and cannot be encoded");
     }
 
     @Override
@@ -44,6 +40,6 @@ public class HandshakeCodec implements MinecraftPacketCodec {
 
     @Override
     public ProtocolState getProtocolState() {
-        return VanillaProtocolState.HANDSHAKE;
+        return VanillaProtocolState.LOGIN;
     }
 }
