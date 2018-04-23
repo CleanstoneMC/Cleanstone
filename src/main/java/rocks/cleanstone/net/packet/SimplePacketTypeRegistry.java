@@ -33,7 +33,7 @@ public class SimplePacketTypeRegistry implements PacketTypeRegistry {
     @Nullable
     public PacketType getPacketType(int packetTypeId) {
         return packetTypes.stream().filter(
-                (packetType) -> packetType.getTypeId() == packetTypeId
+                (packetType) -> packetType.getTypeID() == packetTypeId
         ).findFirst().orElse(null);
     }
 }

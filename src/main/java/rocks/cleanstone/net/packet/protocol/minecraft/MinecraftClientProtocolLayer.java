@@ -2,6 +2,8 @@ package rocks.cleanstone.net.packet.protocol.minecraft;
 
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 
+import javax.annotation.Nullable;
+
 public enum MinecraftClientProtocolLayer implements ClientProtocolLayer {
     MINECRAFT_V1_12_2(340);
 
@@ -14,5 +16,13 @@ public enum MinecraftClientProtocolLayer implements ClientProtocolLayer {
     @Override
     public int getOrderedVersionNumber() {
         return versionNumber;
+    }
+
+    @Nullable
+    public static MinecraftClientProtocolLayer byVersionNumber(int versionNumber) {
+        for (MinecraftClientProtocolLayer layer : values()) {
+            if (layer.getOrderedVersionNumber() == versionNumber) return layer;
+        }
+        return null;
     }
 }

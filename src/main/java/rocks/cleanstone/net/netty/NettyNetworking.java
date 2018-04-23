@@ -1,7 +1,5 @@
 package rocks.cleanstone.net.netty;
 
-import java.net.InetAddress;
-
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -12,8 +10,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.Protocol;
+
+import java.net.InetAddress;
 
 public class NettyNetworking extends AbstractNetworking {
 
@@ -21,8 +20,8 @@ public class NettyNetworking extends AbstractNetworking {
     private final int socketBacklog = 128;
     private final boolean socketKeepAlive = true;
 
-    public NettyNetworking(int port, InetAddress address, PacketTypeRegistry packetTypeRegistry, Protocol protocol) {
-        super(port, address, packetTypeRegistry, protocol);
+    public NettyNetworking(int port, InetAddress address, Protocol protocol) {
+        super(port, address, protocol);
     }
 
     @Override

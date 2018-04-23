@@ -99,25 +99,25 @@ public enum MinecraftOutboundPacketType implements PacketType {
     RESPONSE(83, ResponsePacket.class),
     PONG(84, PongPacket.class);
 
-    private final int typeId;
+    private final int typeID;
     private final Class<? extends Packet> packetClass;
 
-    MinecraftOutboundPacketType(int typeId, Class<? extends Packet> packetClass) {
-        this.typeId = typeId;
+    MinecraftOutboundPacketType(int typeID, Class<? extends Packet> packetClass) {
+        this.typeID = typeID;
         this.packetClass = packetClass;
     }
 
     @Nullable
-    public static MinecraftOutboundPacketType byTypeId(int typeId) {
+    public static MinecraftOutboundPacketType byTypeID(int typeID) {
         for (MinecraftOutboundPacketType type : values()) {
-            if (type.getTypeId() == typeId) return type;
+            if (type.getTypeID() == typeID) return type;
         }
         return null;
     }
 
     @Override
-    public int getTypeId() {
-        return 4000 + typeId;
+    public int getTypeID() {
+        return 4000 + typeID;
     }
 
     public Class<? extends Packet> getPacketClass() {

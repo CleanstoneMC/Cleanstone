@@ -49,11 +49,11 @@ public enum MinecraftInboundPacketType implements PacketType {
     PING(36, PingPacket.class);
 
 
-    private final int typeId;
+    private final int typeID;
     private final Class<? extends Packet> packetClass;
 
-    MinecraftInboundPacketType(int typeId, Class<? extends Packet> packetClass) {
-        this.typeId = typeId;
+    MinecraftInboundPacketType(int typeID, Class<? extends Packet> packetClass) {
+        this.typeID = typeID;
         this.packetClass = packetClass;
     }
 
@@ -66,8 +66,8 @@ public enum MinecraftInboundPacketType implements PacketType {
     }
 
     @Override
-    public int getTypeId() {
-        return 3000 + typeId;
+    public int getTypeID() {
+        return 3000 + typeID;
     }
 
     public Class<? extends Packet> getPacketClass() {

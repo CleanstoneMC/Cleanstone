@@ -19,7 +19,7 @@ public enum CleanstoneOutboundPacketType implements PacketType {
     }
 
     @Override
-    public int getTypeId() {
+    public int getTypeID() {
         return 2000 + typeId;
     }
 

@@ -17,15 +17,12 @@ public abstract class AbstractNetworking implements Networking {
 
     protected final Protocol protocol;
     private final InetAddress address;
-    private final PacketTypeRegistry packetTypeRegistry;
 
     private final Map<PacketType, Set<PacketListener>> packetTypeListenersMap = Maps.newConcurrentMap();
 
-    public AbstractNetworking(int port, InetAddress address, PacketTypeRegistry packetTypeRegistry,
-                              Protocol protocol) {
+    public AbstractNetworking(int port, InetAddress address, Protocol protocol) {
         this.port = port;
         this.address = address;
-        this.packetTypeRegistry = packetTypeRegistry;
         this.protocol = protocol;
     }
 
