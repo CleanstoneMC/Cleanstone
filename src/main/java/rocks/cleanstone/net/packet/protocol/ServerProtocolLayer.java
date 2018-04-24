@@ -2,7 +2,7 @@ package rocks.cleanstone.net.packet.protocol;
 
 import com.google.common.collect.Maps;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftClientProtocolLayer;
+import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 
 import javax.annotation.Nonnull;
 import java.util.Map;

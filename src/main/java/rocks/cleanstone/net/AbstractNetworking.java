@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
 import java.net.InetAddress;
@@ -44,7 +43,7 @@ public abstract class AbstractNetworking implements Networking {
     @Override
     public void registerPacketListener(PacketListener packetListener, PacketType... packetTypes) {
         for (PacketType packetType : packetTypes) {
-            if (packetType.getProtocolType().getProtocolClass() != protocol.getClass())
+            if (!protocol.getPacketTypeRegistry().getPacketTypes().contains(packetType))
                 throw new IllegalArgumentException(("PacketType to listen for must be of same protocol"));
             packetTypeListenersMap.computeIfAbsent(packetType,
                     key -> Sets.newConcurrentHashSet()).add(packetListener);

@@ -3,10 +3,10 @@ package rocks.cleanstone.net.minecraft.login;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.PacketListenerAdapter;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.minecraft.inbound.HandshakePacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
-import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftClientProtocolLayer;
-import rocks.cleanstone.net.packet.protocol.minecraft.VanillaProtocolState;
+import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
+import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 
 public class HandshakeListener extends PacketListenerAdapter {
 

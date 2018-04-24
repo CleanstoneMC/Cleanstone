@@ -11,10 +11,10 @@ import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.Protocol;
-import rocks.cleanstone.net.packet.protocol.cleanstone.CleanstoneClientProtocolLayer;
-import rocks.cleanstone.net.packet.protocol.minecraft.MinecraftClientProtocolLayer;
-import rocks.cleanstone.net.packet.protocol.minecraft.SimpleMinecraftProtocol;
-import rocks.cleanstone.net.packet.protocol.minecraft.VanillaProtocolState;
+import rocks.cleanstone.net.cleanstone.protocol.CleanstoneClientProtocolLayer;
+import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
+import rocks.cleanstone.net.minecraft.protocol.SimpleMinecraftProtocol;
+import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.util.List;

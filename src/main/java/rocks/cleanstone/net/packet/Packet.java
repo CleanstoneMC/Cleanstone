@@ -1,5 +1,5 @@
 package rocks.cleanstone.net.packet;
 
-public interface Packet implements Packet {
+public interface Packet {
     PacketType getType();
 }
