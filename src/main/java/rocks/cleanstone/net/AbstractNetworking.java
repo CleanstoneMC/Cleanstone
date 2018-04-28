@@ -2,13 +2,14 @@ package rocks.cleanstone.net;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.protocol.Protocol;
 
 import java.net.InetAddress;
 import java.util.Map;
 import java.util.Set;
+
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public abstract class AbstractNetworking implements Networking {
 
@@ -50,12 +51,12 @@ public abstract class AbstractNetworking implements Networking {
         }
     }
 
-    public void callReceivePacketListeners(Packet packet, Connection connection) {
+    public void callInboundPacketListeners(Packet packet, Connection connection) {
         packetTypeListenersMap.get(packet.getType()).forEach(
                 listener -> listener.onReceive(packet, connection));
     }
 
-    public void callSendPacketListeners(Packet packet, Connection connection) {
+    public void callOutboundPacketListeners(Packet packet, Connection connection) {
         packetTypeListenersMap.get(packet.getType()).forEach(
                 listener -> listener.onSend(packet, connection));
     }

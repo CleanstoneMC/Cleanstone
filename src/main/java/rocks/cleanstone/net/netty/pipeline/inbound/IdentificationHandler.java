@@ -8,12 +8,15 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
+import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public class IdentificationHandler extends ChannelInboundHandlerAdapter {
 
     private final Set<String> addressBlacklist;
+    private final Protocol protocol;
 
-    public IdentificationHandler(Set<String> addressBlacklist) {
+    public IdentificationHandler(Protocol protocol, Set<String> addressBlacklist) {
+        this.protocol = protocol;
         this.addressBlacklist = addressBlacklist;
     }
 
@@ -24,7 +27,9 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
         String ipAddress = inetaddress.getHostAddress();
         if (addressBlacklist.contains(ipAddress)) ctx.close();
 
-        Connection connection = new Connection(inetaddress, ctx.channel());
+        Connection connection = new Connection(inetaddress, ctx.channel(),
+                protocol.getDefaultClientLayer(), protocol.getDefaultState());
+
         ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).set(connection);
 
         ctx.fireChannelRead(msg);

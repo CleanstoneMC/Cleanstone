@@ -26,7 +26,7 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
         if (packet.getType().getDirection() == PacketDirection.INBOUND) {
             throw new DecoderException("Sent packet has invalid direction");
         }
-        nettyNetworking.callSendPacketListeners(packet, connection);
+        nettyNetworking.callOutboundPacketListeners(packet, connection);
 
         ctx.fireChannelRead(msg);
     }

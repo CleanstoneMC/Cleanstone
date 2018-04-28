@@ -12,4 +12,8 @@ public interface Protocol {
     int translateInboundPacketID(int clientPacketID, Connection connection);
 
     int translateOutboundPacketID(int serverPacketID, Connection connection);
+
+    ClientProtocolLayer getDefaultClientLayer();
+
+    ProtocolState getDefaultState();
 }

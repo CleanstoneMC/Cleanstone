@@ -1,18 +1,18 @@
 package rocks.cleanstone.core.player;
 
-import rocks.cleanstone.net.PlayerConnection;
+import rocks.cleanstone.net.Connection;
 
 public class OnlinePlayer extends AbstractPlayer {
 
-    private final PlayerConnection connection;
+    private final Connection connection;
 
-    public OnlinePlayer(PlayerId id, PlayerConnection connection) {
+    public OnlinePlayer(PlayerId id, Connection connection) {
         super(id);
 
         this.connection = connection;
     }
 
-    public PlayerConnection getConnection() {
+    public Connection getConnection() {
         return connection;
     }
 }
