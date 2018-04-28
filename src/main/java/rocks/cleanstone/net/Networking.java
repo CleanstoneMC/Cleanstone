@@ -1,10 +1,11 @@
 package rocks.cleanstone.net;
 
+import java.net.InetAddress;
+import java.security.KeyPair;
+
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.protocol.Protocol;
-
-import java.net.InetAddress;
 
 public interface Networking {
 
@@ -13,6 +14,8 @@ public interface Networking {
     InetAddress getAddress();
 
     Protocol getProtocol();
+
+    KeyPair getKeyPair();
 
     void start();
 

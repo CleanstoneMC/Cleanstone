@@ -4,12 +4,14 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.net.InetAddress;
+import java.security.KeyPair;
 import java.util.Map;
 import java.util.Set;
 
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.protocol.Protocol;
+import rocks.cleanstone.net.utils.SecurityUtils;
 
 public abstract class AbstractNetworking implements Networking {
 
@@ -17,6 +19,7 @@ public abstract class AbstractNetworking implements Networking {
 
     protected final Protocol protocol;
     private final InetAddress address;
+    private final KeyPair keyPair;
 
     private final Map<PacketType, Set<PacketListener>> packetTypeListenersMap = Maps.newConcurrentMap();
 
@@ -24,6 +27,7 @@ public abstract class AbstractNetworking implements Networking {
         this.port = port;
         this.address = address;
         this.protocol = protocol;
+        this.keyPair = SecurityUtils.generateKeyPair(1024);
     }
 
     @Override
@@ -39,6 +43,11 @@ public abstract class AbstractNetworking implements Networking {
     @Override
     public InetAddress getAddress() {
         return address;
+    }
+
+    @Override
+    public KeyPair getKeyPair() {
+        return keyPair;
     }
 
     @Override
