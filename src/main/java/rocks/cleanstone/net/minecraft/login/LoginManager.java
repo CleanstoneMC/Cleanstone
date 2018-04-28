@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
@@ -12,16 +13,19 @@ import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.LoginSuccessPacket;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.utils.SecurityUtils;
+import rocks.cleanstone.net.utils.UUIDUtils;
 
 public class LoginManager {
 
     private final Networking networking;
     private final Map<Connection, LoginData> connectionLoginDataMap = Maps.newConcurrentMap();
     private final LoginEncryptionManager loginEncryptionManager;
+    private final SessionServerRequester sessionServerRequester;
 
     public LoginManager(Networking networking) {
         this.networking = networking;
         loginEncryptionManager = new LoginEncryptionManager(this);
+        sessionServerRequester = new SessionServerRequester(this);
 
         networking.registerPacketListener(new HandshakeListener(), MinecraftInboundPacketType.HANDSHAKE);
         networking.registerPacketListener(
@@ -37,7 +41,8 @@ public class LoginManager {
         loginEncryptionManager.sendEncryptionRequest(connection, loginData);
     }
 
-    public void finishLogin(Connection connection, UUID uuid, String accountName) {
+    public void finishLogin(Connection connection, UUID uuid, String accountName,
+                            SessionServerResponse.Property textures) {
         if (connectionLoginDataMap.remove(connection) == null)
             throw new IllegalStateException("Cannot finish login before it has started");
 
@@ -52,12 +57,23 @@ public class LoginManager {
         LoginData loginData = connectionLoginDataMap.get(connection);
         if (loginData == null) throw new IllegalStateException("Connection hasnt started login process");
         loginEncryptionManager.validateEncryptionResponse(connection, loginData, encryptionResponsePacket);
-        validateMinecraftSession(connection);
+        validateMinecraftSession(connection, loginData);
     }
 
-    private void validateMinecraftSession(Connection connection) {
-        // TODO validate minecraft session using session servers
-        finishLogin(connection, null, null);
+    private void validateMinecraftSession(Connection connection, LoginData loginData) {
+        CompletableFuture<SessionServerResponse> responseFuture =
+                sessionServerRequester.request(connection, loginData);
+        responseFuture.thenAccept((response) -> {
+            UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
+            String name = response.getName();
+            SessionServerResponse.Property textures = response.getProperties()[0];
+            finishLogin(connection, uuid, name, textures);
+        }).exceptionally(e -> {
+            e.printStackTrace();
+            // TODO client kick packet
+            connection.close();
+            return null;
+        });
     }
 
     public Networking getNetworking() {

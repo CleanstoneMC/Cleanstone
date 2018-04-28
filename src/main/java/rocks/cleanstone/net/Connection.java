@@ -76,4 +76,8 @@ public class Connection {
     public void setChannel(Channel channel) {
         this.channel = channel;
     }
+
+    public void close() {
+        channel.close();
+    }
 }
