@@ -7,5 +7,6 @@ public class LoginManager {
 
     public LoginManager(Networking networking) {
         networking.registerPacketListener(new HandshakeListener(), MinecraftInboundPacketType.HANDSHAKE);
+        networking.registerPacketListener(new LoginStartListener(), MinecraftInboundPacketType.LOGIN_START);
     }
 }
