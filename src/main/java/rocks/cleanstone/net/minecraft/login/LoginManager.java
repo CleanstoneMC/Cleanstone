@@ -9,7 +9,9 @@ import java.util.concurrent.CompletableFuture;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
+import rocks.cleanstone.net.minecraft.packet.data.Chat;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.LoginSuccessPacket;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.utils.SecurityUtils;
@@ -52,6 +54,10 @@ public class LoginManager {
         // TODO Initialize and handle OnlinePlayer
     }
 
+    public void stopLogin(Connection connection, Chat reason) {
+        connection.close(new DisconnectLoginPacket(reason));
+    }
+
     void onEncryptionResponse(Connection connection,
                               EncryptionResponsePacket encryptionResponsePacket) {
         LoginData loginData = connectionLoginDataMap.get(connection);
@@ -70,8 +76,7 @@ public class LoginManager {
             finishLogin(connection, uuid, name, textures);
         }).exceptionally(e -> {
             e.printStackTrace();
-            // TODO client kick packet
-            connection.close();
+            stopLogin(connection, new Chat("TODO: JSON reason"));
             return null;
         });
     }

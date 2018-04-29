@@ -1,18 +1,19 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
+import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
+import rocks.cleanstone.net.minecraft.packet.data.Chat;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 
 public class DisconnectPacket implements Packet {
 
-    private final String reason;
+    private final Chat reason;
 
-    public DisconnectPacket(String reason) {
+    public DisconnectPacket(Chat reason) {
         this.reason = reason;
     }
 
-    public String getReason() {
+    public Chat getReason() {
         return reason;
     }
 

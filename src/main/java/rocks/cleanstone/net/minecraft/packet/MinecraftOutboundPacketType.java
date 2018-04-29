@@ -1,5 +1,7 @@
 package rocks.cleanstone.net.minecraft.packet;
 
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.net.minecraft.packet.inbound.HeldItemChangePacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerAbilitiesPacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerPositionAndLookPacket;
@@ -7,8 +9,6 @@ import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
-
-import javax.annotation.Nullable;
 
 public enum MinecraftOutboundPacketType implements PacketType {
     SPAWN_OBJECT(0, SpawnObjectPacket.class),
@@ -91,11 +91,12 @@ public enum MinecraftOutboundPacketType implements PacketType {
     ADVANCEMENTS(77, AdvancementsPacket.class),
     ENTITY_PROPERTIES(78, EntityPropertiesPacket.class),
     ENTITY_EFFECT(79, EntityEffectPacket.class),
-    ENCRYPTION_REQUEST(80, EncryptionRequestPacket.class),
-    SET_COMPRESSION(81, SetCompressionPacket.class),
-    LOGIN_SUCCESS(82, LoginSuccessPacket.class),
-    RESPONSE(83, ResponsePacket.class),
-    PONG(84, PongPacket.class);
+    DISCONNECT_LOGIN(80, DisconnectLoginPacket.class),
+    ENCRYPTION_REQUEST(81, EncryptionRequestPacket.class),
+    SET_COMPRESSION(82, SetCompressionPacket.class),
+    LOGIN_SUCCESS(83, LoginSuccessPacket.class),
+    RESPONSE(84, ResponsePacket.class),
+    PONG(85, PongPacket.class);
 
     private final int typeID;
     private final Class<? extends Packet> packetClass;
