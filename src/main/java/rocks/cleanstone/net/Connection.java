@@ -4,80 +4,37 @@ import java.net.InetAddress;
 
 import javax.crypto.SecretKey;
 
-import io.netty.channel.Channel;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
 
-public class Connection {
+public interface Connection {
 
-    private final InetAddress address;
-    private Channel channel;
-    private boolean compressionEnabled = false, encryptionEnabled = false;
-    private ClientProtocolLayer clientProtocolLayer;
-    private SecretKey sharedSecret;
-    private ProtocolState protocolState;
+    InetAddress getAddress();
 
-    public Connection(InetAddress address, Channel channel, ClientProtocolLayer clientProtocolLayer,
-                      ProtocolState protocolState) {
-        this.address = address;
-        this.channel = channel;
-        this.clientProtocolLayer = clientProtocolLayer;
-        this.protocolState = protocolState;
-    }
+    boolean isCompressionEnabled();
 
-    public InetAddress getAddress() {
-        return address;
-    }
+    void setCompressionEnabled(boolean compressionEnabled);
 
-    public boolean isCompressionEnabled() {
-        return compressionEnabled;
-    }
+    boolean isEncryptionEnabled();
 
-    public void setCompressionEnabled(boolean compressionEnabled) {
-        this.compressionEnabled = compressionEnabled;
-    }
+    void setEncryptionEnabled(boolean encryptionEnabled);
 
-    public boolean isEncryptionEnabled() {
-        return encryptionEnabled;
-    }
+    ClientProtocolLayer getClientProtocolLayer();
 
-    public void setEncryptionEnabled(boolean encryptionEnabled) {
-        this.encryptionEnabled = encryptionEnabled;
-    }
+    void setClientProtocolLayer(ClientProtocolLayer clientProtocolLayer);
 
-    public ClientProtocolLayer getClientProtocolLayer() {
-        return clientProtocolLayer;
-    }
+    ProtocolState getProtocolState();
 
-    public void setClientProtocolLayer(ClientProtocolLayer clientProtocolLayer) {
-        this.clientProtocolLayer = clientProtocolLayer;
-    }
+    void setProtocolState(ProtocolState protocolState);
 
-    public ProtocolState getProtocolState() {
-        return protocolState;
-    }
+    SecretKey getSharedSecret();
 
-    public void setProtocolState(ProtocolState protocolState) {
-        this.protocolState = protocolState;
-    }
+    void setSharedSecret(SecretKey sharedSecret);
 
-    public SecretKey getSharedSecret() {
-        return sharedSecret;
-    }
+    void sendPacket(Packet packet);
 
-    public void setSharedSecret(SecretKey sharedSecret) {
-        this.sharedSecret = sharedSecret;
-    }
+    void close();
 
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
-
-    public void close() {
-        channel.close();
-    }
+    void close(Packet packet);
 }

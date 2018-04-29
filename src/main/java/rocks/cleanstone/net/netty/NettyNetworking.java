@@ -1,5 +1,7 @@
 package rocks.cleanstone.net.netty;
 
+import java.net.InetAddress;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -8,11 +10,7 @@ import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import rocks.cleanstone.net.AbstractNetworking;
-import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.Protocol;
-
-import java.net.InetAddress;
 
 public class NettyNetworking extends AbstractNetworking {
 
@@ -44,10 +42,5 @@ public class NettyNetworking extends AbstractNetworking {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
-    }
-
-    @Override
-    public void sendPacket(Connection connection, Packet packet) {
-        connection.getChannel().writeAndFlush(packet);
     }
 }

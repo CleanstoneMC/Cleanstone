@@ -29,9 +29,4 @@ public enum CleanstoneInboundPacketType implements PacketType {
     public PacketDirection getDirection() {
         return PacketDirection.INBOUND;
     }
-
-    @Override
-    public ProtocolType getProtocolType() {
-        return StandardProtocolType.CLEANSTONE;
-    }
 }

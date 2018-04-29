@@ -5,6 +5,8 @@ import com.google.common.collect.Sets;
 
 import java.net.InetAddress;
 import java.security.KeyPair;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -58,6 +60,11 @@ public abstract class AbstractNetworking implements Networking {
             packetTypeListenersMap.computeIfAbsent(packetType,
                     key -> Sets.newConcurrentHashSet()).add(packetListener);
         }
+    }
+
+    @Override
+    public Collection<String> getClientAddressBlacklist() {
+        return new ArrayList<>();
     }
 
     public void callInboundPacketListeners(Packet packet, Connection connection) {

@@ -1,7 +1,5 @@
 package rocks.cleanstone.net.netty;
 
-import java.util.Collections;
-
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import rocks.cleanstone.net.netty.pipeline.inbound.ByteStreamDecoder;
@@ -28,7 +26,7 @@ public class ServerChannelInitializer extends ChannelInitializer {
     protected void initChannel(Channel channel) {
         // inbound
         channel.pipeline().addLast(
-                new IdentificationHandler(nettyNetworking.getProtocol(), Collections.emptySet()),
+                new IdentificationHandler(nettyNetworking.getProtocol(), nettyNetworking.getClientAddressBlacklist()),
                 new EncryptionDecoder(),
                 new ByteStreamDecoder(),
                 new CompressionDecoder(),

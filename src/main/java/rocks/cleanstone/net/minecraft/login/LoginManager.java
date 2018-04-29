@@ -47,7 +47,7 @@ public class LoginManager {
             throw new IllegalStateException("Cannot finish login before it has started");
 
         LoginSuccessPacket loginSuccessPacket = new LoginSuccessPacket(uuid, accountName);
-        networking.sendPacket(connection, loginSuccessPacket);
+        connection.sendPacket(loginSuccessPacket);
         connection.setProtocolState(VanillaProtocolState.PLAY);
         // TODO Initialize and handle OnlinePlayer
     }

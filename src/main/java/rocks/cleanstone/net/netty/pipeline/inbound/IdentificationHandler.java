@@ -2,20 +2,21 @@ package rocks.cleanstone.net.netty.pipeline.inbound;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.util.Set;
+import java.util.Collection;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
+import rocks.cleanstone.net.netty.NettyConnection;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public class IdentificationHandler extends ChannelInboundHandlerAdapter {
 
-    private final Set<String> addressBlacklist;
+    private final Collection<String> addressBlacklist;
     private final Protocol protocol;
 
-    public IdentificationHandler(Protocol protocol, Set<String> addressBlacklist) {
+    public IdentificationHandler(Protocol protocol, Collection<String> addressBlacklist) {
         this.protocol = protocol;
         this.addressBlacklist = addressBlacklist;
     }
@@ -27,7 +28,7 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
         String ipAddress = inetaddress.getHostAddress();
         if (addressBlacklist.contains(ipAddress)) ctx.close();
 
-        Connection connection = new Connection(inetaddress, ctx.channel(),
+        Connection connection = new NettyConnection(ctx.channel(), inetaddress,
                 protocol.getDefaultClientLayer(), protocol.getDefaultState());
 
         ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).set(connection);

@@ -25,7 +25,7 @@ public class LoginEncryptionManager {
 
         EncryptionRequestPacket encryptionRequestPacket = new EncryptionRequestPacket(serverID,
                 encodedPublicKey, loginData.getVerifyToken());
-        loginManager.getNetworking().sendPacket(connection, encryptionRequestPacket);
+        connection.sendPacket(encryptionRequestPacket);
     }
 
     public void validateEncryptionResponse(Connection connection, LoginData loginData,

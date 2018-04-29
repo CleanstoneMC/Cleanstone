@@ -2,8 +2,8 @@ package rocks.cleanstone.net;
 
 import java.net.InetAddress;
 import java.security.KeyPair;
+import java.util.Collection;
 
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
@@ -19,7 +19,7 @@ public interface Networking {
 
     void start();
 
-    void sendPacket(Connection connection, Packet packet);
-
     void registerPacketListener(PacketListener packetListener, PacketType... packetTypes);
+
+    Collection<String> getClientAddressBlacklist();
 }
