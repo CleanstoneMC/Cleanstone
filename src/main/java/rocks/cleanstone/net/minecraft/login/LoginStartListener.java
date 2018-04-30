@@ -3,7 +3,6 @@ package rocks.cleanstone.net.minecraft.login;
 import org.springframework.context.event.EventListener;
 
 import rocks.cleanstone.net.event.InboundPacketEvent;
-import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
 
 public class LoginStartListener {
@@ -16,7 +15,7 @@ public class LoginStartListener {
 
     @EventListener
     public void onReceive(InboundPacketEvent event) {
-        if (event.getPacket() instanceof HandshakePacket) {
+        if (event.getPacket() instanceof LoginStartPacket) {
             LoginStartPacket packet = (LoginStartPacket) event.getPacket();
 
             String playerName = packet.getPlayerName();

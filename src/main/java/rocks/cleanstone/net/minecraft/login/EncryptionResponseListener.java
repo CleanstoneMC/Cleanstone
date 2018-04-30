@@ -5,7 +5,6 @@ import org.springframework.context.event.EventListener;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.data.Chat;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
 
 public class EncryptionResponseListener {
 
@@ -17,7 +16,7 @@ public class EncryptionResponseListener {
 
     @EventListener
     public void onReceive(InboundPacketEvent event) {
-        if (event.getPacket() instanceof HandshakePacket) {
+        if (event.getPacket() instanceof EncryptionResponsePacket) {
             EncryptionResponsePacket packet = (EncryptionResponsePacket) event.getPacket();
 
             try {
