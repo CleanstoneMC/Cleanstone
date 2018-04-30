@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.minecraft;
 
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.login.LoginManager;
 import rocks.cleanstone.net.netty.NettyNetworking;
 import rocks.cleanstone.net.minecraft.protocol.SimpleMinecraftProtocol;

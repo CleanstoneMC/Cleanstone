@@ -1,6 +1,0 @@
-# Cleanstone Main server configuration
-
-port: 25565
-address: 0.0.0.0
-
-main-server: "127.0.0.1:25565"

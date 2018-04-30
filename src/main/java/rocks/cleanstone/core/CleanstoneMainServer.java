@@ -1,17 +1,16 @@
 package rocks.cleanstone.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import rocks.cleanstone.core.player.PlayerManager;
+import org.springframework.beans.factory.annotation.Qualifier;
+import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 
 import java.util.Set;
 
 public class CleanstoneMainServer extends CleanstoneServer {
 
     @Autowired
-    private PlayerCommunicationManager playerCommunicationManager;
-
-    @Autowired
-    private PlayerManager playerManager;
+    @Qualifier("minecraftNetworking")
+    protected MinecraftNetworking minecraftNetworking;
 
     private Set<ExternalServer> externalServers;
 
@@ -21,7 +20,8 @@ public class CleanstoneMainServer extends CleanstoneServer {
 
     public void run() {
         System.out.println("run");
-        networking.test();
+        cleanstoneNetworking.start();
+        minecraftNetworking.start();
     }
 
     public void destroy() {

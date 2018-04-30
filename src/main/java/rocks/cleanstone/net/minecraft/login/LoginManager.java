@@ -28,7 +28,9 @@ public class LoginManager {
         this.networking = networking;
         loginEncryptionManager = new LoginEncryptionManager(this);
         sessionServerRequester = new SessionServerRequester(this);
+    }
 
+    public void init() {
         networking.registerPacketListener(new HandshakeListener(), MinecraftInboundPacketType.HANDSHAKE);
         networking.registerPacketListener(
                 new LoginStartListener(this), MinecraftInboundPacketType.LOGIN_START);

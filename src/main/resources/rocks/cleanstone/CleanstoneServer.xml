@@ -1,19 +1,26 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd"
        default-init-method="init"
        default-destroy-method="destroy">
-    <context:annotation-config/>
 
     <import resource="net/Network.xml"/>
+    <import resource="net/Minecraft.xml"/>
+    <import resource="net/Cleanstone.xml"/>
 
-    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer" scope="prototype">
+    <context:annotation-config/>
+
+    <bean id="cleanstoneServer" class="rocks.cleanstone.core.CleanstoneServer" abstract="true">
     </bean>
-    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer" scope="prototype">
+
+    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer">
+    </bean>
+
+    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer">
     </bean>
 
 </beans>

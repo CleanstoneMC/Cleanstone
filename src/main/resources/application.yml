@@ -1,0 +1,15 @@
+cleanstone:
+  subServer: false
+
+  mainServerAddress: 127.0.0.1
+  mainServerPort: 25566
+
+  requiredSubServers:
+   - 127.0.0.2
+
+  minecraftPort: 25565
+  minecraftBindAddress: 0.0.0.0
+
+  cleanstonePort: 25565
+  cleanstoneBindAddress: 0.0.0.0
+
