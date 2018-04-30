@@ -26,7 +26,7 @@ public class ServerChannelInitializer extends ChannelInitializer {
     protected void initChannel(Channel channel) {
         // inbound
         channel.pipeline().addLast(
-                new IdentificationHandler(nettyNetworking.getProtocol(), nettyNetworking.getClientAddressBlacklist()),
+                new IdentificationHandler(nettyNetworking, nettyNetworking.getClientAddressBlacklist()),
                 new EncryptionDecoder(),
                 new ByteStreamDecoder(),
                 new CompressionDecoder(),

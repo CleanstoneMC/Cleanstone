@@ -1,24 +1,26 @@
 package rocks.cleanstone.net.minecraft.login;
 
-import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.PacketListenerAdapter;
+import org.springframework.context.event.EventListener;
+
+import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 
-public class HandshakeListener extends PacketListenerAdapter {
+public class HandshakeListener {
 
-    @Override
-    public void onReceive(Packet packet, Connection connection) {
-        HandshakePacket handshakePacket = (HandshakePacket) packet;
+    @EventListener
+    public void onReceive(InboundPacketEvent event) {
+        if (event.getPacket() instanceof HandshakePacket) {
+            HandshakePacket packet = (HandshakePacket) event.getPacket();
 
-        ClientProtocolLayer updatedLayer = MinecraftClientProtocolLayer.byVersionNumber(handshakePacket.getVersion());
-        if (updatedLayer != null) connection.setClientProtocolLayer(updatedLayer);
+            ClientProtocolLayer updatedLayer = MinecraftClientProtocolLayer.byVersionNumber(packet.getVersion());
+            if (updatedLayer != null) event.getConnection().setClientProtocolLayer(updatedLayer);
 
-        VanillaProtocolState updatedState = VanillaProtocolState.byStateID(handshakePacket.getState());
-        if (updatedState != null && updatedState != VanillaProtocolState.PLAY)
-            connection.setProtocolState(updatedState);
+            VanillaProtocolState updatedState = VanillaProtocolState.byStateID(packet.getState());
+            if (updatedState != null && updatedState != VanillaProtocolState.PLAY)
+                event.getConnection().setProtocolState(updatedState);
+        }
     }
 }

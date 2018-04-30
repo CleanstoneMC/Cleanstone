@@ -2,9 +2,10 @@ package rocks.cleanstone.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 
 import java.util.Set;
+
+import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 
 public class CleanstoneMainServer extends CleanstoneServer {
 
@@ -26,5 +27,9 @@ public class CleanstoneMainServer extends CleanstoneServer {
 
     public void destroy() {
         System.out.println("destroy");
+    }
+
+    public MinecraftNetworking getMinecraftNetworking() {
+        return minecraftNetworking;
     }
 }

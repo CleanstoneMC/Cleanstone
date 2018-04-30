@@ -4,17 +4,19 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.DecoderException;
 import io.netty.util.AttributeKey;
+import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.netty.NettyNetworking;
+import rocks.cleanstone.net.Networking;
+import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 
 public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
 
-    private final NettyNetworking nettyNetworking;
+    private final Networking networking;
 
-    public InboundPacketHandler(NettyNetworking nettyNetworking) {
-        this.nettyNetworking = nettyNetworking;
+    public InboundPacketHandler(Networking networking) {
+        this.networking = networking;
     }
 
     @Override
@@ -25,7 +27,7 @@ public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
         if (packet.getType().getDirection() == PacketDirection.OUTBOUND) {
             throw new DecoderException("Received packet has invalid direction");
         }
-        nettyNetworking.callInboundPacketListeners(packet, connection);
+        CleanstoneServer.publishEvent(new InboundPacketEvent(packet, connection, networking));
     }
 
     @Override

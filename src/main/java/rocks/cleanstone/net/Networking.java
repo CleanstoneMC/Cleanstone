@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.security.KeyPair;
 import java.util.Collection;
 
-import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public interface Networking {
@@ -18,8 +17,6 @@ public interface Networking {
     KeyPair getKeyPair();
 
     void start();
-
-    void registerPacketListener(PacketListener packetListener, PacketType... packetTypes);
 
     Collection<String> getClientAddressBlacklist();
 }

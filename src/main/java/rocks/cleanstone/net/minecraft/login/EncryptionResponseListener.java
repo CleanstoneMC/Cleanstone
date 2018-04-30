@@ -1,12 +1,13 @@
 package rocks.cleanstone.net.minecraft.login;
 
-import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.PacketListenerAdapter;
+import org.springframework.context.event.EventListener;
+
+import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.data.Chat;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
 
-public class EncryptionResponseListener extends PacketListenerAdapter {
+public class EncryptionResponseListener {
 
     private final LoginManager loginManager;
 
@@ -14,15 +15,17 @@ public class EncryptionResponseListener extends PacketListenerAdapter {
         this.loginManager = loginManager;
     }
 
-    @Override
-    public void onReceive(Packet packet, Connection connection) {
-        EncryptionResponsePacket encryptionResponsePacket = (EncryptionResponsePacket) packet;
+    @EventListener
+    public void onReceive(InboundPacketEvent event) {
+        if (event.getPacket() instanceof HandshakePacket) {
+            EncryptionResponsePacket packet = (EncryptionResponsePacket) event.getPacket();
 
-        try {
-            loginManager.onEncryptionResponse(connection, encryptionResponsePacket);
-        } catch (Exception e) {
-            e.printStackTrace();
-            loginManager.stopLogin(connection, new Chat("TODO: JSON reason"));
+            try {
+                loginManager.onEncryptionResponse(event.getConnection(), packet);
+            } catch (Exception e) {
+                e.printStackTrace();
+                loginManager.stopLogin(event.getConnection(), new Chat("TODO: JSON reason"));
+            }
         }
     }
 }

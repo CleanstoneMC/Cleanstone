@@ -6,18 +6,22 @@ import java.util.Collection;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
+import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.Connection;
+import rocks.cleanstone.net.Networking;
+import rocks.cleanstone.net.event.ConnectionClosedEvent;
+import rocks.cleanstone.net.event.ConnectionOpenEvent;
 import rocks.cleanstone.net.netty.NettyConnection;
-import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public class IdentificationHandler extends ChannelInboundHandlerAdapter {
 
     private final Collection<String> addressBlacklist;
-    private final Protocol protocol;
+    private final Networking networking;
 
-    public IdentificationHandler(Protocol protocol, Collection<String> addressBlacklist) {
-        this.protocol = protocol;
+    public IdentificationHandler(Networking networking, Collection<String> addressBlacklist) {
+        this.networking = networking;
         this.addressBlacklist = addressBlacklist;
     }
 
@@ -28,10 +32,17 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
         String ipAddress = inetaddress.getHostAddress();
         if (addressBlacklist.contains(ipAddress)) ctx.close();
 
-        Connection connection = new NettyConnection(ctx.channel(), inetaddress,
-                protocol.getDefaultClientLayer(), protocol.getDefaultState());
-
-        ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).set(connection);
+        Attribute<Connection> connectionKey = ctx.channel().attr(AttributeKey.valueOf("connection"));
+        if (connectionKey.get() == null) {
+            Connection connection = new NettyConnection(ctx.channel(), inetaddress, networking.getProtocol()
+                    .getDefaultClientLayer(), networking.getProtocol().getDefaultState());
+            connectionKey.set(connection);
+            if (CleanstoneServer.publishEvent(new ConnectionOpenEvent(connection, networking)).isCancelled()) {
+                ctx.close();
+            }
+            ctx.channel().closeFuture().addListener((a)
+                    -> CleanstoneServer.publishEvent(new ConnectionClosedEvent(connection, networking)));
+        }
 
         ctx.fireChannelRead(msg);
     }

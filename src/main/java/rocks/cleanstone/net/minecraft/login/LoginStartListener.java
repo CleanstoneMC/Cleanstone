@@ -1,11 +1,12 @@
 package rocks.cleanstone.net.minecraft.login;
 
-import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.PacketListenerAdapter;
-import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
-import rocks.cleanstone.net.packet.Packet;
+import org.springframework.context.event.EventListener;
 
-public class LoginStartListener extends PacketListenerAdapter {
+import rocks.cleanstone.net.event.InboundPacketEvent;
+import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
+
+public class LoginStartListener {
 
     private final LoginManager loginManager;
 
@@ -13,10 +14,13 @@ public class LoginStartListener extends PacketListenerAdapter {
         this.loginManager = loginManager;
     }
 
-    @Override
-    public void onReceive(Packet packet, Connection connection) {
-        LoginStartPacket loginStartPacket = (LoginStartPacket) packet;
-        String playerName = loginStartPacket.getPlayerName();
-        loginManager.startLogin(connection, playerName);
+    @EventListener
+    public void onReceive(InboundPacketEvent event) {
+        if (event.getPacket() instanceof HandshakePacket) {
+            LoginStartPacket packet = (LoginStartPacket) event.getPacket();
+
+            String playerName = packet.getPlayerName();
+            loginManager.startLogin(event.getConnection(), playerName);
+        }
     }
 }

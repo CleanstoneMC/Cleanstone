@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
-import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.data.Chat;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
@@ -33,11 +32,9 @@ public class LoginManager {
     }
 
     public void init() {
-        networking.registerPacketListener(new HandshakeListener(), MinecraftInboundPacketType.HANDSHAKE);
-        networking.registerPacketListener(
-                new LoginStartListener(this), MinecraftInboundPacketType.LOGIN_START);
-        networking.registerPacketListener(
-                new EncryptionResponseListener(this), MinecraftInboundPacketType.ENCRYPTION_RESPONSE);
+        new HandshakeListener();
+        new LoginStartListener(this); // TODO working?
+        new EncryptionResponseListener(this);
     }
 
     public void startLogin(Connection connection, String playerName) {
