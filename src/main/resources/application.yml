@@ -7,9 +7,9 @@ cleanstone:
   requiredSubServers:
    - 127.0.0.2
 
-  minecraftPort: 25565
-  minecraftBindAddress: 0.0.0.0
+  port: 25565
+  address: 0.0.0.0
 
-  cleanstonePort: 25565
-  cleanstoneBindAddress: 0.0.0.0
-
+minecraft:
+  port: 25565
+  address: 0.0.0.0

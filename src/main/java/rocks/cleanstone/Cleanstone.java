@@ -1,11 +1,11 @@
 package rocks.cleanstone;
 
 import org.springframework.boot.SpringApplication;
-import rocks.cleanstone.core.CleanstoneApplicaton;
+import rocks.cleanstone.core.CleanstoneApplication;
 
 public class Cleanstone {
 
     public static void main(String[] args) {
-        SpringApplication.run(CleanstoneApplicaton.class, args);
+        SpringApplication.run(CleanstoneApplication.class, args);
     }
 }

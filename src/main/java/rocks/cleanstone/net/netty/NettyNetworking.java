@@ -7,9 +7,6 @@ import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import rocks.cleanstone.core.CleanstoneApplicaton;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 

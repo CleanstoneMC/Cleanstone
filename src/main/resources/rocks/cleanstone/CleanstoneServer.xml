@@ -8,19 +8,45 @@
        default-init-method="init"
        default-destroy-method="destroy">
 
-    <import resource="net/Network.xml"/>
-    <import resource="net/Minecraft.xml"/>
-    <import resource="net/Cleanstone.xml"/>
-
     <context:annotation-config/>
+
+    <!-- Config -->
+
+    <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
+    <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig"/>
+
+    <!-- Services -->
+
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="rocks.cleanstone.net.utils.InetAddressConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Server -->
 
     <bean id="cleanstoneServer" class="rocks.cleanstone.core.CleanstoneServer" abstract="true">
     </bean>
 
-    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer">
+    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer" parent="cleanstoneServer">
     </bean>
 
-    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer">
+    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer" parent="cleanstoneServer">
     </bean>
 
+    <!-- Networking -->
+
+    <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true">
+    </bean>
+
+    <bean id="minecraftNetworking" class="rocks.cleanstone.net.minecraft.SimpleMinecraftNetworking" parent="abstractNetworking">
+        <constructor-arg ref="minecraftConfig"/>
+    </bean>
+
+
+    <bean id="cleanstoneNetworking" class="rocks.cleanstone.net.cleanstone.SimpleCleanstoneNetworking" parent="abstractNetworking">
+        <constructor-arg ref="cleanstoneConfig"/>
+    </bean>
 </beans>

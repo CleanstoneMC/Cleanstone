@@ -7,13 +7,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.SimpleThreadScope;
+import rocks.cleanstone.core.config.CleanstoneConfig;
 
 @SpringBootApplication
-public class CleanstoneApplicaton implements ApplicationRunner {
+public class CleanstoneApplication implements ApplicationRunner {
 
     private final CleanstoneConfig cleanstoneConfig;
 
-    public CleanstoneApplicaton(CleanstoneConfig cleanstoneConfig) {
+    public CleanstoneApplication(CleanstoneConfig cleanstoneConfig) {
         this.cleanstoneConfig = cleanstoneConfig;
     }
 
