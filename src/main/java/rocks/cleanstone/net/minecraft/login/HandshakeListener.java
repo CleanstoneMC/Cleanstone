@@ -19,7 +19,7 @@ public class HandshakeListener extends PacketListenerAdapter {
         if (updatedLayer != null) connection.setClientProtocolLayer(updatedLayer);
 
         VanillaProtocolState updatedState = VanillaProtocolState.byStateID(handshakePacket.getState());
-        if (updatedState != null)
+        if (updatedState != null && updatedState != VanillaProtocolState.PLAY)
             connection.setProtocolState(updatedState);
     }
 }

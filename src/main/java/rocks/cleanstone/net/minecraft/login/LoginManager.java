@@ -58,6 +58,7 @@ public class LoginManager {
 
     public void stopLogin(Connection connection, Chat reason) {
         connection.close(new DisconnectLoginPacket(reason));
+        connectionLoginDataMap.remove(connection);
     }
 
     void onEncryptionResponse(Connection connection,
