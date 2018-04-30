@@ -2,9 +2,10 @@ package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.collect.Maps;
 
+import org.springframework.scheduling.annotation.AsyncResult;
+
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
@@ -72,17 +73,16 @@ public class LoginManager {
     }
 
     private void validateMinecraftSession(Connection connection, LoginData loginData) {
-        CompletableFuture<SessionServerResponse> responseFuture =
+        AsyncResult<SessionServerResponse> responseResult =
                 sessionServerRequester.request(connection, loginData);
-        responseFuture.thenAccept((response) -> {
+        responseResult.addCallback((response) -> {
             UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
             String name = response.getName();
             SessionServerResponse.Property textures = response.getProperties()[0];
             finishLogin(connection, uuid, name, textures);
-        }).exceptionally(e -> {
+        }, e -> {
             e.printStackTrace();
             stopLogin(connection, new Chat("TODO: JSON reason"));
-            return null;
         });
     }
 
