@@ -12,8 +12,8 @@
 
     <!-- Config -->
 
-    <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
-    <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig"/>
+    <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig" factory-method="getInstance"/>
+    <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig" factory-method="getInstance"/>
 
     <!-- Services -->
 
