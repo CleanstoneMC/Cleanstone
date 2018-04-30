@@ -13,13 +13,12 @@ public class HandshakeListener extends PacketListenerAdapter {
     @Override
     public void onReceive(Packet packet, Connection connection) {
         HandshakePacket handshakePacket = (HandshakePacket) packet;
-        if (connection.getProtocolState() != VanillaProtocolState.HANDSHAKE) return;
 
         ClientProtocolLayer updatedLayer = MinecraftClientProtocolLayer.byVersionNumber(handshakePacket.getVersion());
         if (updatedLayer != null) connection.setClientProtocolLayer(updatedLayer);
 
         VanillaProtocolState updatedState = VanillaProtocolState.byStateID(handshakePacket.getState());
-        if (updatedState != null)
+        if (updatedState != null && updatedState != VanillaProtocolState.PLAY)
             connection.setProtocolState(updatedState);
     }
 }

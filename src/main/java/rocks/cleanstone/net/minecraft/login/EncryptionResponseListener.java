@@ -2,8 +2,8 @@ package rocks.cleanstone.net.minecraft.login;
 
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.PacketListenerAdapter;
+import rocks.cleanstone.net.minecraft.packet.data.Chat;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
 
 public class EncryptionResponseListener extends PacketListenerAdapter {
@@ -17,8 +17,12 @@ public class EncryptionResponseListener extends PacketListenerAdapter {
     @Override
     public void onReceive(Packet packet, Connection connection) {
         EncryptionResponsePacket encryptionResponsePacket = (EncryptionResponsePacket) packet;
-        if (connection.getProtocolState() != VanillaProtocolState.LOGIN) return;
 
-        loginManager.onEncryptionResponse(connection, encryptionResponsePacket);
+        try {
+            loginManager.onEncryptionResponse(connection, encryptionResponsePacket);
+        } catch (Exception e) {
+            e.printStackTrace();
+            loginManager.stopLogin(connection, new Chat("TODO: JSON reason"));
+        }
     }
 }

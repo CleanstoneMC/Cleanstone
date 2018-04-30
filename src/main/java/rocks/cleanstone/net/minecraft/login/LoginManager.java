@@ -13,6 +13,7 @@ import rocks.cleanstone.net.minecraft.packet.data.Chat;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.LoginSuccessPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.SetCompressionPacket;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;
@@ -49,8 +50,9 @@ public class LoginManager {
                             SessionServerResponse.Property textures) {
         if (connectionLoginDataMap.remove(connection) == null)
             throw new IllegalStateException("Cannot finish login before it has started");
-
+        SetCompressionPacket setCompressionPacket = new SetCompressionPacket(Short.MAX_VALUE);
         LoginSuccessPacket loginSuccessPacket = new LoginSuccessPacket(uuid, accountName);
+        connection.sendPacket(setCompressionPacket);
         connection.sendPacket(loginSuccessPacket);
         connection.setProtocolState(VanillaProtocolState.PLAY);
         // TODO Initialize and handle OnlinePlayer
@@ -58,6 +60,7 @@ public class LoginManager {
 
     public void stopLogin(Connection connection, Chat reason) {
         connection.close(new DisconnectLoginPacket(reason));
+        connectionLoginDataMap.remove(connection);
     }
 
     void onEncryptionResponse(Connection connection,
