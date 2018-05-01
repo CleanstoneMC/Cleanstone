@@ -1,13 +1,7 @@
 package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.collect.Maps;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.AsyncResult;
-
-import java.util.Map;
-import java.util.UUID;
-
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
 import rocks.cleanstone.net.minecraft.MinecraftNetworking;
@@ -20,12 +14,15 @@ import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;
 
+import java.util.Map;
+import java.util.UUID;
+
 public class LoginManager {
 
     private final Map<Connection, LoginData> connectionLoginDataMap = Maps.newConcurrentMap();
     private final LoginEncryptionManager loginEncryptionManager;
     private final SessionServerRequester sessionServerRequester;
-    @Autowired
+
     private MinecraftNetworking networking;
 
     public LoginManager() {
@@ -87,5 +84,9 @@ public class LoginManager {
 
     public Networking getNetworking() {
         return networking;
+    }
+
+    public void setNetworking(MinecraftNetworking networking) {
+        this.networking = networking;
     }
 }
