@@ -4,7 +4,13 @@ import java.net.InetAddress;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.ChannelOutboundHandlerAdapter;
 import rocks.cleanstone.net.AbstractConnection;
+import rocks.cleanstone.net.netty.pipeline.inbound.CompressionDecoder;
+import rocks.cleanstone.net.netty.pipeline.inbound.EncryptionDecoder;
+import rocks.cleanstone.net.netty.pipeline.outbound.CompressionEncoder;
+import rocks.cleanstone.net.netty.pipeline.outbound.EncryptionEncoder;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
@@ -26,6 +32,24 @@ public class NettyConnection extends AbstractConnection {
 
     public void setChannel(Channel channel) {
         this.channel = channel;
+    }
+
+    @Override
+    public void setEncryptionEnabled(boolean encryptionEnabled) {
+        super.setEncryptionEnabled(encryptionEnabled);
+        channel.pipeline().replace("encryptionEncoder", "encryptionEncoder",
+                encryptionEnabled ? new EncryptionEncoder() : new ChannelOutboundHandlerAdapter());
+        channel.pipeline().replace("encryptionDecoder", "encryptionDecoder",
+                encryptionEnabled ? new EncryptionDecoder() : new ChannelInboundHandlerAdapter());
+    }
+
+    @Override
+    public void setCompressionEnabled(boolean compressionEnabled) {
+        super.setCompressionEnabled(compressionEnabled);
+        channel.pipeline().replace("compressionEncoder", "compressionEncoder",
+                compressionEnabled ? new CompressionEncoder() : new ChannelOutboundHandlerAdapter());
+        channel.pipeline().replace("compressionDecoder", "compressionDecoder",
+                compressionEnabled ? new CompressionDecoder() : new ChannelInboundHandlerAdapter());
     }
 
     @Override

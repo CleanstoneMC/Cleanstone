@@ -1,5 +1,8 @@
 package rocks.cleanstone.net.netty.pipeline.inbound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Collection;
@@ -19,10 +22,10 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
 
     private final Collection<String> addressBlacklist;
     private final Networking networking;
-
-    public IdentificationHandler(Networking networking, Collection<String> addressBlacklist) {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    public IdentificationHandler(Networking networking) {
         this.networking = networking;
-        this.addressBlacklist = addressBlacklist;
+        this.addressBlacklist = networking.getClientAddressBlacklist();
     }
 
     @Override
@@ -30,10 +33,12 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
         InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
         InetAddress inetaddress = socketAddress.getAddress();
         String ipAddress = inetaddress.getHostAddress();
+        logger.info("Incoming connection from " + ipAddress);
         if (addressBlacklist.contains(ipAddress)) ctx.close();
 
         Attribute<Connection> connectionKey = ctx.channel().attr(AttributeKey.valueOf("connection"));
         if (connectionKey.get() == null) {
+            logger.info("=New connection");
             Connection connection = new NettyConnection(ctx.channel(), inetaddress, networking.getProtocol()
                     .getDefaultClientLayer(), networking.getProtocol().getDefaultState());
             connectionKey.set(connection);

@@ -16,17 +16,13 @@ public class CleanstoneMainServer extends CleanstoneServer {
     private Set<ExternalServer> externalServers;
 
     public void init() {
-        System.out.println("init");
     }
 
     public void run() {
-        System.out.println("run");
-        cleanstoneNetworking.start();
-        minecraftNetworking.start();
+
     }
 
     public void destroy() {
-        System.out.println("destroy");
     }
 
     public MinecraftNetworking getMinecraftNetworking() {

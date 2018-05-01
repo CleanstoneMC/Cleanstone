@@ -20,24 +20,20 @@ public class EncryptionEncoder extends MessageToByteEncoder<ByteBuf> {
     @Override
     protected void encode(ChannelHandlerContext ctx, ByteBuf in, ByteBuf out) throws Exception {
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-        if (!connection.isEncryptionEnabled()) {
-            out.writeBytes(in);
-        } else {
+        try {
+            SecretKey sharedSecret = connection.getSharedSecret();
+            Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding");
+            cipher.init(Cipher.ENCRYPT_MODE, sharedSecret, new IvParameterSpec(sharedSecret.getEncoded()));
+            ByteBuffer outNioBuf = ByteBuffer.allocate(in.readableBytes());
             try {
-                SecretKey sharedSecret = connection.getSharedSecret();
-                Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding");
-                cipher.init(Cipher.ENCRYPT_MODE, sharedSecret, new IvParameterSpec(sharedSecret.getEncoded()));
-                ByteBuffer outNioBuf = ByteBuffer.allocate(in.readableBytes());
-                try {
-                    cipher.update(in.nioBuffer(), outNioBuf);
-                } catch (ShortBufferException e) {
-                    throw new DecoderException("encryption output buffer too small", e);
-                }
-                outNioBuf.flip();
-                out.writeBytes(outNioBuf);
-            } finally {
-                ReferenceCountUtil.release(in);
+                cipher.update(in.nioBuffer(), outNioBuf);
+            } catch (ShortBufferException e) {
+                throw new DecoderException("encryption output buffer too small", e);
             }
+            outNioBuf.flip();
+            out.writeBytes(outNioBuf);
+        } finally {
+            ReferenceCountUtil.release(in);
         }
     }
 

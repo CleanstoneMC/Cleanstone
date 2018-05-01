@@ -1,1 +1,1 @@
-${Ansi.GREEN} :: Advanced Minecraft Server build on Spring Framework ::${Ansi.DEFAULT}
+${Ansi.GREEN} :: Advanced Minecraft Server built on Spring Framework ::${Ansi.DEFAULT}

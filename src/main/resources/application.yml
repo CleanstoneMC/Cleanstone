@@ -2,12 +2,12 @@ cleanstone:
   subServer: false
 
   mainServerAddress: 127.0.0.1
-  mainServerPort: 25566
+  mainServerPort: 25564
 
   requiredSubServers:
    - 127.0.0.2
 
-  port: 25565
+  port: 25564
   address: 0.0.0.0
 
 minecraft:

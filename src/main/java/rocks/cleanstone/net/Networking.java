@@ -16,7 +16,5 @@ public interface Networking {
 
     KeyPair getKeyPair();
 
-    void start();
-
     Collection<String> getClientAddressBlacklist();
 }

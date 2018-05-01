@@ -5,18 +5,12 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.compression.JdkZlibDecoder;
-import io.netty.util.AttributeKey;
-import rocks.cleanstone.net.Connection;
 
 public class CompressionDecoder extends JdkZlibDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-        int uncompressedDataLength = ctx.channel().attr(AttributeKey.<Integer>valueOf("inUncompressedDataLength")).get();
-        if (connection.isCompressionEnabled() && uncompressedDataLength != 0)
-            super.decode(ctx, in, out);
-        else out.add(in);
+        super.decode(ctx, in, out);
     }
 
     @Override

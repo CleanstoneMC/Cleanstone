@@ -12,8 +12,10 @@
 
     <!-- Config -->
 
-    <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig" factory-method="getInstance"/>
-    <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig" factory-method="getInstance"/>
+    <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"
+          factory-method="getInstance"/>
+    <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig"
+          factory-method="getInstance"/>
 
     <!-- Services -->
 
@@ -27,26 +29,32 @@
 
     <!-- Server -->
 
-    <bean id="cleanstoneServer" class="rocks.cleanstone.core.CleanstoneServer" abstract="true">
+    <bean id="cleanstoneServer" class="rocks.cleanstone.core.CleanstoneServer" abstract="true"
+          scope="prototype">
     </bean>
 
-    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer" parent="cleanstoneServer">
+    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer"
+          parent="cleanstoneServer">
     </bean>
 
-    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer" parent="cleanstoneServer">
+    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer"
+          parent="cleanstoneServer">
     </bean>
 
     <!-- Networking -->
 
-    <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true">
+    <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"
+          scope="prototype">
     </bean>
 
-    <bean id="minecraftNetworking" class="rocks.cleanstone.net.minecraft.SimpleMinecraftNetworking" parent="abstractNetworking">
+    <bean id="minecraftNetworking" class="rocks.cleanstone.net.minecraft.SimpleMinecraftNetworking"
+          parent="abstractNetworking">
         <constructor-arg ref="minecraftConfig"/>
     </bean>
 
 
-    <bean id="cleanstoneNetworking" class="rocks.cleanstone.net.cleanstone.SimpleCleanstoneNetworking" parent="abstractNetworking">
+    <bean id="cleanstoneNetworking" class="rocks.cleanstone.net.cleanstone.SimpleCleanstoneNetworking"
+          parent="abstractNetworking">
         <constructor-arg ref="cleanstoneConfig"/>
     </bean>
 </beans>

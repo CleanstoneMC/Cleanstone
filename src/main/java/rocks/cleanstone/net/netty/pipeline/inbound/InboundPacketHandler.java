@@ -1,5 +1,8 @@
 package rocks.cleanstone.net.netty.pipeline.inbound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.DecoderException;
@@ -14,7 +17,7 @@ import rocks.cleanstone.net.packet.PacketDirection;
 public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
 
     private final Networking networking;
-
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     public InboundPacketHandler(Networking networking) {
         this.networking = networking;
     }
@@ -22,6 +25,7 @@ public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
     @Override
 
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        logger.info("inbound packet handler");
         Packet packet = (Packet) msg;
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
         if (packet.getType().getDirection() == PacketDirection.OUTBOUND) {

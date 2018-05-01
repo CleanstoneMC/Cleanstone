@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.SimpleThreadScope;
+
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 
@@ -21,6 +22,14 @@ public class CleanstoneApplication implements ApplicationRunner {
     public CleanstoneApplication(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig) {
         this.cleanstoneConfig = cleanstoneConfig;
         this.minecraftConfig = minecraftConfig;
+    }
+
+    public static CleanstoneServer getInstance() {
+        return INSTANCE.cleanstoneServer;
+    }
+
+    public static CleanstoneApplication getApplication() {
+        return INSTANCE;
     }
 
     @Override
@@ -52,13 +61,5 @@ public class CleanstoneApplication implements ApplicationRunner {
 
     public CleanstoneServer getCleanstoneServer() {
         return cleanstoneServer;
-    }
-
-    public static CleanstoneServer getInstance() {
-        return INSTANCE.cleanstoneServer;
-    }
-
-    public static CleanstoneApplication getApplication() {
-        return INSTANCE;
     }
 }
