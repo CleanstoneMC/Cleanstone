@@ -48,17 +48,19 @@
           scope="prototype"/>
 
     <bean id="loginManager" class="rocks.cleanstone.net.minecraft.login.LoginManager"/>
-
     <bean id="handshakeListener" class="rocks.cleanstone.net.minecraft.login.HandshakeListener"/>
     <bean id="loginStartListener" class="rocks.cleanstone.net.minecraft.login.LoginStartListener"/>
     <bean id="encryptionResponseListener"
           class="rocks.cleanstone.net.minecraft.login.EncryptionResponseListener"/>
+
+    <bean id="statusRequestListener" class="rocks.cleanstone.net.minecraft.status.StatusRequestListener"/>
 
     <bean id="minecraftNetworking" class="rocks.cleanstone.net.minecraft.SimpleMinecraftNetworking"
           parent="abstractNetworking">
         <constructor-arg ref="minecraftConfig"/>
         <constructor-arg ref="simpleMinecraftProtocol"/>
         <constructor-arg ref="loginManager"/>
+        <constructor-arg ref="statusRequestListener"/>
     </bean>
 
 
