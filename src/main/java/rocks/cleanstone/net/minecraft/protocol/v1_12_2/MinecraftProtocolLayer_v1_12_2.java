@@ -1,27 +1,11 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
-import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.RequestPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.EncryptionRequestPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.LoginSuccessPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.ResponsePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.SetCompressionPacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.*;
+import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.EncryptionResponseCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.HandshakeCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.LoginStartCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.RequestCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.DisconnectCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.DisconnectLoginCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.EncryptionRequestCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.LoginSuccessCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.ResponseCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.SetCompressionCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
 
 public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
@@ -30,6 +14,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new LoginStartCodec(), LoginStartPacket.class);
         registerPacketCodec(new EncryptionRequestCodec(), EncryptionRequestPacket.class);
         registerPacketCodec(new RequestCodec(), RequestPacket.class);
+        registerPacketCodec(new PingCodec(), PingPacket.class);
 
         registerPacketCodec(new DisconnectCodec(), DisconnectPacket.class);
         registerPacketCodec(new DisconnectLoginCodec(), DisconnectLoginPacket.class);
@@ -37,6 +22,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new SetCompressionCodec(), SetCompressionPacket.class);
         registerPacketCodec(new LoginSuccessCodec(), LoginSuccessPacket.class);
         registerPacketCodec(new ResponseCodec(), ResponsePacket.class);
+        registerPacketCodec(new PongCodec(), PongPacket.class);
     }
 
     @Override

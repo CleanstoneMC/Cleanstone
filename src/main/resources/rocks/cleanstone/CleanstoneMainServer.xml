@@ -54,6 +54,7 @@
           class="rocks.cleanstone.net.minecraft.login.EncryptionResponseListener"/>
 
     <bean id="statusRequestListener" class="rocks.cleanstone.net.minecraft.status.StatusRequestListener"/>
+    <bean id="pingListener" class="rocks.cleanstone.net.minecraft.status.PingListener"/>
 
     <bean id="minecraftNetworking" class="rocks.cleanstone.net.minecraft.SimpleMinecraftNetworking"
           parent="abstractNetworking">
@@ -61,6 +62,7 @@
         <constructor-arg ref="simpleMinecraftProtocol"/>
         <constructor-arg ref="loginManager"/>
         <constructor-arg ref="statusRequestListener"/>
+        <constructor-arg ref="pingListener"/>
     </bean>
 
 
