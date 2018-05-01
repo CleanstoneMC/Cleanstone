@@ -23,6 +23,7 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
     private final Collection<String> addressBlacklist;
     private final Networking networking;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
     public IdentificationHandler(Networking networking) {
         this.networking = networking;
         this.addressBlacklist = networking.getClientAddressBlacklist();
@@ -33,7 +34,7 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
         InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
         InetAddress inetaddress = socketAddress.getAddress();
         String ipAddress = inetaddress.getHostAddress();
-        logger.info("Incoming connection from " + ipAddress);
+        logger.info("Incoming data from " + ipAddress);
         if (addressBlacklist.contains(ipAddress)) ctx.close();
 
         Attribute<Connection> connectionKey = ctx.channel().attr(AttributeKey.valueOf("connection"));
@@ -48,13 +49,12 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
             ctx.channel().closeFuture().addListener((a)
                     -> CleanstoneServer.publishEvent(new ConnectionClosedEvent(connection, networking)));
         }
-
         ctx.fireChannelRead(msg);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
-        ctx.close();
+        //ctx.close();
     }
 }

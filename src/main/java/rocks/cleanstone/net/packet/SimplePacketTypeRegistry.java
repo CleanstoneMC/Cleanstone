@@ -2,10 +2,11 @@ package rocks.cleanstone.net.packet;
 
 import com.google.common.collect.Sets;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
+
+import javax.annotation.Nullable;
 
 public class SimplePacketTypeRegistry implements PacketTypeRegistry {
 

@@ -1,10 +1,12 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
-import org.springframework.stereotype.Component;
+import com.google.common.base.Preconditions;
+
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.MinecraftProtocolLayer_v1_12_2;
+import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.SimplePacketTypeRegistry;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
@@ -29,8 +31,14 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
 
     @Override
     public int translateInboundPacketID(int clientPacketID, Connection connection) {
-        return ((MinecraftServerProtocolLayer) getServerLayerFromClientLayer(connection.getClientProtocolLayer()))
-                .getPacketType(clientPacketID, connection.getProtocolState()).getTypeID();
+        MinecraftServerProtocolLayer layer = ((MinecraftServerProtocolLayer) getServerLayerFromClientLayer
+                (connection.getClientProtocolLayer()));
+        Preconditions.checkNotNull(layer, "Cannot find ServerLayer by ClientLayer "
+                + connection.getClientProtocolLayer().toString());
+        PacketType packetType = layer.getPacketType(clientPacketID, connection.getProtocolState());
+        Preconditions.checkNotNull(packetType, "Cannot find packetType by clientPacketID " + clientPacketID +
+                " and protocolState " + connection.getProtocolState());
+        return packetType.getTypeID();
     }
 
     @Override

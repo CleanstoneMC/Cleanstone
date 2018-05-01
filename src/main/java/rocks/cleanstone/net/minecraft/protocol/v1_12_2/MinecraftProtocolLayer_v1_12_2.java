@@ -21,7 +21,7 @@ import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.SetCompressionCo
 
 public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
-    public void init() {
+    public MinecraftProtocolLayer_v1_12_2() {
         registerPacketCodec(new HandshakeCodec(), HandshakePacket.class);
         registerPacketCodec(new LoginStartCodec(), LoginStartPacket.class);
         registerPacketCodec(new EncryptionRequestCodec(), EncryptionRequestPacket.class);

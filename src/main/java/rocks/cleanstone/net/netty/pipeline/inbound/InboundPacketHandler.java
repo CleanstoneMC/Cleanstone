@@ -18,6 +18,7 @@ public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
 
     private final Networking networking;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
     public InboundPacketHandler(Networking networking) {
         this.networking = networking;
     }
@@ -25,8 +26,8 @@ public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
     @Override
 
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        logger.info("inbound packet handler");
         Packet packet = (Packet) msg;
+        logger.info("inbound packet handler " + packet.getType());
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
         if (packet.getType().getDirection() == PacketDirection.OUTBOUND) {
             throw new DecoderException("Received packet has invalid direction");

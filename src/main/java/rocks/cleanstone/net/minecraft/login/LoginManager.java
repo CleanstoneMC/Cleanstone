@@ -2,6 +2,7 @@ package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.collect.Maps;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
+import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 import rocks.cleanstone.net.minecraft.packet.data.Chat;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
@@ -20,20 +22,20 @@ import rocks.cleanstone.net.utils.UUIDUtils;
 
 public class LoginManager {
 
-    private final Networking networking;
     private final Map<Connection, LoginData> connectionLoginDataMap = Maps.newConcurrentMap();
     private final LoginEncryptionManager loginEncryptionManager;
     private final SessionServerRequester sessionServerRequester;
+    @Autowired
+    private MinecraftNetworking networking;
 
-    public LoginManager(Networking networking) {
-        this.networking = networking;
+    public LoginManager() {
         loginEncryptionManager = new LoginEncryptionManager(this);
         sessionServerRequester = new SessionServerRequester(this);
     }
 
     public void init() {
         new HandshakeListener();
-        new LoginStartListener(this); // TODO working?
+        new LoginStartListener(this);
         new EncryptionResponseListener(this);
     }
 

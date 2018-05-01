@@ -10,6 +10,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.util.AttributeKey;
+import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.net.utils.NotEnoughReadableBytesException;
@@ -30,20 +31,20 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
             in.resetReaderIndex();
             return;
         }
-        if (!connection.isCompressionEnabled()) {
-        } else {
+        if (connection.isCompressionEnabled()) {
             int uncompressedDataLength = ByteBufUtils.readVarInt(in);
             ctx.channel().attr(AttributeKey.<Integer>valueOf("inUncompressedDataLength")).set(uncompressedDataLength);
         }
         ByteBuf newBuffer = ctx.alloc().buffer(remainingPacketLength);
         in.readBytes(newBuffer, remainingPacketLength);
+        ReferenceCountUtil.retain(newBuffer, 30);
         out.add(newBuffer);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
-        logger.error("Closing context in ByteStreamDecoder");
-        ctx.close();
+        //logger.error("Closing context in ByteStreamDecoder");
+        //ctx.close();
     }
 }

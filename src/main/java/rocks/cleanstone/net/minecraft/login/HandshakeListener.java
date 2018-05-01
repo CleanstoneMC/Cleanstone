@@ -1,5 +1,7 @@
 package rocks.cleanstone.net.minecraft.login;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
 import rocks.cleanstone.net.event.InboundPacketEvent;
@@ -9,6 +11,7 @@ import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 
 public class HandshakeListener {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @EventListener
     public void onReceive(InboundPacketEvent event) {
@@ -19,8 +22,10 @@ public class HandshakeListener {
             if (updatedLayer != null) event.getConnection().setClientProtocolLayer(updatedLayer);
 
             VanillaProtocolState updatedState = VanillaProtocolState.byStateID(packet.getState());
-            if (updatedState != null && updatedState != VanillaProtocolState.PLAY)
+            if (updatedState != null && updatedState != VanillaProtocolState.PLAY) {
                 event.getConnection().setProtocolState(updatedState);
+                logger.info("Received Handshake and set protocolState to " + updatedState);
+            }
         }
     }
 }

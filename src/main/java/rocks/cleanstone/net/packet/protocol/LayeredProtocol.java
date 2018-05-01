@@ -1,14 +1,16 @@
 package rocks.cleanstone.net.packet.protocol;
 
 import com.google.common.collect.Lists;
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.Packet;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.annotation.Nullable;
+
+import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.packet.Packet;
 
 public abstract class LayeredProtocol implements Protocol {
 
@@ -45,7 +47,7 @@ public abstract class LayeredProtocol implements Protocol {
                     byteBuf = serverCodec.downgradeByteBuf(byteBuf);
                 }
                 // lowest=current serverLayer decodes byteBuf
-                return protocolLayers.get(protocolLayers.size()).getPacketCodec(packetClass).decode(byteBuf);
+                return protocolLayers.get(protocolLayers.size() - 1).getPacketCodec(packetClass).decode(byteBuf);
             }
 
             @Override
