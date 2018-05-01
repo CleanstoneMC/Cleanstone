@@ -48,9 +48,6 @@
     <bean id="simpleCleanstoneProtocol"
           class="rocks.cleanstone.net.cleanstone.protocol.SimpleCleanstoneProtocol"/>
 
-    <bean id="loginManager" class="rocks.cleanstone.net.minecraft.login.LoginManager" scope="prototype">
-    </bean>
-
     <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"
           scope="prototype">
     </bean>
@@ -59,6 +56,9 @@
           parent="abstractNetworking">
         <constructor-arg ref="minecraftConfig"/>
         <constructor-arg ref="simpleMinecraftProtocol"/>
+        <constructor-arg>
+            <bean class="rocks.cleanstone.net.minecraft.login.LoginManager"/>
+        </constructor-arg>
     </bean>
 
 
