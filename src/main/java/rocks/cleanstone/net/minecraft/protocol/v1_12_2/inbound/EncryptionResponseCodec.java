@@ -1,24 +1,26 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
+import java.io.IOException;
+
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.packet.protocol.ProtocolState;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
-
-import java.io.IOException;
 
 public class EncryptionResponseCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) throws IOException {
         int publicKeyLength = ByteBufUtils.readVarInt(byteBuf);
-        ByteBuf publicKey = byteBuf.readBytes(publicKeyLength);
+        byte[] publicKeyArray = new byte[publicKeyLength];
+        byteBuf.readBytes(publicKeyArray);
         int verifyTokenLength = ByteBufUtils.readVarInt(byteBuf);
-        ByteBuf verifyToken = byteBuf.readBytes(verifyTokenLength);
-        return new EncryptionResponsePacket(publicKey.array(), verifyToken.array());
+        byte[] verifyTokenArray = new byte[verifyTokenLength];
+        byteBuf.readBytes(verifyTokenArray);
+        return new EncryptionResponsePacket(publicKeyArray, verifyTokenArray);
     }
 
     @Override

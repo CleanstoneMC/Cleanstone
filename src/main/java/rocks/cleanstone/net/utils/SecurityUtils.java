@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.utils;
 
+import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -36,9 +37,10 @@ public class SecurityUtils {
     public static byte[] decryptRSA(byte[] data, PrivateKey privateKey) {
         try {
             Cipher rsaCipher = Cipher.getInstance("RSA");
+            rsaCipher.init(Cipher.DECRYPT_MODE, privateKey);
             return rsaCipher.doFinal(data);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException
-                | BadPaddingException | IllegalBlockSizeException e) {
+                | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
             throw new RuntimeException("Cannot decrypt RSA", e);
         }
     }

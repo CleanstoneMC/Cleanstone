@@ -1,6 +1,7 @@
 package rocks.cleanstone.net.minecraft.login;
 
 import java.security.PrivateKey;
+import java.util.Arrays;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -38,7 +39,7 @@ public class LoginEncryptionManager {
                 SecurityUtils.decryptRSA(sharedSecretData, privateKey), "AES");
 
         byte[] verifyToken = SecurityUtils.decryptRSA(verifyTokenData, privateKey);
-        if (verifyToken != loginData.getVerifyToken()) {
+        if (!Arrays.equals(verifyToken, loginData.getVerifyToken())) {
             throw new RuntimeException("Invalid verifyToken");
         }
 
