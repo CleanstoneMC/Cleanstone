@@ -60,6 +60,7 @@ public class LoginManager {
         SetCompressionPacket setCompressionPacket = new SetCompressionPacket(Short.MAX_VALUE);
         LoginSuccessPacket loginSuccessPacket = new LoginSuccessPacket(uuid, accountName);
         connection.sendPacket(setCompressionPacket);
+        connection.setCompressionEnabled(true);
         connection.sendPacket(loginSuccessPacket);
         connection.setProtocolState(VanillaProtocolState.PLAY);
         // TODO Initialize and handle OnlinePlayer
@@ -84,6 +85,7 @@ public class LoginManager {
         responseResult.addCallback((response) -> {
             UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
             String name = response.getName();
+            logger.info("Player " + name + " (" + uuid.toString() + ") logged in");
             SessionServerResponse.Property textures = response.getProperties()[0];
             finishLogin(connection, uuid, name, textures);
         }, e -> {
