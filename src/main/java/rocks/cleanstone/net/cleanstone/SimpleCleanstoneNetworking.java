@@ -8,11 +8,11 @@ import rocks.cleanstone.net.netty.NettyNetworking;
 
 public class SimpleCleanstoneNetworking extends NettyNetworking {
 
-    public SimpleCleanstoneNetworking(int port, InetAddress address) {
-        super(port, address, new SimpleCleanstoneProtocol());
+    public SimpleCleanstoneNetworking(int port, InetAddress address, SimpleCleanstoneProtocol protocol) {
+        super(port, address, protocol);
     }
 
-    public SimpleCleanstoneNetworking(CleanstoneConfig cleanstoneConfig) {
-        this(cleanstoneConfig.getPort(), cleanstoneConfig.getAddress());
+    public SimpleCleanstoneNetworking(CleanstoneConfig cleanstoneConfig, SimpleCleanstoneProtocol protocol) {
+        this(cleanstoneConfig.getPort(), cleanstoneConfig.getAddress(), protocol);
     }
 }

@@ -46,7 +46,9 @@ public class NettyNetworking extends AbstractNetworking {
     }
 
     public void destroy() {
+        logger.info("Closing " + protocol.getClass().getSimpleName());
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
+        logger.info("Closed " + protocol.getClass().getSimpleName());
     }
 }

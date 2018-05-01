@@ -11,13 +11,13 @@ public class SimpleMinecraftNetworking extends NettyNetworking implements Minecr
 
     private final LoginManager loginManager;
 
-    public SimpleMinecraftNetworking(int port, InetAddress address) {
-        super(port, address, new SimpleMinecraftProtocol());
+    public SimpleMinecraftNetworking(int port, InetAddress address, SimpleMinecraftProtocol protocol) {
+        super(port, address, protocol);
         this.loginManager = new LoginManager(this);
     }
 
-    public SimpleMinecraftNetworking(MinecraftConfig minecraftConfig) {
-        super(minecraftConfig.getPort(), minecraftConfig.getAddress(), new SimpleMinecraftProtocol());
+    public SimpleMinecraftNetworking(MinecraftConfig minecraftConfig, SimpleMinecraftProtocol protocol) {
+        super(minecraftConfig.getPort(), minecraftConfig.getAddress(), protocol);
         this.loginManager = new LoginManager(this);
     }
 
