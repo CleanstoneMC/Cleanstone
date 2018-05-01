@@ -52,13 +52,13 @@
           scope="prototype">
     </bean>
 
+    <bean id="loginManager" class="rocks.cleanstone.net.minecraft.login.LoginManager"/>
+
     <bean id="minecraftNetworking" class="rocks.cleanstone.net.minecraft.SimpleMinecraftNetworking"
           parent="abstractNetworking">
         <constructor-arg ref="minecraftConfig"/>
         <constructor-arg ref="simpleMinecraftProtocol"/>
-        <constructor-arg>
-            <bean class="rocks.cleanstone.net.minecraft.login.LoginManager"/>
-        </constructor-arg>
+        <constructor-arg ref="loginManager"/>
     </bean>
 
 
