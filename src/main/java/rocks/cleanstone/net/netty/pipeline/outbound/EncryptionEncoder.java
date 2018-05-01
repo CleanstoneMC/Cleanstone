@@ -1,5 +1,8 @@
 package rocks.cleanstone.net.netty.pipeline.outbound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.ByteBuffer;
 
 import javax.crypto.Cipher;
@@ -16,6 +19,7 @@ import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.net.Connection;
 
 public class EncryptionEncoder extends MessageToByteEncoder<ByteBuf> {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     protected void encode(ChannelHandlerContext ctx, ByteBuf in, ByteBuf out) throws Exception {

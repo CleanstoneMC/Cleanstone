@@ -20,7 +20,6 @@ public class StatusRequestListener {
                     new StatusResponse.Players(999999999, 0, new StatusResponse.Players.SampleItem[]{}),
                     new StatusResponse.Description("Cleanstone Advanced Minecraft Server"));
             String jsonResponse = new Gson().toJson(statusResponse);
-            logger.info(jsonResponse);
             event.getConnection().sendPacket(new ResponsePacket(jsonResponse));
         }
     }

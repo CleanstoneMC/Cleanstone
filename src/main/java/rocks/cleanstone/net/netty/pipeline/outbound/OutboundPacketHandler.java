@@ -16,9 +16,9 @@ import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 
 public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final Networking networking;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public OutboundPacketHandler(Networking networking) {
         this.networking = networking;

@@ -33,7 +33,8 @@
         <constructor-arg ref="cleanstoneNetworking"/>
     </bean>
 
-    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer" parent="cleanstoneServer">
+    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer"
+          parent="cleanstoneServer">
         <constructor-arg ref="minecraftNetworking"/>
     </bean>
 
@@ -44,8 +45,7 @@
     <bean id="simpleCleanstoneProtocol"
           class="rocks.cleanstone.net.cleanstone.protocol.SimpleCleanstoneProtocol"/>
 
-    <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"
-          scope="prototype"/>
+    <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"/>
 
     <bean id="loginManager" class="rocks.cleanstone.net.minecraft.login.LoginManager"/>
     <bean id="handshakeListener" class="rocks.cleanstone.net.minecraft.login.HandshakeListener"/>

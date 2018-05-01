@@ -1,10 +1,9 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
 import rocks.cleanstone.net.packet.protocol.ServerProtocolLayer;
@@ -23,13 +22,14 @@ public abstract class MinecraftServerProtocolLayer extends ServerProtocolLayer {
 
     @Nullable
     public PacketType getPacketType(int protocolPacketID, ProtocolState protocolState) {
-        AtomicReference<MinecraftInboundPacketType> packetType = new AtomicReference<>();
-        getPacketClassCodecMap().forEach((packetClass, packetCodec) -> {
-            MinecraftPacketCodec minecraftCodec = (MinecraftPacketCodec) packetCodec;
-            if (minecraftCodec.getProtocolPacketID() == protocolPacketID
-                    && minecraftCodec.getProtocolState() == protocolState)
-                packetType.set(MinecraftInboundPacketType.byPacketClass(packetClass));
-        });
-        return packetType.get();
+        for (Class<? extends Packet> packetClass : getPacketClassCodecMap().keySet()) {
+            MinecraftPacketCodec codec = (MinecraftPacketCodec) getPacketClassCodecMap().get(packetClass);
+            if (codec.getProtocolPacketID() == protocolPacketID && codec.getProtocolState() == protocolState) {
+                // matching codec might be outbound and therefore still incorrect
+                PacketType type = MinecraftInboundPacketType.byPacketClass(packetClass);
+                if (type != null) return type;
+            }
+        }
+        return null;
     }
 }
