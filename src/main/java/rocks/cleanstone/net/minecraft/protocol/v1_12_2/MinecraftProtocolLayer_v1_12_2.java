@@ -15,6 +15,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new EncryptionRequestCodec(), EncryptionRequestPacket.class);
         registerPacketCodec(new RequestCodec(), RequestPacket.class);
         registerPacketCodec(new PingCodec(), PingPacket.class);
+        registerPacketCodec(new ClientSettingsCodec(), ClientSettingsPacket.class);
 
         registerPacketCodec(new DisconnectCodec(), DisconnectPacket.class);
         registerPacketCodec(new DisconnectLoginCodec(), DisconnectLoginPacket.class);
@@ -23,6 +24,10 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new LoginSuccessCodec(), LoginSuccessPacket.class);
         registerPacketCodec(new ResponseCodec(), ResponsePacket.class);
         registerPacketCodec(new PongCodec(), PongPacket.class);
+        registerPacketCodec(new JoinGameCodec(), JoinGamePacket.class);
+        registerPacketCodec(new SpawnPositionCodec(), SpawnPositionPacket.class);
+        registerPacketCodec(new PlayerAbilitiesCodec(), rocks.cleanstone.net.minecraft.packet.outbound.PlayerAbilitiesPacket.class);
+        registerPacketCodec(new PlayerPositionAndLookCodec(), rocks.cleanstone.net.minecraft.packet.outbound.PlayerPositionAndLookPacket.class);
     }
 
     @Override

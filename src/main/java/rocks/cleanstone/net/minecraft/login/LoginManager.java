@@ -1,25 +1,25 @@
 package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.collect.Maps;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.AsyncResult;
-
-import java.util.Map;
-import java.util.UUID;
-
+import rocks.cleanstone.game.world.region.Position;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 import rocks.cleanstone.net.minecraft.packet.data.Chat;
+import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
+import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
+import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.LoginSuccessPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.SetCompressionPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class LoginManager {
 
@@ -63,6 +63,12 @@ public class LoginManager {
         connection.setCompressionEnabled(true);
         connection.sendPacket(loginSuccessPacket);
         connection.setProtocolState(VanillaProtocolState.PLAY);
+
+        //connection.sendPacket(new JoinGamePacket(0, 0, Dimension.OVERWORLD, Difficulty.EASY, LevelType.DEFAULT, false));
+        //connection.sendPacket(new SpawnPositionPacket(new Position(0, 50, 0, null)));
+        //connection.sendPacket(new PlayerAbilitiesPacket((byte) 0, 4, 4));
+        //connection.sendPacket(new PlayerPositionAndLookPacket(0, 0, 0, 0, 0, 0, 0));
+        //connection.sendPacket(new DisconnectPacket(new Chat("{\"text\": \"Bye\"}")));
         // TODO Initialize and handle OnlinePlayer
     }
 
