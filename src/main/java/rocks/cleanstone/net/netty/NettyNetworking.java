@@ -40,8 +40,9 @@ public class NettyNetworking extends AbstractNetworking {
             bootstrap.localAddress(this.getAddress(), this.getPort());
             bootstrap.bind().sync();
             logger.info(protocol.getClass().getSimpleName() + " bound to {}:{}", this.getAddress(), this.getPort());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Failed to bind to port " + getPort() + " on address " + getAddress().getHostAddress());
+            throw new RuntimeException(e);
         }
     }
 

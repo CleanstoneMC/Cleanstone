@@ -26,21 +26,19 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
-        Packet packet = (Packet) msg;
-        Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
+        try {
+            Packet packet = (Packet) msg;
+            Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
-        if (packet.getType().getDirection() == PacketDirection.INBOUND) {
-            throw new DecoderException("Sent packet has invalid direction");
+            if (packet.getType().getDirection() == PacketDirection.INBOUND) {
+                throw new DecoderException("Sent packet has invalid direction");
+            }
+            if (CleanstoneServer.publishEvent(
+                    new OutboundPacketEvent(packet, connection, networking)).isCancelled()) return;
+            logger.info("Sending " + packet.getType() + " packet to " + connection.getAddress().getHostAddress());
+            ctx.write(packet, promise);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (CleanstoneServer.publishEvent(
-                new OutboundPacketEvent(packet, connection, networking)).isCancelled()) return;
-        logger.info("Sending " + packet.getType() + " packet to " + connection.getAddress().getHostAddress());
-        ctx.write(packet, promise);
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
     }
 }

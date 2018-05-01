@@ -36,14 +36,10 @@ public class EncryptionEncoder extends MessageToByteEncoder<ByteBuf> {
             }
             outNioBuf.flip();
             out.writeBytes(outNioBuf);
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             ReferenceCountUtil.release(in);
         }
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
     }
 }

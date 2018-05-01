@@ -13,14 +13,12 @@ public class CompressionEncoder extends JdkZlibEncoder {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, ByteBuf uncompressed, ByteBuf out) throws Exception {
-        ctx.channel().attr(AttributeKey.<Integer>valueOf("outUncompressedPacketLength"))
-                .set(uncompressed.readableBytes());
-        super.encode(ctx, uncompressed, out);
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
+        try {
+            ctx.channel().attr(AttributeKey.<Integer>valueOf("outUncompressedPacketLength"))
+                    .set(uncompressed.readableBytes());
+            super.encode(ctx, uncompressed, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

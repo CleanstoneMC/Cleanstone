@@ -68,6 +68,7 @@ public abstract class LayeredProtocol implements Protocol {
                             return byteBuf;
                         }
                     }
+                    if (protocolLayers.size() == 1) return byteBuf;
                     throw new RuntimeException("Client layer higher than highest supported server layer");
                 } finally {
                     protocolLayers.sort(Comparator.naturalOrder());

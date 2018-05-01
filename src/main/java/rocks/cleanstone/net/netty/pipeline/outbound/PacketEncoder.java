@@ -25,29 +25,22 @@ public class PacketEncoder extends MessageToMessageEncoder<Packet> {
     }
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, Packet in, List<Object> out) throws Exception {
-        Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-        logger.info("packetEncoder");
+    protected void encode(ChannelHandlerContext ctx, Packet in, List<Object> out) {
+        try {
+            Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
+            logger.info("packetEncoder");
 
-        int packetID = protocol.translateOutboundPacketID(in.getType().getTypeID(), connection);
-        logger.info("1");
-        PacketCodec codec = protocol.getPacketCodec(in.getClass(), connection
-                .getClientProtocolLayer());
-        logger.info("1.2");
-        ByteBuf data = codec.encode(ctx.alloc().buffer(), in);
-        logger.info("2");
-        ByteBufUtils.writeVarInt(data, packetID);
-        logger.info("3");
-        if (connection.isCompressionEnabled())
-            ctx.channel().attr(AttributeKey.<Integer>valueOf("uncompressedPacketLength"))
-                    .set(data.readableBytes());
-        logger.info("post packetEncoder");
-        out.add(data);
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
+            int packetID = protocol.translateOutboundPacketID(in.getType().getTypeID(), connection);
+            PacketCodec codec = protocol.getPacketCodec(in.getClass(), connection.getClientProtocolLayer());
+            ByteBuf data = ctx.alloc().buffer();
+            ByteBufUtils.writeVarInt(data, packetID);
+            data = codec.encode(data, in);
+            if (connection.isCompressionEnabled())
+                ctx.channel().attr(AttributeKey.<Integer>valueOf("uncompressedPacketLength"))
+                        .set(data.readableBytes());
+            out.add(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
