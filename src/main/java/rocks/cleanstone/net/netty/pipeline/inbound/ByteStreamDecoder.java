@@ -31,12 +31,13 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
             return;
         }
         if (!connection.isCompressionEnabled()) {
-            out.add(in);
         } else {
             int uncompressedDataLength = ByteBufUtils.readVarInt(in);
             ctx.channel().attr(AttributeKey.<Integer>valueOf("inUncompressedDataLength")).set(uncompressedDataLength);
-            out.add(in);
         }
+        ByteBuf newBuffer = ctx.alloc().buffer(remainingPacketLength);
+        in.readBytes(newBuffer, remainingPacketLength);
+        out.add(newBuffer);
     }
 
     @Override
