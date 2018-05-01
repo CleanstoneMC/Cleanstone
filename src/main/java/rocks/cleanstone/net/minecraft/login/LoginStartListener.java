@@ -1,5 +1,7 @@
 package rocks.cleanstone.net.minecraft.login;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
 import rocks.cleanstone.net.event.InboundPacketEvent;
@@ -7,10 +9,10 @@ import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
 
 public class LoginStartListener {
 
-    private final LoginManager loginManager;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private LoginManager loginManager;
 
-    public LoginStartListener(LoginManager loginManager) {
-        this.loginManager = loginManager;
+    public LoginStartListener() {
     }
 
     @EventListener
@@ -19,7 +21,16 @@ public class LoginStartListener {
             LoginStartPacket packet = (LoginStartPacket) event.getPacket();
 
             String playerName = packet.getPlayerName();
+            logger.info("Starting login");
             loginManager.startLogin(event.getConnection(), playerName);
         }
+    }
+
+    public LoginManager getLoginManager() {
+        return loginManager;
+    }
+
+    public void setLoginManager(LoginManager loginManager) {
+        this.loginManager = loginManager;
     }
 }

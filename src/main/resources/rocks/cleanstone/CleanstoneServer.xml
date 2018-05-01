@@ -49,10 +49,14 @@
           class="rocks.cleanstone.net.cleanstone.protocol.SimpleCleanstoneProtocol"/>
 
     <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"
-          scope="prototype">
-    </bean>
+          scope="prototype"/>
 
     <bean id="loginManager" class="rocks.cleanstone.net.minecraft.login.LoginManager"/>
+
+    <bean id="handshakeListener" class="rocks.cleanstone.net.minecraft.login.HandshakeListener"/>
+    <bean id="loginStartListener" class="rocks.cleanstone.net.minecraft.login.LoginStartListener"/>
+    <bean id="encryptionResponseListener"
+          class="rocks.cleanstone.net.minecraft.login.EncryptionResponseListener"/>
 
     <bean id="minecraftNetworking" class="rocks.cleanstone.net.minecraft.SimpleMinecraftNetworking"
           parent="abstractNetworking">

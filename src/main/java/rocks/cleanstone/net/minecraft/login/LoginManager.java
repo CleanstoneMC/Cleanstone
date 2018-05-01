@@ -2,6 +2,9 @@ package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.collect.Maps;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.util.Map;
@@ -23,7 +26,15 @@ public class LoginManager {
     private final Map<Connection, LoginData> connectionLoginDataMap = Maps.newConcurrentMap();
     private final LoginEncryptionManager loginEncryptionManager;
     private final SessionServerRequester sessionServerRequester;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private MinecraftNetworking networking;
+
+    @Autowired
+    private HandshakeListener handshakeListener;
+    @Autowired
+    private LoginStartListener loginStartListener;
+    @Autowired
+    private EncryptionResponseListener encryptionResponseListener;
 
     public LoginManager() {
         loginEncryptionManager = new LoginEncryptionManager(this);
@@ -31,9 +42,8 @@ public class LoginManager {
     }
 
     public void init() {
-        new HandshakeListener();
-        new LoginStartListener(this);
-        new EncryptionResponseListener(this);
+        loginStartListener.setLoginManager(this);
+        encryptionResponseListener.setLoginManager(this);
     }
 
     public void startLogin(Connection connection, String playerName) {

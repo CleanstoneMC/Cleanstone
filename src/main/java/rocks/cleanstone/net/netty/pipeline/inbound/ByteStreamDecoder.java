@@ -44,7 +44,6 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
-        //logger.error("Closing context in ByteStreamDecoder");
-        //ctx.close();
+        ctx.close();
     }
 }

@@ -55,6 +55,6 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
-        //ctx.close();
+        ctx.close();
     }
 }

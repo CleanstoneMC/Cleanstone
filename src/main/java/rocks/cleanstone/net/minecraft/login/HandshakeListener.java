@@ -11,6 +11,7 @@ import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 
 public class HandshakeListener {
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @EventListener

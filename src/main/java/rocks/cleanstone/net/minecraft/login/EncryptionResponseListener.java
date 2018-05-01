@@ -8,10 +8,9 @@ import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 
 public class EncryptionResponseListener {
 
-    private final LoginManager loginManager;
+    private LoginManager loginManager;
 
-    public EncryptionResponseListener(LoginManager loginManager) {
-        this.loginManager = loginManager;
+    public EncryptionResponseListener() {
     }
 
     @EventListener
@@ -26,5 +25,13 @@ public class EncryptionResponseListener {
                 loginManager.stopLogin(event.getConnection(), new Chat("TODO: JSON reason"));
             }
         }
+    }
+
+    public LoginManager getLoginManager() {
+        return loginManager;
+    }
+
+    public void setLoginManager(LoginManager loginManager) {
+        this.loginManager = loginManager;
     }
 }

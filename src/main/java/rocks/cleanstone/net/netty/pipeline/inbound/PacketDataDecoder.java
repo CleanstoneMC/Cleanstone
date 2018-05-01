@@ -33,7 +33,7 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         try {
-            logger.info("data decoder" + ReferenceCountUtil.refCnt(in));
+            logger.info("data decoder");
             in.markReaderIndex();
             int packetID;
             try {
@@ -42,13 +42,10 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
                 in.resetReaderIndex();
                 return;
             }
-            logger.info("1 " + packetID);
             PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
             Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-            logger.info("1.2");
             PacketType packetType = packetTypeRegistry.getPacketType(
                     protocol.translateInboundPacketID(packetID, connection));
-            logger.info("2");
             PacketCodec codec = protocol.getPacketCodec(packetType.getPacketClass(),
                     connection.getClientProtocolLayer());
             Preconditions.checkNotNull(codec, "Cannot find codec for packetType " + packetType
@@ -60,7 +57,6 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
                 in.resetReaderIndex();
                 return;
             }
-            logger.info("post data decoder" + ReferenceCountUtil.refCnt(in));
             out.add(packet);
         } finally {
             ReferenceCountUtil.release(in);
@@ -70,6 +66,6 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
-        //ctx.close();
+        ctx.close();
     }
 }

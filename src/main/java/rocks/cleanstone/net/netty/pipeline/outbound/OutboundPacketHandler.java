@@ -1,5 +1,8 @@
 package rocks.cleanstone.net.netty.pipeline.outbound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
@@ -15,6 +18,7 @@ import rocks.cleanstone.net.packet.PacketDirection;
 public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
 
     private final Networking networking;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public OutboundPacketHandler(Networking networking) {
         this.networking = networking;
@@ -30,6 +34,7 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
         }
         if (CleanstoneServer.publishEvent(
                 new OutboundPacketEvent(packet, connection, networking)).isCancelled()) return;
+        logger.info("Sending " + packet.getType() + " packet to " + connection.getAddress().getHostAddress());
         ctx.write(packet, promise);
     }
 
