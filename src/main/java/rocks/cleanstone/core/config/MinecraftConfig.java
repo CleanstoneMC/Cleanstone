@@ -3,7 +3,7 @@ package rocks.cleanstone.core.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import rocks.cleanstone.core.CleanstoneApplication;
+import rocks.cleanstone.core.CleanstoneServer;
 
 import java.net.InetAddress;
 
@@ -14,6 +14,10 @@ public class MinecraftConfig {
 
     private int port;
     private InetAddress address;
+
+    public static MinecraftConfig getInstance() {
+        return CleanstoneServer.getInstance().getMinecraftConfig();
+    }
 
     public int getPort() {
         return port;
@@ -29,10 +33,6 @@ public class MinecraftConfig {
 
     public void setAddress(InetAddress address) {
         this.address = address;
-    }
-
-    public static MinecraftConfig getInstance() {
-        return CleanstoneApplication.getApplication().getMinecraftConfig();
     }
 
     @Override

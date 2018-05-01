@@ -1,31 +1,37 @@
 package rocks.cleanstone.core;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ImportResource;
+import rocks.cleanstone.core.config.CleanstoneConfig;
+import rocks.cleanstone.core.config.MinecraftConfig;
+import rocks.cleanstone.net.Networking;
+import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 
 import java.util.Set;
 
-import rocks.cleanstone.net.minecraft.MinecraftNetworking;
-
+@SpringBootApplication
+@ComponentScan(excludeFilters = @ComponentScan.Filter(SpringBootApplication.class))
+@ImportResource("classpath:rocks/cleanstone/CleanstoneMainServer.xml")
 public class CleanstoneMainServer extends CleanstoneServer {
 
-    @Autowired
-    @Qualifier("minecraftNetworking")
-    protected MinecraftNetworking minecraftNetworking;
+    protected final MinecraftNetworking minecraftNetworking;
 
     private Set<ExternalServer> externalServers;
 
-    public void init() {
+    protected CleanstoneMainServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig, Networking cleanstoneNetworking, MinecraftNetworking minecraftNetworking) {
+        super(cleanstoneConfig, minecraftConfig, cleanstoneNetworking);
+        this.minecraftNetworking = minecraftNetworking;
     }
 
-    public void run() {
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
 
-    }
-
-    public void destroy() {
     }
 
     public MinecraftNetworking getMinecraftNetworking() {
         return minecraftNetworking;
     }
+
 }

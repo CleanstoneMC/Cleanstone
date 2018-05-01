@@ -12,10 +12,8 @@
 
     <!-- Config -->
 
-    <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"
-          factory-method="getInstance"/>
-    <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig"
-          factory-method="getInstance"/>
+    <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
+    <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig"/>
 
     <!-- Services -->
 
@@ -29,16 +27,14 @@
 
     <!-- Server -->
 
-    <bean id="cleanstoneServer" class="rocks.cleanstone.core.CleanstoneServer" abstract="true"
-          scope="prototype">
+    <bean id="cleanstoneServer" class="rocks.cleanstone.core.CleanstoneServer" abstract="true">
+        <constructor-arg ref="cleanstoneConfig"/>
+        <constructor-arg ref="minecraftConfig"/>
+        <constructor-arg ref="cleanstoneNetworking"/>
     </bean>
 
-    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer"
-          parent="cleanstoneServer">
-    </bean>
-
-    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer"
-          parent="cleanstoneServer">
+    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer" parent="cleanstoneServer">
+        <constructor-arg ref="minecraftNetworking"/>
     </bean>
 
     <!-- Networking -->

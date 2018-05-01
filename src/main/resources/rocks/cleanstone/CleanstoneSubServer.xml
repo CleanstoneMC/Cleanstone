@@ -1,0 +1,69 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       default-init-method="init"
+       default-destroy-method="destroy">
+
+    <context:annotation-config/>
+
+    <!-- Config -->
+
+    <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
+    <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig"/>
+
+    <!-- Services -->
+
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="rocks.cleanstone.net.utils.InetAddressConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Server -->
+
+    <bean id="cleanstoneServer" class="rocks.cleanstone.core.CleanstoneServer" abstract="true">
+        <constructor-arg ref="cleanstoneConfig"/>
+        <constructor-arg ref="minecraftConfig"/>
+        <constructor-arg ref="cleanstoneNetworking"/>
+    </bean>
+
+    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer" parent="cleanstoneServer">
+    </bean>
+
+    <!-- Networking -->
+
+    <bean id="simpleMinecraftProtocol"
+          class="rocks.cleanstone.net.minecraft.protocol.SimpleMinecraftProtocol"/>
+    <bean id="simpleCleanstoneProtocol"
+          class="rocks.cleanstone.net.cleanstone.protocol.SimpleCleanstoneProtocol"/>
+
+    <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"
+          scope="prototype"/>
+
+    <bean id="loginManager" class="rocks.cleanstone.net.minecraft.login.LoginManager"/>
+
+    <bean id="handshakeListener" class="rocks.cleanstone.net.minecraft.login.HandshakeListener"/>
+    <bean id="loginStartListener" class="rocks.cleanstone.net.minecraft.login.LoginStartListener"/>
+    <bean id="encryptionResponseListener"
+          class="rocks.cleanstone.net.minecraft.login.EncryptionResponseListener"/>
+
+    <bean id="minecraftNetworking" class="rocks.cleanstone.net.minecraft.SimpleMinecraftNetworking"
+          parent="abstractNetworking">
+        <constructor-arg ref="minecraftConfig"/>
+        <constructor-arg ref="simpleMinecraftProtocol"/>
+        <constructor-arg ref="loginManager"/>
+    </bean>
+
+
+    <bean id="cleanstoneNetworking" class="rocks.cleanstone.net.cleanstone.SimpleCleanstoneNetworking"
+          parent="abstractNetworking">
+        <constructor-arg ref="cleanstoneConfig"/>
+        <constructor-arg ref="simpleCleanstoneProtocol"/>
+    </bean>
+</beans>
