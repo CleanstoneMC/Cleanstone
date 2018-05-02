@@ -8,7 +8,7 @@ import java.util.Collection;
 
 import rocks.cleanstone.net.event.ConnectionClosedEvent;
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
-import rocks.cleanstone.net.minecraft.packet.data.Chat;
+import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
 
 public class SimplePlayerManager implements PlayerManager {
@@ -46,7 +46,7 @@ public class SimplePlayerManager implements PlayerManager {
     }
 
     @Override
-    public void kickPlayer(OnlinePlayer player, Chat reason) {
+    public void kickPlayer(OnlinePlayer player, Text reason) {
         removeOnlinePlayer(player);
         player.getConnection().close(new DisconnectPacket(reason));
     }

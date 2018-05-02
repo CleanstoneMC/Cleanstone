@@ -3,7 +3,7 @@ package rocks.cleanstone.net.minecraft.login;
 import org.springframework.context.event.EventListener;
 
 import rocks.cleanstone.net.event.InboundPacketEvent;
-import rocks.cleanstone.net.minecraft.packet.data.Chat;
+import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 
 public class EncryptionResponseListener {
@@ -22,7 +22,7 @@ public class EncryptionResponseListener {
                 loginManager.onEncryptionResponse(event.getConnection(), packet);
             } catch (Exception e) {
                 e.printStackTrace();
-                loginManager.stopLogin(event.getConnection(), new Chat("TODO: JSON reason"));
+                loginManager.stopLogin(event.getConnection(), Text.fromPlain("Invalid encryption response"));
             }
         }
     }

@@ -1,10 +1,14 @@
 package rocks.cleanstone.net.minecraft.packet.data;
 
-public class Chat { // TODO
+public class Text { // TODO
     private final String json;
 
-    public Chat(String json) {
+    private Text(String json) {
         this.json = json;
+    }
+
+    public static Text fromPlain(String plainText) {
+        return new Text("{text\":\"" + plainText + "\"}");
     }
 
     @Override
