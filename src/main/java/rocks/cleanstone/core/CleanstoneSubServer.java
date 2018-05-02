@@ -4,6 +4,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.net.Networking;
@@ -15,7 +16,8 @@ public class CleanstoneSubServer extends CleanstoneServer {
 
     private ExternalServer mainServer;
 
-    protected CleanstoneSubServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig, Networking cleanstoneNetworking) {
+    protected CleanstoneSubServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig,
+                                  Networking cleanstoneNetworking) {
         super(cleanstoneConfig, minecraftConfig, cleanstoneNetworking);
     }
 

@@ -4,12 +4,13 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+
+import java.util.Set;
+
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.net.Networking;
 import rocks.cleanstone.net.minecraft.MinecraftNetworking;
-
-import java.util.Set;
 
 @SpringBootApplication
 @ComponentScan(excludeFilters = @ComponentScan.Filter(SpringBootApplication.class))
@@ -20,7 +21,8 @@ public class CleanstoneMainServer extends CleanstoneServer {
 
     private Set<ExternalServer> externalServers;
 
-    protected CleanstoneMainServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig, Networking cleanstoneNetworking, MinecraftNetworking minecraftNetworking) {
+    protected CleanstoneMainServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig,
+                                   Networking cleanstoneNetworking, MinecraftNetworking minecraftNetworking) {
         super(cleanstoneConfig, minecraftConfig, cleanstoneNetworking);
         this.minecraftNetworking = minecraftNetworking;
     }

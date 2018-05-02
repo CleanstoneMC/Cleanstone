@@ -12,6 +12,7 @@ import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.packet.protocol.Protocol;
 
@@ -36,14 +37,15 @@ public class NettyNetworking extends AbstractNetworking {
                 .childHandler(new ServerChannelInitializer(this))
                 .option(ChannelOption.SO_BACKLOG, socketBacklog)
                 .childOption(ChannelOption.SO_KEEPALIVE, socketKeepAlive);
-        try {
-            bootstrap.localAddress(this.getAddress(), this.getPort());
-            bootstrap.bind().sync();
-            logger.info(protocol.getClass().getSimpleName() + " bound to {}:{}", this.getAddress(), this.getPort());
-        } catch (Exception e) {
-            logger.error("Failed to bind to port " + getPort() + " on address " + getAddress().getHostAddress());
-            throw new RuntimeException(e);
-        }
+        bootstrap.localAddress(this.getAddress(), this.getPort());
+        bootstrap.bind().addListener(future -> {
+            if (future.isSuccess())
+                logger.info(CleanstoneServer.getMessage("net.netty.bind-successful",
+                        protocol.getClass().getSimpleName(), getAddress(), getPort()));
+            else
+                logger.error(CleanstoneServer.getMessage("net.netty.bind-failure",
+                        getAddress().getHostAddress(), getPort()));
+        });
     }
 
     public void destroy() {
