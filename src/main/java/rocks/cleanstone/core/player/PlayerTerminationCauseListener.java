@@ -1,8 +1,10 @@
 package rocks.cleanstone.core.player;
 
 import org.springframework.context.event.EventListener;
-
+import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.net.event.ConnectionClosedEvent;
+
+import java.util.Optional;
 
 public class PlayerTerminationCauseListener {
 
@@ -12,15 +14,14 @@ public class PlayerTerminationCauseListener {
         this.playerManager = playerManager;
     }
 
+    @Async
     @EventListener
     public void onPlayerConnectionClosed(ConnectionClosedEvent event) {
-        for (Player player : playerManager.getOnlinePlayers()) {
-            if (player instanceof OnlinePlayer) {
-                OnlinePlayer onlinePlayer = (OnlinePlayer) player;
-                if (onlinePlayer.getConnection().equals(event.getConnection())) {
-                    playerManager.terminatePlayer(onlinePlayer);
-                }
-            }
-        }
+        Optional<Player> optionalPlayer = playerManager.getOnlinePlayers().stream()
+                .filter(player -> player instanceof OnlinePlayer)
+                .filter(player -> ((OnlinePlayer) player).getConnection().equals(event.getConnection()))
+                .findAny();
+
+        optionalPlayer.ifPresent(playerManager::terminatePlayer);
     }
 }
