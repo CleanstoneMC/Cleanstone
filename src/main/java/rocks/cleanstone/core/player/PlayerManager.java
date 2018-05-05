@@ -1,23 +1,23 @@
 package rocks.cleanstone.core.player;
 
 import java.util.Collection;
+import java.util.UUID;
 
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
-import rocks.cleanstone.net.minecraft.packet.data.Text;
 
 public interface PlayerManager {
 
-    Collection<OnlinePlayer> getOnlinePlayers();
+    Collection<Player> getOnlinePlayers();
 
-    OnlinePlayer getOnlinePlayer(PlayerId id);
+    Player getOnlinePlayer(PlayerID id);
 
-    Collection<PlayerId> getAllPlayerIds();
+    Collection<PlayerID> getAllPlayerIds();
 
-    InGamePlayerDataRepository getPlayerDataContainer(PlayerId id);
+    InGamePlayerDataRepository getPlayerDataContainer(PlayerID id);
 
-    void addOnlinePlayer(OnlinePlayer player);
+    PlayerID getPlayerID(UUID uuid);
 
-    void removeOnlinePlayer(OnlinePlayer player);
+    void initializePlayer(Player player);
 
-    void kickPlayer(OnlinePlayer player, Text reason);
+    void terminatePlayer(Player player);
 }

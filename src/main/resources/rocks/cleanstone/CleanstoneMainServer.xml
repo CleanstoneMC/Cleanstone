@@ -17,7 +17,6 @@
     <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
 
     <!-- CONFIG -->
-
     <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
     <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig"/>
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -25,7 +24,6 @@
     </bean>
 
     <!-- SERVICES -->
-
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
             <list>
@@ -35,10 +33,20 @@
     </bean>
 
     <!-- SERVER -->
-
     <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer">
         <constructor-arg ref="cleanstoneConfig"/>
         <constructor-arg ref="minecraftConfig"/>
+    </bean>
+
+    <!-- Player Management -->
+    <bean id="playerManager" class="rocks.cleanstone.core.player.SimplePlayerManager"/>
+    <bean id="playerInitializationCauseListener"
+          class="rocks.cleanstone.core.player.PlayerInitializationCauseListener">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+    <bean id="playerTerminationCauseListener"
+          class="rocks.cleanstone.core.player.PlayerTerminationCauseListener">
+        <constructor-arg ref="playerManager"/>
     </bean>
 
     <!-- NETWORKING -->

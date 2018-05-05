@@ -11,6 +11,11 @@ public class Text { // TODO
         return new Text("{text\":\"" + plainText + "\"}");
     }
 
+    public static Text of(String text) {
+        // TODO translate colors
+        return new Text("{text\":\"" + text + "\"}");
+    }
+
     @Override
     public String toString() {
         return json;

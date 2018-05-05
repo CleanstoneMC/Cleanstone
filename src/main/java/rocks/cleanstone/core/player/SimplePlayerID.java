@@ -2,18 +2,18 @@ package rocks.cleanstone.core.player;
 
 import java.util.UUID;
 
-public class SimplePlayerId implements PlayerId {
+public class SimplePlayerID implements PlayerID {
     private final UUID uuid;
     private String accountName;
     private String name;
 
-    public SimplePlayerId(UUID uuid, String accountName, String name) {
+    public SimplePlayerID(UUID uuid, String accountName, String name) {
         this.uuid = uuid;
         this.accountName = accountName;
         this.name = name;
     }
 
-    public SimplePlayerId(UUID uuid, String accountName) {
+    public SimplePlayerID(UUID uuid, String accountName) {
         this(uuid, accountName, accountName);
     }
 

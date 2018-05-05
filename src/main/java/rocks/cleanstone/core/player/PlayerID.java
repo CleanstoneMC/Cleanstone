@@ -2,7 +2,7 @@ package rocks.cleanstone.core.player;
 
 import java.util.UUID;
 
-public interface PlayerId {
+public interface PlayerID {
     String getName();
     UUID getUUID();
 }

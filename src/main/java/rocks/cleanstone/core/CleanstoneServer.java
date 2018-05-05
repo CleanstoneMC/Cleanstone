@@ -1,5 +1,6 @@
 package rocks.cleanstone.core;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationEventPublisher;
@@ -28,7 +29,15 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     }
 
     public static <T> T publishEvent(T event) {
+        long preEventTime = System.currentTimeMillis();
         getInstance().getPublisher().publishEvent(event);
+        if (System.currentTimeMillis() - preEventTime > 50
+                && !event.getClass().getSimpleName().startsWith("Async")) {
+            LoggerFactory.getLogger(CleanstoneServer.class).warn("Listeners for non-async event "
+                    + event.getClass().getSimpleName() + " needed "
+                    + (System.currentTimeMillis() - preEventTime)
+                    + "ms to complete, this slows down the server");
+        }
         return event;
     }
 

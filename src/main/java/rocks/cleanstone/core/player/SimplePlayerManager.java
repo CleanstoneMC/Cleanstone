@@ -1,57 +1,64 @@
 package rocks.cleanstone.core.player;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
-import org.springframework.context.event.EventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.UUID;
 
-import rocks.cleanstone.net.event.ConnectionClosedEvent;
+import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.core.player.event.PlayerInitializationEvent;
+import rocks.cleanstone.core.player.event.PlayerJoinEvent;
+import rocks.cleanstone.core.player.event.PlayerQuitEvent;
+import rocks.cleanstone.core.player.event.PlayerTerminationEvent;
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
-import rocks.cleanstone.net.minecraft.packet.data.Text;
-import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
 
 public class SimplePlayerManager implements PlayerManager {
 
-    private final Collection<OnlinePlayer> onlinePlayers = Sets.newConcurrentHashSet();
+    private final Collection<Player> onlinePlayers = Sets.newConcurrentHashSet();
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public Collection<OnlinePlayer> getOnlinePlayers() {
-        return onlinePlayers;
+    public Collection<Player> getOnlinePlayers() {
+        return ImmutableSet.copyOf(onlinePlayers);
     }
 
     @Override
-    public OnlinePlayer getOnlinePlayer(PlayerId id) {
+    public Player getOnlinePlayer(PlayerID id) {
         return null;
     }
 
     @Override
-    public Collection<PlayerId> getAllPlayerIds() {
+    public Collection<PlayerID> getAllPlayerIds() {
         return null;
     }
 
     @Override
-    public InGamePlayerDataRepository getPlayerDataContainer(PlayerId id) {
+    public InGamePlayerDataRepository getPlayerDataContainer(PlayerID id) {
         return null;
     }
 
     @Override
-    public void addOnlinePlayer(OnlinePlayer player) {
+    public PlayerID getPlayerID(UUID uuid) {
+        return null; // TODO
+    }
+
+    @Override
+    public void initializePlayer(Player player) {
+        logger.info("Initializing player");
         onlinePlayers.add(player);
+        CleanstoneServer.publishEvent(new PlayerInitializationEvent(player));
+        CleanstoneServer.publishEvent(new PlayerJoinEvent(player));
     }
 
     @Override
-    public void removeOnlinePlayer(OnlinePlayer player) {
+    public void terminatePlayer(Player player) {
+        logger.info("Terminating player");
+        CleanstoneServer.publishEvent(new PlayerQuitEvent(player));
+        CleanstoneServer.publishEvent(new PlayerTerminationEvent(player));
         onlinePlayers.remove(player);
-    }
-
-    @Override
-    public void kickPlayer(OnlinePlayer player, Text reason) {
-        removeOnlinePlayer(player);
-        player.getConnection().close(new DisconnectPacket(reason));
-    }
-
-    @EventListener
-    public void onPlayerConnectionClosed(ConnectionClosedEvent event) {
     }
 }

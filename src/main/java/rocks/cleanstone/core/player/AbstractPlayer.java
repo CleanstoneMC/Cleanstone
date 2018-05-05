@@ -2,14 +2,14 @@ package rocks.cleanstone.core.player;
 
 public abstract class AbstractPlayer implements Player {
 
-    protected final PlayerId id;
+    protected final PlayerID id;
 
-    public AbstractPlayer(PlayerId id) {
+    public AbstractPlayer(PlayerID id) {
         this.id = id;
     }
 
     @Override
-    public PlayerId getId() {
+    public PlayerID getId() {
         return id;
     }
 }
