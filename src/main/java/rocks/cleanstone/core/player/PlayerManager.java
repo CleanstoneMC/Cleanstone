@@ -11,7 +11,7 @@ public interface PlayerManager {
 
     Player getOnlinePlayer(PlayerID id);
 
-    Collection<PlayerID> getAllPlayerIds();
+    Collection<PlayerID> getAllPlayerIDs();
 
     InGamePlayerDataRepository getPlayerDataContainer(PlayerID id);
 

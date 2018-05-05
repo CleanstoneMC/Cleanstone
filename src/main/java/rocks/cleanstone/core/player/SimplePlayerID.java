@@ -1,5 +1,7 @@
 package rocks.cleanstone.core.player;
 
+import com.google.common.base.Objects;
+
 import java.util.UUID;
 
 public class SimplePlayerID implements PlayerID {
@@ -36,5 +38,20 @@ public class SimplePlayerID implements PlayerID {
     @Override
     public String toString() {
         return uuid.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SimplePlayerID)) return false;
+        SimplePlayerID that = (SimplePlayerID) o;
+        return Objects.equal(uuid, that.uuid) &&
+                Objects.equal(accountName, that.accountName) &&
+                Objects.equal(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(uuid, accountName, name);
     }
 }

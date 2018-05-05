@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.player.event.PlayerInitializationEvent;
 import rocks.cleanstone.core.player.event.PlayerJoinEvent;
@@ -19,6 +21,7 @@ import rocks.cleanstone.io.data.InGamePlayerDataRepository;
 public class SimplePlayerManager implements PlayerManager {
 
     private final Collection<Player> onlinePlayers = Sets.newConcurrentHashSet();
+    private final Collection<PlayerID> playerIDs = Sets.newConcurrentHashSet();
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
@@ -27,23 +30,26 @@ public class SimplePlayerManager implements PlayerManager {
     }
 
     @Override
+    @Nullable
     public Player getOnlinePlayer(PlayerID id) {
-        return null;
+        return onlinePlayers.stream().filter(player -> player.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override
-    public Collection<PlayerID> getAllPlayerIds() {
-        return null;
+    public Collection<PlayerID> getAllPlayerIDs() {
+        return ImmutableSet.copyOf(playerIDs);
     }
 
     @Override
     public InGamePlayerDataRepository getPlayerDataContainer(PlayerID id) {
+        // TODO get player data repo
         return null;
     }
 
     @Override
+    @Nullable
     public PlayerID getPlayerID(UUID uuid) {
-        return null; // TODO
+        return playerIDs.stream().filter(id -> id.getUUID().equals(uuid)).findFirst().orElse(null);
     }
 
     @Override
