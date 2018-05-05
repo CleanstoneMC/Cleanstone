@@ -14,10 +14,6 @@ public enum BossBarAction {
         this.actionID = actionID;
     }
 
-    public int getActionID() {
-        return actionID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static BossBarAction fromActionID(int actionID) {
         for (BossBarAction bossBarAction : BossBarAction.values()) {
@@ -27,5 +23,9 @@ public enum BossBarAction {
         }
 
         return null;
+    }
+
+    public int getActionID() {
+        return actionID;
     }
 }

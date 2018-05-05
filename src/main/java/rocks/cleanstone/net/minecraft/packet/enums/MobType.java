@@ -94,14 +94,6 @@ public enum MobType {
         this.minecraftID = minecraftID;
     }
 
-    public int getTypeID() {
-        return typeID;
-    }
-
-    public String getMinecraftID() {
-        return minecraftID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static MobType fromTypeID(int typeID) {
         for (MobType mobType : MobType.values()) {
@@ -122,5 +114,13 @@ public enum MobType {
         }
 
         return null;
+    }
+
+    public int getTypeID() {
+        return typeID;
+    }
+
+    public String getMinecraftID() {
+        return minecraftID;
     }
 }

@@ -15,10 +15,6 @@ public enum DiggingStatus {
         this.statusID = statusID;
     }
 
-    public int getStatusID() {
-        return statusID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static DiggingStatus fromStatusID(int statusID) {
         for (DiggingStatus diggingStatus : DiggingStatus.values()) {
@@ -28,5 +24,9 @@ public enum DiggingStatus {
         }
 
         return null;
+    }
+
+    public int getStatusID() {
+        return statusID;
     }
 }

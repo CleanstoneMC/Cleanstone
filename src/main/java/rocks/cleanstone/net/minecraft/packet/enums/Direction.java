@@ -12,10 +12,6 @@ public enum Direction {
         this.directionID = directionID;
     }
 
-    public int getDirectionID() {
-        return directionID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static Direction fromDirectionID(int directionID) {
         for (Direction direction : Direction.values()) {
@@ -25,5 +21,9 @@ public enum Direction {
         }
 
         return null;
+    }
+
+    public int getDirectionID() {
+        return directionID;
     }
 }

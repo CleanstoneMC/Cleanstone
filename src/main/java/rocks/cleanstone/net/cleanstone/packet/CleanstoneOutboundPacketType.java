@@ -1,9 +1,9 @@
 package rocks.cleanstone.net.cleanstone.packet;
 
+import rocks.cleanstone.net.cleanstone.packet.outbound.KeepAlive;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.cleanstone.packet.outbound.KeepAlive;
 
 public enum CleanstoneOutboundPacketType implements PacketType {
     KEEP_ALIVE(0, KeepAlive.class);

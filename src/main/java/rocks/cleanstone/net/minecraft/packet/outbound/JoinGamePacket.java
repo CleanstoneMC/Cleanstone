@@ -1,6 +1,5 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
-import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;

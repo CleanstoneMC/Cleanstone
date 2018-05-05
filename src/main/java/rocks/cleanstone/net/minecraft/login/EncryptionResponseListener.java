@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.minecraft.login;
 
 import org.springframework.context.event.EventListener;
-
 import org.springframework.scheduling.annotation.Async;
+
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
@@ -18,7 +18,7 @@ public class EncryptionResponseListener {
     @Async
     @EventListener
     public void onReceive(InboundPacketEvent event) {
-        if (event.getPacket() instanceof EncryptionResponsePacket ) {
+        if (event.getPacket() instanceof EncryptionResponsePacket) {
             EncryptionResponsePacket packet = (EncryptionResponsePacket) event.getPacket();
             try {
                 loginManager.onEncryptionResponse(event.getConnection(), packet);

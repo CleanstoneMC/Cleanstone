@@ -59,10 +59,6 @@ public enum Effect {
         this.effectID = effectID;
     }
 
-    public int getEffectID() {
-        return effectID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static Effect fromEffectID(int effectID) {
         for (Effect effect : Effect.values()) {
@@ -71,5 +67,9 @@ public enum Effect {
         }
 
         return null;
+    }
+
+    public int getEffectID() {
+        return effectID;
     }
 }

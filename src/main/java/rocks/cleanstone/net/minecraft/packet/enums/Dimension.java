@@ -11,10 +11,6 @@ public enum Dimension {
         this.dimesionID = dimesionID;
     }
 
-    public int getDimesionID() {
-        return dimesionID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static Dimension fromDimensionID(int dimesionID) {
         for (Dimension dimension : Dimension.values()) {
@@ -24,5 +20,9 @@ public enum Dimension {
         }
 
         return null;
+    }
+
+    public int getDimesionID() {
+        return dimesionID;
     }
 }

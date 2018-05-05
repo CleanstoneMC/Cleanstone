@@ -23,10 +23,10 @@
  */
 package rocks.cleanstone.net.utils;
 
-import io.netty.buffer.ByteBuf;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
+import io.netty.buffer.ByteBuf;
 
 /**
  * A class containing various utility methods that act on byte buffers.

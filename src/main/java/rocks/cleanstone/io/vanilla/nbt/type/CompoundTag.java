@@ -1,9 +1,9 @@
 package rocks.cleanstone.io.vanilla.nbt.type;
 
+import java.util.Map;
+
 import rocks.cleanstone.io.vanilla.nbt.TagType;
 import rocks.cleanstone.io.vanilla.nbt.VanillaTagType;
-
-import java.util.Map;
 
 public class CompoundTag extends AbstractTag<Map<String, AbstractTag>> {
 

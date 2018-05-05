@@ -1,11 +1,11 @@
 package rocks.cleanstone.net.minecraft.packet.inbound;
 
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.enums.ChatMode;
 import rocks.cleanstone.net.minecraft.packet.enums.DisplayedSkinParts;
 import rocks.cleanstone.net.minecraft.packet.enums.MainHand;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
 
 public class ClientSettingsPacket implements Packet {
 

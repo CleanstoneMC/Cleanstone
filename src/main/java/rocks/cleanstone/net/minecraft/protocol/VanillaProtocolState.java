@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
-import rocks.cleanstone.net.packet.protocol.ProtocolState;
-
 import javax.annotation.Nullable;
+
+import rocks.cleanstone.net.packet.protocol.ProtocolState;
 
 public enum VanillaProtocolState implements ProtocolState {
     HANDSHAKE(0), STATUS(1), LOGIN(2), PLAY(3);
@@ -13,16 +13,16 @@ public enum VanillaProtocolState implements ProtocolState {
         this.stateID = stateID;
     }
 
-    @Override
-    public int getStateID() {
-        return stateID;
-    }
-
     @Nullable
     public static VanillaProtocolState byStateID(int stateID) {
         for (VanillaProtocolState state : values()) {
             if (state.getStateID() == stateID) return state;
         }
         return null;
+    }
+
+    @Override
+    public int getStateID() {
+        return stateID;
     }
 }

@@ -11,11 +11,6 @@ public enum ChatPosition {
         this.positionID = positionID;
     }
 
-    public int getPositionID() {
-        return positionID;
-    }
-
-
     @SuppressWarnings("Duplicates")
     public static ChatPosition fromPositionID(int positionID) {
         for (ChatPosition chatPosition : ChatPosition.values()) {
@@ -25,5 +20,9 @@ public enum ChatPosition {
         }
 
         return null;
+    }
+
+    public int getPositionID() {
+        return positionID;
     }
 }

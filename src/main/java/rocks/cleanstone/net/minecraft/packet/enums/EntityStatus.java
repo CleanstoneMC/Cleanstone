@@ -11,10 +11,6 @@ public enum EntityStatus {
         this.statusID = statusID;
     }
 
-    public int getStatusID() {
-        return statusID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static EntityStatus fromStatusID(int statusID) {
         for (EntityStatus entityStatus : EntityStatus.values()) {
@@ -23,5 +19,9 @@ public enum EntityStatus {
         }
 
         return null;
+    }
+
+    public int getStatusID() {
+        return statusID;
     }
 }

@@ -1,10 +1,10 @@
 package rocks.cleanstone.net.minecraft.packet.inbound;
 
+import java.util.UUID;
+
+import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
-
-import java.util.UUID;
 
 public class SpectatePacket implements Packet {
 

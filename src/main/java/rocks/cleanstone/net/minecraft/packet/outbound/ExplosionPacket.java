@@ -1,11 +1,11 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketType;
+import java.util.Collection;
+
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.data.BlockRecord;
-
-import java.util.Collection;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
 
 public class ExplosionPacket implements Packet {
 

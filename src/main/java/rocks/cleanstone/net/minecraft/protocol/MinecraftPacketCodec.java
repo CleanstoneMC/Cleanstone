@@ -5,5 +5,6 @@ import rocks.cleanstone.net.packet.protocol.ProtocolState;
 
 public interface MinecraftPacketCodec extends PacketCodec {
     int getProtocolPacketID();
+
     ProtocolState getProtocolState();
 }

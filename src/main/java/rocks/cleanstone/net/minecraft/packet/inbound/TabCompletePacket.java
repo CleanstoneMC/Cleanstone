@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.minecraft.packet.inbound;
 
+import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.utils.Vector;
 
 public class TabCompletePacket implements Packet {

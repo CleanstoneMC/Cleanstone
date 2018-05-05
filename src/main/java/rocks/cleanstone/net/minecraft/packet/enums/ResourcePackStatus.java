@@ -12,10 +12,6 @@ public enum ResourcePackStatus {
         this.status = statusID;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
     @SuppressWarnings("Duplicates")
     public static ResourcePackStatus fromStatusID(int statusID) {
         for (ResourcePackStatus resourcePackStatus : ResourcePackStatus.values()) {
@@ -25,5 +21,9 @@ public enum ResourcePackStatus {
         }
 
         return null;
+    }
+
+    public int getStatus() {
+        return status;
     }
 }

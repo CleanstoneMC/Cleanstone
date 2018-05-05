@@ -14,10 +14,6 @@ public enum Animation {
         this.animationID = animationID;
     }
 
-    public int getAnimationID() {
-        return animationID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static Animation fromAnimationID(int animationID) {
         for (Animation animation : Animation.values()) {
@@ -26,5 +22,9 @@ public enum Animation {
         }
 
         return null;
+    }
+
+    public int getAnimationID() {
+        return animationID;
     }
 }

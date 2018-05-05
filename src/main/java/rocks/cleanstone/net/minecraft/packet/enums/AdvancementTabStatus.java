@@ -10,10 +10,6 @@ public enum AdvancementTabStatus {
         this.statusID = statusID;
     }
 
-    public int getStatusID() {
-        return statusID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static AdvancementTabStatus fromStatusID(int statusID) {
         for (AdvancementTabStatus advancementTabStatus : AdvancementTabStatus.values()) {
@@ -22,5 +18,9 @@ public enum AdvancementTabStatus {
         }
 
         return null;
+    }
+
+    public int getStatusID() {
+        return statusID;
     }
 }

@@ -19,10 +19,6 @@ public enum UpdateBlockAction {
         this.actionID = actionID;
     }
 
-    public int getActionID() {
-        return actionID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static UpdateBlockAction fromActionID(int actionID) {
         for (UpdateBlockAction updateBlockAction : UpdateBlockAction.values()) {
@@ -32,5 +28,9 @@ public enum UpdateBlockAction {
         }
 
         return null;
+    }
+
+    public int getActionID() {
+        return actionID;
     }
 }

@@ -1,9 +1,9 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
 
 public class ServerDifficultyPacket implements Packet {
 

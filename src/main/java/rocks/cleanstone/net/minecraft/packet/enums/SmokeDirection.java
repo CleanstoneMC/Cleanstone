@@ -17,10 +17,6 @@ public enum SmokeDirection {
         this.directionID = directionID;
     }
 
-    public int getDirectionID() {
-        return directionID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static SmokeDirection fromDirectionID(int directionID) {
         for (SmokeDirection direction : SmokeDirection.values()) {
@@ -30,5 +26,9 @@ public enum SmokeDirection {
         }
 
         return null;
+    }
+
+    public int getDirectionID() {
+        return directionID;
     }
 }

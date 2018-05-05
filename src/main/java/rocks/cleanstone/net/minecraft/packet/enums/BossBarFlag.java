@@ -13,10 +13,6 @@ public enum BossBarFlag {
         this.bit = bit;
     }
 
-    public int getBit() {
-        return bit;
-    }
-
     public static BossBarFlag[] fromBitMask(int bitmask) {
         List<BossBarFlag> bossBarFlagList = new ArrayList<>();
 
@@ -27,5 +23,9 @@ public enum BossBarFlag {
         }
 
         return bossBarFlagList.toArray(new BossBarFlag[bossBarFlagList.size()]);
+    }
+
+    public int getBit() {
+        return bit;
     }
 }

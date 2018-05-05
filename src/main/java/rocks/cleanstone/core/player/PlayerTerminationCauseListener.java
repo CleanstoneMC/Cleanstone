@@ -2,9 +2,11 @@ package rocks.cleanstone.core.player;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-import rocks.cleanstone.net.event.ConnectionClosedEvent;
 
 import java.util.Optional;
+
+import rocks.cleanstone.net.event.ConnectionClosedEvent;
+
 
 public class PlayerTerminationCauseListener {
 

@@ -1,14 +1,14 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketType;
+import java.util.UUID;
+
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.enums.BossBarAction;
 import rocks.cleanstone.net.minecraft.packet.enums.BossBarColor;
 import rocks.cleanstone.net.minecraft.packet.enums.BossBarDivision;
 import rocks.cleanstone.net.minecraft.packet.enums.BossBarFlag;
-
-import java.util.UUID;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
 
 public class BossBarPacket implements Packet {
 

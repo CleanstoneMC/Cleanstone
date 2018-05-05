@@ -1,8 +1,9 @@
 package rocks.cleanstone.io.data;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.UUID;
 
 @Entity
 public class InGamePlayerData {

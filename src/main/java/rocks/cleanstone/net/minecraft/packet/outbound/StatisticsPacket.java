@@ -1,10 +1,10 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
+import java.util.Map;
+
+import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
-
-import java.util.Map;
 
 public class StatisticsPacket implements Packet {
 

@@ -11,10 +11,6 @@ public enum InteractType {
         this.typeID = typeID;
     }
 
-    public int getTypeID() {
-        return typeID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static InteractType fromTypeID(int typeID) {
         for (InteractType interactType : InteractType.values()) {
@@ -24,5 +20,9 @@ public enum InteractType {
         }
 
         return null;
+    }
+
+    public int getTypeID() {
+        return typeID;
     }
 }

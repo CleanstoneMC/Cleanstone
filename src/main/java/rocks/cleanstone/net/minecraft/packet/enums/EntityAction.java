@@ -17,10 +17,6 @@ public enum EntityAction {
         this.actionID = actionID;
     }
 
-    public int getActionID() {
-        return actionID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static EntityAction fromActionID(int actionID) {
         for (EntityAction entityAction : EntityAction.values()) {
@@ -30,5 +26,9 @@ public enum EntityAction {
         }
 
         return null;
+    }
+
+    public int getActionID() {
+        return actionID;
     }
 }

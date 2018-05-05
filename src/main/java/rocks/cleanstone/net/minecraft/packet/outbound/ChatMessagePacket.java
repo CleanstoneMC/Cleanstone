@@ -1,9 +1,9 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.enums.ChatPosition;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
 
 public class ChatMessagePacket implements Packet {
 

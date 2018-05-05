@@ -10,10 +10,6 @@ public enum MainHand {
         this.handID = handID;
     }
 
-    public int getHandID() {
-        return handID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static MainHand fromHandID(int handID) {
         for (MainHand mainHand : MainHand.values()) {
@@ -23,5 +19,9 @@ public enum MainHand {
         }
 
         return null;
+    }
+
+    public int getHandID() {
+        return handID;
     }
 }

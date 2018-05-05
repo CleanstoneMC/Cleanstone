@@ -15,10 +15,6 @@ public enum BossBarColor {
         this.colorID = colorID;
     }
 
-    public int getColorID() {
-        return colorID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static BossBarColor fromColorID(int colorID) {
         for (BossBarColor bossBarColor : BossBarColor.values()) {
@@ -28,5 +24,9 @@ public enum BossBarColor {
         }
 
         return null;
+    }
+
+    public int getColorID() {
+        return colorID;
     }
 }

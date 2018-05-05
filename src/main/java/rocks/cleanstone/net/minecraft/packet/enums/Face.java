@@ -16,14 +16,6 @@ public enum Face {
         this.offset = offset;
     }
 
-    public int getFaceID() {
-        return faceID;
-    }
-
-    public String getOffset() {
-        return offset;
-    }
-
     @SuppressWarnings("Duplicates")
     public static Face fromFaceID(int faceID) {
         for (Face face : Face.values()) {
@@ -44,5 +36,13 @@ public enum Face {
         }
 
         return null;
+    }
+
+    public int getFaceID() {
+        return faceID;
+    }
+
+    public String getOffset() {
+        return offset;
     }
 }

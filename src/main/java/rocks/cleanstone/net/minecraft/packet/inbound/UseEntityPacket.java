@@ -1,10 +1,10 @@
 package rocks.cleanstone.net.minecraft.packet.inbound;
 
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.enums.Hand;
 import rocks.cleanstone.net.minecraft.packet.enums.InteractType;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
 
 public class UseEntityPacket implements Packet {
 

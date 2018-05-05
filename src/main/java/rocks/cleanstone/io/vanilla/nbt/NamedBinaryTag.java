@@ -1,18 +1,15 @@
 package rocks.cleanstone.io.vanilla.nbt;
 
-import rocks.cleanstone.io.vanilla.nbt.type.AbstractTag;
-
 import java.io.File;
+
+import rocks.cleanstone.io.vanilla.nbt.type.AbstractTag;
 
 public class NamedBinaryTag {
 
     private final File file;
-
-    private String rootTagId;
-
-    private byte rootTagType;
-
     private final AbstractTag rootTag;
+    private String rootTagId;
+    private byte rootTagType;
 
     public NamedBinaryTag(String fileName) {
         this(new File(fileName));

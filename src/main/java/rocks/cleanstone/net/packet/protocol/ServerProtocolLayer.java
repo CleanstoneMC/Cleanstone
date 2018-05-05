@@ -1,11 +1,13 @@
 package rocks.cleanstone.net.packet.protocol;
 
 import com.google.common.collect.Maps;
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
+
+import java.util.Map;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
+
+import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
+import rocks.cleanstone.net.packet.Packet;
 
 public abstract class ServerProtocolLayer implements Comparable<ServerProtocolLayer> {
     private final Map<Class<? extends Packet>, PacketCodec> packetClassCodecMap = Maps.newConcurrentMap();

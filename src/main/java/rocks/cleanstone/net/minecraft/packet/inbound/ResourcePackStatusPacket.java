@@ -1,9 +1,9 @@
 package rocks.cleanstone.net.minecraft.packet.inbound;
 
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.enums.ResourcePackStatus;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
 
 public class ResourcePackStatusPacket implements Packet {
 

@@ -10,10 +10,6 @@ public enum ClientStatus {
         this.statusID = statusID;
     }
 
-    public int getStatusID() {
-        return statusID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static ClientStatus fromStatusID(int statusID) {
         for (ClientStatus clientStatus : ClientStatus.values()) {
@@ -23,5 +19,9 @@ public enum ClientStatus {
         }
 
         return null;
+    }
+
+    public int getStatusID() {
+        return statusID;
     }
 }

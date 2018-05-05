@@ -9,10 +9,6 @@ public enum GlobalEntityType {
         this.entityID = entityID;
     }
 
-    public int getEntityID() {
-        return entityID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static GlobalEntityType fromTypeID(int typeID) {
         for (GlobalEntityType globalEntityType : GlobalEntityType.values()) {
@@ -22,5 +18,9 @@ public enum GlobalEntityType {
         }
 
         return null;
+    }
+
+    public int getEntityID() {
+        return entityID;
     }
 }

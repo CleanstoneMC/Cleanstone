@@ -13,10 +13,6 @@ public enum BossBarDivision {
         this.divisionID = divisionID;
     }
 
-    public int getDivisionID() {
-        return divisionID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static BossBarDivision fromDivisionID(int divisionID) {
         for (BossBarDivision bossBarDivision : BossBarDivision.values()) {
@@ -26,5 +22,9 @@ public enum BossBarDivision {
         }
 
         return null;
+    }
+
+    public int getDivisionID() {
+        return divisionID;
     }
 }

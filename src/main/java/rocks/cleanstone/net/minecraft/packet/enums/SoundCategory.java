@@ -20,14 +20,6 @@ public enum SoundCategory {
         this.categoryName = categoryName;
     }
 
-    public int getCategoryID() {
-        return categoryID;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
     @SuppressWarnings("Duplicates")
     public static SoundCategory fromCategoryID(int categoryID) {
         for (SoundCategory soundCategory : SoundCategory.values()) {
@@ -48,5 +40,13 @@ public enum SoundCategory {
         }
 
         return null;
+    }
+
+    public int getCategoryID() {
+        return categoryID;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
     }
 }

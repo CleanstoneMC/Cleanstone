@@ -11,10 +11,6 @@ public enum ChatMode {
         this.modeID = modeID;
     }
 
-    public int getModeID() {
-        return modeID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static ChatMode fromModeID(int modeID) {
         for (ChatMode chatMode : ChatMode.values()) {
@@ -24,5 +20,9 @@ public enum ChatMode {
         }
 
         return null;
+    }
+
+    public int getModeID() {
+        return modeID;
     }
 }

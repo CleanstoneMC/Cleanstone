@@ -35,10 +35,6 @@ public enum ObjectType {
         this.typeID = typeID;
     }
 
-    public int getTypeID() {
-        return typeID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static ObjectType fromTypeID(int typeID) {
         for (ObjectType objectType : ObjectType.values()) {
@@ -48,5 +44,9 @@ public enum ObjectType {
         }
 
         return null;
+    }
+
+    public int getTypeID() {
+        return typeID;
     }
 }

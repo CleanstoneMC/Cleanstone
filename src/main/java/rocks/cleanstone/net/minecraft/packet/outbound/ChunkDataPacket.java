@@ -1,9 +1,9 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
 import rocks.cleanstone.io.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 
 public class ChunkDataPacket implements Packet {
 

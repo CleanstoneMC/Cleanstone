@@ -11,10 +11,6 @@ public enum Difficulty {
         this.difficultyID = difficultyID;
     }
 
-    public int getDifficultyID() {
-        return difficultyID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static Difficulty fromDifficultID(int difficultyID) {
         for (Difficulty difficulty : Difficulty.values()) {
@@ -24,5 +20,9 @@ public enum Difficulty {
         }
 
         return null;
+    }
+
+    public int getDifficultyID() {
+        return difficultyID;
     }
 }

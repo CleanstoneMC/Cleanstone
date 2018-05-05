@@ -3,10 +3,11 @@ package rocks.cleanstone.core.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import rocks.cleanstone.core.CleanstoneServer;
 
 import java.net.InetAddress;
 import java.util.Set;
+
+import rocks.cleanstone.core.CleanstoneServer;
 
 @Configuration
 @EnableConfigurationProperties
@@ -22,6 +23,10 @@ public class CleanstoneConfig {
 
     private int port;
     private InetAddress address;
+
+    public static CleanstoneConfig getInstance() {
+        return CleanstoneServer.getInstance().getCleanstoneConfig();
+    }
 
     public boolean isSubServer() {
         return subServer;
@@ -69,10 +74,6 @@ public class CleanstoneConfig {
 
     public void setAddress(InetAddress address) {
         this.address = address;
-    }
-
-    public static CleanstoneConfig getInstance() {
-        return CleanstoneServer.getInstance().getCleanstoneConfig();
     }
 
     @Override

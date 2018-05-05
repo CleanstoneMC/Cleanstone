@@ -13,10 +13,6 @@ public enum LevelType {
         this.levelType = levelType;
     }
 
-    public String getLevelType() {
-        return levelType;
-    }
-
     @SuppressWarnings("Duplicates")
     public static LevelType fromLevelType(String levelType) {
         for (LevelType type : LevelType.values()) {
@@ -26,5 +22,9 @@ public enum LevelType {
         }
 
         return null;
+    }
+
+    public String getLevelType() {
+        return levelType;
     }
 }

@@ -57,10 +57,6 @@ public enum Particle {
         this.particleID = particleID;
     }
 
-    public int getParticleID() {
-        return particleID;
-    }
-
     @SuppressWarnings("Duplicates")
     public static Particle fromParticleID(int particleID) {
         for (Particle particle : Particle.values()) {
@@ -70,5 +66,9 @@ public enum Particle {
         }
 
         return null;
+    }
+
+    public int getParticleID() {
+        return particleID;
     }
 }

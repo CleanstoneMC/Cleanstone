@@ -7,7 +7,10 @@ import rocks.cleanstone.net.packet.Packet;
 
 public interface Player {
     PlayerID getId();
+
     void sendPacket(Packet packet);
+
     InetAddress getAddress();
+
     void kick(Text reason);
 }

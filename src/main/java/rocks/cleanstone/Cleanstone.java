@@ -1,6 +1,7 @@
 package rocks.cleanstone;
 
 import org.springframework.boot.SpringApplication;
+
 import rocks.cleanstone.core.CleanstoneMainServer;
 
 public class Cleanstone {
