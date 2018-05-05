@@ -5,13 +5,18 @@ import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.util.concurrent.ListenableFuture;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.crypto.SecretKey;
+
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.minecraft.MinecraftNetworking;
+import rocks.cleanstone.net.Networking;
+import rocks.cleanstone.net.minecraft.HandshakeListener;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
@@ -24,11 +29,11 @@ import rocks.cleanstone.net.utils.UUIDUtils;
 public class LoginManager {
 
     private final Map<Connection, LoginData> connectionLoginDataMap = Maps.newConcurrentMap();
-    private final LoginEncryptionManager loginEncryptionManager;
     private final SessionServerRequester sessionServerRequester;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private MinecraftNetworking networking;
-
+    private final Networking networking;
+    private final PublicKey publicKey;
+    private final PrivateKey privateKey;
     @Autowired
     private HandshakeListener handshakeListener;
     @Autowired
@@ -36,21 +41,18 @@ public class LoginManager {
     @Autowired
     private EncryptionResponseListener encryptionResponseListener;
 
-    public LoginManager() {
-        loginEncryptionManager = new LoginEncryptionManager(this);
-        sessionServerRequester = new SessionServerRequester(this);
-    }
-
-    public void init() {
-        loginStartListener.setLoginManager(this);
-        encryptionResponseListener.setLoginManager(this);
+    public LoginManager(Networking networking, SessionServerRequester sessionServerRequester) {
+        this.networking = networking;
+        this.sessionServerRequester = sessionServerRequester;
+        publicKey = networking.getKeyPair().getPublic();
+        privateKey = networking.getKeyPair().getPrivate();
     }
 
     public void startLogin(Connection connection, String playerName) {
         byte[] verifyToken = SecurityUtils.generateRandomToken(4);
         LoginData loginData = new LoginData(verifyToken, playerName);
         connectionLoginDataMap.put(connection, loginData);
-        loginEncryptionManager.sendEncryptionRequest(connection, loginData);
+        connection.sendPacket(LoginCrypto.constructEncryptionRequest(loginData, publicKey));
     }
 
     public void finishLogin(Connection connection, UUID uuid, String accountName,
@@ -81,13 +83,16 @@ public class LoginManager {
                               EncryptionResponsePacket encryptionResponsePacket) {
         LoginData loginData = connectionLoginDataMap.get(connection);
         if (loginData == null) throw new IllegalStateException("Connection hasnt started login process");
-        loginEncryptionManager.validateEncryptionResponse(connection, loginData, encryptionResponsePacket);
+        SecretKey key = LoginCrypto.validateEncryptionResponse(loginData, privateKey, encryptionResponsePacket);
+        connection.setSharedSecret(key);
+        connection.setEncryptionEnabled(true);
         validateMinecraftSession(connection, loginData);
     }
 
     private void validateMinecraftSession(Connection connection, LoginData loginData) {
-        AsyncResult<SessionServerResponse> responseResult =
-                sessionServerRequester.request(connection, loginData);
+        logger.info("Pre validate session");
+        ListenableFuture<SessionServerResponse> responseResult =
+                sessionServerRequester.request(connection, loginData, publicKey);
         responseResult.addCallback((response) -> {
             UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
             String name = response.getName();
@@ -98,13 +103,5 @@ public class LoginManager {
             e.printStackTrace();
             stopLogin(connection, Text.fromPlain("Failed to validate session"));
         });
-    }
-
-    public MinecraftNetworking getNetworking() {
-        return networking;
-    }
-
-    public void setNetworking(MinecraftNetworking networking) {
-        this.networking = networking;
     }
 }

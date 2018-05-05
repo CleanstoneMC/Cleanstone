@@ -9,7 +9,6 @@ import java.util.Locale;
 
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
-import rocks.cleanstone.net.Networking;
 
 public abstract class CleanstoneServer implements ApplicationRunner {
 
@@ -18,17 +17,14 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
     protected final CleanstoneConfig cleanstoneConfig;
     protected final MinecraftConfig minecraftConfig;
-    protected final Networking cleanstoneNetworking;
     @Autowired
     protected ApplicationEventPublisher publisher;
     @Autowired
     protected MessageSource messageSource;
 
-    protected CleanstoneServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig,
-                               Networking cleanstoneNetworking) {
+    protected CleanstoneServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig) {
         this.cleanstoneConfig = cleanstoneConfig;
         this.minecraftConfig = minecraftConfig;
-        this.cleanstoneNetworking = cleanstoneNetworking;
     }
 
     public static <T> T publishEvent(T event) {
@@ -57,10 +53,6 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
     public void destroy() {
         INSTANCE = null;
-    }
-
-    public Networking getCleanstoneNetworking() {
-        return cleanstoneNetworking;
     }
 
     public ApplicationEventPublisher getPublisher() {

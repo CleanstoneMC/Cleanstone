@@ -8,16 +8,16 @@ import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 
 public class EncryptionResponseListener {
 
-    private LoginManager loginManager;
+    private final LoginManager loginManager;
 
-    public EncryptionResponseListener() {
+    public EncryptionResponseListener(LoginManager loginManager) {
+        this.loginManager = loginManager;
     }
 
     @EventListener
     public void onReceive(InboundPacketEvent event) {
         if (event.getPacket() instanceof EncryptionResponsePacket) {
             EncryptionResponsePacket packet = (EncryptionResponsePacket) event.getPacket();
-
             try {
                 loginManager.onEncryptionResponse(event.getConnection(), packet);
             } catch (Exception e) {
@@ -25,13 +25,5 @@ public class EncryptionResponseListener {
                 loginManager.stopLogin(event.getConnection(), Text.fromPlain("Invalid encryption response"));
             }
         }
-    }
-
-    public LoginManager getLoginManager() {
-        return loginManager;
-    }
-
-    public void setLoginManager(LoginManager loginManager) {
-        this.loginManager = loginManager;
     }
 }

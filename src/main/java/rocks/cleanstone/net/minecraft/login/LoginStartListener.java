@@ -10,27 +10,20 @@ import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
 public class LoginStartListener {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private LoginManager loginManager;
 
-    public LoginStartListener() {
+    private final LoginManager loginManager;
+
+    public LoginStartListener(LoginManager loginManager) {
+        this.loginManager = loginManager;
     }
 
     @EventListener
     public void onReceive(InboundPacketEvent event) {
         if (event.getPacket() instanceof LoginStartPacket) {
             LoginStartPacket packet = (LoginStartPacket) event.getPacket();
-
             String playerName = packet.getPlayerName();
             logger.info("Starting login");
             loginManager.startLogin(event.getConnection(), playerName);
         }
-    }
-
-    public LoginManager getLoginManager() {
-        return loginManager;
-    }
-
-    public void setLoginManager(LoginManager loginManager) {
-        this.loginManager = loginManager;
     }
 }

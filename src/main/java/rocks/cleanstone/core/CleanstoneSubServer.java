@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ImportResource;
 
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
-import rocks.cleanstone.net.Networking;
 
 @SpringBootApplication
 @ComponentScan(excludeFilters = @ComponentScan.Filter(SpringBootApplication.class))
@@ -16,9 +15,8 @@ public class CleanstoneSubServer extends CleanstoneServer {
 
     private ExternalServer mainServer;
 
-    protected CleanstoneSubServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig,
-                                  Networking cleanstoneNetworking) {
-        super(cleanstoneConfig, minecraftConfig, cleanstoneNetworking);
+    public CleanstoneSubServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig) {
+        super(cleanstoneConfig, minecraftConfig);
     }
 
     @Override
