@@ -10,7 +10,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.util.AttributeKey;
-import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.net.utils.NotEnoughReadableBytesException;
@@ -37,7 +36,6 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
         }
         ByteBuf newBuffer = ctx.alloc().buffer(remainingPacketLength);
         in.readBytes(newBuffer, remainingPacketLength);
-        ReferenceCountUtil.retain(newBuffer, 30);
         out.add(newBuffer);
     }
 

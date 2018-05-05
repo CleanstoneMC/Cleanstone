@@ -24,7 +24,6 @@ public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         Packet packet = (Packet) msg;
         logger.info("inbound packet handler " + packet.getType());
