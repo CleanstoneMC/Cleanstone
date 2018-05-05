@@ -12,11 +12,11 @@
        default-destroy-method="destroy">
 
     <context:annotation-config/>
-    <task:scheduler id="scheduler" pool-size="10"/>
-    <task:executor id="executor" pool-size="10"/>
-    <task:annotation-driven executor="executor" scheduler="scheduler" proxy-target-class="true"/>
+    <task:scheduler id="taskScheduler" pool-size="10"/>
+    <task:executor id="taskExecutor" pool-size="10"/>
+    <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
 
-    <!-- Config -->
+    <!-- CONFIG -->
 
     <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
     <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig"/>
@@ -24,7 +24,7 @@
         <property name="basename" value="lang.messages"/>
     </bean>
 
-    <!-- Services -->
+    <!-- SERVICES -->
 
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
@@ -34,30 +34,21 @@
         </property>
     </bean>
 
-    <!-- Server -->
+    <!-- SERVER -->
 
-    <bean id="cleanstoneServer" class="rocks.cleanstone.core.CleanstoneServer" abstract="true">
+    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer">
         <constructor-arg ref="cleanstoneConfig"/>
         <constructor-arg ref="minecraftConfig"/>
-        <constructor-arg ref="cleanstoneNetworking"/>
     </bean>
 
-    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer"
-          parent="cleanstoneServer">
-    </bean>
-
-    <!-- Networking -->
-
-    <bean id="simpleMinecraftProtocol"
-          class="rocks.cleanstone.net.minecraft.protocol.SimpleMinecraftProtocol"/>
-    <bean id="simpleCleanstoneProtocol"
-          class="rocks.cleanstone.net.cleanstone.protocol.SimpleCleanstoneProtocol"/>
-
+    <!-- NETWORKING -->
     <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"/>
 
+    <!-- Cleanstone -->
     <bean id="cleanstoneNetworking" class="rocks.cleanstone.net.cleanstone.SimpleCleanstoneNetworking"
           parent="abstractNetworking">
         <constructor-arg ref="cleanstoneConfig"/>
         <constructor-arg ref="simpleCleanstoneProtocol"/>
     </bean>
+
 </beans>
