@@ -23,7 +23,7 @@ public class PlayerInitializationCauseListener {
     @EventListener
     public void onPlayerLoginSuccess(AsyncLoginSuccessEvent loginEvent) {
         Connection connection = loginEvent.getConnection();
-        PlayerID playerID = playerManager.getPlayerID(loginEvent.getUUID());
+        PlayerID playerID = playerManager.getPlayerID(loginEvent.getUUID(), loginEvent.getName());
 
         Player alreadyOnlinePlayer = playerManager.getOnlinePlayer(playerID);
         if (alreadyOnlinePlayer != null) {

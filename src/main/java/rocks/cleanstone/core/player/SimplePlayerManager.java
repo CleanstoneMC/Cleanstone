@@ -48,9 +48,15 @@ public class SimplePlayerManager implements PlayerManager {
     }
 
     @Override
-    @Nullable
-    public PlayerID getPlayerID(UUID uuid) {
-        return playerIDs.stream().filter(id -> id.getUUID().equals(uuid)).findFirst().orElse(null);
+    public PlayerID getPlayerID(UUID uuid, String accountName) {
+        return playerIDs.stream().filter(id -> id.getUUID().equals(uuid)).findFirst()
+                .orElse(registerNewPlayerID(uuid, accountName));
+    }
+
+    private PlayerID registerNewPlayerID(UUID uuid, String accountName) {
+        PlayerID id = new SimplePlayerID(uuid, accountName);
+        playerIDs.add(id);
+        return id;
     }
 
     @Override

@@ -15,7 +15,7 @@ public interface PlayerManager {
 
     InGamePlayerDataRepository getPlayerDataContainer(PlayerID id);
 
-    PlayerID getPlayerID(UUID uuid);
+    PlayerID getPlayerID(UUID uuid, String accountName);
 
     void initializePlayer(Player player);
 
