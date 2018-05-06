@@ -50,24 +50,6 @@
             <plugin>
                 <groupId>org.openclover</groupId>
                 <artifactId>clover-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>main</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>instrument</goal>
-                            <goal>aggregate</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>site</id>
-                        <phase>pre-site</phase>
-                        <goals>
-                            <goal>instrument</goal>
-                            <goal>aggregate</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
