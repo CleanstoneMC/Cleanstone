@@ -1,13 +1,16 @@
 package rocks.cleanstone;
 
 import org.springframework.boot.SpringApplication;
-
 import rocks.cleanstone.core.CleanstoneMainServer;
+import rocks.cleanstone.core.CleanstoneSubServer;
 
 public class Cleanstone {
 
     public static void main(String[] args) {
-        //TODO: Add SubServer check
-        SpringApplication.run(CleanstoneMainServer.class, args).registerShutdownHook();
+        if (args.length > 0 && args[0].equalsIgnoreCase("subserver")) {
+            SpringApplication.run(CleanstoneSubServer.class, args).registerShutdownHook();
+        } else {
+            SpringApplication.run(CleanstoneMainServer.class, args).registerShutdownHook();
+        }
     }
 }
