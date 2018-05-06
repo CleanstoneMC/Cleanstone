@@ -53,10 +53,11 @@ class VectorTest {
 
     @Test
     void equals() {
-        assertNotEquals(vector0, vector1);
+        assertTrue(vector0.equals(new Vector(vector0)));
+        assertFalse(vector0.equals(null));
 
         vector0.addVector(vector1);
 
-        assertEquals(vector0, vector1);
+        assertTrue(vector0.equals(vector1));
     }
 }
