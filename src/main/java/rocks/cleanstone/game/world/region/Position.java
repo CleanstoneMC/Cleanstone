@@ -1,6 +1,5 @@
 package rocks.cleanstone.game.world.region;
 
-import javafx.geometry.Pos;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.net.utils.Vector;
 
