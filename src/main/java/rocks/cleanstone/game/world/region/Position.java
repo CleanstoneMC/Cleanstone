@@ -1,5 +1,6 @@
 package rocks.cleanstone.game.world.region;
 
+import javafx.geometry.Pos;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.net.utils.Vector;
 
@@ -24,5 +25,25 @@ public class Position extends Vector {
 
     public void setWorld(World world) {
         this.world = world;
+    }
+
+    @Override
+    public Position clone() {
+        return new Position(x, y, z, world);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Position)) {
+            return false;
+        }
+
+        Position position = (Position) obj;
+
+        if (position.x != x || position.y != y || position.z != z || position.world != world) {
+            return false;
+        }
+
+        return true;
     }
 }
