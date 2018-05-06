@@ -42,7 +42,6 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
                 + " and clientLayer " + connection.getClientProtocolLayer());
         Packet packet = codec.decode(in);
         out.add(packet);
-        // TODO: Figure out why releasing the ByteBuf "in" causes issues (because it's still being used?)
     }
 
     @Override

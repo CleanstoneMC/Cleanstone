@@ -58,6 +58,7 @@ public class SimplePlayerManager implements PlayerManager {
         onlinePlayers.add(player);
         CleanstoneServer.publishEvent(new PlayerInitializationEvent(player));
         CleanstoneServer.publishEvent(new PlayerJoinEvent(player));
+        //player.sendPacket(new DisconnectPacket(Text.of("Kicked")));
     }
 
     @Override
