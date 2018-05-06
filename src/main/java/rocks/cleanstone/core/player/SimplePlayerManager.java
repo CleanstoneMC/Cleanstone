@@ -1,5 +1,6 @@
 package rocks.cleanstone.core.player;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
@@ -55,7 +56,9 @@ public class SimplePlayerManager implements PlayerManager {
     @Override
     public void initializePlayer(Player player) {
         logger.info("Initializing player");
-        onlinePlayers.add(player);
+        Preconditions.checkState(onlinePlayers.add(player),
+                "Cannot initialize already initialized player " + player);
+
         CleanstoneServer.publishEvent(new PlayerInitializationEvent(player));
         CleanstoneServer.publishEvent(new PlayerJoinEvent(player));
         //player.sendPacket(new DisconnectPacket(Text.of("Kicked")));
@@ -64,6 +67,9 @@ public class SimplePlayerManager implements PlayerManager {
     @Override
     public void terminatePlayer(Player player) {
         logger.info("Terminating player");
+        Preconditions.checkState(onlinePlayers.contains(player),
+                "Cannot terminate already terminated / non-initialized player " + player);
+
         CleanstoneServer.publishEvent(new PlayerQuitEvent(player));
         CleanstoneServer.publishEvent(new PlayerTerminationEvent(player));
         onlinePlayers.remove(player);
