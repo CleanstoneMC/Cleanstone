@@ -1,8 +1,8 @@
-package rocks.cleanstone.net.utils;
+package rocks.cleanstone.utils;
 
 import java.util.Objects;
 
-public class Vector implements Cloneable {
+public class Vector {
 
     protected double x;
     protected double y;
@@ -78,23 +78,12 @@ public class Vector implements Cloneable {
     }
 
     @Override
-    public Vector clone() {
-        return new Vector(x, y, z);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Vector)) {
             return false;
         }
-
         Vector vector = (Vector) obj;
-
-        if (vector.x != x || vector.y != y || vector.z != z) {
-            return false;
-        }
-
-        return true;
+        return !(vector.x != x) && !(vector.y != y) && !(vector.z != z);
     }
 
     @Override

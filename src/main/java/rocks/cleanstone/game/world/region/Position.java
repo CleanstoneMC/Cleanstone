@@ -1,11 +1,12 @@
 package rocks.cleanstone.game.world.region;
 
 import rocks.cleanstone.game.world.World;
-import rocks.cleanstone.net.utils.Vector;
+import rocks.cleanstone.utils.Vector;
 
 import java.util.Objects;
 
 public class Position extends Vector {
+
     private World world;
 
     public Position(double x, double y, double z, World world) {
@@ -29,23 +30,12 @@ public class Position extends Vector {
     }
 
     @Override
-    public Position clone() {
-        return new Position(x, y, z, world);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Position)) {
             return false;
         }
-
         Position position = (Position) obj;
-
-        if (position.x != x || position.y != y || position.z != z || position.world != world) {
-            return false;
-        }
-
-        return true;
+        return !(position.x != x) && !(position.y != y) && !(position.z != z) && position.world == world;
     }
 
     @Override
