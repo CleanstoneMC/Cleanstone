@@ -35,7 +35,7 @@ public class Vector {
         this.z -= vector.getZ();
     }
 
-    public void mulitplyVector(Vector vector) {
+    public void multiplyVector(Vector vector) {
         this.x *= vector.getX();
         this.y *= vector.getY();
         this.z *= vector.getZ();
