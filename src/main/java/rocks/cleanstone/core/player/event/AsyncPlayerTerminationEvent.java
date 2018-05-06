@@ -9,4 +9,8 @@ public class AsyncPlayerTerminationEvent {
     public AsyncPlayerTerminationEvent(Player player) {
         this.player = player;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }

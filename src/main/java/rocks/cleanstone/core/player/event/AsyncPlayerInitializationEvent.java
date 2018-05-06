@@ -9,4 +9,8 @@ public class AsyncPlayerInitializationEvent {
     public AsyncPlayerInitializationEvent(Player player) {
         this.player = player;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
