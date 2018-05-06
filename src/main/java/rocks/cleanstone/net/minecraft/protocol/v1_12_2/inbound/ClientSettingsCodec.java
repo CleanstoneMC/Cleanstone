@@ -26,7 +26,7 @@ public class ClientSettingsCodec implements MinecraftPacketCodec {
         try {
             locale = ByteBufUtils.readUTF8(byteBuf);
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
             locale = "en_US";
         }
 
@@ -37,7 +37,7 @@ public class ClientSettingsCodec implements MinecraftPacketCodec {
         try {
             chatMode = ChatMode.fromModeID(ByteBufUtils.readVarInt(byteBuf));
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
             chatMode = ChatMode.ENABLED;
         }
 
@@ -48,7 +48,7 @@ public class ClientSettingsCodec implements MinecraftPacketCodec {
         try {
             mainHand = MainHand.fromHandID(ByteBufUtils.readVarInt(byteBuf));
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
             mainHand = MainHand.RIGHT;
         }
 

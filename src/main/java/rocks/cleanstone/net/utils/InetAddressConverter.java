@@ -18,7 +18,7 @@ public class InetAddressConverter implements Converter<String, InetAddress> {
         try {
             return InetAddress.getByName(address);
         } catch (UnknownHostException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
             return null;
         }
     }
