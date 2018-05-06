@@ -17,7 +17,6 @@ public class ByteStreamEncoder extends MessageToByteEncoder<ByteBuf> {
     protected void encode(ChannelHandlerContext ctx, ByteBuf in, ByteBuf out) {
         try {
             Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-            logger.info("byteStreamEncoder");
             if (!connection.isCompressionEnabled()) {
                 int packetLength = in.readableBytes();
                 ByteBufUtils.writeVarInt(out, packetLength);
@@ -29,6 +28,7 @@ public class ByteStreamEncoder extends MessageToByteEncoder<ByteBuf> {
                 ByteBufUtils.writeVarInt(out, packetLength);
                 ByteBufUtils.writeVarInt(out, uncompressedPacketLength);
                 out.writeBytes(in);
+                // TODO: Length appears to be incorrect or is in wrong format
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -30,7 +30,6 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        logger.info("data decoder");
         int packetID = ByteBufUtils.readVarInt(in);
         PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();

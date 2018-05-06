@@ -6,10 +6,10 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
+import io.netty.handler.codec.compression.JdkZlibDecoder;
+import io.netty.handler.codec.compression.JdkZlibEncoder;
 import rocks.cleanstone.net.AbstractConnection;
-import rocks.cleanstone.net.netty.pipeline.inbound.CompressionDecoder;
 import rocks.cleanstone.net.netty.pipeline.inbound.EncryptionDecoder;
-import rocks.cleanstone.net.netty.pipeline.outbound.CompressionEncoder;
 import rocks.cleanstone.net.netty.pipeline.outbound.EncryptionEncoder;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
@@ -47,9 +47,9 @@ public class NettyConnection extends AbstractConnection {
     public void setCompressionEnabled(boolean compressionEnabled) {
         super.setCompressionEnabled(compressionEnabled);
         channel.pipeline().replace("compressionEncoder", "compressionEncoder",
-                compressionEnabled ? new CompressionEncoder() : new ChannelOutboundHandlerAdapter());
+                compressionEnabled ? new JdkZlibEncoder() : new ChannelOutboundHandlerAdapter());
         channel.pipeline().replace("compressionDecoder", "compressionDecoder",
-                compressionEnabled ? new CompressionDecoder() : new ChannelInboundHandlerAdapter());
+                compressionEnabled ? new JdkZlibDecoder() : new ChannelInboundHandlerAdapter());
     }
 
     @Override

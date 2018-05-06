@@ -28,7 +28,6 @@ public class PacketEncoder extends MessageToMessageEncoder<Packet> {
     protected void encode(ChannelHandlerContext ctx, Packet in, List<Object> out) {
         try {
             Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-            logger.info("packetEncoder");
 
             int packetID = protocol.translateOutboundPacketID(in.getType().getTypeID(), connection);
             PacketCodec codec = protocol.getPacketCodec(in.getClass(), connection.getClientProtocolLayer());
