@@ -16,10 +16,9 @@ import java.util.UUID;
 import javax.crypto.SecretKey;
 
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.Networking;
 import rocks.cleanstone.net.minecraft.HandshakeListener;
+import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginEvent;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
@@ -36,7 +35,7 @@ public class LoginManager {
     private final Map<Connection, LoginData> connectionLoginDataMap = Maps.newConcurrentMap();
     private final SessionServerRequester sessionServerRequester;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Networking networking;
+    private final MinecraftNetworking networking;
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
     private final boolean onlineMode;
@@ -47,11 +46,10 @@ public class LoginManager {
     @Autowired
     private EncryptionResponseListener encryptionResponseListener;
 
-    public LoginManager(Networking networking, SessionServerRequester sessionServerRequester,
-                        MinecraftConfig minecraftConfig) {
+    public LoginManager(MinecraftNetworking networking, SessionServerRequester sessionServerRequester) {
         this.networking = networking;
         this.sessionServerRequester = sessionServerRequester;
-        this.onlineMode = minecraftConfig.isOnlineMode();
+        this.onlineMode = networking.getMinecraftConfig().isOnlineMode();
         publicKey = networking.getKeyPair().getPublic();
         privateKey = networking.getKeyPair().getPrivate();
     }
