@@ -10,16 +10,16 @@ class PositionTest {
     void createPosition() {
         Position position = new Position(0, 0, 0, null);
 
-        assertTrue(position.getX() == 0);
-        assertTrue(position.getY() == 0);
-        assertTrue(position.getZ() == 0);
+        assertEquals(0, position.getX(), 0.0);
+        assertEquals(0, position.getY(), 0.0);
+        assertEquals(0, position.getZ(), 0.0);
 
-        Position position1 = position.clone();
+        Position position1 = new Position(position);
         assertEquals(position, position1);
 
-        assertTrue(position1.getX() == 0);
-        assertTrue(position1.getY() == 0);
-        assertTrue(position1.getZ() == 0);
+        assertEquals(0, position1.getX(), 0.0);
+        assertEquals(0, position1.getY(), 0.0);
+        assertEquals(0, position1.getZ(), 0.0);
 
         position1.addX(1);
         position1.addY(2);
@@ -27,15 +27,15 @@ class PositionTest {
         assertNotEquals(position, position1);
 
 
-        assertTrue(position1.getX() == 1);
-        assertTrue(position1.getY() == 2);
-        assertTrue(position1.getZ() == 3);
+        assertEquals(1, position1.getX(), 0.0);
+        assertEquals(2, position1.getY(), 0.0);
+        assertEquals(3, position1.getZ(), 0.0);
 
         position.addVector(position1);
 
-        assertTrue(position.getX() == 1);
-        assertTrue(position.getY() == 2);
-        assertTrue(position.getZ() == 3);
+        assertEquals(1, position.getX(), 0.0);
+        assertEquals(2, position.getY(), 0.0);
+        assertEquals(3, position.getZ(), 0.0);
 
         assertEquals(position, position1);
     }
