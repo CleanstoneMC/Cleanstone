@@ -3,4 +3,3 @@ sudo: false
 script: mvn clean verify install
 jdk:
   - openjdk8
-  - openjdk9
