@@ -34,12 +34,11 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
         InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
         InetAddress inetaddress = socketAddress.getAddress();
         String ipAddress = inetaddress.getHostAddress();
-        logger.info("Incoming data from " + ipAddress);
         if (addressBlacklist.contains(ipAddress)) ctx.close();
 
         Attribute<Connection> connectionKey = ctx.channel().attr(AttributeKey.valueOf("connection"));
         if (connectionKey.get() == null) {
-            logger.info("=New connection");
+            logger.info("New connection from "+ipAddress);
             Connection connection = new NettyConnection(ctx.channel(), inetaddress, networking.getProtocol()
                     .getDefaultClientLayer(), networking.getProtocol().getDefaultState());
             connectionKey.set(connection);

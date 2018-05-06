@@ -30,7 +30,6 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        logger.info("data decoder");
         int packetID = ByteBufUtils.readVarInt(in);
         PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
@@ -42,7 +41,6 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
                 + " and clientLayer " + connection.getClientProtocolLayer());
         Packet packet = codec.decode(in);
         out.add(packet);
-        // TODO: Figure out why releasing the ByteBuf "in" causes issues (because it's still being used?)
     }
 
     @Override

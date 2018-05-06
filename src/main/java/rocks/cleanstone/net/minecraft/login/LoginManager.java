@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.minecraft.login;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 
 import org.slf4j.Logger;
@@ -9,7 +10,6 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -62,8 +62,8 @@ public class LoginManager {
         connectionLoginDataMap.put(connection, loginData);
 
         if (!onlineMode) {
-            finishLogin(connection, UUID.nameUUIDFromBytes(playerName.toLowerCase(Locale.ENGLISH).getBytes()),
-                    playerName, null);
+            finishLogin(connection, UUID.nameUUIDFromBytes(("OfflinePlayer:" + playerName)
+                    .getBytes(Charsets.UTF_8)), playerName, null);
             return;
         }
         connection.sendPacket(LoginCrypto.constructEncryptionRequest(loginData, publicKey));

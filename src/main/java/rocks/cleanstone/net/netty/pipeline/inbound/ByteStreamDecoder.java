@@ -20,7 +20,6 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws IOException {
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-        logger.info("byte stream decoder");
         in.markReaderIndex();
         int remainingPacketLength;
         try {
