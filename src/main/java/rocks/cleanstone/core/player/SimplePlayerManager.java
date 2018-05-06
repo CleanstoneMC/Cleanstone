@@ -1,5 +1,6 @@
 package rocks.cleanstone.core.player;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
@@ -12,10 +13,10 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.core.player.event.PlayerInitializationEvent;
+import rocks.cleanstone.core.player.event.AsyncPlayerInitializationEvent;
+import rocks.cleanstone.core.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.core.player.event.PlayerJoinEvent;
 import rocks.cleanstone.core.player.event.PlayerQuitEvent;
-import rocks.cleanstone.core.player.event.PlayerTerminationEvent;
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
 
 public class SimplePlayerManager implements PlayerManager {
@@ -47,16 +48,24 @@ public class SimplePlayerManager implements PlayerManager {
     }
 
     @Override
-    @Nullable
-    public PlayerID getPlayerID(UUID uuid) {
-        return playerIDs.stream().filter(id -> id.getUUID().equals(uuid)).findFirst().orElse(null);
+    public PlayerID getPlayerID(UUID uuid, String accountName) {
+        return playerIDs.stream().filter(id -> id.getUUID().equals(uuid)).findFirst()
+                .orElse(registerNewPlayerID(uuid, accountName));
+    }
+
+    private PlayerID registerNewPlayerID(UUID uuid, String accountName) {
+        PlayerID id = new SimplePlayerID(uuid, accountName);
+        playerIDs.add(id);
+        return id;
     }
 
     @Override
     public void initializePlayer(Player player) {
         logger.info("Initializing player");
-        onlinePlayers.add(player);
-        CleanstoneServer.publishEvent(new PlayerInitializationEvent(player));
+        Preconditions.checkState(onlinePlayers.add(player),
+                "Cannot initialize already initialized player " + player);
+
+        CleanstoneServer.publishEvent(new AsyncPlayerInitializationEvent(player));
         CleanstoneServer.publishEvent(new PlayerJoinEvent(player));
         //player.sendPacket(new DisconnectPacket(Text.of("Kicked")));
     }
@@ -64,8 +73,11 @@ public class SimplePlayerManager implements PlayerManager {
     @Override
     public void terminatePlayer(Player player) {
         logger.info("Terminating player");
+        Preconditions.checkState(onlinePlayers.contains(player),
+                "Cannot terminate already terminated / non-initialized player " + player);
+
         CleanstoneServer.publishEvent(new PlayerQuitEvent(player));
-        CleanstoneServer.publishEvent(new PlayerTerminationEvent(player));
+        CleanstoneServer.publishEvent(new AsyncPlayerTerminationEvent(player));
         onlinePlayers.remove(player);
     }
 }

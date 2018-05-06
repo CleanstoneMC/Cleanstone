@@ -3,11 +3,13 @@ package rocks.cleanstone.core.player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.player.event.AsyncPlayerLoginEvent;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
+import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
 
 public class PlayerInitializationCauseListener {
@@ -19,10 +21,19 @@ public class PlayerInitializationCauseListener {
         this.playerManager = playerManager;
     }
 
+    @Async(value = "playerExec")
     @EventListener
     public void onPlayerLoginSuccess(AsyncLoginSuccessEvent loginEvent) {
         Connection connection = loginEvent.getConnection();
-        PlayerID playerID = playerManager.getPlayerID(loginEvent.getUUID());
+        PlayerID playerID = playerManager.getPlayerID(loginEvent.getUUID(), loginEvent.getName());
+
+        Player alreadyOnlinePlayer = playerManager.getOnlinePlayer(playerID);
+        if (alreadyOnlinePlayer != null) {
+            alreadyOnlinePlayer.kick(Text.of(CleanstoneServer.getMessage(
+                    "core.player.logged-in-from-another-location")));
+            playerManager.terminatePlayer(alreadyOnlinePlayer);
+        }
+
         AsyncPlayerLoginEvent playerEvent = CleanstoneServer.publishEvent(
                 new AsyncPlayerLoginEvent(connection, playerID));
         if (playerEvent.isCancelled()) {

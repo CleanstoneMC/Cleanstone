@@ -5,6 +5,7 @@ import com.google.common.base.Objects;
 import java.util.UUID;
 
 public class SimplePlayerID implements PlayerID {
+
     private final UUID uuid;
     private String accountName;
     private String name;
@@ -45,13 +46,11 @@ public class SimplePlayerID implements PlayerID {
         if (this == o) return true;
         if (!(o instanceof SimplePlayerID)) return false;
         SimplePlayerID that = (SimplePlayerID) o;
-        return Objects.equal(uuid, that.uuid) &&
-                Objects.equal(accountName, that.accountName) &&
-                Objects.equal(name, that.name);
+        return Objects.equal(uuid, that.uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(uuid, accountName, name);
+        return Objects.hashCode(uuid);
     }
 }
