@@ -16,6 +16,8 @@ public class MinecraftConfig {
     private int port;
     private InetAddress address;
     private boolean onlineMode;
+    private String motd;
+    private int maxPlayers;
 
     public static MinecraftConfig getInstance() {
         return CleanstoneServer.getInstance().getMinecraftConfig();
@@ -43,6 +45,22 @@ public class MinecraftConfig {
 
     public void setOnlineMode(boolean onlineMode) {
         this.onlineMode = onlineMode;
+    }
+
+    public String getMotd() {
+        return motd;
+    }
+
+    public void setMotd(String motd) {
+        this.motd = motd;
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public void setMaxPlayers(int maxPlayers) {
+        this.maxPlayers = maxPlayers;
     }
 
     @Override

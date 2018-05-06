@@ -67,7 +67,10 @@
           class="rocks.cleanstone.net.cleanstone.protocol.SimpleCleanstoneProtocol"/>
 
     <bean id="handshakeListener" class="rocks.cleanstone.net.minecraft.HandshakeListener"/>
-    <bean id="statusRequestListener" class="rocks.cleanstone.net.minecraft.status.StatusRequestListener"/>
+    <bean id="statusRequestListener" class="rocks.cleanstone.net.minecraft.status.StatusRequestListener">
+        <constructor-arg ref="minecraftNetworking"/>
+        <constructor-arg ref="playerManager"/>
+    </bean>
     <bean id="pingListener" class="rocks.cleanstone.net.minecraft.status.PingListener"/>
 
     <!-- (Login) -->

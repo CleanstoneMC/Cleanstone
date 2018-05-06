@@ -14,3 +14,5 @@ minecraft:
   port: 25565
   address: 0.0.0.0
   onlineMode: true
+  motd: Cleanstone Advanced Minecraft Server
+  maxPlayers: 10000

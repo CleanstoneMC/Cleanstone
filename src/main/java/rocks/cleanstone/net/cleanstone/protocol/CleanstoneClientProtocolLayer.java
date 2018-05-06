@@ -3,16 +3,23 @@ package rocks.cleanstone.net.cleanstone.protocol;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 
 public enum CleanstoneClientProtocolLayer implements ClientProtocolLayer {
-    LATEST(0);
+    LATEST("Latest", 0);
 
     private final int orderedID;
+    private final String name;
 
-    CleanstoneClientProtocolLayer(int orderedID) {
+    CleanstoneClientProtocolLayer(String name, int orderedID) {
+        this.name = name;
         this.orderedID = orderedID;
     }
 
     @Override
     public int getOrderedVersionNumber() {
         return orderedID;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }
