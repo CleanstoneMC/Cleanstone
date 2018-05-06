@@ -3,6 +3,8 @@ package rocks.cleanstone.game.world.region;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.net.utils.Vector;
 
+import java.util.Objects;
+
 public class Position extends Vector {
     private World world;
 
@@ -44,5 +46,10 @@ public class Position extends Vector {
         }
 
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(world, x, y, z);
     }
 }

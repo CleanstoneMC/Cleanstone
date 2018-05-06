@@ -1,5 +1,7 @@
 package rocks.cleanstone.net.utils;
 
+import java.util.Objects;
+
 public class Vector implements Cloneable {
 
     protected double x;
@@ -93,5 +95,10 @@ public class Vector implements Cloneable {
         }
 
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
     }
 }
