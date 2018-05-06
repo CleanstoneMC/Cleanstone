@@ -15,7 +15,7 @@ public class EncryptionResponseListener {
         this.loginManager = loginManager;
     }
 
-    @Async
+    @Async(value = "mcLoginExec")
     @EventListener
     public void onReceive(InboundPacketEvent event) {
         if (event.getPacket() instanceof EncryptionResponsePacket) {

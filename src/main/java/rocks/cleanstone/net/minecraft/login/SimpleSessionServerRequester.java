@@ -25,7 +25,7 @@ public class SimpleSessionServerRequester implements SessionServerRequester {
     private static final String SESSION_SERVER_URL = "https://sessionserver.mojang.com/session/minecraft/hasJoined";
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Async
+    @Async(value = "mcLoginExec")
     public ListenableFuture<SessionServerResponse> request(Connection connection, LoginData loginData,
                                                            PublicKey publicKey) {
         try {

@@ -16,6 +16,9 @@
     <task:executor id="taskExecutor" pool-size="10"/>
     <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
 
+    <task:executor id="playerExec" pool-size="10"/>
+    <task:executor id="mcLoginExec" pool-size="10"/>
+
     <!-- CONFIG -->
     <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
     <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig"/>

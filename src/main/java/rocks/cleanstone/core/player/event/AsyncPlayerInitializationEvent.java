@@ -2,11 +2,11 @@ package rocks.cleanstone.core.player.event;
 
 import rocks.cleanstone.core.player.Player;
 
-public class PlayerTerminationEvent {
+public class AsyncPlayerInitializationEvent {
 
     private final Player player;
 
-    public PlayerTerminationEvent(Player player) {
+    public AsyncPlayerInitializationEvent(Player player) {
         this.player = player;
     }
 }

@@ -3,6 +3,7 @@ package rocks.cleanstone.core.player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.player.event.AsyncPlayerLoginEvent;
@@ -20,6 +21,7 @@ public class PlayerInitializationCauseListener {
         this.playerManager = playerManager;
     }
 
+    @Async(value = "playerExec")
     @EventListener
     public void onPlayerLoginSuccess(AsyncLoginSuccessEvent loginEvent) {
         Connection connection = loginEvent.getConnection();
