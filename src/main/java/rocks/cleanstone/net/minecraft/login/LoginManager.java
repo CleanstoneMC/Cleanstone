@@ -9,12 +9,14 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
 import rocks.cleanstone.net.minecraft.HandshakeListener;
@@ -37,6 +39,7 @@ public class LoginManager {
     private final Networking networking;
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
+    private final boolean onlineMode;
     @Autowired
     private HandshakeListener handshakeListener;
     @Autowired
@@ -44,9 +47,11 @@ public class LoginManager {
     @Autowired
     private EncryptionResponseListener encryptionResponseListener;
 
-    public LoginManager(Networking networking, SessionServerRequester sessionServerRequester) {
+    public LoginManager(Networking networking, SessionServerRequester sessionServerRequester,
+                        MinecraftConfig minecraftConfig) {
         this.networking = networking;
         this.sessionServerRequester = sessionServerRequester;
+        this.onlineMode = minecraftConfig.isOnlineMode();
         publicKey = networking.getKeyPair().getPublic();
         privateKey = networking.getKeyPair().getPrivate();
     }
@@ -55,31 +60,33 @@ public class LoginManager {
         byte[] verifyToken = SecurityUtils.generateRandomToken(4);
         LoginData loginData = new LoginData(verifyToken, playerName);
         connectionLoginDataMap.put(connection, loginData);
+
+        if (!onlineMode) {
+            finishLogin(connection, UUID.nameUUIDFromBytes(playerName.toLowerCase(Locale.ENGLISH).getBytes()),
+                    playerName, null);
+            return;
+        }
         connection.sendPacket(LoginCrypto.constructEncryptionRequest(loginData, publicKey));
     }
 
     public void finishLogin(Connection connection, UUID uuid, String accountName,
                             SessionServerResponse.Property textures) {
-        try {
-            if (connectionLoginDataMap.remove(connection) == null)
-                throw new IllegalStateException("Cannot finish login before it has started");
+        if (connectionLoginDataMap.remove(connection) == null)
+            throw new IllegalStateException("Cannot finish login before it has started");
 
-            AsyncLoginEvent event = CleanstoneServer.publishEvent(new AsyncLoginEvent(connection, uuid, accountName));
-            if (event.isCancelled()) {
-                stopLogin(connection, event.getKickReason());
-                return;
-            }
-            SetCompressionPacket setCompressionPacket = new SetCompressionPacket(Short.MAX_VALUE);
-            LoginSuccessPacket loginSuccessPacket = new LoginSuccessPacket(uuid, accountName);
-            connection.sendPacket(setCompressionPacket);
-            connection.setCompressionEnabled(true);
-            connection.sendPacket(loginSuccessPacket);
-            logger.info("Player " + accountName + " (" + uuid.toString() + ") logged in");
-            connection.setProtocolState(VanillaProtocolState.PLAY);
-            CleanstoneServer.publishEvent(new AsyncLoginSuccessEvent(connection, uuid, accountName));
-        } catch (Exception e) {
-            e.printStackTrace();
+        AsyncLoginEvent event = CleanstoneServer.publishEvent(new AsyncLoginEvent(connection, uuid, accountName));
+        if (event.isCancelled()) {
+            stopLogin(connection, event.getKickReason());
+            return;
         }
+        SetCompressionPacket setCompressionPacket = new SetCompressionPacket(0);
+        LoginSuccessPacket loginSuccessPacket = new LoginSuccessPacket(uuid, accountName);
+        //connection.sendPacket(setCompressionPacket);
+        //connection.setCompressionEnabled(true);
+        connection.sendPacket(loginSuccessPacket);
+        logger.info("Player " + accountName + " (" + uuid.toString() + ") logged in");
+        connection.setProtocolState(VanillaProtocolState.PLAY);
+        CleanstoneServer.publishEvent(new AsyncLoginSuccessEvent(connection, uuid, accountName));
     }
 
     public void stopLogin(Connection connection, Text reason) {
@@ -102,13 +109,21 @@ public class LoginManager {
         ListenableFuture<SessionServerResponse> responseResult =
                 sessionServerRequester.request(connection, loginData, publicKey);
         responseResult.addCallback((response) -> {
-            UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
-            String name = response.getName();
-            SessionServerResponse.Property textures = response.getProperties()[0];
-            finishLogin(connection, uuid, name, textures);
+            try {
+                UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
+                String name = response.getName();
+                SessionServerResponse.Property textures = response.getProperties()[0];
+                finishLogin(connection, uuid, name, textures);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }, e -> {
-            e.printStackTrace();
-            stopLogin(connection, Text.fromPlain("Failed to validate session"));
+            try {
+                e.printStackTrace();
+                stopLogin(connection, Text.fromPlain("Failed to validate session"));
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
         });
     }
 }

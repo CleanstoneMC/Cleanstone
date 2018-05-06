@@ -23,7 +23,8 @@ public class HandshakeListener {
             if (updatedLayer != null) event.getConnection().setClientProtocolLayer(updatedLayer);
 
             VanillaProtocolState updatedState = VanillaProtocolState.byStateID(packet.getState());
-            if (updatedState != null && updatedState != VanillaProtocolState.PLAY) {
+            if (updatedState != null && (updatedState == VanillaProtocolState.STATUS
+                    || updatedState == VanillaProtocolState.LOGIN)) {
                 event.getConnection().setProtocolState(updatedState);
                 logger.info("Received Handshake and set protocolState to " + updatedState);
             }

@@ -15,6 +15,7 @@ public class MinecraftConfig {
 
     private int port;
     private InetAddress address;
+    private boolean onlineMode;
 
     public static MinecraftConfig getInstance() {
         return CleanstoneServer.getInstance().getMinecraftConfig();
@@ -36,11 +37,19 @@ public class MinecraftConfig {
         this.address = address;
     }
 
+    public boolean isOnlineMode() {
+        return onlineMode;
+    }
+
+    public void setOnlineMode(boolean onlineMode) {
+        this.onlineMode = onlineMode;
+    }
+
     @Override
     public String toString() {
         return "MinecraftConfig{" +
                 "port=" + port +
                 ", address=" + address +
-                '}';
+                ", onlineMode=" + onlineMode + "}";
     }
 }

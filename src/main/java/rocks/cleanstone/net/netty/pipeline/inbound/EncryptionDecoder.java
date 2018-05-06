@@ -19,14 +19,17 @@ import rocks.cleanstone.net.Connection;
 
 public class EncryptionDecoder extends ByteToMessageDecoder {
 
+    private Cipher cipher;
+
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
         try {
             SecretKey sharedSecret = connection.getSharedSecret();
-            Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding");
-            cipher.init(Cipher.DECRYPT_MODE, sharedSecret, new IvParameterSpec(sharedSecret.getEncoded()));
+            if (cipher == null) {
+                cipher = Cipher.getInstance("AES/CFB8/NoPadding");
+                cipher.init(Cipher.DECRYPT_MODE, sharedSecret, new IvParameterSpec(sharedSecret.getEncoded()));
+            }
             ByteBuffer outNioBuf = ByteBuffer.allocate(in.readableBytes());
             try {
                 cipher.update(in.nioBuffer(), outNioBuf);

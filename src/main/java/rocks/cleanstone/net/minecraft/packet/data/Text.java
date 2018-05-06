@@ -8,12 +8,12 @@ public class Text { // TODO
     }
 
     public static Text fromPlain(String plainText) {
-        return new Text("{text\":\"" + plainText + "\"}");
+        return new Text("{\"text\":\"" + plainText + "\"}");
     }
 
     public static Text of(String text) {
         // TODO translate colors
-        return new Text("{text\":\"" + text + "\"}");
+        return new Text("{\"text\":\"" + text + "\"}");
     }
 
     @Override
