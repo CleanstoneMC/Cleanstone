@@ -3,10 +3,10 @@ package rocks.cleanstone.core.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import rocks.cleanstone.core.CleanstoneServer;
 
 import java.net.InetAddress;
-
-import rocks.cleanstone.core.CleanstoneServer;
+import java.util.List;
 
 @Configuration
 @EnableConfigurationProperties
@@ -18,6 +18,7 @@ public class MinecraftConfig {
     private boolean onlineMode;
     private String motd;
     private int maxPlayers;
+    private List<String> autoLoadWorlds;
 
     public static MinecraftConfig getInstance() {
         return CleanstoneServer.getInstance().getMinecraftConfig();
@@ -61,6 +62,14 @@ public class MinecraftConfig {
 
     public void setMaxPlayers(int maxPlayers) {
         this.maxPlayers = maxPlayers;
+    }
+
+    public List<String> getAutoLoadWorlds() {
+        return autoLoadWorlds;
+    }
+
+    public void setAutoLoadWorlds(List<String> autoLoadWorlds) {
+        this.autoLoadWorlds = autoLoadWorlds;
     }
 
     @Override

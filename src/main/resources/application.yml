@@ -16,3 +16,7 @@ minecraft:
   onlineMode: true
   motd: Cleanstone Advanced Minecraft Server
   maxPlayers: 10000
+  autoLoadWorlds:
+  - world
+  - world_nether
+  - world_the_end

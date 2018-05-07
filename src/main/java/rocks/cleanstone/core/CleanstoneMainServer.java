@@ -4,11 +4,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
-
-import java.util.Set;
-
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
+
+import java.util.Set;
 
 @SpringBootApplication
 @ComponentScan(excludeFilters = @ComponentScan.Filter(SpringBootApplication.class))

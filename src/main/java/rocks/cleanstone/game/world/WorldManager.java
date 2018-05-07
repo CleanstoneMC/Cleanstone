@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.world;
 
+import org.springframework.util.concurrent.ListenableFuture;
+
 import java.util.Collection;
 
 public interface WorldManager {
@@ -8,7 +10,7 @@ public interface WorldManager {
 
     World getLoadedWorld(String id);
 
-    World loadWorld(String id);
+    ListenableFuture<World> loadWorld(String id);
 
     void unloadWorld(String id);
 
