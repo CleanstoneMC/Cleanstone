@@ -62,7 +62,7 @@ public abstract class LayeredProtocol implements Protocol {
         }
 
         @Override
-        public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException { // send to client
+        public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException, ClientLayerToHighException { // send to client
             // upgrade POJO from supported server version to client version
 
             protocolLayers.sort(Comparator.reverseOrder());
@@ -80,7 +80,7 @@ public abstract class LayeredProtocol implements Protocol {
                     }
                 }
                 if (protocolLayers.size() == 1) return byteBuf;
-                throw new RuntimeException("Client layer higher than highest supported server layer");
+                throw new ClientLayerToHighException("Client layer higher than highest supported server layer");
             } finally {
                 protocolLayers.sort(Comparator.naturalOrder());
             }

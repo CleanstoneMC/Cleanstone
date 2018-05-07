@@ -8,7 +8,7 @@ import rocks.cleanstone.net.packet.Packet;
 public interface PacketCodec {
     Packet decode(ByteBuf byteBuf) throws IOException;
 
-    ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException;
+    ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException, ClientLayerToHighException;
 
     ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf);
 
