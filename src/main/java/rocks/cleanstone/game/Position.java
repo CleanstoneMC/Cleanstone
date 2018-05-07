@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region;
+package rocks.cleanstone.game;
 
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.utils.Vector;

@@ -1,13 +1,15 @@
 package rocks.cleanstone.game.world.region.chunk;
 
-import java.util.Collection;
-
+import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.region.block.Block;
 
+import java.util.Collection;
+
 public interface Chunk {
+
     Collection<Block> getBlocks();
 
-    int getSize();
+    Collection<Entity> getEntities();
 
     int getX();
 

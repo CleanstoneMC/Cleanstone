@@ -2,7 +2,6 @@ package rocks.cleanstone.game.world;
 
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.game.world.region.Region;
-import rocks.cleanstone.utils.Vector;
 
 import java.util.Collection;
 
@@ -13,9 +12,9 @@ public interface World {
 
     Collection<Region> getLoadedRegions();
 
-    Region getLoadedRegion(int x, int y, int z);
+    Region getLoadedRegion(int x, int y);
 
-    ListenableFuture<Region> loadRegion(Vector loc);
+    ListenableFuture<Region> loadRegion(int x, int y);
 
-    void unloadRegion(int x, int y, int z);
+    void unloadRegion(int x, int y);
 }
