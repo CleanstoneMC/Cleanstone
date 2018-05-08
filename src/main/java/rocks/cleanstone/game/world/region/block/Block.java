@@ -6,4 +6,5 @@ import rocks.cleanstone.game.Position;
 public interface Block {
     Position getPosition();
     Material getMaterial();
+    MiningLevel getMiningLevel();
 }
