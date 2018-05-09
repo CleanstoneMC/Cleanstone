@@ -4,6 +4,7 @@ import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.region.block.Block;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 public class SimpleChunk implements Chunk {
 
