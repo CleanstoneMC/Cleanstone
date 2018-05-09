@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.CleanstoneMainServer;
 import rocks.cleanstone.game.world.World;
-import rocks.cleanstone.game.world.WorldGenerator;
+import rocks.cleanstone.game.world.generation.WorldGenerator;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -16,6 +16,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
 
     private final CleanstoneMainServer server;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Collection<World> loadedWorlds = Sets.newConcurrentHashSet();
 
     public SimpleOpenWorldGame(CleanstoneMainServer server) {
         this.server = server;
@@ -23,8 +24,6 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
             loadWorld(autoLoadWorldID);
         }
     }
-
-    private final Collection<World> loadedWorlds = Sets.newConcurrentHashSet();
 
     @Override
     public Collection<World> getLoadedWorlds() {
@@ -39,7 +38,6 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
 
     @Override
     public ListenableFuture<World> loadWorld(String id) {
-        logger.info("Loading world '" + id + "'");
         return null;
     }
 

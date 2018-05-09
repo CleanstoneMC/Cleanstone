@@ -8,8 +8,6 @@ import java.util.Collection;
 public interface World {
     String getID();
 
-    WorldGenerator getGenerator();
-
     Collection<Region> getLoadedRegions();
 
     Region getLoadedRegion(int x, int y);
