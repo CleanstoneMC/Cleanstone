@@ -2,12 +2,14 @@ package rocks.cleanstone.game.world.region.chunk;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+
 import org.springframework.lang.Nullable;
-import rocks.cleanstone.game.world.region.block.Block;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import rocks.cleanstone.game.world.region.block.Block;
 
 public class MapChunkTable implements ChunkTable {
 
@@ -18,7 +20,7 @@ public class MapChunkTable implements ChunkTable {
     }
 
     public MapChunkTable() {
-        coordHeightMapTable = HashBasedTable.create(16, 16);
+        coordHeightMapTable = HashBasedTable.create(Chunk.WIDTH, Chunk.WIDTH);
     }
 
     @Nullable

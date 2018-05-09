@@ -6,6 +6,7 @@ import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.PingPacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.RequestPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.EncryptionRequestPacket;
@@ -23,6 +24,7 @@ import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.HandshakeCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.LoginStartCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PingCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.RequestCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.ChunkDataCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.DisconnectCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.DisconnectLoginCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.EncryptionRequestCodec;
@@ -56,6 +58,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new SpawnPositionCodec(), SpawnPositionPacket.class);
         registerPacketCodec(new PlayerAbilitiesCodec(), rocks.cleanstone.net.minecraft.packet.outbound.PlayerAbilitiesPacket.class);
         registerPacketCodec(new PlayerPositionAndLookCodec(), rocks.cleanstone.net.minecraft.packet.outbound.PlayerPositionAndLookPacket.class);
+        registerPacketCodec(new ChunkDataCodec(), ChunkDataPacket.class);
     }
 
     @Override

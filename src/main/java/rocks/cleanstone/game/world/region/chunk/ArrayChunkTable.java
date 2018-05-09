@@ -1,10 +1,11 @@
 package rocks.cleanstone.game.world.region.chunk;
 
 import org.springframework.lang.Nullable;
-import rocks.cleanstone.game.world.region.block.Block;
 
 import java.util.Arrays;
 import java.util.Collection;
+
+import rocks.cleanstone.game.world.region.block.Block;
 
 public class ArrayChunkTable implements ChunkTable {
 
@@ -15,7 +16,7 @@ public class ArrayChunkTable implements ChunkTable {
     }
 
     public ArrayChunkTable() {
-        blocks = new Block[16][16][256];
+        blocks = new Block[Chunk.WIDTH][Chunk.WIDTH][Chunk.HEIGHT];
     }
 
     @Override
