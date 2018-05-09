@@ -18,6 +18,7 @@
 
     <task:executor id="playerExec" pool-size="10"/>
     <task:executor id="mcLoginExec" pool-size="10"/>
+    <task:executor id="worldLoadingExec" pool-size="10"/>
 
     <!-- CONFIG -->
     <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>

@@ -1,6 +1,7 @@
 package rocks.cleanstone.game.world;
 
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.world.generation.WorldGenerator;
 
 import java.util.Collection;
 
