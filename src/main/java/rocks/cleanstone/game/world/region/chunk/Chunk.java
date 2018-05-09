@@ -14,4 +14,6 @@ public interface Chunk {
     int getX();
 
     int getY();
+
+    Block getBlock(int x, int y, int z);
 }

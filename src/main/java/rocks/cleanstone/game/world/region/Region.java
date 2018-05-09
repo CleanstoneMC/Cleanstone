@@ -8,9 +8,9 @@ import java.util.Collection;
 public interface Region {
     Collection<Chunk> getLoadedChunks();
 
-    Chunk getLoadedChunk(int x, int y);
+    Chunk getLoadedChunk(int x, int z);
 
-    ListenableFuture<Chunk> loadChunk(int x, int y);
+    ListenableFuture<Chunk> loadChunk(int x, int z);
 
-    void unloadChunk(int x, int y);
+    void unloadChunk(int x, int z);
 }

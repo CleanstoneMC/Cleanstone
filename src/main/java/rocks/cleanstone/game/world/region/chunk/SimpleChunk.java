@@ -10,25 +10,14 @@ public class SimpleChunk implements Chunk {
 
     private final Collection<Entity> entityCollection;
     private final ChunkTable chunkTable;
+    private final int x;
+    private final int y;
 
-    public SimpleChunk(Collection<Entity> entityCollection, ChunkTable chunkTable) {
+    public SimpleChunk(Collection<Entity> entityCollection, ChunkTable chunkTable, int x, int y) {
         this.entityCollection = entityCollection;
         this.chunkTable = chunkTable;
-    }
-
-    public SimpleChunk(Collection<Entity> entityCollection) {
-        this.entityCollection = entityCollection;
-        chunkTable = new ArrayChunkTable();
-    }
-
-    public SimpleChunk(ChunkTable chunkTable) {
-        this.chunkTable = chunkTable;
-        entityCollection = new HashSet<>();
-    }
-
-    public SimpleChunk() {
-        entityCollection = new HashSet<>();
-        chunkTable = new ArrayChunkTable();
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -43,11 +32,16 @@ public class SimpleChunk implements Chunk {
 
     @Override
     public int getX() {
-        return 0;
+        return x;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return y;
+    }
+
+    @Override
+    public Block getBlock(int x, int y, int z) {
+        return chunkTable.getBlock(x, y, z);
     }
 }
