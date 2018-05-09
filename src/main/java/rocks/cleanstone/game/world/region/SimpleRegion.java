@@ -13,6 +13,9 @@ public class SimpleRegion implements Region {
 
     private final Chunk[][] chunks;
 
+    public SimpleRegion(Chunk[][] chunks) {
+        this.chunks = chunks;
+    }
 
     public SimpleRegion() {
         chunks = new SimpleChunk[CHUNK_COUNT_ROOT][CHUNK_COUNT_ROOT];
