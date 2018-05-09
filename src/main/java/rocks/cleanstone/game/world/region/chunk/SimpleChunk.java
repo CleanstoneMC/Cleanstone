@@ -18,7 +18,7 @@ public class SimpleChunk implements Chunk {
 
     public SimpleChunk(Collection<Entity> entityCollection) {
         this.entityCollection = entityCollection;
-        chunkTable = new ChunkTable();
+        chunkTable = new ArrayChunkTable();
     }
 
     public SimpleChunk(ChunkTable chunkTable) {
@@ -28,7 +28,7 @@ public class SimpleChunk implements Chunk {
 
     public SimpleChunk() {
         entityCollection = new HashSet<>();
-        chunkTable = new ChunkTable();
+        chunkTable = new ArrayChunkTable();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class SimpleChunk implements Chunk {
 
     @Override
     public Collection<Entity> getEntities() {
-        return new HashSet<>();
+        return entityCollection;
     }
 
     @Override
