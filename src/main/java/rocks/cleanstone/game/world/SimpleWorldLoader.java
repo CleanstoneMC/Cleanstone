@@ -22,6 +22,9 @@ public class SimpleWorldLoader implements WorldLoader {
     public ListenableFuture<World> loadWorld(String id) {
         logger.info("Loading world '" + id + "'...");
         World world = new SimpleGeneratedWorld(id, worldDataSource, new SimpleWorldGenerator());
+
+
+
         // TODO: Loading spawn and other tasks(?)
         logger.info("World '" + id + "' loaded.");
         return new AsyncResult<>(world);

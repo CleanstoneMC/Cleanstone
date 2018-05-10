@@ -10,13 +10,19 @@ public enum VanillaGameMode implements GameMode {
     SPECTATOR(3, Spectator.class);
 
     private final int typeId;
+    private final Class<? extends GameModeRuleSet> gameModeRuleSetClass;
 
     VanillaGameMode(int typeId, Class<? extends GameModeRuleSet> gameModeRuleSetClass) {
         this.typeId = typeId;
+        this.gameModeRuleSetClass = gameModeRuleSetClass;
     }
 
     @Override
     public int getTypeId() {
         return typeId;
+    }
+
+    public Class<? extends GameModeRuleSet> getGameModeRuleSetClass() {
+        return gameModeRuleSetClass;
     }
 }
