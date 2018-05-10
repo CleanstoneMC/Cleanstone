@@ -2,6 +2,8 @@ package rocks.cleanstone.game.world.region.chunk;
 
 import java.util.Collection;
 
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.region.block.Block;
 
@@ -39,6 +41,7 @@ public class SimpleChunk implements Chunk {
         return y;
     }
 
+    @Nullable
     @Override
     public Block getBlock(int x, int y, int z) {
         return chunkTable.getBlock(x, y, z);

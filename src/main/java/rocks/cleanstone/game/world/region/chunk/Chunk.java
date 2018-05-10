@@ -2,6 +2,8 @@ package rocks.cleanstone.game.world.region.chunk;
 
 import java.util.Collection;
 
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.region.block.Block;
 
@@ -17,6 +19,7 @@ public interface Chunk {
 
     int getY();
 
+    @Nullable
     Block getBlock(int x, int y, int z);
 
     byte getBlockLight(int x, int y, int z);

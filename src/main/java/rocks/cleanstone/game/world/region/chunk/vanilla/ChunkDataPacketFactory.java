@@ -2,9 +2,10 @@ package rocks.cleanstone.game.world.region.chunk.vanilla;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.annotation.Nullable;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import rocks.cleanstone.game.Material;
 import rocks.cleanstone.game.world.region.block.Block;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.io.vanilla.nbt.NamedBinaryTag;
@@ -13,8 +14,7 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class ChunkDataPacketFactory {
 
-    private static final int SECTION_WIDTH = Chunk.WIDTH, SECTION_HEIGHT = 16,
-            FULL_SIZE_BITS_PER_BLOCK = 13;
+    private static final int SECTION_WIDTH = Chunk.WIDTH, SECTION_HEIGHT = 16, FULL_SIZE_BITS_PER_BLOCK = 13;
 
     private ChunkDataPacketFactory() {
     }
@@ -58,7 +58,8 @@ public class ChunkDataPacketFactory {
         // block light
         writeLight(data, chunk, true);
         // sky light
-        writeLight(data, chunk, false);
+        if (chunk.hasSkylight())
+            writeLight(data, chunk, false);
         return true;
     }
 
@@ -81,13 +82,13 @@ public class ChunkDataPacketFactory {
         return blockData;
     }
 
-    private static void writeBlock(long[] blockData, Block block, int x, int y, int z, byte bitsPerBlock,
-                                   int individualValueMask) {
+    private static void writeBlock(long[] blockData, @Nullable Block block, int x, int y, int z,
+                                   byte bitsPerBlock, int individualValueMask) {
         int blockNumber = (((y * SECTION_HEIGHT) + z) * SECTION_WIDTH) + x;
         int startLong = (blockNumber * bitsPerBlock) / 64;
         int startOffset = (blockNumber * bitsPerBlock) % 64;
         int endLong = ((blockNumber + 1) * bitsPerBlock - 1) / 64;
-        int paletteID = getGlobalPaletteID(block.getMaterial());
+        int paletteID = getGlobalPaletteID(block);
 
         paletteID &= individualValueMask;
         blockData[startLong] |= (paletteID << startOffset);
@@ -97,22 +98,21 @@ public class ChunkDataPacketFactory {
     }
 
     private static void writeLight(ByteBuf data, Chunk chunk, boolean isBlockLight) {
-        if (chunk.hasSkylight() || isBlockLight) {
-            for (int y = 0; y < SECTION_HEIGHT; y++) {
-                for (int z = 0; z < SECTION_WIDTH; z++) {
-                    for (int x = 0; x < SECTION_WIDTH; x += 2) {
-                        byte light = isBlockLight ? chunk.getBlockLight(x, y, z) : chunk.getSkyLight(x, y, z);
-                        byte upperLight = isBlockLight ? chunk.getBlockLight(x + 1, y, z) : chunk.getSkyLight(x + 1, y, z);
-                        byte value = (byte) (light | (upperLight << 4));
-                        data.writeByte(value);
-                    }
+        for (int y = 0; y < SECTION_HEIGHT; y++) {
+            for (int z = 0; z < SECTION_WIDTH; z++) {
+                for (int x = 0; x < SECTION_WIDTH; x += 2) {
+                    byte light = isBlockLight ? chunk.getBlockLight(x, y, z) : chunk.getSkyLight(x, y, z);
+                    byte upperLight = isBlockLight ? chunk.getBlockLight(x + 1, y, z) : chunk.getSkyLight(x + 1, y, z);
+                    byte value = (byte) (light | (upperLight << 4));
+                    data.writeByte(value);
                 }
             }
         }
     }
 
-    private static int getGlobalPaletteID(Material material) {
+    private static int getGlobalPaletteID(Block block) {
         // TODO BlockState metadata
-        return material.getBlockID() >> 4 /* | metadata */;
+        int blockID = block != null ? block.getMaterial().getBlockID() : 0;
+        return blockID >> 4 /* | metadata */;
     }
 }
