@@ -18,4 +18,10 @@ public interface Chunk {
     int getY();
 
     Block getBlock(int x, int y, int z);
+
+    byte getBlockLight(int x, int y, int z);
+
+    byte getSkyLight(int x, int y, int z);
+
+    boolean hasSkylight();
 }

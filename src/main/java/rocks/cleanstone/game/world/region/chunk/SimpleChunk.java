@@ -1,10 +1,9 @@
 package rocks.cleanstone.game.world.region.chunk;
 
+import java.util.Collection;
+
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.region.block.Block;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 public class SimpleChunk implements Chunk {
 
@@ -43,5 +42,23 @@ public class SimpleChunk implements Chunk {
     @Override
     public Block getBlock(int x, int y, int z) {
         return chunkTable.getBlock(x, y, z);
+    }
+
+    @Override
+    public byte getBlockLight(int x, int y, int z) {
+        // TODO
+        return 0;
+    }
+
+    @Override
+    public byte getSkyLight(int x, int y, int z) {
+        // TODO
+        return 0;
+    }
+
+    @Override
+    public boolean hasSkylight() {
+        // TODO
+        return false;
     }
 }
