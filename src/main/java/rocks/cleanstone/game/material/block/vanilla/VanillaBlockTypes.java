@@ -17,19 +17,19 @@ public class VanillaBlockTypes {
     private static final Map<Material, BlockType> MATERIAL_BLOCK_TYPE_MAP = Maps.newConcurrentMap();
 
     static {
-        register(VanillaMaterial.STONE, new SolidBlockType(VanillaMaterial.STONE, VanillaMiningLevel.WOODEN));
-        register(VanillaMaterial.CHEST, new SolidBlockType(VanillaMaterial.CHEST, VanillaMiningLevel.HAND));
+        register(new SolidBlockType(VanillaMaterial.STONE, VanillaMiningLevel.WOODEN));
+        register(new SolidBlockType(VanillaMaterial.CHEST, VanillaMiningLevel.HAND));
     }
 
     private VanillaBlockTypes() {
     }
 
-    private static void register(Material material, BlockType blockType) {
-        MATERIAL_BLOCK_TYPE_MAP.put(material, blockType);
+    private static void register(BlockType blockType) {
+        MATERIAL_BLOCK_TYPE_MAP.put(blockType.getMaterial(), blockType);
     }
 
     @Nullable
-    public static BlockType of(Material material) {
+    public static BlockType get(Material material) {
         return MATERIAL_BLOCK_TYPE_MAP.get(material);
     }
 

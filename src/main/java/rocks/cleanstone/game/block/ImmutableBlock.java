@@ -33,7 +33,7 @@ public class ImmutableBlock implements Block {
     }
 
     public static ImmutableBlock of(VanillaMaterial material) {
-        return of(VanillaBlockTypes.of(material));
+        return of(VanillaBlockTypes.get(material));
     }
 
     @Override

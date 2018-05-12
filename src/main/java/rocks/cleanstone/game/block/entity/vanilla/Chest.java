@@ -12,7 +12,7 @@ public class Chest extends BlockEntity implements InventoryHolder {
     private Inventory inventory;
 
     public Chest(Block block) {
-        super(VanillaBlockTypes.of(VanillaMaterial.CHEST));
+        super(VanillaBlockTypes.get(VanillaMaterial.CHEST));
     }
 
     @Override

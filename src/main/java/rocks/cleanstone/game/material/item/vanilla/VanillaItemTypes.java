@@ -15,15 +15,15 @@ public class VanillaItemTypes {
     private static final Map<Material, ItemType> MATERIAL_ITEM_TYPE_MAP = Maps.newConcurrentMap();
 
     static {
-        VanillaBlockTypes.getMaterialBlockTypeMap().forEach(
-                (material, blockType) -> register(material, new BlockItemType(blockType)));
+        VanillaBlockTypes.getMaterialBlockTypeMap().values().forEach(
+                (blockType) -> register(new BlockItemType(blockType)));
     }
 
     private VanillaItemTypes() {
     }
 
-    private static void register(Material material, ItemType itemType) {
-        MATERIAL_ITEM_TYPE_MAP.put(material, itemType);
+    private static void register(ItemType itemType) {
+        MATERIAL_ITEM_TYPE_MAP.put(itemType.getMaterial(), itemType);
     }
 
     public static void registerAllTo(MaterialRegistry materialRegistry) {
