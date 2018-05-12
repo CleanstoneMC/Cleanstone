@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import rocks.cleanstone.game.world.region.block.Block;
+import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.io.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
@@ -73,7 +73,7 @@ public class ChunkDataPacketFactory {
         for (int y = sectionY * SECTION_HEIGHT; y < sectionY * SECTION_HEIGHT + SECTION_HEIGHT; y++) {
             for (int z = 0; z < Chunk.WIDTH; z++) {
                 for (int x = 0; x < Chunk.WIDTH; x++) {
-                    Block block = chunk.getBlock(x, y, z);
+                    BlockType block = chunk.getBlock(x, y, z).getBlockType();
                     if (block != null) isEmptyFlag.set(false);
                     writeBlock(blockData, block, x, y, z, bitsPerBlock, individualValueMask);
                 }
@@ -82,7 +82,7 @@ public class ChunkDataPacketFactory {
         return blockData;
     }
 
-    private static void writeBlock(long[] blockData, @Nullable Block block, int x, int y, int z,
+    private static void writeBlock(long[] blockData, @Nullable BlockType block, int x, int y, int z,
                                    byte bitsPerBlock, int individualValueMask) {
         int blockNumber = (((y * SECTION_HEIGHT) + z) * SECTION_WIDTH) + x;
         int startLong = (blockNumber * bitsPerBlock) / 64;
@@ -110,9 +110,9 @@ public class ChunkDataPacketFactory {
         }
     }
 
-    private static int getGlobalPaletteID(Block block) {
+    private static int getGlobalPaletteID(BlockType block) {
         // TODO BlockState metadata
-        int blockID = block != null ? block.getMaterial().getBlockID() : 0;
+        int blockID = block != null ? block.getMaterial().getID() : 0;
         return blockID >> 4 /* | metadata */;
     }
 }

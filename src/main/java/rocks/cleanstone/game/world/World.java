@@ -1,18 +1,7 @@
 package rocks.cleanstone.game.world;
 
-import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.region.Region;
+import rocks.cleanstone.game.world.region.RegionManager;
 
-import java.util.Collection;
-
-public interface World {
+public interface World extends RegionManager {
     String getID();
-
-    Collection<Region> getLoadedRegions();
-
-    Region getLoadedRegion(int x, int y);
-
-    ListenableFuture<Region> loadRegion(int x, int y);
-
-    void unloadRegion(int x, int y);
 }

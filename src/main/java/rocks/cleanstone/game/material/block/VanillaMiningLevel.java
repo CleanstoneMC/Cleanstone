@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region.block;
+package rocks.cleanstone.game.material.block;
 
 public enum VanillaMiningLevel implements MiningLevel {
     HAND(0),

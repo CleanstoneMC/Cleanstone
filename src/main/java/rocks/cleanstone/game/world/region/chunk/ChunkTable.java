@@ -1,9 +1,10 @@
 package rocks.cleanstone.game.world.region.chunk;
 
 import org.springframework.lang.Nullable;
-import rocks.cleanstone.game.world.region.block.Block;
 
 import java.util.Collection;
+
+import rocks.cleanstone.game.block.Block;
 
 public interface ChunkTable {
     @Nullable

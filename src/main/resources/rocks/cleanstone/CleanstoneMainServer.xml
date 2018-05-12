@@ -53,9 +53,16 @@
         <constructor-arg ref="playerManager"/>
     </bean>
 
+    <!-- World Data -->
+    <bean id="worldDataSource" class="rocks.cleanstone.io.data.world.LevelDBWorldDataSource"/>
+    <bean id="worldLoader" class="rocks.cleanstone.game.world.SimpleWorldLoader">
+        <constructor-arg ref="worldDataSource"/>
+    </bean>
+
     <!-- Game -->
     <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame">
         <constructor-arg ref="cleanstoneMainServer"/>
+        <constructor-arg ref="worldLoader"/>
     </bean>
 
     <!-- NETWORKING -->

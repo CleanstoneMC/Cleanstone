@@ -1,7 +1,9 @@
 package rocks.cleanstone.game.inventory.item;
 
+import rocks.cleanstone.game.material.item.ItemType;
+
 public interface ItemStack {
-    Item getItem();
+    ItemType getItem();
 
     int getAmount();
 }

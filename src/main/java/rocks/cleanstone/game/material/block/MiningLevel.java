@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region.block;
+package rocks.cleanstone.game.material.block;
 
 public interface MiningLevel {
     int getMineLevel();

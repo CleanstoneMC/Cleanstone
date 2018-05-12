@@ -1,13 +1,18 @@
 package rocks.cleanstone.game.world;
 
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
+
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.generation.WorldGenerator;
-import rocks.cleanstone.game.world.region.Region;
-import rocks.cleanstone.io.data.world.WorldDataSource;
 
 import java.util.Collection;
+import java.util.Map;
+
+import rocks.cleanstone.game.world.generation.WorldGenerator;
+import rocks.cleanstone.game.world.region.Region;
+import rocks.cleanstone.game.world.region.RegionWorker;
+import rocks.cleanstone.io.data.world.WorldDataSource;
 
 public class SimpleGeneratedWorld implements World {
 
@@ -15,12 +20,14 @@ public class SimpleGeneratedWorld implements World {
     private final WorldDataSource dataSource;
     private final WorldGenerator generator;
     private final Table<Integer, Integer, Region> regions;
+    private final Map<Region, Collection<RegionWorker>> regionWorkersMap;
 
     public SimpleGeneratedWorld(String id, WorldDataSource dataSource, WorldGenerator generator) {
         this.id = id;
         this.dataSource = dataSource;
         this.generator = generator;
         regions = HashBasedTable.create();
+        regionWorkersMap = Maps.newConcurrentMap();
     }
 
     @Override

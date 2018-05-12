@@ -4,8 +4,8 @@ import java.util.Collection;
 
 import javax.annotation.Nullable;
 
+import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
-import rocks.cleanstone.game.world.region.block.Block;
 
 public class SimpleChunk implements Chunk {
 

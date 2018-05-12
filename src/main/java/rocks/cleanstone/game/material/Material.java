@@ -1,7 +1,7 @@
-package rocks.cleanstone.game;
+package rocks.cleanstone.game.material;
 
 public interface Material {
-    int getBlockID();
+    int getID();
 
     String getMinecraftID();
 }

@@ -1,10 +1,10 @@
 package rocks.cleanstone.game.inventory;
 
-import rocks.cleanstone.game.inventory.item.Item;
-import rocks.cleanstone.game.inventory.item.ItemStack;
-
 import java.util.Collection;
 import java.util.Map;
+
+import rocks.cleanstone.game.inventory.item.ItemStack;
+import rocks.cleanstone.game.material.item.ItemType;
 
 public interface Inventory {
 
@@ -16,9 +16,9 @@ public interface Inventory {
 
     Collection<ItemStack> getAllItemStacks();
 
-    Map<Item, Integer> getAllItems();
+    Map<ItemType, Integer> getAllItems();
 
-    boolean addItem(Item item, int amount);
+    boolean addItem(ItemType item, int amount);
 
-    boolean removeItem(Item item, int amount);
+    boolean removeItem(ItemType item, int amount);
 }

@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import rocks.cleanstone.game.world.region.block.Block;
+import rocks.cleanstone.game.block.Block;
 
 public class MapChunkTable implements ChunkTable {
 
