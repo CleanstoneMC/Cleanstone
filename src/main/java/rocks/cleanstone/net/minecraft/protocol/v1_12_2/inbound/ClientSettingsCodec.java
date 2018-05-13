@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import rocks.cleanstone.net.minecraft.packet.enums.ChatMode;
 import rocks.cleanstone.net.minecraft.packet.enums.DisplayedSkinParts;
 import rocks.cleanstone.net.minecraft.packet.enums.MainHand;
@@ -57,7 +58,7 @@ public class ClientSettingsCodec implements MinecraftPacketCodec {
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        throw new UnsupportedOperationException("Ping is inbound and cannot be encoded");
+        throw new UnsupportedOperationException("ClientSettings is inbound and cannot be encoded");
     }
 
     @Override

@@ -3,14 +3,14 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.minecraft.packet.outbound.PlayerPositionAndLookPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerPositionAndLookPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class PlayerPositionAndLookCodec implements MinecraftPacketCodec {
+public class OutPlayerPositionAndLookCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) {
@@ -19,7 +19,7 @@ public class PlayerPositionAndLookCodec implements MinecraftPacketCodec {
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
-        PlayerPositionAndLookPacket playerPositionAndLookPacket = (PlayerPositionAndLookPacket) packet;
+        OutPlayerPositionAndLookPacket playerPositionAndLookPacket = (OutPlayerPositionAndLookPacket) packet;
 
         byteBuf.writeDouble(playerPositionAndLookPacket.getX());
         byteBuf.writeDouble(playerPositionAndLookPacket.getY());

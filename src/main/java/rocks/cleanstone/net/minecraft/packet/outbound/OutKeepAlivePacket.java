@@ -4,11 +4,11 @@ import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class KeepAlivePacket implements Packet {
+public class OutKeepAlivePacket implements Packet {
 
     private final long keepAliveID;
 
-    public KeepAlivePacket(long keepAliveID) {
+    public OutKeepAlivePacket(long keepAliveID) {
         this.keepAliveID = keepAliveID;
     }
 

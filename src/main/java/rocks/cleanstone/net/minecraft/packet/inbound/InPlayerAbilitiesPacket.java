@@ -5,19 +5,19 @@ import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class PlayerAbilitiesPacket implements Packet {
+public class InPlayerAbilitiesPacket implements Packet {
 
     private final PlayerAbilities[] playerAbilities;
     private final float flyingSpeed;
     private final float walkingSpeed;
 
-    public PlayerAbilitiesPacket(byte playerAbilities, float flyingSpeed, float walkingSpeed) {
+    public InPlayerAbilitiesPacket(byte playerAbilities, float flyingSpeed, float walkingSpeed) {
         this.playerAbilities = PlayerAbilities.fromBitMask(playerAbilities);
         this.flyingSpeed = flyingSpeed;
         this.walkingSpeed = walkingSpeed;
     }
 
-    public PlayerAbilitiesPacket(PlayerAbilities[] playerAbilities, float flyingSpeed, float walkingSpeed) {
+    public InPlayerAbilitiesPacket(PlayerAbilities[] playerAbilities, float flyingSpeed, float walkingSpeed) {
         this.playerAbilities = playerAbilities;
         this.flyingSpeed = flyingSpeed;
         this.walkingSpeed = walkingSpeed;

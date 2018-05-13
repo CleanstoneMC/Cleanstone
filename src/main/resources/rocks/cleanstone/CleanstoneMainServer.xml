@@ -89,6 +89,8 @@
     </bean>
     <bean id="pingListener" class="rocks.cleanstone.net.minecraft.status.PingListener"/>
 
+    <bean id="keepAliveTask" class="rocks.cleanstone.net.minecraft.KeepAliveTask"/>
+
     <!-- (Login) -->
     <bean id="sessionServerRequester"
           class="rocks.cleanstone.net.minecraft.login.SimpleSessionServerRequester"/>

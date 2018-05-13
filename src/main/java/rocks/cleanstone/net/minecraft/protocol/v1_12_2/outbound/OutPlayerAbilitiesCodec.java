@@ -3,13 +3,13 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.minecraft.packet.outbound.PlayerAbilitiesPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerAbilitiesPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
 
-public class PlayerAbilitiesCodec implements MinecraftPacketCodec {
+public class OutPlayerAbilitiesCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) {
@@ -18,7 +18,7 @@ public class PlayerAbilitiesCodec implements MinecraftPacketCodec {
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
-        PlayerAbilitiesPacket playerAbilitiesPacket = (PlayerAbilitiesPacket) packet;
+        OutPlayerAbilitiesPacket playerAbilitiesPacket = (OutPlayerAbilitiesPacket) packet;
 
         byteBuf.writeByte(playerAbilitiesPacket.getPlayerAbilitiesValue());
         byteBuf.writeFloat(playerAbilitiesPacket.getFlyingSpeed());

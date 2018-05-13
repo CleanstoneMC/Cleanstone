@@ -1,27 +1,25 @@
-package rocks.cleanstone.net.minecraft.packet.outbound;
+package rocks.cleanstone.net.minecraft.packet.inbound;
 
-import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
+import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class PlayerPositionAndLookPacket implements Packet {
+public class InPlayerPositionAndLookPacket implements Packet {
 
     private final double x;
     private final double y;
     private final double z;
     private final float yaw;
     private final float pitch;
-    private final int flags;
-    private final int teleportID;
+    private final boolean onGround;
 
-    public PlayerPositionAndLookPacket(double x, double y, double z, float yaw, float pitch, int flags, int teleportID) {
+    public InPlayerPositionAndLookPacket(double x, double y, double z, float yaw, float pitch, boolean onGround) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.yaw = yaw;
         this.pitch = pitch;
-        this.flags = flags;
-        this.teleportID = teleportID;
+        this.onGround = onGround;
     }
 
     public double getX() {
@@ -44,16 +42,12 @@ public class PlayerPositionAndLookPacket implements Packet {
         return pitch;
     }
 
-    public int getFlags() {
-        return flags;
-    }
-
-    public int getTeleportID() {
-        return teleportID;
+    public boolean isOnGround() {
+        return onGround;
     }
 
     @Override
     public PacketType getType() {
-        return MinecraftOutboundPacketType.PLAYER_POSITION_AND_LOOK;
+        return MinecraftInboundPacketType.PLAYER_POSITION_AND_LOOK;
     }
 }
