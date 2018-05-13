@@ -1,20 +1,18 @@
 package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.base.Charsets;
+import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.EncryptionRequestPacket;
+import rocks.cleanstone.net.utils.SecurityUtils;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
-
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.EncryptionRequestPacket;
-import rocks.cleanstone.net.utils.SecurityUtils;
 
 public class LoginCrypto {
 

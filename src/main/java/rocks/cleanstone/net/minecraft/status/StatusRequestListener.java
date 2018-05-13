@@ -1,9 +1,7 @@
 package rocks.cleanstone.net.minecraft.status;
 
 import com.google.gson.Gson;
-
 import org.springframework.context.event.EventListener;
-
 import rocks.cleanstone.core.player.PlayerManager;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.MinecraftNetworking;

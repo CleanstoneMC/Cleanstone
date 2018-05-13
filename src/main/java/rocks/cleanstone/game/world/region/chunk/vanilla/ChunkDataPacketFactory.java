@@ -73,7 +73,7 @@ public class ChunkDataPacketFactory {
         for (int y = sectionY * SECTION_HEIGHT; y < sectionY * SECTION_HEIGHT + SECTION_HEIGHT; y++) {
             for (int z = 0; z < Chunk.WIDTH; z++) {
                 for (int x = 0; x < Chunk.WIDTH; x++) {
-                    BlockType block = chunk.getBlock(x, y, z).getBlockType();
+                    BlockType block = chunk.getBlock(x, y, z).getType();
                     if (block != null) isEmptyFlag.set(false);
                     writeBlock(blockData, block, x, y, z, bitsPerBlock, individualValueMask);
                 }

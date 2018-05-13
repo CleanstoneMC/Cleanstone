@@ -1,11 +1,11 @@
 package rocks.cleanstone.net.minecraft.packet;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
+
+import javax.annotation.Nullable;
 
 public enum MinecraftOutboundPacketType implements PacketType {
     SPAWN_OBJECT(0, SpawnObjectPacket.class),

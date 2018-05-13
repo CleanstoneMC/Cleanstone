@@ -3,9 +3,6 @@ package rocks.cleanstone.game.world.region;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.HashSet;
-
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.VanillaMaterial;
 import rocks.cleanstone.game.world.region.chunk.ArrayChunkTable;
@@ -13,6 +10,8 @@ import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.game.world.region.chunk.ChunkTable;
 import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
 import rocks.cleanstone.io.data.world.WorldDataSource;
+
+import java.util.HashSet;
 
 public class LocalRegionWorker implements RegionWorker {
 

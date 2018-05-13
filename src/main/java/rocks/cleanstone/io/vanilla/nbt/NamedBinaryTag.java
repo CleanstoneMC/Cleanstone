@@ -1,8 +1,8 @@
 package rocks.cleanstone.io.vanilla.nbt;
 
-import java.io.File;
-
 import rocks.cleanstone.io.vanilla.nbt.type.AbstractTag;
+
+import java.io.File;
 
 public class NamedBinaryTag {
 

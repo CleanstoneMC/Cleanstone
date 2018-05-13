@@ -2,7 +2,6 @@ package rocks.cleanstone.net.minecraft.login;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;

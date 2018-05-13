@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
+
+import javax.annotation.Nullable;
 
 public enum VanillaProtocolState implements ProtocolState {
     HANDSHAKE(0), STATUS(1), LOGIN(2), PLAY(3);

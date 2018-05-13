@@ -1,7 +1,5 @@
 package rocks.cleanstone.game.material.block.vanilla;
 
-import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.entity.BlockEntity;
 import rocks.cleanstone.game.material.Material;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.MiningLevel;
@@ -23,11 +21,6 @@ public class SolidBlockType implements BlockType {
     @Override
     public Material getMaterial() {
         return material;
-    }
-
-    @Override
-    public BlockEntity getBlockEntity(Block block) {
-        return null;
     }
 
     @Override

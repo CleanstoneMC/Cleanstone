@@ -2,19 +2,10 @@ package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.crypto.SecretKey;
-
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.HandshakeListener;
@@ -29,6 +20,12 @@ import rocks.cleanstone.net.minecraft.packet.outbound.SetCompressionPacket;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;
+
+import javax.crypto.SecretKey;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.Map;
+import java.util.UUID;
 
 public class LoginManager {
 

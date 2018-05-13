@@ -2,23 +2,20 @@ package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.net.Connection;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.PublicKey;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import rocks.cleanstone.net.Connection;
 
 public class SimpleSessionServerRequester implements SessionServerRequester {
 

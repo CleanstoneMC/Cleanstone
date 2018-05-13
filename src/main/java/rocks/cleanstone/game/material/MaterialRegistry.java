@@ -1,13 +1,12 @@
 package rocks.cleanstone.game.material;
 
 import com.google.common.collect.Maps;
-
-import java.util.Map;
-
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockTypes;
 import rocks.cleanstone.game.material.item.ItemType;
 import rocks.cleanstone.game.material.item.vanilla.VanillaItemTypes;
+
+import java.util.Map;
 
 public class MaterialRegistry {
 

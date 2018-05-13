@@ -1,10 +1,10 @@
 package rocks.cleanstone.net;
 
+import rocks.cleanstone.net.packet.protocol.Protocol;
+
 import java.net.InetAddress;
 import java.security.KeyPair;
 import java.util.Collection;
-
-import rocks.cleanstone.net.packet.protocol.Protocol;
 
 public interface Networking {
 

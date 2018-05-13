@@ -14,7 +14,7 @@ public abstract class BlockEntity implements Block {
         this.blockType = blockType;
     }
 
-    public BlockType getBlockType() {
+    public BlockType getType() {
         return blockType;
     }
 }

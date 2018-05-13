@@ -1,7 +1,5 @@
 package rocks.cleanstone.net.netty;
 
-import java.net.InetAddress;
-
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -14,6 +12,8 @@ import rocks.cleanstone.net.netty.pipeline.outbound.EncryptionEncoder;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
+
+import java.net.InetAddress;
 
 public class NettyConnection extends AbstractConnection {
 
