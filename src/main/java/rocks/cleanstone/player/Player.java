@@ -1,11 +1,10 @@
-package rocks.cleanstone.core.player;
-
-import rocks.cleanstone.game.entity.vanilla.Human;
-import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
-import rocks.cleanstone.net.minecraft.packet.data.Text;
-import rocks.cleanstone.net.packet.Packet;
+package rocks.cleanstone.player;
 
 import java.net.InetAddress;
+
+import rocks.cleanstone.game.entity.vanilla.Human;
+import rocks.cleanstone.net.minecraft.packet.data.Text;
+import rocks.cleanstone.net.packet.Packet;
 
 public interface Player {
 

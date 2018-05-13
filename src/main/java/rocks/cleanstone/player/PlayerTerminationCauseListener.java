@@ -1,4 +1,4 @@
-package rocks.cleanstone.core.player;
+package rocks.cleanstone.player;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;

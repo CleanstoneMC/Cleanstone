@@ -1,8 +1,8 @@
-package rocks.cleanstone.core.player.event;
+package rocks.cleanstone.player.event;
 
-import rocks.cleanstone.core.player.PlayerID;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
+import rocks.cleanstone.player.PlayerID;
 
 public class AsyncPlayerLoginEvent {
 

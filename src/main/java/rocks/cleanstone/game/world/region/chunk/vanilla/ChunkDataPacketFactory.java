@@ -1,11 +1,15 @@
 package rocks.cleanstone.game.world.region.chunk.vanilla;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nullable;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.io.vanilla.nbt.NamedBinaryTag;
@@ -15,6 +19,8 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
 public class ChunkDataPacketFactory {
 
     private static final int SECTION_WIDTH = Chunk.WIDTH, SECTION_HEIGHT = 16, FULL_SIZE_BITS_PER_BLOCK = 13;
+
+    private static final Logger logger = LoggerFactory.getLogger(ChunkDataPacketFactory.class);
 
     private ChunkDataPacketFactory() {
     }
@@ -66,6 +72,7 @@ public class ChunkDataPacketFactory {
     private static long[] getBlockData(int sectionY, Chunk chunk, AtomicBoolean isEmptyFlag) {
         byte bitsPerBlock = FULL_SIZE_BITS_PER_BLOCK;
         int dataLength = (16 * 16 * 16) * FULL_SIZE_BITS_PER_BLOCK / 64;
+        logger.info("dataLength " + dataLength);
         long[] blockData = new long[dataLength];
         int individualValueMask = (1 << bitsPerBlock) - 1; // bitmask that contains bitsPerBlock set bits
         isEmptyFlag.set(true);
@@ -73,9 +80,12 @@ public class ChunkDataPacketFactory {
         for (int y = sectionY * SECTION_HEIGHT; y < sectionY * SECTION_HEIGHT + SECTION_HEIGHT; y++) {
             for (int z = 0; z < Chunk.WIDTH; z++) {
                 for (int x = 0; x < Chunk.WIDTH; x++) {
-                    BlockState blockState = chunk.getBlock(x, y, z).getState();
-                    if (blockState != null) isEmptyFlag.set(false);
-                    writeBlock(blockData, blockState, x, y, z, bitsPerBlock, individualValueMask);
+                    Block block = chunk.getBlock(x, y, z);
+                    BlockState blockState = block != null ? block.getState() : null;
+                    if (blockState != null) {
+                        isEmptyFlag.set(false);
+                        writeBlock(blockData, blockState, x, y, z, bitsPerBlock, individualValueMask);
+                    }
                 }
             }
         }
@@ -85,12 +95,15 @@ public class ChunkDataPacketFactory {
     private static void writeBlock(long[] blockData, @Nullable BlockState blockState, int x, int y, int z,
                                    byte bitsPerBlock, int individualValueMask) {
         int blockNumber = (((y * SECTION_HEIGHT) + z) * SECTION_WIDTH) + x;
+        logger.info("blockNumber " + blockNumber);
         int startLong = (blockNumber * bitsPerBlock) / 64;
+        logger.info("startLong " + startLong);
         int startOffset = (blockNumber * bitsPerBlock) % 64;
         int endLong = ((blockNumber + 1) * bitsPerBlock - 1) / 64;
+        logger.info("endLong " + endLong);
         int paletteID = getGlobalPaletteID(blockState);
-
         paletteID &= individualValueMask;
+
         blockData[startLong] |= (paletteID << startOffset);
         if (startLong != endLong) {
             blockData[endLong] = (paletteID >> (64 - startOffset));

@@ -1,6 +1,6 @@
-package rocks.cleanstone.core.player.event;
+package rocks.cleanstone.player.event;
 
-import rocks.cleanstone.core.player.Player;
+import rocks.cleanstone.player.Player;
 
 public class PlayerJoinEvent {
 

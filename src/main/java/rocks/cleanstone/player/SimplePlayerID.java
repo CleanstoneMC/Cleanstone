@@ -1,4 +1,4 @@
-package rocks.cleanstone.core.player;
+package rocks.cleanstone.player;
 
 import com.google.common.base.Objects;
 
