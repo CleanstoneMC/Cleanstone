@@ -112,14 +112,14 @@ public class LoginManager {
                 SessionServerResponse.Property textures = response.getProperties()[0];
                 finishLogin(connection, uuid, name, textures);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Error occurred while finishing login", e);
             }
         }, e -> {
             try {
-                e.printStackTrace();
+                logger.error("Error occurred while requesting session servers", e);
                 stopLogin(connection, Text.fromPlain("Failed to validate session"));
             } catch (Exception e2) {
-                e2.printStackTrace();
+                logger.error("Error occurred while stopping login", e2);
             }
         });
     }

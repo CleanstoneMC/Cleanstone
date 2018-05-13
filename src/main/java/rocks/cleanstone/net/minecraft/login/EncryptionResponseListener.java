@@ -1,7 +1,10 @@
 package rocks.cleanstone.net.minecraft.login;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
@@ -9,6 +12,7 @@ import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 public class EncryptionResponseListener {
 
     private final LoginManager loginManager;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public EncryptionResponseListener(LoginManager loginManager) {
         this.loginManager = loginManager;
@@ -22,7 +26,7 @@ public class EncryptionResponseListener {
             try {
                 loginManager.onEncryptionResponse(event.getConnection(), packet);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Error occurred while handling encryption response", e);
                 loginManager.stopLogin(event.getConnection(), Text.fromPlain("Invalid encryption response"));
             }
         }

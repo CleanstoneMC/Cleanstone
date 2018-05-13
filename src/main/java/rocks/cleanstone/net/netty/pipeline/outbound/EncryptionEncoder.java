@@ -1,5 +1,8 @@
 package rocks.cleanstone.net.netty.pipeline.outbound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.ByteBuffer;
 import java.util.List;
 
@@ -18,6 +21,7 @@ import rocks.cleanstone.net.Connection;
 
 public class EncryptionEncoder extends MessageToMessageEncoder<ByteBuf> {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private Cipher cipher;
 
     @Override
@@ -38,7 +42,7 @@ public class EncryptionEncoder extends MessageToMessageEncoder<ByteBuf> {
             outNioBuf.flip();
             out.add(Unpooled.wrappedBuffer(outNioBuf));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error occurred while encrypting outgoing data", e);
         }
     }
 }

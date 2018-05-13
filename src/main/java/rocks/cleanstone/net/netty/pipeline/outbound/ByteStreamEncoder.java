@@ -11,6 +11,7 @@ import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class ByteStreamEncoder extends MessageToByteEncoder<ByteBuf> {
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
@@ -31,7 +32,7 @@ public class ByteStreamEncoder extends MessageToByteEncoder<ByteBuf> {
                 // TODO: Length appears to be incorrect or is in wrong format
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error occurred while framing outgoing data", e);
         }
     }
 }

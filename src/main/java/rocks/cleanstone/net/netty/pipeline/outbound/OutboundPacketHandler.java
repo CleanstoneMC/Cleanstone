@@ -16,8 +16,8 @@ import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 
 public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Networking networking;
 
     public OutboundPacketHandler(Networking networking) {
@@ -38,7 +38,7 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
             logger.info("Sending " + packet.getType() + " packet to " + connection.getAddress().getHostAddress());
             ctx.write(packet, promise);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error occurred while handling outbound packet", e);
         }
     }
 }

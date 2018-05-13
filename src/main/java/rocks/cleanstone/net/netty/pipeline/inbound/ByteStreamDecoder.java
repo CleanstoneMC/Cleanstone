@@ -1,19 +1,21 @@
 package rocks.cleanstone.net.netty.pipeline.inbound;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.ByteToMessageDecoder;
-import io.netty.util.AttributeKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.utils.ByteBufUtils;
-import rocks.cleanstone.net.utils.NotEnoughReadableBytesException;
 
 import java.io.IOException;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.util.AttributeKey;
+import rocks.cleanstone.net.Connection;
+import rocks.cleanstone.net.utils.ByteBufUtils;
+import rocks.cleanstone.net.utils.NotEnoughReadableBytesException;
+
 public class ByteStreamDecoder extends ByteToMessageDecoder {
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
@@ -39,7 +41,7 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
+        logger.error("Error occurred while framing incoming data", cause);
         ctx.close();
     }
 }

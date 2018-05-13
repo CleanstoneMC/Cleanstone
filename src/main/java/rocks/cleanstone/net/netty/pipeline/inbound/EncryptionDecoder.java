@@ -1,5 +1,16 @@
 package rocks.cleanstone.net.netty.pipeline.inbound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.ByteBuffer;
+import java.util.List;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.ShortBufferException;
+import javax.crypto.spec.IvParameterSpec;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -8,15 +19,9 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.ShortBufferException;
-import javax.crypto.spec.IvParameterSpec;
-import java.nio.ByteBuffer;
-import java.util.List;
-
 public class EncryptionDecoder extends MessageToMessageDecoder<ByteBuf> {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private Cipher cipher;
 
     @Override
@@ -39,7 +44,7 @@ public class EncryptionDecoder extends MessageToMessageDecoder<ByteBuf> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
+        logger.error("Error occurred while decrypting incoming data", cause);
         ctx.close();
     }
 }

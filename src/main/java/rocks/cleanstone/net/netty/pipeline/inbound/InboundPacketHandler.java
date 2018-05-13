@@ -36,7 +36,7 @@ public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
+        logger.error("Error occurred while handling inbound packet", cause);
         ctx.close();
     }
 }

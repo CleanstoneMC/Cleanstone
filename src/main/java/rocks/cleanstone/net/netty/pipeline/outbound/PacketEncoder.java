@@ -39,7 +39,7 @@ public class PacketEncoder extends MessageToMessageEncoder<Packet> {
                         .set(data.readableBytes());
             out.add(data);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error occurred while encoding packet data", e);
         }
     }
 }
