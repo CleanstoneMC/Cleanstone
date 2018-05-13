@@ -37,7 +37,8 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
                 + connection.getClientProtocolLayer().toString());
         PacketType packetType = layer.getPacketType(clientPacketID, connection.getProtocolState());
         Preconditions.checkNotNull(packetType, "Missing codec: Cannot find packetType by clientPacketID " +
-                clientPacketID + " and protocolState " + connection.getProtocolState());
+                String.format("0x%02X", clientPacketID) + " and protocolState " + connection
+                .getProtocolState());
         return packetType.getTypeID();
     }
 
