@@ -23,7 +23,6 @@ public class LoginStartListener {
         if (event.getPacket() instanceof LoginStartPacket) {
             LoginStartPacket packet = (LoginStartPacket) event.getPacket();
             String playerName = packet.getPlayerName();
-            logger.info("Starting login");
             loginManager.startLogin(event.getConnection(), playerName);
         }
     }

@@ -38,15 +38,17 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
 
         Attribute<Connection> connectionKey = ctx.channel().attr(AttributeKey.valueOf("connection"));
         if (connectionKey.get() == null) {
-            logger.info("New connection from "+ipAddress);
+            logger.info("New connection from " + ipAddress);
             Connection connection = new NettyConnection(ctx.channel(), inetaddress, networking.getProtocol()
                     .getDefaultClientLayer(), networking.getProtocol().getDefaultState());
             connectionKey.set(connection);
             if (CleanstoneServer.publishEvent(new ConnectionOpenEvent(connection, networking)).isCancelled()) {
                 ctx.close();
             }
-            ctx.channel().closeFuture().addListener((a)
-                    -> CleanstoneServer.publishEvent(new ConnectionClosedEvent(connection, networking)));
+            ctx.channel().closeFuture().addListener((a) -> {
+                logger.info("Connection from " + ipAddress + " closed");
+                CleanstoneServer.publishEvent(new ConnectionClosedEvent(connection, networking));
+            });
         }
         ctx.fireChannelRead(msg);
     }
