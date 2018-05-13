@@ -1,9 +1,9 @@
 package rocks.cleanstone.io.vanilla.nbt.type;
 
-import java.util.List;
-
 import rocks.cleanstone.io.vanilla.nbt.TagType;
 import rocks.cleanstone.io.vanilla.nbt.VanillaTagType;
+
+import java.util.List;
 
 public class ListTag<T extends AbstractTag> extends AbstractTag<List<T>> {
 

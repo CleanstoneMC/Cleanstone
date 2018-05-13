@@ -1,7 +1,6 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
 import com.google.common.base.Preconditions;
-
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;

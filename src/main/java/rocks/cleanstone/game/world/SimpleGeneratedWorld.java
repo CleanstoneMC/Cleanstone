@@ -3,16 +3,14 @@ package rocks.cleanstone.game.world;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
-
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
-import java.util.Map;
-
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
 import rocks.cleanstone.game.world.region.RegionWorker;
 import rocks.cleanstone.io.data.world.WorldDataSource;
+
+import java.util.Collection;
+import java.util.Map;
 
 public class SimpleGeneratedWorld implements World {
 

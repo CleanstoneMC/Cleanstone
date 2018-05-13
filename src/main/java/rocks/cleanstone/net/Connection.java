@@ -1,12 +1,11 @@
 package rocks.cleanstone.net;
 
-import java.net.InetAddress;
-
-import javax.crypto.SecretKey;
-
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
+
+import javax.crypto.SecretKey;
+import java.net.InetAddress;
 
 public interface Connection {
 

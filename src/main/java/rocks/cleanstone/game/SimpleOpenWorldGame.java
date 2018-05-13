@@ -2,19 +2,16 @@ package rocks.cleanstone.game;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.core.CleanstoneMainServer;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldLoader;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
 
 public class SimpleOpenWorldGame implements OpenWorldGame {
 

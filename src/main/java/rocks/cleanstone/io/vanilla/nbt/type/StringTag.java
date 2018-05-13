@@ -1,11 +1,11 @@
 package rocks.cleanstone.io.vanilla.nbt.type;
 
+import rocks.cleanstone.io.vanilla.nbt.TagType;
+import rocks.cleanstone.io.vanilla.nbt.VanillaTagType;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
-
-import rocks.cleanstone.io.vanilla.nbt.TagType;
-import rocks.cleanstone.io.vanilla.nbt.VanillaTagType;
 
 public class StringTag extends AbstractTag<String> {
 

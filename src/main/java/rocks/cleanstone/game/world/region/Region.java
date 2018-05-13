@@ -1,10 +1,9 @@
 package rocks.cleanstone.game.world.region;
 
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.world.region.chunk.Chunk;
 
 import java.util.Collection;
-
-import rocks.cleanstone.game.world.region.chunk.Chunk;
 
 public interface Region {
     Collection<Chunk> getLoadedChunks();

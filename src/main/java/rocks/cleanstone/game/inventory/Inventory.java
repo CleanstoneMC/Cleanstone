@@ -1,10 +1,10 @@
 package rocks.cleanstone.game.inventory;
 
-import java.util.Collection;
-import java.util.Map;
-
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.material.item.ItemType;
+
+import java.util.Collection;
+import java.util.Map;
 
 public interface Inventory {
 

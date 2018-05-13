@@ -1,9 +1,9 @@
 package rocks.cleanstone.net.packet.protocol;
 
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.packet.Packet;
+
+import java.io.IOException;
 
 public interface PacketCodec {
     Packet decode(ByteBuf byteBuf) throws IOException;
