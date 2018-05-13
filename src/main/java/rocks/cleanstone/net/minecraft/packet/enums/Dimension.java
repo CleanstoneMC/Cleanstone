@@ -5,16 +5,16 @@ public enum Dimension {
     OVERWORLD(0),
     END(1);
 
-    private final int dimesionID;
+    private final int dimensionID;
 
-    Dimension(int dimesionID) {
-        this.dimesionID = dimesionID;
+    Dimension(int dimensionID) {
+        this.dimensionID = dimensionID;
     }
 
     @SuppressWarnings("Duplicates")
-    public static Dimension fromDimensionID(int dimesionID) {
+    public static Dimension fromDimensionID(int dimensionID) {
         for (Dimension dimension : Dimension.values()) {
-            if (dimension.getDimesionID() == dimesionID) {
+            if (dimension.getDimensionID() == dimensionID) {
                 return dimension;
             }
         }
@@ -22,7 +22,7 @@ public enum Dimension {
         return null;
     }
 
-    public int getDimesionID() {
-        return dimesionID;
+    public int getDimensionID() {
+        return dimensionID;
     }
 }

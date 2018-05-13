@@ -27,11 +27,11 @@ public class PlayerAbilitiesPacket implements Packet {
         return playerAbilities;
     }
 
-    public int getPlayerAbilitiesValue() {
-        int value = 0;
+    public byte getPlayerAbilitiesValue() {
+        byte value = 0;
 
         for (PlayerAbilities playerAbility : playerAbilities) {
-            value = value & playerAbility.getBit();
+            value = (byte) (value & playerAbility.getBit());
         }
 
         return value;

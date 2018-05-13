@@ -11,26 +11,28 @@ public class JoinGamePacket implements Packet {
 
     private final int entityID;
     private final int gamemode;
-    private final Dimension dimesion;
+    private final Dimension dimension;
     private final Difficulty difficulty;
     private final byte maxPlayers;
     private final LevelType levelType;
     private final boolean reduceDebugInfo;
 
-    public JoinGamePacket(int entityID, int gamemode, Dimension dimesion, Difficulty difficulty, byte maxPlayers, LevelType levelType, boolean reduceDebugInfo) {
+    public JoinGamePacket(int entityID, int gamemode, Dimension dimension, Difficulty difficulty,
+                          byte maxPlayers, LevelType levelType, boolean reduceDebugInfo) {
         this.entityID = entityID;
         this.gamemode = gamemode;
-        this.dimesion = dimesion;
+        this.dimension = dimension;
         this.difficulty = difficulty;
         this.maxPlayers = maxPlayers;
         this.levelType = levelType;
         this.reduceDebugInfo = reduceDebugInfo;
     }
 
-    public JoinGamePacket(int entityID, int gamemode, Dimension dimesion, Difficulty difficulty, LevelType levelType, boolean reduceDebugInfo) {
+    public JoinGamePacket(int entityID, int gamemode, Dimension dimension, Difficulty difficulty,
+                          LevelType levelType, boolean reduceDebugInfo) {
         this.entityID = entityID;
         this.gamemode = gamemode;
-        this.dimesion = dimesion;
+        this.dimension = dimension;
         this.difficulty = difficulty;
         this.maxPlayers = 0;
         this.levelType = levelType;
@@ -45,8 +47,8 @@ public class JoinGamePacket implements Packet {
         return gamemode;
     }
 
-    public Dimension getDimesion() {
-        return dimesion;
+    public Dimension getDimension() {
+        return dimension;
     }
 
     public Difficulty getDifficulty() {

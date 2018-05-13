@@ -20,7 +20,7 @@ public class PlayerAbilitiesCodec implements MinecraftPacketCodec {
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
         PlayerAbilitiesPacket playerAbilitiesPacket = (PlayerAbilitiesPacket) packet;
 
-        byteBuf.writeInt(playerAbilitiesPacket.getPlayerAbilitiesValue());
+        byteBuf.writeByte(playerAbilitiesPacket.getPlayerAbilitiesValue());
         byteBuf.writeFloat(playerAbilitiesPacket.getFlyingSpeed());
         byteBuf.writeFloat(playerAbilitiesPacket.getFieldOfViewModifier());
 

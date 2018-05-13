@@ -23,7 +23,7 @@ public class JoinGameCodec implements MinecraftPacketCodec {
 
         byteBuf.writeInt(joinGamePacket.getEntityID());
         byteBuf.writeByte(joinGamePacket.getGamemode());
-        byteBuf.writeInt(joinGamePacket.getDimesion().getDimesionID());
+        byteBuf.writeInt(joinGamePacket.getDimension().getDimensionID());
         byteBuf.writeByte(joinGamePacket.getDifficulty().getDifficultyID());
         byteBuf.writeByte(joinGamePacket.getMaxPlayers());
         ByteBufUtils.writeUTF8(byteBuf, joinGamePacket.getLevelType().getLevelType());

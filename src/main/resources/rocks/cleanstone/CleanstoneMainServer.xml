@@ -43,15 +43,18 @@
     </bean>
 
     <!-- Player Management -->
-    <bean id="playerManager" class="rocks.cleanstone.core.player.SimplePlayerManager"/>
+    <bean id="playerManager" class="rocks.cleanstone.player.SimplePlayerManager"/>
     <bean id="playerInitializationCauseListener"
-          class="rocks.cleanstone.core.player.PlayerInitializationCauseListener">
+          class="rocks.cleanstone.player.PlayerInitializationCauseListener">
         <constructor-arg ref="playerManager"/>
     </bean>
     <bean id="playerTerminationCauseListener"
-          class="rocks.cleanstone.core.player.PlayerTerminationCauseListener">
+          class="rocks.cleanstone.player.PlayerTerminationCauseListener">
         <constructor-arg ref="playerManager"/>
     </bean>
+
+    <!-- Initialization -->
+    <bean id="generalWorldPackets" class="rocks.cleanstone.player.initialize.GeneralWorldPackets"/>
 
     <!-- World Data -->
     <bean id="worldDataSource" class="rocks.cleanstone.io.data.world.LevelDBWorldDataSource"/>
