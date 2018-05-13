@@ -2,8 +2,8 @@ package rocks.cleanstone.game.block.entity;
 
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.BlockState;
+import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.BlockType;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockTypes;
 
 /**
  * A block in the world with mutable state information and behavior optionally
@@ -19,7 +19,7 @@ public abstract class BlockEntity implements Block {
     }
 
     public BlockEntity(BlockState state) {
-        this(state, VanillaBlockTypes.get(state.getMaterial()));
+        this(state, MaterialRegistry.getBlockType(state.getMaterial()));
     }
 
     @Override

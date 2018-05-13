@@ -6,24 +6,26 @@ import java.util.HashSet;
 import rocks.cleanstone.game.material.Material;
 
 /**
- * An immutable state of a block containing its material and data
+ * An immutable state of a block containing its material and metadata
+ *
+ * Blocks using metadata should extend this class to create a wrapper around the inconvenient metadata field
  */
 public class BlockState {
 
     private static final Collection<BlockState> CACHED_STATES = new HashSet<>();
 
     private final Material material;
-    private final byte data;
+    private final byte metadata;
 
-    private BlockState(Material material, byte data) {
+    private BlockState(Material material, byte metadata) {
         this.material = material;
-        this.data = data;
+        this.metadata = metadata;
     }
 
-    public static BlockState of(Material material, byte data) {
-        return CACHED_STATES.stream().filter(b -> b.getMaterial().equals(material) && b.getData() == data)
+    public static BlockState of(Material material, byte metadata) {
+        return CACHED_STATES.stream().filter(b -> b.getMaterial().equals(material) && b.getMetadata() == metadata)
                 .findFirst().orElseGet(() -> {
-                    BlockState newState = new BlockState(material, (byte) data);
+                    BlockState newState = new BlockState(material, metadata);
                     CACHED_STATES.add(newState);
                     return newState;
                 });
@@ -37,7 +39,7 @@ public class BlockState {
         return material;
     }
 
-    public byte getData() {
-        return data;
+    public byte getMetadata() {
+        return metadata;
     }
 }

@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import rocks.cleanstone.game.material.Material;
+import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.BlockType;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockTypes;
 
 /**
  * A standard block in the world that cannot be changed without being replaced
@@ -23,7 +23,7 @@ public class ImmutableBlock implements Block {
     }
 
     private ImmutableBlock(BlockState state) {
-        this(state, VanillaBlockTypes.get(state.getMaterial()));
+        this(state, MaterialRegistry.getBlockType(state.getMaterial()));
     }
 
     public static ImmutableBlock of(BlockState state) {
@@ -39,8 +39,8 @@ public class ImmutableBlock implements Block {
         return of(BlockState.of(material));
     }
 
-    public static ImmutableBlock of(Material material, byte data) {
-        return of(BlockState.of(material, data));
+    public static ImmutableBlock of(Material material, byte metadata) {
+        return of(BlockState.of(material, metadata));
     }
 
     @Override

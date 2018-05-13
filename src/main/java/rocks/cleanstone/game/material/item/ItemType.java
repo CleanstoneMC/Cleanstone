@@ -6,6 +6,9 @@ import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.material.Material;
 
+/**
+ * An item type in the game that defines the behavior of items with this type
+ */
 public interface ItemType {
 
     Material getMaterial();

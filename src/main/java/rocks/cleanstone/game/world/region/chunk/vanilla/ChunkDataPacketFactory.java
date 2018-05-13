@@ -112,7 +112,7 @@ public class ChunkDataPacketFactory {
 
     private static int getGlobalPaletteID(@Nullable BlockState state) {
         int blockID = state != null ? state.getMaterial().getID() : 0;
-        byte data = state != null ? state.getData() : 0;
-        return blockID >> 4 | data;
+        byte metadata = state != null ? state.getMetadata() : 0;
+        return blockID >> 4 | metadata;
     }
 }
