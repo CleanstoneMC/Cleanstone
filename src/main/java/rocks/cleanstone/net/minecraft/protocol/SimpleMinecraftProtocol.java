@@ -1,6 +1,7 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
 import com.google.common.base.Preconditions;
+
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
@@ -35,8 +36,8 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
         Preconditions.checkNotNull(layer, "Cannot find ServerLayer by ClientLayer "
                 + connection.getClientProtocolLayer().toString());
         PacketType packetType = layer.getPacketType(clientPacketID, connection.getProtocolState());
-        Preconditions.checkNotNull(packetType, "Cannot find packetType by clientPacketID " + clientPacketID +
-                " and protocolState " + connection.getProtocolState());
+        Preconditions.checkNotNull(packetType, "Missing codec: Cannot find packetType by clientPacketID " +
+                clientPacketID + " and protocolState " + connection.getProtocolState());
         return packetType.getTypeID();
     }
 

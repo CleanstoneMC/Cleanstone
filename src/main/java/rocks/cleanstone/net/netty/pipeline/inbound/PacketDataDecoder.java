@@ -45,7 +45,9 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
+        if (cause.getMessage() != null && cause.getMessage().contains("Cannot find packetType by")) {
+            logger.warn(cause.getMessage());
+        } else
+            cause.printStackTrace();
     }
 }
