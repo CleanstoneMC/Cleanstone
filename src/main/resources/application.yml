@@ -11,7 +11,7 @@ cleanstone:
   address: 0.0.0.0
 
 minecraft:
-  port: 25566
+  port: 25565
   address: 0.0.0.0
   onlineMode: true
   motd: Cleanstone Advanced Minecraft Server
