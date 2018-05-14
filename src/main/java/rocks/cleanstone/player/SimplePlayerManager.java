@@ -8,12 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
+import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
@@ -58,6 +60,13 @@ public class SimplePlayerManager implements PlayerManager {
         PlayerID id = new SimplePlayerID(uuid, accountName);
         playerIDs.add(id);
         return id;
+    }
+
+    @Override
+    public Player getPlayerByConnection(Connection connection) {
+        Optional<Player> optionalPlayer = onlinePlayers.stream().filter(player -> player instanceof OnlinePlayer && ((OnlinePlayer) player).getConnection() == connection).findAny();
+
+        return optionalPlayer.get();
     }
 
     @Override

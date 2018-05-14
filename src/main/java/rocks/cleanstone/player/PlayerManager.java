@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
+import rocks.cleanstone.net.Connection;
 
 public interface PlayerManager {
 
@@ -20,4 +21,6 @@ public interface PlayerManager {
     void initializePlayer(Player player);
 
     void terminatePlayer(Player player);
+
+    Player getPlayerByConnection(Connection connection);
 }
