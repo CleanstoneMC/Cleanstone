@@ -3,17 +3,20 @@ package rocks.cleanstone.game.command;
 import rocks.cleanstone.game.permission.Permission;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Command {
     String getCommandString();
 
     boolean requiresPlayer();
 
+    boolean allowConsole();
+
     Permission getMinimalPermission();
 
     boolean hasSubCommands();
 
-    List<SubCommand> getSubCommands();
+    Map<String, SubCommand> getSubCommands();
 
     boolean generateTabCompletion();
 
@@ -25,4 +28,7 @@ public interface Command {
      */
     String getHelpPage();
 
+    List<String> getAliases();
+
+    void execute(IssuedCommand issuedCommand);
 }

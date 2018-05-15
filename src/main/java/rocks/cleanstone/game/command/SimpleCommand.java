@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.permission.Permission;
 
-import java.util.List;
+import java.util.Map;
 
 public abstract class SimpleCommand implements Command {
 
@@ -22,7 +22,7 @@ public abstract class SimpleCommand implements Command {
     }
 
     @Override
-    public List<SubCommand> getSubCommands() {
+    public Map<String, SubCommand> getSubCommands() {
         return null;
     }
 

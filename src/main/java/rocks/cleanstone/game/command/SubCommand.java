@@ -2,10 +2,6 @@ package rocks.cleanstone.game.command;
 
 import rocks.cleanstone.game.permission.Permission;
 
-public interface SubCommand {
+public interface SubCommand extends Command {
     Command getMainCommand();
-
-    String getSubCommandString();
-
-    Permission getMinimalPermission();
 }
