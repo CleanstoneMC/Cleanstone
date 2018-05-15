@@ -3,8 +3,16 @@ package rocks.cleanstone.player;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
 import rocks.cleanstone.net.Connection;
@@ -13,12 +21,6 @@ import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 public class SimplePlayerManager implements PlayerManager {
 
@@ -34,7 +36,26 @@ public class SimplePlayerManager implements PlayerManager {
     @Override
     @Nullable
     public Player getOnlinePlayer(PlayerID id) {
-        return onlinePlayers.stream().filter(player -> player.getId().equals(id)).findFirst().orElse(null);
+        return onlinePlayers.stream()
+                .filter(player -> player.getId().equals(id))
+                .findFirst().orElse(null);
+    }
+
+    @Override
+    @Nullable
+    public Player getOnlinePlayer(Connection connection) {
+        return onlinePlayers.stream()
+                .filter(player -> player instanceof OnlinePlayer)
+                .filter(player -> ((OnlinePlayer) player).getConnection() == connection)
+                .findAny().orElse(null);
+    }
+
+    @Override
+    @Nullable
+    public Player getOnlinePlayer(String name) {
+        return onlinePlayers.stream()
+                .filter(player -> player.getId().getName().equalsIgnoreCase(name))
+                .findAny().orElse(null);
     }
 
     @Override
@@ -61,21 +82,9 @@ public class SimplePlayerManager implements PlayerManager {
     }
 
     @Override
-    public Player getPlayerByConnection(Connection connection) {
-        Optional<Player> optionalPlayer = onlinePlayers.stream().filter(player -> player instanceof OnlinePlayer && ((OnlinePlayer) player).getConnection() == connection).findAny();
-
-        return optionalPlayer.get();
-    }
-
-    @Override
-    public Player getOnlinePlayerByName(String name) {
-        return onlinePlayers.stream().filter(player -> player.getId().getName().equalsIgnoreCase(name)).findAny().get();
-    }
-
-    @Override
     public boolean isPlayerOperator(PlayerID playerID) {
         List<String> ops = CleanstoneServer.getInstance().getMinecraftConfig().getOps();
-        return  ops.contains(playerID.getName()) || ops.contains(playerID.getUUID().toString()); //TODO: Make this beauty <3
+        return ops.contains(playerID.getName()) || ops.contains(playerID.getUUID().toString()); //TODO: Make this beauty <3
     }
 
     @Override

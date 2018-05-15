@@ -12,6 +12,10 @@ public interface PlayerManager {
 
     Player getOnlinePlayer(PlayerID id);
 
+    Player getOnlinePlayer(Connection connection);
+
+    Player getOnlinePlayer(String name);
+
     Collection<PlayerID> getAllPlayerIDs();
 
     InGamePlayerDataRepository getPlayerDataContainer(PlayerID id);
@@ -21,10 +25,6 @@ public interface PlayerManager {
     void initializePlayer(Player player);
 
     void terminatePlayer(Player player);
-
-    Player getPlayerByConnection(Connection connection);
-
-    Player getOnlinePlayerByName(String name);
 
     boolean isPlayerOperator(PlayerID playerID);
 }

@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+
+import java.util.Arrays;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.event.PlayerChatMessageEvent;
 import rocks.cleanstone.game.chat.event.PlayerIssuedCommandEvent;
@@ -12,8 +15,6 @@ import rocks.cleanstone.net.minecraft.packet.inbound.ChatMessagePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerID;
 import rocks.cleanstone.player.PlayerManager;
-
-import java.util.Arrays;
 
 public class IncomingChatPacketListener {
 
@@ -28,7 +29,7 @@ public class IncomingChatPacketListener {
     @Async("chatExec")
     public void onChatMessage(InboundPacketEvent inboundPacketEvent) {
         if (inboundPacketEvent.getPacket() instanceof ChatMessagePacket) {
-            Player player = playerManager.getPlayerByConnection(inboundPacketEvent.getConnection());
+            Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
             PlayerID playerID = player.getId();
             String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
 
