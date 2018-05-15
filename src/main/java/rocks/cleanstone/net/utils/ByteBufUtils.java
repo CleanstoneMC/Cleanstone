@@ -24,6 +24,8 @@
 package rocks.cleanstone.net.utils;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.Position;
+import rocks.cleanstone.utils.Vector;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -167,5 +169,23 @@ public class ByteBufUtils {
                 break;
             }
         }
+    }
+
+    public static void writeVector(ByteBuf byteBuf, Vector vector) {
+        final long x = (long) vector.getX();
+        final long y = (long) vector.getY();
+        final long z = (long) vector.getZ();
+
+        byteBuf.writeLong((x & 0x3ffffff) << 38 | (y & 0xfff) << 26 | z & 0x3ffffff);
+    }
+
+    public static Vector readVector(ByteBuf byteBuf) {
+        long val = byteBuf.readLong();
+
+        long x = val >> 38;
+        long y = (val >> 26) & 0xFFF;
+        long z = val << 38 >> 38;
+
+        return new Vector(x, y, z);
     }
 }
