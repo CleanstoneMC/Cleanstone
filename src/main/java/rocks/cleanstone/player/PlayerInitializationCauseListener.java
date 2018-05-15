@@ -44,8 +44,7 @@ public class PlayerInitializationCauseListener {
         }
         OnlinePlayer player = new OnlinePlayer(playerID, connection);
 
-        if (CleanstoneServer.getInstance().getMinecraftConfig().getOps().contains(player.getId().getName()) ||
-            CleanstoneServer.getInstance().getMinecraftConfig().getOps().contains(player.getId().getUUID().toString())) { //TODO: Make this beauty <3
+        if (playerManager.isPlayerOperator(playerID)) {
             player.setOp(true);
         }
 

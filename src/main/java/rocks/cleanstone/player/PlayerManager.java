@@ -25,4 +25,6 @@ public interface PlayerManager {
     Player getPlayerByConnection(Connection connection);
 
     Player getOnlinePlayerByName(String name);
+
+    boolean isPlayerOperator(PlayerID playerID);
 }
