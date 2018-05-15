@@ -1,11 +1,11 @@
 package rocks.cleanstone.game.material.item;
 
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.BlockFace;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.material.Material;
 import rocks.cleanstone.game.material.block.BlockType;
+import rocks.cleanstone.game.block.Face;
 
 public class BlockItemType implements ItemType {
 
@@ -20,7 +20,7 @@ public class BlockItemType implements ItemType {
     }
 
     @Override
-    public void rightClickBlock(Entity entity, Block block, BlockFace blockFace) {
+    public void rightClickBlock(Entity entity, Block block, Face face) {
         // TODO trigger place
     }
 

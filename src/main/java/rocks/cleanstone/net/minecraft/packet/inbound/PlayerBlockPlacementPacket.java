@@ -2,7 +2,7 @@ package rocks.cleanstone.net.minecraft.packet.inbound;
 
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
-import rocks.cleanstone.net.minecraft.packet.enums.Face;
+import rocks.cleanstone.game.block.Face;
 import rocks.cleanstone.net.minecraft.packet.enums.Hand;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;

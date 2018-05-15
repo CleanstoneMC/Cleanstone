@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.packet.enums;
+package rocks.cleanstone.game.block;
 
 public enum Face {
     BOTTOM(0, "-Y"),
@@ -36,6 +36,18 @@ public enum Face {
         }
 
         return null;
+    }
+
+    public Face getOpposite() {
+
+        String newOffset;
+        if (offset.charAt(0) == '-') {
+            newOffset = offset.replace('-', '+');
+        } else {
+            newOffset = offset.replace('+', '-');
+        }
+
+        return Face.fromOffset(newOffset);
     }
 
     public int getFaceID() {
