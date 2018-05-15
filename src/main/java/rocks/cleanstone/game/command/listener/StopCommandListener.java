@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.command;
+package rocks.cleanstone.game.command.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
