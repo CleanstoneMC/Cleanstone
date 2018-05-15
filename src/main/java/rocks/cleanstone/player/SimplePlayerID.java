@@ -38,7 +38,7 @@ public class SimplePlayerID implements PlayerID {
 
     @Override
     public String toString() {
-        return uuid.toString();
+        return name + " (" + uuid.toString() + ")";
     }
 
     @Override

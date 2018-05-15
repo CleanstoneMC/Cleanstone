@@ -23,4 +23,6 @@ public interface PlayerManager {
     void terminatePlayer(Player player);
 
     Player getPlayerByConnection(Connection connection);
+
+    Player getOnlinePlayerByName(String name);
 }

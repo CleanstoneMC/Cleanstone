@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
+import rocks.cleanstone.Cleanstone;
+import rocks.cleanstone.core.CleanstoneMainServer;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
@@ -41,6 +43,12 @@ public class PlayerInitializationCauseListener {
             return;
         }
         OnlinePlayer player = new OnlinePlayer(playerID, connection);
+
+        if (CleanstoneServer.getInstance().getMinecraftConfig().getOps().contains(player.getId().getName()) ||
+            CleanstoneServer.getInstance().getMinecraftConfig().getOps().contains(player.getId().getUUID().toString())) { //TODO: Make this beauty <3
+            player.setOp(true);
+        }
+
         playerManager.initializePlayer(player);
     }
 }

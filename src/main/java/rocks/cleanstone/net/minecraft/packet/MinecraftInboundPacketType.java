@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 public enum MinecraftInboundPacketType implements PacketType {
     HANDSHAKE(0, HandshakePacket.class),
-    CHAT_MESSAGE(1, HandshakePacket.class),
+    CHAT_MESSAGE(1, ChatMessagePacket.class),
     CLICK_WINDOW(2, ClickWindowPacket.class),
     CLIENT_SETTINGS(3, ClientSettingsPacket.class),
     CLIENT_STATUS(4, ClientStatusPacket.class),

@@ -70,6 +70,11 @@ public class SimplePlayerManager implements PlayerManager {
     }
 
     @Override
+    public Player getOnlinePlayerByName(String name) {
+        return onlinePlayers.stream().filter(player -> player.getId().getName().equalsIgnoreCase(name)).findAny().get();
+    }
+
+    @Override
     public void initializePlayer(Player player) {
         logger.info("Initializing player");
         Preconditions.checkState(onlinePlayers.add(player),

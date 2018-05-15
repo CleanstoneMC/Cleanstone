@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
+import rocks.cleanstone.game.chat.message.Chat;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.enums.ChatPosition;
 import rocks.cleanstone.net.packet.Packet;
@@ -7,21 +8,16 @@ import rocks.cleanstone.net.packet.PacketType;
 
 public class ChatMessagePacket implements Packet {
 
-    private final String jsonData;
+    private final Chat chat;
     private final ChatPosition chatPosition;
 
-    public ChatMessagePacket(String jsonData, byte chatPosition) {
-        this.jsonData = jsonData;
-        this.chatPosition = ChatPosition.fromPositionID(chatPosition);
-    }
-
-    public ChatMessagePacket(String jsonData, ChatPosition chatPosition) {
-        this.jsonData = jsonData;
+    public ChatMessagePacket(Chat chat, ChatPosition chatPosition) {
+        this.chat = chat;
         this.chatPosition = chatPosition;
     }
 
-    public String getJsonData() {
-        return jsonData;
+    public Chat getChat() {
+        return chat;
     }
 
     public ChatPosition getChatPosition() {

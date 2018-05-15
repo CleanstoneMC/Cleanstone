@@ -19,6 +19,7 @@ public class MinecraftConfig {
     private String motd;
     private int maxPlayers;
     private List<String> autoLoadWorlds;
+    private List<String> ops;
 
     public static MinecraftConfig getInstance() {
         return CleanstoneServer.getInstance().getMinecraftConfig();
@@ -78,5 +79,13 @@ public class MinecraftConfig {
                 "port=" + port +
                 ", address=" + address +
                 ", onlineMode=" + onlineMode + "}";
+    }
+
+    public List<String> getOps() {
+        return ops;
+    }
+
+    public void setOps(List<String> ops) {
+        this.ops = ops;
     }
 }

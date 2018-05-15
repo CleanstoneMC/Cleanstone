@@ -6,6 +6,8 @@ public abstract class AbstractPlayer implements Player {
 
     protected final PlayerID id;
 
+    protected boolean op = false;
+
     public AbstractPlayer(PlayerID id) {
         this.id = id;
     }
@@ -13,6 +15,16 @@ public abstract class AbstractPlayer implements Player {
     @Override
     public PlayerID getId() {
         return id;
+    }
+
+    @Override
+    public boolean isOp() {
+        return op;
+    }
+
+    @Override
+    public void setOp(boolean op) {
+        this.op = op;
     }
 
     @Override

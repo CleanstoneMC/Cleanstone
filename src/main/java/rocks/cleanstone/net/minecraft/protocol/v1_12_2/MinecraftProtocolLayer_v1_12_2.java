@@ -6,19 +6,8 @@ import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.ChunkDataCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.DisconnectCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.DisconnectLoginCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.EncryptionRequestCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.JoinGameCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.LoginSuccessCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutKeepAliveCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutPlayerAbilitiesCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutPlayerPositionAndLookCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.PongCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.ResponseCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.SetCompressionCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.SpawnPositionCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.ChatMessageCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
 
 public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
@@ -47,6 +36,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new OutPlayerPositionAndLookCodec(), OutPlayerPositionAndLookPacket.class);
         registerPacketCodec(new ChunkDataCodec(), ChunkDataPacket.class);
         registerPacketCodec(new OutKeepAliveCodec(), OutKeepAlivePacket.class);
+        registerPacketCodec(new rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.ChatMessageCodec(), rocks.cleanstone.net.minecraft.packet.outbound.ChatMessagePacket.class);
     }
 
     @Override

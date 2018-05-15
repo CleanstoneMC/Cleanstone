@@ -19,6 +19,7 @@
     <task:executor id="playerExec" pool-size="10"/>
     <task:executor id="mcLoginExec" pool-size="10"/>
     <task:executor id="worldLoadingExec" pool-size="10"/>
+    <task:executor id="chatExec" pool-size="10"/>
 
     <!-- CONFIG -->
     <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
@@ -69,9 +70,20 @@
     </bean>
 
     <!-- Chat -->
-    <bean id="incomingChatMessageListener"
-          class="rocks.cleanstone.game.chat.event.IncomingChatMessageListener">
+    <bean id="incomingChatPacketListener" class="rocks.cleanstone.game.chat.listener.IncomingChatPacketListener">
+        <constructor-arg ref="playerManager"/>
     </bean>
+    <bean id="incomingChatMessageListener" class="rocks.cleanstone.game.chat.listener.IncomingChatMessageListener">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+
+    <!-- Commands -->
+    <bean id="opCommandListener" class="rocks.cleanstone.game.command.OpCommandListener">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+    <bean id="stopCommandListener" class="rocks.cleanstone.game.command.StopCommandListener">
+    </bean>
+
 
     <!-- NETWORKING -->
     <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"/>
