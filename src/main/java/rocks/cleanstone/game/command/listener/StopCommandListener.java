@@ -1,26 +1,17 @@
 package rocks.cleanstone.game.command.listener;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
-import rocks.cleanstone.game.chat.event.PlayerIssuedCommandEvent;
+import rocks.cleanstone.game.command.IssuedCommand;
+import rocks.cleanstone.game.command.SimpleCommand;
 
-public class StopCommandListener {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+public class StopCommandListener extends SimpleCommand {
 
-    @EventListener
-    @Async("chatExec")
-    public void onStop(PlayerIssuedCommandEvent playerIssuedCommandEvent) {
-        if (!playerIssuedCommandEvent.getCommand().equals("stop")) {
-            return;
-        }
+    @Override
+    public String getCommandString() {
+        return "stop";
+    }
 
-        if (!playerIssuedCommandEvent.getPlayer().isOp()) {
-            logger.info("Player is not an Operator");
-            return;
-        }
-
+    @Override
+    public void execute(IssuedCommand issuedCommand) {
         System.exit(0);
     }
 }

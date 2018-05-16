@@ -52,7 +52,10 @@ public class CommandRegistry {
 
         commandMap.put(command.getCommandString(), command);
 
-        command.getAliases().forEach(s -> aliasMap.put(s, command.getCommandString()));
+        if (command.getAliases() != null) {
+            command.getAliases().forEach(s -> aliasMap.put(s, command.getCommandString()));
+        }
+
     }
 
     public void executeCommand(String commandString, IssuedCommand issuedCommand) {
@@ -70,7 +73,7 @@ public class CommandRegistry {
     }
 
     private Command getCorrectSubCommand(String commandString, Command command) {
-        if (command.hasSubCommands()) {
+        if (command.getSubCommands() != null) {
             String[] subCommandArray = commandString.split(" ");
             if (subCommandArray.length < 2) {
                 return command;
