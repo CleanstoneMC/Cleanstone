@@ -22,6 +22,10 @@ public class Chat {
         this.text = text;
     }
 
+    public Chat(String text, Object... parameter) {
+        this.text = String.format(text, parameter);
+    }
+
     public String getText() {
         return text;
     }

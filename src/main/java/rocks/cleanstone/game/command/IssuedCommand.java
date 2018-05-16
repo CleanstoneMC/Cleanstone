@@ -5,6 +5,8 @@ import java.util.List;
 public interface IssuedCommand {
     CommandSender getCommandSender();
 
+    String getFullCommand();
+
     String getCommand();
 
     List<String> getParameter();

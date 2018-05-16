@@ -39,13 +39,9 @@ public class IncomingChatPacketListener {
             if (chatMessage.charAt(0) == '/') {
                 //Command
 
-                String[] commandSplit = chatMessage.split(" ");
-                String[] commandArgs = Arrays.copyOfRange(commandSplit, 1, commandSplit.length);
-                String command = commandSplit[0].substring(1);
-
                 logger.info("Command from {}: {}", playerName, chatMessage);
 
-                CleanstoneServer.publishEvent(new PlayerIssuedCommandEvent(player, command, commandArgs));
+                CleanstoneServer.publishEvent(new PlayerIssuedCommandEvent(player, chatMessage));
             } else {
                 logger.info("Message from {}: {}", playerName, chatMessage);
 

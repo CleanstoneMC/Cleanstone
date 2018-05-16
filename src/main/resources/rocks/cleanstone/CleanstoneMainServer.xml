@@ -78,10 +78,9 @@
     </bean>
 
     <!-- Commands -->
-    <bean id="opCommandListener" class="rocks.cleanstone.game.command.listener.OpCommandListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
-    <bean id="stopCommandListener" class="rocks.cleanstone.game.command.listener.StopCommandListener">
+    <bean id="commandRegistry" class="rocks.cleanstone.game.command.CommandRegistry"></bean>
+    <bean id="commandListener" class="rocks.cleanstone.game.command.listener.CommandListener">
+        <constructor-arg ref="commandRegistry"/>
     </bean>
 
 

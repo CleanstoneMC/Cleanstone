@@ -1,16 +1,15 @@
-package rocks.cleanstone.game.command.listener;
+package rocks.cleanstone.game.command.commands;
 
 import rocks.cleanstone.game.chat.message.Chat;
 import rocks.cleanstone.game.command.IssuedCommand;
 import rocks.cleanstone.game.command.SimpleCommand;
-import rocks.cleanstone.game.permission.Permission;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
-public class OpCommandListener extends SimpleCommand {
+public class OpCommand extends SimpleCommand {
     private final PlayerManager playerManager;
 
-    public OpCommandListener(PlayerManager playerManager) {
+    public OpCommand(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }
 

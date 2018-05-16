@@ -1,9 +1,9 @@
-package rocks.cleanstone.game.command.listener;
+package rocks.cleanstone.game.command.commands;
 
 import rocks.cleanstone.game.command.IssuedCommand;
 import rocks.cleanstone.game.command.SimpleCommand;
 
-public class StopCommandListener extends SimpleCommand {
+public class StopCommand extends SimpleCommand {
 
     @Override
     public String getCommandString() {
