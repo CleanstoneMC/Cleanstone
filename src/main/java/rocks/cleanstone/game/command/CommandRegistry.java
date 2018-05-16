@@ -3,9 +3,10 @@ package rocks.cleanstone.game.command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public class CommandRegistry {
 
@@ -41,24 +42,24 @@ public class CommandRegistry {
     public void registerCommand(Command command, boolean force) {
 
         if (command instanceof SubCommand) {
-            logger.error("Command \"{}\" is a SubCommand. Do not do that!", command.getCommandString());
+            logger.error("Command \"{}\" is a SubCommand. Do not do that!", command.getName());
             return;
         }
 
-        if (!force && commandMap.containsKey(command.getCommandString())) {
-            logger.error("Command \"{}\" is already registered", command.getCommandString());
+        if (!force && commandMap.containsKey(command.getName())) {
+            logger.error("Command \"{}\" is already registered", command.getName());
             return;
         }
 
-        commandMap.put(command.getCommandString(), command);
+        commandMap.put(command.getName(), command);
 
         if (command.getAliases() != null) {
-            command.getAliases().forEach(s -> aliasMap.put(s, command.getCommandString()));
+            command.getAliases().forEach(s -> aliasMap.put(s, command.getName()));
         }
 
     }
 
-    public void executeCommand(String commandString, IssuedCommand issuedCommand) {
+    public void executeCommand(String commandString, CommandMessage commandMessage) {
 
         Command command = getCommand(commandString);
 
@@ -69,7 +70,7 @@ public class CommandRegistry {
 
         Command correctSubCommand = getCorrectSubCommand(commandString, command);
 
-        correctSubCommand.execute(issuedCommand);
+        correctSubCommand.execute(commandMessage);
     }
 
     private Command getCorrectSubCommand(String commandString, Command command) {
@@ -99,7 +100,7 @@ public class CommandRegistry {
         return command;
     }
 
-    public void executeCommand(Command command, IssuedCommand issuedCommand) {
-        command.execute(issuedCommand);
+    public void executeCommand(Command command, CommandMessage commandMessage) {
+        command.execute(commandMessage);
     }
 }

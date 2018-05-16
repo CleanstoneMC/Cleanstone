@@ -1,31 +1,32 @@
 package rocks.cleanstone.game.command.commands;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.chat.message.Chat;
-import rocks.cleanstone.game.command.*;
+import rocks.cleanstone.game.command.Command;
+import rocks.cleanstone.game.command.CommandMessage;
+import rocks.cleanstone.game.command.SimpleCommand;
+import rocks.cleanstone.game.command.SimpleSubCommand;
+import rocks.cleanstone.game.command.SubCommand;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerID;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.SimplePlayerID;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SetCommand extends SimpleCommand {
 
     private final PlayerManager playerManager;
 
     public SetCommand(PlayerManager playerManager) {
+        super("set");
         this.playerManager = playerManager;
     }
 
     @Override
-    public String getCommandString() {
-        return "set";
-    }
-
-    @Override
-    public void execute(IssuedCommand issuedCommand) {
+    public void execute(CommandMessage commandMessage) {
     }
 
     @Nullable
@@ -39,13 +40,13 @@ public class SetCommand extends SimpleCommand {
         };
 
         for (SubCommand subCommand : subCommands) {
-            subCommandMap.put(subCommand.getCommandString(), subCommand);
+            subCommandMap.put(subCommand.getName(), subCommand);
         }
 
         return subCommandMap;
     }
 
-    private class HealthCommand extends SimpleSubCommand {
+    private static class HealthCommand extends SimpleSubCommand {
         private final SetCommand setCommand;
         private final PlayerManager playerManager;
 
@@ -55,30 +56,30 @@ public class SetCommand extends SimpleCommand {
         }
 
         @Override
-        public Command getMainCommand() {
+        public Command getParent() {
             return setCommand;
         }
 
         @Override
-        public String getCommandString() {
+        public String getName() {
             return "health";
         }
 
         @Override
-        public int neededParameter() {
+        public int getMinimumParameters() {
             return 1;
         }
 
         @Override
-        public void execute(IssuedCommand issuedCommand) {
-            String playerName = issuedCommand.getParameter().get(0);
+        public void execute(CommandMessage commandMessage) {
+            String playerName = commandMessage.getParameters().get(0);
             Player player = playerManager.getOnlinePlayer(playerName);
 
             if (player == null) {
-                if (issuedCommand.getCommandSender() instanceof Player) {
-                    ((Player) issuedCommand.getCommandSender()).sendMessage(new Chat("Player not found"));
+                if (commandMessage.getCommandSender() instanceof Player) {
+                    commandMessage.getCommandSender().sendMessage(new Chat("Player not found"));
                 } else {
-                    logger.info("Could not find Player \"{}\" for command \"{}\"", playerName, issuedCommand.getFullCommand());
+                    logger.info("Could not find Player \"{}\" for command \"{}\"", playerName, commandMessage.getFullMessage());
                 }
 
                 return;
@@ -86,15 +87,15 @@ public class SetCommand extends SimpleCommand {
 
             //TODO: Set Health
 
-            if (issuedCommand.getCommandSender() instanceof Player) {
-                ((Player) issuedCommand.getCommandSender()).sendMessage(new Chat("Health set"));
+            if (commandMessage.getCommandSender() instanceof Player) {
+                commandMessage.getCommandSender().sendMessage(new Chat("Health set"));
             } else {
                 logger.info("Health for Player \"{}\" set", playerName);
             }
         }
     }
 
-    private class NameCommand extends SimpleSubCommand {
+    private static class NameCommand extends SimpleSubCommand {
         private final SetCommand setCommand;
         private final PlayerManager playerManager;
 
@@ -104,32 +105,32 @@ public class SetCommand extends SimpleCommand {
         }
 
         @Override
-        public Command getMainCommand() {
+        public Command getParent() {
             return setCommand;
         }
 
         @Override
-        public String getCommandString() {
+        public String getName() {
             return "name";
         }
 
         @Override
-        public int neededParameter() {
+        public int getMinimumParameters() {
             return 2;
         }
 
         @Override
-        public void execute(IssuedCommand issuedCommand) {
-            String playerName = issuedCommand.getParameter().get(0);
-            String newName = issuedCommand.getParameter().get(1);
+        public void execute(CommandMessage commandMessage) {
+            String playerName = commandMessage.getParameters().get(0);
+            String newName = commandMessage.getParameters().get(1);
 
             Player player = playerManager.getOnlinePlayer(playerName);
 
             if (player == null) {
-                if (issuedCommand.getCommandSender() instanceof Player) {
-                    ((Player) issuedCommand.getCommandSender()).sendMessage(new Chat("Player not found"));
+                if (commandMessage.getCommandSender() instanceof Player) {
+                    ((Player) commandMessage.getCommandSender()).sendMessage(new Chat("Player not found"));
                 } else {
-                    logger.info("Could not find Player \"{}\" for command \"{}\"", playerName, issuedCommand.getFullCommand());
+                    logger.info("Could not find Player \"{}\" for command \"{}\"", playerName, commandMessage.getFullMessage());
                 }
 
                 return;
@@ -139,12 +140,12 @@ public class SetCommand extends SimpleCommand {
             if (playerID instanceof SimplePlayerID) {
                 ((SimplePlayerID) playerID).setName(newName);
             } else {
-                ((Player) issuedCommand.getCommandSender()).sendMessage(new Chat("Cannot change name of Player \"{}\"", playerName));
+                commandMessage.getCommandSender().sendMessage(new Chat("Cannot change name of Player \"{}\"", playerName));
                 return;
             }
 
-            if (issuedCommand.getCommandSender() instanceof Player) {
-                ((Player) issuedCommand.getCommandSender()).sendMessage(new Chat("Player \"{}\" is now named \"{}\"", playerName, newName));
+            if (commandMessage.getCommandSender() instanceof Player) {
+                commandMessage.getCommandSender().sendMessage(new Chat("Player \"{}\" is now named \"{}\"", playerName, newName));
             } else {
                 logger.info("Player \"{}\" is now named \"{}\"", playerName, newName);
             }

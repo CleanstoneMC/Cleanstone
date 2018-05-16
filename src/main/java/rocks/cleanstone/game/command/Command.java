@@ -1,28 +1,31 @@
 package rocks.cleanstone.game.command;
 
-import rocks.cleanstone.game.permission.Permission;
-
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.permission.Permission;
+
 public interface Command {
-    String getCommandString();
+    String getName();
 
-    boolean allowPlayer();
+    boolean allowsPlayer();
 
-    boolean allowConsole();
+    boolean allowsConsole();
 
-    Permission getMinimalPermission();
+    boolean allowsSender(CommandSender sender);
+
+    Permission getCommandPermission();
 
     @Nullable
     Map<String, SubCommand> getSubCommands();
 
-    boolean generateTabCompletion();
+    boolean generatesTabCompletion();
 
     boolean showInHelp();
 
-    int neededParameter();
+    int getMinimumParameters();
 
     /**
      * If it returns null a Help Page will be generated if not disabled
@@ -33,5 +36,5 @@ public interface Command {
     @Nullable
     List<String> getAliases();
 
-    void execute(IssuedCommand issuedCommand);
+    void execute(CommandMessage commandMessage);
 }

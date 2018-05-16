@@ -1,26 +1,23 @@
 package rocks.cleanstone.game.command.commands;
 
 import rocks.cleanstone.game.chat.message.Chat;
-import rocks.cleanstone.game.command.IssuedCommand;
+import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
 public class OpCommand extends SimpleCommand {
+
     private final PlayerManager playerManager;
 
     public OpCommand(PlayerManager playerManager) {
+        super("op");
         this.playerManager = playerManager;
     }
 
     @Override
-    public String getCommandString() {
-        return "op";
-    }
-
-    @Override
-    public void execute(IssuedCommand issuedCommand) {
-        String playerName = issuedCommand.getParameter().get(0);
+    public void execute(CommandMessage commandMessage) {
+        String playerName = commandMessage.getParameters().get(0);
         Player player = playerManager.getOnlinePlayer(playerName);
 
         if (player == null) {
@@ -38,7 +35,7 @@ public class OpCommand extends SimpleCommand {
     }
 
     @Override
-    public int neededParameter() {
+    public int getMinimumParameters() {
         return 1;
     }
 }

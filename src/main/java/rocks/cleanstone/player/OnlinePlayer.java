@@ -3,6 +3,7 @@ package rocks.cleanstone.player;
 import java.net.InetAddress;
 
 import rocks.cleanstone.game.chat.message.Chat;
+import rocks.cleanstone.game.command.CommandSender;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
@@ -11,7 +12,7 @@ import rocks.cleanstone.net.minecraft.packet.outbound.ChatMessagePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.net.packet.Packet;
 
-public class OnlinePlayer extends AbstractPlayer {
+public class OnlinePlayer extends AbstractPlayer implements CommandSender {
 
     private final Connection connection;
     private Human entity;
@@ -53,5 +54,10 @@ public class OnlinePlayer extends AbstractPlayer {
     @Override
     public void sendMessage(Chat message) {
         connection.sendPacket(new ChatMessagePacket(message, ChatPosition.CHAT));
+    }
+
+    @Override
+    public void sendMessage(String message) {
+        sendMessage(new Chat(message));
     }
 }

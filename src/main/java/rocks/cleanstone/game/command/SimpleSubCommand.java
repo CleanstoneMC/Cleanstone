@@ -2,28 +2,35 @@ package rocks.cleanstone.game.command;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rocks.cleanstone.game.permission.Permission;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.permission.Permission;
 
 public abstract class SimpleSubCommand implements SubCommand {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public boolean allowPlayer() {
+    public boolean allowsPlayer() {
         return true;
     }
 
     @Override
-    public boolean allowConsole() {
+    public boolean allowsConsole() {
         return true;
     }
 
     @Override
-    public Permission getMinimalPermission() {
+    public boolean allowsSender(CommandSender sender) {
+        return false;
+    }
+
+    @Override
+    public Permission getCommandPermission() {
         return null;
     }
 
@@ -34,7 +41,7 @@ public abstract class SimpleSubCommand implements SubCommand {
     }
 
     @Override
-    public boolean generateTabCompletion() {
+    public boolean generatesTabCompletion() {
         return true;
     }
 
@@ -44,7 +51,7 @@ public abstract class SimpleSubCommand implements SubCommand {
     }
 
     @Override
-    public int neededParameter() {
+    public int getMinimumParameters() {
         return 0;
     }
 

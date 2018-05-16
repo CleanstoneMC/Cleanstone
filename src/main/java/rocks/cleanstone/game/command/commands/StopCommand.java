@@ -1,17 +1,16 @@
 package rocks.cleanstone.game.command.commands;
 
-import rocks.cleanstone.game.command.IssuedCommand;
+import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 
 public class StopCommand extends SimpleCommand {
 
-    @Override
-    public String getCommandString() {
-        return "stop";
+    public StopCommand() {
+        super("stop");
     }
 
     @Override
-    public void execute(IssuedCommand issuedCommand) {
+    public void execute(CommandMessage commandMessage) {
         System.exit(0);
     }
 }

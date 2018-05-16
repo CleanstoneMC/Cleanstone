@@ -1,12 +1,14 @@
 package rocks.cleanstone.game.command.listener;
 
 import org.springframework.context.event.EventListener;
+
 import rocks.cleanstone.game.chat.event.PlayerIssuedCommandEvent;
+import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.CommandRegistry;
-import rocks.cleanstone.game.command.IssuedCommand;
-import rocks.cleanstone.game.command.SimpleIssuedCommand;
+import rocks.cleanstone.game.command.SimpleCommandMessage;
 
 public class CommandListener {
+
     private final CommandRegistry commandRegistry;
 
     public CommandListener(CommandRegistry commandRegistry) {
@@ -15,8 +17,9 @@ public class CommandListener {
 
     @EventListener
     public void onCommand(PlayerIssuedCommandEvent playerIssuedCommandEvent) {
-        IssuedCommand issuedCommand = new SimpleIssuedCommand(playerIssuedCommandEvent.getPlayer(), playerIssuedCommandEvent.getCommand());
+        CommandMessage commandMessage = new SimpleCommandMessage(playerIssuedCommandEvent.getPlayer(),
+                playerIssuedCommandEvent.getCommand());
 
-        commandRegistry.executeCommand(playerIssuedCommandEvent.getCommand(), issuedCommand);
+        commandRegistry.executeCommand(playerIssuedCommandEvent.getCommand(), commandMessage);
     }
 }
