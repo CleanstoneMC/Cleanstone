@@ -8,7 +8,6 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.TabCompletePacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;

@@ -56,12 +56,12 @@ public class SimpleChunk implements Chunk {
     @Override
     public byte getSkyLight(int x, int y, int z) {
         // TODO
-        return 0;
+        return 15;
     }
 
     @Override
     public boolean hasSkylight() {
         // TODO
-        return false;
+        return true;
     }
 }

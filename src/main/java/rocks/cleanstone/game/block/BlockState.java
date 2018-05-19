@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.block;
 
+import com.google.common.base.Preconditions;
+
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -17,7 +19,9 @@ public class BlockState {
     private final Material material;
     private final byte metadata;
 
-    private BlockState(Material material, byte metadata) {
+    protected BlockState(Material material, byte metadata) {
+        Preconditions.checkNotNull(material, "material cannot be null");
+        Preconditions.checkArgument(metadata >= 0 && metadata < 16, "metadata out of range");
         this.material = material;
         this.metadata = metadata;
     }
@@ -35,11 +39,11 @@ public class BlockState {
         return of(material, (byte) 0);
     }
 
-    public Material getMaterial() {
+    public final Material getMaterial() {
         return material;
     }
 
-    public byte getMetadata() {
+    public final byte getMetadata() {
         return metadata;
     }
 }

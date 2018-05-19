@@ -18,8 +18,8 @@ public class ChunkDataCodec implements MinecraftPacketCodec {
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
         ChunkDataPacket chunkDataPacket = (ChunkDataPacket) packet;
-        ByteBufUtils.writeVarInt(byteBuf, chunkDataPacket.getChunkX());
-        ByteBufUtils.writeVarInt(byteBuf, chunkDataPacket.getChunkZ());
+        byteBuf.writeInt(chunkDataPacket.getChunkX());
+        byteBuf.writeInt(chunkDataPacket.getChunkZ());
         byteBuf.writeBoolean(chunkDataPacket.isGroundUpContinuous());
         ByteBufUtils.writeVarInt(byteBuf, chunkDataPacket.getPrimaryBitMask());
         ByteBufUtils.writeVarInt(byteBuf, chunkDataPacket.getData().readableBytes());
@@ -30,6 +30,7 @@ public class ChunkDataCodec implements MinecraftPacketCodec {
         //ByteBufUtils.writeVarInt(byteBuf,chunkDataPacket.getBlockEntities().length);
         //byteBuf.writeBytes(chunkDataPacket.getBlockEntities())
 
+        chunkDataPacket.close();
         return byteBuf;
     }
 

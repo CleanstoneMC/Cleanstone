@@ -28,6 +28,16 @@ public enum PlayerAbilities {
         return playerAbilitiesList.toArray(new PlayerAbilities[0]);
     }
 
+    public static int toBitMask(PlayerAbilities... abilities) {
+        int bitmask = 0;
+        for (PlayerAbilities playerAbilities : abilities) {
+            int bit = playerAbilities.getBit();
+            bitmask |= bit;
+        }
+
+        return bitmask;
+    }
+
     public int getBit() {
         return bit;
     }

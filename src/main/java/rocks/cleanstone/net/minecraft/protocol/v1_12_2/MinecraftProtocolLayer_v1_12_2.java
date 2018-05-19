@@ -25,6 +25,7 @@ import rocks.cleanstone.net.minecraft.packet.outbound.PongPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.ResponsePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.SetCompressionPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPositionPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.WindowItemsPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.ClientSettingsCodec;
@@ -52,6 +53,7 @@ import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.PongCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.ResponseCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.SetCompressionCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.SpawnPositionCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.WindowItemsCodec;
 
 public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
@@ -84,6 +86,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new OutKeepAliveCodec(), OutKeepAlivePacket.class);
         registerPacketCodec(new OutTabCompleteCodec(), OutTabCompletePacket.class);
         registerPacketCodec(new OutChatMessageCodec(), OutChatMessagePacket.class);
+        registerPacketCodec(new WindowItemsCodec(), WindowItemsPacket.class);
     }
 
     @Override

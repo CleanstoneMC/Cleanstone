@@ -2,12 +2,21 @@ package rocks.cleanstone.player.initialize;
 
 import org.springframework.context.event.EventListener;
 
+import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 import rocks.cleanstone.game.Position;
+import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.material.VanillaMaterial;
+import rocks.cleanstone.game.world.region.chunk.ArrayChunkTable;
+import rocks.cleanstone.game.world.region.chunk.ChunkTable;
+import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
+import rocks.cleanstone.game.world.region.chunk.vanilla.ChunkDataPacketFactory;
 import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
+import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
+import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.JoinGamePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerAbilitiesPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerPositionAndLookPacket;
@@ -21,15 +30,24 @@ public class GeneralWorldPackets {
     public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
         player.sendPacket(new JoinGamePacket(0, 0, Dimension.OVERWORLD, Difficulty.EASY, LevelType.DEFAULT, false));
-        player.sendPacket(new SpawnPositionPacket(new Position(0, 50, 0, null)));
-        player.sendPacket(new OutPlayerAbilitiesPacket((byte) 0, 4, 4));
-        player.sendPacket(new OutPlayerPositionAndLookPacket(0, 50, 0, 0, 0, 0, ThreadLocalRandom.current().nextInt()));
-        /*try {
-            Thread.sleep(1000); // wait for incoming packets (probably not required)
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
+        player.sendPacket(new SpawnPositionPacket(new Position(0, 46, 0, null)));
+        byte abilities = (byte) PlayerAbilities.toBitMask(PlayerAbilities.CAN_FLY, PlayerAbilities.IS_FLYING,
+                PlayerAbilities.IS_CREATIVE);
+        player.sendPacket(new OutPlayerAbilitiesPacket(abilities, 0.4F, 0.7F));
+        player.sendPacket(new OutPlayerPositionAndLookPacket(0, 46, 0, 0, 0, 0, ThreadLocalRandom.current().nextInt()));
+
+        ChunkTable chunkTable = new ArrayChunkTable();
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                chunkTable.setBlock(x, 45, z, ImmutableBlock.of(VanillaMaterial.STONE));
+            }
         }
-        player.sendPacket(ChunkDataPacketFactory.create(0, 0, new SimpleChunk(Collections.emptySet(),
-                new ArrayChunkTable(), 0, 0), true));*/
+        for (int x = 0; x < 7; x++) {
+            for (int z = 0; z < 7; z++) {
+                ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(
+                        x - 3, z - 3, new SimpleChunk(Collections.emptySet(), chunkTable, x - 3, z - 3), true);
+                player.sendPacket(chunkDataPacket);
+            }
+        }
     }
 }

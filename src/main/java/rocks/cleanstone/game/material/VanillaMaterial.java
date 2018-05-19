@@ -4,16 +4,16 @@ public enum VanillaMaterial implements Material {
     STONE(1, "minecraft:stone"),
     CHEST(54, "minecraft:chest");
 
-    private final int blockID;
+    private final int id;
     private final String minecraftID;
 
-    VanillaMaterial(int blockID, String minecraftID) {
-        this.blockID = blockID;
+    VanillaMaterial(int id, String minecraftID) {
+        this.id = id;
         this.minecraftID = minecraftID;
     }
 
     public int getID() {
-        return blockID;
+        return id;
     }
 
     public String getMinecraftID() {
