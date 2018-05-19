@@ -23,12 +23,13 @@ public enum DisplayedSkinParts {
         List<DisplayedSkinParts> displayedSkinPartsList = new ArrayList<>();
 
         for (DisplayedSkinParts displayedSkinPart : DisplayedSkinParts.values()) {
-            if ((bitmask & (1 << displayedSkinPart.getBit())) == 1) {
+            int bit = displayedSkinPart.getBit();
+            if ((bitmask & bit) == bit) {
                 displayedSkinPartsList.add(displayedSkinPart);
             }
         }
 
-        return displayedSkinPartsList.toArray(new DisplayedSkinParts[displayedSkinPartsList.size()]);
+        return displayedSkinPartsList.toArray(new DisplayedSkinParts[0]);
     }
 
     public int getBit() {

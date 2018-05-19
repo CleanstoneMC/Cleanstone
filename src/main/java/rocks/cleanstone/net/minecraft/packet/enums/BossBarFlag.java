@@ -17,12 +17,13 @@ public enum BossBarFlag {
         List<BossBarFlag> bossBarFlagList = new ArrayList<>();
 
         for (BossBarFlag bossBarFlag : BossBarFlag.values()) {
-            if ((bitmask & (1 << bossBarFlag.getBit())) == 1) {
+            int bit = bossBarFlag.getBit();
+            if ((bitmask & bit) == bit) {
                 bossBarFlagList.add(bossBarFlag);
             }
         }
 
-        return bossBarFlagList.toArray(new BossBarFlag[bossBarFlagList.size()]);
+        return bossBarFlagList.toArray(new BossBarFlag[0]);
     }
 
     public int getBit() {

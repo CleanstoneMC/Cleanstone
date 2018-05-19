@@ -12,7 +12,8 @@ public enum SteerVehicleFlag {
 
     public static SteerVehicleFlag fromBitMask(int bitmask) {
         for (SteerVehicleFlag steerVehicleFlag : SteerVehicleFlag.values()) {
-            if ((bitmask & (1 << steerVehicleFlag.getBit())) == 1) {
+            int bit = steerVehicleFlag.getBit();
+            if ((bitmask & bit) == bit) {
                 return steerVehicleFlag;
             }
         }

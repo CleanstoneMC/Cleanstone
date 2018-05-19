@@ -19,12 +19,13 @@ public enum PlayerAbilities {
         List<PlayerAbilities> playerAbilitiesList = new ArrayList<>();
 
         for (PlayerAbilities playerAbilities : PlayerAbilities.values()) {
-            if ((bitmask & (1 << playerAbilities.getBit())) == 1) {
+            int bit = playerAbilities.getBit();
+            if ((bitmask & bit) == bit) {
                 playerAbilitiesList.add(playerAbilities);
             }
         }
 
-        return playerAbilitiesList.toArray(new PlayerAbilities[playerAbilitiesList.size()]);
+        return playerAbilitiesList.toArray(new PlayerAbilities[0]);
     }
 
     public int getBit() {
