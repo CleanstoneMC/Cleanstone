@@ -6,11 +6,11 @@ import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class TabCompletePacket implements Packet {
+public class OutTabCompletePacket implements Packet {
 
     private final List<String> matches;
 
-    public TabCompletePacket(List<String> matches) {
+    public OutTabCompletePacket(List<String> matches) {
         this.matches = matches;
     }
 

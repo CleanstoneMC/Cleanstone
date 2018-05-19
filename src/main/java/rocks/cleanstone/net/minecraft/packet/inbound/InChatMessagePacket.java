@@ -4,11 +4,11 @@ import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class ChatMessagePacket implements Packet {
+public class InChatMessagePacket implements Packet {
 
     private final String message;
 
-    public ChatMessagePacket(String message) {
+    public InChatMessagePacket(String message) {
         this.message = message;
     }
 

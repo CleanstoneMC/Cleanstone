@@ -23,12 +23,11 @@
  */
 package rocks.cleanstone.net.utils;
 
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.Position;
-import rocks.cleanstone.utils.Vector;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
+import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.utils.Vector;
 
 /**
  * A class containing various utility methods that act on byte buffers.

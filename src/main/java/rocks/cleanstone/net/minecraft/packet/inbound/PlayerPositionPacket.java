@@ -7,13 +7,13 @@ import rocks.cleanstone.net.packet.PacketType;
 public class PlayerPositionPacket implements Packet {
 
     private final double x;
-    private final double y;
+    private final double feetY;
     private final double z;
     private final boolean onGround;
 
-    public PlayerPositionPacket(double x, double y, double z, boolean onGround) {
+    public PlayerPositionPacket(double x, double feetY, double z, boolean onGround) {
         this.x = x;
-        this.y = y;
+        this.feetY = feetY;
         this.z = z;
         this.onGround = onGround;
     }
@@ -22,8 +22,8 @@ public class PlayerPositionPacket implements Packet {
         return x;
     }
 
-    public double getY() {
-        return y;
+    public double getFeetY() {
+        return feetY;
     }
 
     public double getZ() {

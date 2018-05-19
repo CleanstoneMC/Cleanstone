@@ -6,12 +6,12 @@ import rocks.cleanstone.net.minecraft.packet.enums.ChatPosition;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class ChatMessagePacket implements Packet {
+public class OutChatMessagePacket implements Packet {
 
     private final Chat chat;
     private final ChatPosition chatPosition;
 
-    public ChatMessagePacket(Chat chat, ChatPosition chatPosition) {
+    public OutChatMessagePacket(Chat chat, ChatPosition chatPosition) {
         this.chat = chat;
         this.chatPosition = chatPosition;
     }

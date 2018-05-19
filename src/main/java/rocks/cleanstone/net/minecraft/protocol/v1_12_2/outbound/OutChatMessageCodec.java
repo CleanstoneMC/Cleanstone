@@ -1,18 +1,19 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
-import io.netty.buffer.ByteBuf;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChatMessagePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutChatMessagePacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.io.IOException;
-
-public class ChatMessageCodec implements MinecraftPacketCodec {
+public class OutChatMessageCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) {
@@ -21,7 +22,7 @@ public class ChatMessageCodec implements MinecraftPacketCodec {
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
-        ChatMessagePacket chatMessagePacket = (ChatMessagePacket) packet;
+        OutChatMessagePacket chatMessagePacket = (OutChatMessagePacket) packet;
 
         LoggerFactory.getLogger(getClass()).info(chatMessagePacket.getChat().toString());
 

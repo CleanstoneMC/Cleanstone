@@ -8,7 +8,7 @@ import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.enums.ChatPosition;
-import rocks.cleanstone.net.minecraft.packet.outbound.ChatMessagePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutChatMessagePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.net.packet.Packet;
 
@@ -53,7 +53,7 @@ public class OnlinePlayer extends AbstractPlayer implements CommandSender {
 
     @Override
     public void sendMessage(Chat message) {
-        connection.sendPacket(new ChatMessagePacket(message, ChatPosition.CHAT));
+        connection.sendPacket(new OutChatMessagePacket(message, ChatPosition.CHAT));
     }
 
     @Override

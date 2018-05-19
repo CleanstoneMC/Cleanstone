@@ -1,15 +1,15 @@
 package rocks.cleanstone.net.minecraft.packet;
 
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.net.minecraft.packet.inbound.*;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
 
-import javax.annotation.Nullable;
-
 public enum MinecraftInboundPacketType implements PacketType {
     HANDSHAKE(0, HandshakePacket.class),
-    CHAT_MESSAGE(1, ChatMessagePacket.class),
+    CHAT_MESSAGE(1, InChatMessagePacket.class),
     CLICK_WINDOW(2, ClickWindowPacket.class),
     CLIENT_SETTINGS(3, ClientSettingsPacket.class),
     CLIENT_STATUS(4, ClientStatusPacket.class),
@@ -17,7 +17,7 @@ public enum MinecraftInboundPacketType implements PacketType {
     CONFIRM_TRANSACTION(6, ConfirmTransactionPacket.class),
     ENCHANT_ITEM(7, EnchantItemPacket.class),
     KEEP_ALIVE(8, InKeepAlivePacket.class),
-    TAB_COMPLETE(9, TabCompletePacket.class),
+    TAB_COMPLETE(9, InTabCompletePacket.class),
     TELEPORT_CONFIRM(10, TeleportConfirmPacket.class),
     PLUGIN_MESSAGE(11, PluginMessagePacket.class),
     USE_ENTITY(12, UseEntityPacket.class),

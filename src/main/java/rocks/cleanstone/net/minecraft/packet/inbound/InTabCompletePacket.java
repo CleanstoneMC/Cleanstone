@@ -5,7 +5,7 @@ import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.utils.Vector;
 
-public class TabCompletePacket implements Packet {
+public class InTabCompletePacket implements Packet {
 
     private final String text;
     private final boolean assumeCommand;
@@ -13,7 +13,7 @@ public class TabCompletePacket implements Packet {
     private final Vector lookedAtBlock;
 
 
-    public TabCompletePacket(String text, boolean assumeCommand, boolean hasPosition, Vector lookedAtBlock) {
+    public InTabCompletePacket(String text, boolean assumeCommand, boolean hasPosition, Vector lookedAtBlock) {
         this.text = text;
         this.assumeCommand = assumeCommand;
         this.hasPosition = hasPosition;

@@ -5,13 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
-import java.util.Arrays;
-
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.event.PlayerChatMessageEvent;
 import rocks.cleanstone.game.chat.event.PlayerIssuedCommandEvent;
 import rocks.cleanstone.net.event.InboundPacketEvent;
-import rocks.cleanstone.net.minecraft.packet.inbound.ChatMessagePacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.InChatMessagePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerID;
 import rocks.cleanstone.player.PlayerManager;
@@ -28,12 +26,12 @@ public class IncomingChatPacketListener {
     @EventListener
     @Async("chatExec")
     public void onChatMessage(InboundPacketEvent inboundPacketEvent) {
-        if (inboundPacketEvent.getPacket() instanceof ChatMessagePacket) {
+        if (inboundPacketEvent.getPacket() instanceof InChatMessagePacket) {
             Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
             PlayerID playerID = player.getId();
             String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
 
-            ChatMessagePacket chatMessagePacket = ((ChatMessagePacket) inboundPacketEvent.getPacket());
+            InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());
             String chatMessage =chatMessagePacket.getMessage();
 
             if (chatMessage.charAt(0) == '/') {

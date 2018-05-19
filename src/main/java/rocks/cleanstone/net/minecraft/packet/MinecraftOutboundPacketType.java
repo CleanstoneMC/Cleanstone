@@ -1,11 +1,11 @@
 package rocks.cleanstone.net.minecraft.packet;
 
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
-
-import javax.annotation.Nullable;
 
 public enum MinecraftOutboundPacketType implements PacketType {
     SPAWN_OBJECT(0, SpawnObjectPacket.class),
@@ -22,8 +22,8 @@ public enum MinecraftOutboundPacketType implements PacketType {
     BLOCK_CHANGE(11, BlockChangePacket.class),
     BOSS_BAR(12, BossBarPacket.class),
     SERVER_DIFFICULTY(13, ServerDifficultyPacket.class),
-    TAB_COMPLETE(14, TabCompletePacket.class),
-    CHAT_MESSAGE(15, ChatMessagePacket.class),
+    TAB_COMPLETE(14, OutTabCompletePacket.class),
+    CHAT_MESSAGE(15, OutChatMessagePacket.class),
     MULTI_BLOCK_CHANGE(16, MultiBlockChangePacket.class),
     CONFIRM_TRANSACTION(17, ConfirmTransactionPacket.class),
     CLOSE_WINDOW(18, CloseWindowPacket.class),

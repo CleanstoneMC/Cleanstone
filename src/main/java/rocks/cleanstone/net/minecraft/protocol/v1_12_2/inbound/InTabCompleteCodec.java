@@ -1,27 +1,38 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.minecraft.packet.inbound.ChatMessagePacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.InTabCompletePacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+import rocks.cleanstone.utils.Vector;
 
 import java.io.IOException;
 
-public class ChatMessageCodec implements MinecraftPacketCodec {
+public class InTabCompleteCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) throws IOException {
-        final String message = ByteBufUtils.readUTF8(byteBuf);
+        final String text = ByteBufUtils.readUTF8(byteBuf);
+        final boolean assumeCommand = byteBuf.readBoolean();
+        final boolean hasPosition = byteBuf.readBoolean();
+        final Vector lookedAtBlock;
 
-        return new ChatMessagePacket(message);
+        if (hasPosition) {
+            lookedAtBlock = ByteBufUtils.readVector(byteBuf);
+        } else {
+            lookedAtBlock = null;
+        }
+
+
+        return new InTabCompletePacket(text, assumeCommand, hasPosition, lookedAtBlock);
     }
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        throw new UnsupportedOperationException("ChatMessage is inbound and cannot be encoded");
+        throw new UnsupportedOperationException("TabCompletion is inbound and cannot be encoded");
     }
 
     @Override
@@ -36,7 +47,7 @@ public class ChatMessageCodec implements MinecraftPacketCodec {
 
     @Override
     public int getProtocolPacketID() {
-        return 0x02;
+        return 0x01;
     }
 
     @Override
