@@ -5,5 +5,6 @@
 
 
 ## Livedemo
-Connect to "demo.cleanstone.rocks" with Minecraft 1.12.2. The Server restarts every 10 minutes
+Connect to "demo.cleanstone.rocks" with Minecraft 1.12.2. The Server restarts every 10 minutes with the 
+latest changes.
 

@@ -27,7 +27,7 @@ public class ChunkDataPacketFactory {
      *                   coordinates (UnloadChunkPacket resets this)
      * @return A new ChunkDataPacket that will be closed and therefore unusable after being sent and encoded
      */
-    public static ChunkDataPacket create(int chunkX, int chunkY, Chunk chunk, boolean isNewChunk) {
+    public static ChunkDataPacket create(Chunk chunk, boolean isNewChunk) {
         int primaryBitMask = 0;
         ByteBuf data = Unpooled.buffer();
 
@@ -44,7 +44,7 @@ public class ChunkDataPacketFactory {
         }
 
         // TODO optional NBT block entities
-        return new ChunkDataPacket(chunkX, chunkY, isNewChunk, primaryBitMask, data, new NamedBinaryTag[]{});
+        return new ChunkDataPacket(chunk.getX(), chunk.getY(), isNewChunk, primaryBitMask, data, new NamedBinaryTag[]{});
     }
 
     /**

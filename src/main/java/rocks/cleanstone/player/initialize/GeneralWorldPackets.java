@@ -35,19 +35,18 @@ public class GeneralWorldPackets {
                 PlayerAbilities.CAN_FLY, PlayerAbilities.IS_CREATIVE}, 0.4F, 0));
         player.sendPacket(new OutPlayerPositionAndLookPacket(0, 46, 0, 0, 0, 0, ThreadLocalRandom.current().nextInt()));
         //player.sendPacket(new WindowItemsPacket(0,));
-        ChunkTable chunkTable1 = new ArrayChunkTable();
+        ChunkTable chunkTable = new ArrayChunkTable();
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                chunkTable1.setBlock(x, 45, z, ImmutableBlock.of(VanillaMaterial.GRASS));
+                chunkTable.setBlock(x, 45, z, ImmutableBlock.of(VanillaMaterial.GRASS));
                 for (int y = 44; y > 30; y--)
-                    chunkTable1.setBlock(x, y, z, ImmutableBlock.of(VanillaMaterial.STONE));
+                    chunkTable.setBlock(x, y, z, ImmutableBlock.of(VanillaMaterial.STONE));
             }
         }
         for (int x = 0; x < 14; x++) {
             for (int z = 0; z < 14; z++) {
                 ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(
-                        x - 7, z - 7, new SimpleChunk(Collections.emptySet(), ThreadLocalRandom.current()
-                                .nextBoolean() ? chunkTable1 : chunkTable1, x - 7, z - 7), true);
+                        x - 7, z - 7, new SimpleChunk(Collections.emptySet(), chunkTable, x - 7, z - 7), true);
                 player.sendPacket(chunkDataPacket);
             }
         }
