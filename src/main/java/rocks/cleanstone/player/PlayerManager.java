@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
 import rocks.cleanstone.net.Connection;
+import rocks.cleanstone.net.packet.Packet;
 
 public interface PlayerManager {
 
@@ -27,4 +28,6 @@ public interface PlayerManager {
     void terminatePlayer(Player player);
 
     boolean isPlayerOperator(PlayerID playerID);
+
+    void broadcastPacket(Packet packet, Player... broadcastExemptions);
 }

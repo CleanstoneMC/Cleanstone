@@ -1,0 +1,33 @@
+package rocks.cleanstone.player.terminate;
+
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
+
+import rocks.cleanstone.net.minecraft.packet.outbound.PlayerListItemPacket;
+import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.PlayerManager;
+import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
+
+public class TablistPackets {
+
+    private final PlayerManager playerManager;
+
+    public TablistPackets(PlayerManager playerManager) {
+        this.playerManager = playerManager;
+    }
+
+
+    @Order(value = 30)
+    @EventListener
+    public void onTerminate(AsyncPlayerTerminationEvent e) {
+        Player player = e.getPlayer();
+        broadcastRemoval(player);
+    }
+
+    public void broadcastRemoval(Player player, Player... broadcastExemptions) {
+        PlayerListItemPacket packet = new PlayerListItemPacket(PlayerListItemPacket.Action.REMOVE_PLAYER);
+        packet.getPlayers().add(new PlayerListItemPacket.PlayerItem(player));
+
+        playerManager.broadcastPacket(packet, broadcastExemptions);
+    }
+}

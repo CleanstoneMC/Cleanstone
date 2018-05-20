@@ -56,15 +56,17 @@
 
     <!-- Initialization -->
     <bean id="worldPackets" class="rocks.cleanstone.player.initialize.WorldPackets"/>
-    <bean id="tablistPacket" class="rocks.cleanstone.player.initialize.TablistPacket">
+    <bean id="initTablistPackets" class="rocks.cleanstone.player.initialize.TablistPackets">
         <constructor-arg ref="playerManager"/>
     </bean>
 
-    <!-- World Data -->
-    <bean id="worldDataSource" class="rocks.cleanstone.io.data.world.LevelDBWorldDataSource"/>
-    <bean id="worldLoader" class="rocks.cleanstone.game.world.SimpleWorldLoader">
-        <constructor-arg ref="worldDataSource"/>
+    <!-- Termination -->
+    <bean id="termTablistPackets" class="rocks.cleanstone.player.terminate.TablistPackets">
+        <constructor-arg ref="playerManager"/>
     </bean>
+
+    <!-- World Loader -->
+    <bean id="worldLoader" class="rocks.cleanstone.game.world.SimpleWorldLoader"/>
 
     <!-- Game -->
     <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame">

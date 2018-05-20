@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +18,7 @@ import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
@@ -85,6 +87,13 @@ public class SimplePlayerManager implements PlayerManager {
     public boolean isPlayerOperator(PlayerID playerID) {
         List<String> ops = CleanstoneServer.getInstance().getMinecraftConfig().getOps();
         return ops.contains(playerID.getName()) || ops.contains(playerID.getUUID().toString()); //TODO: Make this beauty <3
+    }
+
+    @Override
+    public void broadcastPacket(Packet packet, Player... broadcastExemptions) {
+        Collection<Player> exemptions = Arrays.asList(broadcastExemptions);
+        getOnlinePlayers().stream().filter(p -> !exemptions.contains(p))
+                .forEach(onlinePlayer -> onlinePlayer.sendPacket(packet));
     }
 
     @Override

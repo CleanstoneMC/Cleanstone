@@ -8,7 +8,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
 import rocks.cleanstone.game.material.VanillaMaterial;
 import rocks.cleanstone.game.world.region.chunk.ArrayChunkTable;
@@ -29,7 +28,7 @@ import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 
 public class WorldPackets {
 
-    @Order(value = 20)
+    @Order(value = 40)
     @EventListener
     public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
