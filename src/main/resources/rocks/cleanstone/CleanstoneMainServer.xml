@@ -72,6 +72,16 @@
         <constructor-arg ref="worldLoader"/>
     </bean>
 
+    <!-- Entity -->
+    <bean id="entityManager" class="rocks.cleanstone.game.world.region.EntityManager"/>
+    <bean id="entityMovePacketListener" class="rocks.cleanstone.game.entity.EntityMovePacketListener">
+        <constructor-arg ref="playerManager"/>
+        <constructor-arg ref="entityManager"/>
+    </bean>
+    <bean id="entityMoveListener" class="rocks.cleanstone.game.entity.EntityMoveListener">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+
     <!-- Chat -->
     <bean id="incomingChatPacketListener"
           class="rocks.cleanstone.game.chat.listener.IncomingChatPacketListener">
