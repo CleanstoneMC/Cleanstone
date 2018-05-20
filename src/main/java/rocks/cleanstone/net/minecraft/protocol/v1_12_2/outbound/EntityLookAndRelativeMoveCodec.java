@@ -24,8 +24,8 @@ public class EntityLookAndRelativeMoveCodec implements MinecraftPacketCodec {
         byteBuf.writeShort(entityLookAndRelativeMovePacket.getDeltaX());
         byteBuf.writeShort(entityLookAndRelativeMovePacket.getDeltaY());
         byteBuf.writeShort(entityLookAndRelativeMovePacket.getDeltaZ());
-        byteBuf.writeFloat(entityLookAndRelativeMovePacket.getYaw());
-        byteBuf.writeFloat(entityLookAndRelativeMovePacket.getPitch());
+        byteBuf.writeByte((int) entityLookAndRelativeMovePacket.getYaw());
+        byteBuf.writeByte((int) entityLookAndRelativeMovePacket.getPitch());
         byteBuf.writeBoolean(entityLookAndRelativeMovePacket.isOnGround());
 
         return byteBuf;

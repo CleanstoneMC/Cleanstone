@@ -10,9 +10,10 @@ public abstract class AbstractEntity implements Entity {
 
     private Position position;
 
-    protected AbstractEntity(int entityID, EntityType type) {
+    protected AbstractEntity(int entityID, EntityType type, Position position) {
         this.entityID = entityID;
         this.type = type;
+        this.position = position;
     }
 
     public EntityType getType() {

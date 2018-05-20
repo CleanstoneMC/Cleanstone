@@ -40,7 +40,6 @@ public class EntityMovePacketListener {
         Position oldPosition = entity.getPosition();
         Position newPosition = new Position(oldPosition);
 
-        logger.info("Look event");
 
         //TODO: Set Direction in newPosition
 

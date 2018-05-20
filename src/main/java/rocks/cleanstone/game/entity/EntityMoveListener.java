@@ -29,7 +29,13 @@ public class EntityMoveListener {
 
         EntityLookAndRelativeMovePacket entityLookAndRelativeMovePacket = new EntityLookAndRelativeMovePacket(entityID, deltaX, deltaY, deltaZ, 0, 0, true); //TODO: Add Pitch, Yaw and onGround
 
-        playerManager.getOnlinePlayers().forEach(player -> player.sendPacket(entityLookAndRelativeMovePacket));
+        playerManager.getOnlinePlayers().forEach(player -> {
+            if (player.getEntity().getEntityID() == entityLookAndRelativeMovePacket.getEntityID()) {
+               // return; //TODO: Should we skip the causing player?
+            }
+
+            player.sendPacket(entityLookAndRelativeMovePacket);
+        });
     }
 
     private boolean isPositionInReach(Position position1, Position position2, int max) {
