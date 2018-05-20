@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum PlayerAbilities {
-    IS_CREATIVE(0x01),
+    IS_INVULNERABLE(0x01),
     IS_FLYING(0x02),
     CAN_FLY(0x04),
-    DAMAGE_DISABLED(0x08);
+    IS_CREATIVE(0x08);
 
     private final int bit;
 

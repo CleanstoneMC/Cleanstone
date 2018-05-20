@@ -27,16 +27,6 @@ public class OutPlayerAbilitiesPacket implements Packet {
         return playerAbilities;
     }
 
-    public byte getPlayerAbilitiesValue() {
-        byte value = 0;
-
-        for (PlayerAbilities playerAbility : playerAbilities) {
-            value = (byte) (value & playerAbility.getBit());
-        }
-
-        return value;
-    }
-
     public float getFlyingSpeed() {
         return flyingSpeed;
     }

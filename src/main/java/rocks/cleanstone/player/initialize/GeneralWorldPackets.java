@@ -31,11 +31,10 @@ public class GeneralWorldPackets {
         Player player = e.getPlayer();
         player.sendPacket(new JoinGamePacket(0, 0, Dimension.OVERWORLD, Difficulty.EASY, LevelType.DEFAULT, false));
         player.sendPacket(new SpawnPositionPacket(new Position(0, 46, 0, null)));
-        byte abilities = (byte) PlayerAbilities.toBitMask(PlayerAbilities.CAN_FLY, PlayerAbilities.IS_FLYING,
-                PlayerAbilities.IS_CREATIVE);
-        player.sendPacket(new OutPlayerAbilitiesPacket(abilities, 0.4F, 0.7F));
+        player.sendPacket(new OutPlayerAbilitiesPacket(new PlayerAbilities[]{
+                PlayerAbilities.CAN_FLY, PlayerAbilities.IS_CREATIVE}, 0.4F, 0));
         player.sendPacket(new OutPlayerPositionAndLookPacket(0, 46, 0, 0, 0, 0, ThreadLocalRandom.current().nextInt()));
-
+        //player.sendPacket(new WindowItemsPacket(0,));
         ChunkTable chunkTable = new ArrayChunkTable();
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {

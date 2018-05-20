@@ -1,8 +1,7 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerAbilitiesPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
@@ -17,10 +16,10 @@ public class OutPlayerAbilitiesCodec implements MinecraftPacketCodec {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
+    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
         OutPlayerAbilitiesPacket playerAbilitiesPacket = (OutPlayerAbilitiesPacket) packet;
 
-        byteBuf.writeByte(playerAbilitiesPacket.getPlayerAbilitiesValue());
+        byteBuf.writeByte(PlayerAbilities.toBitMask(playerAbilitiesPacket.getPlayerAbilities()));
         byteBuf.writeFloat(playerAbilitiesPacket.getFlyingSpeed());
         byteBuf.writeFloat(playerAbilitiesPacket.getFieldOfViewModifier());
 
