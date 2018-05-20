@@ -46,7 +46,7 @@ public class GeneralWorldPackets {
         for (int x = 0; x < 14; x++) {
             for (int z = 0; z < 14; z++) {
                 ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(
-                        x - 7, z - 7, new SimpleChunk(Collections.emptySet(), chunkTable, x - 7, z - 7), true);
+                        new SimpleChunk(Collections.emptySet(), chunkTable, x - 7, z - 7), true);
                 player.sendPacket(chunkDataPacket);
             }
         }
