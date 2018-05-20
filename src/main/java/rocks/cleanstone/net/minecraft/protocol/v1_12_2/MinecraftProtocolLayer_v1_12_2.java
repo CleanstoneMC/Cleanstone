@@ -1,15 +1,6 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
-import rocks.cleanstone.net.minecraft.packet.inbound.ClientSettingsPacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.InChatMessagePacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.InKeepAlivePacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.InTabCompletePacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.PingPacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.PlayerPositionPacket;
-import rocks.cleanstone.net.minecraft.packet.inbound.RequestPacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.*;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
@@ -29,16 +20,7 @@ import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPositionPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.WindowItemsPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.ClientSettingsCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.EncryptionResponseCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.HandshakeCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InChatMessageCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InKeepAliveCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InTabCompleteCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.LoginStartCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PingCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerPositionCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.RequestCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.ChunkDataCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.DisconnectCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.DisconnectLoginCodec;
@@ -71,6 +53,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new InChatMessageCodec(), InChatMessagePacket.class);
         registerPacketCodec(new InTabCompleteCodec(), InTabCompletePacket.class);
         registerPacketCodec(new PlayerPositionCodec(), PlayerPositionPacket.class);
+        registerPacketCodec(new PlayerLookCodec(), PlayerLookPacket.class);
 
         // outbound
         registerPacketCodec(new DisconnectCodec(), DisconnectPacket.class);
