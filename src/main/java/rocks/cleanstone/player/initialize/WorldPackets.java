@@ -28,7 +28,7 @@ import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 
 public class WorldPackets {
 
-    @Order(value = 40)
+    @Order(value = 20)
     @EventListener
     public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
@@ -49,8 +49,8 @@ public class WorldPackets {
                     chunkTable.setBlock(x, y, z, ImmutableBlock.of(VanillaMaterial.STONE));
             }
         }
-        for (int x = 0; x < 30; x++) {
-            for (int z = 0; z < 30; z++) {
+        for (int x = 0; x < 14; x++) {
+            for (int z = 0; z < 14; z++) {
                 ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(
                         new SimpleChunk(Collections.emptySet(), chunkTable, x - 7, z - 7), true);
                 player.sendPacket(chunkDataPacket);
