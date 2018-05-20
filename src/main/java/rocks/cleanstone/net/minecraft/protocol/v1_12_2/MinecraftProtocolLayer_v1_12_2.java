@@ -1,43 +1,11 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
 import rocks.cleanstone.net.minecraft.packet.inbound.*;
-import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.EncryptionRequestPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.JoinGamePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.LoginSuccessPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutChatMessagePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutKeepAlivePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerAbilitiesPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerPositionAndLookPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.PlayerListItemPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.PongPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.ResponsePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.SetCompressionPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPositionPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.WindowItemsPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.ChunkDataCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.DisconnectCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.DisconnectLoginCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.EncryptionRequestCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.JoinGameCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.LoginSuccessCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutChatMessageCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutKeepAliveCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutPlayerAbilitiesCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutPlayerPositionAndLookCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutTabCompleteCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.PlayerListItemCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.PongCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.ResponseCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.SetCompressionCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.SpawnPositionCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.WindowItemsCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
 
 public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
@@ -54,6 +22,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new InTabCompleteCodec(), InTabCompletePacket.class);
         registerPacketCodec(new PlayerPositionCodec(), PlayerPositionPacket.class);
         registerPacketCodec(new PlayerLookCodec(), PlayerLookPacket.class);
+        registerPacketCodec(new PlayerAndPositionLookCodec(), InPlayerPositionAndLookPacket.class);
 
         // outbound
         registerPacketCodec(new DisconnectCodec(), DisconnectPacket.class);
@@ -73,6 +42,9 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new OutChatMessageCodec(), OutChatMessagePacket.class);
         registerPacketCodec(new WindowItemsCodec(), WindowItemsPacket.class);
         registerPacketCodec(new PlayerListItemCodec(), PlayerListItemPacket.class);
+        registerPacketCodec(new EntityLookCodec(), EntityLookPacket.class);
+        registerPacketCodec(new EntityRelativeMoveCodec(), EntityRelativeMovePacket.class);
+        registerPacketCodec(new EntityLookAndRelativeMoveCodec(), EntityLookAndRelativeMovePacket.class);
     }
 
     @Override
