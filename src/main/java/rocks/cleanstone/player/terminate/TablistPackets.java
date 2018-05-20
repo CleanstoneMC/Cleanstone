@@ -21,7 +21,7 @@ public class TablistPackets {
     @EventListener
     public void onTerminate(AsyncPlayerTerminationEvent e) {
         Player player = e.getPlayer();
-        broadcastRemoval(player);
+        broadcastRemoval(player, player);
     }
 
     public void broadcastRemoval(Player player, Player... broadcastExemptions) {

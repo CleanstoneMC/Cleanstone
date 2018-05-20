@@ -22,7 +22,7 @@ public class TablistPackets {
         Player player = e.getPlayer();
 
         sendAllTo(player);
-        broadcastAddition(player);
+        broadcastAddition(player, player);
     }
 
     public void sendAllTo(Player player) {
