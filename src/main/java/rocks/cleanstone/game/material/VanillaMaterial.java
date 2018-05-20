@@ -2,6 +2,8 @@ package rocks.cleanstone.game.material;
 
 public enum VanillaMaterial implements Material {
     STONE(1, "minecraft:stone"),
+    GRASS(2, "minecraft:grass"),
+    DIRT(3, "minecraft:dirt"),
     CHEST(54, "minecraft:chest");
 
     private final int id;

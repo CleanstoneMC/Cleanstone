@@ -29,22 +29,25 @@ public class GeneralWorldPackets {
     @EventListener
     public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
-        player.sendPacket(new JoinGamePacket(0, 0, Dimension.OVERWORLD, Difficulty.EASY, LevelType.DEFAULT, false));
+        player.sendPacket(new JoinGamePacket(0, 1, Dimension.OVERWORLD, Difficulty.EASY, LevelType.DEFAULT, false));
         player.sendPacket(new SpawnPositionPacket(new Position(0, 46, 0, null)));
         player.sendPacket(new OutPlayerAbilitiesPacket(new PlayerAbilities[]{
                 PlayerAbilities.CAN_FLY, PlayerAbilities.IS_CREATIVE}, 0.4F, 0));
         player.sendPacket(new OutPlayerPositionAndLookPacket(0, 46, 0, 0, 0, 0, ThreadLocalRandom.current().nextInt()));
         //player.sendPacket(new WindowItemsPacket(0,));
-        ChunkTable chunkTable = new ArrayChunkTable();
+        ChunkTable chunkTable1 = new ArrayChunkTable();
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                chunkTable.setBlock(x, 45, z, ImmutableBlock.of(VanillaMaterial.STONE));
+                chunkTable1.setBlock(x, 45, z, ImmutableBlock.of(VanillaMaterial.GRASS));
+                for (int y = 44; y > 30; y--)
+                    chunkTable1.setBlock(x, y, z, ImmutableBlock.of(VanillaMaterial.STONE));
             }
         }
-        for (int x = 0; x < 7; x++) {
-            for (int z = 0; z < 7; z++) {
+        for (int x = 0; x < 14; x++) {
+            for (int z = 0; z < 14; z++) {
                 ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(
-                        x - 3, z - 3, new SimpleChunk(Collections.emptySet(), chunkTable, x - 3, z - 3), true);
+                        x - 7, z - 7, new SimpleChunk(Collections.emptySet(), ThreadLocalRandom.current()
+                                .nextBoolean() ? chunkTable1 : chunkTable1, x - 7, z - 7), true);
                 player.sendPacket(chunkDataPacket);
             }
         }
