@@ -10,7 +10,7 @@ import rocks.cleanstone.net.packet.protocol.ProtocolState;
 
 import java.io.IOException;
 
-public class PlayerAndPositionLookCodec implements MinecraftPacketCodec {
+public class PlayerPositionAndLookCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) throws IOException {
