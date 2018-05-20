@@ -4,17 +4,17 @@ import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.GameModeRuleSet;
 
 public enum VanillaGameMode implements GameMode {
-    SURVIVAL(0, Survival.class),
-    CREATIVE(1, Creative.class),
-    ADVENTURE(2, Adventure.class),
-    SPECTATOR(3, Spectator.class);
+    SURVIVAL(0, new Survival()),
+    CREATIVE(1, new Creative()),
+    ADVENTURE(2, new Adventure()),
+    SPECTATOR(3, new Spectator());
 
     private final int typeId;
-    private final Class<? extends GameModeRuleSet> gameModeRuleSetClass;
+    private final GameModeRuleSet gameModeRuleSet;
 
-    VanillaGameMode(int typeId, Class<? extends GameModeRuleSet> gameModeRuleSetClass) {
+    VanillaGameMode(int typeId, GameModeRuleSet gameModeRuleSet) {
         this.typeId = typeId;
-        this.gameModeRuleSetClass = gameModeRuleSetClass;
+        this.gameModeRuleSet = gameModeRuleSet;
     }
 
     @Override
@@ -22,7 +22,7 @@ public enum VanillaGameMode implements GameMode {
         return typeId;
     }
 
-    public Class<? extends GameModeRuleSet> getGameModeRuleSetClass() {
-        return gameModeRuleSetClass;
+    public GameModeRuleSet getGameModeRuleSet() {
+        return gameModeRuleSet;
     }
 }

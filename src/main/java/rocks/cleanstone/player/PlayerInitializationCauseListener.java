@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
-import rocks.cleanstone.Cleanstone;
-import rocks.cleanstone.core.CleanstoneMainServer;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
@@ -37,12 +35,12 @@ public class PlayerInitializationCauseListener {
         }
 
         AsyncPlayerLoginEvent playerEvent = CleanstoneServer.publishEvent(
-                new AsyncPlayerLoginEvent(connection, playerID));
+                new AsyncPlayerLoginEvent(connection, playerID, loginEvent.getUserProperties()));
         if (playerEvent.isCancelled()) {
             connection.close(new DisconnectPacket(playerEvent.getKickReason()));
             return;
         }
-        OnlinePlayer player = new OnlinePlayer(playerID, connection);
+        OnlinePlayer player = new OnlinePlayer(playerID, connection, loginEvent.getUserProperties());
 
         if (playerManager.isPlayerOperator(playerID)) {
             player.setOp(true);

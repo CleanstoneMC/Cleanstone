@@ -10,6 +10,9 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
@@ -29,6 +32,7 @@ import rocks.cleanstone.net.minecraft.packet.outbound.SetCompressionPacket;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;
+import rocks.cleanstone.player.UserProperty;
 
 public class LoginManager {
 
@@ -67,12 +71,13 @@ public class LoginManager {
         connection.sendPacket(LoginCrypto.constructEncryptionRequest(loginData, publicKey));
     }
 
-    public void finishLogin(Connection connection, UUID uuid, String accountName,
-                            SessionServerResponse.Property textures) {
+    public void finishLogin(Connection connection, UUID uuid, String accountName, UserProperty[] properties) {
         if (connectionLoginDataMap.remove(connection) == null)
             throw new IllegalStateException("Cannot finish login before it has started");
+        Collection<UserProperty> userProperties = new ArrayList<>(Arrays.asList(properties));
 
-        AsyncLoginEvent event = CleanstoneServer.publishEvent(new AsyncLoginEvent(connection, uuid, accountName));
+        AsyncLoginEvent event = CleanstoneServer.publishEvent(
+                new AsyncLoginEvent(connection, uuid, accountName, userProperties));
         if (event.isCancelled()) {
             stopLogin(connection, event.getKickReason());
             return;
@@ -80,11 +85,13 @@ public class LoginManager {
         SetCompressionPacket setCompressionPacket = new SetCompressionPacket(0);
         LoginSuccessPacket loginSuccessPacket = new LoginSuccessPacket(uuid, accountName);
         //connection.sendPacket(setCompressionPacket);
-        //connection.setCompressionEnabled(true);
+        //connection.setCompressionEnabled(true); TODO Fix compression handler
         connection.sendPacket(loginSuccessPacket);
+
         logger.info("Player " + accountName + " (" + uuid.toString() + ") logged in");
         connection.setProtocolState(VanillaProtocolState.PLAY);
-        CleanstoneServer.publishEvent(new AsyncLoginSuccessEvent(connection, uuid, accountName));
+        CleanstoneServer.publishEvent(
+                new AsyncLoginSuccessEvent(connection, uuid, accountName, userProperties));
     }
 
     public void stopLogin(Connection connection, Text reason) {
@@ -109,8 +116,7 @@ public class LoginManager {
             try {
                 UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
                 String name = response.getName();
-                SessionServerResponse.Property textures = response.getProperties()[0];
-                finishLogin(connection, uuid, name, textures);
+                finishLogin(connection, uuid, name, response.getProperties());
             } catch (Exception e) {
                 logger.error("Error occurred while finishing login", e);
             }

@@ -1,11 +1,13 @@
 package rocks.cleanstone.net.minecraft.login;
 
+import rocks.cleanstone.player.UserProperty;
+
 public class SessionServerResponse {
 
     private final String id, name;
-    private final Property[] properties;
+    private final UserProperty[] properties;
 
-    public SessionServerResponse(String id, String name, Property[] properties) {
+    public SessionServerResponse(String id, String name, UserProperty[] properties) {
         this.id = id;
         this.name = name;
         this.properties = properties;
@@ -19,30 +21,7 @@ public class SessionServerResponse {
         return name;
     }
 
-    public Property[] getProperties() {
+    public UserProperty[] getProperties() {
         return properties;
-    }
-
-    public static class Property {
-
-        private final String name, value, signature;
-
-        public Property(String name, String value, String signature) {
-            this.name = name;
-            this.value = value;
-            this.signature = signature;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public String getSignature() {
-            return signature;
-        }
     }
 }

@@ -1,25 +1,30 @@
 package rocks.cleanstone.player;
 
 import java.net.InetAddress;
+import java.util.Collection;
 
 import rocks.cleanstone.game.chat.message.Chat;
 import rocks.cleanstone.game.command.CommandSender;
 import rocks.cleanstone.game.entity.vanilla.Human;
+import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.enums.ChatPosition;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutChatMessagePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutChatMessagePacket;
 import rocks.cleanstone.net.packet.Packet;
 
 public class OnlinePlayer extends AbstractPlayer implements CommandSender {
 
     private final Connection connection;
+    private final Collection<UserProperty> userProperties;
     private Human entity;
+    private GameMode gameMode;
 
-    public OnlinePlayer(PlayerID id, Connection connection) {
+    public OnlinePlayer(PlayerID id, Connection connection, Collection<UserProperty> userProperties) {
         super(id);
         this.connection = connection;
+        this.userProperties = userProperties;
     }
 
     public Connection getConnection() {
@@ -37,6 +42,11 @@ public class OnlinePlayer extends AbstractPlayer implements CommandSender {
     }
 
     @Override
+    public int getPing() {
+        return 0; // TODO Fetch player ping
+    }
+
+    @Override
     public void kick(Text reason) {
         connection.close(new DisconnectPacket(reason));
     }
@@ -49,6 +59,21 @@ public class OnlinePlayer extends AbstractPlayer implements CommandSender {
     @Override
     public void setEntity(Human entity) {
         this.entity = entity;
+    }
+
+    @Override
+    public GameMode getGameMode() {
+        return gameMode;
+    }
+
+    @Override
+    public void setGameMode(GameMode gameMode) {
+        this.gameMode = gameMode;
+    }
+
+    @Override
+    public Collection<UserProperty> getUserProperties() {
+        return userProperties;
     }
 
     @Override
