@@ -55,7 +55,10 @@
     </bean>
 
     <!-- Initialization -->
-    <bean id="generalWorldPackets" class="rocks.cleanstone.player.initialize.GeneralWorldPackets"/>
+    <bean id="worldPackets" class="rocks.cleanstone.player.initialize.WorldPackets"/>
+    <bean id="tablistPacket" class="rocks.cleanstone.player.initialize.TablistPacket">
+        <constructor-arg ref="playerManager"/>
+    </bean>
 
     <!-- World Data -->
     <bean id="worldDataSource" class="rocks.cleanstone.io.data.world.LevelDBWorldDataSource"/>
@@ -70,19 +73,20 @@
     </bean>
 
     <!-- Chat -->
-    <bean id="incomingChatPacketListener" class="rocks.cleanstone.game.chat.listener.IncomingChatPacketListener">
+    <bean id="incomingChatPacketListener"
+          class="rocks.cleanstone.game.chat.listener.IncomingChatPacketListener">
         <constructor-arg ref="playerManager"/>
     </bean>
-    <bean id="incomingChatMessageListener" class="rocks.cleanstone.game.chat.listener.IncomingChatMessageListener">
+    <bean id="incomingChatMessageListener"
+          class="rocks.cleanstone.game.chat.listener.IncomingChatMessageListener">
         <constructor-arg ref="playerManager"/>
     </bean>
 
     <!-- Commands -->
-    <bean id="commandRegistry" class="rocks.cleanstone.game.command.CommandRegistry"></bean>
+    <bean id="commandRegistry" class="rocks.cleanstone.game.command.CommandRegistry"/>
     <bean id="commandListener" class="rocks.cleanstone.game.command.listener.CommandListener">
         <constructor-arg ref="commandRegistry"/>
     </bean>
-
 
     <!-- NETWORKING -->
     <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"/>

@@ -1,21 +1,23 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import rocks.cleanstone.game.chat.message.Chat;
-import rocks.cleanstone.net.minecraft.login.SessionServerResponse;
+import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.UserProperty;
 
 public class PlayerListItemPacket implements Packet {
 
     private final Action action;
 
-    private final Set<Player> players = new HashSet<>();
+    private final Collection<PlayerItem> players = new HashSet<>();
 
     public PlayerListItemPacket(Action action) {
         this.action = action;
@@ -25,13 +27,13 @@ public class PlayerListItemPacket implements Packet {
         return action;
     }
 
-    public Set<Player> getPlayers() {
+    public Collection<PlayerItem> getPlayers() {
         return players;
     }
 
     @Override
     public PacketType getType() {
-        return MinecraftOutboundPacketType.PLUGIN_MESSAGE;
+        return MinecraftOutboundPacketType.PLAYER_LIST_ITEM;
     }
 
     public enum Action {
@@ -50,14 +52,52 @@ public class PlayerListItemPacket implements Packet {
 
     public static class PlayerItem {
         private final UUID uuid;
-        private String name;
-        private SessionServerResponse.Property[] properties;
-        private int gameMode, ping;
-        private boolean hasDisplayName;
-        private Chat displayName;
+        private final Collection<UserProperty> userProperties = new ArrayList<>();
+        private final String name;
+        private final GameMode gameMode;
+        private final int ping;
+        private final Chat displayName;
 
-        public PlayerItem(UUID uuid) {
+        public PlayerItem(UUID uuid, String name, GameMode gameMode, int ping, Chat displayName) {
             this.uuid = uuid;
+            this.name = name;
+            this.gameMode = gameMode;
+            this.ping = ping;
+            this.displayName = displayName;
+        }
+
+        public PlayerItem(Player player) {
+            this(player.getId().getUUID(), player.getId().getName(), player.getGameMode(), player.getPing(),
+                    new Chat(player.getId().getName()));
+        }
+
+        public UUID getUUID() {
+            return uuid;
+        }
+
+        public Collection<UserProperty> getUserProperties() {
+            return userProperties;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public GameMode getGameMode() {
+            return gameMode;
+        }
+
+
+        public int getPing() {
+            return ping;
+        }
+
+        public Chat getDisplayName() {
+            return displayName;
+        }
+
+        public boolean hasDisplayName() {
+            return displayName != null;
         }
     }
 }

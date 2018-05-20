@@ -21,6 +21,7 @@ import rocks.cleanstone.net.minecraft.packet.outbound.OutKeepAlivePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerAbilitiesPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerPositionAndLookPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.PlayerListItemPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.PongPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.ResponsePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.SetCompressionPacket;
@@ -49,6 +50,7 @@ import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutKeepAliveCode
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutPlayerAbilitiesCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutPlayerPositionAndLookCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.OutTabCompleteCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.PlayerListItemCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.PongCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.ResponseCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.SetCompressionCodec;
@@ -87,6 +89,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new OutTabCompleteCodec(), OutTabCompletePacket.class);
         registerPacketCodec(new OutChatMessageCodec(), OutChatMessagePacket.class);
         registerPacketCodec(new WindowItemsCodec(), WindowItemsPacket.class);
+        registerPacketCodec(new PlayerListItemCodec(), PlayerListItemPacket.class);
     }
 
     @Override

@@ -25,6 +25,7 @@ package rocks.cleanstone.net.utils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.utils.Vector;
@@ -186,5 +187,15 @@ public class ByteBufUtils {
         long z = val << 38 >> 38;
 
         return new Vector(x, y, z);
+    }
+
+    public static void writeUUID(ByteBuf byteBuf, UUID uuid) {
+        byteBuf.writeLong(uuid.getMostSignificantBits());
+        byteBuf.writeLong(uuid.getLeastSignificantBits());
+    }
+
+
+    public static UUID readUUID(ByteBuf byteBuf) {
+        return new UUID(byteBuf.readLong(), byteBuf.readLong());
     }
 }

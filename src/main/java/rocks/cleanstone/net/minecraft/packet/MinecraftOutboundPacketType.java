@@ -54,7 +54,7 @@ public enum MinecraftOutboundPacketType implements PacketType {
 //    CRAFT_RECIPE_RESPONSE(43, CraftRecipeResponsePacket.class),
     PLAYER_ABILITIES(44, OutPlayerAbilitiesPacket.class),
     //    COMBAT_EVENT(45, CombatEventPacket.class),
-//    PLAYER_LIST_ITEM(46, PlayerListItemPacket.class),
+    PLAYER_LIST_ITEM(46, PlayerListItemPacket.class),
     PLAYER_POSITION_AND_LOOK(47, OutPlayerPositionAndLookPacket.class),
     //    USE_BED(48, UseBedPacket.class),
 //    UNLOCK_RECIPES(49, UnlockRecipesPacket.class),

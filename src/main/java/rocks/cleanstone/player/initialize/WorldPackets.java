@@ -1,6 +1,7 @@
 package rocks.cleanstone.player.initialize;
 
 import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,8 +25,9 @@ import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPositionPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 
-public class GeneralWorldPackets {
+public class WorldPackets {
 
+    @Order(value = 20)
     @EventListener
     public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
@@ -35,6 +37,7 @@ public class GeneralWorldPackets {
                 PlayerAbilities.CAN_FLY, PlayerAbilities.IS_CREATIVE}, 0.4F, 0));
         player.sendPacket(new OutPlayerPositionAndLookPacket(0, 46, 0, 0, 0, 0, ThreadLocalRandom.current().nextInt()));
         //player.sendPacket(new WindowItemsPacket(0,));
+
         ChunkTable chunkTable = new ArrayChunkTable();
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
