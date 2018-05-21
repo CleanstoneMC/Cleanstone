@@ -54,6 +54,7 @@
           class="rocks.cleanstone.player.PlayerTerminationCauseListener">
         <constructor-arg ref="playerManager"/>
     </bean>
+    <bean id="playerMoveChunkLoadListener" class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener"/>
 
     <!-- Initialization -->
     <bean id="worldPackets" class="rocks.cleanstone.player.initialize.WorldPackets"/>

@@ -11,6 +11,7 @@ import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
 import rocks.cleanstone.game.material.VanillaMaterial;
+import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
 import rocks.cleanstone.game.world.region.chunk.ArrayChunkTable;
 import rocks.cleanstone.game.world.region.chunk.ChunkTable;
 import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
@@ -44,20 +45,14 @@ public class WorldPackets {
         player.sendPacket(new OutPlayerPositionAndLookPacket(position.getX(), position.getY(), position.getZ(), rotation.getYaw(), rotation.getPitch(), 0, ThreadLocalRandom.current().nextInt()));
         //player.sendPacket(new WindowItemsPacket(0,));
 
-        ChunkTable chunkTable = new ArrayChunkTable();
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
-                chunkTable.setBlock(x, 45, z, ImmutableBlock.of(VanillaMaterial.GRASS));
-                for (int y = 44; y > 30; y--)
-                    chunkTable.setBlock(x, y, z, ImmutableBlock.of(VanillaMaterial.STONE));
-            }
-        }
-        for (int x = 0; x < 14; x++) {
-            for (int z = 0; z < 14; z++) {
-                ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(
-                        new SimpleChunk(Collections.emptySet(), chunkTable, x - 7, z - 7), true);
-                player.sendPacket(chunkDataPacket);
-            }
-        }
+//        FlatWorldGenerator flatWorldGenerator = new FlatWorldGenerator();
+//
+//        for (int x = 0; x < 14; x++) {
+//            for (int z = 0; z < 14; z++) {
+//                ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(
+//                        flatWorldGenerator.generateChunk(x - 7, z - 7), true);
+//                player.sendPacket(chunkDataPacket);
+//            }
+//        }
     }
 }

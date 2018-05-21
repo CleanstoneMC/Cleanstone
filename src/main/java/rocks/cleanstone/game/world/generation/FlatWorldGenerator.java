@@ -18,8 +18,12 @@ public class FlatWorldGenerator implements WorldGenerator {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 chunkTable.setBlock(x, 45, z, ImmutableBlock.of(VanillaMaterial.GRASS));
-                for (int y = 44; y > 30; y--)
+
+                for (int y = 44; y > 1; y--) {
                     chunkTable.setBlock(x, y, z, ImmutableBlock.of(VanillaMaterial.STONE));
+                }
+
+                chunkTable.setBlock(x, 0, z, ImmutableBlock.of(VanillaMaterial.BEDROCK));
             }
         }
 

@@ -4,6 +4,7 @@ public enum VanillaMaterial implements Material {
     STONE(1, "minecraft:stone"),
     GRASS(2, "minecraft:grass"),
     DIRT(3, "minecraft:dirt"),
+    BEDROCK(7, "minecraft:bedrock"),
     CHEST(54, "minecraft:chest");
 
     private final int id;
