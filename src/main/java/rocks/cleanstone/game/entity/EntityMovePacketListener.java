@@ -1,7 +1,5 @@
 package rocks.cleanstone.game.entity;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
@@ -10,13 +8,13 @@ import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.inbound.InPlayerPositionAndLookPacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerLookPacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerPositionPacket;
+import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
 public class EntityMovePacketListener {
 
     private final PlayerManager playerManager;
     private final EntityManager entityManager;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public EntityMovePacketListener(PlayerManager playerManager, EntityManager entityManager) {
         this.playerManager = playerManager;
@@ -31,7 +29,8 @@ public class EntityMovePacketListener {
 
         PlayerLookPacket playerLookPacket = (PlayerLookPacket) inboundPacketEvent.getPacket();
 
-        Entity entity = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection()).getEntity();
+        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
+        Entity entity = player.getEntity();
 
         if (entity == null) {
             return;
@@ -46,6 +45,7 @@ public class EntityMovePacketListener {
         newRotation.setYaw(playerLookPacket.getYaw());
 
         CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, oldRotation, newPosition, newRotation));
+        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
     }
 
     @EventListener
@@ -56,7 +56,8 @@ public class EntityMovePacketListener {
 
         PlayerPositionPacket playerPositionPacket = (PlayerPositionPacket) inboundPacketEvent.getPacket();
 
-        Entity entity = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection()).getEntity();
+        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
+        Entity entity = player.getEntity();
 
         if (entity == null) {
             return;
@@ -72,6 +73,7 @@ public class EntityMovePacketListener {
         newPosition.setZ(playerPositionPacket.getZ());
 
         CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, oldRotation, newPosition, newRotation));
+        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
     }
 
     @EventListener
@@ -81,7 +83,8 @@ public class EntityMovePacketListener {
         }
         InPlayerPositionAndLookPacket playerPositionAndLookPacket = (InPlayerPositionAndLookPacket) inboundPacketEvent.getPacket();
 
-        Entity entity = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection()).getEntity();
+        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
+        Entity entity = player.getEntity();
 
         if (entity == null) {
             return;
@@ -100,5 +103,6 @@ public class EntityMovePacketListener {
         newRotation.setYaw(playerPositionAndLookPacket.getYaw());
 
         CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, oldRotation, newPosition, newRotation));
+        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
     }
 }
