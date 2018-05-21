@@ -79,7 +79,7 @@ public enum MinecraftOutboundPacketType implements PacketType {
 //    TEAMS(68, TeamsPacket.class),
 //    UPDATE_SCORE(69, UpdateScorePacket.class),
     SPAWN_POSITION(70, SpawnPositionPacket.class),
-    //    TIME_UPDATE(71, TimeUpdatePacket.class),
+    TIME_UPDATE(71, TimeUpdatePacket.class),
 //    TITLE(72, TitlePacket.class),
 //    SOUND_EFFECT(73, SoundEffectPacket.class),
 //    PLAYER_LIST_HEADER_AND_FOOTER(74, PlayerListHeaderAndFooterPacket.class),

@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
 import rocks.cleanstone.game.material.VanillaMaterial;
 import rocks.cleanstone.game.world.region.chunk.ArrayChunkTable;
@@ -33,13 +34,15 @@ public class WorldPackets {
     public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
         Position position = new Position(0, 46, 0, null);
+        Rotation rotation = new Rotation(0, 0);
+        player.setEntity(new SimpleHuman((int) System.currentTimeMillis(), position, rotation));
+
         player.sendPacket(new JoinGamePacket(0, 1, Dimension.OVERWORLD, Difficulty.EASY, LevelType.DEFAULT, false));
-        player.sendPacket(new SpawnPositionPacket(new Position(0, 46, 0, null)));
+        player.sendPacket(new SpawnPositionPacket(position));
         player.sendPacket(new OutPlayerAbilitiesPacket(new PlayerAbilities[]{
                 PlayerAbilities.CAN_FLY, PlayerAbilities.IS_CREATIVE}, 0.4F, 0));
-        player.sendPacket(new OutPlayerPositionAndLookPacket(0, 46, 0, 0, 0, 0, ThreadLocalRandom.current().nextInt()));
+        player.sendPacket(new OutPlayerPositionAndLookPacket(position.getX(), position.getY(), position.getZ(), rotation.getYaw(), rotation.getPitch(), 0, ThreadLocalRandom.current().nextInt()));
         //player.sendPacket(new WindowItemsPacket(0,));
-        player.setEntity(new SimpleHuman((int) System.currentTimeMillis(), position));
 
         ChunkTable chunkTable = new ArrayChunkTable();
         for (int x = 0; x < 16; x++) {

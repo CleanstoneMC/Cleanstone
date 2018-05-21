@@ -9,4 +9,6 @@ public interface Entity {
     int getEntityID();
 
     Position getPosition();
+
+    Rotation getRotation();
 }

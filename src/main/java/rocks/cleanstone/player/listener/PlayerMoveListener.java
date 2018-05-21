@@ -30,8 +30,11 @@ public class PlayerMoveListener {
         final short deltaY = (short) ((newPosition.getY() * 32 - oldPosition.getY() * 32) * 128);
         final short deltaZ = (short) ((newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128);
 
-        EntityLookAndRelativeMovePacket entityLookAndRelativeMovePacket = new EntityLookAndRelativeMovePacket(entityID, deltaX, deltaY, deltaZ, 0, 0, true); //TODO: Add Pitch, Yaw and onGround
-        SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(entityID, ((Player) entityMoveEvent.getEntity()).getId().getUUID(), newPosition.getX(), newPosition.getY(), newPosition.getZ(), 0, 0, null); //TODO: Add Pitch, Yaw, Metadata
+        final float pitch = entityMoveEvent.getNewRotation().getPitch();
+        final float yaw = entityMoveEvent.getNewRotation().getYaw();
+
+        EntityLookAndRelativeMovePacket entityLookAndRelativeMovePacket = new EntityLookAndRelativeMovePacket(entityID, deltaX, deltaY, deltaZ, yaw, pitch, true); //TODO: Add onGround
+        SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(entityID, ((Player) entityMoveEvent.getEntity()).getId().getUUID(), newPosition.getX(), newPosition.getY(), newPosition.getZ(), yaw, pitch, null); //TODO: Add Metadata
 
         playerManager.getOnlinePlayers().forEach(player -> {
             if (player.getEntity().getEntityID() == entityLookAndRelativeMovePacket.getEntityID()) {

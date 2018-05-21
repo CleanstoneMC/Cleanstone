@@ -38,12 +38,14 @@ public class EntityMovePacketListener {
         }
 
         Position oldPosition = entity.getPosition();
+        Rotation oldRotation = entity.getRotation();
         Position newPosition = new Position(oldPosition);
+        Rotation newRotation = new Rotation(oldRotation);
 
+        newRotation.setPitch(playerLookPacket.getPitch());
+        newRotation.setYaw(playerLookPacket.getYaw());
 
-        //TODO: Set Direction in newPosition
-
-        CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, newPosition));
+        CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, oldRotation, newPosition, newRotation));
     }
 
     @EventListener
@@ -61,13 +63,15 @@ public class EntityMovePacketListener {
         }
 
         Position oldPosition = entity.getPosition();
+        Rotation oldRotation = entity.getRotation();
         Position newPosition = new Position(oldPosition);
+        Rotation newRotation = new Rotation(oldRotation);
 
         newPosition.setX(playerPositionPacket.getX());
         newPosition.setY(playerPositionPacket.getFeetY());
         newPosition.setZ(playerPositionPacket.getZ());
 
-        CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, newPosition));
+        CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, oldRotation, newPosition, newRotation));
     }
 
     @EventListener
@@ -84,14 +88,17 @@ public class EntityMovePacketListener {
         }
 
         Position oldPosition = entity.getPosition();
+        Rotation oldRotation = entity.getRotation();
         Position newPosition = new Position(oldPosition);
-
-        //TODO: Set Direction in newPosition
+        Rotation newRotation = new Rotation(oldRotation);
 
         newPosition.setX(playerPositionAndLookPacket.getX());
         newPosition.setY(playerPositionAndLookPacket.getY());
         newPosition.setZ(playerPositionAndLookPacket.getZ());
 
-        CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, newPosition));
+        newRotation.setPitch(playerPositionAndLookPacket.getPitch());
+        newRotation.setYaw(playerPositionAndLookPacket.getYaw());
+
+        CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, oldRotation, newPosition, newRotation));
     }
 }
