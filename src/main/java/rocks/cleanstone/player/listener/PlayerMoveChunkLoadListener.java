@@ -1,7 +1,5 @@
 package rocks.cleanstone.player.listener;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.PlayerMoveEvent;
@@ -10,20 +8,16 @@ import rocks.cleanstone.game.world.region.chunk.vanilla.ChunkDataPacketFactory;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.PlayerManager;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class PlayerMoveChunkLoadListener {
     private final Map<String, Map<Integer, Set<Integer>>> playerHasLoaded = new HashMap<>();
 
-    private final FlatWorldGenerator flatWorldGenerator = new FlatWorldGenerator();
-    private final PlayerManager playerManager;
-    Logger logger = LoggerFactory.getLogger(getClass());
-
-    public PlayerMoveChunkLoadListener(PlayerManager playerManager) {
-        this.playerManager = playerManager;
-    }
+    private final FlatWorldGenerator flatWorldGenerator = new FlatWorldGenerator(); //TODO: Get correct Generator
 
     @EventListener
     public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
