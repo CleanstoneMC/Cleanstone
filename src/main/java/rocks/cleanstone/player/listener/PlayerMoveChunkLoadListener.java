@@ -23,23 +23,23 @@ public class PlayerMoveChunkLoadListener {
             return;
         }
 
-        if (isSameChunk(entityMoveEvent.getOldPosition(), entityMoveEvent.getNewPosition())) {
-            return;
-        }
-
         final int chunkX = ((int) entityMoveEvent.getNewPosition().getX()) >> 4;
         final int chunkZ = ((int) entityMoveEvent.getNewPosition().getZ()) >> 4;
+
+        if (isSameChunk(entityMoveEvent.getOldPosition(), entityMoveEvent.getNewPosition()) && hasPlayerLoaded(((Player) entityMoveEvent.getEntity()), chunkX, chunkZ)) {
+            return;
+        }
 
         for (int i = -8; i < 8; i++) {
             for (int j = -8; j < 8; j++) {
                 if (!hasPlayerLoaded(((Player) entityMoveEvent.getEntity()), chunkX + i, chunkZ + j)) {
+                    playerHasLoaded.put(((Player) entityMoveEvent.getEntity()).getId().getUUID(), chunkX + i, chunkZ + j);
+
                     ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(flatWorldGenerator.generateChunk(chunkX + i, chunkZ + j), true);
                     ((Player) entityMoveEvent.getEntity()).sendPacket(chunkDataPacket);
                 }
             }
         }
-
-
     }
 
     private boolean isSameChunk(Position oldPosition, Position newPosition) {
