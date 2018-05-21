@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import rocks.cleanstone.game.command.tabcompleter.TabCompleter;
 import rocks.cleanstone.game.permission.Permission;
 
 public interface Command {
@@ -18,8 +19,7 @@ public interface Command {
 
     Permission getCommandPermission();
 
-    @Nullable
-    Map<String, SubCommand> getSubCommands();
+    Map<String, Command> getSubCommands();
 
     boolean generatesTabCompletion();
 
@@ -28,12 +28,17 @@ public interface Command {
     int getMinimumParameters();
 
     /**
+     * The Classes for the Parameter
+     * @return an Array
+     */
+    Class[] getParameterTypes();
+
+    /**
      * If it returns null a Help Page will be generated if not disabled
      * @return String|null
      */
     String getHelpPage();
 
-    @Nullable
     List<String> getAliases();
 
     void execute(CommandMessage commandMessage);

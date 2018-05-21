@@ -15,12 +15,12 @@ import rocks.cleanstone.game.chat.Console;
 import rocks.cleanstone.game.permission.Permission;
 import rocks.cleanstone.player.Player;
 
-public class SimpleCommand implements Command {
+public abstract class SimpleCommand implements Command {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     private final String name;
     private final List<String> aliases;
-    private final Map<String, SubCommand> subCommandMap = new HashMap<>();
+    private final Map<String, Command> subCommandMap = new HashMap<>();
 
     public SimpleCommand(String name, Collection<String> aliases) {
         this.name = name;
@@ -36,9 +36,8 @@ public class SimpleCommand implements Command {
         return null;
     }
 
-    @Nullable
     @Override
-    public Map<String, SubCommand> getSubCommands() {
+    public Map<String, Command> getSubCommands() {
         return subCommandMap;
     }
 
@@ -78,7 +77,6 @@ public class SimpleCommand implements Command {
         return allowsConsole() || !(sender instanceof Console);
     }
 
-    @Nullable
     @Override
     public List<String> getAliases() {
         return aliases;
@@ -91,5 +89,10 @@ public class SimpleCommand implements Command {
     @Override
     public int getMinimumParameters() {
         return 0;
+    }
+
+    @Override
+    public Class[] getParameterTypes() {
+        return new Class[0];
     }
 }

@@ -20,6 +20,7 @@
     <task:executor id="mcLoginExec" pool-size="10"/>
     <task:executor id="worldLoadingExec" pool-size="10"/>
     <task:executor id="chatExec" pool-size="10"/>
+    <task:executor id="commandExec" pool-size="10"/>
 
     <!-- CONFIG -->
     <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
@@ -97,8 +98,12 @@
 
     <!-- Commands -->
     <bean id="commandRegistry" class="rocks.cleanstone.game.command.CommandRegistry"/>
+    <bean id="commandParser" class="rocks.cleanstone.game.command.CommandParser">
+        <constructor-arg ref="commandRegistry"/>
+    </bean>
     <bean id="commandListener" class="rocks.cleanstone.game.command.listener.CommandListener">
         <constructor-arg ref="commandRegistry"/>
+        <constructor-arg ref="commandParser"/>
     </bean>
 
     <!-- NETWORKING -->

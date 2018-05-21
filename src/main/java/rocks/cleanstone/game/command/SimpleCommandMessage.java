@@ -1,6 +1,5 @@
 package rocks.cleanstone.game.command;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class SimpleCommandMessage implements CommandMessage {
@@ -10,22 +9,11 @@ public class SimpleCommandMessage implements CommandMessage {
     private final String commandName;
     private final List<String> parameters;
 
-    public SimpleCommandMessage(CommandSender commandSender, String fullCommand) {
+    public SimpleCommandMessage(CommandSender commandSender, String fullCommand, String commandName, List<String> parameters) {
         this.commandSender = commandSender;
         this.fullCommand = fullCommand;
-
-        String[] commandAndArgs = fullCommand.split(" ");
-
-        String[] args = new String[commandAndArgs.length - 1];
-        System.arraycopy(commandAndArgs, 1, args, 0, commandAndArgs.length - 1);
-
-        this.parameters = Arrays.asList(args);
-
-        if (fullCommand.contains(" ")) {
-            commandName = fullCommand.substring(1, fullCommand.indexOf(' '));
-        } else {
-            commandName = fullCommand;
-        }
+        this.commandName = commandName;
+        this.parameters = parameters;
     }
 
     @Override
