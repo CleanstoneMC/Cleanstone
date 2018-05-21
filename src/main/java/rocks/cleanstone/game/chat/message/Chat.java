@@ -1,6 +1,8 @@
 package rocks.cleanstone.game.chat.message;
 
 import com.google.gson.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,10 +22,6 @@ public class Chat {
 
     public Chat(String text) {
         this.text = text;
-    }
-
-    public Chat(String text, Object... parameter) {
-        this.text = String.format(text, parameter);
     }
 
     public String getText() {

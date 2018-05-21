@@ -85,13 +85,14 @@
     </bean>
 
     <!-- Chat -->
-    <bean id="incomingChatPacketListener"
-          class="rocks.cleanstone.game.chat.listener.IncomingChatPacketListener">
+    <bean id="chatManager" class="rocks.cleanstone.game.chat.ChatManager">
         <constructor-arg ref="playerManager"/>
     </bean>
-    <bean id="incomingChatMessageListener"
-          class="rocks.cleanstone.game.chat.listener.IncomingChatMessageListener">
+    <bean id="incomingChatPacketListener" class="rocks.cleanstone.game.chat.listener.IncomingChatPacketListener">
         <constructor-arg ref="playerManager"/>
+    </bean>
+    <bean id="incomingChatMessageListener" class="rocks.cleanstone.game.chat.listener.IncomingChatMessageListener">
+        <constructor-arg ref="chatManager"/>
     </bean>
 
     <!-- Commands -->
