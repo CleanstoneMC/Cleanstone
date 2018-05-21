@@ -1,23 +1,26 @@
-package rocks.cleanstone.game.entity;
+package rocks.cleanstone.player.listener;
 
 import org.springframework.context.event.EventListener;
 import rocks.cleanstone.game.Position;
+import rocks.cleanstone.game.entity.EntityMoveEvent;
 import rocks.cleanstone.net.minecraft.packet.outbound.EntityLookAndRelativeMovePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
+import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class EntityMoveListener {
+public class PlayerMoveListener {
     private final PlayerManager playerManager;
-    private static final Map<EntityType, Integer> maxDistance = new HashMap<>();
 
-    public EntityMoveListener(PlayerManager playerManager) {
+    public PlayerMoveListener(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }
 
     @EventListener
-    public void onEntityMove(EntityMoveEvent entityMoveEvent) {
+    public void onPlayerMove(EntityMoveEvent entityMoveEvent) {
+        if (!(entityMoveEvent.getEntity() instanceof Player)) {
+            return;
+        }
+
         Position oldPosition = entityMoveEvent.getOldPosition();
         Position newPosition = entityMoveEvent.getNewPosition();
 
@@ -28,13 +31,20 @@ public class EntityMoveListener {
         final short deltaZ = (short) ((newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128);
 
         EntityLookAndRelativeMovePacket entityLookAndRelativeMovePacket = new EntityLookAndRelativeMovePacket(entityID, deltaX, deltaY, deltaZ, 0, 0, true); //TODO: Add Pitch, Yaw and onGround
+        SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(entityID, ((Player) entityMoveEvent.getEntity()).getId().getUUID(), newPosition.getX(), newPosition.getY(), newPosition.getZ(), 0, 0, null); //TODO: Add Pitch, Yaw, Metadata
 
         playerManager.getOnlinePlayers().forEach(player -> {
             if (player.getEntity().getEntityID() == entityLookAndRelativeMovePacket.getEntityID()) {
-               // return; //TODO: Should we skip the causing player?
+                return; //TODO: Should we skip the causing player?
             }
 
-            player.sendPacket(entityLookAndRelativeMovePacket);
+            if (isPositionInReach(newPosition, player.getEntity().getPosition(), 150)) {
+                if (!isPositionInReach(oldPosition, player.getEntity().getPosition(), 150)) {
+                    player.sendPacket(spawnPlayerPacket);
+                }
+
+                player.sendPacket(entityLookAndRelativeMovePacket);
+            }
         });
     }
 
@@ -51,7 +61,7 @@ public class EntityMoveListener {
             return false;
         }
 
-        if (position1.getY() + max < position2.getY() || position1.getY() - max > position2.getY()) {
+        if (position1.getZ() + max < position2.getZ() || position1.getZ() - max > position2.getZ()) {
             return false;
         }
 

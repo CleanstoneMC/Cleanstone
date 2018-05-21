@@ -80,7 +80,7 @@
         <constructor-arg ref="playerManager"/>
         <constructor-arg ref="entityManager"/>
     </bean>
-    <bean id="entityMoveListener" class="rocks.cleanstone.game.entity.EntityMoveListener">
+    <bean id="entityMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener">
         <constructor-arg ref="playerManager"/>
     </bean>
 
