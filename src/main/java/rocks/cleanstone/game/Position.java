@@ -1,5 +1,6 @@
 package rocks.cleanstone.game;
 
+import jdk.nashorn.internal.runtime.WithObject;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.utils.Vector;
 
@@ -19,6 +20,11 @@ public class Position extends Vector {
         this.y = position.y;
         this.z = position.z;
         this.world = position.world;
+    }
+
+    public Position(Vector vector, World world) {
+        super(vector);
+        this.world = world;
     }
 
     public World getWorld() {

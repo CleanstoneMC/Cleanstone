@@ -3,6 +3,7 @@ package rocks.cleanstone.player.listener;
 import org.springframework.context.event.EventListener;
 import rocks.cleanstone.game.material.VanillaMaterial;
 import rocks.cleanstone.net.event.InboundPacketEvent;
+import rocks.cleanstone.net.minecraft.packet.inbound.PlayerBlockPlacementPacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.UseItemPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.player.Player;
@@ -18,15 +19,15 @@ public class UseItemListener {
 
     @EventListener
     public void onBlockPlace(InboundPacketEvent inboundPacketEvent) {
-        if (!(inboundPacketEvent.getPacket() instanceof UseItemPacket)) {
+        if (!(inboundPacketEvent.getPacket() instanceof PlayerBlockPlacementPacket)) {
             return;
         }
 
-        UseItemPacket useItemPacket = (UseItemPacket) inboundPacketEvent.getPacket();
+        PlayerBlockPlacementPacket playerBlockPlacementPacket = (PlayerBlockPlacementPacket) inboundPacketEvent.getPacket();
 
         Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
 
-        BlockChangePacket blockChangePacket = new BlockChangePacket(player.getEntity().getPosition(), VanillaMaterial.DIRT.getID());
+        BlockChangePacket blockChangePacket = new BlockChangePacket(playerBlockPlacementPacket.getLocation(), VanillaMaterial.DIRT.getID());
 
         playerManager.broadcastPacket(blockChangePacket, player);
     }
