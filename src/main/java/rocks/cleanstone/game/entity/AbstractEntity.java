@@ -4,7 +4,7 @@ import rocks.cleanstone.game.Position;
 
 public abstract class AbstractEntity implements Entity {
 
-    private final int entityID;
+    private int entityID;
 
     private final EntityType type;
 
@@ -19,12 +19,22 @@ public abstract class AbstractEntity implements Entity {
         this.rotation = rotation;
     }
 
+    protected AbstractEntity(EntityType type, Position position, Rotation rotation) {
+        this.type = type;
+        this.position = position;
+        this.rotation = rotation;
+    }
+
     public EntityType getType() {
         return type;
     }
 
     public int getEntityID() {
         return entityID;
+    }
+
+    public void setEntityID(int entityID) {
+        this.entityID = entityID;
     }
 
     public Position getPosition() {

@@ -18,8 +18,6 @@ public class OnlinePlayer extends AbstractPlayer implements CommandSender {
 
     private final Connection connection;
     private final Collection<UserProperty> userProperties;
-    private Human entity;
-    private GameMode gameMode;
 
     public OnlinePlayer(PlayerID id, Connection connection, Collection<UserProperty> userProperties) {
         super(id);
@@ -49,26 +47,6 @@ public class OnlinePlayer extends AbstractPlayer implements CommandSender {
     @Override
     public void kick(Text reason) {
         connection.close(new DisconnectPacket(reason));
-    }
-
-    @Override
-    public Human getEntity() {
-        return entity;
-    }
-
-    @Override
-    public void setEntity(Human entity) {
-        this.entity = entity;
-    }
-
-    @Override
-    public GameMode getGameMode() {
-        return gameMode;
-    }
-
-    @Override
-    public void setGameMode(GameMode gameMode) {
-        this.gameMode = gameMode;
     }
 
     @Override

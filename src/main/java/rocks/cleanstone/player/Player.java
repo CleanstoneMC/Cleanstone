@@ -8,6 +8,7 @@ import rocks.cleanstone.game.command.CommandSender;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
+import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
 import rocks.cleanstone.net.packet.Packet;
 
 public interface Player extends CommandSender {
@@ -37,4 +38,8 @@ public interface Player extends CommandSender {
     void sendMessage(Chat message);
 
     Collection<UserProperty> getUserProperties();
+
+    PlayerAbilities[] getPlayerAbilities();
+
+    float getFlyingSpeed();
 }

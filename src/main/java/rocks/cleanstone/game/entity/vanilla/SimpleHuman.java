@@ -11,8 +11,8 @@ public class SimpleHuman extends AbstractEntity implements Human {
     private GameMode gameMode;
     private Inventory inventory;
 
-    public SimpleHuman(int entityID, Position position, Rotation rotation) {
-        super(entityID, VanillaEntityType.HUMAN, position, rotation);
+    public SimpleHuman(Position position, Rotation rotation) {
+        super(VanillaEntityType.HUMAN, position, rotation);
     }
 
     public GameMode getGameMode() {

@@ -15,13 +15,11 @@ import java.util.Collection;
 
 public class SimpleOpenWorldGame implements OpenWorldGame {
 
-    private final CleanstoneMainServer server;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Collection<World> loadedWorlds = Sets.newConcurrentHashSet();
     private final WorldLoader worldLoader;
 
     public SimpleOpenWorldGame(CleanstoneMainServer server, WorldLoader worldLoader) {
-        this.server = server;
         this.worldLoader = worldLoader;
         for (String autoLoadWorldID : server.getMinecraftConfig().getAutoLoadWorlds()) {
             loadWorld(autoLoadWorldID);
@@ -57,9 +55,5 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
     @Override
     public void deleteWorld(String id) {
 
-    }
-
-    public CleanstoneMainServer getServer() {
-        return server;
     }
 }

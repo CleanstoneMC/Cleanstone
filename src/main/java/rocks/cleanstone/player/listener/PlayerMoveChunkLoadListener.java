@@ -1,6 +1,7 @@
 package rocks.cleanstone.player.listener;
 
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.PlayerMoveEvent;
 import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
@@ -8,6 +9,7 @@ import rocks.cleanstone.game.world.region.chunk.vanilla.ChunkDataPacketFactory;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.event.PlayerQuitEvent;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +22,7 @@ public class PlayerMoveChunkLoadListener {
     private final FlatWorldGenerator flatWorldGenerator = new FlatWorldGenerator(); //TODO: Get correct Generator
 
     @EventListener
+    @Async("playerExec")
     public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
         final int chunkX = ((int) playerMoveEvent.getNewPosition().getX()) >> 4;
         final int chunkZ = ((int) playerMoveEvent.getNewPosition().getZ()) >> 4;
@@ -56,6 +59,12 @@ public class PlayerMoveChunkLoadListener {
         }
     }
 
+    @EventListener
+    @Async("playerExec")
+    public void onPlayerDisconnect(PlayerQuitEvent playerQuitEvent) {
+        playerUnloadAll(playerQuitEvent.getPlayer().getId().getUUID().toString());
+    }
+
     private boolean isSameChunk(Position oldPosition, Position newPosition) {
         final int oldChunkX = ((int) oldPosition.getX()) >> 4;
         final int oldChunkZ = ((int) oldPosition.getZ()) >> 4;
@@ -82,6 +91,10 @@ public class PlayerMoveChunkLoadListener {
         checkMap(uuid, x, z);
 
         return playerHasLoaded.get(uuid).get(x).contains(z);
+    }
+
+    private void playerUnloadAll(String uuid) {
+        playerHasLoaded.remove(uuid);
     }
 
     private void checkMap(String uuid, int x, int z) {
