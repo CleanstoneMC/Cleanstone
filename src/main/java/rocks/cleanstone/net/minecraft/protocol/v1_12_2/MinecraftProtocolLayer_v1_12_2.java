@@ -23,6 +23,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new PlayerPositionCodec(), PlayerPositionPacket.class);
         registerPacketCodec(new PlayerLookCodec(), PlayerLookPacket.class);
         registerPacketCodec(new PlayerPositionAndLookCodec(), InPlayerPositionAndLookPacket.class);
+        registerPacketCodec(new UseItemCodec(), UseItemPacket.class);
 
         // outbound
         registerPacketCodec(new DisconnectCodec(), DisconnectPacket.class);
@@ -48,6 +49,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new SpawnPlayerCodec(), SpawnPlayerPacket.class);
         registerPacketCodec(new TimeUpdateCodec(), TimeUpdatePacket.class);
         registerPacketCodec(new UnloadChunkCodec(), UnloadChunkPacket.class);
+        registerPacketCodec(new BlockChangeCodec(), BlockChangePacket.class);
     }
 
     @Override
