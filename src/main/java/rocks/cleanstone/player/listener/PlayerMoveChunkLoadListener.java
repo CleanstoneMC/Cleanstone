@@ -42,8 +42,7 @@ public class PlayerMoveChunkLoadListener {
                     if (hasPlayerLoaded(uuid, currentX, currentZ)) {
                         playerUnload(uuid, currentX, currentZ);
 
-                        UnloadChunkPacket unloadChunkPacket = new UnloadChunkPacket(currentX, currentZ);
-                        player.sendPacket(unloadChunkPacket);
+                        sendChunkUnload(player, currentX, currentZ);
                     }
 
                     continue;
@@ -52,11 +51,22 @@ public class PlayerMoveChunkLoadListener {
                 if (!hasPlayerLoaded(uuid, currentX, currentZ)) {
                     playerLoad(uuid, currentX, currentZ);
 
-                    ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(flatWorldGenerator.generateChunk(currentX, currentZ), true);
-                    player.sendPacket(chunkDataPacket);
+                    sendChunkLoad(player, currentX, currentZ);
                 }
             }
         }
+    }
+
+    @Async("playerExec")
+    protected void sendChunkUnload(Player player, int x, int z) {
+        UnloadChunkPacket unloadChunkPacket = new UnloadChunkPacket(x, z);
+        player.sendPacket(unloadChunkPacket);
+    }
+
+    @Async("playerExec")
+    protected void sendChunkLoad(Player player, int x, int z) {
+        ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(flatWorldGenerator.generateChunk(x, z), true);
+        player.sendPacket(chunkDataPacket);
     }
 
     @EventListener
