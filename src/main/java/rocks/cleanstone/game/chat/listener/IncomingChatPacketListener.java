@@ -26,25 +26,27 @@ public class IncomingChatPacketListener {
     @EventListener
     @Async("chatExec")
     public void onChatMessage(InboundPacketEvent inboundPacketEvent) {
-        if (inboundPacketEvent.getPacket() instanceof InChatMessagePacket) {
-            Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
-            PlayerID playerID = player.getId();
-            String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
+        if (!(inboundPacketEvent.getPacket() instanceof InChatMessagePacket)) {
+            return;
+        }
 
-            InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());
-            String chatMessage =chatMessagePacket.getMessage();
+        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
+        PlayerID playerID = player.getId();
+        String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
 
-            if (chatMessage.charAt(0) == '/') {
-                //Command
+        InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());
+        String chatMessage =chatMessagePacket.getMessage();
 
-                logger.info("Command from {}: {}", playerName, chatMessage);
+        if (chatMessage.charAt(0) == '/') {
+            //Command
 
-                CleanstoneServer.publishEvent(new PlayerIssuedCommandEvent(player, chatMessage));
-            } else {
-                logger.info("Message from {}: {}", playerName, chatMessage);
+            logger.info("Command from {}: {}", playerName, chatMessage);
 
-                CleanstoneServer.publishEvent(new PlayerChatMessageEvent(player, chatMessage));
-            }
+            CleanstoneServer.publishEvent(new PlayerIssuedCommandEvent(player, chatMessage));
+        } else {
+            logger.info("Message from {}: {}", playerName, chatMessage);
+
+            CleanstoneServer.publishEvent(new PlayerChatMessageEvent(player, chatMessage));
         }
     }
 }

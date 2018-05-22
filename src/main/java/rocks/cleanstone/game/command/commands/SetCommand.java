@@ -28,5 +28,10 @@ public class SetCommand extends SimpleCommand {
         public Class[] getParameterTypes() {
             return new Class[]{Player.class};
         }
+
+        @Override
+        public void execute(CommandMessage commandMessage) {
+
+        }
     }
 }

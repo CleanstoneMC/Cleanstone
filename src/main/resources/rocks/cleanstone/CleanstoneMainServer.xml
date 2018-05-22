@@ -78,6 +78,11 @@
         <constructor-arg ref="worldLoader"/>
     </bean>
 
+    <!-- Block Place -->
+    <bean id="useItemListener" class="rocks.cleanstone.player.listener.UseItemListener">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+
     <!-- Entity -->
     <bean id="entityManager" class="rocks.cleanstone.game.world.region.EntityManager"/>
     <bean id="entityMovePacketListener" class="rocks.cleanstone.game.entity.EntityMovePacketListener">

@@ -38,7 +38,7 @@ public class PlayerMoveChunkLoadListener {
                 final int currentX = chunkX + i;
                 final int currentZ = chunkZ + j;
 
-                if (i < -4 || i > 4 || j < -4 || j > 4) {
+                if (i < -4 || i > 4 || j < -4 || j > 4) { //TODO: Some weird flapping happens here
                     if (hasPlayerLoaded(uuid, currentX, currentZ)) {
                         playerUnload(uuid, currentX, currentZ);
 

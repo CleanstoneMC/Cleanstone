@@ -3,6 +3,7 @@ package rocks.cleanstone.game.command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
+import rocks.cleanstone.game.command.commands.SetCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ public class CommandRegistry {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public CommandRegistry() {
+        registerCommand(new SetCommand(), false);
     }
 
     public void registerCommand(Command command, boolean force) {
