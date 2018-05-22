@@ -15,8 +15,11 @@ import rocks.cleanstone.game.world.region.EntityManager;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
+import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.player.event.AsyncPlayerLoginEvent;
+
+import java.util.Arrays;
 
 public class PlayerInitializationCauseListener {
 
@@ -65,6 +68,8 @@ public class PlayerInitializationCauseListener {
 
             player.setEntity(human);
         }
+
+        player.setPlayerAbilities(Arrays.asList(PlayerAbilities.IS_CREATIVE, PlayerAbilities.CAN_FLY));
 
         playerManager.initializePlayer(player);
     }
