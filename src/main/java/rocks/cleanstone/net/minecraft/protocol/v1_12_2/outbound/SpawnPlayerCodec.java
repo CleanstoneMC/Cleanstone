@@ -27,6 +27,8 @@ public class SpawnPlayerCodec implements MinecraftPacketCodec {
         byteBuf.writeDouble(spawnPlayerPacket.getZ());
         byteBuf.writeByte((int) spawnPlayerPacket.getPitch());
         byteBuf.writeByte((int) spawnPlayerPacket.getYaw());
+
+        byteBuf.writeByte(0xff);
         //TODO: Write Entitymetadata
 
 

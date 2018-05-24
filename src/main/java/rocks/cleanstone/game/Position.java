@@ -1,6 +1,5 @@
 package rocks.cleanstone.game;
 
-import jdk.nashorn.internal.runtime.WithObject;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.utils.Vector;
 
@@ -33,6 +32,14 @@ public class Position extends Vector {
 
     public void setWorld(World world) {
         this.world = world;
+    }
+
+    public double getDistance(Position position) {
+        double xP = Math.pow((this.getX() - position.getX()), 2);
+        double yP = Math.pow((this.getY() - position.getY()), 2);
+        double zP = Math.pow((this.getZ() - position.getZ()), 2);
+
+        return Math.sqrt(xP + yP + zP);
     }
 
     @Override

@@ -5,10 +5,7 @@ import org.springframework.core.annotation.Order;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.world.World;
-import rocks.cleanstone.net.minecraft.packet.outbound.JoinGamePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerAbilitiesPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerPositionAndLookPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPositionPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 
@@ -41,6 +38,7 @@ public class WorldPackets {
         player.sendPacket(new OutPlayerAbilitiesPacket(player.getPlayerAbilities(), player.getFlyingSpeed(), 0));
 
         player.sendPacket(new OutPlayerPositionAndLookPacket(playerPosition.getX(), playerPosition.getY(), playerPosition.getZ(), playerRotation.getYaw(), playerRotation.getPitch(), 0, ThreadLocalRandom.current().nextInt()));
+
         //player.sendPacket(new WindowItemsPacket(0,));
 
 //        FlatWorldGenerator flatWorldGenerator = new FlatWorldGenerator();
