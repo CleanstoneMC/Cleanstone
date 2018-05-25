@@ -63,6 +63,9 @@
     <bean id="initTablistPackets" class="rocks.cleanstone.player.initialize.TablistPackets">
         <constructor-arg ref="playerManager"/>
     </bean>
+    <bean id="spawnPlayerPackets" class="rocks.cleanstone.player.initialize.SpawnPlayerPackets">
+        <constructor-arg ref="playerManager"/>
+    </bean>
 
     <!-- Termination -->
     <bean id="termTablistPackets" class="rocks.cleanstone.player.terminate.TablistPackets">

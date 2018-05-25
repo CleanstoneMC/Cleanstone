@@ -32,20 +32,6 @@ public class TablistPackets {
                 onlinePlayer -> packet.getPlayers().add(new PlayerListItemPacket.PlayerItem(onlinePlayer)));
 
         player.sendPacket(packet);
-
-
-        // This sends the Player Spawn Packet for every Player to the Joined User
-        playerManager.getOnlinePlayers().forEach(
-                onlinePlayer -> {
-                    if (onlinePlayer == player) {
-                        return;
-                    }
-
-                    SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(onlinePlayer.getEntity().getEntityID(), onlinePlayer.getId().getUUID(), onlinePlayer.getEntity().getPosition().getX(), onlinePlayer.getEntity().getPosition().getY(), onlinePlayer.getEntity().getPosition().getZ(),
-                            onlinePlayer.getEntity().getRotation().getYaw(), onlinePlayer.getEntity().getRotation().getPitch(), null); //TODO: Add Metadata
-
-                    player.sendPacket(spawnPlayerPacket);
-                });
     }
 
     public void broadcastAddition(Player player, Player... broadcastExemptions) {
@@ -53,12 +39,6 @@ public class TablistPackets {
         packet.getPlayers().add(new PlayerListItemPacket.PlayerItem(player));
 
         playerManager.broadcastPacket(packet, broadcastExemptions);
-
-        // This sends the Spawn Packet for the Spawned User to the other Users
-        SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(player.getEntity().getEntityID(), player.getId().getUUID(), player.getEntity().getPosition().getX(), player.getEntity().getPosition().getY(), player.getEntity().getPosition().getZ(),
-                player.getEntity().getRotation().getYaw(), player.getEntity().getRotation().getPitch(), null); //TODO: Add Metadata
-
-        playerManager.broadcastPacket(spawnPlayerPacket, player);
     }
 
 }
