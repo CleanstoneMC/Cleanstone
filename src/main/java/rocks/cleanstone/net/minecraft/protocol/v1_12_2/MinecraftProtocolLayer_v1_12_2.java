@@ -25,6 +25,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new PlayerPositionAndLookCodec(), InPlayerPositionAndLookPacket.class);
         registerPacketCodec(new UseItemCodec(), UseItemPacket.class);
         registerPacketCodec(new PlayerBlockPlacementCodec(), PlayerBlockPlacementPacket.class);
+        registerPacketCodec(new PlayerDiggingCodec(), PlayerDiggingPacket.class);
 
         // outbound
         registerPacketCodec(new DisconnectCodec(), DisconnectPacket.class);

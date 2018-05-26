@@ -23,7 +23,8 @@ public class BlockChangeCodec implements MinecraftPacketCodec {
         BlockChangePacket blockChangePacket = (BlockChangePacket) packet;
 
         ByteBufUtils.writeVector(byteBuf, blockChangePacket.getLocation());
-        ByteBufUtils.writeVarInt(byteBuf, blockChangePacket.getBlockID());
+        ByteBufUtils.writeVarInt(byteBuf, blockChangePacket.getBlockData());
+
         return byteBuf;
     }
 
