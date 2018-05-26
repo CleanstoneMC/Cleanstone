@@ -3,6 +3,7 @@ package rocks.cleanstone.game.entity;
 import rocks.cleanstone.utils.Vector;
 
 public class Rotation {
+
     private float yaw;
     private float pitch;
 
