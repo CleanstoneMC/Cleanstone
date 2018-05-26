@@ -14,6 +14,7 @@ import rocks.cleanstone.net.minecraft.packet.outbound.EntityRelativeMovePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.EntityTeleportPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
+import rocks.cleanstone.player.event.PlayerMoveEvent;
 
 public class PlayerMoveListener {
     private final PlayerManager playerManager;
@@ -25,23 +26,17 @@ public class PlayerMoveListener {
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPlayerMove(EntityMoveEvent entityMoveEvent) {
-        if (!(entityMoveEvent.getEntity() instanceof Human)) {
-            return;
-        }
+    public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
+        final Position oldPosition = playerMoveEvent.getOldPosition();
+        final Position newPosition = playerMoveEvent.getNewPosition();
+        final Rotation oldRotation = playerMoveEvent.getOldRotation();
+        final Rotation newRotation = playerMoveEvent.getNewRotation();
 
-        Position oldPosition = entityMoveEvent.getOldPosition();
-        Position newPosition = entityMoveEvent.getNewPosition();
-        Rotation newRotation = entityMoveEvent.getNewRotation();
-        Rotation oldRotation = entityMoveEvent.getOldRotation();
+        final Player movingPlayer = playerMoveEvent.getPlayer();
+        final int entityID = movingPlayer.getEntity().getEntityID();
 
-        Player movingPlayer = playerManager.getOnlinePlayers().stream()
-                .filter(player -> player.getEntity().getEntityID() == entityMoveEvent.getEntity().getEntityID())
-                .findFirst().get();
-        int entityID = entityMoveEvent.getEntity().getEntityID();
-
-        int pitch = newRotation.getIntPitch();
-        int yaw = newRotation.getIntYaw();
+        final int pitch = newRotation.getIntPitch();
+        final int yaw = newRotation.getIntYaw();
 
         if (oldPosition.equals(newPosition)) {
             if (oldRotation.equals(newRotation)) {
@@ -54,9 +49,9 @@ public class PlayerMoveListener {
             return;
         }
 
-        double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
-        double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
-        double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
+        final double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
+        final double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
+        final double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
 
 
         boolean teleport = deltaX > Short.MAX_VALUE || deltaY > Short.MAX_VALUE || deltaZ > Short.MAX_VALUE
