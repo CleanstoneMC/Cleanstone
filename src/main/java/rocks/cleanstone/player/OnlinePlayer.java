@@ -1,18 +1,16 @@
 package rocks.cleanstone.player;
 
-import java.net.InetAddress;
-import java.util.Collection;
-
 import rocks.cleanstone.game.chat.message.Chat;
 import rocks.cleanstone.game.command.CommandSender;
-import rocks.cleanstone.game.entity.vanilla.Human;
-import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.enums.ChatPosition;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutChatMessagePacket;
 import rocks.cleanstone.net.packet.Packet;
+
+import java.net.InetAddress;
+import java.util.Collection;
 
 public class OnlinePlayer extends AbstractPlayer implements CommandSender {
 

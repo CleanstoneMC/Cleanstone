@@ -23,7 +23,7 @@ public class EntityManager {
         return entityMap.get(entityID);
     }
 
-    public Entity addEntityWithoutID(Entity entity) {
+    public <T extends Entity> T addEntityWithoutID(T entity) {
         if (!(entity instanceof AbstractEntity)) {
             return null;
         }
@@ -35,7 +35,7 @@ public class EntityManager {
         return entity;
     }
 
-    private Integer getUnoccupiedEntityID() {
+    private int getUnoccupiedEntityID() {
         ThreadLocalRandom current = ThreadLocalRandom.current();
 
         int random = current.nextInt();

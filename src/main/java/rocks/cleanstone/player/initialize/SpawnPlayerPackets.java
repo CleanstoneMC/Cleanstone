@@ -16,9 +16,8 @@ public class SpawnPlayerPackets {
         this.playerManager = playerManager;
     }
 
-    @Order(value = 31)
+    @Order(value = 35)
     @EventListener
-    @Async
     public void onJoin(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
 

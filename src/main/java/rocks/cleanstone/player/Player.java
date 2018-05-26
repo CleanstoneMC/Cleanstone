@@ -39,7 +39,13 @@ public interface Player extends CommandSender {
 
     Collection<UserProperty> getUserProperties();
 
-    PlayerAbilities[] getPlayerAbilities();
+    boolean isFlying();
+
+    void setFlying(boolean flying);
 
     float getFlyingSpeed();
+
+    void setFlyingSpeed(float flyingSpeed);
+
+    Collection<PlayerAbilities> getAbilities();
 }

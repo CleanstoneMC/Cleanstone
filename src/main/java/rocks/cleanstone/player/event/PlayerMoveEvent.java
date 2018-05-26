@@ -1,6 +1,7 @@
-package rocks.cleanstone.game.entity;
+package rocks.cleanstone.player.event;
 
 import rocks.cleanstone.game.Position;
+import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.player.Player;
 
 public class PlayerMoveEvent {

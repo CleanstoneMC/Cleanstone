@@ -49,7 +49,6 @@
     <bean id="playerInitializationCauseListener"
           class="rocks.cleanstone.player.PlayerInitializationCauseListener">
         <constructor-arg ref="playerManager"/>
-        <constructor-arg ref="entityManager"/>
     </bean>
     <bean id="playerTerminationCauseListener"
           class="rocks.cleanstone.player.PlayerTerminationCauseListener">
@@ -58,6 +57,10 @@
     <bean id="playerMoveChunkLoadListener" class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener"/>
 
     <!-- Initialization -->
+    <bean id="playerData" class="rocks.cleanstone.player.initialize.PlayerData"/>
+    <bean id="playerEntity" class="rocks.cleanstone.player.initialize.PlayerEntity">
+        <constructor-arg ref="entityManager"/>
+    </bean>
     <bean id="worldPackets" class="rocks.cleanstone.player.initialize.WorldPackets">
     </bean>
     <bean id="initTablistPackets" class="rocks.cleanstone.player.initialize.TablistPackets">
@@ -88,7 +91,7 @@
 
     <!-- Entity -->
     <bean id="entityManager" class="rocks.cleanstone.game.world.region.EntityManager"/>
-    <bean id="entityMovePacketListener" class="rocks.cleanstone.game.entity.EntityMovePacketListener">
+    <bean id="entityMovePacketListener" class="rocks.cleanstone.player.listener.PlayerMovePacketListener">
         <constructor-arg ref="playerManager"/>
         <constructor-arg ref="entityManager"/>
     </bean>

@@ -6,7 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.game.Position;
-import rocks.cleanstone.game.entity.PlayerMoveEvent;
+import rocks.cleanstone.player.event.PlayerMoveEvent;
 import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
 import rocks.cleanstone.game.world.region.chunk.vanilla.ChunkDataPacketFactory;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;

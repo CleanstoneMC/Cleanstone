@@ -1,8 +1,12 @@
-package rocks.cleanstone.game.entity;
+package rocks.cleanstone.player.listener;
 
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
+import rocks.cleanstone.game.entity.Entity;
+import rocks.cleanstone.game.entity.EntityMoveEvent;
+import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.world.region.EntityManager;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.inbound.InPlayerPositionAndLookPacket;
@@ -10,17 +14,19 @@ import rocks.cleanstone.net.minecraft.packet.inbound.PlayerLookPacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerPositionPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
+import rocks.cleanstone.player.event.PlayerMoveEvent;
 
-public class EntityMovePacketListener {
+public class PlayerMovePacketListener {
 
     private final PlayerManager playerManager;
     private final EntityManager entityManager;
 
-    public EntityMovePacketListener(PlayerManager playerManager, EntityManager entityManager) {
+    public PlayerMovePacketListener(PlayerManager playerManager, EntityManager entityManager) {
         this.playerManager = playerManager;
         this.entityManager = entityManager;
     }
 
+    @Async(value = "playerExec")
     @EventListener
     public void onPlayerLookPacket(InboundPacketEvent inboundPacketEvent) {
         if (!(inboundPacketEvent.getPacket() instanceof PlayerLookPacket)) {
@@ -48,6 +54,7 @@ public class EntityMovePacketListener {
         CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
     }
 
+    @Async(value = "playerExec")
     @EventListener
     public void onPlayerPositionPacket(InboundPacketEvent inboundPacketEvent) {
         if (!(inboundPacketEvent.getPacket() instanceof PlayerPositionPacket)) {
@@ -76,6 +83,7 @@ public class EntityMovePacketListener {
         CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
     }
 
+    @Async(value = "playerExec")
     @EventListener
     public void onPlayerPositionAndLookPacket(InboundPacketEvent inboundPacketEvent) {
         if (!(inboundPacketEvent.getPacket() instanceof InPlayerPositionAndLookPacket)) {

@@ -6,7 +6,7 @@ import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class AbstractPlayer implements Player {
@@ -16,8 +16,8 @@ public abstract class AbstractPlayer implements Player {
     protected boolean op = false;
     private Human entity;
     private GameMode gameMode = VanillaGameMode.CREATIVE;
-    private List<PlayerAbilities> playerAbilities = new ArrayList<>();
     private float flyingSpeed = 0.4F;
+    private boolean flying;
 
     public AbstractPlayer(PlayerID id) {
         this.id = id;
@@ -59,21 +59,29 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    public PlayerAbilities[] getPlayerAbilities() {
-        return playerAbilities.toArray(new PlayerAbilities[playerAbilities.size()]);
-    }
-
-    public void setPlayerAbilities(List<PlayerAbilities> playerAbilities) {
-        this.playerAbilities = playerAbilities;
-    }
-
-    @Override
     public float getFlyingSpeed() {
         return flyingSpeed;
     }
 
     public void setFlyingSpeed(float flyingSpeed) {
         this.flyingSpeed = flyingSpeed;
+    }
+
+    @Override
+    public boolean isFlying() {
+        return flying;
+    }
+
+    @Override
+    public void setFlying(boolean flying) {
+        this.flying = flying;
+    }
+
+    @Override
+    public Collection<PlayerAbilities> getAbilities() {
+        Collection<PlayerAbilities> abilities = gameMode.getPlayerAbilities();
+        if (isFlying()) abilities.add(PlayerAbilities.IS_FLYING);
+        return abilities;
     }
 
     @Override

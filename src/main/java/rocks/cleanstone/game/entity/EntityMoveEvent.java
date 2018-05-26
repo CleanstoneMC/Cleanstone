@@ -9,7 +9,8 @@ public class EntityMoveEvent {
     private Position newPosition;
     private Rotation newRotation;
 
-    public EntityMoveEvent(Entity entity, Position oldPosition, Rotation oldRotation, Position newPosition, Rotation newRotation) {
+    public EntityMoveEvent(Entity entity, Position oldPosition, Rotation oldRotation,
+                           Position newPosition, Rotation newRotation) {
         this.entity = entity;
         this.oldPosition = oldPosition;
         this.oldRotation = oldRotation;
