@@ -74,6 +74,9 @@
     <bean id="termTablistPackets" class="rocks.cleanstone.player.terminate.TablistPackets">
         <constructor-arg ref="playerManager"/>
     </bean>
+    <bean id="destroyPlayerPackets" class="rocks.cleanstone.player.terminate.DestroyPlayerPackets">
+        <constructor-arg ref="playerManager"/>
+    </bean>
 
     <!-- World Loader -->
     <bean id="worldLoader" class="rocks.cleanstone.game.world.SimpleWorldLoader"/>
