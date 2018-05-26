@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.core.annotation.Order;
 
 public class CleanstoneEventPublisher {
@@ -13,8 +12,6 @@ public class CleanstoneEventPublisher {
     private static Logger LOGGER = LoggerFactory.getLogger(CleanstoneEventPublisher.class);
     @Autowired
     private ApplicationEventPublisher publisher;
-    @Autowired
-    private AbstractApplicationContext applicationContext;
 
     public <T> T publishEvent(T event) {
         long preEventTime = System.currentTimeMillis();
