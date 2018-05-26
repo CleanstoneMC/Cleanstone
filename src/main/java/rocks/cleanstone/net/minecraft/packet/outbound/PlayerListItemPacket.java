@@ -52,14 +52,15 @@ public class PlayerListItemPacket implements Packet {
 
     public static class PlayerItem {
         private final UUID uuid;
-        private final Collection<UserProperty> userProperties = new ArrayList<>();
+        private final Collection<UserProperty> userProperties;
         private final String name;
         private final GameMode gameMode;
         private final int ping;
         private final Chat displayName;
 
-        public PlayerItem(UUID uuid, String name, GameMode gameMode, int ping, Chat displayName) {
+        public PlayerItem(UUID uuid, Collection<UserProperty> userProperties, String name, GameMode gameMode, int ping, Chat displayName) {
             this.uuid = uuid;
+            this.userProperties = userProperties;
             this.name = name;
             this.gameMode = gameMode;
             this.ping = ping;
@@ -67,7 +68,7 @@ public class PlayerListItemPacket implements Packet {
         }
 
         public PlayerItem(Player player) {
-            this(player.getId().getUUID(), player.getId().getName(), player.getGameMode(), player.getPing(),
+            this(player.getId().getUUID(), player.getUserProperties(), player.getId().getName(), player.getGameMode(), player.getPing(),
                     new Chat(player.getId().getName()));
         }
 
