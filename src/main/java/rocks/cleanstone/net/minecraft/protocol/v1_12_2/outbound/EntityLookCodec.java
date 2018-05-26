@@ -21,8 +21,8 @@ public class EntityLookCodec implements MinecraftPacketCodec {
         EntityLookPacket entityLookPacket = (EntityLookPacket) packet;
 
         ByteBufUtils.writeVarInt(byteBuf, entityLookPacket.getEntityID());
-        byteBuf.writeFloat(entityLookPacket.getYaw());
-        byteBuf.writeFloat(entityLookPacket.getPitch());
+        byteBuf.writeByte((int) entityLookPacket.getYaw());
+        byteBuf.writeByte((int) entityLookPacket.getPitch());
         byteBuf.writeBoolean(entityLookPacket.isOnGround());
 
         return byteBuf;
