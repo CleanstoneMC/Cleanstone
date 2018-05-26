@@ -1,6 +1,7 @@
 package rocks.cleanstone.game.material;
 
 public enum VanillaMaterial implements Material {
+    AIR(0, "minecraft:air"),
     STONE(1, "minecraft:stone"),
     GRASS(2, "minecraft:grass"),
     DIRT(3, "minecraft:dirt"),
