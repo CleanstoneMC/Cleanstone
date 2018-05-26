@@ -1,22 +1,21 @@
 package rocks.cleanstone.net.netty.pipeline.inbound;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.util.Collection;
-
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
 import rocks.cleanstone.net.event.ConnectionClosedEvent;
 import rocks.cleanstone.net.event.ConnectionOpenEvent;
 import rocks.cleanstone.net.netty.NettyConnection;
+
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.util.Collection;
 
 public class IdentificationHandler extends ChannelInboundHandlerAdapter {
 
@@ -44,6 +43,7 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
             connectionKey.set(connection);
             if (CleanstoneServer.publishEvent(new ConnectionOpenEvent(connection, networking)).isCancelled()) {
                 ctx.close();
+                return;
             }
             ctx.channel().closeFuture().addListener((a) -> {
                 logger.info("Connection from " + ipAddress + " closed");

@@ -1,15 +1,13 @@
 package rocks.cleanstone.core;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
-
-import java.util.Locale;
-
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
+import rocks.cleanstone.core.event.CleanstoneEventPublisher;
+
+import java.util.Locale;
 
 public abstract class CleanstoneServer implements ApplicationRunner {
 
@@ -19,7 +17,7 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     protected final CleanstoneConfig cleanstoneConfig;
     protected final MinecraftConfig minecraftConfig;
     @Autowired
-    protected ApplicationEventPublisher publisher;
+    protected CleanstoneEventPublisher eventPublisher;
     @Autowired
     protected MessageSource messageSource;
 
@@ -29,16 +27,7 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     }
 
     public static <T> T publishEvent(T event) {
-        long preEventTime = System.currentTimeMillis();
-        getInstance().getPublisher().publishEvent(event);
-        if (System.currentTimeMillis() - preEventTime > 50
-                && !event.getClass().getSimpleName().startsWith("Async")) {
-            LoggerFactory.getLogger(CleanstoneServer.class).warn("Listeners for non-async event "
-                    + event.getClass().getSimpleName() + " needed "
-                    + (System.currentTimeMillis() - preEventTime)
-                    + "ms to complete, this slows down the server");
-        }
-        return event;
+        return getInstance().eventPublisher.publishEvent(event);
     }
 
     public static String getMessage(String id, Object... args) {
@@ -62,10 +51,6 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
     public void destroy() {
         INSTANCE = null;
-    }
-
-    public ApplicationEventPublisher getPublisher() {
-        return publisher;
     }
 
     public MessageSource getMessageSource() {

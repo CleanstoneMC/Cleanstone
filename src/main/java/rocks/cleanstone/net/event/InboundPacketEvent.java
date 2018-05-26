@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.event;
 
+import rocks.cleanstone.core.event.CancellableEvent;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
 import rocks.cleanstone.net.packet.Packet;
 
-public class InboundPacketEvent {
+public class InboundPacketEvent extends CancellableEvent {
 
     private final Networking networking;
     private final Packet packet;

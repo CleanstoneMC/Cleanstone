@@ -1,15 +1,15 @@
 package rocks.cleanstone.net.event;
 
+import rocks.cleanstone.core.event.CancellableEvent;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
 import rocks.cleanstone.net.packet.Packet;
 
-public class OutboundPacketEvent {
+public class OutboundPacketEvent extends CancellableEvent {
 
     private final Networking networking;
     private final Packet packet;
     private final Connection connection;
-    private boolean cancelled = false;
 
     public OutboundPacketEvent(Packet packet, Connection connection, Networking networking) {
         this.packet = packet;
@@ -27,13 +27,5 @@ public class OutboundPacketEvent {
 
     public Packet getPacket() {
         return packet;
-    }
-
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
     }
 }
