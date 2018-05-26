@@ -27,7 +27,11 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     }
 
     public static <T> T publishEvent(T event) {
-        return getInstance().eventPublisher.publishEvent(event);
+        return publishEvent(event, false);
+    }
+
+    public static <T> T publishEvent(T event, boolean rethrowErrors) {
+        return getInstance().eventPublisher.publishEvent(event, rethrowErrors);
     }
 
     public static String getMessage(String id, Object... args) {

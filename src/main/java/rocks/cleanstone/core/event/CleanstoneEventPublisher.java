@@ -13,7 +13,7 @@ public class CleanstoneEventPublisher {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    public <T> T publishEvent(T event) {
+    public <T> T publishEvent(T event, boolean rethrowErrors) {
         long preEventTime = System.currentTimeMillis();
         String eventName = event.getClass().getSimpleName();
         try {
@@ -21,7 +21,9 @@ public class CleanstoneEventPublisher {
         } catch (EventCancellationException e) {
             LOGGER.info("Event " + eventName + " was cancelled");
         } catch (Exception e) {
-            LOGGER.error("Failed to execute event listener for " + eventName, e);
+            if (!rethrowErrors)
+                LOGGER.error("Failed to execute event listener for " + eventName, e);
+            else throw e;
         }
         if (System.currentTimeMillis() - preEventTime > 50 && !eventName.startsWith("Async")) {
             LOGGER.warn("Listeners for non-async event " + eventName + " needed "
