@@ -6,8 +6,11 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.EntityMoveEvent;
+import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.net.minecraft.packet.outbound.EntityLookAndRelativeMovePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.EntityLookPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.EntityRelativeMovePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
@@ -28,29 +31,51 @@ public class PlayerMoveListener {
 
         Position oldPosition = entityMoveEvent.getOldPosition();
         Position newPosition = entityMoveEvent.getNewPosition();
+        Rotation newRotation = entityMoveEvent.getNewRotation();
+        Rotation oldRotation = entityMoveEvent.getOldRotation();
 
         Player movingPlayer = playerManager.getOnlinePlayers().stream()
                 .filter(player -> player.getEntity().getEntityID() == entityMoveEvent.getEntity().getEntityID())
                 .findFirst().get();
         int entityID = entityMoveEvent.getEntity().getEntityID();
 
+        float pitch = newRotation.getPitch();
+        float yaw = newRotation.getYaw();
+
+        if (oldPosition.equals(newPosition)) {
+            if (oldRotation.equals(newRotation)) {
+                return;
+            }
+
+            EntityLookPacket entityLookPacket = new EntityLookPacket(entityID, yaw, pitch, true); //TODO: Add onGround
+
+            playerManager.broadcastPacket(entityLookPacket, movingPlayer);
+            return;
+        }
+
         double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
         double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
         double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
 
-        float pitch = entityMoveEvent.getNewRotation().getPitch();
-        float yaw = entityMoveEvent.getNewRotation().getYaw();
 
         boolean teleport = deltaX > Short.MAX_VALUE || deltaY > Short.MAX_VALUE || deltaZ > Short.MAX_VALUE
                 || deltaX < Short.MIN_VALUE || deltaY < Short.MIN_VALUE || deltaZ < Short.MIN_VALUE;
 
         if (teleport) {
             //TODO: Send Teleport if more than 8 Blocks
-        } else {
-            EntityLookAndRelativeMovePacket packet = new EntityLookAndRelativeMovePacket(
-                    entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), yaw, pitch, true); //TODO: Add onGround
-
-            playerManager.broadcastPacket(packet, movingPlayer);
+            return;
         }
+
+        if (oldRotation.equals(newRotation)) {
+            EntityRelativeMovePacket entityRelativeMovePacket = new EntityRelativeMovePacket(entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), true); //TODO: Add onGround
+
+            playerManager.broadcastPacket(entityRelativeMovePacket, movingPlayer);
+            return;
+        }
+
+        EntityLookAndRelativeMovePacket entityLookAndRelativeMovePacket = new EntityLookAndRelativeMovePacket(
+                entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), yaw, pitch, true); //TODO: Add onGround
+
+        playerManager.broadcastPacket(entityLookAndRelativeMovePacket, movingPlayer);
     }
 }
