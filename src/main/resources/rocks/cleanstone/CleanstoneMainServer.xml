@@ -96,7 +96,6 @@
     <bean id="entityManager" class="rocks.cleanstone.game.world.region.EntityManager"/>
     <bean id="entityMovePacketListener" class="rocks.cleanstone.player.listener.PlayerMovePacketListener">
         <constructor-arg ref="playerManager"/>
-        <constructor-arg ref="entityManager"/>
     </bean>
     <bean id="entityMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener">
         <constructor-arg ref="playerManager"/>

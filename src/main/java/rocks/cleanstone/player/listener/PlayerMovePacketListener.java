@@ -7,6 +7,7 @@ import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.entity.EntityMoveEvent;
 import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.world.region.EntityManager;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.inbound.InPlayerPositionAndLookPacket;
@@ -19,11 +20,9 @@ import rocks.cleanstone.player.event.PlayerMoveEvent;
 public class PlayerMovePacketListener {
 
     private final PlayerManager playerManager;
-    private final EntityManager entityManager;
 
-    public PlayerMovePacketListener(PlayerManager playerManager, EntityManager entityManager) {
+    public PlayerMovePacketListener(PlayerManager playerManager) {
         this.playerManager = playerManager;
-        this.entityManager = entityManager;
     }
 
     @Async(value = "playerExec")
@@ -50,7 +49,8 @@ public class PlayerMovePacketListener {
         newRotation.setPitch(playerLookPacket.getPitch());
         newRotation.setYaw(playerLookPacket.getYaw());
 
-        CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, oldRotation, newPosition, newRotation));
+        entity.setRotation(newRotation);
+
         CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
     }
 
@@ -64,7 +64,7 @@ public class PlayerMovePacketListener {
         PlayerPositionPacket playerPositionPacket = (PlayerPositionPacket) inboundPacketEvent.getPacket();
 
         Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
-        Entity entity = player.getEntity();
+        Human entity = player.getEntity();
 
         if (entity == null) {
             return;
@@ -79,7 +79,8 @@ public class PlayerMovePacketListener {
         newPosition.setY(playerPositionPacket.getFeetY());
         newPosition.setZ(playerPositionPacket.getZ());
 
-        CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, oldRotation, newPosition, newRotation));
+        entity.setPosition(newPosition);
+
         CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
     }
 
@@ -110,7 +111,9 @@ public class PlayerMovePacketListener {
         newRotation.setPitch(playerPositionAndLookPacket.getPitch());
         newRotation.setYaw(playerPositionAndLookPacket.getYaw());
 
-        CleanstoneServer.publishEvent(new EntityMoveEvent(entity, oldPosition, oldRotation, newPosition, newRotation));
+        entity.setPosition(newPosition);
+        entity.setRotation(newRotation);
+
         CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
     }
 }
