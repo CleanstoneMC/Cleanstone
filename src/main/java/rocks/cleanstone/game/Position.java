@@ -48,7 +48,7 @@ public class Position extends Vector {
             return false;
         }
         Position position = (Position) obj;
-        return !(position.x != x) && !(position.y != y) && !(position.z != z) && position.world == world;
+        return position.x == x && position.y == y && position.z == z && position.world == world;
     }
 
     @Override

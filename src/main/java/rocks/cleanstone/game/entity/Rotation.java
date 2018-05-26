@@ -38,4 +38,12 @@ public class Rotation {
         return (int) (pitch % 360 / 360 * 256);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Rotation)) {
+            return false;
+        }
+
+        return ((Rotation) obj).pitch == pitch && ((Rotation) obj).yaw == yaw;
+    }
 }
