@@ -84,7 +84,7 @@ public enum MinecraftOutboundPacketType implements PacketType {
 //    SOUND_EFFECT(73, SoundEffectPacket.class),
 //    PLAYER_LIST_HEADER_AND_FOOTER(74, PlayerListHeaderAndFooterPacket.class),
 //    COLLECT_ITEM(75, CollectItemPacket.class),
-//    ENTITY_TELEPORT(76, EntityTeleportPacket.class),
+    ENTITY_TELEPORT(76, EntityTeleportPacket.class),
 //    ADVANCEMENTS(77, AdvancementsPacket.class),
 //    ENTITY_PROPERTIES(78, EntityPropertiesPacket.class),
 //    ENTITY_EFFECT(79, EntityEffectPacket.class),

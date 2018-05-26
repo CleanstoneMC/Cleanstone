@@ -11,6 +11,7 @@ import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.net.minecraft.packet.outbound.EntityLookAndRelativeMovePacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.EntityLookPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.EntityRelativeMovePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.EntityTeleportPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
@@ -62,7 +63,9 @@ public class PlayerMoveListener {
                 || deltaX < Short.MIN_VALUE || deltaY < Short.MIN_VALUE || deltaZ < Short.MIN_VALUE;
 
         if (teleport) {
-            //TODO: Send Teleport if more than 8 Blocks
+            EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, deltaX, deltaY, deltaZ, yaw, pitch, true); //TODO: Add onGround
+
+            playerManager.broadcastPacket(entityTeleportPacket, movingPlayer);
             return;
         }
 
