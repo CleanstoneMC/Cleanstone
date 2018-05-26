@@ -10,5 +10,9 @@ public interface Entity {
 
     Position getPosition();
 
+    void setPosition(Position position);
+
     Rotation getRotation();
+
+    void setRotation(Rotation rotation);
 }
