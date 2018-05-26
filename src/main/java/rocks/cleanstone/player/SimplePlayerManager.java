@@ -3,17 +3,8 @@ package rocks.cleanstone.player;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
 import rocks.cleanstone.net.Connection;
@@ -23,6 +14,12 @@ import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
+
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 public class SimplePlayerManager implements PlayerManager {
 
@@ -102,7 +99,7 @@ public class SimplePlayerManager implements PlayerManager {
         Preconditions.checkState(onlinePlayers.add(player),
                 "Cannot initialize already initialized player " + player);
         try {
-            CleanstoneServer.publishEvent(new AsyncPlayerInitializationEvent(player));
+            CleanstoneServer.publishEvent(new AsyncPlayerInitializationEvent(player), true);
         } catch (Exception e) {
             logger.error("Error occurred during player initialization for " + player.getId().getName(), e);
             player.kick(Text.of("Error occurred during player initialization"));
@@ -118,12 +115,7 @@ public class SimplePlayerManager implements PlayerManager {
                 "Cannot terminate already terminated / non-initialized player " + player);
 
         CleanstoneServer.publishEvent(new PlayerQuitEvent(player));
-        try {
-            CleanstoneServer.publishEvent(new AsyncPlayerTerminationEvent(player));
-        } catch (Exception e) {
-            logger.error("Error occurred during player termination for " + player.getId().getName(), e);
-            return;
-        }
+        CleanstoneServer.publishEvent(new AsyncPlayerTerminationEvent(player));
         onlinePlayers.remove(player);
     }
 }
