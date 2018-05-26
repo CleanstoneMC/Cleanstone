@@ -43,15 +43,14 @@ public class PlayerMovePacketListener {
 
         Position oldPosition = entity.getPosition();
         Rotation oldRotation = entity.getRotation();
-        Position newPosition = new Position(oldPosition);
         Rotation newRotation = new Rotation(oldRotation);
 
         newRotation.setPitch(playerLookPacket.getPitch());
         newRotation.setYaw(playerLookPacket.getYaw());
 
-        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
-
         entity.setRotation(newRotation);
+
+        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, oldPosition, newRotation));
     }
 
     @Async(value = "playerExec")
@@ -73,15 +72,14 @@ public class PlayerMovePacketListener {
         Position oldPosition = entity.getPosition();
         Rotation oldRotation = entity.getRotation();
         Position newPosition = new Position(oldPosition);
-        Rotation newRotation = new Rotation(oldRotation);
 
         newPosition.setX(playerPositionPacket.getX());
         newPosition.setY(playerPositionPacket.getFeetY());
         newPosition.setZ(playerPositionPacket.getZ());
 
-        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
-
         entity.setPosition(newPosition);
+
+        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, oldRotation));
     }
 
     @Async(value = "playerExec")
@@ -111,9 +109,9 @@ public class PlayerMovePacketListener {
         newRotation.setPitch(playerPositionAndLookPacket.getPitch());
         newRotation.setYaw(playerPositionAndLookPacket.getYaw());
 
-        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
-
         entity.setPosition(newPosition);
         entity.setRotation(newRotation);
+
+        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
     }
 }
