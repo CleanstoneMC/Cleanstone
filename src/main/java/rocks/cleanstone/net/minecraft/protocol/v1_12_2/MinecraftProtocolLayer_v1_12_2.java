@@ -51,6 +51,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new TimeUpdateCodec(), TimeUpdatePacket.class);
         registerPacketCodec(new UnloadChunkCodec(), UnloadChunkPacket.class);
         registerPacketCodec(new BlockChangeCodec(), BlockChangePacket.class);
+        registerPacketCodec(new DestroyEntitiesCodec(), DestroyEntitiesPacket.class);
     }
 
     @Override

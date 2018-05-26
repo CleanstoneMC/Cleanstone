@@ -58,7 +58,7 @@ public enum MinecraftOutboundPacketType implements PacketType {
     PLAYER_POSITION_AND_LOOK(47, OutPlayerPositionAndLookPacket.class),
     //    USE_BED(48, UseBedPacket.class),
 //    UNLOCK_RECIPES(49, UnlockRecipesPacket.class),
-//    DESTROY_ENTITIES(50, DestroyEntitiesPacket.class),
+    DESTROY_ENTITIES(50, DestroyEntitiesPacket.class),
 //    REMOVE_ENTITY_EFFECT(51, RemoveEntityEffectPacket.class),
 //    RESOURCE_PACK_SEND(52, ResourcePackSendPacket.class),
 //    RESPAWN(53, RespawnPacket.class),
