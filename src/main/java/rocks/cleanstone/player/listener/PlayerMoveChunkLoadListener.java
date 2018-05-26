@@ -1,5 +1,8 @@
 package rocks.cleanstone.player.listener;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.game.Position;
@@ -11,104 +14,96 @@ import rocks.cleanstone.net.minecraft.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.UUID;
 
 public class PlayerMoveChunkLoadListener {
-    private final Map<String, Map<Integer, Set<Integer>>> playerHasLoaded = new HashMap<>();
 
-    private final FlatWorldGenerator flatWorldGenerator = new FlatWorldGenerator(); //TODO: Get correct Generator
+    private final Multimap<UUID, Pair<Integer, Integer>> playerHasLoaded = ArrayListMultimap.create();
 
-    @EventListener
+    private final FlatWorldGenerator flatWorldGenerator = new FlatWorldGenerator(); //TODO: Replace with getChunk(..)
+
     @Async("playerExec")
+    @EventListener
     public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
         final int chunkX = ((int) playerMoveEvent.getNewPosition().getX()) >> 4;
-        final int chunkZ = ((int) playerMoveEvent.getNewPosition().getZ()) >> 4;
-        final Player player = playerMoveEvent.getPlayer();
-        String uuid = player.getId().getUUID().toString();
+        final int chunkY = ((int) playerMoveEvent.getNewPosition().getZ()) >> 4;
 
-        if (isSameChunk(playerMoveEvent.getOldPosition(), playerMoveEvent.getNewPosition()) && hasPlayerLoaded(uuid, chunkX, chunkZ)) {
+        final Player player = playerMoveEvent.getPlayer();
+        UUID uuid = player.getId().getUUID();
+
+        if (isSameChunk(playerMoveEvent.getOldPosition(), playerMoveEvent.getNewPosition())
+                && hasPlayerLoaded(uuid, chunkX, chunkY)) {
             return;
         }
+        sendNewNearbyChunks(player, chunkX, chunkY);
+    }
 
-        for (int i = -8; i < 8; i++) {
-            for (int j = -8; j < 8; j++) {
-                final int currentX = chunkX + i;
-                final int currentZ = chunkZ + j;
+    protected void sendNewNearbyChunks(Player player, int chunkX, int chunkY) {
+        final int sendDistance = 4;
+        final int checkDistance = sendDistance * 2;
 
-                if (i < -4 || i > 4 || j < -4 || j > 4) { //TODO: Some weird flapping happens here
-                    if (hasPlayerLoaded(uuid, currentX, currentZ)) {
-                        playerUnload(uuid, currentX, currentZ);
+        UUID uuid = player.getId().getUUID();
+        for (int relX = -checkDistance; relX < checkDistance; relX++) {
+            for (int relY = -checkDistance; relY < checkDistance; relY++) {
+                final int currentX = chunkX + relX;
+                final int currentY = chunkY + relY;
 
-                        sendChunkUnload(player, currentX, currentZ);
+                if (relX < -sendDistance || relX > sendDistance
+                        || relY < -sendDistance || relY > sendDistance) { // TODO: Some weird flapping happens here
+                    if (hasPlayerLoaded(uuid, currentX, currentY)) {
+                        playerUnload(uuid, currentX, currentY);
+                        sendChunkUnload(player, currentX, currentY);
                     }
-
                     continue;
                 }
 
-                if (!hasPlayerLoaded(uuid, currentX, currentZ)) {
-                    playerLoad(uuid, currentX, currentZ);
-
-                    sendChunkLoad(player, currentX, currentZ);
+                if (!hasPlayerLoaded(uuid, currentX, currentY)) {
+                    playerLoad(uuid, currentX, currentY);
+                    sendChunkLoad(player, currentX, currentY);
                 }
             }
         }
     }
 
-    @Async("playerExec")
-    protected void sendChunkUnload(Player player, int x, int z) {
-        UnloadChunkPacket unloadChunkPacket = new UnloadChunkPacket(x, z);
+    protected void sendChunkUnload(Player player, int x, int y) {
+        UnloadChunkPacket unloadChunkPacket = new UnloadChunkPacket(x, y);
         player.sendPacket(unloadChunkPacket);
     }
 
-    @Async("playerExec")
-    protected void sendChunkLoad(Player player, int x, int z) {
-        ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(flatWorldGenerator.generateChunk(x, z), true);
+    protected void sendChunkLoad(Player player, int x, int y) {
+        ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(flatWorldGenerator.generateChunk(x, y), true);
         player.sendPacket(chunkDataPacket);
     }
 
-    @EventListener
     @Async("playerExec")
+    @EventListener
     public void onPlayerDisconnect(PlayerQuitEvent playerQuitEvent) {
-        playerUnloadAll(playerQuitEvent.getPlayer().getId().getUUID().toString());
+        playerUnloadAll(playerQuitEvent.getPlayer().getId().getUUID());
     }
 
     private boolean isSameChunk(Position oldPosition, Position newPosition) {
         final int oldChunkX = ((int) oldPosition.getX()) >> 4;
-        final int oldChunkZ = ((int) oldPosition.getZ()) >> 4;
+        final int oldChunkY = ((int) oldPosition.getZ()) >> 4;
 
         final int newChunkX = ((int) newPosition.getX()) >> 4;
-        final int newChunkZ = ((int) newPosition.getZ()) >> 4;
+        final int newChunkY = ((int) newPosition.getZ()) >> 4;
 
-        return oldChunkX == newChunkX && oldChunkZ == newChunkZ;
+        return oldChunkX == newChunkX && oldChunkY == newChunkY;
     }
 
-    private void playerLoad(String uuid, int x, int z) {
-        checkMap(uuid, x, z);
-
-        playerHasLoaded.get(uuid).get(x).add(z);
+    private void playerLoad(UUID uuid, int chunkX, int chunkY) {
+        playerHasLoaded.get(uuid).add(Pair.of(chunkX, chunkY));
     }
 
-    private void playerUnload(String uuid, int x, int z) {
-        checkMap(uuid, x, z);
-
-        playerHasLoaded.get(uuid).get(x).remove(z);
+    private void playerUnload(UUID uuid, int chunkX, int chunkY) {
+        playerHasLoaded.get(uuid).remove(Pair.of(chunkX, chunkY));
     }
 
-    private boolean hasPlayerLoaded(String uuid, int x, int z) {
-        checkMap(uuid, x, z);
-
-        return playerHasLoaded.get(uuid).get(x).contains(z);
+    private boolean hasPlayerLoaded(UUID uuid, int chunkX, int chunkY) {
+        return playerHasLoaded.get(uuid).contains(Pair.of(chunkX, chunkY));
     }
 
-    private void playerUnloadAll(String uuid) {
-        playerHasLoaded.remove(uuid);
-    }
-
-    private void checkMap(String uuid, int x, int z) {
-        playerHasLoaded.putIfAbsent(uuid, new HashMap<>());
-        playerHasLoaded.get(uuid).putIfAbsent(x, new HashSet<>());
+    private void playerUnloadAll(UUID uuid) {
+        playerHasLoaded.removeAll(uuid);
     }
 }
