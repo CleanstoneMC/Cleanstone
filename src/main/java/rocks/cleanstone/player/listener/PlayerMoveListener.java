@@ -39,8 +39,8 @@ public class PlayerMoveListener {
                 .findFirst().get();
         int entityID = entityMoveEvent.getEntity().getEntityID();
 
-        float pitch = newRotation.getPitch();
-        float yaw = newRotation.getYaw();
+        int pitch = newRotation.getIntPitch();
+        int yaw = newRotation.getIntYaw();
 
         if (oldPosition.equals(newPosition)) {
             if (oldRotation.equals(newRotation)) {

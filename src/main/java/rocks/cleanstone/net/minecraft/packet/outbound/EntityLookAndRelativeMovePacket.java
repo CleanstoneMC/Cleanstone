@@ -10,11 +10,11 @@ public class EntityLookAndRelativeMovePacket implements Packet {
     private final short deltaX;
     private final short deltaY;
     private final short deltaZ;
-    private final float yaw;
-    private final float pitch;
+    private final int yaw;
+    private final int pitch;
     private final boolean onGround;
 
-    public EntityLookAndRelativeMovePacket(int entityID, short deltaX, short deltaY, short deltaZ, float yaw, float pitch, boolean onGround) {
+    public EntityLookAndRelativeMovePacket(int entityID, short deltaX, short deltaY, short deltaZ, int yaw, int pitch, boolean onGround) {
         this.entityID = entityID;
         this.deltaX = deltaX;
         this.deltaY = deltaY;
@@ -40,11 +40,11 @@ public class EntityLookAndRelativeMovePacket implements Packet {
         return deltaZ;
     }
 
-    public float getYaw() {
+    public int getYaw() {
         return yaw;
     }
 
-    public float getPitch() {
+    public int getPitch() {
         return pitch;
     }
 

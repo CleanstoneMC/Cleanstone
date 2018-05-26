@@ -29,4 +29,13 @@ public class Rotation {
     public void setYaw(float yaw) {
         this.yaw = yaw;
     }
+
+    public int getIntYaw() {
+        return (int) (yaw % 360 / 360 * 256);
+    }
+
+    public int getIntPitch() {
+        return (int) (pitch % 360 / 360 * 256);
+    }
+
 }
