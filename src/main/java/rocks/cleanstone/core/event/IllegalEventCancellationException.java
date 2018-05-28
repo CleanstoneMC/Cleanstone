@@ -1,6 +1,6 @@
 package rocks.cleanstone.core.event;
 
-public class IllegalEventCancellationException extends RuntimeException {
+public class IllegalEventCancellationException extends EventExecutionException {
     public IllegalEventCancellationException() {
         super();
     }

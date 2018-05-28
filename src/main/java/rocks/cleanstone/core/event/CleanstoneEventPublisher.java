@@ -12,18 +12,17 @@ public class CleanstoneEventPublisher {
     private static Logger LOGGER = LoggerFactory.getLogger(CleanstoneEventPublisher.class);
     @Autowired
     private ApplicationEventPublisher publisher;
+    @Autowired
+    private CleanstoneEventMulticaster multicaster;
 
-    public <T> T publishEvent(T event, boolean rethrowErrors) {
+    public synchronized <T> T publishEvent(T event, boolean rethrowExceptions) throws EventExecutionException {
         long preEventTime = System.currentTimeMillis();
         String eventName = event.getClass().getSimpleName();
+        multicaster.getErrorHandler().setRethrowExceptions(rethrowExceptions);
         try {
             publisher.publishEvent(event);
         } catch (EventCancellationException e) {
             LOGGER.info("Event " + eventName + " was cancelled");
-        } catch (Exception e) {
-            if (!rethrowErrors)
-                LOGGER.error("Failed to execute event listener for " + eventName, e);
-            else throw e;
         }
         if (System.currentTimeMillis() - preEventTime > 50 && !eventName.startsWith("Async")) {
             LOGGER.warn("Listeners for non-async event " + eventName + " needed "

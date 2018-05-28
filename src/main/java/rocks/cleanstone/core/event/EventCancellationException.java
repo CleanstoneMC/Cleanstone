@@ -4,8 +4,4 @@ public class EventCancellationException extends RuntimeException {
     public EventCancellationException() {
         super();
     }
-
-    public EventCancellationException(String message) {
-        super(message);
-    }
 }

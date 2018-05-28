@@ -6,6 +6,7 @@ import org.springframework.context.MessageSource;
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
+import rocks.cleanstone.core.event.EventExecutionException;
 
 import java.util.Locale;
 
@@ -29,9 +30,9 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     public static <T> T publishEvent(T event) {
         return publishEvent(event, false);
     }
-
-    public static <T> T publishEvent(T event, boolean rethrowErrors) {
-        return getInstance().eventPublisher.publishEvent(event, rethrowErrors);
+    
+    public static <T> T publishEvent(T event, boolean rethrowExceptions) throws EventExecutionException {
+        return getInstance().eventPublisher.publishEvent(event, rethrowExceptions);
     }
 
     public static String getMessage(String id, Object... args) {
