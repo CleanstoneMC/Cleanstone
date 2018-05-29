@@ -1,9 +1,11 @@
 package rocks.cleanstone.game.command.listener;
 
 import org.springframework.context.event.EventListener;
-
 import rocks.cleanstone.game.chat.event.PlayerIssuedCommandEvent;
-import rocks.cleanstone.game.command.*;
+import rocks.cleanstone.game.command.Command;
+import rocks.cleanstone.game.command.CommandMessage;
+import rocks.cleanstone.game.command.CommandParser;
+import rocks.cleanstone.game.command.CommandRegistry;
 
 public class CommandListener {
 
@@ -16,8 +18,8 @@ public class CommandListener {
     }
 
     @EventListener
-    public void onCommand(PlayerIssuedCommandEvent playerIssuedCommandEvent) {
-        CommandMessage commandMessage = commandParser.getCommandMessageFromMessage(playerIssuedCommandEvent.getPlayer(), playerIssuedCommandEvent.getCommand());
+    public void onCommand(PlayerIssuedCommandEvent event) {
+        CommandMessage commandMessage = commandParser.getCommandMessageFromMessage(event.getPlayer(), event.getCommand());
 
         if (commandMessage == null) {
             //TODO: Command not found

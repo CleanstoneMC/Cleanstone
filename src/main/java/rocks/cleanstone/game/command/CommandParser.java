@@ -27,7 +27,7 @@ public class CommandParser {
 
         String mainCommand = split[0];
 
-        return commandRegistry.getCommandByName(mainCommand);
+        return commandRegistry.getCommand(mainCommand);
     }
 
     @Nullable
@@ -64,7 +64,7 @@ public class CommandParser {
         strings.addAll(Arrays.asList(message.split(" ")));
 
         final int neededParams = 0;
-        Command command = commandRegistry.getCommandByName(strings.pop());
+        Command command = commandRegistry.getCommand(strings.pop());
         while (!strings.empty() && strings.size() > neededParams) {
             if (command == null) {
                 return null;
@@ -92,6 +92,6 @@ public class CommandParser {
 
         String commandString = messageWithoutSlash.substring(commandParameter.length() * -1);
 
-        return new SimpleCommandMessage(commandSender, message, commandString, strings);
+        return new SimpleCommandMessage(commandSender, message, commandString, strings, commandRegistry);
     }
 }

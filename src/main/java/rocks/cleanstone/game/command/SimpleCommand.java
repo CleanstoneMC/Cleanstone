@@ -2,37 +2,42 @@ package rocks.cleanstone.game.command;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.chat.Console;
+import rocks.cleanstone.game.command.executor.CommandExecutor;
+import rocks.cleanstone.game.command.executor.SubCommandExecutor;
 import rocks.cleanstone.game.permission.Permission;
 import rocks.cleanstone.player.Player;
 
-public abstract class SimpleCommand implements Command {
+import java.util.*;
+
+public class SimpleCommand implements Command {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     private final String name;
     private final List<String> aliases;
     private final Map<String, Command> subCommandMap = new HashMap<>();
+    private final CommandExecutor commandExecutor;
 
-    public SimpleCommand(String name, Collection<String> aliases) {
+    public SimpleCommand(String name, Collection<String> aliases, CommandExecutor commandExecutor) {
         this.name = name;
         this.aliases = new ArrayList<>(aliases);
+        this.commandExecutor = commandExecutor;
+    }
+
+    public SimpleCommand(String name, CommandExecutor commandExecutor) {
+        this(name, new ArrayList<>(), commandExecutor);
+    }
+
+    public SimpleCommand(String name, Collection<String> aliases) {
+        this(name, aliases, null);
     }
 
     public SimpleCommand(String name) {
-        this(name, new ArrayList<>());
+        this(name, new ArrayList<>(), null);
     }
 
     @Override
-    public Permission getCommandPermission() {
+    public Permission getPermission() {
         return null;
     }
 
@@ -42,18 +47,15 @@ public abstract class SimpleCommand implements Command {
     }
 
     @Override
-    public boolean generatesTabCompletion() {
-        return true;
+    public Command addSubCommand(Command subCommand, String... names) {
+        for (String name : names)
+            getSubCommands().put(name, subCommand);
+        return this;
     }
 
     @Override
     public boolean showInHelp() {
         return true;
-    }
-
-    @Override
-    public String getHelpPage() {
-        return null;
     }
 
     @Override
@@ -84,15 +86,10 @@ public abstract class SimpleCommand implements Command {
 
     @Override
     public void execute(CommandMessage commandMessage) {
-    }
-
-    @Override
-    public int getMinimumParameters() {
-        return 0;
-    }
-
-    @Override
-    public Class[] getParameterTypes() {
-        return new Class[0];
+        if (commandExecutor != null) {
+            commandExecutor.execute(commandMessage);
+        } else {
+            new SubCommandExecutor(this).execute(commandMessage);
+        }
     }
 }

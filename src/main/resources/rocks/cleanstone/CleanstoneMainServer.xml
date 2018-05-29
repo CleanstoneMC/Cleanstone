@@ -120,7 +120,9 @@
     </bean>
 
     <!-- Commands -->
-    <bean id="commandRegistry" class="rocks.cleanstone.game.command.CommandRegistry"/>
+    <bean id="commandRegistry" class="rocks.cleanstone.game.command.SimpleCommandRegistry">
+        <constructor-arg ref="playerManager"/>
+    </bean>
     <bean id="commandParser" class="rocks.cleanstone.game.command.CommandParser">
         <constructor-arg ref="commandRegistry"/>
     </bean>

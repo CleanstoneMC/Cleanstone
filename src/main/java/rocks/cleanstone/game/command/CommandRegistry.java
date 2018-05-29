@@ -1,57 +1,26 @@
 package rocks.cleanstone.game.command;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
-import rocks.cleanstone.game.command.commands.SetCommand;
-
-import java.util.HashMap;
-import java.util.Map;
+import rocks.cleanstone.game.command.parameter.CommandParameter;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Set;
 
-public class CommandRegistry {
+public interface CommandRegistry {
+    void registerCommand(Command command, boolean force);
 
-    private final Map<String, Command> commandMap = new HashMap<>();
+    void unregisterCommand(Command command);
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    Command getCommand(String command);
 
-    public CommandRegistry() {
-        registerCommand(new SetCommand(), false);
-    }
+    Collection<Command> getAllCommands();
 
-    public void registerCommand(Command command, boolean force) {
-        if (commandMap.containsKey(command.getName()) && !force) {
-            //TODO: Do not register! Throw exception
-            return;
-        }
+    void registerCommandParameter(CommandParameter commandParameter);
 
-        commandMap.put(command.getName(), command);
+    @Nullable
+    <T> CommandParameter<? extends T> getCommandParameter(Class<? extends T> parameterClass);
 
-        if (command.getAliases().size() != 0) {
-            for (String alias : command.getAliases()) {
-                if (commandMap.containsKey(alias)) {
-                    continue; // We dont want to override Commands with aliases
-                }
+    Set<CommandParameter<?>> getCommandParameters();
 
-                //TODO: Maybe Override Aliases?
-
-                commandMap.put(alias, command);
-            }
-        }
-    }
-
-    public Command getCommandByName(String command) {
-        return commandMap.get(command);
-    }
-
-    /**
-     * Please execute Commands with this and dont call execute it directly
-     * @param command The Command
-     * @param commandMessage The Command message
-     */
-    @Async("commandExec")
-    public void executeCommand(Command command, CommandMessage commandMessage) {
-        command.execute(commandMessage);
-    }
+    void executeCommand(Command command, CommandMessage commandMessage);
 }
