@@ -12,7 +12,7 @@ import rocks.cleanstone.net.packet.Packet;
 import java.net.InetAddress;
 import java.util.Collection;
 
-public class OnlinePlayer extends AbstractPlayer implements CommandSender {
+public class OnlinePlayer extends AbstractPlayer {
 
     private final Connection connection;
     private final Collection<UserProperty> userProperties;

@@ -29,7 +29,7 @@ public class PlayerInitializationCauseListener {
         Player alreadyOnlinePlayer = playerManager.getOnlinePlayer(playerID);
         if (alreadyOnlinePlayer != null) {
             alreadyOnlinePlayer.kick(Text.of(CleanstoneServer.getMessage(
-                    "core.player.logged-in-from-another-location")));
+                    "player.logged-in-from-another-location")));
             playerManager.terminatePlayer(alreadyOnlinePlayer);
         }
 
