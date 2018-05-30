@@ -4,22 +4,21 @@ import com.google.common.base.Preconditions;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
 import rocks.cleanstone.player.Player;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class SimpleCommandMessage implements CommandMessage {
 
     private final CommandSender commandSender;
-    private final String fullCommand;
+    private final String fullMessage;
     private final String commandName;
     private final List<String> parameters;
     private final CommandRegistry commandRegistry;
     private int parameterIndex = 0;
 
-    public SimpleCommandMessage(CommandSender commandSender, String fullCommand, String commandName,
+    public SimpleCommandMessage(CommandSender commandSender, String fullMessage, String commandName,
                                 List<String> parameters, CommandRegistry commandRegistry) {
         this.commandSender = commandSender;
-        this.fullCommand = fullCommand;
+        this.fullMessage = fullMessage;
         this.commandName = commandName;
         this.parameters = parameters;
         this.commandRegistry = commandRegistry;
@@ -32,7 +31,7 @@ public class SimpleCommandMessage implements CommandMessage {
 
     @Override
     public String getFullMessage() {
-        return fullCommand;
+        return fullMessage;
     }
 
     @Override
@@ -46,12 +45,6 @@ public class SimpleCommandMessage implements CommandMessage {
     }
 
     @Override
-    @Nullable
-    public String getNextParameter() {
-        return parameters.size() <= parameterIndex ? null : parameters.get(parameterIndex);
-    }
-
-    @Override
     public void setParameterIndex(int parameterIndex) {
         this.parameterIndex = parameterIndex;
     }
@@ -59,6 +52,10 @@ public class SimpleCommandMessage implements CommandMessage {
     @Override
     public int getParameterIndex() {
         return parameterIndex;
+    }
+
+    private String getNextParameter() {
+        return parameters.size() <= parameterIndex ? null : parameters.get(parameterIndex);
     }
 
     @Override

@@ -1,10 +1,11 @@
 package rocks.cleanstone.game.command;
 
+import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.chat.Console;
 import rocks.cleanstone.game.command.executor.CommandExecutor;
-import rocks.cleanstone.game.command.executor.SubCommandExecutor;
+import rocks.cleanstone.game.command.executor.HelpPageExecutor;
 import rocks.cleanstone.game.permission.Permission;
 import rocks.cleanstone.player.Player;
 
@@ -12,16 +13,20 @@ import java.util.*;
 
 public class SimpleCommand implements Command {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String name;
     private final List<String> aliases;
     private final Map<String, Command> subCommandMap = new HashMap<>();
     private final CommandExecutor commandExecutor;
+    private final Class[] expectedParameterTypes;
+    private final Collection<Command> parents = new HashSet<>();
 
-    public SimpleCommand(String name, Collection<String> aliases, CommandExecutor commandExecutor) {
+    public SimpleCommand(String name, Collection<String> aliases, CommandExecutor commandExecutor,
+                         Class... expectedParameterTypes) {
         this.name = name;
         this.aliases = new ArrayList<>(aliases);
         this.commandExecutor = commandExecutor;
+        this.expectedParameterTypes = expectedParameterTypes;
     }
 
     public SimpleCommand(String name, CommandExecutor commandExecutor) {
@@ -43,13 +48,14 @@ public class SimpleCommand implements Command {
 
     @Override
     public Map<String, Command> getSubCommands() {
-        return subCommandMap;
+        return ImmutableMap.copyOf(subCommandMap);
     }
 
     @Override
     public Command addSubCommand(Command subCommand, String... names) {
         for (String name : names)
-            getSubCommands().put(name, subCommand);
+            subCommandMap.put(name, subCommand);
+        subCommand.getParents().add(this);
         return this;
     }
 
@@ -85,11 +91,33 @@ public class SimpleCommand implements Command {
     }
 
     @Override
+    public Class[] getExpectedParameterTypes() {
+        return expectedParameterTypes;
+    }
+
+    @Override
+    public Collection<Command> getParents() {
+        return parents;
+    }
+
+    @Override
     public void execute(CommandMessage commandMessage) {
         if (commandExecutor != null) {
             commandExecutor.execute(commandMessage);
-        } else {
-            new SubCommandExecutor(this).execute(commandMessage);
+        } else new HelpPageExecutor(this).execute(commandMessage);
+    }
+
+    @Override
+    public void execute(CommandMessage message, boolean considerSubCommands) {
+        if (considerSubCommands && message.isParameterPresent(String.class)) {
+            String parameter = message.requireParameter(String.class);
+            Command subCommand = getSubCommands().get(parameter.toLowerCase(Locale.ENGLISH));
+            if (subCommand != null) {
+                subCommand.execute(message, true);
+                return;
+            }
+            message.setParameterIndex(message.getParameterIndex() - 1);
         }
+        execute(message);
     }
 }

@@ -14,6 +14,7 @@ import rocks.cleanstone.player.PlayerManager;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,30 +36,40 @@ public class SimpleCommandRegistry implements CommandRegistry {
     }
 
     @Override
-    public void registerCommand(Command command, boolean force) {
-        if (commandMap.containsKey(command.getName()) && !force) {
-            //TODO: Do not register! Throw exception
-            return;
+    public boolean registerCommand(Command command, boolean force) {
+        String commandName = command.getName().toLowerCase(Locale.ENGLISH);
+        if (isRegisteredCommandName(commandName) && !force) {
+            return false;
         }
+        commandMap.put(commandName, command);
 
-        commandMap.put(command.getName(), command);
-
-        if (command.getAliases().size() != 0) {
-            for (String alias : command.getAliases()) {
-                if (commandMap.containsKey(alias)) {
-                    continue; // We dont want to override Commands with aliases
-                }
-
-                //TODO: Maybe Override Aliases?
-
-                commandMap.put(alias, command);
+        for (String alias : command.getAliases()) {
+            alias = alias.toLowerCase(Locale.ENGLISH);
+            if (commandMap.containsKey(alias) && !force) {
+                continue;
+            } else if (isRegisteredCommandName(alias)) {
+                continue;
             }
+            commandMap.put(alias, command);
         }
+        return true;
+    }
+
+    @Override
+    public boolean registerCommand(Command command) {
+        return registerCommand(command, false);
+    }
+
+    private boolean isRegisteredCommandName(String name) {
+        Command command = getCommand(name);
+        if (command == null) return false;
+        return command.getName().equalsIgnoreCase(name);
     }
 
     @Override
     public void unregisterCommand(Command command) {
         commandMap.values().removeIf(cmd -> cmd.equals(command));
+        // TODO unregister children?
     }
 
     @Override
@@ -78,7 +89,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
     @Override
     @Nullable
-    public <T> CommandParameter<? extends T> getCommandParameter(Class<? extends T> parameterClass) {
+    public <T> CommandParameter<? extends T> getCommandParameter(Class<T> parameterClass) {
         //noinspection unchecked
         return (CommandParameter<? extends T>) commandParameters.stream().filter(
                 parameter -> parameterClass.isAssignableFrom(parameter.getParameterClass())).findFirst().orElse(null);
@@ -86,7 +97,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
     @Override
     public Set<CommandParameter<?>> getCommandParameters() {
-        return commandParameters;
+        return ImmutableSet.copyOf(commandParameters);
     }
 
     /**
@@ -99,9 +110,11 @@ public class SimpleCommandRegistry implements CommandRegistry {
     @Override
     public void executeCommand(Command command, CommandMessage commandMessage) {
         try {
-            command.execute(commandMessage);
+            command.execute(commandMessage, true);
         } catch (InvalidParameterException | NotEnoughParametersException e) {
             new HelpPageExecutor(command).execute(commandMessage);
+        } catch (Exception e) {
+            throw new CommandException("Error occurred while executing command " + command.getName(), e);
         }
     }
 }

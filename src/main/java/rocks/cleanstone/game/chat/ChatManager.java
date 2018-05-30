@@ -20,7 +20,7 @@ public class ChatManager {
         playerManager.broadcastPacket(chatMessagePacket, excludedPlayers);
     }
 
-    public void sendChatMessage(Player receiver,Chat message) {
+    public void sendChatMessage(Player receiver, Chat message) {
         receiver.sendPacket(new OutChatMessagePacket(message, ChatPosition.CHAT));
     }
 }

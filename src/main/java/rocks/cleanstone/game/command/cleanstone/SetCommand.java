@@ -8,7 +8,6 @@ public class SetCommand extends SimpleCommand {
     public SetCommand() {
         super("set");
         addSubCommand(new Name(), "name");
-        addSubCommand(new GameModeCommand(), "gamemode", "gm");
     }
 
     private class Name extends SimpleCommand {

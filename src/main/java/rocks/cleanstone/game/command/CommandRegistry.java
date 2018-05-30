@@ -7,7 +7,9 @@ import java.util.Collection;
 import java.util.Set;
 
 public interface CommandRegistry {
-    void registerCommand(Command command, boolean force);
+    boolean registerCommand(Command command, boolean force);
+
+    boolean registerCommand(Command command);
 
     void unregisterCommand(Command command);
 
@@ -18,7 +20,7 @@ public interface CommandRegistry {
     void registerCommandParameter(CommandParameter commandParameter);
 
     @Nullable
-    <T> CommandParameter<? extends T> getCommandParameter(Class<? extends T> parameterClass);
+    <T> CommandParameter<? extends T> getCommandParameter(Class<T> parameterClass);
 
     Set<CommandParameter<?>> getCommandParameters();
 

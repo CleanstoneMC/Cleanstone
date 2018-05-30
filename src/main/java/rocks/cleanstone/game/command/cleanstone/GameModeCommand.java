@@ -19,5 +19,11 @@ public class GameModeCommand extends SimpleCommand {
         Player target = message.requireTargetPlayer();
 
         target.setGameMode(gameMode);
+        target.sendMessage("Gamemode set to " + gameMode.toString());
+    }
+
+    @Override
+    public Class[] getExpectedParameterTypes() {
+        return new Class[]{GameMode.class, Player.class};
     }
 }
