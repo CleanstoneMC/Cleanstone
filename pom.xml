@@ -72,29 +72,6 @@
         </plugins>
     </reporting>
 
-    <repositories>
-        <repository>
-            <id>spring-repo</id>
-            <url>https://mvnrepository.com/artifact/org.springframework</url>
-        </repository>
-        <repository>
-            <id>netty-repo</id>
-            <url>https://mvnrepository.com/artifact/io.netty/netty-all</url>
-        </repository>
-        <repository>
-            <id>guava-repo</id>
-            <url>https://mvnrepository.com/artifact/com.google.guava/guava</url>
-        </repository>
-        <repository>
-            <id>apache-commons-repo</id>
-            <url>https://mvnrepository.com/artifact/org.apache.commons/commons-lang3</url>
-        </repository>
-        <repository>
-            <id>javax-persistence</id>
-            <url>https://mvnrepository.com/artifact/javax.persistence/persistence-api</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <!-- Spring Boot -->
         <dependency>
