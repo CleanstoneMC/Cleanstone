@@ -27,6 +27,11 @@ public class SimpleWorldLoader implements WorldLoader {
         return new AsyncResult<>(world);
     }
 
+    @Override
+    public void unloadWorld(String id) {
+
+    }
+
     public WorldDataSource getDataSource(String id) {
         return new LevelDBWorldDataSource(id);
     }

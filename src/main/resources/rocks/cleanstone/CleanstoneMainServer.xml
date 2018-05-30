@@ -87,11 +87,14 @@
 
     <!-- World Loader -->
     <bean id="worldLoader" class="rocks.cleanstone.game.world.SimpleWorldLoader"/>
+    <bean id="worldManager" class="rocks.cleanstone.game.world.SimpleWorldManager">
+        <constructor-arg ref="worldLoader"/>
+    </bean>
 
     <!-- Game -->
     <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame">
         <constructor-arg ref="cleanstoneMainServer"/>
-        <constructor-arg ref="worldLoader"/>
+        <constructor-arg ref="worldManager"/>
     </bean>
 
     <!-- Block Place -->
