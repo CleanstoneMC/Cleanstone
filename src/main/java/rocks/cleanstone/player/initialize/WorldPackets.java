@@ -22,9 +22,9 @@ public class WorldPackets {
     public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
 
-        World world = player.getEntity().getPosition().getWorld();
-        Position playerPosition = player.getEntity().getPosition();
-        Rotation playerRotation = player.getEntity().getRotation();
+        World world = player.getEntity().getLocation().getPosition().getWorld();
+        Position playerPosition = player.getEntity().getLocation().getPosition();
+        Rotation playerRotation = player.getEntity().getLocation().getRotation();
 
         player.sendPacket(
                 new JoinGamePacket(

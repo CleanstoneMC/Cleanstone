@@ -41,14 +41,14 @@ public class PlayerMovePacketListener {
             return;
         }
 
-        Position oldPosition = entity.getPosition();
-        Rotation oldRotation = entity.getRotation();
+        Position oldPosition = entity.getLocation().getPosition();
+        Rotation oldRotation = entity.getLocation().getRotation();
         Rotation newRotation = new Rotation(oldRotation);
 
         newRotation.setPitch(playerLookPacket.getPitch());
         newRotation.setYaw(playerLookPacket.getYaw());
 
-        entity.setRotation(newRotation);
+        entity.getLocation().setRotation(newRotation);
 
         CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, oldPosition, newRotation));
     }
@@ -69,15 +69,15 @@ public class PlayerMovePacketListener {
             return;
         }
 
-        Position oldPosition = entity.getPosition();
-        Rotation oldRotation = entity.getRotation();
+        Position oldPosition = entity.getLocation().getPosition();
+        Rotation oldRotation = entity.getLocation().getRotation();
         Position newPosition = new Position(oldPosition);
 
         newPosition.setX(playerPositionPacket.getX());
         newPosition.setY(playerPositionPacket.getFeetY());
         newPosition.setZ(playerPositionPacket.getZ());
 
-        entity.setPosition(newPosition);
+        entity.getLocation().setPosition(newPosition);
 
         CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, oldRotation));
     }
@@ -97,8 +97,8 @@ public class PlayerMovePacketListener {
             return;
         }
 
-        Position oldPosition = entity.getPosition();
-        Rotation oldRotation = entity.getRotation();
+        Position oldPosition = entity.getLocation().getPosition();
+        Rotation oldRotation = entity.getLocation().getRotation();
         Position newPosition = new Position(oldPosition);
         Rotation newRotation = new Rotation(oldRotation);
 
@@ -109,8 +109,8 @@ public class PlayerMovePacketListener {
         newRotation.setPitch(playerPositionAndLookPacket.getPitch());
         newRotation.setYaw(playerPositionAndLookPacket.getYaw());
 
-        entity.setPosition(newPosition);
-        entity.setRotation(newRotation);
+        entity.getLocation().setPosition(newPosition);
+        entity.getLocation().setRotation(newRotation);
 
         CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
     }

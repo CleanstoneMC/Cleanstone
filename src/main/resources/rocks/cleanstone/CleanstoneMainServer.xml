@@ -64,9 +64,9 @@
     <bean id="playerMoveChunkLoadListener" class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener"/>
 
     <!-- Initialization -->
-    <bean id="playerData" class="rocks.cleanstone.player.initialize.PlayerData"/>
-    <bean id="playerEntity" class="rocks.cleanstone.player.initialize.PlayerEntity">
-        <constructor-arg ref="entityManager"/>
+    <bean id="playerData" class="rocks.cleanstone.player.initialize.PlayerData">
+        <constructor-arg index="0" ref="game"/>
+        <constructor-arg index="1" ref="entityManager"/>
     </bean>
     <bean id="worldPackets" class="rocks.cleanstone.player.initialize.WorldPackets">
     </bean>
@@ -92,8 +92,7 @@
     </bean>
 
     <!-- Game -->
-    <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame">
-        <constructor-arg ref="cleanstoneMainServer"/>
+    <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame" lazy-init="true">
         <constructor-arg ref="worldManager"/>
     </bean>
 

@@ -1,28 +1,22 @@
 package rocks.cleanstone.game.entity;
 
-import rocks.cleanstone.game.Position;
-
 public abstract class AbstractEntity implements Entity {
 
     private int entityID;
 
     private final EntityType type;
 
-    private Position position;
+    private Location location;
 
-    private Rotation rotation;
-
-    protected AbstractEntity(int entityID, EntityType type, Position position, Rotation rotation) {
+    protected AbstractEntity(int entityID, EntityType type, Location location) {
         this.entityID = entityID;
         this.type = type;
-        this.position = position;
-        this.rotation = rotation;
+        this.location = location;
     }
 
-    protected AbstractEntity(EntityType type, Position position, Rotation rotation) {
+    protected AbstractEntity(EntityType type, Location location) {
         this.type = type;
-        this.position = position;
-        this.rotation = rotation;
+        this.location = location;
     }
 
     public EntityType getType() {
@@ -37,20 +31,13 @@ public abstract class AbstractEntity implements Entity {
         this.entityID = entityID;
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
+    @Override
+    public Location getLocation() {
+        return location;
     }
 
     @Override
-    public Rotation getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(Rotation rotation) {
-        this.rotation = rotation;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

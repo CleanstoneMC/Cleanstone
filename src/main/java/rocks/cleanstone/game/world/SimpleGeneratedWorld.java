@@ -4,6 +4,9 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.Position;
+import rocks.cleanstone.game.entity.Location;
+import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
 import rocks.cleanstone.game.world.region.RegionWorker;
@@ -25,13 +28,19 @@ public class SimpleGeneratedWorld implements World {
     private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
     private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
     private LevelType levelType = LevelType.FLAT; //TODO: Move
+    private Location spawnLocation;
 
-    public SimpleGeneratedWorld(String id, WorldDataSource dataSource, WorldGenerator generator) {
+    public SimpleGeneratedWorld(String id, WorldDataSource dataSource, WorldGenerator generator, Location spawnLocation) {
         this.id = id;
         this.dataSource = dataSource;
         this.generator = generator;
+        this.spawnLocation = spawnLocation;
         regions = HashBasedTable.create();
         regionWorkersMap = Maps.newConcurrentMap();
+    }
+
+    public SimpleGeneratedWorld(String id, WorldDataSource dataSource, WorldGenerator generator) {
+        this(id, dataSource, generator, null);
     }
 
     @Override
@@ -52,6 +61,15 @@ public class SimpleGeneratedWorld implements World {
     @Override
     public LevelType getLevelType() {
         return levelType;
+    }
+
+    @Override
+    public Location getFirstSpawnLocation() {
+        if (spawnLocation == null) {
+            spawnLocation = new Location(new Position(0, 46, 0, this), new Rotation(0, 0)); //TODO: Check if y is highest block
+        }
+
+        return spawnLocation;
     }
 
     public WorldGenerator getGenerator() {

@@ -3,6 +3,8 @@ package rocks.cleanstone.player.initialize;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
+import rocks.cleanstone.game.entity.Entity;
+import rocks.cleanstone.game.entity.Location;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
@@ -29,8 +31,11 @@ public class SpawnPlayerPackets {
      * This sends the Spawn Packet for the Spawned User to the other Users
      */
     private void sendToOther(Player player) {
-        SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(player.getEntity().getEntityID(), player.getId().getUUID(), player.getEntity().getPosition().getX(), player.getEntity().getPosition().getY(), player.getEntity().getPosition().getZ(),
-                player.getEntity().getRotation().getYaw(), player.getEntity().getRotation().getPitch(), null); //TODO: Add Metadata
+        Entity entity = player.getEntity();
+        Location location = entity.getLocation();
+
+        SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(entity.getEntityID(), player.getId().getUUID(), location.getPosition().getX(), location.getPosition().getY(), location.getPosition().getZ(),
+                location.getRotation().getYaw(), location.getRotation().getPitch(), null); //TODO: Add Metadata
 
         playerManager.broadcastPacket(spawnPlayerPacket, player);
     }
@@ -45,8 +50,11 @@ public class SpawnPlayerPackets {
                         return;
                     }
 
-                    SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(onlinePlayer.getEntity().getEntityID(), onlinePlayer.getId().getUUID(), onlinePlayer.getEntity().getPosition().getX(), onlinePlayer.getEntity().getPosition().getY(), onlinePlayer.getEntity().getPosition().getZ(),
-                            onlinePlayer.getEntity().getRotation().getYaw(), onlinePlayer.getEntity().getRotation().getPitch(), null); //TODO: Add Metadata
+                    Entity entity = player.getEntity();
+                    Location location = entity.getLocation();
+
+                    SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(entity.getEntityID(), onlinePlayer.getId().getUUID(), location.getPosition().getX(), location.getPosition().getY(), location.getPosition().getZ(),
+                            location.getRotation().getYaw(), location.getRotation().getPitch(), null); //TODO: Add Metadata
 
                     player.sendPacket(spawnPlayerPacket);
                 });
