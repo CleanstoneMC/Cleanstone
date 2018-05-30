@@ -1,6 +1,5 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;

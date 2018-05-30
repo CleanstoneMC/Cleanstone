@@ -2,7 +2,6 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.minecraft.packet.outbound.BlockChangePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.EncryptionRequestPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;

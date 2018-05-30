@@ -31,9 +31,7 @@ public class MapChunkTable implements ChunkTable {
     public Collection<Block> getBlocks() {
         Collection<Block> blockCollection = new HashSet<>();
 
-        coordHeightMapTable.cellSet().forEach(integerIntegerHashMapCell -> {
-            blockCollection.addAll(integerIntegerHashMapCell.getValue().values());
-        });
+        coordHeightMapTable.cellSet().forEach(integerIntegerHashMapCell -> blockCollection.addAll(integerIntegerHashMapCell.getValue().values()));
 
         return blockCollection;
     }

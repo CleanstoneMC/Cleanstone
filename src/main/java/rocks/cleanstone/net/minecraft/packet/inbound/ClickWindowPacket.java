@@ -23,6 +23,30 @@ public class ClickWindowPacket implements Packet {
         this.clickedItem = clickedItem;
     }
 
+    public int getWindowID() {
+        return windowID;
+    }
+
+    public short getSlot() {
+        return slot;
+    }
+
+    public byte getButton() {
+        return button;
+    }
+
+    public short getActionNumber() {
+        return actionNumber;
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public Slot getClickedItem() {
+        return clickedItem;
+    }
+
     @Override
     public PacketType getType() {
         return MinecraftInboundPacketType.CLICK_WINDOW;

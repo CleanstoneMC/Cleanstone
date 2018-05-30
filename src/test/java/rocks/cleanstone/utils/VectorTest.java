@@ -22,42 +22,42 @@ class VectorTest {
     void addVector() {
         vector0.addVector(vector1);
 
-        assertTrue(vector0.x == 1);
-        assertTrue(vector0.y == 1);
-        assertTrue(vector0.z == 1);
+        assertEquals(1, vector0.x, 0.0);
+        assertEquals(1, vector0.y, 0.0);
+        assertEquals(1, vector0.z, 0.0);
     }
 
     @Test
     void subtractVector() {
         vector0.subtractVector(vector1);
 
-        assertTrue(vector0.x == -1);
-        assertTrue(vector0.y == -1);
-        assertTrue(vector0.z == -1);
+        assertEquals(vector0.x, -1, 0.0);
+        assertEquals(vector0.y, -1, 0.0);
+        assertEquals(vector0.z, -1, 0.0);
     }
 
     @Test
     void multiplyVector() {
         vector1.multiplyVector(vector2);
 
-        assertTrue(vector1.x == 2);
-        assertTrue(vector1.y == 2);
-        assertTrue(vector1.z == 2);
+        assertEquals(2, vector1.x, 0.0);
+        assertEquals(2, vector1.y, 0.0);
+        assertEquals(2, vector1.z, 0.0);
 
         vector1.multiplyVector(vector2);
 
-        assertTrue(vector1.x == 4);
-        assertTrue(vector1.y == 4);
-        assertTrue(vector1.z == 4);
+        assertEquals(4, vector1.x, 0.0);
+        assertEquals(4, vector1.y, 0.0);
+        assertEquals(4, vector1.z, 0.0);
     }
 
     @Test
     void equals() {
-        assertTrue(vector0.equals(new Vector(vector0)));
+        assertEquals(vector0, new Vector(vector0));
         assertFalse(vector0.equals(null));
 
         vector0.addVector(vector1);
 
-        assertTrue(vector0.equals(vector1));
+        assertEquals(vector0, vector1);
     }
 }

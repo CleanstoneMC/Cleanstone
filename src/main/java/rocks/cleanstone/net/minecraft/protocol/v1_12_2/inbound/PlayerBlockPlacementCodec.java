@@ -1,12 +1,7 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.Cleanstone;
-import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
-import rocks.cleanstone.game.block.Face;
-import rocks.cleanstone.net.minecraft.packet.enums.Hand;
-import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerBlockPlacementPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;

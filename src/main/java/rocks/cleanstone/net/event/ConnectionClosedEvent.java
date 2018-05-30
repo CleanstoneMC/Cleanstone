@@ -16,4 +16,8 @@ public class ConnectionClosedEvent {
     public Connection getConnection() {
         return connection;
     }
+
+    public Networking getNetworking() {
+        return networking;
+    }
 }

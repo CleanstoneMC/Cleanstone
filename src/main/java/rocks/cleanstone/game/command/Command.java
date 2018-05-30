@@ -2,7 +2,6 @@ package rocks.cleanstone.game.command;
 
 import rocks.cleanstone.game.permission.SecuredAction;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 

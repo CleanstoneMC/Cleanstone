@@ -9,7 +9,7 @@ import rocks.cleanstone.game.block.Block;
 
 public class ArrayChunkTable implements ChunkTable {
 
-    private Block[][][] blocks;
+    private final Block[][][] blocks;
 
     public ArrayChunkTable(Block[][][] blocks) {
         this.blocks = blocks;

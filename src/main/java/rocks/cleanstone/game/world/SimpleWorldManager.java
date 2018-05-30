@@ -47,9 +47,7 @@ public class SimpleWorldManager implements WorldManager {
             }
 
             worldMap.put(world.getID(), world);
-        }, throwable -> {
-            logger.error("Error while loading world", throwable);
-        });
+        }, throwable -> logger.error("Error while loading world", throwable));
 
         return worldListenableFuture;
     }

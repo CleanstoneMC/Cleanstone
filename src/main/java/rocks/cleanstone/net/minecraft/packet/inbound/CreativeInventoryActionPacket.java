@@ -19,6 +19,10 @@ public class CreativeInventoryActionPacket implements Packet {
         return slot;
     }
 
+    public Slot getClickedItem() {
+        return clickedItem;
+    }
+
     @Override
     public PacketType getType() {
         return MinecraftInboundPacketType.CREATIVE_INVENTORY_ACTION;

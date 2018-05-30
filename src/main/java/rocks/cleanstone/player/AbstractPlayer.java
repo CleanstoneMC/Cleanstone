@@ -7,7 +7,6 @@ import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
 
 import java.util.Collection;
-import java.util.List;
 
 public abstract class AbstractPlayer implements Player {
 

@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Face;
 import rocks.cleanstone.net.minecraft.packet.enums.DiggingStatus;
-import rocks.cleanstone.net.minecraft.packet.inbound.PingPacket;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerDiggingPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;

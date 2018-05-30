@@ -3,7 +3,6 @@ package rocks.cleanstone.net.minecraft;
 import com.google.common.collect.Maps;
 
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Map;

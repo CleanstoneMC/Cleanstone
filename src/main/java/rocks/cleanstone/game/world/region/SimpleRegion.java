@@ -53,9 +53,7 @@ public class SimpleRegion implements Region {
         }
 
         ListenableFuture<Chunk> chunkListenableFuture = getNextWorker().loadChunk(x, y);
-        chunkListenableFuture.addCallback(result -> {
-            chunks[x][y] = result;
-        }, ex -> {
+        chunkListenableFuture.addCallback(result -> chunks[x][y] = result, ex -> {
             //TODO
         });
 

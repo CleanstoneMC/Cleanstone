@@ -1,7 +1,6 @@
 package rocks.cleanstone.player;
 
 import rocks.cleanstone.game.chat.message.Chat;
-import rocks.cleanstone.game.command.CommandSender;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.packet.data.Text;
 import rocks.cleanstone.net.minecraft.packet.enums.ChatPosition;
