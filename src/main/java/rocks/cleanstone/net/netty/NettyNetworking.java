@@ -42,10 +42,10 @@ public class NettyNetworking extends AbstractNetworking {
         bootstrap.bind().addListener(future -> {
             if (future.isSuccess()) {
                 logger.info(CleanstoneServer.getMessage("net.netty.bind-successful",
-                        protocol.getClass().getSimpleName(), getAddress(), getPort()));
+                        protocol.getClass().getSimpleName(), getAddress(), getPort() + ""));
             } else {
                 logger.error(CleanstoneServer.getMessage("net.netty.bind-failure",
-                        getAddress().getHostAddress(), getPort()));
+                        getAddress().getHostAddress(), getPort() + ""));
             }
         });
     }
