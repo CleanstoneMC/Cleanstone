@@ -24,6 +24,7 @@ package rocks.cleanstone.game.world.region.chunk.vanilla;
 import com.google.common.base.Objects;
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.BlockState;
+import rocks.cleanstone.game.material.VanillaMaterial;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class BlockStorage {
         this.bitsPerEntry = 4;
 
         this.states = new ArrayList<>();
-        this.states.add(null);
+        this.states.add(BlockState.of(VanillaMaterial.AIR));
 
         this.storage = new FlexibleStorage(this.bitsPerEntry, 4096);
     }
