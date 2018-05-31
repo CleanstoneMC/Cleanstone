@@ -1,6 +1,6 @@
 package rocks.cleanstone.net.cleanstone.protocol;
 
-import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
+import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 
 public enum CleanstoneClientProtocolLayer implements ClientProtocolLayer {
     LATEST("Latest", 0);

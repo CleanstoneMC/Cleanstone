@@ -1,6 +1,6 @@
 package rocks.cleanstone.game.gamemode;
 
-import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
+import rocks.cleanstone.net.packet.enums.PlayerAbilities;
 
 import java.util.Collection;
 

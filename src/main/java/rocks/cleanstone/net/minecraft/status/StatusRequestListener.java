@@ -5,10 +5,10 @@ import org.springframework.context.event.EventListener;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.MinecraftNetworking;
-import rocks.cleanstone.net.minecraft.packet.inbound.RequestPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.ResponsePacket;
+import rocks.cleanstone.net.packet.inbound.RequestPacket;
+import rocks.cleanstone.net.packet.outbound.ResponsePacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
-import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
+import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 
 public class StatusRequestListener {
 

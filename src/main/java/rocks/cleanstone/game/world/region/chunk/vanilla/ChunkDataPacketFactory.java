@@ -11,7 +11,7 @@ import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.io.vanilla.nbt.NamedBinaryTag;
-import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
+import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
 
 public class ChunkDataPacketFactory {
 

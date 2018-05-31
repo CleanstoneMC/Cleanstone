@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
-import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
-
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Comparator;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 
 public enum MinecraftClientProtocolLayer implements ClientProtocolLayer {
     MINECRAFT_V1_12_2("1.12.2", 340);

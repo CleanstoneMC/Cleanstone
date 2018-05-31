@@ -6,14 +6,14 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.minecraft.packet.enums.ChatMode;
-import rocks.cleanstone.net.minecraft.packet.enums.DisplayedSkinParts;
-import rocks.cleanstone.net.minecraft.packet.enums.MainHand;
-import rocks.cleanstone.net.minecraft.packet.inbound.ClientSettingsPacket;
+import rocks.cleanstone.net.packet.enums.ChatMode;
+import rocks.cleanstone.net.packet.enums.DisplayedSkinParts;
+import rocks.cleanstone.net.packet.enums.MainHand;
+import rocks.cleanstone.net.packet.inbound.ClientSettingsPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.protocol.ProtocolState;
+import rocks.cleanstone.net.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class ClientSettingsCodec implements MinecraftPacketCodec {

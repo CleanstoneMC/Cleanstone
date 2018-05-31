@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.minecraft.packet.data.Text;
+import rocks.cleanstone.net.packet.data.Text;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;

@@ -10,8 +10,8 @@ import rocks.cleanstone.net.AbstractConnection;
 import rocks.cleanstone.net.netty.pipeline.inbound.EncryptionDecoder;
 import rocks.cleanstone.net.netty.pipeline.outbound.EncryptionEncoder;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
-import rocks.cleanstone.net.packet.protocol.ProtocolState;
+import rocks.cleanstone.net.protocol.ClientProtocolLayer;
+import rocks.cleanstone.net.protocol.ProtocolState;
 
 import java.net.InetAddress;
 

@@ -4,7 +4,7 @@ import com.google.common.base.Objects;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
-import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
+import rocks.cleanstone.net.packet.enums.PlayerAbilities;
 
 import java.util.Collection;
 

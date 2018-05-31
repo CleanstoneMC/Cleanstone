@@ -1,8 +1,8 @@
 package rocks.cleanstone.net;
 
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
-import rocks.cleanstone.net.packet.protocol.ProtocolState;
+import rocks.cleanstone.net.protocol.ClientProtocolLayer;
+import rocks.cleanstone.net.protocol.ProtocolState;
 
 import javax.crypto.SecretKey;
 import java.net.InetAddress;

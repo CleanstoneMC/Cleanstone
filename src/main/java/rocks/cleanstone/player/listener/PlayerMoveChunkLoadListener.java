@@ -9,8 +9,8 @@ import rocks.cleanstone.game.Position;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
 import rocks.cleanstone.game.world.region.chunk.vanilla.ChunkDataPacketFactory;
-import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.UnloadChunkPacket;
+import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
+import rocks.cleanstone.net.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
 

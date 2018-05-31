@@ -3,18 +3,19 @@ package rocks.cleanstone.core.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import rocks.cleanstone.core.CleanstoneServer;
 
 import java.net.InetAddress;
 import java.util.List;
+
+import rocks.cleanstone.core.CleanstoneServer;
 
 @Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "minecraft")
 public class MinecraftConfig {
 
-    private int port;
-    private InetAddress address;
+    private int port, mcpePort;
+    private InetAddress address, mcpeAddress;
     private boolean onlineMode;
     private String motd;
     private int maxPlayers;
@@ -33,12 +34,28 @@ public class MinecraftConfig {
         this.port = port;
     }
 
+    public int getMcpePort() {
+        return mcpePort;
+    }
+
+    public void setMcpePort(int mcpePort) {
+        this.mcpePort = mcpePort;
+    }
+
     public InetAddress getAddress() {
         return address;
     }
 
     public void setAddress(InetAddress address) {
         this.address = address;
+    }
+
+    public InetAddress getMcpeAddress() {
+        return mcpeAddress;
+    }
+
+    public void setMcpeAddress(InetAddress mcpeAddress) {
+        this.mcpeAddress = mcpeAddress;
     }
 
     public boolean isOnlineMode() {

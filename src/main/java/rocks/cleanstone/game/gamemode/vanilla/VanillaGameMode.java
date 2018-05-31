@@ -2,7 +2,7 @@ package rocks.cleanstone.game.gamemode.vanilla;
 
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.GameModeRuleSet;
-import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
+import rocks.cleanstone.net.packet.enums.PlayerAbilities;
 
 import java.util.Collection;
 import java.util.HashSet;

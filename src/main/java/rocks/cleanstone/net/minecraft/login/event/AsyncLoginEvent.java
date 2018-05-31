@@ -2,7 +2,7 @@ package rocks.cleanstone.net.minecraft.login.event;
 
 import rocks.cleanstone.core.event.CancellableEvent;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.minecraft.packet.data.Text;
+import rocks.cleanstone.net.packet.data.Text;
 import rocks.cleanstone.player.UserProperty;
 
 import java.util.Collection;

@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.base.Charsets;
-import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.EncryptionRequestPacket;
+import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
+import rocks.cleanstone.net.packet.outbound.EncryptionRequestPacket;
 import rocks.cleanstone.net.utils.SecurityUtils;
 
 import javax.crypto.SecretKey;
