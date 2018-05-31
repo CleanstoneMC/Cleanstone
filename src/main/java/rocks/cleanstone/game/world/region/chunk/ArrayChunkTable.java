@@ -1,11 +1,11 @@
 package rocks.cleanstone.game.world.region.chunk;
 
-import org.springframework.lang.Nullable;
+import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.material.VanillaMaterial;
 
 import java.util.Arrays;
 import java.util.Collection;
-
-import rocks.cleanstone.game.block.Block;
 
 public class ArrayChunkTable implements ChunkTable {
 
@@ -20,13 +20,16 @@ public class ArrayChunkTable implements ChunkTable {
     }
 
     @Override
-    @Nullable
     public Block getBlock(int x, int y, int z) {
-        return blocks[x][z][y];
+        Block block = blocks[x][z][y];
+        return block != null ? block : ImmutableBlock.of(VanillaMaterial.AIR);
     }
 
     public void setBlock(int x, int y, int z, Block block) {
-        blocks[x][z][y] = block;
+        if (block == null || block.getState().getMaterial() == VanillaMaterial.AIR) {
+            blocks[x][z][y] = null;
+        } else
+            blocks[x][z][y] = block;
     }
 
     @Override

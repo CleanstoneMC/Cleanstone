@@ -1,15 +1,15 @@
 package rocks.cleanstone.game.block;
 
 import com.google.common.base.Preconditions;
+import rocks.cleanstone.game.material.Material;
+import rocks.cleanstone.game.material.VanillaMaterial;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-import rocks.cleanstone.game.material.Material;
-
 /**
  * An immutable state of a block containing its material and metadata
- *
+ * <p>
  * Blocks using metadata should extend this class to create a wrapper around the inconvenient metadata field
  */
 public class BlockState {
@@ -39,11 +39,21 @@ public class BlockState {
         return of(material, (byte) 0);
     }
 
+    public static BlockState of(int rawData) {
+        byte metadata = (byte) (rawData & 0xF);
+        int blockID = rawData >> 4;
+        return of(VanillaMaterial.byID(blockID), metadata);
+    }
+
     public final Material getMaterial() {
         return material;
     }
 
     public final byte getMetadata() {
         return metadata;
+    }
+
+    public int getRaw() {
+        return getMaterial().getID() << 4 | (metadata & 0xF);
     }
 }

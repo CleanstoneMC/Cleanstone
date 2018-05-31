@@ -2,14 +2,14 @@ package rocks.cleanstone.game.world.region.chunk;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-
 import org.springframework.lang.Nullable;
+import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.material.VanillaMaterial;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import rocks.cleanstone.game.block.Block;
 
 public class MapChunkTable implements ChunkTable {
 
@@ -25,7 +25,8 @@ public class MapChunkTable implements ChunkTable {
 
     @Nullable
     public Block getBlock(int x, int y, int z) {
-        return getHeightMap(x, z).get(y);
+        Block block = getHeightMap(x, z).get(y);
+        return block != null ? block : ImmutableBlock.of(VanillaMaterial.AIR);
     }
 
     public Collection<Block> getBlocks() {
@@ -38,7 +39,10 @@ public class MapChunkTable implements ChunkTable {
 
     @Override
     public void setBlock(int x, int y, int z, Block block) {
-        getHeightMap(x, z).put(y, block);
+        if (block == null || block.getState().getMaterial() == VanillaMaterial.AIR) {
+            getHeightMap(x, y).remove(y);
+        } else
+            getHeightMap(x, z).put(y, block);
     }
 
     private HashMap<Integer, Block> getHeightMap(int x, int z) {

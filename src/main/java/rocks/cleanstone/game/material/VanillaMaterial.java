@@ -1,5 +1,8 @@
 package rocks.cleanstone.game.material;
 
+import javax.annotation.Nullable;
+import java.util.Arrays;
+
 public enum VanillaMaterial implements Material {
     AIR(0, "minecraft:air"),
     STONE(1, "minecraft:stone"),
@@ -22,5 +25,10 @@ public enum VanillaMaterial implements Material {
 
     public String getMinecraftID() {
         return minecraftID;
+    }
+
+    @Nullable
+    public static VanillaMaterial byID(int id) {
+        return Arrays.stream(values()).filter(material -> material.getID() == id).findAny().orElse(null);
     }
 }

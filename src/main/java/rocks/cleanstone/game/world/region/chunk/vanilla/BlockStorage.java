@@ -22,16 +22,13 @@
 package rocks.cleanstone.game.world.region.chunk.vanilla;
 
 import com.google.common.base.Objects;
+import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.block.BlockState;
+import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.annotation.Nullable;
-
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.block.BlockState;
-import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class BlockStorage {
 
@@ -53,18 +50,12 @@ public class BlockStorage {
         return (y & 0xf) << 8 | z << 4 | x;
     }
 
-    private static int stateToRaw(@Nullable BlockState state) {
-        int blockID = state != null ? state.getMaterial().getID() : 0;
-        byte metadata = state != null ? state.getMetadata() : 0;
-        return blockID << 4 | (metadata & 0xF);
-    }
-
     public void write(ByteBuf buf) {
         buf.writeByte(this.bitsPerEntry);
 
         ByteBufUtils.writeVarInt(buf, this.states.size());
         for (BlockState state : this.states) {
-            ByteBufUtils.writeVarInt(buf, stateToRaw(state));
+            ByteBufUtils.writeVarInt(buf, state.getRaw());
         }
 
         long[] data = this.storage.getData();
@@ -87,7 +78,7 @@ public class BlockStorage {
     }
 
     public void set(int x, int y, int z, BlockState state) {
-        int id = this.bitsPerEntry <= 8 ? this.states.indexOf(state) : stateToRaw(state);
+        int id = this.bitsPerEntry <= 8 ? this.states.indexOf(state) : state.getRaw();
         if (id == -1) {
             this.states.add(state);
             if (this.states.size() > 1 << this.bitsPerEntry) {
@@ -103,11 +94,11 @@ public class BlockStorage {
                 FlexibleStorage oldStorage = this.storage;
                 this.storage = new FlexibleStorage(this.bitsPerEntry, this.storage.getSize());
                 for (int index = 0; index < this.storage.getSize(); index++) {
-                    this.storage.set(index, this.bitsPerEntry <= 8 ? oldStorage.get(index) : stateToRaw(oldStates.get(index)));
+                    this.storage.set(index, this.bitsPerEntry <= 8 ? oldStorage.get(index) : oldStates.get(index).getRaw());
                 }
             }
 
-            id = this.bitsPerEntry <= 8 ? this.states.indexOf(state) : stateToRaw(state);
+            id = this.bitsPerEntry <= 8 ? this.states.indexOf(state) : state.getRaw();
         }
 
         this.storage.set(index(x, y, z), id);
