@@ -37,6 +37,7 @@
             </list>
         </property>
     </bean>
+    <bean id="springBeanDefinitionProxy" class="rocks.cleanstone.core.SpringBeanDefinitionProxy"/>
 
     <!-- SERVER -->
     <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer">

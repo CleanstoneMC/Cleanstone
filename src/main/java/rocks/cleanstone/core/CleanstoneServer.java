@@ -21,6 +21,8 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     protected CleanstoneEventPublisher eventPublisher;
     @Autowired
     protected MessageSource messageSource;
+    @Autowired
+    protected SpringBeanDefinitionProxy springBeanDefinitionProxy;
 
     protected CleanstoneServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig) {
         this.cleanstoneConfig = cleanstoneConfig;
@@ -30,7 +32,7 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     public static <T> T publishEvent(T event) {
         return publishEvent(event, false);
     }
-    
+
     public static <T> T publishEvent(T event, boolean rethrowExceptions) throws EventExecutionException {
         return getInstance().eventPublisher.publishEvent(event, rethrowExceptions);
     }
@@ -68,5 +70,9 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
     public MinecraftConfig getMinecraftConfig() {
         return minecraftConfig;
+    }
+
+    public SpringBeanDefinitionProxy getSpringBeanDefinitionProxy() {
+        return springBeanDefinitionProxy;
     }
 }
