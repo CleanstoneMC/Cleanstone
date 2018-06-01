@@ -11,10 +11,10 @@ import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
 
 public class FlatWorldGenerator implements WorldGenerator {
 
-    @Override
-    public Chunk generateChunk(int chunkX, int chunkY) {
+    private final ChunkTable chunkTable;
 
-        ChunkTable chunkTable = new ArrayChunkTable();
+    public FlatWorldGenerator() {
+        chunkTable = new ArrayChunkTable();
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 chunkTable.setBlock(x, 45, z, ImmutableBlock.of(VanillaMaterial.GRASS));
@@ -26,7 +26,10 @@ public class FlatWorldGenerator implements WorldGenerator {
                 chunkTable.setBlock(x, 0, z, ImmutableBlock.of(VanillaMaterial.BEDROCK));
             }
         }
+    }
 
+    @Override
+    public Chunk generateChunk(int chunkX, int chunkY) {
         return new SimpleChunk(new HashSet<>(), chunkTable, chunkX, chunkY);
     }
 }
