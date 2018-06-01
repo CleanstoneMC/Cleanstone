@@ -1,5 +1,12 @@
 package rocks.cleanstone.net.netty;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.EventListener;
+
+import java.net.InetAddress;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -7,15 +14,9 @@ import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.event.ContextClosedEvent;
-import org.springframework.context.event.EventListener;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.AbstractNetworking;
-import rocks.cleanstone.net.packet.protocol.Protocol;
-
-import java.net.InetAddress;
+import rocks.cleanstone.net.protocol.Protocol;
 
 public class NettyNetworking extends AbstractNetworking {
 
@@ -42,10 +43,10 @@ public class NettyNetworking extends AbstractNetworking {
         bootstrap.bind().addListener(future -> {
             if (future.isSuccess()) {
                 logger.info(CleanstoneServer.getMessage("net.netty.bind-successful",
-                        protocol.getClass().getSimpleName(), getAddress(), getPort()));
+                        protocol.getClass().getSimpleName(), getAddress(), getPort() + ""));
             } else {
                 logger.error(CleanstoneServer.getMessage("net.netty.bind-failure",
-                        getAddress().getHostAddress(), getPort()));
+                        getAddress().getHostAddress(), getPort() + ""), future.cause());
             }
         });
     }

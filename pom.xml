@@ -121,6 +121,12 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.22.Final</version>
         </dependency>
+        <!-- JRakNet -->
+        <dependency>
+            <groupId>com.whirvis</groupId>
+            <artifactId>jraknet</artifactId>
+            <version>2.9.6</version>
+        </dependency>
         <!-- Guava -->
         <dependency>
             <groupId>com.google.guava</groupId>

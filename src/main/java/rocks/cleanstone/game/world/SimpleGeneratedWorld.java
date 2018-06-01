@@ -11,9 +11,9 @@ import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
 import rocks.cleanstone.game.world.region.RegionWorker;
 import rocks.cleanstone.io.data.world.WorldDataSource;
-import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
-import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
-import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
+import rocks.cleanstone.net.packet.enums.Difficulty;
+import rocks.cleanstone.net.packet.enums.Dimension;
+import rocks.cleanstone.net.packet.enums.LevelType;
 
 import javax.annotation.Nullable;
 import java.util.Collection;

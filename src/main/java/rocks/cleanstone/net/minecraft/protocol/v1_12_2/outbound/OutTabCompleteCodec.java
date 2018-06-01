@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
+import rocks.cleanstone.net.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.protocol.ProtocolState;
+import rocks.cleanstone.net.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class OutTabCompleteCodec implements MinecraftPacketCodec {

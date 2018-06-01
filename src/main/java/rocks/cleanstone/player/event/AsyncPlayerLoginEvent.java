@@ -3,7 +3,7 @@ package rocks.cleanstone.player.event;
 import java.util.Collection;
 
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.minecraft.packet.data.Text;
+import rocks.cleanstone.net.packet.data.Text;
 import rocks.cleanstone.player.PlayerID;
 import rocks.cleanstone.player.UserProperty;
 

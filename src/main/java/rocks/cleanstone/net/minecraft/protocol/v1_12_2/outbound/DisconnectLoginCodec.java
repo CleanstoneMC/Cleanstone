@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
-import rocks.cleanstone.net.packet.protocol.ProtocolState;
+import rocks.cleanstone.net.protocol.ProtocolState;
 
 public class DisconnectLoginCodec extends DisconnectCodec {
 

@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import rocks.cleanstone.net.event.InboundPacketEvent;
-import rocks.cleanstone.net.minecraft.packet.inbound.PingPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.PongPacket;
+import rocks.cleanstone.net.packet.inbound.PingPacket;
+import rocks.cleanstone.net.packet.outbound.PongPacket;
 
 public class PingListener {
     private final Logger logger = LoggerFactory.getLogger(getClass());

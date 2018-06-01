@@ -2,19 +2,21 @@ package rocks.cleanstone.player.listener;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-import rocks.cleanstone.game.Position;
-import rocks.cleanstone.player.event.PlayerMoveEvent;
-import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
-import rocks.cleanstone.game.world.region.chunk.vanilla.ChunkDataPacketFactory;
-import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.UnloadChunkPacket;
-import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.event.PlayerQuitEvent;
 
 import java.util.UUID;
+
+import rocks.cleanstone.game.Position;
+import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
+import rocks.cleanstone.game.world.region.chunk.vanilla.ChunkDataPacketFactory;
+import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
+import rocks.cleanstone.net.packet.outbound.UnloadChunkPacket;
+import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.event.PlayerMoveEvent;
+import rocks.cleanstone.player.event.PlayerQuitEvent;
 
 public class PlayerMoveChunkLoadListener {
 
@@ -38,7 +40,7 @@ public class PlayerMoveChunkLoadListener {
         sendNewNearbyChunks(player, chunkX, chunkY);
     }
 
-    protected void sendNewNearbyChunks(Player player, int chunkX, int chunkY) {
+    protected synchronized void sendNewNearbyChunks(Player player, int chunkX, int chunkY) {
         final int sendDistance = 4;
         final int checkDistance = sendDistance * 2;
 
@@ -103,7 +105,7 @@ public class PlayerMoveChunkLoadListener {
         return playerHasLoaded.get(uuid).contains(Pair.of(chunkX, chunkY));
     }
 
-    private void playerUnloadAll(UUID uuid) {
+    private synchronized void playerUnloadAll(UUID uuid) {
         playerHasLoaded.removeAll(uuid);
     }
 }

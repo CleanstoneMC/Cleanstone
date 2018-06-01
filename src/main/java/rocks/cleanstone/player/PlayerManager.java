@@ -1,12 +1,13 @@
 package rocks.cleanstone.player;
 
+import java.util.Collection;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.io.data.InGamePlayerDataRepository;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.UUID;
 
 public interface PlayerManager {
 
@@ -34,4 +35,6 @@ public interface PlayerManager {
     boolean isPlayerOperator(PlayerID playerID);
 
     void broadcastPacket(Packet packet, Player... broadcastExemptions);
+
+    boolean isTerminating(Player player);
 }

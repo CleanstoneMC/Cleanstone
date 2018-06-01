@@ -17,7 +17,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
     }
 
     public void init() {
-        logger.info("Startet Openworldgame");
+        logger.info("Started OpenWorldGame");
     }
 
     @Override

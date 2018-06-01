@@ -4,7 +4,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.entity.Location;
-import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
+import rocks.cleanstone.net.packet.outbound.SpawnPlayerPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;

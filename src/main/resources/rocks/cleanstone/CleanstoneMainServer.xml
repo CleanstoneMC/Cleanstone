@@ -54,14 +54,23 @@
     <!-- Player Management -->
     <bean id="playerManager" class="rocks.cleanstone.player.SimplePlayerManager"/>
     <bean id="playerInitializationCauseListener"
-          class="rocks.cleanstone.player.PlayerInitializationCauseListener">
+          class="rocks.cleanstone.player.listener.PlayerInitializationCauseListener">
         <constructor-arg ref="playerManager"/>
     </bean>
     <bean id="playerTerminationCauseListener"
-          class="rocks.cleanstone.player.PlayerTerminationCauseListener">
+          class="rocks.cleanstone.player.listener.PlayerTerminationCauseListener">
         <constructor-arg ref="playerManager"/>
     </bean>
-    <bean id="playerMoveChunkLoadListener" class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener"/>
+    <bean id="playerPacketListener" class="rocks.cleanstone.player.listener.PlayerPacketListener">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+    <bean id="playerMovePacketListener" class="rocks.cleanstone.player.listener.PlayerMovePacketListener"/>
+
+    <bean id="playerMoveChunkLoadListener"
+          class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener"/>
+    <bean id="playerMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener">
+        <constructor-arg ref="playerManager"/>
+    </bean>
 
     <!-- Initialization -->
     <bean id="playerData" class="rocks.cleanstone.player.initialize.PlayerData">
@@ -103,21 +112,17 @@
 
     <!-- Entity -->
     <bean id="entityManager" class="rocks.cleanstone.game.world.region.EntityManager"/>
-    <bean id="entityMovePacketListener" class="rocks.cleanstone.player.listener.PlayerMovePacketListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
-    <bean id="entityMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
 
     <!-- Chat -->
     <bean id="chatManager" class="rocks.cleanstone.game.chat.ChatManager">
         <constructor-arg ref="playerManager"/>
     </bean>
-    <bean id="incomingChatPacketListener" class="rocks.cleanstone.game.chat.listener.IncomingChatPacketListener">
+    <bean id="incomingChatPacketListener"
+          class="rocks.cleanstone.game.chat.listener.IncomingChatPacketListener">
         <constructor-arg ref="playerManager"/>
     </bean>
-    <bean id="incomingChatMessageListener" class="rocks.cleanstone.game.chat.listener.IncomingChatMessageListener">
+    <bean id="incomingChatMessageListener"
+          class="rocks.cleanstone.game.chat.listener.IncomingChatMessageListener">
         <constructor-arg ref="chatManager"/>
     </bean>
 
@@ -140,8 +145,6 @@
     </bean>
     <bean id="simpleMinecraftProtocol"
           class="rocks.cleanstone.net.minecraft.protocol.SimpleMinecraftProtocol"/>
-    <bean id="simpleCleanstoneProtocol"
-          class="rocks.cleanstone.net.cleanstone.protocol.SimpleCleanstoneProtocol"/>
 
     <bean id="handshakeListener" class="rocks.cleanstone.net.minecraft.HandshakeListener"/>
     <bean id="statusRequestListener" class="rocks.cleanstone.net.minecraft.status.StatusRequestListener">
@@ -168,11 +171,28 @@
         <constructor-arg ref="loginManager"/>
     </bean>
 
+    <!-- MCPE -->
+    <bean id="mcpeNetworking" class="rocks.cleanstone.net.mcpe.SimpleMCPENetworking"
+          parent="abstractNetworking">
+        <constructor-arg ref="minecraftConfig"/>
+        <constructor-arg ref="simpleMcpeProtocol"/>
+        <constructor-arg ref="statusProvider"/>
+    </bean>
+    <bean id="simpleMcpeProtocol"
+          class="rocks.cleanstone.net.mcpe.protocol.SimpleMCPEProtocol"/>
+
+    <bean id="statusProvider" class="rocks.cleanstone.net.mcpe.StatusProvider">
+        <constructor-arg ref="minecraftConfig"/>
+        <constructor-arg ref="playerManager"/>
+    </bean>
+
     <!-- Cleanstone -->
     <bean id="cleanstoneNetworking" class="rocks.cleanstone.net.cleanstone.SimpleCleanstoneNetworking"
           parent="abstractNetworking">
         <constructor-arg ref="cleanstoneConfig"/>
         <constructor-arg ref="simpleCleanstoneProtocol"/>
     </bean>
+    <bean id="simpleCleanstoneProtocol"
+          class="rocks.cleanstone.net.cleanstone.protocol.SimpleCleanstoneProtocol"/>
 
 </beans>
