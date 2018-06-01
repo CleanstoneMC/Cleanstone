@@ -54,15 +54,23 @@
     <!-- Player Management -->
     <bean id="playerManager" class="rocks.cleanstone.player.SimplePlayerManager"/>
     <bean id="playerInitializationCauseListener"
-          class="rocks.cleanstone.player.PlayerInitializationCauseListener">
+          class="rocks.cleanstone.player.listener.PlayerInitializationCauseListener">
         <constructor-arg ref="playerManager"/>
     </bean>
     <bean id="playerTerminationCauseListener"
-          class="rocks.cleanstone.player.PlayerTerminationCauseListener">
+          class="rocks.cleanstone.player.listener.PlayerTerminationCauseListener">
         <constructor-arg ref="playerManager"/>
     </bean>
+    <bean id="playerPacketListener" class="rocks.cleanstone.player.listener.PlayerPacketListener">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+    <bean id="playerMovePacketListener" class="rocks.cleanstone.player.listener.PlayerMovePacketListener"/>
+
     <bean id="playerMoveChunkLoadListener"
           class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener"/>
+    <bean id="playerMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener">
+        <constructor-arg ref="playerManager"/>
+    </bean>
 
     <!-- Initialization -->
     <bean id="playerData" class="rocks.cleanstone.player.initialize.PlayerData">
@@ -104,12 +112,6 @@
 
     <!-- Entity -->
     <bean id="entityManager" class="rocks.cleanstone.game.world.region.EntityManager"/>
-    <bean id="entityMovePacketListener" class="rocks.cleanstone.player.listener.PlayerMovePacketListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
-    <bean id="entityMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
 
     <!-- Chat -->
     <bean id="chatManager" class="rocks.cleanstone.game.chat.ChatManager">

@@ -3,27 +3,31 @@ package rocks.cleanstone.player;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.io.data.InGamePlayerDataRepository;
-import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.packet.data.Text;
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
-import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
-import rocks.cleanstone.player.event.PlayerJoinEvent;
-import rocks.cleanstone.player.event.PlayerQuitEvent;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.io.data.InGamePlayerDataRepository;
+import rocks.cleanstone.net.Connection;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.data.Text;
+import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
+import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
+import rocks.cleanstone.player.event.PlayerJoinEvent;
+import rocks.cleanstone.player.event.PlayerQuitEvent;
+
 public class SimplePlayerManager implements PlayerManager {
 
     private final Collection<Player> onlinePlayers = Sets.newConcurrentHashSet();
+    private final Collection<Player> terminatingPlayers = Sets.newConcurrentHashSet();
     private final Collection<PlayerID> playerIDs = Sets.newConcurrentHashSet();
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -109,13 +113,19 @@ public class SimplePlayerManager implements PlayerManager {
     }
 
     @Override
-    public void terminatePlayer(Player player) {
+    public synchronized void terminatePlayer(Player player) {
         logger.info("Terminating player");
         Preconditions.checkState(onlinePlayers.contains(player),
                 "Cannot terminate already terminated / non-initialized player " + player);
-
+        terminatingPlayers.add(player);
         CleanstoneServer.publishEvent(new PlayerQuitEvent(player));
         CleanstoneServer.publishEvent(new AsyncPlayerTerminationEvent(player));
         onlinePlayers.remove(player);
+        terminatingPlayers.remove(player);
+    }
+
+    @Override
+    public boolean isTerminating(Player player) {
+        return terminatingPlayers.contains(player);
     }
 }

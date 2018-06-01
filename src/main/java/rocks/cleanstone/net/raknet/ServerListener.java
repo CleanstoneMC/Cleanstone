@@ -22,20 +22,20 @@ public class ServerListener implements RakNetServerListener {
 
     @Override
     public void onClientConnect(RakNetClientSession session) {
-        System.out.println("Client from address " + session.getAddress() + " has connected to the server");
+        logger.info("Client from address " + session.getAddress() + " has connected to the server");
         // TODO
     }
 
     @Override
     public void onClientDisconnect(RakNetClientSession session, String reason) {
-        System.out.println("Client from address " + session.getAddress()
+        logger.info("Client from address " + session.getAddress()
                 + " has disconnected from the server for the reason \"" + reason + "\"");
         // TODO
     }
 
     @Override
     public void handleMessage(RakNetClientSession session, RakNetPacket packet, int channel) {
-        System.out.println("Client from address " + session.getAddress() + " sent packet with ID "
+        logger.info("Client from address " + session.getAddress() + " sent packet with ID "
                 + RakNetUtils.toHexStringId(packet) + " on channel " + channel);
         // TODO
     }

@@ -2,14 +2,14 @@ package rocks.cleanstone.player.listener;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.VanillaMaterial;
-import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.packet.inbound.PlayerBlockPlacementPacket;
 import rocks.cleanstone.net.packet.inbound.PlayerDiggingPacket;
 import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
-import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
+import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
 
 public class UseItemListener {
 
@@ -21,32 +21,30 @@ public class UseItemListener {
 
     @Async(value = "playerExec")
     @EventListener
-    public void onBlockPlace(InboundPacketEvent inboundPacketEvent) {
-        if (!(inboundPacketEvent.getPacket() instanceof PlayerBlockPlacementPacket)) {
+    public void onBlockPlace(PlayerInboundPacketEvent event) {
+        if (!(event.getPacket() instanceof PlayerBlockPlacementPacket)) {
             return;
         }
 
-        PlayerBlockPlacementPacket playerBlockPlacementPacket = (PlayerBlockPlacementPacket) inboundPacketEvent.getPacket();
+        PlayerBlockPlacementPacket playerBlockPlacementPacket = (PlayerBlockPlacementPacket) event.getPacket();
 
-        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
-
-        BlockChangePacket blockChangePacket = new BlockChangePacket(playerBlockPlacementPacket.getLocation(), ImmutableBlock.of(VanillaMaterial.DIRT));
+        BlockChangePacket blockChangePacket = new BlockChangePacket(
+                playerBlockPlacementPacket.getLocation(), ImmutableBlock.of(VanillaMaterial.DIRT));
 
         playerManager.broadcastPacket(blockChangePacket);
     }
 
     @Async(value = "playerExec")
     @EventListener
-    public void onBlockBreak(InboundPacketEvent inboundPacketEvent) {
-        if (!(inboundPacketEvent.getPacket() instanceof PlayerDiggingPacket)) {
+    public void onBlockBreak(PlayerInboundPacketEvent event) {
+        if (!(event.getPacket() instanceof PlayerDiggingPacket)) {
             return;
         }
 
-        PlayerDiggingPacket playerDiggingPacket = (PlayerDiggingPacket) inboundPacketEvent.getPacket();
+        PlayerDiggingPacket playerDiggingPacket = (PlayerDiggingPacket) event.getPacket();
 
-        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
-
-        BlockChangePacket blockChangePacket = new BlockChangePacket(playerDiggingPacket.getLocation(), ImmutableBlock.of(VanillaMaterial.AIR));
+        BlockChangePacket blockChangePacket = new BlockChangePacket(
+                playerDiggingPacket.getLocation(), ImmutableBlock.of(VanillaMaterial.AIR));
 
         playerManager.broadcastPacket(blockChangePacket);
     }

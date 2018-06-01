@@ -2,38 +2,30 @@ package rocks.cleanstone.player.listener;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.entity.vanilla.Human;
-import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.packet.inbound.InPlayerPositionAndLookPacket;
 import rocks.cleanstone.net.packet.inbound.PlayerLookPacket;
 import rocks.cleanstone.net.packet.inbound.PlayerPositionPacket;
-import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.PlayerManager;
+import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 
 public class PlayerMovePacketListener {
 
-    private final PlayerManager playerManager;
-
-    public PlayerMovePacketListener(PlayerManager playerManager) {
-        this.playerManager = playerManager;
-    }
-
     @Async(value = "playerExec")
     @EventListener
-    public void onPlayerLookPacket(InboundPacketEvent inboundPacketEvent) {
-        if (!(inboundPacketEvent.getPacket() instanceof PlayerLookPacket)) {
+    public void onPlayerLookPacket(PlayerInboundPacketEvent event) {
+        if (!(event.getPacket() instanceof PlayerLookPacket)) {
             return;
         }
 
-        PlayerLookPacket playerLookPacket = (PlayerLookPacket) inboundPacketEvent.getPacket();
+        PlayerLookPacket playerLookPacket = (PlayerLookPacket) event.getPacket();
 
-        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
-        Entity entity = player.getEntity();
+        Entity entity = event.getPlayer().getEntity();
 
         if (entity == null) {
             return;
@@ -48,20 +40,20 @@ public class PlayerMovePacketListener {
 
         entity.getLocation().setRotation(newRotation);
 
-        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, oldPosition, newRotation));
+        CleanstoneServer.publishEvent(new PlayerMoveEvent(
+                event.getPlayer(), oldPosition, oldRotation, oldPosition, newRotation));
     }
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPlayerPositionPacket(InboundPacketEvent inboundPacketEvent) {
-        if (!(inboundPacketEvent.getPacket() instanceof PlayerPositionPacket)) {
+    public void onPlayerPositionPacket(PlayerInboundPacketEvent event) {
+        if (!(event.getPacket() instanceof PlayerPositionPacket)) {
             return;
         }
 
-        PlayerPositionPacket playerPositionPacket = (PlayerPositionPacket) inboundPacketEvent.getPacket();
+        PlayerPositionPacket playerPositionPacket = (PlayerPositionPacket) event.getPacket();
 
-        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
-        Human entity = player.getEntity();
+        Human entity = event.getPlayer().getEntity();
 
         if (entity == null) {
             return;
@@ -77,19 +69,19 @@ public class PlayerMovePacketListener {
 
         entity.getLocation().setPosition(newPosition);
 
-        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, oldRotation));
+        CleanstoneServer.publishEvent(
+                new PlayerMoveEvent(event.getPlayer(), oldPosition, oldRotation, newPosition, oldRotation));
     }
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPlayerPositionAndLookPacket(InboundPacketEvent inboundPacketEvent) {
-        if (!(inboundPacketEvent.getPacket() instanceof InPlayerPositionAndLookPacket)) {
+    public void onPlayerPositionAndLookPacket(PlayerInboundPacketEvent event) {
+        if (!(event.getPacket() instanceof InPlayerPositionAndLookPacket)) {
             return;
         }
-        InPlayerPositionAndLookPacket playerPositionAndLookPacket = (InPlayerPositionAndLookPacket) inboundPacketEvent.getPacket();
+        InPlayerPositionAndLookPacket playerPositionAndLookPacket = (InPlayerPositionAndLookPacket) event.getPacket();
 
-        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
-        Entity entity = player.getEntity();
+        Entity entity = event.getPlayer().getEntity();
 
         if (entity == null) {
             return;
@@ -110,6 +102,7 @@ public class PlayerMovePacketListener {
         entity.getLocation().setPosition(newPosition);
         entity.getLocation().setRotation(newRotation);
 
-        CleanstoneServer.publishEvent(new PlayerMoveEvent(player, oldPosition, oldRotation, newPosition, newRotation));
+        CleanstoneServer.publishEvent(
+                new PlayerMoveEvent(event.getPlayer(), oldPosition, oldRotation, newPosition, newRotation));
     }
 }

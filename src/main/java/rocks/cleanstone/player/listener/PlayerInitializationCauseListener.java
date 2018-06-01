@@ -1,14 +1,19 @@
-package rocks.cleanstone.player;
+package rocks.cleanstone.player.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
 import rocks.cleanstone.net.packet.data.Text;
 import rocks.cleanstone.net.packet.outbound.DisconnectPacket;
+import rocks.cleanstone.player.OnlinePlayer;
+import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.PlayerID;
+import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.AsyncPlayerLoginEvent;
 
 public class PlayerInitializationCauseListener {
@@ -22,7 +27,7 @@ public class PlayerInitializationCauseListener {
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPlayerLoginSuccess(AsyncLoginSuccessEvent loginEvent) {
+    public synchronized void onPlayerLoginSuccess(AsyncLoginSuccessEvent loginEvent) {
         Connection connection = loginEvent.getConnection();
         PlayerID playerID = playerManager.getPlayerID(loginEvent.getUUID(), loginEvent.getName());
 
