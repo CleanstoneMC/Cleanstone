@@ -1,6 +1,7 @@
 package rocks.cleanstone.net.raknet;
 
 import com.whirvis.jraknet.session.RakNetClientSession;
+import com.whirvis.jraknet.session.RakNetState;
 
 import java.net.InetAddress;
 
@@ -32,5 +33,10 @@ public class RakNetConnection extends AbstractConnection {
     @Override
     public void close(Packet packet) {
         // TODO
+    }
+
+    @Override
+    public boolean isClosed() {
+        return session.getState() == RakNetState.DISCONNECTED;
     }
 }

@@ -1,11 +1,12 @@
 package rocks.cleanstone.net;
 
+import java.net.InetAddress;
+
+import javax.crypto.SecretKey;
+
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.protocol.ProtocolState;
-
-import javax.crypto.SecretKey;
-import java.net.InetAddress;
 
 public interface Connection {
 
@@ -36,4 +37,6 @@ public interface Connection {
     void close();
 
     void close(Packet packet);
+
+    boolean isClosed();
 }
