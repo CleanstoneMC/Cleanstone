@@ -26,6 +26,7 @@ import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,22 +52,39 @@ public class BlockStorage {
         this.storage = new FlexibleStorage(this.bitsPerEntry, 4096);
     }
 
+    public BlockStorage(ByteBuf in) throws IOException {
+        this.bitsPerEntry = in.readUnsignedByte();
+        this.palette = new ArrayList<>();
+
+        int stateCount = ByteBufUtils.readVarInt(in);
+        for (int i = 0; i < stateCount; i++) {
+            this.palette.add(BlockState.of(ByteBufUtils.readVarInt(in)));
+        }
+        int amount = ByteBufUtils.readVarInt(in);
+        long[] data = new long[amount];
+        for (int i = 0; i < amount; amount++) {
+            data[i] = in.readLong();
+        }
+        this.storage = new FlexibleStorage(this.bitsPerEntry, data);
+    }
+
+
     private static int index(int x, int y, int z) {
         return (y & 0xf) << 8 | z << 4 | x;
     }
 
-    public void write(ByteBuf buf) {
-        buf.writeByte(this.bitsPerEntry);
+    public void write(ByteBuf out) {
+        out.writeByte(this.bitsPerEntry);
 
-        ByteBufUtils.writeVarInt(buf, this.palette.size());
+        ByteBufUtils.writeVarInt(out, this.palette.size());
         for (BlockState state : this.palette) {
-            ByteBufUtils.writeVarInt(buf, state.getRaw());
+            ByteBufUtils.writeVarInt(out, state.getRaw());
         }
 
         long[] data = this.storage.getData();
-        ByteBufUtils.writeVarInt(buf, data.length);
+        ByteBufUtils.writeVarInt(out, data.length);
         for (long dataItem : data) {
-            buf.writeLong(dataItem);
+            out.writeLong(dataItem);
         }
     }
 

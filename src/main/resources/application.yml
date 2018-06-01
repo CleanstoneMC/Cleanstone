@@ -11,7 +11,7 @@ cleanstone:
   address: 0.0.0.0
 
 minecraft:
-  port: 25565
+  port: 25566
   address: 0.0.0.0
   mcpePort: 19132
   mcpeAddress: 0.0.0.0
