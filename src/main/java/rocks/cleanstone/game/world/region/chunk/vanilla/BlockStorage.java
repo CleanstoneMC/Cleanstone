@@ -22,47 +22,69 @@
 package rocks.cleanstone.game.world.region.chunk.vanilla;
 
 import com.google.common.base.Objects;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.material.VanillaMaterial;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class BlockStorage {
 
+    private final List<BlockState> palette;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private int bitsPerEntry;
-
-    private final List<BlockState> states;
     private FlexibleStorage storage;
 
     public BlockStorage() {
         this.bitsPerEntry = 4;
 
-        this.states = new ArrayList<>();
-        this.states.add(BlockState.of(VanillaMaterial.AIR));
+        this.palette = new ArrayList<>();
+        this.palette.add(BlockState.of(VanillaMaterial.AIR));
 
         this.storage = new FlexibleStorage(this.bitsPerEntry, 4096);
     }
+
+    public BlockStorage(ByteBuf in) throws IOException {
+        this.bitsPerEntry = in.readUnsignedByte();
+        this.palette = new ArrayList<>();
+
+        int stateCount = ByteBufUtils.readVarInt(in);
+        for (int i = 0; i < stateCount; i++) {
+            this.palette.add(BlockState.of(ByteBufUtils.readVarInt(in)));
+        }
+        int amount = ByteBufUtils.readVarInt(in);
+        long[] data = new long[amount];
+        for (int i = 0; i < amount; amount++) {
+            data[i] = in.readLong();
+        }
+        this.storage = new FlexibleStorage(this.bitsPerEntry, data);
+    }
+
 
     private static int index(int x, int y, int z) {
         return (y & 0xf) << 8 | z << 4 | x;
     }
 
-    public void write(ByteBuf buf) {
-        buf.writeByte(this.bitsPerEntry);
+    public void write(ByteBuf out) {
+        out.writeByte(this.bitsPerEntry);
 
-        ByteBufUtils.writeVarInt(buf, this.states.size());
-        for (BlockState state : this.states) {
-            ByteBufUtils.writeVarInt(buf, state.getRaw());
+        ByteBufUtils.writeVarInt(out, this.palette.size());
+        for (BlockState state : this.palette) {
+            ByteBufUtils.writeVarInt(out, state.getRaw());
         }
 
         long[] data = this.storage.getData();
-        ByteBufUtils.writeVarInt(buf, data.length);
+        ByteBufUtils.writeVarInt(out, data.length);
         for (long dataItem : data) {
-            buf.writeLong(dataItem);
+            out.writeLong(dataItem);
         }
     }
 
@@ -70,8 +92,8 @@ public class BlockStorage {
         return this.bitsPerEntry;
     }
 
-    public List<BlockState> getStates() {
-        return Collections.unmodifiableList(this.states);
+    public List<BlockState> getPalette() {
+        return Collections.unmodifiableList(this.palette);
     }
 
     public FlexibleStorage getStorage() {
@@ -79,30 +101,32 @@ public class BlockStorage {
     }
 
     public void set(int x, int y, int z, BlockState state) {
-        int id = this.bitsPerEntry <= 8 ? this.states.indexOf(state) : state.getRaw();
+        int id = this.bitsPerEntry <= 8 ? this.palette.indexOf(state) : state.getRaw();
         if (id == -1) {
-            this.states.add(state);
-            if (this.states.size() > 1 << this.bitsPerEntry) {
+            this.palette.add(state);
+            if (this.palette.size() > 1 << this.bitsPerEntry) {
                 this.bitsPerEntry++;
-
-                List<BlockState> oldStates = this.states;
-                if (this.bitsPerEntry > 8) {
-                    oldStates = new ArrayList<>(this.states);
-                    this.states.clear();
-                    this.bitsPerEntry = 13;
-                }
-
-                FlexibleStorage oldStorage = this.storage;
-                this.storage = new FlexibleStorage(this.bitsPerEntry, this.storage.getSize());
-                for (int index = 0; index < this.storage.getSize(); index++) {
-                    this.storage.set(index, this.bitsPerEntry <= 8 ? oldStorage.get(index) : oldStates.get(index).getRaw());
-                }
+                recalculateStorage();
             }
-
-            id = this.bitsPerEntry <= 8 ? this.states.indexOf(state) : state.getRaw();
+            id = this.bitsPerEntry <= 8 ? this.palette.indexOf(state) : state.getRaw();
         }
 
         this.storage.set(index(x, y, z), id);
+    }
+
+    private void recalculateStorage() {
+        List<BlockState> oldStates = this.palette;
+        if (this.bitsPerEntry > 8) {
+            oldStates = new ArrayList<>(this.palette);
+            this.palette.clear();
+            this.bitsPerEntry = 13;
+        }
+
+        FlexibleStorage oldStorage = this.storage;
+        this.storage = new FlexibleStorage(this.bitsPerEntry, this.storage.getSize());
+        for (int index = 0; index < this.storage.getSize(); index++) {
+            this.storage.set(index, this.bitsPerEntry <= 8 ? oldStorage.get(index) : oldStates.get(index).getRaw());
+        }
     }
 
     public boolean isEmpty() {
@@ -122,12 +146,12 @@ public class BlockStorage {
 
         BlockStorage that = (BlockStorage) o;
         return this.bitsPerEntry == that.bitsPerEntry &&
-                Objects.equal(this.states, that.states) &&
+                Objects.equal(this.palette, that.palette) &&
                 Objects.equal(this.storage, that.storage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.bitsPerEntry, this.states, this.storage);
+        return Objects.hashCode(this.bitsPerEntry, this.palette, this.storage);
     }
 }

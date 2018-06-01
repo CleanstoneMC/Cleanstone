@@ -28,7 +28,6 @@ public class ChunkDataPacketFactory {
      * @return A new ChunkDataPacket that will be closed and therefore unusable after being sent and encoded
      */
     public static ChunkDataPacket create(Chunk chunk, boolean isNewChunk) {
-        //long pre = System.currentTimeMillis();
         int primaryBitMask = 0;
         ByteBuf data = Unpooled.buffer();
 
@@ -43,8 +42,6 @@ public class ChunkDataPacketFactory {
                 data.writeByte(127);  // "void" biome
             }
         }
-        // TODO Improve BlockStorage & FlexibleStorage efficiency SEVERELY
-        //logger.info("ChunkDataPacket creation took " + (System.currentTimeMillis() - pre) + "ms");
         // TODO optional NBT block entities
         return new ChunkDataPacket(chunk.getX(), chunk.getY(), isNewChunk, primaryBitMask, data, new NamedBinaryTag[]{});
     }
