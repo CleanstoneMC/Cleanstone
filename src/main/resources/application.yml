@@ -25,3 +25,6 @@ minecraft:
   ops:
   - fionera
   - MyzelYam
+
+logging.level.org.springframework: warn
+logging.level.com.whirvis.jraknet: warn
