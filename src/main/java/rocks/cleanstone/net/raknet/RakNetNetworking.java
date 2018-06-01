@@ -10,7 +10,6 @@ import org.springframework.context.event.EventListener;
 
 import java.net.InetAddress;
 
-import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.protocol.Protocol;
 
@@ -29,8 +28,6 @@ public class RakNetNetworking extends AbstractNetworking {
 
     public void init() {
         server = new RakNetServer(port, Integer.MAX_VALUE, identifier);
-        logger.info(CleanstoneServer.getMessage("net.raknet.binding",
-                protocol.getClass().getSimpleName(), getAddress(), getPort() + ""));
         server.addListener(new ServerListener(this));
         server.startThreaded().setName("RakNetServer-" + currentServerID++);
     }

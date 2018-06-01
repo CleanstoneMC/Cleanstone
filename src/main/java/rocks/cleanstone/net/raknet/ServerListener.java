@@ -45,4 +45,11 @@ public class ServerListener implements RakNetServerListener {
         logger.error(CleanstoneServer.getMessage("net.raknet.server-failure",
                 networking.getAddress().getHostAddress(), networking.getPort() + ""), throwable);
     }
+
+    @Override
+    public void onServerStart() {
+        logger.info(CleanstoneServer.getMessage("net.raknet.bind-successful",
+                networking.getProtocol().getClass().getSimpleName(), networking.getAddress(),
+                networking.getPort() + ""));
+    }
 }
