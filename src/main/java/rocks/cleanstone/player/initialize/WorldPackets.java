@@ -5,11 +5,11 @@ import org.springframework.core.annotation.Order;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.world.World;
-import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbilities;
-import rocks.cleanstone.net.minecraft.packet.outbound.JoinGamePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerAbilitiesPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerPositionAndLookPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPositionPacket;
+import rocks.cleanstone.net.packet.enums.PlayerAbilities;
+import rocks.cleanstone.net.packet.outbound.JoinGamePacket;
+import rocks.cleanstone.net.packet.outbound.OutPlayerAbilitiesPacket;
+import rocks.cleanstone.net.packet.outbound.OutPlayerPositionAndLookPacket;
+import rocks.cleanstone.net.packet.outbound.SpawnPositionPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 

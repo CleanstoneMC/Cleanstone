@@ -1,12 +1,12 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
-import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.protocol.ProtocolState;
-import rocks.cleanstone.net.packet.protocol.ServerProtocolLayer;
-
-import javax.annotation.Nullable;
+import rocks.cleanstone.net.protocol.ProtocolState;
+import rocks.cleanstone.net.protocol.ServerProtocolLayer;
 
 public abstract class MinecraftServerProtocolLayer extends ServerProtocolLayer {
 

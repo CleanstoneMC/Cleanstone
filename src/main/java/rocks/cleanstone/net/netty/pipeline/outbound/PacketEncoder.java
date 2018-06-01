@@ -11,8 +11,8 @@ import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.util.AttributeKey;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.protocol.PacketCodec;
-import rocks.cleanstone.net.packet.protocol.Protocol;
+import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class PacketEncoder extends MessageToMessageEncoder<Packet> {

@@ -24,12 +24,12 @@ import rocks.cleanstone.net.minecraft.HandshakeListener;
 import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginEvent;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
-import rocks.cleanstone.net.minecraft.packet.data.Text;
-import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectLoginPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.LoginSuccessPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.SetCompressionPacket;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
+import rocks.cleanstone.net.packet.data.Text;
+import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
+import rocks.cleanstone.net.packet.outbound.DisconnectLoginPacket;
+import rocks.cleanstone.net.packet.outbound.LoginSuccessPacket;
+import rocks.cleanstone.net.packet.outbound.SetCompressionPacket;
 import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;
 import rocks.cleanstone.player.UserProperty;
@@ -72,8 +72,7 @@ public class LoginManager {
     }
 
     public void finishLogin(Connection connection, UUID uuid, String accountName, UserProperty[] properties) {
-        if (connectionLoginDataMap.remove(connection) == null)
-            throw new IllegalStateException("Cannot finish login before it has started");
+        if (connectionLoginDataMap.remove(connection) == null || connection.isClosed()) return;
         Collection<UserProperty> userProperties = new ArrayList<>(Arrays.asList(properties));
 
         AsyncLoginEvent event = CleanstoneServer.publishEvent(
@@ -102,7 +101,7 @@ public class LoginManager {
     void onEncryptionResponse(Connection connection,
                               EncryptionResponsePacket encryptionResponsePacket) {
         LoginData loginData = connectionLoginDataMap.get(connection);
-        if (loginData == null) throw new IllegalStateException("Connection hasnt started login process");
+        if (loginData == null || connection.isClosed()) return;
         SecretKey key = LoginCrypto.validateEncryptionResponse(loginData, privateKey, encryptionResponsePacket);
         connection.setSharedSecret(key);
         connection.setEncryptionEnabled(true);

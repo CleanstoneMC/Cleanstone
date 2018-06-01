@@ -1,6 +1,6 @@
 package rocks.cleanstone.net;
 
-import rocks.cleanstone.net.packet.protocol.Protocol;
+import rocks.cleanstone.net.protocol.Protocol;
 
 import java.net.InetAddress;
 import java.security.KeyPair;

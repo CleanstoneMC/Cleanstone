@@ -6,10 +6,10 @@ import rocks.cleanstone.net.cleanstone.packet.CleanstoneOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.SimplePacketTypeRegistry;
-import rocks.cleanstone.net.packet.protocol.ClientProtocolLayer;
-import rocks.cleanstone.net.packet.protocol.PacketCodec;
-import rocks.cleanstone.net.packet.protocol.Protocol;
-import rocks.cleanstone.net.packet.protocol.ProtocolState;
+import rocks.cleanstone.net.protocol.ClientProtocolLayer;
+import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.Protocol;
+import rocks.cleanstone.net.protocol.ProtocolState;
 
 public class SimpleCleanstoneProtocol implements Protocol {
 

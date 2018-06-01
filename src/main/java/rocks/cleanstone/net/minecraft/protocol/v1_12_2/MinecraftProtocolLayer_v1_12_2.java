@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
-import rocks.cleanstone.net.minecraft.packet.inbound.*;
-import rocks.cleanstone.net.minecraft.packet.outbound.*;
+import rocks.cleanstone.net.packet.inbound.*;
+import rocks.cleanstone.net.packet.outbound.*;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;

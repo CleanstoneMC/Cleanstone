@@ -2,10 +2,10 @@ package rocks.cleanstone.player;
 
 import rocks.cleanstone.game.chat.message.Chat;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.minecraft.packet.data.Text;
-import rocks.cleanstone.net.minecraft.packet.enums.ChatPosition;
-import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutChatMessagePacket;
+import rocks.cleanstone.net.packet.data.Text;
+import rocks.cleanstone.net.packet.enums.ChatPosition;
+import rocks.cleanstone.net.packet.outbound.DisconnectPacket;
+import rocks.cleanstone.net.packet.outbound.OutChatMessagePacket;
 import rocks.cleanstone.net.packet.Packet;
 
 import java.net.InetAddress;

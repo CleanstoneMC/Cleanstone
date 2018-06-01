@@ -1,6 +1,6 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
-import rocks.cleanstone.net.packet.protocol.ProtocolState;
+import rocks.cleanstone.net.protocol.ProtocolState;
 
 import javax.annotation.Nullable;
 

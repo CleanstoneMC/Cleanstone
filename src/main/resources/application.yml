@@ -13,6 +13,8 @@ cleanstone:
 minecraft:
   port: 25565
   address: 0.0.0.0
+  mcpePort: 19132
+  mcpeAddress: 0.0.0.0
   onlineMode: true
   motd: Cleanstone Advanced Minecraft Server
   maxPlayers: 10000
@@ -23,3 +25,6 @@ minecraft:
   ops:
   - fionera
   - MyzelYam
+
+logging.level.org.springframework: warn
+logging.level.com.whirvis.jraknet: warn
