@@ -15,6 +15,7 @@ import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 
@@ -81,6 +82,7 @@ public class SimpleGeneratedWorld implements World {
         return regions.values();
     }
 
+    @Nullable
     @Override
     public Region getLoadedRegion(int x, int y) {
         return regions.get(x, y);
