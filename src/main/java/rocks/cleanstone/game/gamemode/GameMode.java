@@ -1,11 +1,13 @@
 package rocks.cleanstone.game.gamemode;
 
-import rocks.cleanstone.net.packet.enums.PlayerAbilities;
-
 import java.util.Collection;
+
+import rocks.cleanstone.net.packet.enums.PlayerAbilities;
 
 public interface GameMode {
     int getTypeId();
+
+    String getName();
 
     GameModeRuleSet getRuleSet();
 

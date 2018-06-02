@@ -1,11 +1,13 @@
 package rocks.cleanstone.game.gamemode.vanilla;
 
-import rocks.cleanstone.game.gamemode.GameMode;
-import rocks.cleanstone.game.gamemode.GameModeRuleSet;
-import rocks.cleanstone.net.packet.enums.PlayerAbilities;
+import com.google.common.base.CaseFormat;
 
 import java.util.Collection;
 import java.util.HashSet;
+
+import rocks.cleanstone.game.gamemode.GameMode;
+import rocks.cleanstone.game.gamemode.GameModeRuleSet;
+import rocks.cleanstone.net.packet.enums.PlayerAbilities;
 
 public enum VanillaGameMode implements GameMode {
     SURVIVAL(0, new Survival()),
@@ -24,6 +26,11 @@ public enum VanillaGameMode implements GameMode {
     @Override
     public int getTypeId() {
         return typeId;
+    }
+
+    @Override
+    public String getName() {
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name());
     }
 
     public GameModeRuleSet getRuleSet() {
