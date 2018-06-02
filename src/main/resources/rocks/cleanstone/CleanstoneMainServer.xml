@@ -127,13 +127,51 @@
         <constructor-arg ref="chatManager"/>
     </bean>
 
-    <!-- Commands -->
+    <!-- Command System -->
     <bean id="commandRegistry" class="rocks.cleanstone.game.command.SimpleCommandRegistry">
         <constructor-arg ref="playerManager"/>
+        <constructor-arg>
+            <list>
+                <ref bean="stopCommand"/>
+                <ref bean="kickCommand"/>
+                <ref bean="alertCommand"/>
+                <ref bean="gameModeCommand"/>
+                <ref bean="setCommand"/>
+            </list>
+        </constructor-arg>
+
+        <constructor-arg>
+            <list>
+                <ref bean="stringParameter"/>
+                <ref bean="intParameter"/>
+                <ref bean="playerParameter"/>
+                <ref bean="gameModeParameter"/>
+            </list>
+        </constructor-arg>
     </bean>
+
     <bean id="commandListener" class="rocks.cleanstone.game.command.listener.CommandListener">
         <constructor-arg ref="commandRegistry"/>
     </bean>
+
+    <!-- (Commands) -->
+    <bean id="stopCommand" class="rocks.cleanstone.game.command.cleanstone.StopCommand">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+    <bean id="kickCommand" class="rocks.cleanstone.game.command.cleanstone.KickCommand"/>
+    <bean id="alertCommand" class="rocks.cleanstone.game.command.cleanstone.AlertCommand">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+    <bean id="gameModeCommand" class="rocks.cleanstone.game.command.cleanstone.GameModeCommand"/>
+    <bean id="setCommand" class="rocks.cleanstone.game.command.cleanstone.SetCommand"/>
+
+    <!-- (Command Parameters) -->
+    <bean id="stringParameter" class="rocks.cleanstone.game.command.parameter.StringParameter"/>
+    <bean id="intParameter" class="rocks.cleanstone.game.command.parameter.IntParameter"/>
+    <bean id="playerParameter" class="rocks.cleanstone.game.command.parameter.PlayerParameter">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+    <bean id="gameModeParameter" class="rocks.cleanstone.game.command.parameter.GameModeParameter"/>
 
     <!-- NETWORKING -->
     <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"/>

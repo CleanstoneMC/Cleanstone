@@ -1,8 +1,9 @@
 package rocks.cleanstone.game.command;
 
-import rocks.cleanstone.player.Player;
-
+import java.util.Collection;
 import java.util.List;
+
+import rocks.cleanstone.player.Player;
 
 public interface CommandMessage {
     CommandSender getCommandSender();
@@ -13,13 +14,17 @@ public interface CommandMessage {
 
     List<String> getParameters();
 
-    void setParameterIndex(int index);
-
     int getParameterIndex();
+
+    void setParameterIndex(int index);
 
     Player requireTargetPlayer();
 
+    String requireStringMessage(boolean optional);
+
     <T> T requireParameter(Class<T> parameterClass);
+
+    <T> Collection<T> requireVarargParameter(Class<T> parameterClass, boolean allowEmpty);
 
     boolean isParameterPresent(Class<?> parameterClass);
 }

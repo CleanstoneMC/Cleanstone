@@ -1,10 +1,14 @@
 package rocks.cleanstone.game.command;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import rocks.cleanstone.game.command.parameter.CommandParameter;
 import rocks.cleanstone.player.Player;
-
-import java.util.List;
 
 public class SimpleCommandMessage implements CommandMessage {
 
@@ -45,13 +49,13 @@ public class SimpleCommandMessage implements CommandMessage {
     }
 
     @Override
-    public void setParameterIndex(int parameterIndex) {
-        this.parameterIndex = parameterIndex;
+    public int getParameterIndex() {
+        return parameterIndex;
     }
 
     @Override
-    public int getParameterIndex() {
-        return parameterIndex;
+    public void setParameterIndex(int parameterIndex) {
+        this.parameterIndex = parameterIndex;
     }
 
     private String getNextParameter() {
@@ -81,6 +85,24 @@ public class SimpleCommandMessage implements CommandMessage {
         } else {
             return requireParameter(Player.class);
         }
+    }
+
+    @Override
+    public String requireStringMessage(boolean optional) {
+        return Joiner.on(' ').join(requireVarargParameter(String.class, optional));
+    }
+
+    @Override
+    public <T> Collection<T> requireVarargParameter(Class<T> parameterClass, boolean allowEmpty) {
+        Collection<T> collection = new ArrayList<>();
+        while (isParameterPresent(parameterClass)) {
+            collection.add(requireParameter(parameterClass));
+        }
+
+        if (collection.isEmpty() && !allowEmpty) {
+            requireParameter(parameterClass);
+        }
+        return collection;
     }
 
     @Override

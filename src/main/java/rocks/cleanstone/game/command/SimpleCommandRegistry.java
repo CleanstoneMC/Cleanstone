@@ -3,20 +3,21 @@ package rocks.cleanstone.game.command;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
-import rocks.cleanstone.game.command.cleanstone.GameModeCommand;
-import rocks.cleanstone.game.command.cleanstone.SetCommand;
-import rocks.cleanstone.game.command.executor.HelpPageExecutor;
-import rocks.cleanstone.game.command.parameter.*;
-import rocks.cleanstone.player.PlayerManager;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.command.executor.HelpPageExecutor;
+import rocks.cleanstone.game.command.parameter.CommandParameter;
+import rocks.cleanstone.player.PlayerManager;
 
 public class SimpleCommandRegistry implements CommandRegistry {
 
@@ -26,13 +27,10 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public SimpleCommandRegistry(PlayerManager playerManager) {
-        registerCommand(new SetCommand(), false);
-        registerCommand(new GameModeCommand(), false);
-        registerCommandParameter(new StringParameter());
-        registerCommandParameter(new IntParameter());
-        registerCommandParameter(new PlayerParameter(playerManager));
-        registerCommandParameter(new GameModeParameter());
+    public SimpleCommandRegistry(PlayerManager playerManager, Collection<Command> standardCommands,
+                                 Collection<CommandParameter<?>> standardParameters) {
+        standardCommands.forEach(this::registerCommand);
+        standardParameters.forEach(this::registerCommandParameter);
     }
 
     @Override
