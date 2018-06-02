@@ -1,14 +1,21 @@
 package rocks.cleanstone.core;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.MessageSource;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+
+import java.util.Locale;
+
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
 import rocks.cleanstone.core.event.EventExecutionException;
-
-import java.util.Locale;
 
 public abstract class CleanstoneServer implements ApplicationRunner {
 
@@ -17,6 +24,7 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
     protected final CleanstoneConfig cleanstoneConfig;
     protected final MinecraftConfig minecraftConfig;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     protected CleanstoneEventPublisher eventPublisher;
     @Autowired
@@ -74,5 +82,11 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
     public SpringBeanDefinitionProxy getSpringBeanDefinitionProxy() {
         return springBeanDefinitionProxy;
+    }
+
+    @Order(value = Ordered.HIGHEST_PRECEDENCE)
+    @EventListener
+    public void onShutdown(ContextClosedEvent e) {
+        logger.info("Shutting down");
     }
 }
