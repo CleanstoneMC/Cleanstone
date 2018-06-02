@@ -75,8 +75,6 @@
 
     <!-- Initialization -->
     <bean id="playerData" class="rocks.cleanstone.player.initialize.PlayerData">
-    </bean>
-    <bean id="playerEntity" class="rocks.cleanstone.player.initialize.PlayerEntity">
         <constructor-arg index="0" ref="game"/>
         <constructor-arg index="1" ref="entityManager"/>
     </bean>
