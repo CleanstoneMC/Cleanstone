@@ -2,8 +2,10 @@ package rocks.cleanstone.player.initialize;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
+
 import rocks.cleanstone.game.OpenWorldGame;
 import rocks.cleanstone.game.entity.Location;
+import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
 import rocks.cleanstone.game.world.region.EntityManager;
@@ -27,10 +29,10 @@ public class PlayerData {
 
         // TODO Get player data from data source
 
-
         Location spawnLocation = openWorldGame.getFirstSpawnWorld().getFirstSpawnLocation();
+        Rotation spawnRotation = new Rotation(spawnLocation.getRotation());
 
-        Human human = new SimpleHuman(spawnLocation);
+        Human human = new SimpleHuman(spawnLocation, spawnRotation);
         human = entityManager.addEntityWithoutID(human);
 
         player.setEntity(human);

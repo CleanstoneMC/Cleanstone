@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.entity;
 
+import com.google.common.base.Objects;
+
 import rocks.cleanstone.utils.Vector;
 
 public class Rotation {
@@ -46,5 +48,19 @@ public class Rotation {
         double y = -Math.sin(pitch);
         double z = Math.cos(pitch) * Math.cos(yaw);
         return new Vector(x, y, z);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Rotation)) return false;
+        Rotation rotation = (Rotation) o;
+        return Float.compare(rotation.yaw, yaw) == 0 &&
+                Float.compare(rotation.pitch, pitch) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(yaw, pitch);
     }
 }

@@ -59,7 +59,7 @@ public enum MinecraftOutboundPacketType implements PacketType {
 //    REMOVE_ENTITY_EFFECT(51, RemoveEntityEffectPacket.class),
 //    RESOURCE_PACK_SEND(52, ResourcePackSendPacket.class),
 //    RESPAWN(53, RespawnPacket.class),
-//    ENTITY_HEAD_LOOK(54, EntityHeadLookPacket.class),
+    ENTITY_HEAD_LOOK(54, EntityHeadLookPacket.class),
 //    SELECT_ADVANCEMENT_TAB(55, SelectAdvancementTabPacket.class),
 //    WORLD_BORDER(56, WorldBorderPacket.class),
 //    CAMERA(57, CameraPacket.class),

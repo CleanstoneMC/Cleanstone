@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.net.packet.outbound.EntityHeadLookPacket;
 import rocks.cleanstone.net.packet.outbound.EntityLookAndRelativeMovePacket;
 import rocks.cleanstone.net.packet.outbound.EntityLookPacket;
 import rocks.cleanstone.net.packet.outbound.EntityRelativeMovePacket;
@@ -29,12 +31,20 @@ public class PlayerMoveListener {
         final Position newPosition = playerMoveEvent.getNewPosition();
         final Rotation oldRotation = playerMoveEvent.getOldRotation();
         final Rotation newRotation = playerMoveEvent.getNewRotation();
+        final Rotation oldHeadRotation = playerMoveEvent.getOldHeadRotation();
+        final Rotation newHeadRotation = playerMoveEvent.getNewHeadRotation();
 
         final Player movingPlayer = playerMoveEvent.getPlayer();
         final int entityID = movingPlayer.getEntity().getEntityID();
 
         final int pitch = newRotation.getIntPitch();
         final int yaw = newRotation.getIntYaw();
+
+        if (!oldHeadRotation.equals(newHeadRotation)) {
+            EntityHeadLookPacket entityHeadLookPacket = new EntityHeadLookPacket(
+                    entityID, newHeadRotation.getIntYaw());
+            playerManager.broadcastPacket(entityHeadLookPacket, movingPlayer);
+        }
 
         if (oldPosition.equals(newPosition)) {
             if (oldRotation.equals(newRotation)) {

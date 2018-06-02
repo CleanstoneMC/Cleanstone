@@ -83,6 +83,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new EntityTeleportCodec(), EntityTeleportPacket.class);
         registerPacketCodec(new DestroyEntitiesCodec(), DestroyEntitiesPacket.class);
         registerPacketCodec(new ChangeGameStateCodec(), ChangeGameStatePacket.class);
+        registerPacketCodec(new EntityHeadLookCodec(), EntityHeadLookPacket.class);
     }
 
     @Override
