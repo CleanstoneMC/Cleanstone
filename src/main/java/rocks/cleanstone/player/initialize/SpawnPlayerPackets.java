@@ -49,7 +49,7 @@ public class SpawnPlayerPackets {
                         return;
                     }
 
-                    Entity entity = player.getEntity();
+                    Entity entity = onlinePlayer.getEntity();
                     Location location = entity.getLocation();
 
                     SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(entity.getEntityID(), onlinePlayer.getId().getUUID(), location.getPosition().getX(), location.getPosition().getY(), location.getPosition().getZ(),

@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Entity;
+import rocks.cleanstone.game.entity.Location;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.net.packet.inbound.InPlayerPositionAndLookPacket;
@@ -38,7 +39,7 @@ public class PlayerMovePacketListener {
         newRotation.setPitch(playerLookPacket.getPitch());
         newRotation.setYaw(playerLookPacket.getYaw());
 
-        entity.getLocation().setRotation(newRotation);
+        entity.setLocation(new Location(oldPosition, newRotation));
 
         CleanstoneServer.publishEvent(new PlayerMoveEvent(
                 event.getPlayer(), oldPosition, oldRotation, oldPosition, newRotation));
@@ -67,7 +68,7 @@ public class PlayerMovePacketListener {
         newPosition.setY(playerPositionPacket.getFeetY());
         newPosition.setZ(playerPositionPacket.getZ());
 
-        entity.getLocation().setPosition(newPosition);
+        entity.setLocation(new Location(newPosition, oldRotation));
 
         CleanstoneServer.publishEvent(
                 new PlayerMoveEvent(event.getPlayer(), oldPosition, oldRotation, newPosition, oldRotation));
@@ -99,8 +100,7 @@ public class PlayerMovePacketListener {
         newRotation.setPitch(playerPositionAndLookPacket.getPitch());
         newRotation.setYaw(playerPositionAndLookPacket.getYaw());
 
-        entity.getLocation().setPosition(newPosition);
-        entity.getLocation().setRotation(newRotation);
+        entity.setLocation(new Location(newPosition, newRotation));
 
         CleanstoneServer.publishEvent(
                 new PlayerMoveEvent(event.getPlayer(), oldPosition, oldRotation, newPosition, newRotation));

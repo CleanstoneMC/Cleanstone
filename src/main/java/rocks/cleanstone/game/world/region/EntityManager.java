@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.world.region;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.entity.AbstractEntity;
 import rocks.cleanstone.game.entity.Entity;
 
@@ -10,6 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class EntityManager {
     private final Map<Integer, Entity> entityMap = new HashMap<>();
+    private final ThreadLocalRandom current = ThreadLocalRandom.current();
 
     public EntityManager(Map<Integer, Entity> entityMap) {
         this.entityMap.putAll(entityMap);
@@ -36,9 +39,8 @@ public class EntityManager {
     }
 
     private int getUnoccupiedEntityID() {
-        ThreadLocalRandom current = ThreadLocalRandom.current();
-
         int random = current.nextInt();
+
         while (entityMap.containsKey(random)) {
             random = current.nextInt();
         }
