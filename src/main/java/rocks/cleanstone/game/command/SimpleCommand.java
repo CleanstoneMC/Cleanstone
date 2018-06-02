@@ -1,15 +1,23 @@
 package rocks.cleanstone.game.command;
 
 import com.google.common.collect.ImmutableMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rocks.cleanstone.game.chat.Console;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import rocks.cleanstone.game.chat.ConsoleSender;
 import rocks.cleanstone.game.command.executor.CommandExecutor;
 import rocks.cleanstone.game.command.executor.HelpPageExecutor;
 import rocks.cleanstone.game.permission.Permission;
 import rocks.cleanstone.player.Player;
-
-import java.util.*;
 
 public class SimpleCommand implements Command {
 
@@ -82,7 +90,7 @@ public class SimpleCommand implements Command {
     @Override
     public boolean allowsSender(CommandSender sender) {
         if (!allowsPlayer() && sender instanceof Player) return false;
-        return allowsConsole() || !(sender instanceof Console);
+        return allowsConsole() || !(sender instanceof ConsoleSender);
     }
 
     @Override
@@ -100,6 +108,9 @@ public class SimpleCommand implements Command {
         return parents;
     }
 
+    /**
+     * Use {@link SimpleCommandRegistry#executeCommand} to execute commands
+     */
     @Override
     public void execute(CommandMessage commandMessage) {
         if (commandExecutor != null) {
@@ -107,6 +118,9 @@ public class SimpleCommand implements Command {
         } else new HelpPageExecutor(this).execute(commandMessage);
     }
 
+    /**
+     * Use {@link SimpleCommandRegistry#executeCommand} to execute commands
+     */
     @Override
     public void execute(CommandMessage message, boolean considerSubCommands) {
         if (considerSubCommands && message.isParameterPresent(String.class)) {

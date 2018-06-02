@@ -1,5 +1,6 @@
 package rocks.cleanstone.game.command;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -15,6 +16,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.command.executor.HelpPageExecutor;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
 import rocks.cleanstone.player.PlayerManager;
@@ -35,6 +37,8 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
     @Override
     public boolean registerCommand(Command command, boolean force) {
+        Preconditions.checkNotNull(command, "command cannot be null");
+
         String commandName = command.getName().toLowerCase(Locale.ENGLISH);
         if (isRegisteredCommandName(commandName) && !force) {
             return false;
@@ -70,6 +74,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
         // TODO unregister children?
     }
 
+    @Nullable
     @Override
     public Command getCommand(String command) {
         return commandMap.get(command);
@@ -82,6 +87,8 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
     @Override
     public void registerCommandParameter(CommandParameter commandParameter) {
+        Preconditions.checkNotNull(commandParameter, "commandParameter cannot be null");
+
         commandParameters.add(commandParameter);
     }
 
@@ -98,15 +105,12 @@ public class SimpleCommandRegistry implements CommandRegistry {
         return ImmutableSet.copyOf(commandParameters);
     }
 
-    /**
-     * Please execute Commands with this and dont call execute directly
-     *
-     * @param command        The Command
-     * @param commandMessage The Command message
-     */
     @Async("commandExec")
     @Override
     public void executeCommand(Command command, CommandMessage commandMessage) {
+        Preconditions.checkNotNull(command, "command cannot be null");
+        Preconditions.checkNotNull(commandMessage, "commandMessage cannot be null");
+
         try {
             command.execute(commandMessage, true);
         } catch (InvalidParameterException | NotEnoughParametersException e) {
@@ -114,5 +118,22 @@ public class SimpleCommandRegistry implements CommandRegistry {
         } catch (Exception e) {
             throw new CommandException("Error occurred while executing command " + command.getName(), e);
         }
+    }
+
+    @Async("commandExec")
+    @Override
+    public void executeCommand(String commandLine, CommandSender sender) {
+        Preconditions.checkNotNull(commandLine, "commandLine cannot be null");
+        Preconditions.checkNotNull(sender, "sender cannot be null");
+
+        CommandMessage commandMessage = CommandMessageFactory.construct(sender, commandLine, this);
+        Command command = getCommand(commandMessage.getCommandName());
+
+        if (command == null) {
+            sender.sendMessage(CleanstoneServer.getMessage(
+                    "game.command.command-not-found", commandMessage.getCommandName()));
+            return;
+        }
+        executeCommand(command, commandMessage);
     }
 }

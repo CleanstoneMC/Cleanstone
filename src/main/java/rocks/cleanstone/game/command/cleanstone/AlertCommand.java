@@ -34,6 +34,6 @@ public class AlertCommand extends SimpleCommand {
 
     @Override
     public Class[] getExpectedParameterTypes() {
-        return new Class[]{Player.class, String.class};
+        return new Class[]{String.class};
     }
 }

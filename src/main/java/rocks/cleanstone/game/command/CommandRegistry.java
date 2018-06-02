@@ -1,10 +1,11 @@
 package rocks.cleanstone.game.command;
 
-import rocks.cleanstone.game.command.parameter.CommandParameter;
-
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Set;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.command.parameter.CommandParameter;
 
 public interface CommandRegistry {
     boolean registerCommand(Command command, boolean force);
@@ -13,6 +14,7 @@ public interface CommandRegistry {
 
     void unregisterCommand(Command command);
 
+    @Nullable
     Command getCommand(String command);
 
     Collection<Command> getAllCommands();
@@ -25,4 +27,6 @@ public interface CommandRegistry {
     Set<CommandParameter<?>> getCommandParameters();
 
     void executeCommand(Command command, CommandMessage commandMessage);
+
+    void executeCommand(String commandLine, CommandSender sender);
 }

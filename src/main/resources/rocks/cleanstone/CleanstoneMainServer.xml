@@ -43,7 +43,9 @@
     <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer">
         <constructor-arg ref="cleanstoneConfig"/>
         <constructor-arg ref="minecraftConfig"/>
+        <constructor-arg ref="simpleConsole"/>
     </bean>
+    <bean id="simpleConsole" class="rocks.cleanstone.core.SimpleConsole"/>
 
     <!-- Events -->
     <bean id="cleanstoneEventPublisher" class="rocks.cleanstone.core.event.CleanstoneEventPublisher"/>
@@ -152,6 +154,7 @@
 
     <bean id="commandListener" class="rocks.cleanstone.game.command.listener.CommandListener">
         <constructor-arg ref="commandRegistry"/>
+        <constructor-arg ref="simpleConsole"/>
     </bean>
 
     <!-- (Commands) -->

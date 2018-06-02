@@ -1,0 +1,49 @@
+package rocks.cleanstone.core;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import rocks.cleanstone.game.chat.ConsoleSender;
+import rocks.cleanstone.game.chat.message.Chat;
+import rocks.cleanstone.game.command.CommandRegistry;
+
+public class SimpleConsole implements ConsoleSender {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private CommandRegistry commandRegistry;
+
+    @Override
+    public void sendMessage(Chat message) {
+        logger.info(message.getText());
+    }
+
+    @Override
+    public void sendMessage(String message) {
+        logger.info(message);
+    }
+
+    @Async
+    @Override
+    public void run() {
+        try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in))) {
+            while (true) {
+                String input = inputReader.readLine();
+                if (commandRegistry != null)
+                    commandRegistry.executeCommand(input, this);
+                else sendMessage("No command registry available");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setCommandRegistry(CommandRegistry commandRegistry) {
+        this.commandRegistry = commandRegistry;
+    }
+}
