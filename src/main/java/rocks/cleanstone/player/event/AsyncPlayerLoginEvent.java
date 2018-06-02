@@ -3,7 +3,7 @@ package rocks.cleanstone.player.event;
 import java.util.Collection;
 
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.packet.data.Text;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.player.PlayerID;
 import rocks.cleanstone.player.UserProperty;
 
@@ -12,7 +12,7 @@ public class AsyncPlayerLoginEvent {
     private final Connection connection;
     private final PlayerID playerID;
     private final Collection<UserProperty> userProperties;
-    private Text kickReason = Text.fromPlain("");
+    private Text kickReason = Text.of("");
     private boolean cancelled = false;
 
     public AsyncPlayerLoginEvent(Connection connection, PlayerID playerID,

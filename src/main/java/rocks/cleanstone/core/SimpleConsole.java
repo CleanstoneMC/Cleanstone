@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import rocks.cleanstone.game.chat.ConsoleSender;
-import rocks.cleanstone.game.chat.message.Chat;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandRegistry;
 
 public class SimpleConsole implements ConsoleSender {
@@ -18,8 +18,8 @@ public class SimpleConsole implements ConsoleSender {
     private CommandRegistry commandRegistry;
 
     @Override
-    public void sendMessage(Chat message) {
-        logger.info(message.getText());
+    public void sendMessage(Text message) {
+        logger.info(message.getPlainText());
     }
 
     @Override

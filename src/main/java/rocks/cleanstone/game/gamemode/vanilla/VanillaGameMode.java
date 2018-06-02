@@ -30,7 +30,7 @@ public enum VanillaGameMode implements GameMode {
 
     @Override
     public String getName() {
-        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name());
+        return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name());
     }
 
     public GameModeRuleSet getRuleSet() {

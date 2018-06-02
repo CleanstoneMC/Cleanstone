@@ -1,6 +1,6 @@
 package rocks.cleanstone.game.chat;
 
-import rocks.cleanstone.game.chat.message.Chat;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.chat.message.ChatMessage;
 import rocks.cleanstone.net.packet.enums.ChatPosition;
 import rocks.cleanstone.net.packet.outbound.OutChatMessagePacket;
@@ -20,7 +20,7 @@ public class ChatManager {
         playerManager.broadcastPacket(chatMessagePacket, excludedPlayers);
     }
 
-    public void sendChatMessage(Player receiver, Chat message) {
+    public void sendChatMessage(Player receiver, Text message) {
         receiver.sendPacket(new OutChatMessagePacket(message, ChatPosition.CHAT));
     }
 }

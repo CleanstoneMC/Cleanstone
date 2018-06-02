@@ -1,9 +1,9 @@
 package rocks.cleanstone.game.command;
 
-import rocks.cleanstone.game.chat.message.Chat;
+import rocks.cleanstone.game.chat.message.Text;
 
 public interface CommandSender {
-    void sendMessage(Chat message);
+    void sendMessage(Text message);
 
     void sendMessage(String message);
 }

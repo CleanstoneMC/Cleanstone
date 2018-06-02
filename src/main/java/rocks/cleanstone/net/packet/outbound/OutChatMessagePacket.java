@@ -1,6 +1,6 @@
 package rocks.cleanstone.net.packet.outbound;
 
-import rocks.cleanstone.game.chat.message.Chat;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.enums.ChatPosition;
 import rocks.cleanstone.net.packet.Packet;
@@ -8,15 +8,15 @@ import rocks.cleanstone.net.packet.PacketType;
 
 public class OutChatMessagePacket implements Packet {
 
-    private final Chat chat;
+    private final Text chat;
     private final ChatPosition chatPosition;
 
-    public OutChatMessagePacket(Chat chat, ChatPosition chatPosition) {
+    public OutChatMessagePacket(Text chat, ChatPosition chatPosition) {
         this.chat = chat;
         this.chatPosition = chatPosition;
     }
 
-    public Chat getChat() {
+    public Text getChat() {
         return chat;
     }
 

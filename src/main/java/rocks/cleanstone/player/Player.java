@@ -3,11 +3,10 @@ package rocks.cleanstone.player;
 import java.net.InetAddress;
 import java.util.Collection;
 
-import rocks.cleanstone.game.chat.message.Chat;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandSender;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.gamemode.GameMode;
-import rocks.cleanstone.net.packet.data.Text;
 import rocks.cleanstone.net.packet.enums.PlayerAbilities;
 import rocks.cleanstone.net.packet.Packet;
 
@@ -35,7 +34,7 @@ public interface Player extends CommandSender {
 
     void setOp(boolean state);
 
-    void sendMessage(Chat message);
+    void sendMessage(Text message);
 
     Collection<UserProperty> getUserProperties();
 

@@ -1,10 +1,9 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.chat.message.Chat;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
-import rocks.cleanstone.net.packet.data.Text;
 import rocks.cleanstone.player.Player;
 
 public class KickCommand extends SimpleCommand {
@@ -28,7 +27,7 @@ public class KickCommand extends SimpleCommand {
             reason = message.requireParameter(String.class);
         } else reason = CleanstoneServer.getMessage("game.command.cleanstone.default-kick-reason");
         target.kick(Text.of(reason));
-        message.getCommandSender().sendMessage(new Chat(CleanstoneServer.getMessage(
+        message.getCommandSender().sendMessage(Text.of(CleanstoneServer.getMessage(
                 "game.command.cleanstone.kicked-player", target.getId().getName(), reason)));
     }
 

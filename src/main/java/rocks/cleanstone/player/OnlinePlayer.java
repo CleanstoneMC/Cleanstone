@@ -1,15 +1,14 @@
 package rocks.cleanstone.player;
 
-import rocks.cleanstone.game.chat.message.Chat;
+import java.net.InetAddress;
+import java.util.Collection;
+
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.packet.data.Text;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.enums.ChatPosition;
 import rocks.cleanstone.net.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.net.packet.outbound.OutChatMessagePacket;
-import rocks.cleanstone.net.packet.Packet;
-
-import java.net.InetAddress;
-import java.util.Collection;
 
 public class OnlinePlayer extends AbstractPlayer {
 
@@ -52,12 +51,12 @@ public class OnlinePlayer extends AbstractPlayer {
     }
 
     @Override
-    public void sendMessage(Chat message) {
+    public void sendMessage(Text message) {
         connection.sendPacket(new OutChatMessagePacket(message, ChatPosition.CHAT));
     }
 
     @Override
     public void sendMessage(String message) {
-        sendMessage(new Chat(message));
+        sendMessage(Text.of(message));
     }
 }

@@ -3,7 +3,7 @@ package rocks.cleanstone.game.command.cleanstone;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
-import rocks.cleanstone.net.packet.data.Text;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 

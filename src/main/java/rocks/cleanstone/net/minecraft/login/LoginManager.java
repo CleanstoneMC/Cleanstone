@@ -25,7 +25,7 @@ import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginEvent;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
-import rocks.cleanstone.net.packet.data.Text;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
 import rocks.cleanstone.net.packet.outbound.DisconnectLoginPacket;
 import rocks.cleanstone.net.packet.outbound.LoginSuccessPacket;
@@ -122,7 +122,7 @@ public class LoginManager {
         }, e -> {
             try {
                 logger.error("Error occurred while requesting session servers", e);
-                stopLogin(connection, Text.fromPlain("Failed to validate session"));
+                stopLogin(connection, Text.of("Failed to validate session"));
             } catch (Exception e2) {
                 logger.error("Error occurred while stopping login", e2);
             }

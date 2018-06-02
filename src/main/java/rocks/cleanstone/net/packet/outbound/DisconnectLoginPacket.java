@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.outbound;
 
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
-import rocks.cleanstone.net.packet.data.Text;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.packet.PacketType;
 
 public class DisconnectLoginPacket extends DisconnectPacket {

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
 
-import rocks.cleanstone.game.chat.message.Chat;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
@@ -55,9 +55,9 @@ public class PlayerListItemPacket implements Packet {
         private final String name;
         private final GameMode gameMode;
         private final int ping;
-        private final Chat displayName;
+        private final Text displayName;
 
-        public PlayerItem(UUID uuid, Collection<UserProperty> userProperties, String name, GameMode gameMode, int ping, Chat displayName) {
+        public PlayerItem(UUID uuid, Collection<UserProperty> userProperties, String name, GameMode gameMode, int ping, Text displayName) {
             this.uuid = uuid;
             this.userProperties = userProperties;
             this.name = name;
@@ -68,7 +68,7 @@ public class PlayerListItemPacket implements Packet {
 
         public PlayerItem(Player player) {
             this(player.getId().getUUID(), player.getUserProperties(), player.getId().getName(), player.getGameMode(), player.getPing(),
-                    new Chat(player.getId().getName()));
+                    Text.of(player.getId().getName()));
         }
 
         public UUID getUUID() {
@@ -92,7 +92,7 @@ public class PlayerListItemPacket implements Packet {
             return ping;
         }
 
-        public Chat getDisplayName() {
+        public Text getDisplayName() {
             return displayName;
         }
 

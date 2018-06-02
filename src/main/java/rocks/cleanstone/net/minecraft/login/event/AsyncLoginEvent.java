@@ -1,12 +1,12 @@
 package rocks.cleanstone.net.minecraft.login.event;
 
-import rocks.cleanstone.core.event.CancellableEvent;
-import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.packet.data.Text;
-import rocks.cleanstone.player.UserProperty;
-
 import java.util.Collection;
 import java.util.UUID;
+
+import rocks.cleanstone.core.event.CancellableEvent;
+import rocks.cleanstone.game.chat.message.Text;
+import rocks.cleanstone.net.Connection;
+import rocks.cleanstone.player.UserProperty;
 
 public class AsyncLoginEvent extends CancellableEvent {
 
@@ -14,7 +14,7 @@ public class AsyncLoginEvent extends CancellableEvent {
     private final UUID uuid;
     private final String name;
     private final Collection<UserProperty> userProperties;
-    private Text kickReason = Text.fromPlain("");
+    private Text kickReason = Text.of("");
 
     public AsyncLoginEvent(Connection connection, UUID uuid, String name, Collection<UserProperty> userProperties) {
         this.connection = connection;

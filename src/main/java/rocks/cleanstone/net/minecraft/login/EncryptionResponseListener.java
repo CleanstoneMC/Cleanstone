@@ -6,7 +6,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
 import rocks.cleanstone.net.event.InboundPacketEvent;
-import rocks.cleanstone.net.packet.data.Text;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
 
 public class EncryptionResponseListener {
@@ -27,7 +27,7 @@ public class EncryptionResponseListener {
                 loginManager.onEncryptionResponse(event.getConnection(), packet);
             } catch (Exception e) {
                 logger.error("Error occurred while handling encryption response", e);
-                loginManager.stopLogin(event.getConnection(), Text.fromPlain("Invalid encryption response"));
+                loginManager.stopLogin(event.getConnection(), Text.of("Invalid encryption response"));
             }
         }
     }

@@ -3,7 +3,7 @@ package rocks.cleanstone.game.command.cleanstone;
 import java.util.Arrays;
 
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.chat.message.Chat;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.player.Player;
@@ -29,7 +29,7 @@ public class AlertCommand extends SimpleCommand {
 
         String input = message.requireStringMessage(false);
         String alertMessage = CleanstoneServer.getMessage("game.command.cleanstone.alert-format", input);
-        playerManager.getOnlinePlayers().forEach(player -> player.sendMessage(new Chat(alertMessage)));
+        playerManager.getOnlinePlayers().forEach(player -> player.sendMessage(Text.of(alertMessage)));
     }
 
     @Override
