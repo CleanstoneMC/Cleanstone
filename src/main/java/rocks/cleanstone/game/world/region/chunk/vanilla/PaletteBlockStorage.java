@@ -103,22 +103,22 @@ public class PaletteBlockStorage {
     }
 
     public void set(int x, int y, int z, BlockState state) {
-        int id = isUsingPalette() ? this.palette.indexOf(state) : state.getRaw();
+        int id = shouldUsePalette() ? this.palette.indexOf(state) : state.getRaw();
         if (id == -1) {
             this.palette.add(state);
+            // Are the bitsPerEntry too small to store all palette indexes?
             if (this.palette.size() > 1 << this.bitsPerEntry) {
-                this.bitsPerEntry++;
-                resizeStorage();
+                resizeStorage(++this.bitsPerEntry);
             }
-            id = isUsingPalette() ? this.palette.indexOf(state) : state.getRaw();
+            id = shouldUsePalette() ? this.palette.indexOf(state) : state.getRaw();
         }
 
         this.storage.set(index(x, y, z), id);
     }
 
-    private void resizeStorage() {
+    private void resizeStorage(int bitsPerEntry) {
         List<BlockState> oldStates = this.palette;
-        if (!isUsingPalette()) {
+        if (!shouldUsePalette()) {
             oldStates = new ArrayList<>(this.palette);
             this.palette.clear();
             this.bitsPerEntry = GLOBAL_PALETTE_BITS_PER_ENTRY;
@@ -127,7 +127,7 @@ public class PaletteBlockStorage {
         EntrySizeBasedStorage oldStorage = this.storage;
         this.storage = new EntrySizeBasedStorage(this.bitsPerEntry, this.storage.getSize());
         for (int index = 0; index < this.storage.getSize(); index++) {
-            this.storage.set(index, isUsingPalette() ? oldStorage.get(index) : oldStates.get(index).getRaw());
+            this.storage.set(index, shouldUsePalette() ? oldStorage.get(index) : oldStates.get(index).getRaw());
         }
     }
 
@@ -141,7 +141,7 @@ public class PaletteBlockStorage {
         return true;
     }
 
-    private boolean isUsingPalette() {
+    private boolean shouldUsePalette() {
         return this.bitsPerEntry <= MAX_BITS_PER_ENTRY_FOR_USING_PALETTE;
     }
 
