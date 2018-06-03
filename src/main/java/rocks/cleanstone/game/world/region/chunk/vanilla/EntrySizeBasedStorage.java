@@ -25,18 +25,18 @@ import com.google.common.base.Objects;
 
 import java.util.Arrays;
 
-public class FlexibleStorage {
+public class EntrySizeBasedStorage {
     private final long[] data;
     private final int bitsPerEntry;
     private final int size;
     private final long maxEntryValue;
 
-    public FlexibleStorage(int bitsPerEntry, int size) {
+    public EntrySizeBasedStorage(int bitsPerEntry, int size) {
         this(bitsPerEntry, new long[roundToNearest(size * bitsPerEntry, 64) / 64]);
     }
 
-    public FlexibleStorage(int bitsPerEntry, long[] data) {
-        if(bitsPerEntry < 4) {
+    public EntrySizeBasedStorage(int bitsPerEntry, long[] data) {
+        if (bitsPerEntry < 4) {
             bitsPerEntry = 4;
         }
 
@@ -48,12 +48,12 @@ public class FlexibleStorage {
     }
 
     private static int roundToNearest(int value, int roundTo) {
-        if(roundTo == 0) {
+        if (roundTo == 0) {
             return 0;
-        } else if(value == 0) {
+        } else if (value == 0) {
             return roundTo;
         } else {
-            if(value < 0) {
+            if (value < 0) {
                 roundTo *= -1;
             }
 
@@ -75,7 +75,7 @@ public class FlexibleStorage {
     }
 
     public int get(int index) {
-        if(index < 0 || index > this.size - 1) {
+        if (index < 0 || index > this.size - 1) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -83,7 +83,7 @@ public class FlexibleStorage {
         int startIndex = bitIndex / 64;
         int endIndex = ((index + 1) * this.bitsPerEntry - 1) / 64;
         int startBitSubIndex = bitIndex % 64;
-        if(startIndex == endIndex) {
+        if (startIndex == endIndex) {
             return (int) (this.data[startIndex] >>> startBitSubIndex & this.maxEntryValue);
         } else {
             int endBitSubIndex = 64 - startBitSubIndex;
@@ -92,11 +92,11 @@ public class FlexibleStorage {
     }
 
     public void set(int index, int value) {
-        if(index < 0 || index > this.size - 1) {
+        if (index < 0 || index > this.size - 1) {
             throw new IndexOutOfBoundsException();
         }
 
-        if(value < 0 || value > this.maxEntryValue) {
+        if (value < 0 || value > this.maxEntryValue) {
             throw new IllegalArgumentException("Value cannot be outside of accepted range.");
         }
 
@@ -105,7 +105,7 @@ public class FlexibleStorage {
         int endIndex = ((index + 1) * this.bitsPerEntry - 1) / 64;
         int startBitSubIndex = bitIndex % 64;
         this.data[startIndex] = this.data[startIndex] & ~(this.maxEntryValue << startBitSubIndex) | ((long) value & this.maxEntryValue) << startBitSubIndex;
-        if(startIndex != endIndex) {
+        if (startIndex != endIndex) {
             int endBitSubIndex = 64 - startBitSubIndex;
             this.data[endIndex] = this.data[endIndex] >>> endBitSubIndex << endBitSubIndex | ((long) value & this.maxEntryValue) >> endBitSubIndex;
         }
@@ -113,10 +113,10 @@ public class FlexibleStorage {
 
     @Override
     public boolean equals(Object o) {
-        if(this == o) return true;
-        if(!(o instanceof FlexibleStorage)) return false;
+        if (this == o) return true;
+        if (!(o instanceof EntrySizeBasedStorage)) return false;
 
-        FlexibleStorage that = (FlexibleStorage) o;
+        EntrySizeBasedStorage that = (EntrySizeBasedStorage) o;
         return Arrays.equals(this.data, that.data) &&
                 this.bitsPerEntry == that.bitsPerEntry &&
                 this.size == that.size &&
@@ -127,5 +127,4 @@ public class FlexibleStorage {
     public int hashCode() {
         return Objects.hashCode(this.data, this.bitsPerEntry, this.size, this.maxEntryValue);
     }
-
 }

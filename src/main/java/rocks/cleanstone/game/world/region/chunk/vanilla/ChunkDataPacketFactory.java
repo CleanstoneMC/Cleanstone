@@ -53,7 +53,7 @@ public class ChunkDataPacketFactory {
     private static boolean writeChunkSection(ByteBuf data, Chunk chunk, int sectionY) {
         // block data
         AtomicBoolean isEmptyFlag = new AtomicBoolean();
-        BlockStorage storage = getBlockData(sectionY, chunk, isEmptyFlag);
+        PaletteBlockStorage storage = getBlockData(sectionY, chunk, isEmptyFlag);
         if (isEmptyFlag.get()) return false;
         storage.write(data);
         // block light
@@ -64,8 +64,8 @@ public class ChunkDataPacketFactory {
         return true;
     }
 
-    private static BlockStorage getBlockData(int sectionY, Chunk chunk, AtomicBoolean isEmptyFlag) {
-        BlockStorage storage = new BlockStorage();
+    private static PaletteBlockStorage getBlockData(int sectionY, Chunk chunk, AtomicBoolean isEmptyFlag) {
+        PaletteBlockStorage storage = new PaletteBlockStorage();
         isEmptyFlag.set(true);
 
         for (int y = sectionY * SECTION_HEIGHT; y < sectionY * SECTION_HEIGHT + SECTION_HEIGHT; y++) {

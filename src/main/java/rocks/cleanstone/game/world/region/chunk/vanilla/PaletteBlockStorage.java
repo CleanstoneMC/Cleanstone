@@ -36,23 +36,25 @@ import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.material.VanillaMaterial;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class BlockStorage {
+public class PaletteBlockStorage {
+
+    private static final int MAX_BITS_PER_ENTRY_FOR_USING_PALETTE = 8, GLOBAL_PALETTE_BITS_PER_ENTRY = 13;
 
     private final List<BlockState> palette;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private int bitsPerEntry;
-    private FlexibleStorage storage;
+    private EntrySizeBasedStorage storage;
 
-    public BlockStorage() {
+    public PaletteBlockStorage() {
         this.bitsPerEntry = 4;
 
         this.palette = new ArrayList<>();
         this.palette.add(BlockState.of(VanillaMaterial.AIR));
 
-        this.storage = new FlexibleStorage(this.bitsPerEntry, 4096);
+        this.storage = new EntrySizeBasedStorage(this.bitsPerEntry, 4096);
     }
 
-    public BlockStorage(ByteBuf in) throws IOException {
+    public PaletteBlockStorage(ByteBuf in) throws IOException {
         this.bitsPerEntry = in.readUnsignedByte();
         this.palette = new ArrayList<>();
 
@@ -65,7 +67,7 @@ public class BlockStorage {
         for (int i = 0; i < amount; amount++) {
             data[i] = in.readLong();
         }
-        this.storage = new FlexibleStorage(this.bitsPerEntry, data);
+        this.storage = new EntrySizeBasedStorage(this.bitsPerEntry, data);
     }
 
 
@@ -96,36 +98,36 @@ public class BlockStorage {
         return Collections.unmodifiableList(this.palette);
     }
 
-    public FlexibleStorage getStorage() {
+    public EntrySizeBasedStorage getStorage() {
         return this.storage;
     }
 
     public void set(int x, int y, int z, BlockState state) {
-        int id = this.bitsPerEntry <= 8 ? this.palette.indexOf(state) : state.getRaw();
+        int id = isUsingPalette() ? this.palette.indexOf(state) : state.getRaw();
         if (id == -1) {
             this.palette.add(state);
             if (this.palette.size() > 1 << this.bitsPerEntry) {
                 this.bitsPerEntry++;
-                recalculateStorage();
+                resizeStorage();
             }
-            id = this.bitsPerEntry <= 8 ? this.palette.indexOf(state) : state.getRaw();
+            id = isUsingPalette() ? this.palette.indexOf(state) : state.getRaw();
         }
 
         this.storage.set(index(x, y, z), id);
     }
 
-    private void recalculateStorage() {
+    private void resizeStorage() {
         List<BlockState> oldStates = this.palette;
-        if (this.bitsPerEntry > 8) {
+        if (!isUsingPalette()) {
             oldStates = new ArrayList<>(this.palette);
             this.palette.clear();
-            this.bitsPerEntry = 13;
+            this.bitsPerEntry = GLOBAL_PALETTE_BITS_PER_ENTRY;
         }
 
-        FlexibleStorage oldStorage = this.storage;
-        this.storage = new FlexibleStorage(this.bitsPerEntry, this.storage.getSize());
+        EntrySizeBasedStorage oldStorage = this.storage;
+        this.storage = new EntrySizeBasedStorage(this.bitsPerEntry, this.storage.getSize());
         for (int index = 0; index < this.storage.getSize(); index++) {
-            this.storage.set(index, this.bitsPerEntry <= 8 ? oldStorage.get(index) : oldStates.get(index).getRaw());
+            this.storage.set(index, isUsingPalette() ? oldStorage.get(index) : oldStates.get(index).getRaw());
         }
     }
 
@@ -139,12 +141,16 @@ public class BlockStorage {
         return true;
     }
 
+    private boolean isUsingPalette() {
+        return this.bitsPerEntry <= MAX_BITS_PER_ENTRY_FOR_USING_PALETTE;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BlockStorage)) return false;
+        if (!(o instanceof PaletteBlockStorage)) return false;
 
-        BlockStorage that = (BlockStorage) o;
+        PaletteBlockStorage that = (PaletteBlockStorage) o;
         return this.bitsPerEntry == that.bitsPerEntry &&
                 Objects.equal(this.palette, that.palette) &&
                 Objects.equal(this.storage, that.storage);
