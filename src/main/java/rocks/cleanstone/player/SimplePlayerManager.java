@@ -15,7 +15,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.io.data.InGamePlayerDataRepository;
+import rocks.cleanstone.data.InGamePlayerDataRepository;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.game.chat.message.Text;

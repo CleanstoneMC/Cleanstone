@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.outbound;
 
 import rocks.cleanstone.game.Position;
-import rocks.cleanstone.io.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.enums.UpdateBlockAction;
 import rocks.cleanstone.net.packet.Packet;

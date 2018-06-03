@@ -1,4 +1,4 @@
-package rocks.cleanstone.io.vanilla.nbt;
+package rocks.cleanstone.data.vanilla.nbt;
 
 public enum VanillaTagType implements TagType {
     END(0),

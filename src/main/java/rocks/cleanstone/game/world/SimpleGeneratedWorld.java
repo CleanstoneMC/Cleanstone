@@ -3,21 +3,24 @@ package rocks.cleanstone.game.world;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
+
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.util.Collection;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Location;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
 import rocks.cleanstone.game.world.region.RegionWorker;
-import rocks.cleanstone.io.data.world.WorldDataSource;
 import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Map;
 
 public class SimpleGeneratedWorld implements World {
 

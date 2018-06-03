@@ -1,4 +1,4 @@
-package rocks.cleanstone.io.vanilla.nbt;
+package rocks.cleanstone.data.vanilla.nbt;
 
 public interface TagType {
     int getTypeId();

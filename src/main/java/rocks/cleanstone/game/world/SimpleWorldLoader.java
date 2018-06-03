@@ -6,9 +6,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
 
+import java.io.File;
+import java.io.IOException;
+
+import rocks.cleanstone.game.world.data.LevelDBWorldDataSource;
+import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
-import rocks.cleanstone.io.data.world.LevelDBWorldDataSource;
-import rocks.cleanstone.io.data.world.WorldDataSource;
 
 public class SimpleWorldLoader implements WorldLoader {
 
@@ -18,8 +21,12 @@ public class SimpleWorldLoader implements WorldLoader {
     @Override
     public ListenableFuture<World> loadWorld(String id) {
         logger.info("Loading world '" + id + "'...");
-        WorldDataSource dataSource = getDataSource(id);
-
+        WorldDataSource dataSource;
+        try {
+            dataSource = getDataSource(id);
+        } catch (IOException e) {
+            return AsyncResult.forExecutionException(e);
+        }
         World world = new SimpleGeneratedWorld(id, dataSource, new FlatWorldGenerator());
 
         // TODO: Loading spawn and other tasks(?)
@@ -32,7 +39,12 @@ public class SimpleWorldLoader implements WorldLoader {
 
     }
 
-    public WorldDataSource getDataSource(String id) {
-        return new LevelDBWorldDataSource(id);
+    public WorldDataSource getDataSource(String id) throws IOException {
+        return new LevelDBWorldDataSource(getWorldDataFolder(), id);
+    }
+
+    @Override
+    public File getWorldDataFolder() {
+        return new File("data");
     }
 }

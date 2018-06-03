@@ -1,6 +1,6 @@
-package rocks.cleanstone.io.vanilla.nbt.type;
+package rocks.cleanstone.data.vanilla.nbt.type;
 
-import rocks.cleanstone.io.vanilla.nbt.TagType;
+import rocks.cleanstone.data.vanilla.nbt.TagType;
 
 public abstract class AbstractTag<T> {
 

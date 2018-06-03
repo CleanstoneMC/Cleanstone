@@ -2,7 +2,7 @@ package rocks.cleanstone.net.packet.outbound;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.util.ReferenceCountUtil;
-import rocks.cleanstone.io.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;

@@ -1,15 +1,12 @@
-package rocks.cleanstone.io.data.world;
-
-import java.io.IOException;
+package rocks.cleanstone.game.world.data;
 
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 
 public interface WorldDataSource {
-    void open() throws IOException;
 
-    void close() throws IOException;
+    void close();
 
     @Nullable
     Chunk loadExistingChunk(int x, int y);

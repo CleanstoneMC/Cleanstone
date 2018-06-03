@@ -4,9 +4,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
 
+import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
-import rocks.cleanstone.io.data.world.WorldDataSource;
 
 public class LocalRegionWorker implements RegionWorker {
 

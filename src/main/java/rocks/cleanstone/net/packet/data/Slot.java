@@ -1,6 +1,6 @@
 package rocks.cleanstone.net.packet.data;
 
-import rocks.cleanstone.io.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 
 public class Slot {
     private final short blockID;

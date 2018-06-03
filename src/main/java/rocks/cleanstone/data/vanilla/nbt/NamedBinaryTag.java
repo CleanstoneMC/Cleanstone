@@ -1,6 +1,6 @@
-package rocks.cleanstone.io.vanilla.nbt;
+package rocks.cleanstone.data.vanilla.nbt;
 
-import rocks.cleanstone.io.vanilla.nbt.type.AbstractTag;
+import rocks.cleanstone.data.vanilla.nbt.type.AbstractTag;
 
 import java.io.File;
 
