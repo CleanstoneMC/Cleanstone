@@ -2,14 +2,16 @@ package rocks.cleanstone.game.world.region.chunk;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+
 import org.springframework.lang.Nullable;
-import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.material.VanillaMaterial;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.material.VanillaMaterial;
 
 public class MapChunkTable implements ChunkTable {
 
@@ -32,7 +34,8 @@ public class MapChunkTable implements ChunkTable {
     public Collection<Block> getBlocks() {
         Collection<Block> blockCollection = new HashSet<>();
 
-        coordHeightMapTable.cellSet().forEach(integerIntegerHashMapCell -> blockCollection.addAll(integerIntegerHashMapCell.getValue().values()));
+        coordHeightMapTable.cellSet().forEach(integerIntegerHashMapCell ->
+                blockCollection.addAll(integerIntegerHashMapCell.getValue().values()));
 
         return blockCollection;
     }
@@ -40,7 +43,7 @@ public class MapChunkTable implements ChunkTable {
     @Override
     public void setBlock(int x, int y, int z, Block block) {
         if (block == null || block.getState().getMaterial() == VanillaMaterial.AIR) {
-            getHeightMap(x, y).remove(y);
+            getHeightMap(x, z).remove(y);
         } else
             getHeightMap(x, z).put(y, block);
     }
