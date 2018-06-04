@@ -3,12 +3,15 @@ package rocks.cleanstone.game.world;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.generation.WorldGenerator;
 
-import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.world.generation.WorldGenerator;
 
 public class SimpleWorldManager implements WorldManager {
 
@@ -59,21 +62,25 @@ public class SimpleWorldManager implements WorldManager {
 
             worldMap.remove(id);
         } catch (Exception e) {
-            logger.error("Error while unloading World", e);
+            logger.error("Error occurred while unloading World", e);
         }
     }
 
     @Override
     public void createWorld(String id, WorldGenerator generator) {
-        World world = new SimpleGeneratedWorld(id, worldLoader.getDataSource(id), generator);
-
-        worldMap.put(id, world);
+        World world;
+        try {
+            world = new SimpleGeneratedWorld(id, worldLoader.getDataSource(id), generator);
+            worldMap.put(id, world);
+        } catch (IOException e) {
+            logger.error("Error occurred while loading World", e);
+        }
     }
 
     @Override
     public void deleteWorld(String id) {
         unloadWorld(id);
 
-        //TODO: Delete
+        //TODO: Delete file
     }
 }

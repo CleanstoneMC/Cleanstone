@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import rocks.cleanstone.data.InGamePlayerDataRepository;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
 
@@ -23,8 +22,6 @@ public interface PlayerManager {
     Player getOnlinePlayer(String name);
 
     Collection<PlayerID> getAllPlayerIDs();
-
-    InGamePlayerDataRepository getPlayerDataContainer(PlayerID id);
 
     PlayerID getPlayerID(UUID uuid, String accountName);
 

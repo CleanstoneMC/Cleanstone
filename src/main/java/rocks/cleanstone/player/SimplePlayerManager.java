@@ -15,10 +15,9 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.data.InGamePlayerDataRepository;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
@@ -64,12 +63,6 @@ public class SimplePlayerManager implements PlayerManager {
     @Override
     public Collection<PlayerID> getAllPlayerIDs() {
         return ImmutableSet.copyOf(playerIDs);
-    }
-
-    @Override
-    public InGamePlayerDataRepository getPlayerDataContainer(PlayerID id) {
-        // TODO get player data repo
-        return null;
     }
 
     @Override
