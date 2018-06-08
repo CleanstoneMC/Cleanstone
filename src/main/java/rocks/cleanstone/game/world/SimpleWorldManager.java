@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.world.generation.WorldGenerator;
+import rocks.cleanstone.game.world.region.SimpleRegionManager;
 
 public class SimpleWorldManager implements WorldManager {
 
@@ -70,10 +71,10 @@ public class SimpleWorldManager implements WorldManager {
     public void createWorld(String id, WorldGenerator generator) {
         World world;
         try {
-            world = new SimpleGeneratedWorld(id, worldLoader.getDataSource(id), generator);
+            world = new SimpleGeneratedWorld(id, worldLoader.getDataSource(id), generator, new SimpleRegionManager());
             worldMap.put(id, world);
         } catch (IOException e) {
-            logger.error("Error occurred while loading World", e);
+            logger.error("Error occurred while creating World", e);
         }
     }
 

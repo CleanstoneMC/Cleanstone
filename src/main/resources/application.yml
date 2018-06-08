@@ -22,6 +22,7 @@ minecraft:
   - world
   - world_nether
   - world_the_end
+  firstSpawnWorld: world
   ops:
   - fionera
   - MyzelYam

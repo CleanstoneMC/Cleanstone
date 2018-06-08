@@ -13,5 +13,7 @@ public interface RegionManager {
 
     ListenableFuture<Region> loadRegion(int x, int y);
 
+    ListenableFuture<Region> getRegion(int x, int y);
+
     void unloadRegion(int x, int y);
 }

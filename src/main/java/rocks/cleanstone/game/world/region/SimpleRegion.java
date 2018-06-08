@@ -17,16 +17,14 @@ public class SimpleRegion implements Region {
     private static final int CHUNK_COUNT_ROOT = 32;
 
     private final Chunk[][] chunks;
-    private final List<RegionWorker> regionWorkers;
     private int nextWorker = 0;
 
-    public SimpleRegion(Chunk[][] chunks, Collection<RegionWorker> regionWorkers) {
+    public SimpleRegion(Chunk[][] chunks ) {
         this.chunks = chunks;
-        this.regionWorkers = new ArrayList<>(regionWorkers);
     }
 
     public SimpleRegion(Collection<RegionWorker> regionWorkers) {
-        this(new SimpleChunk[CHUNK_COUNT_ROOT][CHUNK_COUNT_ROOT], regionWorkers);
+        this(new SimpleChunk[CHUNK_COUNT_ROOT][CHUNK_COUNT_ROOT]);
     }
 
     @Override
@@ -45,30 +43,23 @@ public class SimpleRegion implements Region {
         return chunks[x][y];
     }
 
-    @Async("worldLoadingExec")
     @Override
     public ListenableFuture<Chunk> getChunk(int x, int y) {
-        if (isChunkLoaded(x, y)) {
-            return new AsyncResult<>(getLoadedChunk(x, y));
-        }
-
-        ListenableFuture<Chunk> chunkListenableFuture = getNextWorker().loadChunk(x, y);
-        chunkListenableFuture.addCallback(result -> chunks[x][y] = result, ex -> {
-            //TODO
-        });
-
-        return chunkListenableFuture;
+        return null; //TODO
     }
 
-    private RegionWorker getNextWorker() {
-        int next = nextWorker;
-        if (next >= regionWorkers.size()) next = 0;
-        nextWorker++;
-        return regionWorkers.get(next);
-    }
-
-    @Override
-    public Collection<RegionWorker> getWorkers() {
-        return regionWorkers;
-    }
+//    @Async("worldLoadingExec")
+//    @Override
+//    public ListenableFuture<Chunk> getChunk(int x, int y) {
+//        if (isChunkLoaded(x, y)) {
+//            return new AsyncResult<>(getLoadedChunk(x, y));
+//        }
+//
+//        ListenableFuture<Chunk> chunkListenableFuture = getNextWorker().loadChunk(x, y);
+//        chunkListenableFuture.addCallback(result -> chunks[x][y] = result, ex -> {
+//            //TODO
+//        });
+//
+//        return chunkListenableFuture;
+//    }
 }

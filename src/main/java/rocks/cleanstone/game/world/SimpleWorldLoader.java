@@ -12,6 +12,7 @@ import java.io.IOException;
 import rocks.cleanstone.game.world.data.LevelDBWorldDataSource;
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
+import rocks.cleanstone.game.world.region.SimpleRegionManager;
 
 public class SimpleWorldLoader implements WorldLoader {
 
@@ -27,7 +28,7 @@ public class SimpleWorldLoader implements WorldLoader {
         } catch (IOException e) {
             return AsyncResult.forExecutionException(e);
         }
-        World world = new SimpleGeneratedWorld(id, dataSource, new FlatWorldGenerator());
+        World world = new SimpleGeneratedWorld(id, dataSource, new FlatWorldGenerator(), new SimpleRegionManager());
 
         // TODO: Loading spawn and other tasks(?)
         logger.info("World '" + id + "' loaded.");

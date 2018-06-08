@@ -20,6 +20,7 @@ public class MinecraftConfig {
     private String motd;
     private int maxPlayers;
     private List<String> autoLoadWorlds;
+    private String firstSpawnWorld;
     private List<String> ops;
 
     public static MinecraftConfig getInstance() {
@@ -88,6 +89,14 @@ public class MinecraftConfig {
 
     public void setAutoLoadWorlds(List<String> autoLoadWorlds) {
         this.autoLoadWorlds = autoLoadWorlds;
+    }
+
+    public String getFirstSpawnWorld() {
+        return firstSpawnWorld;
+    }
+
+    public void setFirstSpawnWorld(String firstSpawnWorld) {
+        this.firstSpawnWorld = firstSpawnWorld;
     }
 
     @Override

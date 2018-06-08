@@ -13,6 +13,4 @@ public interface Region {
     Chunk getLoadedChunk(int x, int y);
 
     ListenableFuture<Chunk> getChunk(int x, int y);
-
-    Collection<RegionWorker> getWorkers();
 }

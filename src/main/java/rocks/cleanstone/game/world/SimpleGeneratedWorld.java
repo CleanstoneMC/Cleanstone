@@ -1,50 +1,41 @@
 package rocks.cleanstone.game.world;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Table;
-
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
-import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Location;
 import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
-import rocks.cleanstone.game.world.region.RegionWorker;
+import rocks.cleanstone.game.world.region.RegionManager;
 import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
 
 public class SimpleGeneratedWorld implements World {
 
     private final String id;
     private final WorldDataSource dataSource;
     private final WorldGenerator generator;
-    private final Table<Integer, Integer, Region> regions;
-    private final Map<Region, Collection<RegionWorker>> regionWorkersMap;
+    private final RegionManager regionManager;
     private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
     private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
     private LevelType levelType = LevelType.FLAT; //TODO: Move
     private Location spawnLocation;
 
-    public SimpleGeneratedWorld(String id, WorldDataSource dataSource, WorldGenerator generator, Location spawnLocation) {
+    public SimpleGeneratedWorld(String id, WorldDataSource dataSource, WorldGenerator generator, RegionManager regionManager, Location spawnLocation) {
         this.id = id;
         this.dataSource = dataSource;
         this.generator = generator;
+        this.regionManager = regionManager;
         this.spawnLocation = spawnLocation;
-        regions = HashBasedTable.create();
-        regionWorkersMap = Maps.newConcurrentMap();
     }
 
-    public SimpleGeneratedWorld(String id, WorldDataSource dataSource, WorldGenerator generator) {
-        this(id, dataSource, generator, null);
+    public SimpleGeneratedWorld(String id, WorldDataSource dataSource, WorldGenerator generator, RegionManager regionManager) {
+        this(id, dataSource, generator, regionManager, null);
     }
 
     @Override
@@ -80,25 +71,21 @@ public class SimpleGeneratedWorld implements World {
         return generator;
     }
 
-    @Override
+
     public Collection<Region> getLoadedRegions() {
-        return regions.values();
+        return regionManager.getLoadedRegions();
     }
 
     @Nullable
-    @Override
     public Region getLoadedRegion(int x, int y) {
-        return regions.get(x, y);
+        return regionManager.getLoadedRegion(x, y);
     }
 
-    @Override
     public ListenableFuture<Region> loadRegion(int x, int y) {
-        // TODO
-        return null;
+        return regionManager.loadRegion(x, y);
     }
 
-    @Override
     public void unloadRegion(int x, int y) {
-        // TODO
+        regionManager.unloadRegion(x, y);
     }
 }
