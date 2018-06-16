@@ -2,9 +2,15 @@ package rocks.cleanstone.player.initialize;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
+
+import java.util.concurrent.ThreadLocalRandom;
+
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.world.World;
+import rocks.cleanstone.net.packet.enums.Difficulty;
+import rocks.cleanstone.net.packet.enums.Dimension;
+import rocks.cleanstone.net.packet.enums.LevelType;
 import rocks.cleanstone.net.packet.enums.PlayerAbilities;
 import rocks.cleanstone.net.packet.outbound.JoinGamePacket;
 import rocks.cleanstone.net.packet.outbound.OutPlayerAbilitiesPacket;
@@ -12,8 +18,6 @@ import rocks.cleanstone.net.packet.outbound.OutPlayerPositionAndLookPacket;
 import rocks.cleanstone.net.packet.outbound.SpawnPositionPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class WorldPackets {
 
@@ -23,17 +27,16 @@ public class WorldPackets {
         Player player = e.getPlayer();
 
         World world = player.getEntity().getLocation().getPosition().getWorld();
+        Dimension dimension = world != null ? world.getDimension() : Dimension.OVERWORLD;
+        Difficulty difficulty = world != null ? world.getDifficulty() : Difficulty.EASY;
+        LevelType levelType = world != null ? world.getLevelType() : LevelType.DEFAULT;
+
         Position playerPosition = player.getEntity().getLocation().getPosition();
         Rotation playerRotation = player.getEntity().getLocation().getRotation();
 
         player.sendPacket(
-                new JoinGamePacket(
-                        player.getEntity().getEntityID(),
-                        player.getGameMode().getTypeId(),
-                        world.getDimension(),
-                        world.getDifficulty(),
-                        world.getLevelType(),
-                        false)
+                new JoinGamePacket(player.getEntity().getEntityID(), player.getGameMode().getTypeId(),
+                        dimension, difficulty, levelType, false)
         );
 
         player.sendPacket(new SpawnPositionPacket(playerPosition));

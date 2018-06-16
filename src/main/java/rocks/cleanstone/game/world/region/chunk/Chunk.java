@@ -1,9 +1,10 @@
 package rocks.cleanstone.game.world.region.chunk;
 
+import java.util.Collection;
+
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
-
-import java.util.Collection;
+import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
 
 public interface Chunk {
 
@@ -22,9 +23,19 @@ public interface Chunk {
 
     Block getBlock(int x, int y, int z);
 
+    void setBlock(int x, int y, int z, Block block);
+
     byte getBlockLight(int x, int y, int z);
+
+    void setBlockLight(int x, int y, int z, byte blockLight);
 
     byte getSkyLight(int x, int y, int z);
 
+    void setSkyLight(int x, int y, int z, byte skyLight);
+
     boolean hasSkylight();
+
+    BlockDataTable getBlockDataTable();
+
+    BlockDataStorage getBlockDataStorage();
 }

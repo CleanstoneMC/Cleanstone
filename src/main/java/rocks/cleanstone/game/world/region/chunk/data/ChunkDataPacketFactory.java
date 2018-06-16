@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region.chunk.vanilla;
+package rocks.cleanstone.game.world.region.chunk.data;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import io.netty.buffer.Unpooled;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
-import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.game.world.region.chunk.data.block.vanilla.PaletteBlockStateStorage;
 import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
 
 public class ChunkDataPacketFactory {
@@ -43,7 +43,9 @@ public class ChunkDataPacketFactory {
             }
         }
         // TODO optional NBT block entities
-        return new ChunkDataPacket(chunk.getX(), chunk.getY(), isNewChunk, primaryBitMask, data, new NamedBinaryTag[]{});
+        // return new ChunkDataPacket(chunk.getX(), chunk.getY(), isNewChunk, primaryBitMask, data, new
+        //  NamedBinaryTag[]{});
+        return null;
     }
 
     /**
@@ -53,7 +55,7 @@ public class ChunkDataPacketFactory {
     private static boolean writeChunkSection(ByteBuf data, Chunk chunk, int sectionY) {
         // block data
         AtomicBoolean isEmptyFlag = new AtomicBoolean();
-        PaletteBlockStorage storage = getBlockData(sectionY, chunk, isEmptyFlag);
+        PaletteBlockStateStorage storage = getBlockData(sectionY, chunk, isEmptyFlag);
         if (isEmptyFlag.get()) return false;
         storage.write(data);
         // block light
@@ -64,8 +66,8 @@ public class ChunkDataPacketFactory {
         return true;
     }
 
-    private static PaletteBlockStorage getBlockData(int sectionY, Chunk chunk, AtomicBoolean isEmptyFlag) {
-        PaletteBlockStorage storage = new PaletteBlockStorage();
+    private static PaletteBlockStateStorage getBlockData(int sectionY, Chunk chunk, AtomicBoolean isEmptyFlag) {
+        PaletteBlockStateStorage storage = new PaletteBlockStateStorage();
         isEmptyFlag.set(true);
 
         for (int y = sectionY * SECTION_HEIGHT; y < sectionY * SECTION_HEIGHT + SECTION_HEIGHT; y++) {

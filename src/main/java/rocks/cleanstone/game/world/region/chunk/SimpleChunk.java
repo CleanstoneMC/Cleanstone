@@ -6,24 +6,28 @@ import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
+import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
 
 public class SimpleChunk implements Chunk {
 
+    private final BlockDataTable blockDataTable;
+    private final BlockDataStorage blockDataStorage;
     private final Collection<Entity> entityCollection;
-    private final ChunkTable chunkTable;
-    private final int x;
-    private final int y;
+    private final int x, y;
+    // TODO biome state
 
-    public SimpleChunk(Collection<Entity> entityCollection, ChunkTable chunkTable, int x, int y) {
+    public SimpleChunk(BlockDataTable blockDataTable, BlockDataStorage blockDataStorage,
+                       Collection<Entity> entityCollection, int x, int y) {
+        this.blockDataTable = blockDataTable;
+        this.blockDataStorage = blockDataStorage;
         this.entityCollection = entityCollection;
-        this.chunkTable = chunkTable;
         this.x = x;
         this.y = y;
     }
 
     @Override
     public Collection<Block> getBlocks() {
-        return chunkTable.getBlocks();
+        return blockDataTable.getBlocks();
     }
 
     @Override
@@ -44,24 +48,51 @@ public class SimpleChunk implements Chunk {
     @Nullable
     @Override
     public Block getBlock(int x, int y, int z) {
-        return chunkTable.getBlock(x, y, z);
+        return blockDataTable.getBlock(x, y, z);
+    }
+
+    @Override
+    public void setBlock(int x, int y, int z, Block block) {
+        blockDataTable.setBlock(x, y, z, block);
+        // TODO run the following expensive operation async
+        blockDataStorage.setBlockState(x, y, z, block.getState());
     }
 
     @Override
     public byte getBlockLight(int x, int y, int z) {
-        // TODO
-        return 0;
+        return blockDataTable.getBlockLight(x, y, z);
+    }
+
+    @Override
+    public void setBlockLight(int x, int y, int z, byte blockLight) {
+        blockDataTable.setBlockLight(x, y, z, blockLight);
+        blockDataStorage.setBlockLight(x, y, z, blockLight);
     }
 
     @Override
     public byte getSkyLight(int x, int y, int z) {
-        // TODO
-        return 15;
+        return blockDataTable.getSkyLight(x, y, z);
+    }
+
+    @Override
+    public void setSkyLight(int x, int y, int z, byte skyLight) {
+        if (!hasSkylight()) return;
+        blockDataTable.setSkyLight(x, y, z, skyLight);
+        blockDataStorage.setSkyLight(x, y, z, skyLight);
     }
 
     @Override
     public boolean hasSkylight() {
-        // TODO
-        return true;
+        return blockDataTable.hasSkylight();
+    }
+
+    @Override
+    public BlockDataTable getBlockDataTable() {
+        return blockDataTable;
+    }
+
+    @Override
+    public BlockDataStorage getBlockDataStorage() {
+        return blockDataStorage;
     }
 }

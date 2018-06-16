@@ -9,9 +9,10 @@ import org.springframework.scheduling.annotation.Async;
 
 import java.util.UUID;
 
+import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
-import rocks.cleanstone.game.world.region.chunk.vanilla.ChunkDataPacketFactory;
+import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
 import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.player.Player;
@@ -73,7 +74,9 @@ public class PlayerMoveChunkLoadListener {
     }
 
     protected void sendChunkLoad(Player player, int x, int y) {
-        ChunkDataPacket chunkDataPacket = ChunkDataPacketFactory.create(flatWorldGenerator.generateChunk(x, y), true);
+        // TODO access actual chunk
+        BlockDataStorage storage = flatWorldGenerator.generateChunk(x, y).getBlockDataStorage();
+        ChunkDataPacket chunkDataPacket = new ChunkDataPacket(x, y, true, storage, new NamedBinaryTag[]{});
         player.sendPacket(chunkDataPacket);
     }
 

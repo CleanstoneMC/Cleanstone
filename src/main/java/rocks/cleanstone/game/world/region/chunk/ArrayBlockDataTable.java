@@ -1,0 +1,73 @@
+package rocks.cleanstone.game.world.region.chunk;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.material.VanillaMaterial;
+
+public class ArrayBlockDataTable implements BlockDataTable {
+
+    private final Block[][][] blocks;
+    private final byte[][][] blockLight, skyLight;
+    private final boolean hasSkylight;
+
+    public ArrayBlockDataTable(Block[][][] blocks, byte[][][] blockLight, byte[][][] skyLight,
+                               boolean hasSkyLight) {
+        this.blocks = blocks;
+        this.blockLight = blockLight;
+        this.skyLight = skyLight;
+        this.hasSkylight = hasSkyLight;
+    }
+
+    public ArrayBlockDataTable(boolean hasSkyLight) {
+        blocks = new Block[Chunk.WIDTH][Chunk.WIDTH][Chunk.HEIGHT];
+        blockLight = new byte[Chunk.WIDTH][Chunk.WIDTH][Chunk.HEIGHT];
+        skyLight = new byte[Chunk.WIDTH][Chunk.WIDTH][Chunk.HEIGHT];
+        this.hasSkylight = hasSkyLight;
+    }
+
+    @Override
+    public Block getBlock(int x, int y, int z) {
+        Block block = blocks[x][z][y];
+        return block != null ? block : ImmutableBlock.of(VanillaMaterial.AIR);
+    }
+
+    public void setBlock(int x, int y, int z, Block block) {
+        if (block == null || block.getState().getMaterial() == VanillaMaterial.AIR) {
+            blocks[x][z][y] = null;
+        } else
+            blocks[x][z][y] = block;
+    }
+
+    @Override
+    public byte getBlockLight(int x, int y, int z) {
+        return blockLight[x][z][y];
+    }
+
+    @Override
+    public void setBlockLight(int x, int y, int z, byte blockLight) {
+        this.blockLight[x][z][y] = blockLight;
+    }
+
+    @Override
+    public byte getSkyLight(int x, int y, int z) {
+        return skyLight[x][z][y];
+    }
+
+    @Override
+    public void setSkyLight(int x, int y, int z, byte skyLight) {
+        this.skyLight[x][z][y] = skyLight;
+    }
+
+    @Override
+    public boolean hasSkylight() {
+        return hasSkylight;
+    }
+
+    @Override
+    public Collection<Block> getBlocks() {
+        return Arrays.asList((Block[]) Arrays.stream(blocks).toArray());
+    }
+}

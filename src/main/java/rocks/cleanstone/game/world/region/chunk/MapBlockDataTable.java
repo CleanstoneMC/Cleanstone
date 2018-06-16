@@ -13,15 +13,15 @@ import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.VanillaMaterial;
 
-public class MapChunkTable implements ChunkTable {
+public class MapBlockDataTable implements BlockDataTable {
 
     private final Table<Integer, Integer, HashMap<Integer, Block>> coordHeightMapTable;
 
-    public MapChunkTable(Table<Integer, Integer, HashMap<Integer, Block>> coordHeightMapTable) {
+    public MapBlockDataTable(Table<Integer, Integer, HashMap<Integer, Block>> coordHeightMapTable) {
         this.coordHeightMapTable = coordHeightMapTable;
     }
 
-    public MapChunkTable() {
+    public MapBlockDataTable() {
         coordHeightMapTable = HashBasedTable.create(Chunk.WIDTH, Chunk.WIDTH);
     }
 
@@ -46,6 +46,34 @@ public class MapChunkTable implements ChunkTable {
             getHeightMap(x, z).remove(y);
         } else
             getHeightMap(x, z).put(y, block);
+    }
+
+    @Override
+    public byte getBlockLight(int x, int y, int z) {
+        // TODO
+        return 0;
+    }
+
+    @Override
+    public void setBlockLight(int x, int y, int z, byte blockLight) {
+        // TODO
+    }
+
+    @Override
+    public byte getSkyLight(int x, int y, int z) {
+        // TODO
+        return 0;
+    }
+
+    @Override
+    public void setSkyLight(int x, int y, int z, byte skyLight) {
+        // TODO
+    }
+
+    @Override
+    public boolean hasSkylight() {
+        // TODO
+        return false;
     }
 
     private HashMap<Integer, Block> getHeightMap(int x, int z) {

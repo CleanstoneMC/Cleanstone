@@ -1,28 +1,25 @@
 package rocks.cleanstone.net.packet.outbound;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class ChunkDataPacket implements Packet, AutoCloseable {
+public class ChunkDataPacket implements Packet {
 
     private final int chunkX;
     private final int chunkZ;
     private final boolean groundUpContinuous;
-    private final int primaryBitMask;
-    private final ByteBuf data;
+    private final BlockDataStorage storage;
     private final NamedBinaryTag[] blockEntities;
 
-    public ChunkDataPacket(int chunkX, int chunkZ, boolean groundUpContinuous, int primaryBitMask,
-                           ByteBuf data, NamedBinaryTag[] blockEntities) {
+    public ChunkDataPacket(int chunkX, int chunkZ, boolean groundUpContinuous,
+                           BlockDataStorage storage, NamedBinaryTag[] blockEntities) {
         this.chunkX = chunkX;
         this.chunkZ = chunkZ;
         this.groundUpContinuous = groundUpContinuous;
-        this.primaryBitMask = primaryBitMask;
-        this.data = data;
+        this.storage = storage;
         this.blockEntities = blockEntities;
     }
 
@@ -38,12 +35,8 @@ public class ChunkDataPacket implements Packet, AutoCloseable {
         return groundUpContinuous;
     }
 
-    public int getPrimaryBitMask() {
-        return primaryBitMask;
-    }
-
-    public ByteBuf getData() {
-        return data;
+    public BlockDataStorage getStorage() {
+        return storage;
     }
 
     public NamedBinaryTag[] getBlockEntities() {
@@ -53,10 +46,5 @@ public class ChunkDataPacket implements Packet, AutoCloseable {
     @Override
     public PacketType getType() {
         return MinecraftOutboundPacketType.CHUNK_DATA;
-    }
-
-    @Override
-    public void close() {
-        ReferenceCountUtil.release(data);
     }
 }
