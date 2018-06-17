@@ -34,6 +34,7 @@ import rocks.cleanstone.utils.Vector;
  * A class containing various utility methods that act on byte buffers.
  */
 public class ByteBufUtils {
+
     /**
      * Reads an UTF8 string from a byte buffer.
      *
@@ -41,12 +42,18 @@ public class ByteBufUtils {
      * @return The read string
      * @throws java.io.IOException If the reading fails
      */
-    public static String readUTF8(ByteBuf buf) throws IOException {
+    public static String readUTF8(ByteBuf buf, int maxLength) throws IOException {
         // Read the string's length
         final int len = readVarInt(buf);
+        if (len > maxLength) // Cleanstone
+            throw new IOException("String length " + len + " exceeds maxLength " + maxLength);
         final byte[] bytes = new byte[len];
         buf.readBytes(bytes);
         return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    public static String readUTF8(ByteBuf buf) throws IOException { // Cleanstone
+        return readUTF8(buf, Short.MAX_VALUE);
     }
 
     /**

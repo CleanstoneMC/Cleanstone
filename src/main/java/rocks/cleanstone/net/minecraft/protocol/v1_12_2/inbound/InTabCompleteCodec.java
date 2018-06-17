@@ -1,21 +1,22 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
+import java.io.IOException;
+
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.inbound.InTabCompletePacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.inbound.InTabCompletePacket;
 import rocks.cleanstone.net.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.utils.Vector;
-
-import java.io.IOException;
 
 public class InTabCompleteCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) throws IOException {
         final String text = ByteBufUtils.readUTF8(byteBuf);
+
         final boolean assumeCommand = byteBuf.readBoolean();
         final boolean hasPosition = byteBuf.readBoolean();
         final Vector lookedAtBlock;

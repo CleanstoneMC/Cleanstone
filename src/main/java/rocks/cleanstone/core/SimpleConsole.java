@@ -38,7 +38,7 @@ public class SimpleConsole implements ConsoleSender {
                 else sendMessage("No command registry available");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error occurred while reading console input", e);
         }
     }
 

@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
@@ -47,7 +48,7 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         if (cause.getMessage() != null && cause.getMessage().contains("Cannot find packetType by")) {
             logger.warn(cause.getMessage());
-        } else if (cause instanceof IllegalArgumentException) {
+        } else if (cause instanceof IllegalArgumentException || cause instanceof IOException) {
             logger.warn("Client sent malformed packet: " + cause.getMessage());
         } else {
             logger.error("Error occurred while decoding packet data", cause);

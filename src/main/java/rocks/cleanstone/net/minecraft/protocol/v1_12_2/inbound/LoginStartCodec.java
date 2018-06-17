@@ -3,10 +3,10 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.inbound.LoginStartPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.inbound.LoginStartPacket;
 import rocks.cleanstone.net.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
@@ -14,7 +14,7 @@ public class LoginStartCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) throws IOException {
-        final String playerName = ByteBufUtils.readUTF8(byteBuf);
+        final String playerName = ByteBufUtils.readUTF8(byteBuf, 16);
         return new LoginStartPacket(playerName);
     }
 

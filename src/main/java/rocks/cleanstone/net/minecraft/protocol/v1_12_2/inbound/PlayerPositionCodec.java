@@ -4,10 +4,10 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 import com.google.common.base.Preconditions;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.inbound.PlayerPositionPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.inbound.PlayerPositionPacket;
 import rocks.cleanstone.net.protocol.ProtocolState;
 
 public class PlayerPositionCodec implements MinecraftPacketCodec {
@@ -20,7 +20,9 @@ public class PlayerPositionCodec implements MinecraftPacketCodec {
         boolean onGround = byteBuf.readBoolean();
 
         Preconditions.checkArgument(Double.isFinite(x) && Double.isFinite(feetY) && Double.isFinite(z),
-                "Illegal position");
+                "Non-finite position " + x + ":" + feetY + ":" + z);
+        Preconditions.checkArgument(Math.abs(x) <= 3.2e7 && Math.abs(z) <= 3.2e7,
+                "Too big position " + x + ":" + feetY + ":" + z + " (>3.2e7)");
 
         return new PlayerPositionPacket(x, feetY, z, onGround);
     }

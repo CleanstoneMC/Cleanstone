@@ -1,18 +1,21 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
+import com.google.common.base.Preconditions;
+
+import org.apache.commons.lang3.LocaleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
+import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.enums.ChatMode;
 import rocks.cleanstone.net.packet.enums.DisplayedSkinParts;
 import rocks.cleanstone.net.packet.enums.MainHand;
 import rocks.cleanstone.net.packet.inbound.ClientSettingsPacket;
-import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
-import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
@@ -21,37 +24,24 @@ public class ClientSettingsCodec implements MinecraftPacketCodec {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
-        String locale;
+    public Packet decode(ByteBuf byteBuf) throws IOException {
 
-        try {
-            locale = ByteBufUtils.readUTF8(byteBuf);
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            locale = "en_US";
-        }
+        String locale = ByteBufUtils.readUTF8(byteBuf, 16);
+        LocaleUtils.toLocale(locale);
 
         final byte viewDistance = byteBuf.readByte();
+        Preconditions.checkArgument(viewDistance >= 0, "viewDistance " + viewDistance + " is too small");
 
-        ChatMode chatMode;
-
-        try {
-            chatMode = ChatMode.fromModeID(ByteBufUtils.readVarInt(byteBuf));
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            chatMode = ChatMode.ENABLED;
-        }
+        int modeID = ByteBufUtils.readVarInt(byteBuf);
+        ChatMode chatMode = ChatMode.fromModeID(modeID);
+        Preconditions.checkNotNull(chatMode, "Invalid chatModeID " + modeID);
 
         final boolean chatColors = byteBuf.readBoolean();
         final DisplayedSkinParts[] displayedSkinParts = DisplayedSkinParts.fromBitMask(byteBuf.readByte());
 
-        MainHand mainHand;
-        try {
-            mainHand = MainHand.fromHandID(ByteBufUtils.readVarInt(byteBuf));
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            mainHand = MainHand.RIGHT;
-        }
+        int handID = ByteBufUtils.readVarInt(byteBuf);
+        MainHand mainHand = MainHand.fromHandID(handID);
+        Preconditions.checkNotNull(mainHand, "Invalid mainHandID " + handID);
 
         return new ClientSettingsPacket(locale, viewDistance, chatMode, chatColors, displayedSkinParts, mainHand);
     }
