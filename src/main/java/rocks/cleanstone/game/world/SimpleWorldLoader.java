@@ -46,6 +46,12 @@ public class SimpleWorldLoader implements WorldLoader {
 
     @Override
     public File getWorldDataFolder() {
-        return new File("data");
+        File dataFolder = new File("data");
+        try {
+            dataFolder.createNewFile();
+        } catch (IOException e) {
+            logger.error("Cannot create data folder (no permission?)", e);
+        }
+        return dataFolder;
     }
 }
