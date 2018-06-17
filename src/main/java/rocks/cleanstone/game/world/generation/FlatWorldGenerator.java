@@ -13,6 +13,7 @@ import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
 public class FlatWorldGenerator implements WorldGenerator {
 
     private final BlockDataTable blockDataTable;
+    private final BlockDataStorage blockDataStorage;
 
     public FlatWorldGenerator() {
         blockDataTable = new ArrayBlockDataTable(true);
@@ -29,11 +30,11 @@ public class FlatWorldGenerator implements WorldGenerator {
                 }
             }
         }
+        blockDataStorage = new BlockDataStorage(blockDataTable);
     }
 
     @Override
     public Chunk generateChunk(int chunkX, int chunkY) {
-        return new SimpleChunk(blockDataTable, new BlockDataStorage(chunkX, chunkY, blockDataTable),
-                new HashSet<>(), chunkX, chunkY);
+        return new SimpleChunk(blockDataTable, blockDataStorage, new HashSet<>(), chunkX, chunkY);
     }
 }

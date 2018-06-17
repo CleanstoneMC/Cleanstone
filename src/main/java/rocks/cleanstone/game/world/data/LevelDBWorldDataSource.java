@@ -37,7 +37,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
         BlockDataStorage blockDataStorage;
         try {
-            blockDataStorage = new BlockDataStorage(x, y, get(blocksKey), hasSkyLight);
+            blockDataStorage = new BlockDataStorage(get(blocksKey), hasSkyLight);
         } catch (IOException e) {
             logger.error("Failed to load corrupted chunk block data at " + x + ":" + y + " in LevelDB '"
                     + worldID + "'", e);

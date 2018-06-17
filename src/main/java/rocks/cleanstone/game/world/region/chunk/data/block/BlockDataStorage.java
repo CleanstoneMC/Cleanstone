@@ -15,10 +15,10 @@ import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.world.data.WorldData;
 import rocks.cleanstone.game.world.region.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.region.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
-import rocks.cleanstone.game.world.region.chunk.data.ChunkData;
 import rocks.cleanstone.game.world.region.chunk.data.block.vanilla.PaletteBlockStateStorage;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
@@ -26,7 +26,7 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
  * Stores data about blocks (e.g. block states, block light, etc.) that can be converted into a byte stream or
  * BlockDataTable efficiently in multiple BlockDataSections
  */
-public class BlockDataStorage extends ChunkData {
+public class BlockDataStorage implements WorldData {
 
     private static final int SEC_HEIGHT = BlockDataSection.HEIGHT, SEC_WIDTH = BlockDataSection.WIDTH,
             SEC_AMNT = Chunk.HEIGHT / SEC_HEIGHT;
@@ -35,8 +35,7 @@ public class BlockDataStorage extends ChunkData {
     private final boolean hasSkyLight;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public BlockDataStorage(int chunkX, int chunkY, ByteBuf buf, boolean hasSkyLight) throws IOException {
-        super(chunkX, chunkY);
+    public BlockDataStorage(ByteBuf buf, boolean hasSkyLight) throws IOException {
         this.hasSkyLight = hasSkyLight;
 
         int primaryBitMask = ByteBufUtils.readVarInt(buf);
@@ -49,17 +48,12 @@ public class BlockDataStorage extends ChunkData {
         }
     }
 
-    public BlockDataStorage(int chunkX, int chunkY, Map<Integer, BlockDataSection> sectionMap,
-                            boolean hasSkyLight) {
-        super(chunkX, chunkY);
+    public BlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight) {
         this.hasSkyLight = hasSkyLight;
-
         this.sectionMap.putAll(sectionMap);
     }
 
-    public BlockDataStorage(int chunkX, int chunkY, BlockDataTable table) {
-        super(chunkX, chunkY);
-
+    public BlockDataStorage(BlockDataTable table) {
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             AtomicBoolean isEmptyFlag = new AtomicBoolean();
             BlockStateStorage storage = new PaletteBlockStateStorage(table, sectionY, isEmptyFlag);
