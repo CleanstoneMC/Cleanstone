@@ -2,11 +2,11 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
 
-import org.apache.commons.lang3.LocaleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
@@ -27,7 +27,7 @@ public class ClientSettingsCodec implements MinecraftPacketCodec {
     public Packet decode(ByteBuf byteBuf) throws IOException {
 
         String locale = ByteBufUtils.readUTF8(byteBuf, 16);
-        LocaleUtils.toLocale(locale);
+        new Locale.Builder().setLanguageTag(locale.replace("_", "-")).build();
 
         final byte viewDistance = byteBuf.readByte();
         Preconditions.checkArgument(viewDistance >= 0, "viewDistance " + viewDistance + " is too small");
