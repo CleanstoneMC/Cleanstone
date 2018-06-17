@@ -48,8 +48,8 @@ public class SimpleWorldLoader implements WorldLoader {
     public File getWorldDataFolder() {
         File dataFolder = new File("data");
         try {
-            dataFolder.createNewFile();
-        } catch (IOException e) {
+            dataFolder.mkdir();
+        } catch (SecurityException e) {
             logger.error("Cannot create data folder (no permission?)", e);
         }
         return dataFolder;
