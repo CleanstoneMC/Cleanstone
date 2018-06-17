@@ -48,9 +48,11 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         if (cause.getMessage() != null && cause.getMessage().contains("Cannot find packetType by")) {
             logger.warn(cause.getMessage());
-        } else if (cause.getCause() != null && (cause.getCause() instanceof IllegalArgumentException
-                || cause.getCause() instanceof IOException)) {
+        } else if (cause.getCause() != null && (cause.getCause() instanceof IllegalArgumentException)) {
+            logger.warn("Client sent illegal packet: " + cause.getMessage());
+        } else if (cause.getCause() != null && (cause.getCause() instanceof IOException)) {
             logger.warn("Client sent malformed packet: " + cause.getMessage());
+            ctx.close();
         } else {
             logger.error("Error occurred while decoding packet data", cause);
         }
