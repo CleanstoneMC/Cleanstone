@@ -33,6 +33,9 @@ public class SimpleConsole implements ConsoleSender {
         try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in))) {
             while (true) {
                 String input = inputReader.readLine();
+                if (input == null) {
+                    throw new IOException("Console input reached EOS");
+                }
                 if (commandRegistry != null)
                     commandRegistry.executeCommand(input, this);
                 else sendMessage("No command registry available");
