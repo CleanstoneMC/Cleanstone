@@ -108,9 +108,8 @@ public class SimplePlayerManager implements PlayerManager {
     @Override
     public void terminatePlayer(Player player) {
         logger.info("Terminating player");
-        Preconditions.checkState(!isTerminating(player),
+        Preconditions.checkState(terminatingPlayers.add(player),
                 "Cannot terminate already terminated / non-initialized player " + player);
-        terminatingPlayers.add(player);
         CleanstoneServer.publishEvent(new PlayerQuitEvent(player));
         CleanstoneServer.publishEvent(new AsyncPlayerTerminationEvent(player));
         onlinePlayers.remove(player);
