@@ -2,6 +2,8 @@ package rocks.cleanstone.game.world;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -18,6 +20,9 @@ public class SimpleWorldLoader implements WorldLoader {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    AsyncListenableTaskExecutor chunkLoadingExecutor;
+
     @Async(value = "worldLoadingExec")
     @Override
     public ListenableFuture<World> loadWorld(String id) {
@@ -28,7 +33,11 @@ public class SimpleWorldLoader implements WorldLoader {
         } catch (IOException e) {
             return AsyncResult.forExecutionException(e);
         }
-        World world = new SimpleGeneratedWorld(id, dataSource, new FlatWorldGenerator(), new SimpleRegionManager());
+
+        // TODO Fetch generator from dataSource
+
+        World world = new SimpleGeneratedWorld(id, new FlatWorldGenerator(), dataSource,
+                new SimpleRegionManager(), chunkLoadingExecutor);
 
         // TODO: Loading spawn and other tasks(?)
         logger.info("World '" + id + "' loaded.");
