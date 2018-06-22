@@ -4,6 +4,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.Collection;
 
+import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 
 public interface Region {
@@ -21,4 +22,6 @@ public interface Region {
     Chunk getLoadedChunk(int x, int y);
 
     ListenableFuture<Chunk> getChunk(int x, int y);
+
+    World getWorld();
 }

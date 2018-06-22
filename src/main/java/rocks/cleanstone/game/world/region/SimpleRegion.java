@@ -70,4 +70,9 @@ public class SimpleRegion implements Region {
     public int getY() {
         return y;
     }
+
+    @Override
+    public World getWorld() {
+        return world;
+    }
 }

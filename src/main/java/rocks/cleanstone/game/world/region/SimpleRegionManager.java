@@ -1,6 +1,7 @@
 package rocks.cleanstone.game.world.region;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.Collection;
@@ -13,7 +14,7 @@ public class SimpleRegionManager implements RegionManager {
 
     private final Map<Pair<Integer, Integer>, Region> regions;
 
-    public SimpleRegionManager() {
+    public SimpleRegionManager(AsyncListenableTaskExecutor localWorkerExecutor) {
         regions = new HashMap<>();
     }
 
