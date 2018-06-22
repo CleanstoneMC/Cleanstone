@@ -37,7 +37,7 @@ public class SimpleWorldLoader implements WorldLoader {
         // TODO Fetch generator from dataSource
 
         World world = new SimpleGeneratedWorld(id, new FlatWorldGenerator(), dataSource,
-                new SimpleRegionManager(), chunkLoadingExecutor);
+                new SimpleRegionManager(null), chunkLoadingExecutor);
 
         // TODO: Loading spawn and other tasks(?)
         logger.info("World '" + id + "' loaded.");

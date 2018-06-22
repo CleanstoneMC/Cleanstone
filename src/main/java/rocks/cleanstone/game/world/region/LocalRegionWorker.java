@@ -3,12 +3,12 @@ package rocks.cleanstone.game.world.region;
 public class LocalRegionWorker implements RegionWorker {
 
     @Override
-    public void start() {
-        // TODO
+    public Region getRegion() {
+        return null;
     }
 
     @Override
-    public void stop() {
-        // TODO
+    public void run() {
+
     }
 }
