@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.packet.data.Slot;
 import rocks.cleanstone.utils.Vector;
 
 /**
@@ -204,5 +205,23 @@ public class ByteBufUtils {
 
     public static UUID readUUID(ByteBuf byteBuf) {
         return new UUID(byteBuf.readLong(), byteBuf.readLong());
+    }
+
+    public static void writeSlot(ByteBuf byteBuf, Slot slot) {
+        byteBuf.writeShort(slot.getBlockID());
+        byteBuf.writeByte(slot.getItemCount());
+        byteBuf.writeShort(slot.getItemDamage());
+        byteBuf.writeByte(0); // TODO Item NBT
+    }
+
+    public Slot readSlot(ByteBuf byteBuf) {
+        short blockID = byteBuf.readShort();
+        if (blockID != -1) {
+            byte itemCount = byteBuf.readByte();
+            short itemDamage = byteBuf.readShort();
+            byte nbtStartByte = byteBuf.readByte(); // TODO Item NBT}
+            return new Slot(blockID, itemCount, itemDamage, null);
+        }
+        return new Slot(blockID, (byte) -1, (short) -1, null);
     }
 }
