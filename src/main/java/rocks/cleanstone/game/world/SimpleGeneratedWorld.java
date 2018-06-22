@@ -1,6 +1,12 @@
 package rocks.cleanstone.game.world;
 
+import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.util.Collection;
+
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Location;
 import rocks.cleanstone.game.entity.Rotation;
@@ -8,34 +14,39 @@ import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
 import rocks.cleanstone.game.world.region.RegionManager;
+import rocks.cleanstone.game.world.region.chunk.ChunkProvider;
+import rocks.cleanstone.game.world.region.chunk.SimpleChunkProvider;
 import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
 
-import javax.annotation.Nullable;
-import java.util.Collection;
-
 public class SimpleGeneratedWorld implements World {
 
+    protected final WorldGenerator generator;
+    protected final WorldDataSource dataSource;
+    protected final RegionManager regionManager;
     private final String id;
-    private final WorldDataSource dataSource;
-    private final WorldGenerator generator;
-    private final RegionManager regionManager;
+    private final ChunkProvider chunkProvider;
     private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
     private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
     private LevelType levelType = LevelType.FLAT; //TODO: Move
     private Location spawnLocation;
 
-    public SimpleGeneratedWorld(String id, WorldDataSource dataSource, WorldGenerator generator, RegionManager regionManager, Location spawnLocation) {
+    public SimpleGeneratedWorld(String id, WorldGenerator generator, WorldDataSource dataSource,
+                                RegionManager regionManager, Location spawnLocation,
+                                AsyncListenableTaskExecutor chunkLoadingExecutor) {
         this.id = id;
-        this.dataSource = dataSource;
         this.generator = generator;
+        this.dataSource = dataSource;
         this.regionManager = regionManager;
         this.spawnLocation = spawnLocation;
+
+        chunkProvider = new SimpleChunkProvider(dataSource, generator, chunkLoadingExecutor);
     }
 
-    public SimpleGeneratedWorld(String id, WorldDataSource dataSource, WorldGenerator generator, RegionManager regionManager) {
-        this(id, dataSource, generator, regionManager, null);
+    public SimpleGeneratedWorld(String id, WorldGenerator generator, WorldDataSource dataSource,
+                                RegionManager regionManager, AsyncListenableTaskExecutor chunkLoadingExecutor) {
+        this(id, generator, dataSource, regionManager, null, chunkLoadingExecutor);
     }
 
     @Override
@@ -67,10 +78,10 @@ public class SimpleGeneratedWorld implements World {
         return spawnLocation;
     }
 
-    public WorldGenerator getGenerator() {
-        return generator;
+    @Override
+    public ChunkProvider getChunkProvider() {
+        return chunkProvider;
     }
-
 
     public Collection<Region> getLoadedRegions() {
         return regionManager.getLoadedRegions();

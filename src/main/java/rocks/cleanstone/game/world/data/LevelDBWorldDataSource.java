@@ -10,6 +10,7 @@ import java.util.Collections;
 import javax.annotation.Nullable;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
@@ -43,12 +44,17 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
                     + worldID + "'", e);
             return null;
         }
-        // TODO blockEntities, entities, biome state, version
+        // TODO load blockEntities, entities, biome state, version
         return new SimpleChunk(blockDataStorage.constructTable(), blockDataStorage, Collections.emptyList(), x, y);
     }
 
     @Override
     public void saveChunk(Chunk chunk) {
-        // TODO
+        int x = chunk.getX(), y = chunk.getY();
+        ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
+        ByteBuf blocksValue = Unpooled.buffer();
+        chunk.getBlockDataStorage().write(blocksValue);
+        set(blocksKey, blocksValue);
+        // TODO save blockEntities, entities, biome state, version
     }
 }

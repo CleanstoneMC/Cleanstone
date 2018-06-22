@@ -19,6 +19,7 @@
     <task:executor id="playerExec" pool-size="10"/>
     <task:executor id="mcLoginExec" pool-size="10"/>
     <task:executor id="worldLoadingExec" pool-size="10"/>
+    <task:executor id="chunkLoadingExecutor" pool-size="10"/>
     <task:executor id="chatExec" pool-size="10"/>
     <task:executor id="commandExec" pool-size="10"/>
 

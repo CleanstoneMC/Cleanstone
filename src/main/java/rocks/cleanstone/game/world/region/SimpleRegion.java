@@ -1,30 +1,36 @@
 package rocks.cleanstone.game.world.region;
 
-import org.springframework.scheduling.annotation.Async;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.region.chunk.Chunk;
-import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.world.World;
+import rocks.cleanstone.game.world.region.chunk.Chunk;
+import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
 
 public class SimpleRegion implements Region {
 
     private static final int CHUNK_COUNT_ROOT = 32;
 
     private final Chunk[][] chunks;
-    private int nextWorker = 0;
+    private final RegionWorker regionWorker;
+    private final World world;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public SimpleRegion(Chunk[][] chunks ) {
+    public SimpleRegion(Chunk[][] chunks, RegionWorker regionWorker, World world) {
         this.chunks = chunks;
+        this.regionWorker = regionWorker;
+        this.world = world;
     }
 
-    public SimpleRegion(Collection<RegionWorker> regionWorkers) {
-        this(new SimpleChunk[CHUNK_COUNT_ROOT][CHUNK_COUNT_ROOT]);
+    public SimpleRegion(RegionWorker regionWorker, World world) {
+        this(new SimpleChunk[CHUNK_COUNT_ROOT][CHUNK_COUNT_ROOT], regionWorker, world);
     }
 
     @Override
@@ -45,21 +51,12 @@ public class SimpleRegion implements Region {
 
     @Override
     public ListenableFuture<Chunk> getChunk(int x, int y) {
-        return null; //TODO
+        if (isChunkLoaded(x, y)) {
+            return new AsyncResult<>(getLoadedChunk(x, y));
+        }
+        ListenableFuture<Chunk> chunkFuture = world.getChunkProvider().getChunk(x, y);
+        chunkFuture.addCallback((chunk) -> chunks[x][y] = chunk,
+                (error) -> logger.error("Failed to get non-loaded chunk " + x + ":" + y, error));
+        return chunkFuture;
     }
-
-//    @Async("worldLoadingExec")
-//    @Override
-//    public ListenableFuture<Chunk> getChunk(int x, int y) {
-//        if (isChunkLoaded(x, y)) {
-//            return new AsyncResult<>(getLoadedChunk(x, y));
-//        }
-//
-//        ListenableFuture<Chunk> chunkListenableFuture = getNextWorker().loadChunk(x, y);
-//        chunkListenableFuture.addCallback(result -> chunks[x][y] = result, ex -> {
-//            //TODO
-//        });
-//
-//        return chunkListenableFuture;
-//    }
 }

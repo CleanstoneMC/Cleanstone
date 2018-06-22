@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +11,6 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.world.generation.WorldGenerator;
-import rocks.cleanstone.game.world.region.SimpleRegionManager;
 
 public class SimpleWorldManager implements WorldManager {
 
@@ -69,13 +67,8 @@ public class SimpleWorldManager implements WorldManager {
 
     @Override
     public void createWorld(String id, WorldGenerator generator) {
-        World world;
-        try {
-            world = new SimpleGeneratedWorld(id, worldLoader.getDataSource(id), generator, new SimpleRegionManager());
-            worldMap.put(id, world);
-        } catch (IOException e) {
-            logger.error("Error occurred while creating World", e);
-        }
+        // TODO create basic world files
+        loadWorld(id);
     }
 
     @Override
