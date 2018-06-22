@@ -16,21 +16,22 @@ import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
 
 public class SimpleRegion implements Region {
 
-    private static final int CHUNK_COUNT_ROOT = 32;
-
     private final Chunk[][] chunks;
     private final RegionWorker regionWorker;
     private final World world;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final int x, y;
 
-    public SimpleRegion(Chunk[][] chunks, RegionWorker regionWorker, World world) {
+    public SimpleRegion(int x, int y, Chunk[][] chunks, RegionWorker regionWorker, World world) {
         this.chunks = chunks;
         this.regionWorker = regionWorker;
         this.world = world;
+        this.x = x;
+        this.y = y;
     }
 
-    public SimpleRegion(RegionWorker regionWorker, World world) {
-        this(new SimpleChunk[CHUNK_COUNT_ROOT][CHUNK_COUNT_ROOT], regionWorker, world);
+    public SimpleRegion(int x, int y, RegionWorker regionWorker, World world) {
+        this(x, y, new SimpleChunk[Region.CHUNK_COUNT_ROOT][Region.CHUNK_COUNT_ROOT], regionWorker, world);
     }
 
     @Override
@@ -58,5 +59,15 @@ public class SimpleRegion implements Region {
         chunkFuture.addCallback((chunk) -> chunks[x][y] = chunk,
                 (error) -> logger.error("Failed to get non-loaded chunk " + x + ":" + y, error));
         return chunkFuture;
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
     }
 }

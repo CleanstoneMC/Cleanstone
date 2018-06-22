@@ -1,11 +1,22 @@
 package rocks.cleanstone.game.world.region;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public class SimpleRegionManager implements RegionManager {
+
+    private final Map<Pair<Integer, Integer>, Region> regions;
+
+    public SimpleRegionManager() {
+        regions = new HashMap<>();
+    }
+
     @Override
     public Collection<Region> getLoadedRegions() {
         return null;
@@ -14,7 +25,7 @@ public class SimpleRegionManager implements RegionManager {
     @Nullable
     @Override
     public Region getLoadedRegion(int x, int y) {
-        return null;
+        return regions.get(Pair.of(x, y));
     }
 
     @Override
