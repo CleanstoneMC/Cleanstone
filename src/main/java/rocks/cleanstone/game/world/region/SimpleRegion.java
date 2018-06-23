@@ -12,26 +12,28 @@ import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
+import rocks.cleanstone.game.world.region.chunk.ChunkProvider;
 import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
 
 public class SimpleRegion implements Region {
 
     private final Chunk[][] chunks;
     private final RegionWorker regionWorker;
-    private final World world;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final int x, y;
+    private final int x;
+    private final int y;
+    private ChunkProvider chunkProvider;
 
-    public SimpleRegion(int x, int y, Chunk[][] chunks, RegionWorker regionWorker, World world) {
+    public SimpleRegion(int x, int y, Chunk[][] chunks, RegionWorker regionWorker, ChunkProvider chunkProvider) {
         this.chunks = chunks;
         this.regionWorker = regionWorker;
-        this.world = world;
         this.x = x;
         this.y = y;
+        this.chunkProvider = chunkProvider;
     }
 
-    public SimpleRegion(int x, int y, RegionWorker regionWorker, World world) {
-        this(x, y, new SimpleChunk[Region.CHUNK_COUNT_ROOT][Region.CHUNK_COUNT_ROOT], regionWorker, world);
+    public SimpleRegion(int x, int y, RegionWorker regionWorker, ChunkProvider chunkProvider) {
+        this(x, y, new SimpleChunk[Region.CHUNK_COUNT_ROOT][Region.CHUNK_COUNT_ROOT], regionWorker, chunkProvider);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class SimpleRegion implements Region {
         if (isChunkLoaded(x, y)) {
             return new AsyncResult<>(getLoadedChunk(x, y));
         }
-        ListenableFuture<Chunk> chunkFuture = world.getChunkProvider().getChunk(x, y);
+        ListenableFuture<Chunk> chunkFuture = chunkProvider.getChunk(x, y);
         chunkFuture.addCallback((chunk) -> chunks[x][y] = chunk,
                 (error) -> logger.error("Failed to get non-loaded chunk " + x + ":" + y, error));
         return chunkFuture;
@@ -69,10 +71,5 @@ public class SimpleRegion implements Region {
     @Override
     public int getY() {
         return y;
-    }
-
-    @Override
-    public World getWorld() {
-        return world;
     }
 }

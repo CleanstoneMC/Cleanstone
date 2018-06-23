@@ -1,6 +1,7 @@
 package rocks.cleanstone.game.block;
 
 import com.google.common.base.Preconditions;
+import io.netty.util.internal.ConcurrentSet;
 import rocks.cleanstone.game.material.Material;
 import rocks.cleanstone.game.material.VanillaMaterial;
 
@@ -14,7 +15,7 @@ import java.util.HashSet;
  */
 public class BlockState {
 
-    private static final Collection<BlockState> CACHED_STATES = new HashSet<>();
+    private static final Collection<BlockState> CACHED_STATES = new ConcurrentSet<>();
 
     private final Material material;
     private final byte metadata;

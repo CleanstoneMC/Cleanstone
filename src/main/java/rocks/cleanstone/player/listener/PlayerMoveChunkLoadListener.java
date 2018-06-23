@@ -4,6 +4,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
@@ -11,8 +13,7 @@ import java.util.UUID;
 
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.Position;
-import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
-import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
+import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.player.Player;
@@ -22,8 +23,7 @@ import rocks.cleanstone.player.event.PlayerQuitEvent;
 public class PlayerMoveChunkLoadListener {
 
     private final Multimap<UUID, Pair<Integer, Integer>> playerHasLoaded = ArrayListMultimap.create();
-
-    private final FlatWorldGenerator flatWorldGenerator = new FlatWorldGenerator(); //TODO: Replace with getChunk(..)
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Async("playerExec")
     @EventListener
@@ -74,10 +74,19 @@ public class PlayerMoveChunkLoadListener {
     }
 
     protected void sendChunkLoad(Player player, int x, int y) {
-        // TODO access actual chunk
-        BlockDataStorage storage = flatWorldGenerator.generateChunk(x, y).getBlockDataStorage();
-        ChunkDataPacket chunkDataPacket = new ChunkDataPacket(x, y, true, storage, new NamedBinaryTag[]{});
-        player.sendPacket(chunkDataPacket);
+        World world = player.getEntity().getLocation().getPosition().getWorld();
+
+        world.getChunkProvider().getChunk(x, y).addCallback(chunk -> {
+            if (chunk == null) {
+                logger.error("Chunk {}:{} is null", x, y);
+                return;
+            }
+
+            ChunkDataPacket chunkDataPacket = new ChunkDataPacket(x, y, true, chunk.getBlockDataStorage(), new NamedBinaryTag[]{});
+            player.sendPacket(chunkDataPacket);
+        }, throwable -> {
+            logger.error("Error getting Chunk", throwable);
+        });
     }
 
     @Async("playerExec")

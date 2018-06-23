@@ -2,7 +2,12 @@ package rocks.cleanstone.game.world.region;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.world.World;
+import rocks.cleanstone.game.world.WorldManager;
+import rocks.cleanstone.game.world.region.chunk.Chunk;
+import rocks.cleanstone.game.world.region.chunk.ChunkProvider;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,14 +18,16 @@ import javax.annotation.Nullable;
 public class SimpleRegionManager implements RegionManager {
 
     private final Map<Pair<Integer, Integer>, Region> regions;
+    private final ChunkProvider chunkProvider;
 
-    public SimpleRegionManager(AsyncListenableTaskExecutor localWorkerExecutor) {
+    public SimpleRegionManager(ChunkProvider chunkProvider) {
+        this.chunkProvider = chunkProvider;
         regions = new HashMap<>();
     }
 
     @Override
     public Collection<Region> getLoadedRegions() {
-        return null;
+        return regions.values();
     }
 
     @Nullable
@@ -31,16 +38,25 @@ public class SimpleRegionManager implements RegionManager {
 
     @Override
     public ListenableFuture<Region> loadRegion(int x, int y) {
-        return null;
+        Region region = new SimpleRegion(x, y, new LocalRegionWorker(), chunkProvider);
+
+        regions.put(Pair.of(x, y), region);
+
+        return new AsyncResult<>(region);
     }
 
     @Override
     public ListenableFuture<Region> getRegion(int x, int y) {
-        return null;
+        final Pair coordPair = Pair.of(x, y);
+        if (regions.containsKey(coordPair)) {
+            return new AsyncResult<>(regions.get(coordPair));
+        }
+
+        return loadRegion(x, y);
     }
 
     @Override
     public void unloadRegion(int x, int y) {
-
+        regions.remove(Pair.of(x, y));
     }
 }

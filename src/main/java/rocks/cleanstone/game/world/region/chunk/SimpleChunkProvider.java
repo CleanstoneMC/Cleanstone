@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.world.region.chunk;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 
@@ -14,6 +16,7 @@ public class SimpleChunkProvider implements ChunkProvider {
     private final WorldDataSource dataSource;
     private final WorldGenerator generator;
     private final AsyncListenableTaskExecutor executor;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public SimpleChunkProvider(WorldDataSource dataSource, WorldGenerator generator,
                                AsyncListenableTaskExecutor executor) {
@@ -28,6 +31,7 @@ public class SimpleChunkProvider implements ChunkProvider {
             Chunk chunk = dataSource.loadExistingChunk(x, y);
             if (chunk == null) {
                 chunk = generator.generateChunk(x, y);
+                dataSource.saveChunk(chunk); //TODO: Remove this and create a correct Save system
             }
             return chunk;
         });

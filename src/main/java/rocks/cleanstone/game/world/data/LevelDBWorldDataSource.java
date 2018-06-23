@@ -43,6 +43,8 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
             logger.error("Failed to load corrupted chunk block data at " + x + ":" + y + " in LevelDB '"
                     + worldID + "'", e);
             return null;
+        } catch (NullPointerException e) {
+            return null;
         }
         // TODO load blockEntities, entities, biome state, version
         return new SimpleChunk(blockDataStorage.constructTable(), blockDataStorage, Collections.emptyList(), x, y);
