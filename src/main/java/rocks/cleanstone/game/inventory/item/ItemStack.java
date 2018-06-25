@@ -6,4 +6,6 @@ public interface ItemStack {
     ItemType getItemType();
 
     int getAmount();
+
+    void setAmount(int amount);
 }

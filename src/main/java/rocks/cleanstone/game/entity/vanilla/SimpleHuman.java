@@ -5,6 +5,7 @@ import rocks.cleanstone.game.entity.Location;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.inventory.Inventory;
+import rocks.cleanstone.game.inventory.SimpleInventory;
 
 public class SimpleHuman extends AbstractEntity implements Human {
 
@@ -15,6 +16,7 @@ public class SimpleHuman extends AbstractEntity implements Human {
     public SimpleHuman(Location location, Rotation headRotation) {
         super(VanillaEntityType.HUMAN, location);
         this.headRotation = headRotation;
+        this.inventory = new SimpleInventory(37);
     }
 
     public GameMode getGameMode() {

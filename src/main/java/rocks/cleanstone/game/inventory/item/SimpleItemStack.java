@@ -8,6 +8,7 @@ public class SimpleItemStack implements ItemStack {
     private final byte itemCount;
     private final short itemDamage;
     private final NamedBinaryTag nbt;
+    private int amount = 0;
 
     public SimpleItemStack(short blockID, byte itemCount, short itemDamage, NamedBinaryTag nbt) {
         this.blockID = blockID;
@@ -39,6 +40,11 @@ public class SimpleItemStack implements ItemStack {
 
     @Override
     public int getAmount() {
-        return 0;
+        return amount;
+    }
+
+    @Override
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }
