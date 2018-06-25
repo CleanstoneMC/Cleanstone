@@ -75,6 +75,8 @@
     <bean id="playerMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener">
         <constructor-arg ref="playerManager"/>
     </bean>
+    <bean id="creativeInventoryActionListener" class="rocks.cleanstone.player.listener.CreativeInventoryActionListener"/>
+    <bean id="heldItemChangeListener" class="rocks.cleanstone.player.listener.HeldItemChangeListener"/>
 
     <!-- Initialization -->
     <bean id="playerData" class="rocks.cleanstone.player.initialize.PlayerData">

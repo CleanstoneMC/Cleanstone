@@ -1,7 +1,10 @@
 package rocks.cleanstone.game.inventory.item;
 
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.material.VanillaMaterial;
 import rocks.cleanstone.game.material.item.ItemType;
+import rocks.cleanstone.net.packet.data.Slot;
 
 public class SimpleItemStack implements ItemStack {
     private final short blockID;
@@ -15,6 +18,10 @@ public class SimpleItemStack implements ItemStack {
         this.itemCount = itemCount;
         this.itemDamage = itemDamage;
         this.nbt = nbt;
+    }
+
+    public static SimpleItemStack fromSlot(Slot slot) {
+        return new SimpleItemStack(slot.getBlockID(), slot.getItemCount(), slot.getItemDamage(), slot.getNbt());
     }
 
     public short getBlockID() {
@@ -35,7 +42,7 @@ public class SimpleItemStack implements ItemStack {
 
     @Override
     public ItemType getItemType() {
-        return null;
+        return MaterialRegistry.getItemType(VanillaMaterial.byID(blockID)); //TODO: Don't use VanillaMaterial
     }
 
     @Override

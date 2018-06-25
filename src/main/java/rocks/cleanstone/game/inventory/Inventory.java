@@ -14,6 +14,8 @@ public interface Inventory {
 
     ItemStack getItemStackInSlot(int slot);
 
+    void setItemInSlot(int slot, ItemStack itemStack);
+
     Collection<ItemStack> getAllItemStacks();
 
     Map<ItemType, Integer> getAllItems();

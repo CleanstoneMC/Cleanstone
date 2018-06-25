@@ -1,11 +1,11 @@
 package rocks.cleanstone.net.packet.inbound;
 
 import rocks.cleanstone.game.Position;
-import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.game.block.Face;
-import rocks.cleanstone.net.packet.enums.Hand;
+import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.net.packet.enums.Hand;
 
 public class PlayerBlockPlacementPacket implements Packet {
 
@@ -34,7 +34,7 @@ public class PlayerBlockPlacementPacket implements Packet {
         this.cursorPositionZ = cursorPositionZ;
     }
 
-    public Position getLocation() {
+    public Position getPosition() {
         return location;
     }
 

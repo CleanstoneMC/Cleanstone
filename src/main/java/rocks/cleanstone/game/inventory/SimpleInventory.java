@@ -37,6 +37,11 @@ public class SimpleInventory implements Inventory {
     }
 
     @Override
+    public void setItemInSlot(int slot, ItemStack itemStack) {
+        inventory[slot] = itemStack;
+    }
+
+    @Override
     public Collection<ItemStack> getAllItemStacks() {
         return Arrays.asList(inventory);
     }

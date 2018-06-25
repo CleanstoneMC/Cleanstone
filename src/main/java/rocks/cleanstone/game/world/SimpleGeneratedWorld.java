@@ -2,23 +2,24 @@ package rocks.cleanstone.game.world;
 
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.Position;
+import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Location;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
 import rocks.cleanstone.game.world.region.RegionManager;
+import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.game.world.region.chunk.ChunkProvider;
 import rocks.cleanstone.game.world.region.chunk.SimpleChunkProvider;
 import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 
 public class SimpleGeneratedWorld implements World {
 
@@ -81,6 +82,19 @@ public class SimpleGeneratedWorld implements World {
     @Override
     public ChunkProvider getChunkProvider() {
         return chunkProvider;
+    }
+
+    @Nullable
+    @Override
+    public Block getBlockAt(int x, int y, int z) {
+        Chunk chunk;
+        try {
+            chunk = getChunkProvider().getChunk(x / 16, z / 16).get();
+        } catch (InterruptedException | ExecutionException e) {
+            return null;
+        }
+
+        return chunk.getBlock(x, y, z);
     }
 
     public Collection<Region> getLoadedRegions() {

@@ -23,13 +23,13 @@
  */
 package rocks.cleanstone.net.utils;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
-
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.packet.data.Slot;
 import rocks.cleanstone.utils.Vector;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 /**
  * A class containing various utility methods that act on byte buffers.
@@ -214,7 +214,7 @@ public class ByteBufUtils {
         byteBuf.writeByte(0); // TODO Item NBT
     }
 
-    public Slot readSlot(ByteBuf byteBuf) {
+    public static Slot readSlot(ByteBuf byteBuf) {
         short blockID = byteBuf.readShort();
         if (blockID != -1) {
             byte itemCount = byteBuf.readByte();

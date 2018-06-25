@@ -17,4 +17,9 @@ public class Chest extends BlockEntity implements InventoryHolder {
     public Inventory getInventory() {
         return inventory;
     }
+
+    @Override
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
 }

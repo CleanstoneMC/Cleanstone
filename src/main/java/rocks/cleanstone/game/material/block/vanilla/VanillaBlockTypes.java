@@ -11,6 +11,8 @@ public class VanillaBlockTypes {
     }
 
     public static void registerAll() {
+        register(new SolidBlockType(VanillaMaterial.DIRT, VanillaMiningLevel.HAND));
+        register(new SolidBlockType(VanillaMaterial.GRASS, VanillaMiningLevel.HAND));
         register(new SolidBlockType(VanillaMaterial.STONE, VanillaMiningLevel.WOODEN));
         register(new SolidBlockType(VanillaMaterial.CHEST, VanillaMiningLevel.HAND));
     }
