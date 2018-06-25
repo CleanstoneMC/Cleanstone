@@ -39,7 +39,6 @@ public class BlockDataStorage implements WorldData {
         this.hasSkyLight = hasSkyLight;
 
         int primaryBitMask = ByteBufUtils.readVarInt(buf);
-        int dataLength = ByteBufUtils.readVarInt(buf);
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             if ((primaryBitMask & (1 << sectionY)) != 0) {
                 BlockDataSection section = new BlockDataSection(buf, hasSkyLight);

@@ -80,7 +80,8 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
         }
         int dataAmount = ByteBufUtils.readVarInt(in);
         long[] data = new long[dataAmount];
-        for (int i = 0; i < dataAmount; dataAmount++) {
+
+        for (int i = 0; i < dataAmount; i++) {
             data[i] = in.readLong();
         }
         this.baseStorage = new EntrySizeBasedStorage(this.bitsPerEntry, data);

@@ -3,6 +3,7 @@ package rocks.cleanstone.game.block;
 import java.util.Collection;
 import java.util.HashSet;
 
+import io.netty.util.internal.ConcurrentSet;
 import rocks.cleanstone.game.material.Material;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.BlockType;
@@ -12,7 +13,7 @@ import rocks.cleanstone.game.material.block.BlockType;
  */
 public class ImmutableBlock implements Block {
 
-    private static final Collection<ImmutableBlock> CACHED_BLOCKS = new HashSet<>();
+    private static final Collection<ImmutableBlock> CACHED_BLOCKS = new ConcurrentSet<>();
 
     private final BlockState state;
     private final BlockType type;

@@ -73,6 +73,11 @@ public class LoginManager {
 
     public void finishLogin(Connection connection, UUID uuid, String accountName, UserProperty[] properties) {
         if (connectionLoginDataMap.remove(connection) == null || connection.isClosed()) return;
+
+        if (properties == null) {
+            properties = new UserProperty[0];//Fix for Offline mode nullpointer Exception
+        }
+
         Collection<UserProperty> userProperties = new ArrayList<>(Arrays.asList(properties));
 
         AsyncLoginEvent event = CleanstoneServer.publishEvent(
