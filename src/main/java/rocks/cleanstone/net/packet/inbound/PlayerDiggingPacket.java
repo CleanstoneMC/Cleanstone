@@ -1,11 +1,11 @@
 package rocks.cleanstone.net.packet.inbound;
 
 import rocks.cleanstone.game.Position;
-import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
-import rocks.cleanstone.net.packet.enums.DiggingStatus;
 import rocks.cleanstone.game.block.Face;
+import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.net.packet.enums.DiggingStatus;
 
 public class PlayerDiggingPacket implements Packet {
 
@@ -29,7 +29,7 @@ public class PlayerDiggingPacket implements Packet {
         return diggingStatus;
     }
 
-    public Position getLocation() {
+    public Position getPosition() {
         return location;
     }
 

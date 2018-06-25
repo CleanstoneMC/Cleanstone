@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.world;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.game.Position;
@@ -16,6 +18,7 @@ import rocks.cleanstone.game.world.region.chunk.SimpleChunkProvider;
 import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
+import rocks.cleanstone.utils.Vector;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -32,6 +35,7 @@ public class SimpleGeneratedWorld implements World {
     private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
     private LevelType levelType = LevelType.FLAT; //TODO: Move
     private Location spawnLocation;
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     public SimpleGeneratedWorld(String id, WorldGenerator generator, WorldDataSource dataSource,
                                 RegionManager regionManager, Location spawnLocation,
@@ -95,6 +99,34 @@ public class SimpleGeneratedWorld implements World {
         }
 
         return chunk.getBlock(x, y, z);
+    }
+
+    @Nullable
+    @Override
+    public Block getBlockAt(Vector vector) {
+        return getBlockAt((int) vector.getX(), (int) vector.getY(), (int) vector.getZ());
+    }
+
+    @Override
+    public void setBlockAt(int x, int y, int z, Block block) {
+        chunkProvider.getChunk(x / 16, z / 16).addCallback(chunk -> {
+            if (chunk == null){
+                logger.error("Chunk {}:{} is null", x / 16, z / 16);
+                return; //TODO: Error?
+            }
+
+            chunk.setBlock(x, y, z, block);
+
+            //TODO: Do this in an Async Task
+            chunkProvider.getDataSource().saveChunk(chunk);
+        }, throwable -> {
+            logger.error("Could not set Block", throwable); //TODO: Better Error Message
+        });
+    }
+
+    @Override
+    public void setBlockAt(Vector vector, Block block) {
+        setBlockAt((int) vector.getX(), (int) vector.getY(), (int) vector.getZ(), block);
     }
 
     public Collection<Region> getLoadedRegions() {

@@ -6,6 +6,7 @@ import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.block.event.BlockBreakEvent;
 import rocks.cleanstone.game.block.event.BlockPlaceEvent;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.material.VanillaMaterial;
@@ -15,6 +16,8 @@ import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
+
+import java.util.ArrayList;
 
 public class UseItemListener {
 
@@ -32,6 +35,7 @@ public class UseItemListener {
         }
 
         PlayerBlockPlacementPacket playerBlockPlacementPacket = (PlayerBlockPlacementPacket) event.getPacket();
+        playerBlockPlacementPacket.getPosition().setWorld(event.getPlayer().getEntity().getLocation().getPosition().getWorld()); //TODO: Remove this please O_O
 
         Position newBlockPosition = new Position(playerBlockPlacementPacket.getPosition());
         switch (playerBlockPlacementPacket.getFace()) {
@@ -64,6 +68,8 @@ public class UseItemListener {
         }
 
         Block placedBlock = ImmutableBlock.of(itemStack.getItemType().getMaterial());
+
+        newBlockPosition.getWorld().setBlockAt(newBlockPosition, placedBlock);
         CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, playerBlockPlacementPacket.getFace()));
 
         //TODO: Move this to a BlockPlaceEvent Listener?
@@ -79,9 +85,15 @@ public class UseItemListener {
         }
 
         PlayerDiggingPacket playerDiggingPacket = (PlayerDiggingPacket) event.getPacket();
+        playerDiggingPacket.getPosition().setWorld(event.getPlayer().getEntity().getLocation().getPosition().getWorld()); //TODO: Remove this please O_O
+
+        Block placedBlock = ImmutableBlock.of(VanillaMaterial.AIR);
+
+        playerDiggingPacket.getPosition().getWorld().setBlockAt(playerDiggingPacket.getPosition(), placedBlock);
+        CleanstoneServer.publishEvent(new BlockBreakEvent(placedBlock, playerDiggingPacket.getPosition(), event.getPlayer(), new ArrayList<>()));//TODO: Add Drops
 
         BlockChangePacket blockChangePacket = new BlockChangePacket(
-                playerDiggingPacket.getLocation(), ImmutableBlock.of(VanillaMaterial.AIR));
+                playerDiggingPacket.getPosition(), placedBlock);
 
         playerManager.broadcastPacket(blockChangePacket);
     }

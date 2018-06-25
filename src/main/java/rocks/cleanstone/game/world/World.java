@@ -6,6 +6,7 @@ import rocks.cleanstone.game.world.region.chunk.ChunkProvider;
 import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
+import rocks.cleanstone.utils.Vector;
 
 import javax.annotation.Nullable;
 
@@ -24,4 +25,11 @@ public interface World {
 
     @Nullable
     Block getBlockAt(int x, int y, int z);
+
+    @Nullable
+    Block getBlockAt(Vector vector);
+
+    void setBlockAt(int x, int y, int z, Block block);
+
+    void setBlockAt(Vector vector, Block block);
 }
