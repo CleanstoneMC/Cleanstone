@@ -1,18 +1,10 @@
 package rocks.cleanstone.game.world.region.chunk.data.block;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.annotation.Nullable;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.world.data.WorldData;
@@ -21,6 +13,12 @@ import rocks.cleanstone.game.world.region.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.game.world.region.chunk.data.block.vanilla.PaletteBlockStateStorage;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Stores data about blocks (e.g. block states, block light, etc.) that can be converted into a byte stream or
@@ -34,6 +32,11 @@ public class BlockDataStorage implements WorldData {
     private final Map<Integer, BlockDataSection> sectionMap = new HashMap<>();
     private final boolean hasSkyLight;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    public BlockDataStorage(BlockDataStorage blockDataStorage) {
+        this.hasSkyLight = blockDataStorage.hasSkyLight;
+        this.sectionMap.putAll(blockDataStorage.sectionMap);
+    }
 
     public BlockDataStorage(ByteBuf buf, boolean hasSkyLight) throws IOException {
         this.hasSkyLight = hasSkyLight;

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
-
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 
@@ -29,6 +28,9 @@ public class SimpleChunkProvider implements ChunkProvider {
     public ListenableFuture<Chunk> getChunk(int x, int y) {
         return executor.submitListenable(() -> {
             Chunk chunk = dataSource.loadExistingChunk(x, y);
+
+            logger.info("{}", chunk);
+
             if (chunk == null) {
                 chunk = generator.generateChunk(x, y);
                 dataSource.saveChunk(chunk); //TODO: Remove this and create a correct Save system

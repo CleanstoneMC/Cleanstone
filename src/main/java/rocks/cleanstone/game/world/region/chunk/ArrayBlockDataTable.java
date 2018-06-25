@@ -1,17 +1,24 @@
 package rocks.cleanstone.game.world.region.chunk;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.VanillaMaterial;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 public class ArrayBlockDataTable implements BlockDataTable {
 
     private final Block[][][] blocks;
     private final byte[][][] blockLight, skyLight;
     private final boolean hasSkylight;
+
+    public ArrayBlockDataTable(ArrayBlockDataTable arrayBlockDataTable) {
+        this.blockLight = arrayBlockDataTable.blockLight.clone();
+        this.skyLight = arrayBlockDataTable.skyLight.clone();
+        this.hasSkylight = arrayBlockDataTable.hasSkylight;
+        this.blocks = arrayBlockDataTable.blocks.clone();
+    }
 
     public ArrayBlockDataTable(Block[][][] blocks, byte[][][] blockLight, byte[][][] skyLight,
                                boolean hasSkyLight) {

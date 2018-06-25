@@ -1,7 +1,5 @@
 package rocks.cleanstone.game.world.generation;
 
-import java.util.HashSet;
-
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.VanillaMaterial;
 import rocks.cleanstone.game.world.region.chunk.ArrayBlockDataTable;
@@ -9,6 +7,8 @@ import rocks.cleanstone.game.world.region.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
+
+import java.util.HashSet;
 
 public class FlatWorldGenerator implements WorldGenerator {
 
@@ -35,6 +35,6 @@ public class FlatWorldGenerator implements WorldGenerator {
 
     @Override
     public Chunk generateChunk(int chunkX, int chunkY) {
-        return new SimpleChunk(blockDataTable, blockDataStorage, new HashSet<>(), chunkX, chunkY);
+        return new SimpleChunk(new ArrayBlockDataTable((ArrayBlockDataTable) blockDataTable), new BlockDataStorage(blockDataStorage), new HashSet<>(), chunkX, chunkY);
     }
 }
