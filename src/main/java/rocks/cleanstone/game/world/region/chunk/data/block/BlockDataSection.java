@@ -1,10 +1,10 @@
 package rocks.cleanstone.game.world.region.chunk.data.block;
 
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.game.world.region.chunk.data.block.vanilla.PaletteBlockStateStorage;
+
+import java.io.IOException;
 
 public class BlockDataSection {
 
@@ -13,6 +13,13 @@ public class BlockDataSection {
     private final BlockStateStorage blockStateStorage;
     private final byte[][][] blockLight, skyLight;
     private final boolean hasSkyLight;
+
+    public BlockDataSection(BlockDataSection blockDataSection) {
+        blockStateStorage = new PaletteBlockStateStorage((PaletteBlockStateStorage) blockDataSection.blockStateStorage);
+        blockLight = blockDataSection.blockLight.clone();
+        skyLight = blockDataSection.skyLight.clone();
+        hasSkyLight = blockDataSection.hasSkyLight;
+    }
 
     public BlockDataSection(BlockStateStorage blockStateStorage, byte[][][] blockLight, byte[][][] skyLight,
                             boolean hasSkyLight) {

@@ -24,22 +24,20 @@ package rocks.cleanstone.game.world.region.chunk.data.block.vanilla;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-
+import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rocks.cleanstone.game.block.BlockState;
+import rocks.cleanstone.game.material.VanillaMaterial;
+import rocks.cleanstone.game.world.region.chunk.BlockDataTable;
+import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataSection;
+import rocks.cleanstone.game.world.region.chunk.data.block.BlockStateStorage;
+import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.block.BlockState;
-import rocks.cleanstone.game.material.VanillaMaterial;
-import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataSection;
-import rocks.cleanstone.game.world.region.chunk.BlockDataTable;
-import rocks.cleanstone.game.world.region.chunk.data.block.BlockStateStorage;
-import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class PaletteBlockStateStorage implements BlockStateStorage {
 
@@ -49,6 +47,12 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private int bitsPerEntry;
     private EntrySizeBasedStorage baseStorage;
+
+    public PaletteBlockStateStorage(PaletteBlockStateStorage paletteBlockStateStorage) {
+        palette.addAll(paletteBlockStateStorage.palette);//TODO: Deep Copy?
+        bitsPerEntry = paletteBlockStateStorage.bitsPerEntry;
+        baseStorage = new EntrySizeBasedStorage(paletteBlockStateStorage.baseStorage);
+    }
 
     public PaletteBlockStateStorage() {
         this.bitsPerEntry = 4;

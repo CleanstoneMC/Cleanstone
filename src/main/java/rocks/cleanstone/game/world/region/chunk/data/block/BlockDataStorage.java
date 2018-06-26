@@ -34,8 +34,11 @@ public class BlockDataStorage implements WorldData {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public BlockDataStorage(BlockDataStorage blockDataStorage) {
-        this.hasSkyLight = blockDataStorage.hasSkyLight;
-        this.sectionMap.putAll(blockDataStorage.sectionMap);
+        hasSkyLight = blockDataStorage.hasSkyLight;
+
+        blockDataStorage.sectionMap.forEach((integer, blockDataSection) -> {
+            sectionMap.put(integer, new BlockDataSection(blockDataSection));
+        });
     }
 
     public BlockDataStorage(ByteBuf buf, boolean hasSkyLight) throws IOException {

@@ -31,6 +31,13 @@ public class EntrySizeBasedStorage {
     private final int size;
     private final long maxEntryValue;
 
+    public EntrySizeBasedStorage(EntrySizeBasedStorage entrySizeBasedStorage) {
+        data = entrySizeBasedStorage.data.clone();
+        bitsPerEntry = entrySizeBasedStorage.bitsPerEntry;
+        size = entrySizeBasedStorage.size;
+        maxEntryValue = entrySizeBasedStorage.maxEntryValue;
+    }
+
     public EntrySizeBasedStorage(int bitsPerEntry, int size) {
         this(bitsPerEntry, new long[roundToNearest(size * bitsPerEntry, 64) / 64]);
     }
