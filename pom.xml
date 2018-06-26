@@ -46,6 +46,9 @@
                         <version>5.2.0</version>
                     </dependency>
                 </dependencies>
+                <configuration>
+                    <trimStackTrace>false</trimStackTrace>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.openclover</groupId>
