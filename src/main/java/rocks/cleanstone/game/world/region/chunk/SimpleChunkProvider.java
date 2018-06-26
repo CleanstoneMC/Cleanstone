@@ -1,9 +1,12 @@
 package rocks.cleanstone.game.world.region.chunk;
 
+import com.google.common.base.Preconditions;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
+
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 
@@ -30,6 +33,7 @@ public class SimpleChunkProvider implements ChunkProvider {
             Chunk chunk = dataSource.loadExistingChunk(x, y);
             if (chunk == null) {
                 chunk = generator.generateChunk(x, y);
+                Preconditions.checkNotNull(chunk, "generated chunk cannot be null");
                 dataSource.saveChunk(chunk); //TODO: Remove this and create a correct Save system
             }
             return chunk;
