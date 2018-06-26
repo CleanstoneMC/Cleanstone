@@ -1,11 +1,13 @@
 package rocks.cleanstone.game.world.region.chunk;
 
-import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.material.VanillaMaterial;
+import com.google.common.base.Objects;
 
 import java.util.Arrays;
 import java.util.Collection;
+
+import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.material.VanillaMaterial;
 
 public class ArrayBlockDataTable implements BlockDataTable {
 
@@ -76,5 +78,21 @@ public class ArrayBlockDataTable implements BlockDataTable {
     @Override
     public Collection<Block> getBlocks() {
         return Arrays.asList((Block[]) Arrays.stream(blocks).toArray());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ArrayBlockDataTable)) return false;
+        ArrayBlockDataTable that = (ArrayBlockDataTable) o;
+        return hasSkylight == that.hasSkylight &&
+                Arrays.deepEquals(blocks, that.blocks) &&
+                Arrays.deepEquals(blockLight, that.blockLight) &&
+                Arrays.deepEquals(skyLight, that.skyLight);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(blocks, blockLight, skyLight, hasSkylight);
     }
 }
