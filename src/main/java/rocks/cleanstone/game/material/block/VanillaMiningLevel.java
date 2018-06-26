@@ -6,7 +6,8 @@ public enum VanillaMiningLevel implements MiningLevel {
     GOLDEN(20),
     STONE(30),
     IRON(40),
-    DIAMOND(50);
+    DIAMOND(50),
+    INFINITE(-1);
 
     private final int mineLevel;
 
