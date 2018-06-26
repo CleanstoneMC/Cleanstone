@@ -1,9 +1,17 @@
 package rocks.cleanstone.game.world;
 
+import com.google.common.base.Preconditions;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.util.Collection;
+import java.util.concurrent.ExecutionException;
+
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Location;
@@ -19,10 +27,6 @@ import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
 import rocks.cleanstone.utils.Vector;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.concurrent.ExecutionException;
 
 public class SimpleGeneratedWorld implements World {
 
@@ -88,20 +92,19 @@ public class SimpleGeneratedWorld implements World {
         return chunkProvider;
     }
 
-    @Nullable
     @Override
     public Block getBlockAt(int x, int y, int z) {
+        Preconditions.checkArgument(y < Chunk.HEIGHT && y >= 0,
+                "Coordinate y (" + y + ") is not in allowed range (0<=y<" + Chunk.HEIGHT + ")");
         Chunk chunk;
         try {
             chunk = getChunkProvider().getChunk(x / 16, z / 16).get();
         } catch (InterruptedException | ExecutionException e) {
-            return null;
+            throw new RuntimeException("Failed to get chunk " + x / 16 + ":" + z / 16 + " in world " + id, e);
         }
-
         return chunk.getBlock(x, y, z);
     }
 
-    @Nullable
     @Override
     public Block getBlockAt(Vector vector) {
         return getBlockAt((int) vector.getX(), (int) vector.getY(), (int) vector.getZ());
@@ -109,18 +112,18 @@ public class SimpleGeneratedWorld implements World {
 
     @Override
     public void setBlockAt(int x, int y, int z, Block block) {
+        Preconditions.checkArgument(y < Chunk.HEIGHT && y >= 0,
+                "Coordinate y (" + y + ") is not in allowed range (0<=y<" + Chunk.HEIGHT + ")");
+        Preconditions.checkNotNull(block, "block cannot be null");
+        // TODO access region chunk cache
         chunkProvider.getChunk(x / 16, z / 16).addCallback(chunk -> {
-            if (chunk == null){
-                logger.error("Chunk {}:{} is null", x / 16, z / 16);
-                return; //TODO: Error?
-            }
-
             chunk.setBlock(x, y, z, block);
 
             //TODO: Do this in an Async Task
             chunkProvider.getDataSource().saveChunk(chunk);
         }, throwable -> {
-            logger.error("Could not set Block", throwable); //TODO: Better Error Message
+            logger.error("Failed to set block " + block + " at " + x + ":" + y + ":" + z
+                    + " in world " + id, throwable);
         });
     }
 

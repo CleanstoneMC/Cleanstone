@@ -26,7 +26,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
                     this.worldManager.createWorld(worldName, new FlatWorldGenerator()); //TODO: Change Generator
                 }
             }, throwable -> {
-                //TODO: What to do here?
+                logger.error("Failed to load auto-load world " + worldName, throwable);
             });
         });
     }

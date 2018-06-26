@@ -1,11 +1,10 @@
 package rocks.cleanstone.game.world.region.chunk;
 
+import java.util.Collection;
+
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
 
 public interface Chunk {
 
@@ -22,7 +21,6 @@ public interface Chunk {
 
     int getY();
 
-    @Nullable
     Block getBlock(int x, int y, int z);
 
     void setBlock(int x, int y, int z, Block block);
