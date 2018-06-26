@@ -1,11 +1,12 @@
 package rocks.cleanstone.game.block;
 
 import com.google.common.base.Preconditions;
-import io.netty.util.internal.ConcurrentSet;
-import rocks.cleanstone.game.material.Material;
-import rocks.cleanstone.game.material.VanillaMaterial;
+import com.google.common.collect.Sets;
 
 import java.util.Collection;
+
+import rocks.cleanstone.game.material.Material;
+import rocks.cleanstone.game.material.VanillaMaterial;
 
 /**
  * An immutable state of a block containing its material and metadata
@@ -14,7 +15,7 @@ import java.util.Collection;
  */
 public class BlockState {
 
-    private static final Collection<BlockState> CACHED_STATES = new ConcurrentSet<>();
+    private static final Collection<BlockState> CACHED_STATES = Sets.newConcurrentHashSet();
 
     private final Material material;
     private final byte metadata;
@@ -43,13 +44,12 @@ public class BlockState {
         byte metadata = (byte) (rawData & 0xF);
         int blockID = rawData >> 4;
 
-        VanillaMaterial vanillaMaterial = VanillaMaterial.byID(blockID);
-
-        if (vanillaMaterial == null) {
-            return null;
+        VanillaMaterial material = VanillaMaterial.byID(blockID);
+        if (material == null) {
+            throw new NullPointerException("Cannot find VanillaMaterial by blockID " + blockID);
         }
 
-        return of(vanillaMaterial, metadata);
+        return of(material, metadata);
     }
 
     public final Material getMaterial() {
