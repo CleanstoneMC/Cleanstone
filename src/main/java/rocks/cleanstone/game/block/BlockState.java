@@ -6,7 +6,6 @@ import rocks.cleanstone.game.material.Material;
 import rocks.cleanstone.game.material.VanillaMaterial;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 /**
  * An immutable state of a block containing its material and metadata
@@ -43,7 +42,14 @@ public class BlockState {
     public static BlockState of(int rawData) {
         byte metadata = (byte) (rawData & 0xF);
         int blockID = rawData >> 4;
-        return of(VanillaMaterial.byID(blockID), metadata);
+
+        VanillaMaterial vanillaMaterial = VanillaMaterial.byID(blockID);
+
+        if (vanillaMaterial == null) {
+            return null;
+        }
+
+        return of(vanillaMaterial, metadata);
     }
 
     public final Material getMaterial() {

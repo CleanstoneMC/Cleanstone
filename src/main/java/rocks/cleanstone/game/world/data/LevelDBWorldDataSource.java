@@ -34,14 +34,18 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     @Override
     public Chunk loadExistingChunk(int x, int y) {
         ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
+        ByteBuf blocksValue = get(blocksKey);
+
+        if (blocksValue == null) {
+            return null;
+        }
+
         BlockDataStorage blockDataStorage;
         try {
-            blockDataStorage = new BlockDataStorage(get(blocksKey), hasSkyLight);
+            blockDataStorage = new BlockDataStorage(blocksValue, hasSkyLight);
         } catch (IOException e) {
             logger.error("Failed to load corrupted chunk block data at " + x + ":" + y + " in LevelDB '"
                     + worldID + "'", e);
-            return null;
-        } catch (NullPointerException e) {
             return null;
         }
         // TODO load blockEntities, entities, biome state, version
@@ -56,5 +60,5 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         chunk.getBlockDataStorage().write(blocksValue);
         set(blocksKey, blocksValue);
         // TODO save blockEntities, entities, biome state, version
-        }
+    }
 }

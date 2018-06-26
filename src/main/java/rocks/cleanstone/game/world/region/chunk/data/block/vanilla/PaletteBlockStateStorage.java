@@ -80,7 +80,14 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
         int stateCount = ByteBufUtils.readVarInt(in);
 
         for (int i = 0; i < stateCount; i++) {
-            this.palette.add(BlockState.of(ByteBufUtils.readVarInt(in)));
+            int blockStateID = ByteBufUtils.readVarInt(in);
+            BlockState blockState = BlockState.of(blockStateID);
+
+            if (blockState == null) {
+                throw new IOException("Could not read Blockstate for ID " + blockStateID);
+            }
+
+            this.palette.add(blockState);
         }
         int dataAmount = ByteBufUtils.readVarInt(in);
         long[] data = new long[dataAmount];
