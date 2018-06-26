@@ -2,7 +2,6 @@ package rocks.cleanstone.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
@@ -30,7 +29,14 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
                 //TODO: What to do here?
             });
         });
+    }
 
+    public void destroy() {
+        logger.info("Stopping OpenWorldGame");
+
+        this.worldManager.getLoadedWorlds().forEach(world -> this.worldManager.unloadWorld(world.getID()));
+
+        logger.info("Stopped OpenWorldGame");
     }
 
     @Override

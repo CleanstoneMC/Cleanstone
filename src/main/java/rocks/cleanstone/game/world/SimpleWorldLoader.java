@@ -7,14 +7,13 @@ import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.io.File;
-import java.io.IOException;
-
 import rocks.cleanstone.game.world.data.LevelDBWorldDataSource;
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
 import rocks.cleanstone.game.world.region.SimpleRegionManager;
+
+import java.io.File;
+import java.io.IOException;
 
 public class SimpleWorldLoader implements WorldLoader {
 
@@ -45,8 +44,12 @@ public class SimpleWorldLoader implements WorldLoader {
     }
 
     @Override
-    public void unloadWorld(String id) {
+    public void unloadWorld(World world) {
+        logger.info("Unloading world '" + world.getID() + "'...");
 
+        world.getChunkProvider().getDataSource().close();
+
+        logger.info("World '" + world.getID() + "' unloaded.");
     }
 
     public WorldDataSource getDataSource(String id) throws IOException {

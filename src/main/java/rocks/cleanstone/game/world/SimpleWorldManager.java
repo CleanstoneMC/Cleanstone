@@ -3,19 +3,17 @@ package rocks.cleanstone.game.world;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import rocks.cleanstone.game.world.generation.WorldGenerator;
 
 import javax.annotation.Nullable;
-
-import rocks.cleanstone.game.world.generation.WorldGenerator;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SimpleWorldManager implements WorldManager {
 
     private final WorldLoader worldLoader;
-    private final Map<String, World> worldMap = new HashMap<>();
+    private final Map<String, World> worldMap = new ConcurrentHashMap<>();
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public SimpleWorldManager(WorldLoader worldLoader) {
@@ -57,7 +55,13 @@ public class SimpleWorldManager implements WorldManager {
     @Override
     public void unloadWorld(String id) {
         try {
-            worldLoader.unloadWorld(id);
+            World world = worldMap.get(id);
+
+            if (world == null) {
+                throw new NullPointerException("World " + id + " not found");
+            }
+
+            worldLoader.unloadWorld(world);
 
             worldMap.remove(id);
         } catch (Exception e) {
