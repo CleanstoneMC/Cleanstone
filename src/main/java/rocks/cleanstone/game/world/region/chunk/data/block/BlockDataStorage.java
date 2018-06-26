@@ -1,10 +1,18 @@
 package rocks.cleanstone.game.world.region.chunk.data.block;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.annotation.Nullable;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.world.data.WorldData;
@@ -13,12 +21,6 @@ import rocks.cleanstone.game.world.region.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.game.world.region.chunk.data.block.vanilla.PaletteBlockStateStorage;
 import rocks.cleanstone.net.utils.ByteBufUtils;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Stores data about blocks (e.g. block states, block light, etc.) that can be converted into a byte stream or
@@ -45,6 +47,7 @@ public class BlockDataStorage implements WorldData {
         this.hasSkyLight = hasSkyLight;
 
         int primaryBitMask = ByteBufUtils.readVarInt(buf);
+        int dataSize = ByteBufUtils.readVarInt(buf);
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             if ((primaryBitMask & (1 << sectionY)) != 0) {
                 BlockDataSection section = new BlockDataSection(buf, hasSkyLight);
@@ -147,19 +150,20 @@ public class BlockDataStorage implements WorldData {
         ArrayBlockDataTable table = new ArrayBlockDataTable(hasSkyLight);
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             BlockDataSection section = sectionMap.get(sectionY);
-            for (int y = 0; y < SEC_HEIGHT; y++) {
-                for (int z = 0; z < SEC_WIDTH; z++) {
-                    for (int x = 0; x < SEC_WIDTH; x++) {
-                        int chunkRelativeY = y + sectionY * SEC_HEIGHT;
-                        // TODO how to create BlockEntities?
-                        table.setBlock(x, chunkRelativeY, z,
-                                ImmutableBlock.of(section.getBlockStateStorage().get(x, y, z)));
-                        table.setBlockLight(x, chunkRelativeY, z, section.getBlockLight()[x][z][y]);
-                        if (hasSkyLight)
-                            table.setSkyLight(x, chunkRelativeY, z, section.getSkyLight()[x][z][y]);
+            if (section != null)
+                for (int y = 0; y < SEC_HEIGHT; y++) {
+                    for (int z = 0; z < SEC_WIDTH; z++) {
+                        for (int x = 0; x < SEC_WIDTH; x++) {
+                            int chunkRelativeY = y + sectionY * SEC_HEIGHT;
+                            // TODO how to create BlockEntities?
+                            table.setBlock(x, chunkRelativeY, z,
+                                    ImmutableBlock.of(section.getBlockStateStorage().get(x, y, z)));
+                            table.setBlockLight(x, chunkRelativeY, z, section.getBlockLight()[x][z][y]);
+                            if (hasSkyLight)
+                                table.setSkyLight(x, chunkRelativeY, z, section.getSkyLight()[x][z][y]);
+                        }
                     }
                 }
-            }
         }
         return table;
     }

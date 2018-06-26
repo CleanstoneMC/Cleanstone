@@ -1,7 +1,6 @@
 package rocks.cleanstone.game.block;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 import io.netty.util.internal.ConcurrentSet;
 import rocks.cleanstone.game.material.Material;
@@ -52,5 +51,10 @@ public class ImmutableBlock implements Block {
     @Override
     public BlockState getState() {
         return state;
+    }
+
+    @Override
+    public String toString() {
+        return "ImmutableBlock{" + state.getMaterial().getID() + "|" + state.getMetadata() + "}";
     }
 }
