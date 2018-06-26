@@ -112,8 +112,8 @@ public class SimpleGeneratedWorld implements World {
 
     @Override
     public void setBlockAt(int x, int y, int z, Block block) {
-        Preconditions.checkArgument(y < Chunk.HEIGHT,
-                "Coordinate y (" + y + ") is bigger than allowed (" + Chunk.HEIGHT + ")");
+        Preconditions.checkArgument(y < Chunk.HEIGHT && y >= 0,
+                "Coordinate y (" + y + ") is not in allowed range (0<=y<" + Chunk.HEIGHT + ")");
         Preconditions.checkNotNull(block, "block cannot be null");
         // TODO access region chunk cache
         chunkProvider.getChunk(x / 16, z / 16).addCallback(chunk -> {
