@@ -13,9 +13,9 @@ class VectorTest {
 
     @BeforeEach
     void createVectors() {
-        vector0 = new Vector(0, 0,0 );
-        vector1 = new Vector(1, 1,1 );
-        vector2 = new Vector(2, 2,2 );
+        vector0 = new Vector(0, 0, 0);
+        vector1 = new Vector(1, 1, 1);
+        vector2 = new Vector(2, 2, 2);
     }
 
     @Test
