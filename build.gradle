@@ -45,3 +45,10 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+bootRun {
+    standardInput = System.in
+    def console = System.console() != null
+    if (! console) { console = System.getenv()["TERM"].startsWith("xterm") }
+    if (console) systemProperties 'spring.output.ansi.enabled': 'always'
+}
