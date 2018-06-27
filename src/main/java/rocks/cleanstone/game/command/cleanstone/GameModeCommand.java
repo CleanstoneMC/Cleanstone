@@ -1,11 +1,11 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import java.util.Collections;
-
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.game.gamemode.GameMode;
+import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.net.packet.enums.GameStateChangeReason;
 import rocks.cleanstone.net.packet.outbound.ChangeGameStatePacket;
 import rocks.cleanstone.player.Player;
@@ -18,7 +18,7 @@ public class GameModeCommand extends SimpleCommand {
 
     @Override
     public void execute(CommandMessage message) {
-        GameMode gameMode = message.requireParameter(GameMode.class);
+        GameMode gameMode = message.requireParameter(VanillaGameMode.class);
         Player target = message.requireTargetPlayer();
         boolean gameModeChanged = target.getGameMode() != gameMode;
 
@@ -37,6 +37,6 @@ public class GameModeCommand extends SimpleCommand {
 
     @Override
     public Class[] getExpectedParameterTypes() {
-        return new Class[]{GameMode.class, Player.class};
+        return new Class[]{VanillaGameMode.class, Player.class};
     }
 }

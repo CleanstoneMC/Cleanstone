@@ -131,6 +131,10 @@
           class="rocks.cleanstone.game.chat.listener.IncomingChatMessageListener">
         <constructor-arg ref="chatManager"/>
     </bean>
+    <bean id="incomingTabCompleteListener"
+          class="rocks.cleanstone.game.chat.listener.IncomingTabCompleteListener">
+        <constructor-arg ref="playerManager"/>
+    </bean>
 
     <!-- Command System -->
     <bean id="commandRegistry" class="rocks.cleanstone.game.command.SimpleCommandRegistry">
@@ -150,14 +154,21 @@
                 <ref bean="stringParameter"/>
                 <ref bean="intParameter"/>
                 <ref bean="playerParameter"/>
-                <ref bean="gameModeParameter"/>
+                <ref bean="enumParameter"/>
             </list>
         </constructor-arg>
+    </bean>
+
+    <bean id="commandCompletion" class="rocks.cleanstone.game.command.completion.SimpleCommandCompletion">
+        <constructor-arg ref="commandRegistry"/>
     </bean>
 
     <bean id="commandListener" class="rocks.cleanstone.game.command.listener.CommandListener">
         <constructor-arg ref="commandRegistry"/>
         <constructor-arg ref="simpleConsole"/>
+    </bean>
+    <bean id="tabCompleteListener" class="rocks.cleanstone.game.command.listener.TabCompleteListener">
+        <constructor-arg ref="commandCompletion"/>
     </bean>
 
     <!-- (Commands) -->
@@ -177,7 +188,7 @@
     <bean id="playerParameter" class="rocks.cleanstone.game.command.parameter.PlayerParameter">
         <constructor-arg ref="playerManager"/>
     </bean>
-    <bean id="gameModeParameter" class="rocks.cleanstone.game.command.parameter.GameModeParameter"/>
+    <bean id="enumParameter" class="rocks.cleanstone.game.command.parameter.EnumParameter"/>
 
     <!-- NETWORKING -->
     <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"/>

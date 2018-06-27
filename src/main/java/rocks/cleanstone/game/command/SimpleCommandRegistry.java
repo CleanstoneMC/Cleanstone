@@ -97,7 +97,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
     public <T> CommandParameter<? extends T> getCommandParameter(Class<T> parameterClass) {
         //noinspection unchecked
         return (CommandParameter<? extends T>) commandParameters.stream().filter(
-                parameter -> parameterClass.isAssignableFrom(parameter.getParameterClass())).findFirst().orElse(null);
+                parameter -> parameter.getParameterClass().isAssignableFrom(parameterClass)).findFirst().orElse(null);
     }
 
     @Override
