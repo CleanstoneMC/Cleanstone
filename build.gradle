@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'org.springframework.boot' version'2.0.1.RELEASE'
+    id 'jacoco'
 }
 
 group = 'rocks.cleanstone'
