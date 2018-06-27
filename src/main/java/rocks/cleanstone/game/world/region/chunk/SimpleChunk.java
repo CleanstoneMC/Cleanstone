@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.world.region.chunk;
 
+import com.google.common.base.Preconditions;
+
 import java.util.Collection;
 
 import rocks.cleanstone.game.block.Block;
@@ -45,11 +47,17 @@ public class SimpleChunk implements Chunk {
 
     @Override
     public Block getBlock(int x, int y, int z) {
+        Preconditions.checkArgument(
+                x >= 0 && x < Chunk.WIDTH && y >= 0 && y < Chunk.HEIGHT && z >= 0 && z < Chunk.WIDTH,
+                "Relative block coordinates out of bounds (" + x + ":" + y + ":" + z + ")");
         return blockDataTable.getBlock(x, y, z);
     }
 
     @Override
     public void setBlock(int x, int y, int z, Block block) {
+        Preconditions.checkArgument(
+                x >= 0 && x < Chunk.WIDTH && y >= 0 && y < Chunk.HEIGHT && z >= 0 && z < Chunk.WIDTH,
+                "Relative block coordinates out of bounds (" + x + ":" + y + ":" + z + ")");
         blockDataTable.setBlock(x, y, z, block);
         // TODO run the following expensive operation async
         blockDataStorage.setBlockState(x, y, z, block.getState());

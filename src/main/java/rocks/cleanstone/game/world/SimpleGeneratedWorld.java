@@ -58,6 +58,21 @@ public class SimpleGeneratedWorld implements World {
         this(id, generator, dataSource, regionManager, null, chunkLoadingExecutor);
     }
 
+    private static int getRelativeBlockCoordinate(int blockCoordinate) {
+        int relX;
+        if (blockCoordinate > 0) {
+            relX = blockCoordinate % Chunk.WIDTH;
+        } else {
+            relX = Chunk.WIDTH + blockCoordinate % Chunk.WIDTH;
+            if (relX == Chunk.WIDTH) relX = 0;
+        }
+        return relX;
+    }
+
+    private static int getChunkCoordinate(int blockCoordinate) {
+        return blockCoordinate >> 4;
+    }
+
     @Override
     public String getID() {
         return id;
@@ -96,13 +111,17 @@ public class SimpleGeneratedWorld implements World {
     public Block getBlockAt(int x, int y, int z) {
         Preconditions.checkArgument(y < Chunk.HEIGHT && y >= 0,
                 "Coordinate y (" + y + ") is not in allowed range (0<=y<" + Chunk.HEIGHT + ")");
+
+        int chunkX = getChunkCoordinate(x), chunkY = getChunkCoordinate(z);
+        int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
+
         Chunk chunk;
         try {
-            chunk = getChunkProvider().getChunk(x / 16, z / 16).get();
+            chunk = getChunkProvider().getChunk(chunkX, chunkY).get();
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException("Failed to get chunk " + x / 16 + ":" + z / 16 + " in world " + id, e);
+            throw new RuntimeException("Failed to get chunk " + chunkX + ":" + chunkY + " in world " + id, e);
         }
-        return chunk.getBlock(x, y, z);
+        return chunk.getBlock(relX, y, relZ);
     }
 
     @Override
@@ -115,15 +134,18 @@ public class SimpleGeneratedWorld implements World {
         Preconditions.checkArgument(y < Chunk.HEIGHT && y >= 0,
                 "Coordinate y (" + y + ") is not in allowed range (0<=y<" + Chunk.HEIGHT + ")");
         Preconditions.checkNotNull(block, "block cannot be null");
+
+        int chunkX = getChunkCoordinate(x), chunkY = getChunkCoordinate(z);
+        int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
+
         // TODO access region chunk cache
-        chunkProvider.getChunk(x / 16, z / 16).addCallback(chunk -> {
-            chunk.setBlock(x, y, z, block);
+        chunkProvider.getChunk(chunkX, chunkY).addCallback(chunk -> {
+            chunk.setBlock(relX, y, relZ, block);
 
             //TODO: Do this in an Async Task
             chunkProvider.getDataSource().saveChunk(chunk);
         }, throwable -> {
-            logger.error("Failed to set block " + block + " at " + x + ":" + y + ":" + z
-                    + " in world " + id, throwable);
+            logger.error("Failed to get chunk " + chunkX + ":" + chunkY + " in world " + id, throwable);
         });
     }
 
