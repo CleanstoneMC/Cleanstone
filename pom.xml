@@ -11,7 +11,7 @@
 
     <groupId>rocks.cleanstone</groupId>
     <artifactId>Cleanstone</artifactId>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
