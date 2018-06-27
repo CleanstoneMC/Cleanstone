@@ -1,7 +1,5 @@
 package rocks.cleanstone.game.chat.listener;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.core.CleanstoneServer;
@@ -12,7 +10,6 @@ import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
 public class IncomingTabCompleteListener {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final PlayerManager playerManager;
 
     public IncomingTabCompleteListener(PlayerManager playerManager) {

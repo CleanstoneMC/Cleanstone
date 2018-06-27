@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.game.command.Command;
 import rocks.cleanstone.game.command.CommandMessage;
@@ -19,7 +17,6 @@ import rocks.cleanstone.player.Player;
 import rocks.cleanstone.utils.Vector;
 
 public class SimpleCommandCompletion implements CommandCompletion {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private CommandRegistry commandRegistry;
 
     public SimpleCommandCompletion(CommandRegistry commandRegistry) {
