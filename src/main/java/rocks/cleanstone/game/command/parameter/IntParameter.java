@@ -14,7 +14,7 @@ public class IntParameter implements CommandParameter<Integer> {
     }
 
     @Override
-    public Class getParameterClass() {
+    public Class<Integer> getParameterClass() {
         return Integer.class;
     }
 }
