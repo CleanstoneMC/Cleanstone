@@ -31,5 +31,6 @@ build/*
 
 # Gradle caches
 .gradle/*
+!gradle/wrapper/gradle-wrapper.jar
 
 data/*
