@@ -1,12 +1,15 @@
 package rocks.cleanstone.game.command.completion;
 
 import com.google.common.base.Preconditions;
+
+import org.springframework.scheduling.annotation.Async;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
-import org.springframework.scheduling.annotation.Async;
+
 import rocks.cleanstone.game.command.Command;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.CommandMessageFactory;
@@ -53,15 +56,15 @@ public class SimpleCommandCompletion implements CommandCompletion {
                         .startsWith(commandPart.toLowerCase(Locale.ENGLISH)))
                 .collect(Collectors.toList());
 
-        boolean multipleResults = matchingCommands.size() > 1;
+        boolean multipleMatches = matchingCommands.size() > 1;
 
         return matchingCommands.stream()
-                .map(command -> getCommandCompletionString(command, multipleResults))
+                .map(command -> getCommandCompletionString(command, multipleMatches))
                 .collect(Collectors.toList());
     }
 
-    private String getCommandCompletionString(Command command, boolean multipleresults) {
-        String  suffix = multipleresults || command.getExpectedParameterTypes().length == 0 ? "" : " ";
+    private String getCommandCompletionString(Command command, boolean multipleMatches) {
+        String suffix = multipleMatches || command.getExpectedParameterTypes().length == 0 ? "" : " ";
         return "/" + command.getName() + suffix;
     }
 
@@ -82,6 +85,7 @@ public class SimpleCommandCompletion implements CommandCompletion {
             return Collections.emptyList();
         }
 
+        //noinspection unchecked
         Class<T> parameterType = expectedParameterTypes[lastParameterIndex];
         String lastParameter = parameters.get(lastParameterIndex);
 
@@ -92,7 +96,7 @@ public class SimpleCommandCompletion implements CommandCompletion {
             return Collections.emptyList();
         }
 
+        //noinspection unchecked
         return ((CompletableValue<T>) commandParameter).getCompletion(parameterType, lastParameter);
-
     }
 }
