@@ -10,7 +10,7 @@ public class StringParameter implements CommandParameter<String> {
     }
 
     @Override
-    public Class getParameterClass() {
+    public Class<String> getParameterClass() {
         return String.class;
     }
 }

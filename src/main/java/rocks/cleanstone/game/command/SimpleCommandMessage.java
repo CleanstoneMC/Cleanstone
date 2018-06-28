@@ -116,6 +116,6 @@ public class SimpleCommandMessage implements CommandMessage {
         Preconditions.checkNotNull(commandParameter,
                 "Cannot resolve specified parameter class '" + parameterClass.getSimpleName()
                         + "'; you need to register it in the CommandRegistry first");
-        return commandParameter.get(getNextParameter());
+        return commandParameter.get(parameterClass, getNextParameter());
     }
 }
