@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Random;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.VanillaMaterial;
@@ -23,7 +22,7 @@ class BlockDataStorageTest {
 
     @BeforeEach
     void createStorageByTable() {
-        BlockDataTable blockDataTable = new ArrayBlockDataTable(false);
+        BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 20; i++) {
             Block randomBlock = ImmutableBlock.of(
                     VanillaMaterial.values()[random.nextInt(VanillaMaterial.values().length)]);
@@ -34,15 +33,15 @@ class BlockDataStorageTest {
 
     @Test
     void testSerializationAndTable() {
-        ByteBuf buf = Unpooled.buffer();
-        storage.write(buf);
+        BlockDataCodec codec = new BlockDataCodec();
+        ByteBuf serialized = codec.serialize(storage);
         BlockDataStorage deserialized;
         try {
-            deserialized = new BlockDataStorage(buf, false);
+            deserialized = codec.deserialize(serialized);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         assertEquals(storage.constructTable(), deserialized.constructTable());
-        buf.release();
+        serialized.release();
     }
 }

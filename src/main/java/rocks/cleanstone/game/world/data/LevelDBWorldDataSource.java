@@ -10,12 +10,12 @@ import java.util.Collections;
 import javax.annotation.Nullable;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.region.chunk.data.ChunkDataKeyFactory;
 import rocks.cleanstone.game.world.region.chunk.data.StandardChunkDataType;
+import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataCodec;
 import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
 
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
@@ -36,22 +36,16 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     @Override
     public Chunk loadExistingChunk(int x, int y) {
         ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
-        ByteBuf blocksValue = get(blocksKey);
-
-        if (blocksValue == null) {
-            return null;
-        }
-
         BlockDataStorage blockDataStorage;
         try {
-            blockDataStorage = new BlockDataStorage(blocksValue, hasSkyLight);
+            blockDataStorage = get(blocksKey, new BlockDataCodec());
         } catch (IOException e) {
             logger.error("Failed to load corrupted chunk block data at " + x + ":" + y + " in LevelDB '"
                     + worldID + "'", e);
             return null;
         }
         blocksKey.release();
-        blocksValue.release();
+        if (blockDataStorage == null) return null;
         // TODO load blockEntities, entities, biome state, version
         return new SimpleChunk(blockDataStorage.constructTable(), blockDataStorage, Collections.emptyList(), x, y);
     }
@@ -60,11 +54,13 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     public void saveChunk(Chunk chunk) {
         int x = chunk.getX(), y = chunk.getY();
         ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
-        ByteBuf blocksValue = Unpooled.buffer();
-        chunk.getBlockDataStorage().write(blocksValue);
-        set(blocksKey, blocksValue);
+        try {
+            set(blocksKey, chunk.getBlockDataStorage(), new BlockDataCodec());
+        } catch (IOException e) {
+            logger.error("Failed to save corrupted chunk block data at " + x + ":" + y + " in LevelDB '"
+                    + worldID + "'", e);
+        }
         blocksKey.release();
-        blocksValue.release();
         // TODO save blockEntities, entities, biome state, version
     }
 }

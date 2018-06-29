@@ -3,30 +3,24 @@ package rocks.cleanstone.game.world.region.chunk.data.block;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nullable;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.world.data.WorldData;
 import rocks.cleanstone.game.world.region.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.region.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.region.chunk.Chunk;
 import rocks.cleanstone.game.world.region.chunk.data.block.vanilla.PaletteBlockStateStorage;
-import rocks.cleanstone.net.utils.ByteBufUtils;
 
 /**
  * Stores data about blocks (e.g. block states, block light, etc.) that can be converted into a byte stream or
  * BlockDataTable efficiently in multiple BlockDataSections
  */
-public class BlockDataStorage implements WorldData {
+public class BlockDataStorage {
 
     private static final int SEC_HEIGHT = BlockDataSection.HEIGHT, SEC_WIDTH = BlockDataSection.WIDTH,
             SEC_AMNT = Chunk.HEIGHT / SEC_HEIGHT;
@@ -41,19 +35,6 @@ public class BlockDataStorage implements WorldData {
         blockDataStorage.sectionMap.forEach((integer, blockDataSection) -> {
             sectionMap.put(integer, new BlockDataSection(blockDataSection));
         });
-    }
-
-    public BlockDataStorage(ByteBuf buf, boolean hasSkyLight) throws IOException {
-        this.hasSkyLight = hasSkyLight;
-
-        int primaryBitMask = ByteBufUtils.readVarInt(buf);
-        int dataSize = ByteBufUtils.readVarInt(buf);
-        for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
-            if ((primaryBitMask & (1 << sectionY)) != 0) {
-                BlockDataSection section = new BlockDataSection(buf, hasSkyLight);
-                sectionMap.put(sectionY, section);
-            }
-        }
     }
 
     public BlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight) {
@@ -84,30 +65,6 @@ public class BlockDataStorage implements WorldData {
 
         }
         this.hasSkyLight = table.hasSkylight();
-    }
-
-    @Override
-    public void write(ByteBuf buf) {
-        int primaryBitMask = 0;
-
-        ByteBuf dataBuf = Unpooled.buffer();
-        for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
-            BlockDataSection section = sectionMap.get(sectionY);
-            if (section != null) {
-                section.write(dataBuf);
-                primaryBitMask |= (1 << sectionY);
-            }
-        }
-        for (int z = 0; z < Chunk.WIDTH; z++) {
-            for (int x = 0; x < Chunk.WIDTH; x++) {
-                dataBuf.writeByte(127);  // TODO write biome data
-            }
-        }
-
-        ByteBufUtils.writeVarInt(buf, primaryBitMask);
-        ByteBufUtils.writeVarInt(buf, dataBuf.readableBytes());
-        buf.writeBytes(dataBuf);
-        ReferenceCountUtil.release(dataBuf);
     }
 
     @Nullable
@@ -155,7 +112,6 @@ public class BlockDataStorage implements WorldData {
                     for (int z = 0; z < SEC_WIDTH; z++) {
                         for (int x = 0; x < SEC_WIDTH; x++) {
                             int chunkRelativeY = y + sectionY * SEC_HEIGHT;
-                            // TODO how to create BlockEntities?
                             table.setBlock(x, chunkRelativeY, z,
                                     ImmutableBlock.of(section.getBlockStateStorage().get(x, y, z)));
                             table.setBlockLight(x, chunkRelativeY, z, section.getBlockLight()[x][z][y]);
@@ -170,5 +126,9 @@ public class BlockDataStorage implements WorldData {
 
     public boolean hasSkyLight() {
         return hasSkyLight;
+    }
+
+    public Map<Integer, BlockDataSection> getSectionMap() {
+        return sectionMap;
     }
 }

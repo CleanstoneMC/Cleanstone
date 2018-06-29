@@ -54,6 +54,11 @@ public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBu
     public void set(ByteBuf key, ByteBuf value) {
         byte[] keyBytes = new byte[key.readableBytes()];
         key.readBytes(keyBytes);
+        if (value == null) {
+            database.delete(keyBytes);
+            return;
+        }
+
         byte[] valueBytes = new byte[value.readableBytes()];
         value.readBytes(valueBytes);
         database.put(keyBytes, valueBytes);

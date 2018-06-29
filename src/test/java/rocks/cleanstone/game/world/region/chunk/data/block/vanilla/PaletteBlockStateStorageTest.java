@@ -24,7 +24,7 @@ class PaletteBlockStateStorageTest {
 
     @BeforeEach
     void createStorageByTable() {
-        BlockDataTable blockDataTable = new ArrayBlockDataTable(false);
+        BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 40; i++) {
             Block randomBlock = ImmutableBlock.of(
                     VanillaMaterial.values()[random.nextInt(VanillaMaterial.values().length)]);
@@ -45,10 +45,5 @@ class PaletteBlockStateStorageTest {
         }
         assertEquals(storage, deserialized);
         buf.release();
-    }
-
-    @Test
-    void testSet() {
-
     }
 }

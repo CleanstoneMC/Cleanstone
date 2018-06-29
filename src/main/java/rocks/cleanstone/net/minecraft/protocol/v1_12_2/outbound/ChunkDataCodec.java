@@ -1,6 +1,7 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataCodec;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
@@ -22,7 +23,9 @@ public class ChunkDataCodec implements MinecraftPacketCodec {
         byteBuf.writeInt(chunkDataPacket.getChunkZ());
         byteBuf.writeBoolean(chunkDataPacket.isGroundUpContinuous());
 
-        chunkDataPacket.getStorage().write(byteBuf);
+        ByteBuf blockData = new BlockDataCodec().serialize(chunkDataPacket.getStorage());
+        byteBuf.writeBytes(blockData);
+        blockData.release();
 
         ByteBufUtils.writeVarInt(byteBuf, 0);
         //TODO encode NBT Tag array of block entities
