@@ -75,13 +75,16 @@
     <bean id="playerMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener">
         <constructor-arg ref="playerManager"/>
     </bean>
-    <bean id="creativeInventoryActionListener" class="rocks.cleanstone.player.listener.CreativeInventoryActionListener"/>
+    <bean id="creativeInventoryActionListener"
+          class="rocks.cleanstone.player.listener.CreativeInventoryActionListener"/>
     <bean id="heldItemChangeListener" class="rocks.cleanstone.player.listener.HeldItemChangeListener"/>
 
     <!-- Initialization -->
-    <bean id="playerData" class="rocks.cleanstone.player.initialize.PlayerData">
-        <constructor-arg index="0" ref="game"/>
-        <constructor-arg index="1" ref="entityManager"/>
+    <bean id="addEntity" class="rocks.cleanstone.player.initialize.AddEntity">
+        <constructor-arg ref="game"/>
+        <constructor-arg ref="worldManager"/>
+        <constructor-arg ref="entityManager"/>
+        <constructor-arg ref="playerManager"/>
     </bean>
     <bean id="worldPackets" class="rocks.cleanstone.player.initialize.WorldPackets">
     </bean>
@@ -97,6 +100,11 @@
         <constructor-arg ref="playerManager"/>
     </bean>
     <bean id="destroyPlayerPackets" class="rocks.cleanstone.player.terminate.DestroyPlayerPackets">
+        <constructor-arg ref="playerManager"/>
+    </bean>
+    <bean id="saveData" class="rocks.cleanstone.player.terminate.SaveData">
+        <constructor-arg ref="game"/>
+        <constructor-arg ref="worldManager"/>
         <constructor-arg ref="playerManager"/>
     </bean>
 

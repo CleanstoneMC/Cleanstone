@@ -7,6 +7,8 @@ import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -18,6 +20,8 @@ import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.player.data.LevelDBPlayerDataSource;
+import rocks.cleanstone.player.data.PlayerDataSource;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
@@ -29,6 +33,11 @@ public class SimplePlayerManager implements PlayerManager {
     private final Collection<Player> terminatingPlayers = Sets.newConcurrentHashSet();
     private final Collection<PlayerID> playerIDs = Sets.newConcurrentHashSet();
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final PlayerDataSource playerDataSource;
+
+    public SimplePlayerManager() throws IOException {
+        this.playerDataSource = new LevelDBPlayerDataSource(getPlayerDataFolder());
+    }
 
     @Override
     public Collection<Player> getOnlinePlayers() {
@@ -69,6 +78,11 @@ public class SimplePlayerManager implements PlayerManager {
     public PlayerID getPlayerID(UUID uuid, String accountName) {
         return playerIDs.stream().filter(id -> id.getUUID().equals(uuid)).findFirst()
                 .orElse(registerNewPlayerID(uuid, accountName));
+    }
+
+    @Override
+    public PlayerDataSource getPlayerDataSource() {
+        return playerDataSource;
     }
 
     private PlayerID registerNewPlayerID(UUID uuid, String accountName) {
@@ -119,5 +133,15 @@ public class SimplePlayerManager implements PlayerManager {
     @Override
     public boolean isTerminating(Player player) {
         return terminatingPlayers.contains(player);
+    }
+
+    private File getPlayerDataFolder() {
+        File dataFolder = new File("data/players");
+        try {
+            dataFolder.mkdir();
+        } catch (SecurityException e) {
+            logger.error("Cannot create data folder (no permission?)", e);
+        }
+        return dataFolder;
     }
 }

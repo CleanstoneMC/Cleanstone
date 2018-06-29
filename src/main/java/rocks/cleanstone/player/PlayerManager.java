@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.player.data.PlayerDataSource;
 
 public interface PlayerManager {
 
@@ -24,6 +25,8 @@ public interface PlayerManager {
     Collection<PlayerID> getAllPlayerIDs();
 
     PlayerID getPlayerID(UUID uuid, String accountName);
+
+    PlayerDataSource getPlayerDataSource();
 
     void initializePlayer(Player player);
 

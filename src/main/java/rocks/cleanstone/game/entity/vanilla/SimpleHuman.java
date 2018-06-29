@@ -1,19 +1,17 @@
 package rocks.cleanstone.game.entity.vanilla;
 
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.entity.AbstractEntity;
 import rocks.cleanstone.game.entity.Location;
 import rocks.cleanstone.game.entity.Rotation;
-import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.inventory.Inventory;
 import rocks.cleanstone.game.inventory.SimpleInventory;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.net.packet.enums.Hand;
 
-import javax.annotation.Nullable;
-
 public class SimpleHuman extends AbstractEntity implements Human {
 
-    private GameMode gameMode;
     private Inventory inventory;
     private Rotation headRotation;
     private short mainHandSlot = 0;
@@ -25,13 +23,13 @@ public class SimpleHuman extends AbstractEntity implements Human {
     }
 
     @Override
-    public GameMode getGameMode() {
-        return gameMode;
+    public Inventory getInventory() {
+        return inventory;
     }
 
     @Override
-    public Inventory getInventory() {
-        return inventory;
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     @Override
@@ -42,11 +40,6 @@ public class SimpleHuman extends AbstractEntity implements Human {
     @Override
     public void setHeadRotation(Rotation headRotation) {
         this.headRotation = headRotation;
-    }
-
-    @Override
-    public void setGameMode(GameMode gameMode) {
-        this.gameMode = gameMode;
     }
 
     @Nullable
@@ -60,18 +53,12 @@ public class SimpleHuman extends AbstractEntity implements Human {
     }
 
     @Override
-    public void setSelectedSlot(short slot) {
-        mainHandSlot = slot;
-    }
-
-    @Override
     public short getSelectedSlot() {
         return mainHandSlot;
     }
 
     @Override
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
+    public void setSelectedSlot(short slot) {
+        mainHandSlot = slot;
     }
-
 }

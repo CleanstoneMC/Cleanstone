@@ -2,8 +2,11 @@ package rocks.cleanstone.game.gamemode.vanilla;
 
 import com.google.common.base.CaseFormat;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+
+import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.GameModeRuleSet;
@@ -21,6 +24,12 @@ public enum VanillaGameMode implements GameMode {
     VanillaGameMode(int typeId, GameModeRuleSet ruleSet) {
         this.typeId = typeId;
         this.ruleSet = ruleSet;
+    }
+
+    @Nullable
+    public static VanillaGameMode byID(int typeID) {
+        return Arrays.stream(values()).filter(gameMode -> gameMode.getTypeId() == typeID)
+                .findAny().orElse(null);
     }
 
     @Override
