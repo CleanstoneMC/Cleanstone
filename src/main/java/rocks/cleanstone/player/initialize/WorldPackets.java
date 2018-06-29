@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
@@ -35,7 +36,7 @@ public class WorldPackets {
         Rotation playerRotation = player.getEntity().getLocation().getRotation();
 
         player.sendPacket(
-                new JoinGamePacket(player.getEntity().getEntityID(), player.getGameMode().getTypeId(),
+                new JoinGamePacket(player.getEntity().getEntityID(), (VanillaGameMode) player.getGameMode(),
                         dimension, difficulty, levelType, false)
         );
 

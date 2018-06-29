@@ -6,11 +6,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 
 import java.io.IOException;
-import java.util.Collections;
 
 import rocks.cleanstone.game.OpenWorldGame;
 import rocks.cleanstone.game.world.WorldManager;
-import rocks.cleanstone.net.packet.outbound.DestroyEntitiesPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.data.standard.EntityData;
@@ -42,12 +40,5 @@ public class SaveData {
         } catch (IOException e1) {
             logger.error("Failed to save player data for " + player.getId().getName(), e1);
         }
-    }
-
-
-    public void broadcastRemoval(Player player, Player... broadcastExemptions) {
-        DestroyEntitiesPacket packet = new DestroyEntitiesPacket(
-                Collections.singletonList(player.getEntity().getEntityID()));
-        playerManager.broadcastPacket(packet, broadcastExemptions);
     }
 }
