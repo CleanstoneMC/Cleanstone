@@ -8,4 +8,6 @@ public interface ItemStack {
     int getAmount();
 
     void setAmount(int amount);
+
+    short getMetadata();
 }
