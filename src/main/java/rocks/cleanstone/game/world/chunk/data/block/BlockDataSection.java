@@ -1,10 +1,10 @@
 package rocks.cleanstone.game.world.chunk.data.block;
 
+import java.io.IOException;
+
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.PaletteBlockStateStorage;
-
-import java.io.IOException;
 
 public class BlockDataSection {
 
@@ -37,7 +37,7 @@ public class BlockDataSection {
         if (hasSkyLight)
             for (int y = 0; y < HEIGHT; y++) {
                 for (int z = 0; z < WIDTH; z++) {
-                    for (int x = 0; x < WIDTH; x += 2) {
+                    for (int x = 0; x < WIDTH; x++) {
                         skyLight[x][z][y] = 15;
                     }
                 }
