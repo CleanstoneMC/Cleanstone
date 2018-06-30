@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package rocks.cleanstone.game.world.region.chunk.data.block.vanilla;
+package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -36,9 +36,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.material.VanillaMaterial;
-import rocks.cleanstone.game.world.region.chunk.BlockDataTable;
-import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataSection;
-import rocks.cleanstone.game.world.region.chunk.data.block.BlockStateStorage;
+import rocks.cleanstone.game.world.chunk.BlockDataTable;
+import rocks.cleanstone.game.world.chunk.data.block.BlockDataSection;
+import rocks.cleanstone.game.world.chunk.data.block.BlockStateStorage;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class PaletteBlockStateStorage implements BlockStateStorage {

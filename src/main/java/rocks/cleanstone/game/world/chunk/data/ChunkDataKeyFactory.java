@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region.chunk.data;
+package rocks.cleanstone.game.world.chunk.data;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

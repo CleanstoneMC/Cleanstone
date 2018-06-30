@@ -2,11 +2,11 @@ package rocks.cleanstone.game.world.generation;
 
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.VanillaMaterial;
-import rocks.cleanstone.game.world.region.chunk.ArrayBlockDataTable;
-import rocks.cleanstone.game.world.region.chunk.BlockDataTable;
-import rocks.cleanstone.game.world.region.chunk.Chunk;
-import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
-import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
+import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
+import rocks.cleanstone.game.world.chunk.BlockDataTable;
+import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.SimpleChunk;
+import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
 
 import java.util.HashSet;
 

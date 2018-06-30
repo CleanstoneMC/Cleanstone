@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package rocks.cleanstone.game.world.region.chunk.data.block.vanilla;
+package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import com.google.common.base.Objects;
 

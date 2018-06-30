@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region.chunk;
+package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;

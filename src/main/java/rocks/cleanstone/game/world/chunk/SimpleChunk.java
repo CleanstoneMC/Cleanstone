@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region.chunk;
+package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Preconditions;
 
@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
-import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
+import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
 
 public class SimpleChunk implements Chunk {
 

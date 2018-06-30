@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region.chunk.data;
+package rocks.cleanstone.game.world.chunk.data;
 
 public enum StandardChunkDataType implements ChunkDataType {
     VERSION(0), BLOCKS(1), ENTITIES(2), BLOCK_ENTITIES(3), BIOME_STATE(4);

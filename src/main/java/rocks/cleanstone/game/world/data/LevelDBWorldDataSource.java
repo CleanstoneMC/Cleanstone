@@ -11,12 +11,12 @@ import javax.annotation.Nullable;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
-import rocks.cleanstone.game.world.region.chunk.Chunk;
-import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
-import rocks.cleanstone.game.world.region.chunk.data.ChunkDataKeyFactory;
-import rocks.cleanstone.game.world.region.chunk.data.StandardChunkDataType;
-import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataCodec;
-import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
+import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.SimpleChunk;
+import rocks.cleanstone.game.world.chunk.data.ChunkDataKeyFactory;
+import rocks.cleanstone.game.world.chunk.data.StandardChunkDataType;
+import rocks.cleanstone.game.world.chunk.data.block.BlockDataCodec;
+import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
 
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
 

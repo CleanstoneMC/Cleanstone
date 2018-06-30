@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region.chunk.data.block;
+package rocks.cleanstone.game.world.chunk.data.block;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.data.Codec;
-import rocks.cleanstone.game.world.region.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class BlockDataCodec implements Codec<BlockDataStorage, ByteBuf> {

@@ -4,7 +4,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.Collection;
 
-import rocks.cleanstone.game.world.region.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.Chunk;
 
 public interface Region {
 

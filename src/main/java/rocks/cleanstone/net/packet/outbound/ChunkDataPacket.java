@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.outbound;
 
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
-import rocks.cleanstone.game.world.region.chunk.data.block.BlockDataStorage;
+import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;

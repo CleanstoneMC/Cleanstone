@@ -1,6 +1,6 @@
 package rocks.cleanstone.game.world.generation;
 
-import rocks.cleanstone.game.world.region.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.Chunk;
 
 public interface WorldGenerator {
 

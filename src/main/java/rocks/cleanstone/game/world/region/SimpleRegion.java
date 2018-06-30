@@ -11,9 +11,9 @@ import java.util.Collection;
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.world.World;
-import rocks.cleanstone.game.world.region.chunk.Chunk;
-import rocks.cleanstone.game.world.region.chunk.ChunkProvider;
-import rocks.cleanstone.game.world.region.chunk.SimpleChunk;
+import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.ChunkProvider;
+import rocks.cleanstone.game.world.chunk.SimpleChunk;
 
 public class SimpleRegion implements Region {
 

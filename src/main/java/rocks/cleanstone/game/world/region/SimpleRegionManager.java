@@ -1,19 +1,16 @@
 package rocks.cleanstone.game.world.region;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.World;
-import rocks.cleanstone.game.world.WorldManager;
-import rocks.cleanstone.game.world.region.chunk.Chunk;
-import rocks.cleanstone.game.world.region.chunk.ChunkProvider;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.world.chunk.ChunkProvider;
 
 public class SimpleRegionManager implements RegionManager {
 

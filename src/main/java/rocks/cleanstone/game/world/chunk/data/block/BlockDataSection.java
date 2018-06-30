@@ -1,8 +1,8 @@
-package rocks.cleanstone.game.world.region.chunk.data.block;
+package rocks.cleanstone.game.world.chunk.data.block;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.world.region.chunk.Chunk;
-import rocks.cleanstone.game.world.region.chunk.data.block.vanilla.PaletteBlockStateStorage;
+import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.PaletteBlockStateStorage;
 
 import java.io.IOException;
 

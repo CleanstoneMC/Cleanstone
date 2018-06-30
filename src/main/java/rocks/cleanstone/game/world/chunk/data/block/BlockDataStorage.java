@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region.chunk.data.block;
+package rocks.cleanstone.game.world.chunk.data.block;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,10 @@ import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.world.region.chunk.ArrayBlockDataTable;
-import rocks.cleanstone.game.world.region.chunk.BlockDataTable;
-import rocks.cleanstone.game.world.region.chunk.Chunk;
-import rocks.cleanstone.game.world.region.chunk.data.block.vanilla.PaletteBlockStateStorage;
+import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
+import rocks.cleanstone.game.world.chunk.BlockDataTable;
+import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.PaletteBlockStateStorage;
 
 /**
  * Stores data about blocks (e.g. block states, block light, etc.) that can be converted into a byte stream or

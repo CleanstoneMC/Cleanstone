@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.region.chunk;
+package rocks.cleanstone.game.world.chunk;
 
 import org.springframework.util.concurrent.ListenableFuture;
 

@@ -2,7 +2,7 @@ package rocks.cleanstone.game.world.data;
 
 import javax.annotation.Nullable;
 
-import rocks.cleanstone.game.world.region.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.Chunk;
 
 public interface WorldDataSource {
 
