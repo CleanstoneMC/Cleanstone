@@ -5,7 +5,7 @@ import rocks.cleanstone.game.block.Face;
 import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.enums.Hand;
+import rocks.cleanstone.game.inventory.Hand;
 
 public class PlayerBlockPlacementPacket implements Packet {
 

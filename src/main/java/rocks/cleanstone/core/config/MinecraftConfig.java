@@ -18,7 +18,7 @@ public class MinecraftConfig {
     private InetAddress address, mcpeAddress;
     private boolean onlineMode;
     private String motd;
-    private int maxPlayers;
+    private int maxPlayers, maxViewDistance;
     private List<String> autoLoadWorlds;
     private String firstSpawnWorld;
     private List<String> ops;
@@ -99,19 +99,19 @@ public class MinecraftConfig {
         this.firstSpawnWorld = firstSpawnWorld;
     }
 
-    @Override
-    public String toString() {
-        return "MinecraftConfig{" +
-                "port=" + port +
-                ", address=" + address +
-                ", onlineMode=" + onlineMode + "}";
-    }
-
     public List<String> getOps() {
         return ops;
     }
 
     public void setOps(List<String> ops) {
         this.ops = ops;
+    }
+
+    public int getMaxViewDistance() {
+        return maxViewDistance;
+    }
+
+    public void setMaxViewDistance(int maxViewDistance) {
+        this.maxViewDistance = maxViewDistance;
     }
 }

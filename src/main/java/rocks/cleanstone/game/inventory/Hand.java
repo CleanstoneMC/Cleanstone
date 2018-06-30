@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.packet.enums;
+package rocks.cleanstone.game.inventory;
 
 public enum Hand {
     MAIN_HAND(0),

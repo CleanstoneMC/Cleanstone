@@ -8,7 +8,7 @@ import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.inventory.Inventory;
 import rocks.cleanstone.game.inventory.SimpleInventory;
 import rocks.cleanstone.game.inventory.item.ItemStack;
-import rocks.cleanstone.net.packet.enums.Hand;
+import rocks.cleanstone.game.inventory.Hand;
 
 public class SimpleHuman extends AbstractEntity implements Human {
 

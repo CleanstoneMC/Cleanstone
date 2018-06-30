@@ -1,22 +1,31 @@
 package rocks.cleanstone.player;
 
 import com.google.common.base.Objects;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Locale;
+
+import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
+import rocks.cleanstone.game.inventory.MainHandSide;
+import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
 import rocks.cleanstone.net.packet.enums.PlayerAbilities;
-
-import java.util.Collection;
 
 public abstract class AbstractPlayer implements Player {
 
     protected final PlayerID id;
-
-    protected boolean op = false;
-    private Human entity;
+    protected Human entity;
+    private boolean op = false, flying = false;
     private GameMode gameMode = VanillaGameMode.CREATIVE;
     private float flyingSpeed = 0.4F;
-    private boolean flying;
+    private int viewDistance = 4;
+    private Locale locale = Locale.ENGLISH;
+    private ChatMode chatMode = ChatMode.ENABLED;
+    private MainHandSide mainHandSide = MainHandSide.RIGHT;
+    private Collection<DisplayedSkinPart> displayedSkinParts = new HashSet<>();
 
     public AbstractPlayer(PlayerID id) {
         this.id = id;
@@ -81,6 +90,46 @@ public abstract class AbstractPlayer implements Player {
         Collection<PlayerAbilities> abilities = gameMode.getPlayerAbilities();
         if (isFlying()) abilities.add(PlayerAbilities.IS_FLYING);
         return abilities;
+    }
+
+    public int getViewDistance() {
+        return viewDistance;
+    }
+
+    public void setViewDistance(int viewDistance) {
+        this.viewDistance = viewDistance;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    public ChatMode getChatMode() {
+        return chatMode;
+    }
+
+    public void setChatMode(ChatMode chatMode) {
+        this.chatMode = chatMode;
+    }
+
+    public MainHandSide getMainHandSide() {
+        return mainHandSide;
+    }
+
+    public void setMainHandSide(MainHandSide mainHandSide) {
+        this.mainHandSide = mainHandSide;
+    }
+
+    public Collection<DisplayedSkinPart> getDisplayedSkinParts() {
+        return displayedSkinParts;
+    }
+
+    public void setDisplayedSkinParts(Collection<DisplayedSkinPart> displayedSkinParts) {
+        this.displayedSkinParts = displayedSkinParts;
     }
 
     @Override

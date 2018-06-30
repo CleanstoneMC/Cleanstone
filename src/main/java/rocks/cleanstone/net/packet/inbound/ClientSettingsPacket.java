@@ -1,40 +1,44 @@
 package rocks.cleanstone.net.packet.inbound;
 
+import java.util.Collection;
+import java.util.Locale;
+
 import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
-import rocks.cleanstone.net.packet.enums.ChatMode;
-import rocks.cleanstone.net.packet.enums.DisplayedSkinParts;
-import rocks.cleanstone.net.packet.enums.MainHand;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.game.chat.ChatMode;
+import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
+import rocks.cleanstone.game.inventory.MainHandSide;
 
 public class ClientSettingsPacket implements Packet {
 
-    private final String locale;
+    private final Locale locale;
     private final int viewDistance;
     private final ChatMode chatMode;
     private final boolean chatColors;
-    private final DisplayedSkinParts[] displayedSkinParts;
-    private final MainHand mainHand;
+    private final Collection<DisplayedSkinPart> displayedSkinParts;
+    private final MainHandSide mainHandSide;
 
-    public ClientSettingsPacket(String locale, int viewDistance, int chatMode, boolean chatColors, int displayedSkinParts, int mainHand) {
+    public ClientSettingsPacket(Locale locale, int viewDistance, int chatMode, boolean chatColors, int displayedSkinParts, int mainHand) {
         this.locale = locale;
         this.viewDistance = viewDistance;
         this.chatMode = ChatMode.fromModeID(chatMode);
         this.chatColors = chatColors;
-        this.displayedSkinParts = DisplayedSkinParts.fromBitMask(displayedSkinParts);
-        this.mainHand = MainHand.fromHandID(mainHand);
+        this.displayedSkinParts = DisplayedSkinPart.fromBitMask(displayedSkinParts);
+        this.mainHandSide = MainHandSide.fromHandID(mainHand);
     }
 
-    public ClientSettingsPacket(String locale, int viewDistance, ChatMode chatMode, boolean chatColors, DisplayedSkinParts[] displayedSkinParts, MainHand mainHand) {
+    public ClientSettingsPacket(Locale locale, int viewDistance, ChatMode chatMode, boolean chatColors,
+                                Collection<DisplayedSkinPart> displayedSkinParts, MainHandSide mainHandSide) {
         this.locale = locale;
         this.viewDistance = viewDistance;
         this.chatMode = chatMode;
         this.chatColors = chatColors;
         this.displayedSkinParts = displayedSkinParts;
-        this.mainHand = mainHand;
+        this.mainHandSide = mainHandSide;
     }
 
-    public String getLocale() {
+    public Locale getLocale() {
         return locale;
     }
 
@@ -50,12 +54,12 @@ public class ClientSettingsPacket implements Packet {
         return chatColors;
     }
 
-    public DisplayedSkinParts[] getDisplayedSkinParts() {
+    public Collection<DisplayedSkinPart> getDisplayedSkinParts() {
         return displayedSkinParts;
     }
 
-    public MainHand getMainHand() {
-        return mainHand;
+    public MainHandSide getMainHandSide() {
+        return mainHandSide;
     }
 
     @Override

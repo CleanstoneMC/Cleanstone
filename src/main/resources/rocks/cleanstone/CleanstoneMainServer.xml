@@ -71,13 +71,16 @@
     <bean id="playerMovePacketListener" class="rocks.cleanstone.player.listener.PlayerMovePacketListener"/>
 
     <bean id="playerMoveChunkLoadListener"
-          class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener"/>
+          class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener">
+        <constructor-arg ref="minecraftConfig"/>
+    </bean>
     <bean id="playerMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener">
         <constructor-arg ref="playerManager"/>
     </bean>
     <bean id="creativeInventoryActionListener"
           class="rocks.cleanstone.player.listener.CreativeInventoryActionListener"/>
     <bean id="heldItemChangeListener" class="rocks.cleanstone.player.listener.HeldItemChangeListener"/>
+    <bean id="clientSettingsListener" class="rocks.cleanstone.player.listener.ClientSettingsListener"/>
 
     <!-- Initialization -->
     <bean id="addEntity" class="rocks.cleanstone.player.initialize.AddEntity">

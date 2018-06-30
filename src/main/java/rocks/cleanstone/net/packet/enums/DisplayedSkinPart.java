@@ -1,9 +1,10 @@
 package rocks.cleanstone.net.packet.enums;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public enum DisplayedSkinParts {
+public enum DisplayedSkinPart {
     CAPE(0x01),
     JACKET(0x02),
     LEFT_SLEEVE(0x04),
@@ -15,21 +16,21 @@ public enum DisplayedSkinParts {
 
     private final int bit;
 
-    DisplayedSkinParts(int bit) {
+    DisplayedSkinPart(int bit) {
         this.bit = bit;
     }
 
-    public static DisplayedSkinParts[] fromBitMask(int bitmask) {
-        List<DisplayedSkinParts> displayedSkinPartsList = new ArrayList<>();
+    public static Collection<DisplayedSkinPart> fromBitMask(int bitmask) {
+        List<DisplayedSkinPart> displayedSkinPartList = new ArrayList<>();
 
-        for (DisplayedSkinParts displayedSkinPart : DisplayedSkinParts.values()) {
+        for (DisplayedSkinPart displayedSkinPart : DisplayedSkinPart.values()) {
             int bit = displayedSkinPart.getBit();
             if ((bitmask & bit) == bit) {
-                displayedSkinPartsList.add(displayedSkinPart);
+                displayedSkinPartList.add(displayedSkinPart);
             }
         }
 
-        return displayedSkinPartsList.toArray(new DisplayedSkinParts[0]);
+        return displayedSkinPartList;
     }
 
     public int getBit() {

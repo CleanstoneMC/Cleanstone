@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.inbound;
 
 import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
-import rocks.cleanstone.net.packet.enums.Hand;
+import rocks.cleanstone.game.inventory.Hand;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 

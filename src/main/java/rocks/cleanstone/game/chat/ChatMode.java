@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.packet.enums;
+package rocks.cleanstone.game.chat;
 
 public enum ChatMode {
     ENABLED(0),

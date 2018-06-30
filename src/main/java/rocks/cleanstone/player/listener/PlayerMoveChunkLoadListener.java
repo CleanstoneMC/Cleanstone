@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 
 import java.util.UUID;
 
+import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.world.World;
@@ -23,7 +24,12 @@ import rocks.cleanstone.player.event.PlayerQuitEvent;
 public class PlayerMoveChunkLoadListener {
 
     private final Multimap<UUID, Pair<Integer, Integer>> playerHasLoaded = ArrayListMultimap.create();
+    private final MinecraftConfig minecraftConfig;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    public PlayerMoveChunkLoadListener(MinecraftConfig minecraftConfig) {
+        this.minecraftConfig = minecraftConfig;
+    }
 
     @Async("playerExec")
     @EventListener
@@ -42,8 +48,9 @@ public class PlayerMoveChunkLoadListener {
     }
 
     protected synchronized void sendNewNearbyChunks(Player player, int chunkX, int chunkY) {
-        final int sendDistance = 4;
-        final int checkDistance = sendDistance * 2;
+        int maxSendDistance = minecraftConfig.getMaxViewDistance();
+        final int sendDistance = Math.min(player.getViewDistance(), maxSendDistance);
+        final int checkDistance = sendDistance + 5;
 
         UUID uuid = player.getId().getUUID();
         for (int relX = -checkDistance; relX < checkDistance; relX++) {

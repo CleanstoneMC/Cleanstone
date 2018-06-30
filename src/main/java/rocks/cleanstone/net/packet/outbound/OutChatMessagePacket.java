@@ -2,7 +2,7 @@ package rocks.cleanstone.net.packet.outbound;
 
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
-import rocks.cleanstone.net.packet.enums.ChatPosition;
+import rocks.cleanstone.game.chat.ChatPosition;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 

@@ -26,6 +26,7 @@ minecraft:
   ops:
   - fionera
   - MyzelYam
+  maxViewDistance: 32
 
 logging.level.org.springframework: warn
 logging.level.com.whirvis.jraknet: warn
