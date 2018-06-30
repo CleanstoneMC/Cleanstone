@@ -80,7 +80,9 @@
     <bean id="creativeInventoryActionListener"
           class="rocks.cleanstone.player.listener.CreativeInventoryActionListener"/>
     <bean id="heldItemChangeListener" class="rocks.cleanstone.player.listener.HeldItemChangeListener"/>
-    <bean id="clientSettingsListener" class="rocks.cleanstone.player.listener.ClientSettingsListener"/>
+    <bean id="clientSettingsListener" class="rocks.cleanstone.player.listener.ClientSettingsListener">
+        <constructor-arg ref="minecraftConfig"/>
+    </bean>
 
     <!-- Initialization -->
     <bean id="addEntity" class="rocks.cleanstone.player.initialize.AddEntity">
