@@ -48,8 +48,7 @@ public class PlayerMoveChunkLoadListener {
     }
 
     protected synchronized void sendNewNearbyChunks(Player player, int chunkX, int chunkY) {
-        int maxSendDistance = minecraftConfig.getMaxViewDistance();
-        final int sendDistance = Math.min(player.getViewDistance(), maxSendDistance);
+        final int sendDistance = player.getViewDistance();
         final int checkDistance = sendDistance + 5;
 
         UUID uuid = player.getId().getUUID();
