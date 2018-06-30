@@ -10,11 +10,14 @@ public class EntityData implements Serializable {
     private final RotatablePosition logoutPosition;
     private final String logoutWorldID;
     private final GameMode gameMode;
+    private final boolean flying;
 
-    public EntityData(RotatablePosition logoutPosition, String logoutWorldID, GameMode gameMode) {
+    public EntityData(RotatablePosition logoutPosition, String logoutWorldID, GameMode gameMode,
+                      boolean flying) {
         this.logoutPosition = logoutPosition;
         this.logoutWorldID = logoutWorldID;
         this.gameMode = gameMode;
+        this.flying = flying;
     }
 
     public RotatablePosition getLogoutPosition() {
@@ -27,5 +30,9 @@ public class EntityData implements Serializable {
 
     public GameMode getGameMode() {
         return gameMode;
+    }
+
+    public boolean isFlying() {
+        return flying;
     }
 }

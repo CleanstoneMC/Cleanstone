@@ -53,6 +53,7 @@ public class AddEntity {
         HeadRotatablePosition position;
         GameMode gameMode;
         World world = null;
+        boolean flying = false;
         if (entityData == null) {
             position = new HeadRotatablePosition(openWorldGame.getFirstSpawnWorld().getFirstSpawnPosition());
             gameMode = VanillaGameMode.CREATIVE;
@@ -60,6 +61,7 @@ public class AddEntity {
             position = new HeadRotatablePosition(entityData.getLogoutPosition());
             gameMode = entityData.getGameMode();
             world = worldManager.getLoadedWorld(entityData.getLogoutWorldID());
+            flying = entityData.isFlying();
         }
         if (world == null) {
             world = openWorldGame.getFirstSpawnWorld();
@@ -70,5 +72,6 @@ public class AddEntity {
         human = entityManager.addEntityWithoutID(human);
         player.setEntity(human);
         player.setGameMode(gameMode);
+        player.setFlying(flying);
     }
 }

@@ -12,7 +12,7 @@ import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
 import rocks.cleanstone.game.inventory.MainHandSide;
-import rocks.cleanstone.net.packet.enums.PlayerAbilities;
+import rocks.cleanstone.net.packet.enums.PlayerAbility;
 
 public interface Player extends CommandSender {
 
@@ -70,5 +70,5 @@ public interface Player extends CommandSender {
 
     void setDisplayedSkinParts(Collection<DisplayedSkinPart> displayedSkinParts);
 
-    Collection<PlayerAbilities> getAbilities();
+    Collection<PlayerAbility> getAbilities();
 }

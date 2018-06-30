@@ -83,6 +83,7 @@
     <bean id="clientSettingsListener" class="rocks.cleanstone.player.listener.ClientSettingsListener">
         <constructor-arg ref="minecraftConfig"/>
     </bean>
+    <bean id="playerAbilitiesListener" class="rocks.cleanstone.player.listener.PlayerAbilitiesListener"/>
 
     <!-- Initialization -->
     <bean id="addEntity" class="rocks.cleanstone.player.initialize.AddEntity">

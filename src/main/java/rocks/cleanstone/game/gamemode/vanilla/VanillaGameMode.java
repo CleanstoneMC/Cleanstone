@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.GameModeRuleSet;
-import rocks.cleanstone.net.packet.enums.PlayerAbilities;
+import rocks.cleanstone.net.packet.enums.PlayerAbility;
 
 public enum VanillaGameMode implements GameMode {
     SURVIVAL(0, new Survival()),
@@ -47,11 +47,11 @@ public enum VanillaGameMode implements GameMode {
     }
 
     @Override
-    public Collection<PlayerAbilities> getPlayerAbilities() {
-        Collection<PlayerAbilities> abilities = new HashSet<>();
-        if (ruleSet.canFly()) abilities.add(PlayerAbilities.CAN_FLY);
-        if (ruleSet.hasCreativeInventory()) abilities.add(PlayerAbilities.IS_CREATIVE);
-        if (!ruleSet.canGetDamage()) abilities.add(PlayerAbilities.IS_INVULNERABLE);
+    public Collection<PlayerAbility> getPlayerAbilities() {
+        Collection<PlayerAbility> abilities = new HashSet<>();
+        if (ruleSet.canFly()) abilities.add(PlayerAbility.CAN_FLY);
+        if (ruleSet.hasCreativeInventory()) abilities.add(PlayerAbility.IS_CREATIVE);
+        if (!ruleSet.canGetDamage()) abilities.add(PlayerAbility.IS_INVULNERABLE);
         return abilities;
     }
 }

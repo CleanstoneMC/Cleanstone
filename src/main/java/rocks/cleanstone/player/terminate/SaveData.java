@@ -33,7 +33,7 @@ public class SaveData {
     public void onJoin(AsyncPlayerTerminationEvent e) {
         Player player = e.getPlayer();
         EntityData entityData = new EntityData(player.getEntity().getPosition(),
-                player.getEntity().getWorld().getID(), player.getGameMode());
+                player.getEntity().getWorld().getID(), player.getGameMode(), player.isFlying());
         try {
             playerManager.getPlayerDataSource().setPlayerData(player, StandardPlayerDataType.ENTITY_DATA,
                     entityData);

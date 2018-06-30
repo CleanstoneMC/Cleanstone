@@ -11,7 +11,7 @@ import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
-import rocks.cleanstone.net.packet.enums.PlayerAbilities;
+import rocks.cleanstone.net.packet.enums.PlayerAbility;
 import rocks.cleanstone.net.packet.outbound.JoinGamePacket;
 import rocks.cleanstone.net.packet.outbound.OutPlayerAbilitiesPacket;
 import rocks.cleanstone.net.packet.outbound.OutPlayerPositionAndLookPacket;
@@ -41,7 +41,7 @@ public class WorldPackets {
         player.sendPacket(new SpawnPositionPacket(playerPosition));
 
         player.sendPacket(new OutPlayerAbilitiesPacket(
-                player.getAbilities().toArray(new PlayerAbilities[0]), player.getFlyingSpeed(), 0));
+                player.getAbilities().toArray(new PlayerAbility[0]), player.getFlyingSpeed(), 0));
 
         player.sendPacket(new OutPlayerPositionAndLookPacket(playerPosition.getX(), playerPosition.getY(),
                 playerPosition.getZ(), playerPosition.getRotation().getYaw(),

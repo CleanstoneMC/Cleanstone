@@ -1,29 +1,26 @@
-package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
+package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.enums.PlayerAbility;
-import rocks.cleanstone.net.packet.outbound.OutPlayerAbilitiesPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.enums.PlayerAbility;
+import rocks.cleanstone.net.packet.inbound.InPlayerAbilitiesPacket;
 import rocks.cleanstone.net.protocol.ProtocolState;
 
-public class OutPlayerAbilitiesCodec implements MinecraftPacketCodec {
+public class InPlayerAbilitiesCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) {
-        throw new UnsupportedOperationException("PlayerAbilities is outbound and cannot be decoded");
+        PlayerAbility[] playerAbilities = PlayerAbility.fromBitMask(byteBuf.readByte());
+        float flyingSpeed = byteBuf.readFloat(), walkingSpeed = byteBuf.readFloat();
+
+        return new InPlayerAbilitiesPacket(playerAbilities, flyingSpeed, walkingSpeed);
     }
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        OutPlayerAbilitiesPacket playerAbilitiesPacket = (OutPlayerAbilitiesPacket) packet;
-
-        byteBuf.writeByte(PlayerAbility.toBitMask(playerAbilitiesPacket.getPlayerAbilities()));
-        byteBuf.writeFloat(playerAbilitiesPacket.getFlyingSpeed());
-        byteBuf.writeFloat(playerAbilitiesPacket.getFieldOfViewModifier());
-
-        return byteBuf;
+        throw new UnsupportedOperationException("InPlayerAbilities is inbound and cannot be encoded");
     }
 
     @Override
@@ -38,7 +35,7 @@ public class OutPlayerAbilitiesCodec implements MinecraftPacketCodec {
 
     @Override
     public int getProtocolPacketID() {
-        return 0x2C;
+        return 0x13;
     }
 
     @Override

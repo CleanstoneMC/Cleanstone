@@ -12,7 +12,7 @@ import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
 import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
-import rocks.cleanstone.net.packet.enums.PlayerAbilities;
+import rocks.cleanstone.net.packet.enums.PlayerAbility;
 
 public abstract class AbstractPlayer implements Player {
 
@@ -86,9 +86,9 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    public Collection<PlayerAbilities> getAbilities() {
-        Collection<PlayerAbilities> abilities = gameMode.getPlayerAbilities();
-        if (isFlying()) abilities.add(PlayerAbilities.IS_FLYING);
+    public Collection<PlayerAbility> getAbilities() {
+        Collection<PlayerAbility> abilities = gameMode.getPlayerAbilities();
+        if (isFlying()) abilities.add(PlayerAbility.IS_FLYING);
         return abilities;
     }
 
