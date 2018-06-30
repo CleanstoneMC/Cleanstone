@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.UUID;
 
 import rocks.cleanstone.core.config.MinecraftConfig;
@@ -52,26 +55,30 @@ public class PlayerMoveChunkLoadListener {
         final int checkDistance = sendDistance + 5;
 
         UUID uuid = player.getId().getUUID();
+        Collection<Pair<Integer, Integer>> relCoordinates = new HashSet<>();
         for (int relX = -checkDistance; relX < checkDistance; relX++) {
             for (int relY = -checkDistance; relY < checkDistance; relY++) {
-                final int currentX = chunkX + relX;
-                final int currentY = chunkY + relY;
-
-                if (relX < -sendDistance || relX > sendDistance
-                        || relY < -sendDistance || relY > sendDistance) { // TODO: Some weird flapping happens here
-                    if (hasPlayerLoaded(uuid, currentX, currentY)) {
-                        playerUnload(uuid, currentX, currentY);
-                        sendChunkUnload(player, currentX, currentY);
-                    }
-                    continue;
-                }
-
-                if (!hasPlayerLoaded(uuid, currentX, currentY)) {
-                    playerLoad(uuid, currentX, currentY);
-                    sendChunkLoad(player, currentX, currentY);
-                }
+                relCoordinates.add(Pair.of(relX, relY));
             }
         }
+        relCoordinates.stream()
+                .sorted(Comparator.comparingInt(p -> Math.abs(p.getLeft()) + Math.abs(p.getRight())))
+                .forEach(sortedCoordinates -> {
+                    int relX = sortedCoordinates.getLeft(), relY = sortedCoordinates.getRight();
+                    final int currentX = chunkX + relX;
+                    final int currentY = chunkY + relY;
+
+                    if (relX < -sendDistance || relX > sendDistance
+                            || relY < -sendDistance || relY > sendDistance) {
+                        if (hasPlayerLoaded(uuid, currentX, currentY)) {
+                            playerUnload(uuid, currentX, currentY);
+                            sendChunkUnload(player, currentX, currentY);
+                        }
+                    } else if (!hasPlayerLoaded(uuid, currentX, currentY)) {
+                        playerLoad(uuid, currentX, currentY);
+                        sendChunkLoad(player, currentX, currentY);
+                    }
+                });
     }
 
     protected void sendChunkUnload(Player player, int x, int y) {
