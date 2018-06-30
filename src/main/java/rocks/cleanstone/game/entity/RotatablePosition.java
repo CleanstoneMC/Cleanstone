@@ -2,9 +2,11 @@ package rocks.cleanstone.game.entity;
 
 import com.google.common.base.Objects;
 
+import java.io.Serializable;
+
 import rocks.cleanstone.game.Position;
 
-public class RotatablePosition extends Position {
+public class RotatablePosition extends Position implements Serializable {
 
     protected Rotation rotation;
 

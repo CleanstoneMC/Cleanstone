@@ -19,7 +19,6 @@ import rocks.cleanstone.game.world.region.EntityManager;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.data.standard.EntityData;
-import rocks.cleanstone.player.data.standard.EntityDataCodec;
 import rocks.cleanstone.player.data.standard.StandardPlayerDataType;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 
@@ -44,13 +43,12 @@ public class AddEntity {
     public void onJoin(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
 
-        EntityData entityData;
+        EntityData entityData = null;
         try {
             entityData = playerManager.getPlayerDataSource().getPlayerData(player,
-                    StandardPlayerDataType.ENTITY_DATA, new EntityDataCodec());
+                    StandardPlayerDataType.ENTITY_DATA);
         } catch (IOException e1) {
-            logger.error("Failed to load player data for " + player.getId().getName(), e1);
-            return;
+            logger.error("Player data of " + player.getId().getName() + " is corrupted", e1);
         }
         HeadRotatablePosition position;
         GameMode gameMode;

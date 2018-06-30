@@ -2,12 +2,14 @@ package rocks.cleanstone.game;
 
 import com.google.common.base.Objects;
 
+import java.io.Serializable;
+
 import rocks.cleanstone.utils.Vector;
 
 /**
  * Mutable 3D position in the world
  */
-public class Position {
+public class Position implements Serializable {
 
     protected double x, y, z;
 

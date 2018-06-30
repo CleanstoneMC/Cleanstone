@@ -2,9 +2,11 @@ package rocks.cleanstone.game.entity;
 
 import com.google.common.base.Objects;
 
+import java.io.Serializable;
+
 import rocks.cleanstone.utils.Vector;
 
-public class Rotation {
+public class Rotation implements Serializable {
 
     protected float yaw, pitch;
 

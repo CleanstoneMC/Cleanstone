@@ -12,7 +12,6 @@ import rocks.cleanstone.game.world.WorldManager;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.data.standard.EntityData;
-import rocks.cleanstone.player.data.standard.EntityDataCodec;
 import rocks.cleanstone.player.data.standard.StandardPlayerDataType;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 
@@ -37,7 +36,7 @@ public class SaveData {
                 player.getEntity().getWorld().getID(), player.getGameMode());
         try {
             playerManager.getPlayerDataSource().setPlayerData(player, StandardPlayerDataType.ENTITY_DATA,
-                    entityData, new EntityDataCodec());
+                    entityData);
         } catch (IOException e1) {
             logger.error("Failed to save player data for " + player.getId().getName(), e1);
         }

@@ -1,9 +1,11 @@
 package rocks.cleanstone.player.data.standard;
 
+import java.io.Serializable;
+
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.gamemode.GameMode;
 
-public class EntityData {
+public class EntityData implements Serializable {
 
     private final RotatablePosition logoutPosition;
     private final String logoutWorldID;
