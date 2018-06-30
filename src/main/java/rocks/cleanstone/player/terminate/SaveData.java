@@ -33,10 +33,11 @@ public class SaveData {
     @EventListener
     public void onJoin(AsyncPlayerTerminationEvent e) {
         Player player = e.getPlayer();
-        EntityData entityData = new EntityData(player.getEntity().getLocation(), player.getGameMode());
+        EntityData entityData = new EntityData(player.getEntity().getPosition(),
+                player.getEntity().getWorld().getID(), player.getGameMode());
         try {
             playerManager.getPlayerDataSource().setPlayerData(player, StandardPlayerDataType.ENTITY_DATA,
-                    entityData, new EntityDataCodec(openWorldGame, worldManager));
+                    entityData, new EntityDataCodec());
         } catch (IOException e1) {
             logger.error("Failed to save player data for " + player.getId().getName(), e1);
         }

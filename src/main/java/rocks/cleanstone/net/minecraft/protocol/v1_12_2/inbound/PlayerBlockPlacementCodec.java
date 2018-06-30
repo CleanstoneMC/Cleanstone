@@ -1,22 +1,22 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
+import java.io.IOException;
+
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.Position;
-import rocks.cleanstone.net.packet.inbound.PlayerBlockPlacementPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.inbound.PlayerBlockPlacementPacket;
 import rocks.cleanstone.net.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.utils.Vector;
-
-import java.io.IOException;
 
 public class PlayerBlockPlacementCodec implements MinecraftPacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) throws IOException {
-        final Vector vector = ByteBufUtils.readVector(byteBuf);
+        final Vector positionVector = ByteBufUtils.readVector(byteBuf);
         final int face = ByteBufUtils.readVarInt(byteBuf);
         final int hand = ByteBufUtils.readVarInt(byteBuf);
 
@@ -24,7 +24,7 @@ public class PlayerBlockPlacementCodec implements MinecraftPacketCodec {
         final float cursorY = byteBuf.readFloat();
         final float cursorZ = byteBuf.readFloat();
 
-        Position position = new Position(vector, null); //TODO: Add World to Position
+        Position position = new Position(positionVector);
 
         return new PlayerBlockPlacementPacket(position, face, hand, cursorX, cursorY, cursorZ);
     }

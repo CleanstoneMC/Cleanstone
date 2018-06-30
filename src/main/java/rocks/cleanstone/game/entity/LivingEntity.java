@@ -1,7 +1,7 @@
 package rocks.cleanstone.game.entity;
 
 public interface LivingEntity extends Entity {
-    Rotation getHeadRotation();
+    HeadRotatablePosition getPosition();
 
-    void setHeadRotation(Rotation headRotation);
+    void setPosition(HeadRotatablePosition position);
 }

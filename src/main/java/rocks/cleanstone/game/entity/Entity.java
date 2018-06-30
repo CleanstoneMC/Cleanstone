@@ -1,12 +1,16 @@
 package rocks.cleanstone.game.entity;
 
+import rocks.cleanstone.game.world.World;
+
 public interface Entity {
 
     EntityType getType();
 
     int getEntityID();
 
-    Location getLocation();
+    RotatablePosition getPosition();
 
-    void setLocation(Location location);
+    void setPosition(RotatablePosition rotatablePosition);
+
+    World getWorld();
 }

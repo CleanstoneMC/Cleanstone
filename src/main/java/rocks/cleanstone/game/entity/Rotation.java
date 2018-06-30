@@ -6,8 +6,7 @@ import rocks.cleanstone.utils.Vector;
 
 public class Rotation {
 
-    private float yaw;
-    private float pitch;
+    protected float yaw, pitch;
 
     public Rotation(float yaw, float pitch) {
         this.yaw = yaw;

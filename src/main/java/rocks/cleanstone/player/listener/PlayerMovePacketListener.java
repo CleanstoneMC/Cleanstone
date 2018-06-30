@@ -4,9 +4,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.Position;
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.LivingEntity;
-import rocks.cleanstone.game.entity.Location;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.net.packet.inbound.InPlayerPositionAndLookPacket;
 import rocks.cleanstone.net.packet.inbound.PlayerLookPacket;
@@ -22,33 +21,25 @@ public class PlayerMovePacketListener {
         if (!(event.getPacket() instanceof PlayerLookPacket)) {
             return;
         }
-
-        PlayerLookPacket playerLookPacket = (PlayerLookPacket) event.getPacket();
-
+        PlayerLookPacket packet = (PlayerLookPacket) event.getPacket();
         LivingEntity entity = event.getPlayer().getEntity();
+        if (entity == null) return;
 
-        if (entity == null) {
-            return;
+        HeadRotatablePosition oldPosition = entity.getPosition();
+        HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
+
+        newPosition.getHeadRotation().setPitch(packet.getPitch());
+        newPosition.getHeadRotation().setYaw(packet.getYaw());
+
+        boolean adjustBodyRotation = Math.abs(Math.abs(oldPosition.getRotation().getIntYaw())
+                - Math.abs(newPosition.getHeadRotation().getIntYaw())) > 35;
+        if (adjustBodyRotation) {
+            newPosition.setRotation(new Rotation(newPosition.getHeadRotation()));
         }
 
-        Position oldPosition = entity.getLocation().getPosition();
-        Rotation oldRotation = entity.getLocation().getRotation();
-        Rotation oldHeadRotation = entity.getHeadRotation();
+        entity.setPosition(newPosition);
 
-        Rotation newHeadRotation = new Rotation(oldHeadRotation);
-        newHeadRotation.setPitch(playerLookPacket.getPitch());
-        newHeadRotation.setYaw(playerLookPacket.getYaw());
-
-        boolean adjustBodyRotation = Math.abs(Math.abs(oldRotation.getIntYaw())
-                - Math.abs(newHeadRotation.getIntYaw())) > 35;
-        Rotation newRotation = adjustBodyRotation ? new Rotation(newHeadRotation) : oldRotation;
-
-        entity.setLocation(new Location(oldPosition, newRotation));
-        entity.setHeadRotation(newHeadRotation);
-
-        CleanstoneServer.publishEvent(new PlayerMoveEvent(
-                event.getPlayer(), oldPosition, oldRotation, oldHeadRotation, oldPosition,
-                newRotation, newHeadRotation));
+        CleanstoneServer.publishEvent(new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition));
     }
 
     @Async(value = "playerExec")
@@ -57,29 +48,21 @@ public class PlayerMovePacketListener {
         if (!(event.getPacket() instanceof PlayerPositionPacket)) {
             return;
         }
-
-        PlayerPositionPacket playerPositionPacket = (PlayerPositionPacket) event.getPacket();
+        PlayerPositionPacket packet = (PlayerPositionPacket) event.getPacket();
 
         LivingEntity entity = event.getPlayer().getEntity();
+        if (entity == null) return;
 
-        if (entity == null) {
-            return;
-        }
+        HeadRotatablePosition oldPosition = entity.getPosition();
+        HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
 
-        Position oldPosition = entity.getLocation().getPosition();
-        Rotation oldRotation = entity.getLocation().getRotation();
-        Position newPosition = new Position(oldPosition);
-        Rotation oldHeadRotation = entity.getHeadRotation();
+        newPosition.setX(packet.getX());
+        newPosition.setY(packet.getFeetY());
+        newPosition.setZ(packet.getZ());
 
-        newPosition.setX(playerPositionPacket.getX());
-        newPosition.setY(playerPositionPacket.getFeetY());
-        newPosition.setZ(playerPositionPacket.getZ());
+        entity.setPosition(newPosition);
 
-        entity.setLocation(new Location(newPosition, oldRotation));
-
-        CleanstoneServer.publishEvent(
-                new PlayerMoveEvent(event.getPlayer(), oldPosition, oldRotation, oldHeadRotation, newPosition,
-                        oldRotation, oldHeadRotation));
+        CleanstoneServer.publishEvent(new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition));
     }
 
     @Async(value = "playerExec")
@@ -88,34 +71,25 @@ public class PlayerMovePacketListener {
         if (!(event.getPacket() instanceof InPlayerPositionAndLookPacket)) {
             return;
         }
-        InPlayerPositionAndLookPacket playerPositionAndLookPacket = (InPlayerPositionAndLookPacket) event.getPacket();
+        InPlayerPositionAndLookPacket packet = (InPlayerPositionAndLookPacket) event.getPacket();
 
         LivingEntity entity = event.getPlayer().getEntity();
+        if (entity == null) return;
 
-        if (entity == null) {
-            return;
-        }
+        HeadRotatablePosition oldPosition = entity.getPosition();
+        HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
 
-        Position oldPosition = entity.getLocation().getPosition();
-        Rotation oldRotation = entity.getLocation().getRotation();
-        Rotation oldHeadRotation = entity.getHeadRotation();
-        Position newPosition = new Position(oldPosition);
-        Rotation newRotation = new Rotation(oldRotation);
+        newPosition.setX(packet.getX());
+        newPosition.setY(packet.getY());
+        newPosition.setZ(packet.getZ());
 
-        Rotation newHeadRotation = new Rotation(newRotation);
+        newPosition.getRotation().setPitch(packet.getPitch());
+        newPosition.getRotation().setYaw(packet.getYaw());
 
-        newPosition.setX(playerPositionAndLookPacket.getX());
-        newPosition.setY(playerPositionAndLookPacket.getY());
-        newPosition.setZ(playerPositionAndLookPacket.getZ());
+        newPosition.setHeadRotation(newPosition.getRotation());
 
-        newRotation.setPitch(playerPositionAndLookPacket.getPitch());
-        newRotation.setYaw(playerPositionAndLookPacket.getYaw());
+        entity.setPosition(newPosition);
 
-        entity.setLocation(new Location(newPosition, newRotation));
-        entity.setHeadRotation(newHeadRotation);
-
-        CleanstoneServer.publishEvent(
-                new PlayerMoveEvent(event.getPlayer(), oldPosition, oldRotation, oldHeadRotation, newPosition,
-                        newRotation, newHeadRotation));
+        CleanstoneServer.publishEvent(new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition));
     }
 }

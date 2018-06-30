@@ -1,20 +1,26 @@
 package rocks.cleanstone.player.data.standard;
 
-import rocks.cleanstone.game.entity.Location;
+import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.gamemode.GameMode;
 
 public class EntityData {
 
-    private final Location logoutLocation;
+    private final RotatablePosition logoutPosition;
+    private final String logoutWorldID;
     private final GameMode gameMode;
 
-    public EntityData(Location logoutLocation, GameMode gameMode) {
-        this.logoutLocation = logoutLocation;
+    public EntityData(RotatablePosition logoutPosition, String logoutWorldID, GameMode gameMode) {
+        this.logoutPosition = logoutPosition;
+        this.logoutWorldID = logoutWorldID;
         this.gameMode = gameMode;
     }
 
-    public Location getLogoutLocation() {
-        return logoutLocation;
+    public RotatablePosition getLogoutPosition() {
+        return logoutPosition;
+    }
+
+    public String getLogoutWorldID() {
+        return logoutWorldID;
     }
 
     public GameMode getGameMode() {

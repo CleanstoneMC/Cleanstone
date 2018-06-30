@@ -2,6 +2,9 @@ package rocks.cleanstone.player.listener;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+
+import java.util.ArrayList;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
@@ -16,8 +19,6 @@ import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
-
-import java.util.ArrayList;
 
 public class UseItemListener {
 
@@ -34,11 +35,10 @@ public class UseItemListener {
             return;
         }
 
-        PlayerBlockPlacementPacket playerBlockPlacementPacket = (PlayerBlockPlacementPacket) event.getPacket();
-        playerBlockPlacementPacket.getPosition().setWorld(event.getPlayer().getEntity().getLocation().getPosition().getWorld()); //TODO: Remove this please O_O
+        PlayerBlockPlacementPacket packet = (PlayerBlockPlacementPacket) event.getPacket();
 
-        Position newBlockPosition = new Position(playerBlockPlacementPacket.getPosition());
-        switch (playerBlockPlacementPacket.getFace()) {
+        Position newBlockPosition = new Position(packet.getPosition());
+        switch (packet.getFace()) {
             case TOP:
                 newBlockPosition.addY(1);
                 break;
@@ -61,7 +61,7 @@ public class UseItemListener {
 
         Player player = event.getPlayer();
 
-        ItemStack itemStack = player.getEntity().getItemByHand(playerBlockPlacementPacket.getHand());
+        ItemStack itemStack = player.getEntity().getItemByHand(packet.getHand());
 
         if (itemStack == null) {
             return;
@@ -69,8 +69,8 @@ public class UseItemListener {
 
         Block placedBlock = ImmutableBlock.of(itemStack.getItemType().getMaterial(), (byte) itemStack.getMetadata());
 
-        newBlockPosition.getWorld().setBlockAt(newBlockPosition, placedBlock);
-        CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, playerBlockPlacementPacket.getFace()));
+        player.getEntity().getWorld().setBlockAt(newBlockPosition, placedBlock);
+        CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, packet.getFace()));
 
         //TODO: Move this to a BlockPlaceEvent Listener?
         BlockChangePacket blockChangePacket = new BlockChangePacket(newBlockPosition, placedBlock);
@@ -83,17 +83,16 @@ public class UseItemListener {
         if (!(event.getPacket() instanceof PlayerDiggingPacket)) {
             return;
         }
-
-        PlayerDiggingPacket playerDiggingPacket = (PlayerDiggingPacket) event.getPacket();
-        playerDiggingPacket.getPosition().setWorld(event.getPlayer().getEntity().getLocation().getPosition().getWorld()); //TODO: Remove this please O_O
+        PlayerDiggingPacket packet = (PlayerDiggingPacket) event.getPacket();
 
         Block placedBlock = ImmutableBlock.of(VanillaMaterial.AIR);
 
-        playerDiggingPacket.getPosition().getWorld().setBlockAt(playerDiggingPacket.getPosition(), placedBlock);
-        CleanstoneServer.publishEvent(new BlockBreakEvent(placedBlock, playerDiggingPacket.getPosition(), event.getPlayer(), new ArrayList<>()));//TODO: Add Drops
+        event.getPlayer().getEntity().getWorld().setBlockAt(packet.getPosition(), placedBlock);
+        CleanstoneServer.publishEvent(new BlockBreakEvent(placedBlock, packet.getPosition(),
+                event.getPlayer(), new ArrayList<>()));//TODO: Add Drops
 
         BlockChangePacket blockChangePacket = new BlockChangePacket(
-                playerDiggingPacket.getPosition(), placedBlock);
+                packet.getPosition(), placedBlock);
 
         playerManager.broadcastPacket(blockChangePacket);
     }

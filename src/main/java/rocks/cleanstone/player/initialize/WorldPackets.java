@@ -5,8 +5,7 @@ import org.springframework.core.annotation.Order;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import rocks.cleanstone.game.Position;
-import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.net.packet.enums.Difficulty;
@@ -26,14 +25,13 @@ public class WorldPackets {
     @EventListener
     public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
+        World world = player.getEntity().getWorld();
 
-        World world = player.getEntity().getLocation().getPosition().getWorld();
         Dimension dimension = world != null ? world.getDimension() : Dimension.OVERWORLD;
         Difficulty difficulty = world != null ? world.getDifficulty() : Difficulty.EASY;
         LevelType levelType = world != null ? world.getLevelType() : LevelType.DEFAULT;
 
-        Position playerPosition = player.getEntity().getLocation().getPosition();
-        Rotation playerRotation = player.getEntity().getLocation().getRotation();
+        RotatablePosition playerPosition = player.getEntity().getPosition();
 
         player.sendPacket(
                 new JoinGamePacket(player.getEntity().getEntityID(), (VanillaGameMode) player.getGameMode(),
@@ -46,8 +44,8 @@ public class WorldPackets {
                 player.getAbilities().toArray(new PlayerAbilities[0]), player.getFlyingSpeed(), 0));
 
         player.sendPacket(new OutPlayerPositionAndLookPacket(playerPosition.getX(), playerPosition.getY(),
-                playerPosition.getZ(), playerRotation.getYaw(), playerRotation.getPitch(), 0,
-                ThreadLocalRandom.current().nextInt()));
+                playerPosition.getZ(), playerPosition.getRotation().getYaw(),
+                playerPosition.getRotation().getPitch(), 0, ThreadLocalRandom.current().nextInt()));
 
         //player.sendPacket(new WindowItemsPacket(0,));
     }

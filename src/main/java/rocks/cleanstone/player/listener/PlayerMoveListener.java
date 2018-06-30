@@ -5,8 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
-import rocks.cleanstone.game.Position;
-import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.net.packet.outbound.EntityHeadLookPacket;
 import rocks.cleanstone.net.packet.outbound.EntityLookAndRelativeMovePacket;
 import rocks.cleanstone.net.packet.outbound.EntityLookPacket;
@@ -27,27 +26,23 @@ public class PlayerMoveListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
-        final Position oldPosition = playerMoveEvent.getOldPosition();
-        final Position newPosition = playerMoveEvent.getNewPosition();
-        final Rotation oldRotation = playerMoveEvent.getOldRotation();
-        final Rotation newRotation = playerMoveEvent.getNewRotation();
-        final Rotation oldHeadRotation = playerMoveEvent.getOldHeadRotation();
-        final Rotation newHeadRotation = playerMoveEvent.getNewHeadRotation();
+        final HeadRotatablePosition oldPosition = playerMoveEvent.getOldPosition();
+        final HeadRotatablePosition newPosition = playerMoveEvent.getNewPosition();
 
         final Player movingPlayer = playerMoveEvent.getPlayer();
         final int entityID = movingPlayer.getEntity().getEntityID();
 
-        final int pitch = newRotation.getIntPitch();
-        final int yaw = newRotation.getIntYaw();
+        final int pitch = newPosition.getRotation().getIntPitch();
+        final int yaw = newPosition.getRotation().getIntYaw();
 
-        if (!oldHeadRotation.equals(newHeadRotation)) {
+        if (!oldPosition.getHeadRotation().equals(newPosition.getHeadRotation())) {
             EntityHeadLookPacket entityHeadLookPacket = new EntityHeadLookPacket(
-                    entityID, newHeadRotation.getIntYaw());
+                    entityID, newPosition.getHeadRotation().getIntYaw());
             playerManager.broadcastPacket(entityHeadLookPacket, movingPlayer);
         }
 
         if (oldPosition.equals(newPosition)) {
-            if (oldRotation.equals(newRotation)) {
+            if (oldPosition.getRotation().equals(newPosition.getRotation())) {
                 return;
             }
 
@@ -72,7 +67,7 @@ public class PlayerMoveListener {
             return;
         }
 
-        if (oldRotation.equals(newRotation)) {
+        if (oldPosition.getRotation().equals(newPosition.getRotation())) {
             EntityRelativeMovePacket entityRelativeMovePacket = new EntityRelativeMovePacket(entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), true); //TODO: Add onGround
 
             playerManager.broadcastPacket(entityRelativeMovePacket, movingPlayer);

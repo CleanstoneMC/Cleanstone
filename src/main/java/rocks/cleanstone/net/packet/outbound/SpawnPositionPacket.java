@@ -7,14 +7,14 @@ import rocks.cleanstone.net.packet.PacketType;
 
 public class SpawnPositionPacket implements Packet {
 
-    private final Position location;
+    private final Position position;
 
-    public SpawnPositionPacket(Position location) {
-        this.location = location;
+    public SpawnPositionPacket(Position position) {
+        this.position = position;
     }
 
-    public Position getLocation() {
-        return location;
+    public Position getPosition() {
+        return position;
     }
 
     @Override

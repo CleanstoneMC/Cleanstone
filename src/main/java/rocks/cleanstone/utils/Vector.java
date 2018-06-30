@@ -1,7 +1,10 @@
 package rocks.cleanstone.utils;
 
-import java.util.Objects;
+import com.google.common.base.Objects;
 
+/**
+ * Mutable 3D Vector in the world
+ */
 public class Vector {
 
     protected double x;
@@ -78,16 +81,17 @@ public class Vector {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Vector)) {
-            return false;
-        }
-        Vector vector = (Vector) obj;
-        return !(vector.x != x) && !(vector.y != y) && !(vector.z != z);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vector)) return false;
+        Vector vector = (Vector) o;
+        return Double.compare(vector.x, x) == 0 &&
+                Double.compare(vector.y, y) == 0 &&
+                Double.compare(vector.z, z) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, z);
+        return Objects.hashCode(x, y, z);
     }
 }

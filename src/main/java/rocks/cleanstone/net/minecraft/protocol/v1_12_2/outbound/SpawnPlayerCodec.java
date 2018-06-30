@@ -1,10 +1,10 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.outbound.SpawnPlayerPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.outbound.SpawnPlayerPacket;
 import rocks.cleanstone.net.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
@@ -21,15 +21,14 @@ public class SpawnPlayerCodec implements MinecraftPacketCodec {
 
         ByteBufUtils.writeVarInt(byteBuf, spawnPlayerPacket.getEntityID());
         ByteBufUtils.writeUUID(byteBuf, spawnPlayerPacket.getPlayerUUID());
-        byteBuf.writeDouble(spawnPlayerPacket.getX());
-        byteBuf.writeDouble(spawnPlayerPacket.getY());
-        byteBuf.writeDouble(spawnPlayerPacket.getZ());
-        byteBuf.writeByte((int) spawnPlayerPacket.getPitch());
-        byteBuf.writeByte((int) spawnPlayerPacket.getYaw());
+        byteBuf.writeDouble(spawnPlayerPacket.getPosition().getX());
+        byteBuf.writeDouble(spawnPlayerPacket.getPosition().getY());
+        byteBuf.writeDouble(spawnPlayerPacket.getPosition().getZ());
+        byteBuf.writeByte((int) spawnPlayerPacket.getPosition().getRotation().getPitch());
+        byteBuf.writeByte((int) spawnPlayerPacket.getPosition().getRotation().getYaw());
 
         byteBuf.writeByte(0xff);
-        //TODO: Write Entitymetadata
-
+        //TODO: Write EntityMetadata
 
         return byteBuf;
     }

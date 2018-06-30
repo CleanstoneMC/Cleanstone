@@ -21,13 +21,13 @@ public class PlayerDiggingCodec implements MinecraftPacketCodec {
     @Override
     public Packet decode(ByteBuf byteBuf) throws IOException {
         final int diggingStatusID = ByteBufUtils.readVarInt(byteBuf);
-        final Vector vector = ByteBufUtils.readVector(byteBuf);
+        final Vector positionVector = ByteBufUtils.readVector(byteBuf);
         final byte faceID = byteBuf.readByte();
 
         final DiggingStatus diggingStatus = DiggingStatus.fromStatusID(diggingStatusID);
         Preconditions.checkNotNull(diggingStatus, "Invalid diggingStatusID " + diggingStatusID);
 
-        final Position position = new Position(vector, null); //TODO: Add World
+        final Position position = new Position(positionVector);
         final Face face = Face.fromFaceID(faceID);
         Preconditions.checkNotNull(face, "Invalid faceID " + faceID);
 

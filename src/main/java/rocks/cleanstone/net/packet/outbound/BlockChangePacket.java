@@ -8,16 +8,16 @@ import rocks.cleanstone.net.packet.PacketType;
 
 public class BlockChangePacket implements Packet {
 
-    private final Position location;
+    private final Position position;
     private final Block block;
 
-    public BlockChangePacket(Position location, Block block) {
-        this.location = location;
+    public BlockChangePacket(Position position, Block block) {
+        this.position = position;
         this.block = block;
     }
 
-    public Position getLocation() {
-        return location;
+    public Position getPosition() {
+        return position;
     }
 
     public Block getBlock() {

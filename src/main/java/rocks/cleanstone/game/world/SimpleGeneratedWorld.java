@@ -14,19 +14,18 @@ import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.entity.Location;
+import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.ChunkProvider;
+import rocks.cleanstone.game.world.chunk.SimpleChunkProvider;
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
 import rocks.cleanstone.game.world.region.RegionManager;
-import rocks.cleanstone.game.world.chunk.Chunk;
-import rocks.cleanstone.game.world.chunk.ChunkProvider;
-import rocks.cleanstone.game.world.chunk.SimpleChunkProvider;
 import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
-import rocks.cleanstone.utils.Vector;
 
 public class SimpleGeneratedWorld implements World {
 
@@ -38,17 +37,17 @@ public class SimpleGeneratedWorld implements World {
     private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
     private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
     private LevelType levelType = LevelType.FLAT; //TODO: Move
-    private Location spawnLocation;
+    private RotatablePosition spawnPosition;
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     public SimpleGeneratedWorld(String id, WorldGenerator generator, WorldDataSource dataSource,
-                                RegionManager regionManager, Location spawnLocation,
+                                RegionManager regionManager, RotatablePosition spawnPosition,
                                 AsyncListenableTaskExecutor chunkLoadingExecutor) {
         this.id = id;
         this.generator = generator;
         this.dataSource = dataSource;
         this.regionManager = regionManager;
-        this.spawnLocation = spawnLocation;
+        this.spawnPosition = spawnPosition;
 
         chunkProvider = new SimpleChunkProvider(dataSource, generator, chunkLoadingExecutor);
     }
@@ -94,12 +93,12 @@ public class SimpleGeneratedWorld implements World {
     }
 
     @Override
-    public Location getFirstSpawnLocation() {
-        if (spawnLocation == null) {
-            spawnLocation = new Location(new Position(0, 46, 0, this), new Rotation(0, 0)); //TODO: Check if y is highest block
+    public RotatablePosition getFirstSpawnPosition() {
+        if (spawnPosition == null) {
+            spawnPosition = new RotatablePosition(new Position(0, 46, 0), new Rotation(0, 0)); //TODO: Check if y is highest block
         }
 
-        return spawnLocation;
+        return spawnPosition;
     }
 
     @Override
@@ -125,8 +124,8 @@ public class SimpleGeneratedWorld implements World {
     }
 
     @Override
-    public Block getBlockAt(Vector vector) {
-        return getBlockAt((int) vector.getX(), (int) vector.getY(), (int) vector.getZ());
+    public Block getBlockAt(Position position) {
+        return getBlockAt((int) position.getX(), (int) position.getY(), (int) position.getZ());
     }
 
     @Override
@@ -150,8 +149,8 @@ public class SimpleGeneratedWorld implements World {
     }
 
     @Override
-    public void setBlockAt(Vector vector, Block block) {
-        setBlockAt((int) vector.getX(), (int) vector.getY(), (int) vector.getZ(), block);
+    public void setBlockAt(Position position, Block block) {
+        setBlockAt((int) position.getX(), (int) position.getY(), (int) position.getZ(), block);
     }
 
     public Collection<Region> getLoadedRegions() {

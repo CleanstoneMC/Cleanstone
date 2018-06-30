@@ -1,14 +1,14 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
+import java.io.IOException;
+
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.net.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
-
-import java.io.IOException;
 
 public class BlockChangeCodec implements MinecraftPacketCodec {
 
@@ -21,7 +21,7 @@ public class BlockChangeCodec implements MinecraftPacketCodec {
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
         BlockChangePacket blockChangePacket = (BlockChangePacket) packet;
 
-        ByteBufUtils.writeVector(byteBuf, blockChangePacket.getLocation());
+        ByteBufUtils.writeVector(byteBuf, blockChangePacket.getPosition().toVector());
         ByteBufUtils.writeVarInt(byteBuf, blockChangePacket.getBlockData());
 
         return byteBuf;

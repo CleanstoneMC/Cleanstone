@@ -1,37 +1,64 @@
 package rocks.cleanstone.game;
 
-import rocks.cleanstone.game.world.World;
+import com.google.common.base.Objects;
+
 import rocks.cleanstone.utils.Vector;
 
-import java.util.Objects;
+/**
+ * Mutable 3D position in the world
+ */
+public class Position {
 
-public class Position extends Vector {
+    protected double x, y, z;
 
-    private World world;
-
-    public Position(double x, double y, double z, World world) {
-        super(x, y, z);
-        this.world = world;
+    public Position(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     public Position(Position position) {
-        this.x = position.x;
-        this.y = position.y;
-        this.z = position.z;
-        this.world = position.world;
+        this(position.x, position.y, position.z);
     }
 
-    public Position(Vector vector, World world) {
-        super(vector);
-        this.world = world;
+    public Position(Vector vector) {
+        this(vector.getX(), vector.getY(), vector.getZ());
     }
 
-    public World getWorld() {
-        return world;
+    public double getX() {
+        return x;
     }
 
-    public void setWorld(World world) {
-        this.world = world;
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void addX(double x) {
+        this.x += x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void addY(double y) {
+        this.y += y;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public void setZ(double z) {
+        this.z = z;
+    }
+
+    public void addZ(double z) {
+        this.z += z;
     }
 
     public double getDistance(Position position) {
@@ -42,17 +69,22 @@ public class Position extends Vector {
         return Math.sqrt(xP + yP + zP);
     }
 
+    public Vector toVector() {
+        return new Vector(x, y, z);
+    }
+
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Position)) {
-            return false;
-        }
-        Position position = (Position) obj;
-        return position.x == x && position.y == y && position.z == z && position.world == world;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Position)) return false;
+        Position position = (Position) o;
+        return Double.compare(position.x, x) == 0 &&
+                Double.compare(position.y, y) == 0 &&
+                Double.compare(position.z, z) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(world, x, y, z);
+        return Objects.hashCode(x, y, z);
     }
 }

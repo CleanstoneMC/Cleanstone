@@ -8,12 +8,12 @@ import org.springframework.core.annotation.Order;
 import java.io.IOException;
 
 import rocks.cleanstone.game.OpenWorldGame;
-import rocks.cleanstone.game.entity.Location;
-import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
+import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
 import rocks.cleanstone.game.world.region.EntityManager;
 import rocks.cleanstone.player.Player;
@@ -47,23 +47,28 @@ public class AddEntity {
         EntityData entityData;
         try {
             entityData = playerManager.getPlayerDataSource().getPlayerData(player,
-                    StandardPlayerDataType.ENTITY_DATA, new EntityDataCodec(openWorldGame, worldManager));
+                    StandardPlayerDataType.ENTITY_DATA, new EntityDataCodec());
         } catch (IOException e1) {
             logger.error("Failed to load player data for " + player.getId().getName(), e1);
             return;
         }
-        Location spawnLocation;
+        HeadRotatablePosition position;
         GameMode gameMode;
+        World world = null;
         if (entityData == null) {
-            spawnLocation = openWorldGame.getFirstSpawnWorld().getFirstSpawnLocation();
+            position = new HeadRotatablePosition(openWorldGame.getFirstSpawnWorld().getFirstSpawnPosition());
             gameMode = VanillaGameMode.CREATIVE;
         } else {
-            spawnLocation = entityData.getLogoutLocation();
+            position = new HeadRotatablePosition(entityData.getLogoutPosition());
             gameMode = entityData.getGameMode();
+            world = worldManager.getLoadedWorld(entityData.getLogoutWorldID());
         }
-        Rotation spawnHeadRotation = new Rotation(spawnLocation.getRotation());
+        if (world == null) {
+            world = openWorldGame.getFirstSpawnWorld();
+            position = new HeadRotatablePosition(world.getFirstSpawnPosition());
+        }
 
-        Human human = new SimpleHuman(spawnLocation, spawnHeadRotation);
+        Human human = new SimpleHuman(world, position);
         human = entityManager.addEntityWithoutID(human);
         player.setEntity(human);
         player.setGameMode(gameMode);
