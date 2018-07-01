@@ -7,20 +7,24 @@ import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.data.LevelDBWorldDataSource;
-import rocks.cleanstone.game.world.data.WorldDataSource;
-import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
-import rocks.cleanstone.game.world.region.SimpleRegionManager;
 
 import java.io.File;
 import java.io.IOException;
+
+import rocks.cleanstone.game.world.chunk.ChunkProvider;
+import rocks.cleanstone.game.world.chunk.SimpleChunkProvider;
+import rocks.cleanstone.game.world.data.LevelDBWorldDataSource;
+import rocks.cleanstone.game.world.data.WorldDataSource;
+import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
+import rocks.cleanstone.game.world.generation.WorldGenerator;
+import rocks.cleanstone.game.world.region.SingleRegionManager;
 
 public class SimpleWorldLoader implements WorldLoader {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    AsyncListenableTaskExecutor chunkLoadingExecutor;
+    AsyncListenableTaskExecutor worldExec;
 
     @Async(value = "worldLoadingExec")
     @Override
@@ -35,8 +39,11 @@ public class SimpleWorldLoader implements WorldLoader {
 
         // TODO Fetch generator from dataSource
 
-        World world = new SimpleGeneratedWorld(id, new FlatWorldGenerator(), dataSource,
-                new SimpleRegionManager(null), chunkLoadingExecutor);
+        WorldGenerator generator = new FlatWorldGenerator();
+        ChunkProvider chunkProvider = new SimpleChunkProvider(dataSource, generator, worldExec);
+
+        World world = new SimpleGeneratedWorld(id, chunkProvider, generator, dataSource,
+                new SingleRegionManager(chunkProvider), worldExec);
 
         // TODO: Loading spawn and other tasks(?)
         logger.info("World '" + id + "' loaded.");
@@ -47,7 +54,7 @@ public class SimpleWorldLoader implements WorldLoader {
     public void unloadWorld(World world) {
         logger.info("Unloading world '" + world.getID() + "'...");
 
-        world.getChunkProvider().getDataSource().close();
+        world.getDataSource().close();
 
         logger.info("World '" + world.getID() + "' unloaded.");
     }

@@ -19,9 +19,9 @@
     <task:executor id="playerExec" pool-size="10"/>
     <task:executor id="mcLoginExec" pool-size="10"/>
     <task:executor id="worldLoadingExec" pool-size="10"/>
-    <task:executor id="chunkLoadingExecutor" pool-size="10"/>
     <task:executor id="chatExec" pool-size="10"/>
     <task:executor id="commandExec" pool-size="10"/>
+    <task:executor id="worldExec" pool-size="50-5000" queue-capacity="50" rejection-policy="CALLER_RUNS"/>
 
     <!-- CONFIG -->
     <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
@@ -131,7 +131,7 @@
     </bean>
 
     <!-- Entity -->
-    <bean id="entityManager" class="rocks.cleanstone.game.world.region.EntityManager"/>
+    <bean id="entityManager" class="rocks.cleanstone.game.world.EntityManager"/>
 
     <!-- Chat -->
     <bean id="chatManager" class="rocks.cleanstone.game.chat.ChatManager">

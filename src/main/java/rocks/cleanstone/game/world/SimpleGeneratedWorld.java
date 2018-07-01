@@ -7,18 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import java.util.Collection;
-import java.util.concurrent.ExecutionException;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
-import rocks.cleanstone.game.world.chunk.SimpleChunkProvider;
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
@@ -32,29 +26,32 @@ public class SimpleGeneratedWorld implements World {
     protected final WorldGenerator generator;
     protected final WorldDataSource dataSource;
     protected final RegionManager regionManager;
+    protected final ChunkProvider chunkProvider;
     private final String id;
-    private final ChunkProvider chunkProvider;
+    private final AsyncListenableTaskExecutor executor;
     private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
     private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
     private LevelType levelType = LevelType.FLAT; //TODO: Move
     private RotatablePosition spawnPosition;
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public SimpleGeneratedWorld(String id, WorldGenerator generator, WorldDataSource dataSource,
-                                RegionManager regionManager, RotatablePosition spawnPosition,
-                                AsyncListenableTaskExecutor chunkLoadingExecutor) {
+    public SimpleGeneratedWorld(String id, ChunkProvider chunkProvider, WorldGenerator generator,
+                                WorldDataSource dataSource, RegionManager regionManager,
+                                RotatablePosition spawnPosition,
+                                AsyncListenableTaskExecutor executor) {
         this.id = id;
+        this.chunkProvider = chunkProvider;
         this.generator = generator;
         this.dataSource = dataSource;
         this.regionManager = regionManager;
         this.spawnPosition = spawnPosition;
-
-        chunkProvider = new SimpleChunkProvider(dataSource, generator, chunkLoadingExecutor);
+        this.executor = executor;
     }
 
-    public SimpleGeneratedWorld(String id, WorldGenerator generator, WorldDataSource dataSource,
-                                RegionManager regionManager, AsyncListenableTaskExecutor chunkLoadingExecutor) {
-        this(id, generator, dataSource, regionManager, null, chunkLoadingExecutor);
+    public SimpleGeneratedWorld(String id, ChunkProvider chunkProvider, WorldGenerator generator,
+                                WorldDataSource dataSource, RegionManager regionManager,
+                                AsyncListenableTaskExecutor executor) {
+        this(id, chunkProvider, generator, dataSource, regionManager, null, executor);
     }
 
     private static int getRelativeBlockCoordinate(int blockCoordinate) {
@@ -97,34 +94,28 @@ public class SimpleGeneratedWorld implements World {
         if (spawnPosition == null) {
             spawnPosition = new RotatablePosition(new Position(0, 46, 0), new Rotation(0, 0)); //TODO: Check if y is highest block
         }
-
         return spawnPosition;
     }
 
     @Override
-    public ChunkProvider getChunkProvider() {
-        return chunkProvider;
+    public WorldDataSource getDataSource() {
+        return dataSource;
     }
 
     @Override
-    public Block getBlockAt(int x, int y, int z) {
+    public ListenableFuture<Block> getBlockAt(int x, int y, int z) {
         Preconditions.checkArgument(y < Chunk.HEIGHT && y >= 0,
                 "Coordinate y (" + y + ") is not in allowed range (0<=y<" + Chunk.HEIGHT + ")");
 
         int chunkX = getChunkCoordinate(x), chunkY = getChunkCoordinate(z);
         int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
-
-        Chunk chunk;
-        try {
-            chunk = getChunkProvider().getChunk(chunkX, chunkY).get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException("Failed to get chunk " + chunkX + ":" + chunkY + " in world " + id, e);
-        }
-        return chunk.getBlock(relX, y, relZ);
+        return executor.submitListenable(() -> {
+            return getChunk(chunkX, chunkY).get().getBlock(relX, y, relZ);
+        });
     }
 
     @Override
-    public Block getBlockAt(Position position) {
+    public ListenableFuture<Block> getBlockAt(Position position) {
         return getBlockAt((int) position.getX(), (int) position.getY(), (int) position.getZ());
     }
 
@@ -137,12 +128,9 @@ public class SimpleGeneratedWorld implements World {
         int chunkX = getChunkCoordinate(x), chunkY = getChunkCoordinate(z);
         int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
 
-        // TODO access region chunk cache
-        chunkProvider.getChunk(chunkX, chunkY).addCallback(chunk -> {
+        getChunk(chunkX, chunkY).addCallback(chunk -> {
             chunk.setBlock(relX, y, relZ, block);
-
-            //TODO: Do this in an Async Task
-            chunkProvider.getDataSource().saveChunk(chunk);
+            dataSource.saveChunk(chunk);
         }, throwable -> {
             logger.error("Failed to get chunk " + chunkX + ":" + chunkY + " in world " + id, throwable);
         });
@@ -153,20 +141,21 @@ public class SimpleGeneratedWorld implements World {
         setBlockAt((int) position.getX(), (int) position.getY(), (int) position.getZ(), block);
     }
 
-    public Collection<Region> getLoadedRegions() {
-        return regionManager.getLoadedRegions();
+    @Override
+    public ListenableFuture<Chunk> getChunk(int chunkX, int chunkY) {
+        return executor.submitListenable(() -> {
+            return getRegion(chunkX, chunkY).get().getChunk(chunkX, chunkY).get();
+        });
     }
 
-    @Nullable
-    public Region getLoadedRegion(int x, int y) {
-        return regionManager.getLoadedRegion(x, y);
+    @Override
+    public ListenableFuture<Chunk> getChunkAt(Position position) {
+        int chunkX = getChunkCoordinate((int) position.getX());
+        int chunkY = getChunkCoordinate((int) position.getZ());
+        return getChunk(chunkX, chunkY);
     }
 
-    public ListenableFuture<Region> loadRegion(int x, int y) {
-        return regionManager.loadRegion(x, y);
-    }
-
-    public void unloadRegion(int x, int y) {
-        regionManager.unloadRegion(x, y);
+    private ListenableFuture<Region> getRegion(int chunkX, int chunkY) {
+        return regionManager.getRegion(chunkX, chunkY);
     }
 }

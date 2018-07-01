@@ -1,14 +1,13 @@
-package rocks.cleanstone.game.world.region;
+package rocks.cleanstone.game.world;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import rocks.cleanstone.game.entity.AbstractEntity;
-import rocks.cleanstone.game.entity.Entity;
-
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.entity.AbstractEntity;
+import rocks.cleanstone.game.entity.Entity;
 
 public class EntityManager {
     private final Map<Integer, Entity> entityMap = new HashMap<>();

@@ -15,7 +15,7 @@ import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
-import rocks.cleanstone.game.world.region.EntityManager;
+import rocks.cleanstone.game.world.EntityManager;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.data.standard.EntityData;

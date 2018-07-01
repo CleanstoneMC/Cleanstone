@@ -89,7 +89,7 @@ public class PlayerMoveChunkLoadListener {
     protected void sendChunkLoad(Player player, int x, int y) {
         World world = player.getEntity().getWorld();
 
-        world.getChunkProvider().getChunk(x, y).addCallback(chunk -> {
+        world.getChunk(x, y).addCallback(chunk -> {
             if (chunk == null) {
                 logger.error("Chunk {}:{} is null", x, y);
                 return;
