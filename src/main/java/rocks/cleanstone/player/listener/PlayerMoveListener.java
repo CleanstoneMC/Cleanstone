@@ -4,13 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
-import rocks.cleanstone.net.packet.outbound.EntityHeadLookPacket;
-import rocks.cleanstone.net.packet.outbound.EntityLookAndRelativeMovePacket;
-import rocks.cleanstone.net.packet.outbound.EntityLookPacket;
-import rocks.cleanstone.net.packet.outbound.EntityRelativeMovePacket;
-import rocks.cleanstone.net.packet.outbound.EntityTeleportPacket;
+import rocks.cleanstone.net.packet.outbound.*;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
@@ -46,7 +41,7 @@ public class PlayerMoveListener {
                 return;
             }
 
-            EntityLookPacket entityLookPacket = new EntityLookPacket(entityID, yaw, pitch, true); //TODO: Add onGround
+            EntityLookPacket entityLookPacket = new EntityLookPacket(entityID, yaw, pitch, movingPlayer.isFlying());
 
             playerManager.broadcastPacket(entityLookPacket, movingPlayer);
             return;
@@ -61,21 +56,21 @@ public class PlayerMoveListener {
                 || deltaX < Short.MIN_VALUE || deltaY < Short.MIN_VALUE || deltaZ < Short.MIN_VALUE;
 
         if (teleport) {
-            EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, deltaX, deltaY, deltaZ, yaw, pitch, true); //TODO: Add onGround
+            EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, deltaX, deltaY, deltaZ, yaw, pitch, movingPlayer.isFlying());
 
             playerManager.broadcastPacket(entityTeleportPacket, movingPlayer);
             return;
         }
 
         if (oldPosition.getRotation().equals(newPosition.getRotation())) {
-            EntityRelativeMovePacket entityRelativeMovePacket = new EntityRelativeMovePacket(entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), true); //TODO: Add onGround
+            EntityRelativeMovePacket entityRelativeMovePacket = new EntityRelativeMovePacket(entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), movingPlayer.isFlying());
 
             playerManager.broadcastPacket(entityRelativeMovePacket, movingPlayer);
             return;
         }
 
         EntityLookAndRelativeMovePacket entityLookAndRelativeMovePacket = new EntityLookAndRelativeMovePacket(
-                entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), yaw, pitch, true); //TODO: Add onGround
+                entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), yaw, pitch, movingPlayer.isFlying());
 
         playerManager.broadcastPacket(entityLookAndRelativeMovePacket, movingPlayer);
     }
