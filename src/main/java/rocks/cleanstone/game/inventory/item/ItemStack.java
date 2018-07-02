@@ -2,7 +2,9 @@ package rocks.cleanstone.game.inventory.item;
 
 import rocks.cleanstone.game.material.item.ItemType;
 
-public interface ItemStack {
+import java.io.Serializable;
+
+public interface ItemStack extends Serializable {
     ItemType getItemType();
 
     int getAmount();
