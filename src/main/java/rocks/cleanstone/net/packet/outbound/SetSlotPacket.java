@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.outbound;
 
+import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
-import rocks.cleanstone.net.packet.data.Slot;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
@@ -9,12 +9,12 @@ public class SetSlotPacket implements Packet {
 
     private final byte windowID;
     private final short slot;
-    private final Slot slotData;
+    private final ItemStack itemData;
 
-    public SetSlotPacket(byte windowID, short slot, Slot slotData) {
+    public SetSlotPacket(byte windowID, short slot, ItemStack itemData) {
         this.windowID = windowID;
         this.slot = slot;
-        this.slotData = slotData;
+        this.itemData = itemData;
     }
 
     public byte getWindowID() {
@@ -25,8 +25,8 @@ public class SetSlotPacket implements Packet {
         return slot;
     }
 
-    public Slot getSlotData() {
-        return slotData;
+    public ItemStack getSlotData() {
+        return itemData;
     }
 
     @Override

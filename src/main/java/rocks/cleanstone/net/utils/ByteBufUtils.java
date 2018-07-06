@@ -23,13 +23,15 @@
  */
 package rocks.cleanstone.net.utils;
 
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.data.Slot;
-import rocks.cleanstone.utils.Vector;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+
+import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.inventory.item.ItemStack;
+import rocks.cleanstone.game.inventory.item.SimpleItemStack;
+import rocks.cleanstone.game.material.VanillaMaterial;
+import rocks.cleanstone.utils.Vector;
 
 /**
  * A class containing various utility methods that act on byte buffers.
@@ -207,21 +209,21 @@ public class ByteBufUtils {
         return new UUID(byteBuf.readLong(), byteBuf.readLong());
     }
 
-    public static void writeSlot(ByteBuf byteBuf, Slot slot) {
-        byteBuf.writeShort(slot.getBlockID());
-        byteBuf.writeByte(slot.getItemCount());
-        byteBuf.writeShort(slot.getItemDamage());
+    public static void writeItemStack(ByteBuf byteBuf, ItemStack item) {
+        byteBuf.writeShort(item.getMaterial().getID());
+        byteBuf.writeByte(item.getAmount());
+        byteBuf.writeShort(item.getMetadata());
         byteBuf.writeByte(0); // TODO Item NBT
     }
 
-    public static Slot readSlot(ByteBuf byteBuf) {
-        short blockID = byteBuf.readShort();
-        if (blockID != -1) {
+    public static ItemStack readItemStack(ByteBuf byteBuf) {
+        short itemID = byteBuf.readShort();
+        if (itemID != -1) {
             byte itemCount = byteBuf.readByte();
-            short itemDamage = byteBuf.readShort();
-            byte nbtStartByte = byteBuf.readByte(); // TODO Item NBT}
-            return new Slot(blockID, itemCount, itemDamage, null);
+            short itemMetadata = byteBuf.readShort();
+            byte nbtStartByte = byteBuf.readByte(); // TODO Item NBT
+            return new SimpleItemStack(VanillaMaterial.byID(itemID), itemCount, itemMetadata, null);
         }
-        return new Slot(blockID, (byte) -1, (short) -1, null);
+        return new SimpleItemStack(VanillaMaterial.byID(itemID), (byte) -1, (short) -1, null);
     }
 }

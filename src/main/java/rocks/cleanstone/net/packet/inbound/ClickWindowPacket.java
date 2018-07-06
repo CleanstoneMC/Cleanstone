@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.inbound;
 
+import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
-import rocks.cleanstone.net.packet.data.Slot;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
@@ -12,9 +12,9 @@ public class ClickWindowPacket implements Packet {
     private final byte button;
     private final short actionNumber;
     private final int mode;
-    private final Slot clickedItem;
+    private final ItemStack clickedItem;
 
-    public ClickWindowPacket(int windowID, short slot, byte button, short actionNumber, int mode, Slot clickedItem) {
+    public ClickWindowPacket(int windowID, short slot, byte button, short actionNumber, int mode, ItemStack clickedItem) {
         this.windowID = windowID;
         this.slot = slot;
         this.button = button;
@@ -43,7 +43,7 @@ public class ClickWindowPacket implements Packet {
         return mode;
     }
 
-    public Slot getClickedItem() {
+    public ItemStack getClickedItem() {
         return clickedItem;
     }
 

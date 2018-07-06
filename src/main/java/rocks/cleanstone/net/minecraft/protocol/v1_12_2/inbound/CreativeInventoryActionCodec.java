@@ -1,22 +1,20 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.data.Slot;
 import rocks.cleanstone.net.packet.inbound.CreativeInventoryActionPacket;
 import rocks.cleanstone.net.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.io.IOException;
-
 public class CreativeInventoryActionCodec implements MinecraftPacketCodec {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) throws IOException {
+    public Packet decode(ByteBuf byteBuf) {
         short slot = byteBuf.readShort();
-        Slot clickedItem = ByteBufUtils.readSlot(byteBuf);
+        ItemStack clickedItem = ByteBufUtils.readItemStack(byteBuf);
 
         return new CreativeInventoryActionPacket(slot, clickedItem);
     }

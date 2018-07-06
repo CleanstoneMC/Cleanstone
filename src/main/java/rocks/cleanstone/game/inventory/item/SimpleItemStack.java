@@ -1,37 +1,35 @@
 package rocks.cleanstone.game.inventory.item;
 
-import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
-import rocks.cleanstone.game.material.MaterialRegistry;
-import rocks.cleanstone.game.material.VanillaMaterial;
-import rocks.cleanstone.game.material.item.ItemType;
-import rocks.cleanstone.net.packet.data.Slot;
+import com.google.common.base.Preconditions;
 
+import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.game.material.Material;
+import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.material.item.ItemType;
+
+/**
+ * Corresponds to Minecraft's Slot data type
+ */
 public class SimpleItemStack implements ItemStack {
-    private final short blockID;
-    private final byte itemCount;
+    private final Material material;
     private final short metadata;
     private final NamedBinaryTag nbt;
-    private int amount = 0;
+    private int amount;
 
-    public SimpleItemStack(short blockID, byte itemCount, short metadata, NamedBinaryTag nbt) {
-        this.blockID = blockID;
-        this.itemCount = itemCount;
+    public SimpleItemStack(Material material, int amount, short metadata, NamedBinaryTag nbt) {
+        this.material = material;
+        this.amount = amount;
         this.metadata = metadata;
         this.nbt = nbt;
     }
 
-    public static SimpleItemStack fromSlot(Slot slot) {
-        return new SimpleItemStack(slot.getBlockID(), slot.getItemCount(), slot.getItemDamage(), slot.getNbt());
+    public Material getMaterial() {
+        return material;
     }
 
-    public short getBlockID() {
-        return blockID;
-    }
-
-    public byte getItemCount() {
-        return itemCount;
-    }
-
+    /**
+     * Corresponds to a Minecraft item's damage value
+     */
     public short getMetadata() {
         return metadata;
     }
@@ -42,7 +40,7 @@ public class SimpleItemStack implements ItemStack {
 
     @Override
     public ItemType getItemType() {
-        return MaterialRegistry.getItemType(VanillaMaterial.byID(blockID)); //TODO: Don't use VanillaMaterial
+        return MaterialRegistry.getItemType(material);
     }
 
     @Override
@@ -52,6 +50,8 @@ public class SimpleItemStack implements ItemStack {
 
     @Override
     public void setAmount(int amount) {
+        Preconditions.checkArgument(amount <= Byte.MAX_VALUE && amount >= Byte.MIN_VALUE,
+                "ItemStack amount out of range");
         this.amount = amount;
     }
 }
