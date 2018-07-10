@@ -1,5 +1,6 @@
 package rocks.cleanstone.player.listener;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
@@ -14,6 +15,7 @@ public class PlayerTerminationCauseListener {
 
     private final PlayerManager playerManager;
 
+    @Autowired
     public PlayerTerminationCauseListener(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }

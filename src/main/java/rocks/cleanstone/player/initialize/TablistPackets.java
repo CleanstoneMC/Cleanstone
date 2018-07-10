@@ -1,7 +1,9 @@
 package rocks.cleanstone.player.initialize;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
+
 import rocks.cleanstone.net.packet.outbound.PlayerListItemPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
@@ -11,6 +13,7 @@ public class TablistPackets {
 
     private final PlayerManager playerManager;
 
+    @Autowired
     public TablistPackets(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }

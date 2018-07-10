@@ -1,5 +1,6 @@
 package rocks.cleanstone.core;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,6 +16,7 @@ public class CleanstoneSubServer extends CleanstoneServer {
 
     private ExternalServer mainServer;
 
+    @Autowired
     public CleanstoneSubServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig) {
         super(cleanstoneConfig, minecraftConfig);
     }

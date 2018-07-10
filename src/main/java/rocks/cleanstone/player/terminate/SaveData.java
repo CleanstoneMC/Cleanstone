@@ -2,6 +2,7 @@ package rocks.cleanstone.player.terminate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 
@@ -22,6 +23,7 @@ public class SaveData {
     private final WorldManager worldManager;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
     public SaveData(PlayerManager playerManager, OpenWorldGame openWorldGame, WorldManager worldManager) {
         this.playerManager = playerManager;
         this.openWorldGame = openWorldGame;

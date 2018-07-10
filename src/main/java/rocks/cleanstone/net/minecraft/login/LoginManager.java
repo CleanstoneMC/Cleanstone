@@ -19,13 +19,12 @@ import java.util.UUID;
 import javax.crypto.SecretKey;
 
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.minecraft.HandshakeListener;
 import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginEvent;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
-import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
 import rocks.cleanstone.net.packet.outbound.DisconnectLoginPacket;
 import rocks.cleanstone.net.packet.outbound.LoginSuccessPacket;
@@ -43,13 +42,8 @@ public class LoginManager {
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
     private final boolean onlineMode;
-    @Autowired
-    private HandshakeListener handshakeListener;
-    @Autowired
-    private LoginStartListener loginStartListener;
-    @Autowired
-    private EncryptionResponseListener encryptionResponseListener;
 
+    @Autowired
     public LoginManager(MinecraftNetworking networking, SessionServerRequester sessionServerRequester) {
         this.networking = networking;
         this.sessionServerRequester = sessionServerRequester;

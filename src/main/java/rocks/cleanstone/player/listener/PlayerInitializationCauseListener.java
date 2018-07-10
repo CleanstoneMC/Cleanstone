@@ -2,13 +2,14 @@ package rocks.cleanstone.player.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
-import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.player.OnlinePlayer;
 import rocks.cleanstone.player.Player;
@@ -21,6 +22,7 @@ public class PlayerInitializationCauseListener {
     private final PlayerManager playerManager;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
     public PlayerInitializationCauseListener(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }

@@ -30,95 +30,47 @@
         <property name="basename" value="lang.messages"/>
     </bean>
 
-    <!-- SERVICES -->
-    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
-        <property name="converters">
-            <list>
-                <bean class="rocks.cleanstone.net.utils.InetAddressConverter"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="springBeanDefinitionProxy" class="rocks.cleanstone.core.SpringBeanDefinitionProxy"/>
-
     <!-- SERVER -->
-    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer">
-        <constructor-arg ref="cleanstoneConfig"/>
-        <constructor-arg ref="minecraftConfig"/>
-        <constructor-arg ref="simpleConsole"/>
-    </bean>
+    <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer"/>
     <bean id="simpleConsole" class="rocks.cleanstone.core.SimpleConsole"/>
 
     <!-- Events -->
     <bean id="cleanstoneEventPublisher" class="rocks.cleanstone.core.event.CleanstoneEventPublisher"/>
-    <bean id="applicationEventMulticaster" class="rocks.cleanstone.core.event.CleanstoneEventMulticaster">
-        <constructor-arg ref="eventListenerErrorHandler"/>
-    </bean>
+    <bean id="applicationEventMulticaster" class="rocks.cleanstone.core.event.CleanstoneEventMulticaster"/>
     <bean id="eventListenerErrorHandler" class="rocks.cleanstone.core.event.EventListenerErrorHandler"/>
 
     <!-- Player Management -->
     <bean id="playerManager" class="rocks.cleanstone.player.SimplePlayerManager"/>
     <bean id="playerInitializationCauseListener"
-          class="rocks.cleanstone.player.listener.PlayerInitializationCauseListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+          class="rocks.cleanstone.player.listener.PlayerInitializationCauseListener"/>
     <bean id="playerTerminationCauseListener"
-          class="rocks.cleanstone.player.listener.PlayerTerminationCauseListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
-    <bean id="playerPacketListener" class="rocks.cleanstone.player.listener.PlayerPacketListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+          class="rocks.cleanstone.player.listener.PlayerTerminationCauseListener"/>
+    <bean id="playerPacketListener" class="rocks.cleanstone.player.listener.PlayerPacketListener"/>
     <bean id="playerMovePacketListener" class="rocks.cleanstone.player.listener.PlayerMovePacketListener"/>
 
     <bean id="playerMoveChunkLoadListener"
-          class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener">
-        <constructor-arg ref="minecraftConfig"/>
-    </bean>
-    <bean id="playerMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+          class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener"/>
+    <bean id="playerMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener"/>
     <bean id="creativeInventoryActionListener"
           class="rocks.cleanstone.player.listener.CreativeInventoryActionListener"/>
     <bean id="heldItemChangeListener" class="rocks.cleanstone.player.listener.HeldItemChangeListener"/>
-    <bean id="clientSettingsListener" class="rocks.cleanstone.player.listener.ClientSettingsListener">
-        <constructor-arg ref="minecraftConfig"/>
-    </bean>
+    <bean id="clientSettingsListener" class="rocks.cleanstone.player.listener.ClientSettingsListener"/>
     <bean id="playerAbilitiesListener" class="rocks.cleanstone.player.listener.PlayerAbilitiesListener"/>
 
     <!-- Initialization -->
-    <bean id="addEntity" class="rocks.cleanstone.player.initialize.AddEntity">
-        <constructor-arg ref="game"/>
-        <constructor-arg ref="worldManager"/>
-        <constructor-arg ref="entityManager"/>
-        <constructor-arg ref="playerManager"/>
-    </bean>
-    <bean id="worldPackets" class="rocks.cleanstone.player.initialize.WorldPackets">
-    </bean>
-    <bean id="initTablistPackets" class="rocks.cleanstone.player.initialize.TablistPackets">
-        <constructor-arg ref="playerManager"/>
-    </bean>
-    <bean id="spawnPlayerPackets" class="rocks.cleanstone.player.initialize.SpawnPlayerPackets">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+    <bean id="addEntity" class="rocks.cleanstone.player.initialize.AddEntity"/>
+    <bean id="worldPackets" class="rocks.cleanstone.player.initialize.WorldPackets"/>
+    <bean id="initTablistPackets" class="rocks.cleanstone.player.initialize.TablistPackets"/>
+    <bean id="spawnPlayerPackets" class="rocks.cleanstone.player.initialize.SpawnPlayerPackets"/>
 
     <!-- Termination -->
-    <bean id="termTablistPackets" class="rocks.cleanstone.player.terminate.TablistPackets">
-        <constructor-arg ref="playerManager"/>
-    </bean>
-    <bean id="destroyPlayerPackets" class="rocks.cleanstone.player.terminate.DestroyPlayerPackets">
-        <constructor-arg ref="playerManager"/>
-    </bean>
-    <bean id="saveData" class="rocks.cleanstone.player.terminate.SaveData">
-        <constructor-arg ref="game"/>
-        <constructor-arg ref="worldManager"/>
-        <constructor-arg ref="playerManager"/>
-    </bean>
+    <bean id="termTablistPackets" class="rocks.cleanstone.player.terminate.TablistPackets"/>
+    <bean id="destroyPlayerPackets" class="rocks.cleanstone.player.terminate.DestroyPlayerPackets"/>
+    <bean id="saveData" class="rocks.cleanstone.player.terminate.SaveData"/>
 
     <!-- World Loader -->
     <bean id="worldLoader" class="rocks.cleanstone.game.world.SimpleWorldLoader"/>
-    <bean id="worldManager" class="rocks.cleanstone.game.world.SimpleWorldManager">
-        <constructor-arg ref="worldLoader"/>
-    </bean>
+    <bean id="worldManager" class="rocks.cleanstone.game.world.SimpleWorldManager"/>
 
     <!-- Game -->
     <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame" lazy-init="true"/>
@@ -131,74 +83,33 @@
     <bean id="entityManager" class="rocks.cleanstone.game.world.EntityManager"/>
 
     <!-- Chat -->
-    <bean id="chatManager" class="rocks.cleanstone.game.chat.ChatManager">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+    <bean id="chatManager" class="rocks.cleanstone.game.chat.ChatManager"/>
     <bean id="incomingChatPacketListener"
-          class="rocks.cleanstone.game.chat.listener.IncomingChatPacketListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+          class="rocks.cleanstone.game.chat.listener.IncomingChatPacketListener"/>
     <bean id="incomingChatMessageListener"
-          class="rocks.cleanstone.game.chat.listener.IncomingChatMessageListener">
-        <constructor-arg ref="chatManager"/>
-    </bean>
+          class="rocks.cleanstone.game.chat.listener.IncomingChatMessageListener"/>
     <bean id="incomingTabCompleteListener"
-          class="rocks.cleanstone.game.chat.listener.IncomingTabCompleteListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+          class="rocks.cleanstone.game.chat.listener.IncomingTabCompleteListener"/>
 
     <!-- Command System -->
-    <bean id="commandRegistry" class="rocks.cleanstone.game.command.SimpleCommandRegistry">
-        <constructor-arg ref="playerManager"/>
-        <constructor-arg>
-            <list>
-                <ref bean="stopCommand"/>
-                <ref bean="kickCommand"/>
-                <ref bean="alertCommand"/>
-                <ref bean="gameModeCommand"/>
-                <ref bean="setCommand"/>
-            </list>
-        </constructor-arg>
+    <bean id="commandRegistry" class="rocks.cleanstone.game.command.SimpleCommandRegistry"/>
 
-        <constructor-arg>
-            <list>
-                <ref bean="stringParameter"/>
-                <ref bean="intParameter"/>
-                <ref bean="playerParameter"/>
-                <ref bean="enumParameter"/>
-            </list>
-        </constructor-arg>
-    </bean>
+    <bean id="commandCompletion" class="rocks.cleanstone.game.command.completion.SimpleCommandCompletion"/>
 
-    <bean id="commandCompletion" class="rocks.cleanstone.game.command.completion.SimpleCommandCompletion">
-        <constructor-arg ref="commandRegistry"/>
-    </bean>
-
-    <bean id="commandListener" class="rocks.cleanstone.game.command.listener.CommandListener">
-        <constructor-arg ref="commandRegistry"/>
-        <constructor-arg ref="simpleConsole"/>
-    </bean>
-    <bean id="tabCompleteListener" class="rocks.cleanstone.game.command.listener.TabCompleteListener">
-        <constructor-arg ref="commandCompletion"/>
-    </bean>
+    <bean id="commandListener" class="rocks.cleanstone.game.command.listener.CommandListener"/>
+    <bean id="tabCompleteListener" class="rocks.cleanstone.game.command.listener.TabCompleteListener"/>
 
     <!-- (Commands) -->
-    <bean id="stopCommand" class="rocks.cleanstone.game.command.cleanstone.StopCommand">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+    <bean id="stopCommand" class="rocks.cleanstone.game.command.cleanstone.StopCommand"/>
     <bean id="kickCommand" class="rocks.cleanstone.game.command.cleanstone.KickCommand"/>
-    <bean id="alertCommand" class="rocks.cleanstone.game.command.cleanstone.AlertCommand">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+    <bean id="alertCommand" class="rocks.cleanstone.game.command.cleanstone.AlertCommand"/>
     <bean id="gameModeCommand" class="rocks.cleanstone.game.command.cleanstone.GameModeCommand"/>
     <bean id="setCommand" class="rocks.cleanstone.game.command.cleanstone.SetCommand"/>
 
     <!-- (Command Parameters) -->
     <bean id="stringParameter" class="rocks.cleanstone.game.command.parameter.StringParameter"/>
     <bean id="intParameter" class="rocks.cleanstone.game.command.parameter.IntParameter"/>
-    <bean id="playerParameter" class="rocks.cleanstone.game.command.parameter.PlayerParameter">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+    <bean id="playerParameter" class="rocks.cleanstone.game.command.parameter.PlayerParameter"/>
     <bean id="enumParameter" class="rocks.cleanstone.game.command.parameter.EnumParameter"/>
 
     <!-- NETWORKING -->
@@ -206,18 +117,12 @@
 
     <!-- Minecraft -->
     <bean id="minecraftNetworking" class="rocks.cleanstone.net.minecraft.SimpleMinecraftNetworking"
-          parent="abstractNetworking">
-        <constructor-arg ref="minecraftConfig"/>
-        <constructor-arg ref="simpleMinecraftProtocol"/>
-    </bean>
+          parent="abstractNetworking"/>
     <bean id="simpleMinecraftProtocol"
           class="rocks.cleanstone.net.minecraft.protocol.SimpleMinecraftProtocol"/>
 
     <bean id="handshakeListener" class="rocks.cleanstone.net.minecraft.HandshakeListener"/>
-    <bean id="statusRequestListener" class="rocks.cleanstone.net.minecraft.status.StatusRequestListener">
-        <constructor-arg ref="minecraftNetworking"/>
-        <constructor-arg ref="playerManager"/>
-    </bean>
+    <bean id="statusRequestListener" class="rocks.cleanstone.net.minecraft.status.StatusRequestListener"/>
     <bean id="pingListener" class="rocks.cleanstone.net.minecraft.status.PingListener"/>
 
     <bean id="keepAliveTask" class="rocks.cleanstone.net.minecraft.KeepAliveTask"/>
@@ -225,41 +130,33 @@
     <!-- (Login) -->
     <bean id="sessionServerRequester"
           class="rocks.cleanstone.net.minecraft.login.SimpleSessionServerRequester"/>
-    <bean id="loginManager" class="rocks.cleanstone.net.minecraft.login.LoginManager">
-        <constructor-arg ref="minecraftNetworking"/>
-        <constructor-arg ref="sessionServerRequester"/>
-    </bean>
+    <bean id="loginManager" class="rocks.cleanstone.net.minecraft.login.LoginManager"/>
 
-    <bean id="loginStartListener" class="rocks.cleanstone.net.minecraft.login.LoginStartListener">
-        <constructor-arg ref="loginManager"/>
-    </bean>
+    <bean id="loginStartListener" class="rocks.cleanstone.net.minecraft.login.LoginStartListener"/>
     <bean id="encryptionResponseListener"
-          class="rocks.cleanstone.net.minecraft.login.EncryptionResponseListener">
-        <constructor-arg ref="loginManager"/>
-    </bean>
+          class="rocks.cleanstone.net.minecraft.login.EncryptionResponseListener"/>
 
     <!-- MCPE -->
     <bean id="mcpeNetworking" class="rocks.cleanstone.net.mcpe.SimpleMCPENetworking"
-          parent="abstractNetworking">
-        <constructor-arg ref="minecraftConfig"/>
-        <constructor-arg ref="simpleMcpeProtocol"/>
-        <constructor-arg ref="statusProvider"/>
-    </bean>
-    <bean id="simpleMcpeProtocol"
+          parent="abstractNetworking"/>
+    <bean id="mcpeProtocol"
           class="rocks.cleanstone.net.mcpe.protocol.SimpleMCPEProtocol"/>
-
-    <bean id="statusProvider" class="rocks.cleanstone.net.mcpe.StatusProvider">
-        <constructor-arg ref="minecraftConfig"/>
-        <constructor-arg ref="playerManager"/>
-    </bean>
+    <bean id="statusProvider" class="rocks.cleanstone.net.mcpe.StatusProvider"/>
 
     <!-- Cleanstone -->
     <bean id="cleanstoneNetworking" class="rocks.cleanstone.net.cleanstone.SimpleCleanstoneNetworking"
-          parent="abstractNetworking">
-        <constructor-arg ref="cleanstoneConfig"/>
-        <constructor-arg ref="simpleCleanstoneProtocol"/>
-    </bean>
+          parent="abstractNetworking"/>
     <bean id="simpleCleanstoneProtocol"
           class="rocks.cleanstone.net.cleanstone.protocol.SimpleCleanstoneProtocol"/>
+
+    <!-- SERVICES -->
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="rocks.cleanstone.net.utils.InetAddressConverter"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="springBeanDefinitionProxy" class="rocks.cleanstone.core.SpringBeanDefinitionProxy"/>
 
 </beans>

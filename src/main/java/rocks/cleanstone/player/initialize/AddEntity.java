@@ -2,6 +2,7 @@ package rocks.cleanstone.player.initialize;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 
@@ -13,9 +14,9 @@ import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
+import rocks.cleanstone.game.world.EntityManager;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
-import rocks.cleanstone.game.world.EntityManager;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.data.standard.EntityData;
@@ -30,6 +31,7 @@ public class AddEntity {
     private final PlayerManager playerManager;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
     public AddEntity(OpenWorldGame openWorldGame, WorldManager worldManager, EntityManager entityManager,
                      PlayerManager playerManager) {
         this.openWorldGame = openWorldGame;

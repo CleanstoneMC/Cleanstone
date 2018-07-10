@@ -2,11 +2,12 @@ package rocks.cleanstone.net.minecraft.login;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
-import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.game.chat.message.Text;
+import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
 
 public class EncryptionResponseListener {
@@ -14,6 +15,7 @@ public class EncryptionResponseListener {
     private final LoginManager loginManager;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
     public EncryptionResponseListener(LoginManager loginManager) {
         this.loginManager = loginManager;
     }

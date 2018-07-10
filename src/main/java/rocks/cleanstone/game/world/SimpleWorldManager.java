@@ -2,13 +2,16 @@ package rocks.cleanstone.game.world;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.generation.WorldGenerator;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.world.generation.WorldGenerator;
 
 public class SimpleWorldManager implements WorldManager {
 
@@ -16,6 +19,7 @@ public class SimpleWorldManager implements WorldManager {
     private final Map<String, World> worldMap = new ConcurrentHashMap<>();
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
     public SimpleWorldManager(WorldLoader worldLoader) {
         this.worldLoader = worldLoader;
     }

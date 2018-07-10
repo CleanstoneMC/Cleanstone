@@ -4,18 +4,22 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
 import javax.annotation.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.command.executor.HelpPageExecutor;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
-import rocks.cleanstone.player.PlayerManager;
 
 public class SimpleCommandRegistry implements CommandRegistry {
 
@@ -25,8 +29,12 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public SimpleCommandRegistry(PlayerManager playerManager, Collection<Command> standardCommands,
-                                 Collection<CommandParameter<?>> standardParameters) {
+    @Autowired
+    private Collection<Command> standardCommands;
+    @Autowired
+    private Collection<CommandParameter<?>> standardParameters;
+
+    public void init() {
         standardCommands.forEach(this::registerCommand);
         standardParameters.forEach(this::registerCommandParameter);
     }

@@ -1,9 +1,13 @@
 package rocks.cleanstone.game.command.parameter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+
 import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.command.completion.CompletableParameter;
 import rocks.cleanstone.game.command.completion.CompletionContext;
 import rocks.cleanstone.player.Player;
@@ -13,6 +17,7 @@ public class PlayerParameter implements CompletableParameter<Player> {
 
     private final PlayerManager playerManager;
 
+    @Autowired
     public PlayerParameter(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }

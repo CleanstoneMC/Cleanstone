@@ -17,38 +17,29 @@
     <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
 
     <!-- CONFIG -->
-
     <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
     <bean id="minecraftConfig" class="rocks.cleanstone.core.config.MinecraftConfig"/>
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="lang.messages"/>
     </bean>
 
-    <!-- SERVICES -->
-
-    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
-        <property name="converters">
-            <list>
-                <bean class="rocks.cleanstone.net.utils.InetAddressConverter"/>
-            </list>
-        </property>
-    </bean>
-
     <!-- SERVER -->
-
-    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer">
-        <constructor-arg ref="cleanstoneConfig"/>
-        <constructor-arg ref="minecraftConfig"/>
-    </bean>
+    <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer"/>
 
     <!-- NETWORKING -->
     <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"/>
 
     <!-- Cleanstone -->
     <bean id="cleanstoneNetworking" class="rocks.cleanstone.net.cleanstone.SimpleCleanstoneNetworking"
-          parent="abstractNetworking">
-        <constructor-arg ref="cleanstoneConfig"/>
-        <constructor-arg ref="simpleCleanstoneProtocol"/>
+          parent="abstractNetworking"/>
+
+    <!-- SERVICES -->
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="rocks.cleanstone.net.utils.InetAddressConverter"/>
+            </list>
+        </property>
     </bean>
 
 </beans>
