@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.command.cleanstone;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.Arrays;
 
 import rocks.cleanstone.core.CleanstoneServer;
@@ -13,6 +15,7 @@ public class AlertCommand extends SimpleCommand {
 
     private final PlayerManager playerManager;
 
+    @Autowired
     public AlertCommand(PlayerManager playerManager) {
         super("alert", Arrays.asList("say", "broadcast"), String.class);
         this.playerManager = playerManager;

@@ -1,5 +1,6 @@
 package rocks.cleanstone.player.listener;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 
@@ -16,6 +17,7 @@ public class PlayerPacketListener {
 
     private final PlayerManager playerManager;
 
+    @Autowired
     public PlayerPacketListener(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }

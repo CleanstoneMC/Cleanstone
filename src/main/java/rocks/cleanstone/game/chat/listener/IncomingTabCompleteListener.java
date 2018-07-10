@@ -1,7 +1,9 @@
 package rocks.cleanstone.game.chat.listener;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.event.PlayerTabCompleteEvent;
 import rocks.cleanstone.net.event.InboundPacketEvent;
@@ -12,6 +14,7 @@ import rocks.cleanstone.player.PlayerManager;
 public class IncomingTabCompleteListener {
     private final PlayerManager playerManager;
 
+    @Autowired
     public IncomingTabCompleteListener(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }

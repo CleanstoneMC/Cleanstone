@@ -2,9 +2,9 @@ package rocks.cleanstone.game.command.completion;
 
 import com.google.common.base.Preconditions;
 
-import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.Collections;
@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import rocks.cleanstone.game.command.Command;
 import rocks.cleanstone.game.command.CommandMessage;
@@ -26,6 +27,7 @@ public class SimpleCommandCompletion implements CommandCompletion {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private CommandRegistry commandRegistry;
 
+    @Autowired
     public SimpleCommandCompletion(CommandRegistry commandRegistry) {
         this.commandRegistry = commandRegistry;
     }

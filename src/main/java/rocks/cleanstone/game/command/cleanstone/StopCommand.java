@@ -1,9 +1,11 @@
 package rocks.cleanstone.game.command.cleanstone;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
-import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
@@ -11,6 +13,7 @@ public class StopCommand extends SimpleCommand {
 
     private final PlayerManager playerManager;
 
+    @Autowired
     public StopCommand(PlayerManager playerManager) {
         super("stop", String.class);
         this.playerManager = playerManager;

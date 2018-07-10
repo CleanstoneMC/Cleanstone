@@ -6,6 +6,7 @@ import com.google.common.collect.Multimap;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
@@ -30,6 +31,7 @@ public class PlayerMoveChunkLoadListener {
     private final MinecraftConfig minecraftConfig;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
     public PlayerMoveChunkLoadListener(MinecraftConfig minecraftConfig) {
         this.minecraftConfig = minecraftConfig;
     }

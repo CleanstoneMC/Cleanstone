@@ -1,14 +1,17 @@
 package rocks.cleanstone.net.minecraft.status;
 
 import com.google.gson.Gson;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
-import rocks.cleanstone.player.PlayerManager;
+
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.MinecraftNetworking;
+import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.packet.inbound.RequestPacket;
 import rocks.cleanstone.net.packet.outbound.ResponsePacket;
-import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.protocol.ClientProtocolLayer;
+import rocks.cleanstone.player.PlayerManager;
 
 public class StatusRequestListener {
 
@@ -16,6 +19,7 @@ public class StatusRequestListener {
     private final int maxPlayers;
     private final PlayerManager playerManager;
 
+    @Autowired
     public StatusRequestListener(MinecraftNetworking minecraftNetworking, PlayerManager playerManager) {
         this.motd = minecraftNetworking.getMinecraftConfig().getMotd();
         this.maxPlayers = minecraftNetworking.getMinecraftConfig().getMaxPlayers();

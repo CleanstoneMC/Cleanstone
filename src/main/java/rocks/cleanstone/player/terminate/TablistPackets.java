@@ -1,5 +1,6 @@
 package rocks.cleanstone.player.terminate;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 
@@ -12,10 +13,10 @@ public class TablistPackets {
 
     private final PlayerManager playerManager;
 
+    @Autowired
     public TablistPackets(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }
-
 
     @Order(value = 30)
     @EventListener

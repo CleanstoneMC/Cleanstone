@@ -1,5 +1,6 @@
 package rocks.cleanstone.player.listener;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
@@ -12,6 +13,7 @@ public class ClientSettingsListener {
 
     private final MinecraftConfig minecraftConfig;
 
+    @Autowired
     public ClientSettingsListener(MinecraftConfig minecraftConfig) {
         this.minecraftConfig = minecraftConfig;
     }

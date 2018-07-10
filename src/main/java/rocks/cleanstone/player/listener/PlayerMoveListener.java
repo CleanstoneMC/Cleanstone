@@ -2,10 +2,16 @@ package rocks.cleanstone.player.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
-import rocks.cleanstone.net.packet.outbound.*;
+import rocks.cleanstone.net.packet.outbound.EntityHeadLookPacket;
+import rocks.cleanstone.net.packet.outbound.EntityLookAndRelativeMovePacket;
+import rocks.cleanstone.net.packet.outbound.EntityLookPacket;
+import rocks.cleanstone.net.packet.outbound.EntityRelativeMovePacket;
+import rocks.cleanstone.net.packet.outbound.EntityTeleportPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
@@ -14,6 +20,7 @@ public class PlayerMoveListener {
     private final PlayerManager playerManager;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
     public PlayerMoveListener(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }
