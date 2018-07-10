@@ -9,7 +9,7 @@ import rocks.cleanstone.player.Player;
 public class KickCommand extends SimpleCommand {
 
     public KickCommand() {
-        super("kick");
+        super("kick", Player.class, String.class);
     }
 
     @Override
@@ -22,10 +22,8 @@ public class KickCommand extends SimpleCommand {
         }
 
         Player target = message.requireParameter(Player.class);
-        String reason;
-        if (message.isParameterPresent(String.class)) {
-            reason = message.requireParameter(String.class);
-        } else reason = CleanstoneServer.getMessage("game.command.cleanstone.default-kick-reason");
+        String reason = message.optionalParameter(String.class)
+                .orElseGet(() -> CleanstoneServer.getMessage("game.command.cleanstone.default-kick-reason"));
         target.kick(Text.of(reason));
         message.getCommandSender().sendMessage(Text.of(CleanstoneServer.getMessage(
                 "game.command.cleanstone.kicked-player", target.getId().getName(), reason)));

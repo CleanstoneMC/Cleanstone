@@ -69,34 +69,34 @@ public class SimpleCommandCompletion implements CommandCompletion {
     }
 
     private <T> List<String> completeParameter(CommandMessage commandMessage, Command command) {
-        List<String> parameters = new LinkedList<>(commandMessage.getParameters());
-        int lastParameterIndex = parameters.size() - 1;
+        List<String> parameterValues = new LinkedList<>(commandMessage.getParameters());
+        int lastParameterIndex = parameterValues.size() - 1;
 
         // complete next parameter when command ends in space
         if (commandMessage.getFullMessage().endsWith(" ")) {
-            parameters.add("");
+            parameterValues.add("");
             lastParameterIndex++;
         }
 
-        Class[] expectedParameterTypes = command.getExpectedParameterTypes();
+        Class<?>[] expectedParameterTypes = command.getExpectedParameterTypes();
 
         // not completing any parameter or completing too many parameters
-        if (lastParameterIndex < 0 || expectedParameterTypes.length <= lastParameterIndex) {
+        if (lastParameterIndex < 0 || lastParameterIndex >= expectedParameterTypes.length) {
             return Collections.emptyList();
         }
 
         //noinspection unchecked
-        Class<T> parameterType = expectedParameterTypes[lastParameterIndex];
-        String lastParameter = parameters.get(lastParameterIndex);
+        Class<T> parameterType = (Class<T>) expectedParameterTypes[lastParameterIndex];
+        String lastParameterValue = parameterValues.get(lastParameterIndex);
 
-        CommandParameter<? extends T> commandParameter = commandRegistry.getCommandParameter(parameterType);
+        CommandParameter<T> commandParameter = commandRegistry.getCommandParameter(parameterType);
 
         // check if parameter is completable
-        if (!(commandParameter instanceof CompletableValue)) {
+        if (!(commandParameter instanceof CompletableParameter)) {
             return Collections.emptyList();
         }
 
-        //noinspection unchecked
-        return ((CompletableValue<T>) commandParameter).getCompletion(parameterType, lastParameter);
+        CompletionContext<T> context = new SimpleCompletionContext<>(lastParameterValue, parameterType);
+        return ((CompletableParameter<T>) commandParameter).getCompletion(context);
     }
 }

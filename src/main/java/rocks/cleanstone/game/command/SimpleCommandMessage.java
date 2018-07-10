@@ -2,11 +2,13 @@ package rocks.cleanstone.game.command;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Optional;
+import java.util.stream.Collectors;
+import rocks.cleanstone.game.command.completion.CompletionContext;
+import rocks.cleanstone.game.command.completion.SimpleCompletionContext;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
 import rocks.cleanstone.player.Player;
 
@@ -63,33 +65,41 @@ public class SimpleCommandMessage implements CommandMessage {
     }
 
     @Override
-    public <T> T requireParameter(Class<T> parameterClass) {
+    public <T> Optional<T> optionalParameter(Class<T> parameterClass) {
         String nextParameter = getNextParameter();
         if (nextParameter == null) {
-            throw new NotEnoughParametersException(parameters.size(), parameterIndex + 1);
+            return Optional.empty();
         }
         T result = getParameter(parameterClass);
         if (result == null) {
             throw new InvalidParameterException(nextParameter, parameterClass);
         }
         parameterIndex++;
-        return result;
+        return Optional.of(result);
+    }
+
+    @Override
+    public <T> T requireParameter(Class<T> parameterClass) {
+        return optionalParameter(parameterClass)
+                .orElseThrow(() -> new NotEnoughParametersException(parameters.size(), parameterIndex + 1));
     }
 
     @Override
     public Player requireTargetPlayer() {
-        if (isParameterPresent(Player.class)) {
-            return requireParameter(Player.class);
-        } else if (getCommandSender() instanceof Player) {
-            return (Player) getCommandSender();
-        } else {
-            return requireParameter(Player.class);
-        }
+        return optionalParameter(Player.class)
+                .orElseGet(() -> {
+                    if (commandSender instanceof Player) {
+                        return (Player) commandSender;
+                    } else {
+                        throw new NoValidTargetException(commandSender);
+                    }
+                });
     }
 
     @Override
     public String requireStringMessage(boolean optional) {
-        return Joiner.on(' ').join(requireVarargParameter(String.class, optional));
+        return requireVarargParameter(String.class, optional).stream()
+                .collect(Collectors.joining(" "));
     }
 
     @Override
@@ -111,11 +121,14 @@ public class SimpleCommandMessage implements CommandMessage {
     }
 
     private <T> T getParameter(Class<T> parameterClass) {
-        if (getNextParameter() == null) return null;
-        CommandParameter<? extends T> commandParameter = commandRegistry.getCommandParameter(parameterClass);
+        if (getNextParameter() == null) {
+            return null;
+        }
+        CommandParameter<T> commandParameter = commandRegistry.getCommandParameter(parameterClass);
         Preconditions.checkNotNull(commandParameter,
                 "Cannot resolve specified parameter class '" + parameterClass.getSimpleName()
                         + "'; you need to register it in the CommandRegistry first");
-        return commandParameter.get(parameterClass, getNextParameter());
+        CompletionContext<T> context = new SimpleCompletionContext<>(getNextParameter(), parameterClass);
+        return commandParameter.get(context);
     }
 }

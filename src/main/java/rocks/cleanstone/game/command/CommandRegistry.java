@@ -22,7 +22,7 @@ public interface CommandRegistry {
     void registerCommandParameter(CommandParameter commandParameter);
 
     @Nullable
-    <T> CommandParameter<? extends T> getCommandParameter(Class<T> parameterClass);
+    <T> CommandParameter<T> getCommandParameter(Class<T> parameterClass);
 
     Set<CommandParameter<?>> getCommandParameters();
 

@@ -12,7 +12,7 @@ public class StopCommand extends SimpleCommand {
     private final PlayerManager playerManager;
 
     public StopCommand(PlayerManager playerManager) {
-        super("stop");
+        super("stop", String.class);
         this.playerManager = playerManager;
     }
 
@@ -34,10 +34,5 @@ public class StopCommand extends SimpleCommand {
         playerManager.getOnlinePlayers().forEach(player -> player.kick(reasonText));
 
         System.exit(0);
-    }
-
-    @Override
-    public Class[] getExpectedParameterTypes() {
-        return new Class[]{String.class};
     }
 }

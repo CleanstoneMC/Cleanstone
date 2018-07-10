@@ -1,15 +1,11 @@
 package rocks.cleanstone.game.command.parameter;
 
 import javax.annotation.Nullable;
+import rocks.cleanstone.game.command.completion.CompletionContext;
 
 public interface CommandParameter<T> {
     @Nullable
-    T get(String parameter);
-
-    @Nullable
-    default T get(Class<? super T> parameterClass, String parameter) {
-        return get(parameter);
-    }
+    T get(CompletionContext<T> context);
 
     Class getParameterClass();
 }
