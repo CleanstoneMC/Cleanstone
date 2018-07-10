@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -35,16 +36,20 @@ public class SimpleConsole implements ConsoleSender {
     public void run() {
         spawnInputReader();
 
-        while (running) {
-            String input = lines.poll();
-            if (input == null) {
-                continue;
+        try {
+            while (running) {
+                String input = lines.poll(200, TimeUnit.MILLISECONDS);
+                if (input == null) {
+                    continue;
+                }
+                if (commandRegistry != null) {
+                    commandRegistry.executeCommand(input, this);
+                } else {
+                    sendMessage("No command registry available");
+                }
             }
-            if (commandRegistry != null) {
-                commandRegistry.executeCommand(input, this);
-            } else {
-                sendMessage("No command registry available");
-            }
+        } catch (InterruptedException ignored) {
+            // throws when application context closes
         }
     }
 
