@@ -2,6 +2,9 @@ package rocks.cleanstone.game.command.completion;
 
 import com.google.common.base.Preconditions;
 
+import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.Collections;
@@ -20,6 +23,7 @@ import rocks.cleanstone.player.Player;
 import rocks.cleanstone.utils.Vector;
 
 public class SimpleCommandCompletion implements CommandCompletion {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private CommandRegistry commandRegistry;
 
     public SimpleCommandCompletion(CommandRegistry commandRegistry) {
@@ -35,8 +39,8 @@ public class SimpleCommandCompletion implements CommandCompletion {
         CommandMessage commandMessage = CommandMessageFactory.construct(sender, commandLine, commandRegistry);
         Command command = commandRegistry.getCommand(commandMessage.getCommandName());
 
-        if (command == null) {
-            // completion of parameter without knowing command
+        if (command == null || usedByAlias(command, commandMessage)) {
+            // completion of parameter without knowing command is not possible
             if (commandMessage.getFullMessage().contains(" ")) {
                 return;
             }
@@ -50,22 +54,37 @@ public class SimpleCommandCompletion implements CommandCompletion {
         sender.sendPacket(new OutTabCompletePacket(matches));
     }
 
-    private List<String> completeCommand(String commandPart) {
+    private boolean usedByAlias(Command command, CommandMessage commandMessage) {
+        return !command.getName().equals(commandMessage.getCommandName()) // real command name does not match input
+                && !commandMessage.getFullMessage().contains(" "); // still completing command name not a parameter
+    }
+
+    private List<String> completeCommand(String input) {
+        String lowerCaseInput = input.toLowerCase(Locale.ENGLISH);
         List<Command> matchingCommands = commandRegistry.getAllCommands().stream()
-                .filter(current -> current.getName().toLowerCase(Locale.ENGLISH)
-                        .startsWith(commandPart.toLowerCase(Locale.ENGLISH)))
+                .filter(command -> filteredCommandNames(command, lowerCaseInput).findAny().isPresent()) // command has matching name or alias
                 .collect(Collectors.toList());
 
         boolean multipleMatches = matchingCommands.size() > 1;
 
         return matchingCommands.stream()
-                .map(command -> getCommandCompletionString(command, multipleMatches))
+                .map(command -> getCommandCompletionString(command, multipleMatches, lowerCaseInput))
                 .collect(Collectors.toList());
     }
 
-    private String getCommandCompletionString(Command command, boolean multipleMatches) {
-        String suffix = multipleMatches || command.getExpectedParameterTypes().length == 0 ? "" : " ";
-        return "/" + command.getName() + suffix;
+    private String getCommandCompletionString(Command command, boolean multipleMatches, String commandPart) {
+        String commandName = filteredCommandNames(command, commandPart)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("command has no matching name"));
+        // add trailing space if there is only one match and parameters are expected^
+        String suffix = !multipleMatches && command.getExpectedParameterTypes().length > 0 ? " " : "";
+        return "/" + commandName + suffix;
+    }
+
+    private Stream<String> filteredCommandNames(Command command, String filter) {
+        return Stream.concat(Stream.of(command.getName()), command.getAliases().stream())
+                .map(name -> name.toLowerCase(Locale.ENGLISH))
+                .filter(name -> name.startsWith(filter));
     }
 
     private <T> List<String> completeParameter(CommandMessage commandMessage, Command command) {
