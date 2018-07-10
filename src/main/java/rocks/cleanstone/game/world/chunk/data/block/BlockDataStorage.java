@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 
 import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
@@ -28,24 +29,31 @@ public class BlockDataStorage {
     private final Map<Integer, BlockDataSection> sectionMap = new HashMap<>();
     private final boolean hasSkyLight;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final MaterialRegistry materialRegistry;
 
-    public BlockDataStorage(BlockDataStorage blockDataStorage) {
+    public BlockDataStorage(BlockDataStorage blockDataStorage, MaterialRegistry materialRegistry) {
+        this.materialRegistry = materialRegistry;
         hasSkyLight = blockDataStorage.hasSkyLight;
 
         blockDataStorage.sectionMap.forEach((integer, blockDataSection) -> {
-            sectionMap.put(integer, new BlockDataSection(blockDataSection));
+            sectionMap.put(integer, new BlockDataSection(blockDataSection, materialRegistry));
         });
     }
 
-    public BlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight) {
+    public BlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight,
+                            MaterialRegistry materialRegistry) {
         this.hasSkyLight = hasSkyLight;
+        this.materialRegistry = materialRegistry;
         this.sectionMap.putAll(sectionMap);
     }
 
-    public BlockDataStorage(BlockDataTable table) {
+    public BlockDataStorage(BlockDataTable table, MaterialRegistry materialRegistry) {
+        this.materialRegistry = materialRegistry;
+
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             AtomicBoolean isEmptyFlag = new AtomicBoolean();
-            BlockStateStorage storage = new PaletteBlockStateStorage(table, sectionY, isEmptyFlag);
+            BlockStateStorage storage = new PaletteBlockStateStorage(table, sectionY, isEmptyFlag,
+                    materialRegistry);
             if (isEmptyFlag.get()) continue;
             byte[][][] blockLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT],
                     skyLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT];
@@ -75,7 +83,7 @@ public class BlockDataStorage {
     private BlockDataSection getOrCreateSection(int y) {
         BlockDataSection section = getSection(y);
         if (section == null) {
-            section = new BlockDataSection(hasSkyLight);
+            section = new BlockDataSection(hasSkyLight, materialRegistry);
             sectionMap.put(y, section);
         }
         return section;

@@ -1,12 +1,12 @@
 package rocks.cleanstone.game.inventory;
 
-import rocks.cleanstone.game.inventory.item.ItemStack;
-import rocks.cleanstone.game.material.item.ItemType;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import rocks.cleanstone.game.inventory.item.ItemStack;
+import rocks.cleanstone.game.material.item.ItemType;
 
 public class SimpleInventory implements Inventory {
     private int size;
@@ -55,8 +55,8 @@ public class SimpleInventory implements Inventory {
                 continue;
             }
 
-            int itemAmount = itemStacks.getOrDefault(itemStack.getItemType(), 0) + itemStack.getAmount();
-            itemStacks.put(itemStack.getItemType(), itemAmount);
+            int itemAmount = itemStacks.getOrDefault(itemStack.getType(), 0) + itemStack.getAmount();
+            itemStacks.put(itemStack.getType(), itemAmount);
         }
 
         return itemStacks;
@@ -68,7 +68,7 @@ public class SimpleInventory implements Inventory {
 
         int remaining = amount;
         for (ItemStack itemStack : inventoryClone) {
-            if (itemStack.getItemType() == item && itemStack.getAmount() < 64) {
+            if (itemStack.getType() == item && itemStack.getAmount() < 64) {
                 int leftSpace = (itemStack.getAmount() - 64) * -1;
 
                 remaining = remaining - leftSpace;

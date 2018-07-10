@@ -11,6 +11,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import java.io.File;
 import java.io.IOException;
 
+import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
 import rocks.cleanstone.game.world.chunk.SimpleChunkProvider;
 import rocks.cleanstone.game.world.data.LevelDBWorldDataSource;
@@ -22,9 +23,14 @@ import rocks.cleanstone.game.world.region.SingleRegionManager;
 public class SimpleWorldLoader implements WorldLoader {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final AsyncListenableTaskExecutor worldExecutor;
+    private final MaterialRegistry materialRegistry;
 
     @Autowired
-    AsyncListenableTaskExecutor worldExec;
+    public SimpleWorldLoader(AsyncListenableTaskExecutor worldExec, MaterialRegistry materialRegistry) {
+        this.worldExecutor = worldExec;
+        this.materialRegistry = materialRegistry;
+    }
 
     @Async(value = "worldLoadingExec")
     @Override
@@ -39,11 +45,11 @@ public class SimpleWorldLoader implements WorldLoader {
 
         // TODO Fetch generator from dataSource
 
-        WorldGenerator generator = new FlatWorldGenerator();
-        ChunkProvider chunkProvider = new SimpleChunkProvider(dataSource, generator, worldExec);
+        WorldGenerator generator = new FlatWorldGenerator(materialRegistry);
+        ChunkProvider chunkProvider = new SimpleChunkProvider(dataSource, generator, worldExecutor);
 
         World world = new SimpleGeneratedWorld(id, chunkProvider, generator, dataSource,
-                new SingleRegionManager(chunkProvider), worldExec);
+                new SingleRegionManager(chunkProvider), worldExecutor);
 
         // TODO: Loading spawn and other tasks(?)
         logger.info("World '" + id + "' loaded.");
@@ -60,7 +66,7 @@ public class SimpleWorldLoader implements WorldLoader {
     }
 
     public WorldDataSource getDataSource(String id) throws IOException {
-        return new LevelDBWorldDataSource(getWorldDataFolder(), id);
+        return new LevelDBWorldDataSource(getWorldDataFolder(), id, materialRegistry);
     }
 
     @Override

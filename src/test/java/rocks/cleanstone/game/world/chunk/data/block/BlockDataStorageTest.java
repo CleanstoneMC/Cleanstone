@@ -4,12 +4,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.material.VanillaMaterial;
+import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.material.SimpleMaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 
@@ -19,21 +21,24 @@ class BlockDataStorageTest {
 
     private final Random random = new Random(1);
     private BlockDataStorage storage;
+    // TODO use materialRegistry bean
+    private MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
 
     @BeforeEach
     void createStorageByTable() {
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 20; i++) {
             Block randomBlock = ImmutableBlock.of(
-                    VanillaMaterial.values()[random.nextInt(VanillaMaterial.values().length)]);
+                    new ArrayList<>(materialRegistry.getBlockTypes())
+                            .get(random.nextInt(materialRegistry.getBlockTypes().size())));
             blockDataTable.setBlock(random.nextInt(16), random.nextInt(256), random.nextInt(16), randomBlock);
         }
-        storage = new BlockDataStorage(blockDataTable);
+        storage = new BlockDataStorage(blockDataTable, materialRegistry);
     }
 
     @Test
     void testSerializationAndTable() {
-        BlockDataCodec codec = new BlockDataCodec();
+        BlockDataCodec codec = new BlockDataCodec(materialRegistry);
         ByteBuf serialized = codec.serialize(storage);
         BlockDataStorage deserialized;
         try {

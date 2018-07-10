@@ -35,7 +35,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.BlockState;
-import rocks.cleanstone.game.material.VanillaMaterial;
+import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataSection;
 import rocks.cleanstone.game.world.chunk.data.block.BlockStateStorage;
@@ -47,43 +48,49 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
 
     private final List<BlockState> palette = new ArrayList<>();
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final MaterialRegistry materialRegistry;
     private int bitsPerEntry;
     private EntrySizeBasedStorage baseStorage;
 
-    public PaletteBlockStateStorage(PaletteBlockStateStorage paletteBlockStateStorage) {
+    public PaletteBlockStateStorage(PaletteBlockStateStorage paletteBlockStateStorage,
+                                    MaterialRegistry materialRegistry) {
+        this.materialRegistry = materialRegistry;
         palette.addAll(paletteBlockStateStorage.palette);
         bitsPerEntry = paletteBlockStateStorage.bitsPerEntry;
         baseStorage = new EntrySizeBasedStorage(paletteBlockStateStorage.baseStorage);
     }
 
-    public PaletteBlockStateStorage() {
+    public PaletteBlockStateStorage(MaterialRegistry materialRegistry) {
+        this.materialRegistry = materialRegistry;
         this.bitsPerEntry = 4;
-        this.palette.add(BlockState.of(VanillaMaterial.AIR));
+        this.palette.add(BlockState.of(VanillaBlockType.AIR));
         this.baseStorage = new EntrySizeBasedStorage(this.bitsPerEntry, 4096);
     }
 
-    public PaletteBlockStateStorage(BlockDataTable blockDataTable, int sectionY, AtomicBoolean isEmptyFlag) {
-        this();
+    public PaletteBlockStateStorage(BlockDataTable blockDataTable, int sectionY, AtomicBoolean isEmptyFlag,
+                                    MaterialRegistry materialRegistry) {
+        this(materialRegistry);
         isEmptyFlag.set(true);
         int sectionHeight = BlockDataSection.HEIGHT;
         for (int y = sectionY * sectionHeight; y < sectionY * sectionHeight + sectionHeight; y++) {
             for (int z = 0; z < BlockDataSection.WIDTH; z++) {
                 for (int x = 0; x < BlockDataSection.WIDTH; x++) {
                     BlockState state = blockDataTable.getBlock(x, y, z).getState();
-                    if (state.getMaterial() != VanillaMaterial.AIR) isEmptyFlag.set(false);
+                    if (state.getBlockType() != VanillaBlockType.AIR) isEmptyFlag.set(false);
                     set(x, y, z, state);
                 }
             }
         }
     }
 
-    public PaletteBlockStateStorage(ByteBuf in) throws IOException {
+    public PaletteBlockStateStorage(ByteBuf in, MaterialRegistry materialRegistry) throws IOException {
+        this.materialRegistry = materialRegistry;
         this.bitsPerEntry = in.readUnsignedByte();
         int stateCount = ByteBufUtils.readVarInt(in);
 
         for (int i = 0; i < stateCount; i++) {
             int blockStateID = ByteBufUtils.readVarInt(in);
-            BlockState blockState = BlockState.of(blockStateID);
+            BlockState blockState = BlockState.of(blockStateID, materialRegistry);
 
             if (blockState == null) {
                 throw new IOException("Could not read Blockstate for ID " + blockStateID);
@@ -135,8 +142,8 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
     @Override
     public BlockState get(int x, int y, int z) {
         int stateID = baseStorage.get(getIndex(x, y, z));
-        if (stateID == 0) return BlockState.of(VanillaMaterial.AIR);
-        return shouldUsePalette() ? this.palette.get(stateID) : BlockState.of(stateID);
+        if (stateID == 0) return BlockState.of(VanillaBlockType.AIR);
+        return shouldUsePalette() ? this.palette.get(stateID) : BlockState.of(stateID, materialRegistry);
     }
 
     private void resizeStorage(int bitsPerEntry) {

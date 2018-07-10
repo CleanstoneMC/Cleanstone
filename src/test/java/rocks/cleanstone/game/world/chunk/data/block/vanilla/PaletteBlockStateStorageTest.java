@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -11,7 +12,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.material.VanillaMaterial;
+import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.material.SimpleMaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 
@@ -21,16 +23,19 @@ class PaletteBlockStateStorageTest {
 
     private final Random random = new Random(1);
     private PaletteBlockStateStorage storage;
+    // TODO use materialRegistry bean
+    private MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
 
     @BeforeEach
     void createStorageByTable() {
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 40; i++) {
             Block randomBlock = ImmutableBlock.of(
-                    VanillaMaterial.values()[random.nextInt(VanillaMaterial.values().length)]);
+                    new ArrayList<>(materialRegistry.getBlockTypes())
+                            .get(random.nextInt(materialRegistry.getBlockTypes().size())));
             blockDataTable.setBlock(random.nextInt(16), random.nextInt(256), random.nextInt(16), randomBlock);
         }
-        storage = new PaletteBlockStateStorage(blockDataTable, 0, new AtomicBoolean());
+        storage = new PaletteBlockStateStorage(blockDataTable, 0, new AtomicBoolean(), materialRegistry);
     }
 
     @Test
@@ -39,7 +44,7 @@ class PaletteBlockStateStorageTest {
         storage.write(buf);
         PaletteBlockStateStorage deserialized;
         try {
-            deserialized = new PaletteBlockStateStorage(buf);
+            deserialized = new PaletteBlockStateStorage(buf, materialRegistry);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

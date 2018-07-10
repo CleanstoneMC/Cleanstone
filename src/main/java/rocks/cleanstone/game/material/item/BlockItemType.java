@@ -1,11 +1,10 @@
 package rocks.cleanstone.game.material.item;
 
 import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.block.Face;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.inventory.item.ItemStack;
-import rocks.cleanstone.game.material.Material;
 import rocks.cleanstone.game.material.block.BlockType;
-import rocks.cleanstone.game.block.Face;
 
 public class BlockItemType implements ItemType {
 
@@ -25,12 +24,17 @@ public class BlockItemType implements ItemType {
     }
 
     @Override
-    public Material getMaterial() {
-        return blockType.getMaterial();
+    public int getStackSize() {
+        return 64;
     }
 
     @Override
-    public int getStackSize() {
-        return 64;
+    public int getID() {
+        return blockType.getID();
+    }
+
+    @Override
+    public String getMinecraftID() {
+        return blockType.getMinecraftID();
     }
 }

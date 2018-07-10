@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.material.VanillaMaterial;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 
 public class ArrayBlockDataTable implements BlockDataTable {
 
@@ -40,11 +40,11 @@ public class ArrayBlockDataTable implements BlockDataTable {
     @Override
     public Block getBlock(int x, int y, int z) {
         Block block = blocks[x][z][y];
-        return block != null ? block : ImmutableBlock.of(VanillaMaterial.AIR);
+        return block != null ? block : ImmutableBlock.of(VanillaBlockType.AIR);
     }
 
     public void setBlock(int x, int y, int z, Block block) {
-        if (block == null || block.getState().getMaterial() == VanillaMaterial.AIR) {
+        if (block == null || block.getState().getBlockType() == VanillaBlockType.AIR) {
             blocks[x][z][y] = null;
         } else
             blocks[x][z][y] = block;

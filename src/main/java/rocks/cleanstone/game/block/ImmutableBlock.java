@@ -3,8 +3,6 @@ package rocks.cleanstone.game.block;
 import java.util.Collection;
 
 import io.netty.util.internal.ConcurrentSet;
-import rocks.cleanstone.game.material.Material;
-import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.BlockType;
 
 /**
@@ -15,15 +13,9 @@ public class ImmutableBlock implements Block {
     private static final Collection<ImmutableBlock> CACHED_BLOCKS = new ConcurrentSet<>();
 
     private final BlockState state;
-    private final BlockType type;
-
-    private ImmutableBlock(BlockState state, BlockType type) {
-        this.state = state;
-        this.type = type;
-    }
 
     private ImmutableBlock(BlockState state) {
-        this(state, MaterialRegistry.getBlockType(state.getMaterial()));
+        this.state = state;
     }
 
     public static ImmutableBlock of(BlockState state) {
@@ -35,17 +27,12 @@ public class ImmutableBlock implements Block {
                 });
     }
 
-    public static ImmutableBlock of(Material material) {
-        return of(BlockState.of(material));
+    public static ImmutableBlock of(BlockType blockType) {
+        return of(BlockState.of(blockType));
     }
 
-    public static ImmutableBlock of(Material material, byte metadata) {
-        return of(BlockState.of(material, metadata));
-    }
-
-    @Override
-    public BlockType getType() {
-        return type;
+    public static ImmutableBlock of(BlockType blockType, byte metadata) {
+        return of(BlockState.of(blockType, metadata));
     }
 
     @Override
@@ -55,6 +42,6 @@ public class ImmutableBlock implements Block {
 
     @Override
     public String toString() {
-        return "ImmutableBlock{" + state.getMaterial().getID() + "|" + state.getMetadata() + "}";
+        return "ImmutableBlock{" + state.getBlockType().getID() + "|" + state.getMetadata() + "}";
     }
 }

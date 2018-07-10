@@ -3,28 +3,22 @@ package rocks.cleanstone.game.inventory.item;
 import com.google.common.base.Preconditions;
 
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
-import rocks.cleanstone.game.material.Material;
-import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.item.ItemType;
 
 /**
  * Corresponds to Minecraft's Slot data type
  */
 public class SimpleItemStack implements ItemStack {
-    private final Material material;
+    private final ItemType itemType;
     private final short metadata;
     private final NamedBinaryTag nbt;
     private int amount;
 
-    public SimpleItemStack(Material material, int amount, short metadata, NamedBinaryTag nbt) {
-        this.material = material;
+    public SimpleItemStack(ItemType itemType, int amount, short metadata, NamedBinaryTag nbt) {
+        this.itemType = itemType;
         this.amount = amount;
         this.metadata = metadata;
         this.nbt = nbt;
-    }
-
-    public Material getMaterial() {
-        return material;
     }
 
     /**
@@ -39,8 +33,8 @@ public class SimpleItemStack implements ItemStack {
     }
 
     @Override
-    public ItemType getItemType() {
-        return MaterialRegistry.getItemType(material);
+    public ItemType getType() {
+        return itemType;
     }
 
     @Override

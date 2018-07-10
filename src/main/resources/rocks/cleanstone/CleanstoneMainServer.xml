@@ -121,14 +121,11 @@
     </bean>
 
     <!-- Game -->
-    <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame" lazy-init="true">
-        <constructor-arg ref="worldManager"/>
-    </bean>
+    <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame" lazy-init="true"/>
+    <bean id="materialRegistry" class="rocks.cleanstone.game.material.SimpleMaterialRegistry"/>
 
     <!-- Block Place -->
-    <bean id="useItemListener" class="rocks.cleanstone.player.listener.UseItemListener">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+    <bean id="useItemListener" class="rocks.cleanstone.player.listener.UseItemListener"/>
 
     <!-- Entity -->
     <bean id="entityManager" class="rocks.cleanstone.game.world.EntityManager"/>

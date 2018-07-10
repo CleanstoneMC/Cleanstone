@@ -3,6 +3,7 @@ package rocks.cleanstone.game.world.chunk.data.block;
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.PaletteBlockStateStorage;
 
@@ -14,8 +15,9 @@ public class BlockDataSection {
     private final byte[][][] blockLight, skyLight;
     private final boolean hasSkyLight;
 
-    public BlockDataSection(BlockDataSection blockDataSection) {
-        blockStateStorage = new PaletteBlockStateStorage((PaletteBlockStateStorage) blockDataSection.blockStateStorage);
+    public BlockDataSection(BlockDataSection blockDataSection, MaterialRegistry materialRegistry) {
+        blockStateStorage = new PaletteBlockStateStorage(
+                (PaletteBlockStateStorage) blockDataSection.blockStateStorage, materialRegistry);
         blockLight = blockDataSection.blockLight.clone();
         skyLight = blockDataSection.skyLight.clone();
         hasSkyLight = blockDataSection.hasSkyLight;
@@ -30,8 +32,8 @@ public class BlockDataSection {
         this.hasSkyLight = hasSkyLight;
     }
 
-    public BlockDataSection(boolean hasSkyLight) {
-        this.blockStateStorage = new PaletteBlockStateStorage();
+    public BlockDataSection(boolean hasSkyLight, MaterialRegistry materialRegistry) {
+        this.blockStateStorage = new PaletteBlockStateStorage(materialRegistry);
         blockLight = new byte[WIDTH][WIDTH][HEIGHT];
         skyLight = new byte[WIDTH][WIDTH][HEIGHT];
         if (hasSkyLight)
@@ -45,8 +47,8 @@ public class BlockDataSection {
         this.hasSkyLight = hasSkyLight;
     }
 
-    public BlockDataSection(ByteBuf in, boolean hasSkyLight) throws IOException {
-        blockStateStorage = new PaletteBlockStateStorage(in);
+    public BlockDataSection(ByteBuf in, boolean hasSkyLight, MaterialRegistry materialRegistry) throws IOException {
+        blockStateStorage = new PaletteBlockStateStorage(in, materialRegistry);
 
         this.blockLight = new byte[WIDTH][WIDTH][HEIGHT];
         this.skyLight = new byte[WIDTH][WIDTH][HEIGHT];
