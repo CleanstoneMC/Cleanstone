@@ -107,7 +107,7 @@ public abstract class CleanstoneServer implements ApplicationRunner {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            context.close(); // fixme: raknet does not close
+            context.close();
             SpringApplication.run(CleanstoneMainServer.class);
         });
         restartThread.setDaemon(false);
