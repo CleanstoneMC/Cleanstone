@@ -2,6 +2,7 @@ package rocks.cleanstone.game.command;
 
 import com.google.common.collect.ImmutableMap;
 
+import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +38,16 @@ public class SimpleCommand implements Command {
         this.expectedParameterTypes = expectedParameterTypes;
     }
 
+    public SimpleCommand(String name, List<String> aliases, Class... expectedParameterTypes) {
+        this(name, aliases, null, expectedParameterTypes);
+    }
+
     public SimpleCommand(String name, CommandExecutor commandExecutor) {
         this(name, new ArrayList<>(), commandExecutor);
+    }
+
+    public SimpleCommand(String name, Class... expectedParameterTypes) {
+        this(name, Collections.emptyList(), expectedParameterTypes);
     }
 
     public SimpleCommand(String name, Collection<String> aliases) {

@@ -3,6 +3,7 @@ package rocks.cleanstone.game.command;
 import java.util.Collection;
 import java.util.List;
 
+import java.util.Optional;
 import rocks.cleanstone.player.Player;
 
 public interface CommandMessage {
@@ -21,6 +22,8 @@ public interface CommandMessage {
     Player requireTargetPlayer();
 
     String requireStringMessage(boolean optional);
+
+    <T> Optional<T> optionalParameter(Class<T> parameterClass);
 
     <T> T requireParameter(Class<T> parameterClass);
 

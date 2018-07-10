@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
-import rocks.cleanstone.game.command.completion.CompletableValue;
+import rocks.cleanstone.game.command.completion.CompletableParameter;
+import rocks.cleanstone.game.command.completion.CompletionContext;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
-public class PlayerParameter implements CommandParameter<Player>, CompletableValue<Player> {
+public class PlayerParameter implements CompletableParameter<Player> {
 
     private final PlayerManager playerManager;
 
@@ -18,8 +19,8 @@ public class PlayerParameter implements CommandParameter<Player>, CompletableVal
 
     @Nullable
     @Override
-    public Player get(String parameter) {
-        return playerManager.getOnlinePlayer(parameter);
+    public Player get(CompletionContext<Player> context) {
+        return playerManager.getOnlinePlayer(context.getInput());
     }
 
     @Override
@@ -28,11 +29,11 @@ public class PlayerParameter implements CommandParameter<Player>, CompletableVal
     }
 
     @Override
-    public List<String> getCompletion(Class<Player> parameterClass, String message) {
+    public List<String> getCompletion(CompletionContext<Player> context) {
         return playerManager.getOnlinePlayers().stream()
                 .map(player -> player.getId().getName())
                 .filter(playerName -> playerName.toLowerCase(Locale.ENGLISH)
-                        .startsWith(message.toLowerCase(Locale.ENGLISH)))
+                        .startsWith(context.getInput().toLowerCase(Locale.ENGLISH)))
                 .collect(Collectors.toList());
     }
 }

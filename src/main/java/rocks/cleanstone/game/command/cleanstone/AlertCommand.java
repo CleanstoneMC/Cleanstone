@@ -14,7 +14,7 @@ public class AlertCommand extends SimpleCommand {
     private final PlayerManager playerManager;
 
     public AlertCommand(PlayerManager playerManager) {
-        super("alert", Arrays.asList("say", "broadcast"));
+        super("alert", Arrays.asList("say", "broadcast"), String.class);
         this.playerManager = playerManager;
     }
 
@@ -30,10 +30,5 @@ public class AlertCommand extends SimpleCommand {
         String input = message.requireStringMessage(false);
         String alertMessage = CleanstoneServer.getMessage("game.command.cleanstone.alert-format", input);
         playerManager.getOnlinePlayers().forEach(player -> player.sendMessage(Text.of(alertMessage)));
-    }
-
-    @Override
-    public Class[] getExpectedParameterTypes() {
-        return new Class[]{String.class};
     }
 }

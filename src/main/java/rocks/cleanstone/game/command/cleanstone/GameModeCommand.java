@@ -13,7 +13,7 @@ import rocks.cleanstone.player.Player;
 public class GameModeCommand extends SimpleCommand {
 
     public GameModeCommand() {
-        super("gamemode", Collections.singletonList("gm"));
+        super("gamemode", Collections.singletonList("gm"), VanillaGameMode.class, Player.class);
     }
 
     @Override
@@ -33,10 +33,5 @@ public class GameModeCommand extends SimpleCommand {
             message.getCommandSender().sendMessage(CleanstoneServer.getMessage(
                     "game.command.cleanstone.changed-gamemode", target.getId().getName(), gameMode.getName()));
         }
-    }
-
-    @Override
-    public Class[] getExpectedParameterTypes() {
-        return new Class[]{VanillaGameMode.class, Player.class};
     }
 }
