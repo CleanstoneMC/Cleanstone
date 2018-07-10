@@ -1,13 +1,13 @@
 package rocks.cleanstone.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.game.chat.ConsoleSender;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandRegistry;
@@ -16,6 +16,9 @@ public class SimpleConsole implements ConsoleSender {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private CommandRegistry commandRegistry;
+    private boolean running = true;
+    private static BufferedReader inputReader;
+    private static final BlockingQueue<String> lines = new LinkedBlockingQueue<>();
 
     @Override
     public void sendMessage(Text message) {
@@ -30,19 +33,47 @@ public class SimpleConsole implements ConsoleSender {
     @Async
     @Override
     public void run() {
-        try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in))) {
-            while (true) {
-                String input = inputReader.readLine();
-                if (input == null) {
-                    throw new IOException("Console input reached EOS");
-                }
-                if (commandRegistry != null)
-                    commandRegistry.executeCommand(input, this);
-                else sendMessage("No command registry available");
+        spawnInputReader();
+
+        while (running) {
+            String input = lines.poll();
+            if (input == null) {
+                continue;
             }
-        } catch (IOException e) {
-            logger.error("Error occurred while reading console input", e);
+            if (commandRegistry != null) {
+                commandRegistry.executeCommand(input, this);
+            } else {
+                sendMessage("No command registry available");
+            }
         }
+    }
+
+    private void spawnInputReader() {
+        if (inputReader != null) { // keep input reader across spring restarts
+            return;
+        }
+
+        inputReader = new BufferedReader(new InputStreamReader(System.in));
+
+        Thread inputReaderThread = new Thread(() -> {
+            try {
+                while (!Thread.interrupted()) {
+                    String input = inputReader.readLine();
+                    if (input == null) {
+                        throw new IOException("Console input reached EOS");
+                    }
+                    lines.add(input);
+                }
+            } catch (IOException e) {
+                logger.error("Error occurred while reading console input", e);
+            }
+        });
+        inputReaderThread.setDaemon(true);
+        inputReaderThread.start();
+    }
+
+    private void destroy() {
+        running = false;
     }
 
     @Override

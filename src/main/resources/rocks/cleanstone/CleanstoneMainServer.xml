@@ -42,10 +42,6 @@
 
     <!-- SERVER -->
     <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer">
-        <constructor-arg ref="cleanstoneConfig"/>
-        <constructor-arg ref="minecraftConfig"/>
-        <constructor-arg ref="simpleConsole"/>
-        <constructor-arg ref="playerManager"/>
     </bean>
     <bean id="simpleConsole" class="rocks.cleanstone.core.SimpleConsole"/>
 

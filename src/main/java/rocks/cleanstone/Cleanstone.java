@@ -9,13 +9,10 @@ import rocks.cleanstone.core.CleanstoneSubServer;
 public class Cleanstone {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context;
         if (args.length > 0 && args[0].equalsIgnoreCase("subserver")) {
-            context = SpringApplication.run(CleanstoneSubServer.class, args);
+            SpringApplication.run(CleanstoneSubServer.class, args).registerShutdownHook();
         } else {
-            context = SpringApplication.run(CleanstoneMainServer.class, args);
+            SpringApplication.run(CleanstoneMainServer.class, args).registerShutdownHook();
         }
-        CleanstoneServer.getInstance().context = context;
-        CleanstoneServer.getInstance().context.registerShutdownHook();
     }
 }

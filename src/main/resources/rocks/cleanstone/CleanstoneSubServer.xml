@@ -37,9 +37,6 @@
     <!-- SERVER -->
 
     <bean id="cleanstoneSubServer" class="rocks.cleanstone.core.CleanstoneSubServer">
-        <constructor-arg ref="cleanstoneConfig"/>
-        <constructor-arg ref="minecraftConfig"/>
-        <constructor-arg ref="playerManager"/>
     </bean>
 
     <!-- NETWORKING -->

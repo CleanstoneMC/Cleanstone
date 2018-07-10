@@ -39,10 +39,11 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     public ConfigurableApplicationContext context;
 
     protected CleanstoneServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig,
-                               PlayerManager playerManager) {
+                               PlayerManager playerManager, ConfigurableApplicationContext context) {
         this.cleanstoneConfig = cleanstoneConfig;
         this.minecraftConfig = minecraftConfig;
         this.playerManager = playerManager;
+        this.context = context;
     }
 
     public static <T> T publishEvent(T event) {

@@ -1,7 +1,9 @@
 package rocks.cleanstone.core;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 
@@ -20,9 +22,10 @@ public class CleanstoneMainServer extends CleanstoneServer {
     private final ConsoleSender console;
     private Set<ExternalServer> externalServers;
 
+    @Autowired
     public CleanstoneMainServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig,
-                                ConsoleSender console, PlayerManager playerManager) {
-        super(cleanstoneConfig, minecraftConfig, playerManager);
+                                ConsoleSender console, PlayerManager playerManager, ConfigurableApplicationContext context) {
+        super(cleanstoneConfig, minecraftConfig, playerManager, context);
         this.console = console;
     }
 
