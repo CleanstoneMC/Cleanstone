@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
@@ -16,6 +18,8 @@ import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
 import rocks.cleanstone.core.event.EventExecutionException;
+import rocks.cleanstone.game.chat.message.Text;
+import rocks.cleanstone.player.PlayerManager;
 
 public abstract class CleanstoneServer implements ApplicationRunner {
 
@@ -24,6 +28,7 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
     protected final CleanstoneConfig cleanstoneConfig;
     protected final MinecraftConfig minecraftConfig;
+    private final PlayerManager playerManager;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     protected CleanstoneEventPublisher eventPublisher;
@@ -31,10 +36,13 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     protected MessageSource messageSource;
     @Autowired
     protected SpringBeanDefinitionProxy springBeanDefinitionProxy;
+    public ConfigurableApplicationContext context;
 
-    protected CleanstoneServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig) {
+    protected CleanstoneServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig,
+                               PlayerManager playerManager) {
         this.cleanstoneConfig = cleanstoneConfig;
         this.minecraftConfig = minecraftConfig;
+        this.playerManager = playerManager;
     }
 
     public static <T> T publishEvent(T event) {
@@ -88,5 +96,20 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     @EventListener
     public void onShutdown(ContextClosedEvent e) {
         logger.info("Shutting down");
+    }
+
+    public void restart(Text reasonText) {
+        Thread restartThread = new Thread(() -> {
+            playerManager.getOnlinePlayers().forEach(player -> player.kick(reasonText));
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            context.close(); // fixme: raknet does not close
+            SpringApplication.run(CleanstoneMainServer.class);
+        });
+        restartThread.setDaemon(false);
+        restartThread.start();
     }
 }

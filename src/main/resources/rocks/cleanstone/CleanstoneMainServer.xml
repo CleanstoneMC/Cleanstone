@@ -45,6 +45,7 @@
         <constructor-arg ref="cleanstoneConfig"/>
         <constructor-arg ref="minecraftConfig"/>
         <constructor-arg ref="simpleConsole"/>
+        <constructor-arg ref="playerManager"/>
     </bean>
     <bean id="simpleConsole" class="rocks.cleanstone.core.SimpleConsole"/>
 
@@ -160,6 +161,7 @@
                 <ref bean="alertCommand"/>
                 <ref bean="gameModeCommand"/>
                 <ref bean="setCommand"/>
+                <ref bean="restartCommand"/>
             </list>
         </constructor-arg>
 
@@ -190,6 +192,7 @@
         <constructor-arg ref="playerManager"/>
     </bean>
     <bean id="kickCommand" class="rocks.cleanstone.game.command.cleanstone.KickCommand"/>
+    <bean id="restartCommand" class="rocks.cleanstone.game.command.cleanstone.RestartCommand"/>
     <bean id="alertCommand" class="rocks.cleanstone.game.command.cleanstone.AlertCommand">
         <constructor-arg ref="playerManager"/>
     </bean>

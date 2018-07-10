@@ -2,9 +2,7 @@ package rocks.cleanstone.player;
 
 import java.util.Collection;
 import java.util.UUID;
-
 import javax.annotation.Nullable;
-
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.player.data.PlayerDataSource;

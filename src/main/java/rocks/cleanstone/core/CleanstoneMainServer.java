@@ -10,6 +10,7 @@ import java.util.Set;
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.game.chat.ConsoleSender;
+import rocks.cleanstone.player.PlayerManager;
 
 @SpringBootApplication
 @ComponentScan(excludeFilters = @ComponentScan.Filter(SpringBootApplication.class))
@@ -20,8 +21,8 @@ public class CleanstoneMainServer extends CleanstoneServer {
     private Set<ExternalServer> externalServers;
 
     public CleanstoneMainServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig,
-                                ConsoleSender console) {
-        super(cleanstoneConfig, minecraftConfig);
+                                ConsoleSender console, PlayerManager playerManager) {
+        super(cleanstoneConfig, minecraftConfig, playerManager);
         this.console = console;
     }
 
