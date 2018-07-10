@@ -2,6 +2,7 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.inventory.item.ItemStack;
+import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
@@ -11,10 +12,16 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class CreativeInventoryActionCodec implements MinecraftPacketCodec {
 
+    private final MaterialRegistry materialRegistry;
+
+    public CreativeInventoryActionCodec(MaterialRegistry materialRegistry) {
+        this.materialRegistry = materialRegistry;
+    }
+
     @Override
     public Packet decode(ByteBuf byteBuf) {
         short slot = byteBuf.readShort();
-        ItemStack clickedItem = ByteBufUtils.readItemStack(byteBuf);
+        ItemStack clickedItem = ByteBufUtils.readItemStack(byteBuf, materialRegistry);
 
         return new CreativeInventoryActionPacket(slot, clickedItem);
     }

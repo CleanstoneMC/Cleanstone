@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
+import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.ClientSettingsCodec;
@@ -43,7 +44,7 @@ import rocks.cleanstone.net.packet.outbound.*;
 
 public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
-    public MinecraftProtocolLayer_v1_12_2() {
+    public MinecraftProtocolLayer_v1_12_2(MaterialRegistry materialRegistry) {
         // inbound
         registerPacketCodec(new HandshakeCodec(), HandshakePacket.class);
         registerPacketCodec(new LoginStartCodec(), LoginStartPacket.class);
@@ -60,7 +61,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new UseItemCodec(), UseItemPacket.class);
         registerPacketCodec(new PlayerBlockPlacementCodec(), PlayerBlockPlacementPacket.class);
         registerPacketCodec(new PlayerDiggingCodec(), PlayerDiggingPacket.class);
-        registerPacketCodec(new CreativeInventoryActionCodec(), CreativeInventoryActionPacket.class);
+        registerPacketCodec(new CreativeInventoryActionCodec(materialRegistry), CreativeInventoryActionPacket.class);
         registerPacketCodec(new HeldItemChangeCodec(), HeldItemChangePacket.class);
         registerPacketCodec(new InPlayerAbilitiesCodec(), InPlayerAbilitiesPacket.class);
 
@@ -76,7 +77,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new SpawnPositionCodec(), SpawnPositionPacket.class);
         registerPacketCodec(new OutPlayerAbilitiesCodec(), OutPlayerAbilitiesPacket.class);
         registerPacketCodec(new OutPlayerPositionAndLookCodec(), OutPlayerPositionAndLookPacket.class);
-        registerPacketCodec(new ChunkDataCodec(), ChunkDataPacket.class);
+        registerPacketCodec(new ChunkDataCodec(materialRegistry), ChunkDataPacket.class);
         registerPacketCodec(new OutKeepAliveCodec(), OutKeepAlivePacket.class);
         registerPacketCodec(new OutTabCompleteCodec(), OutTabCompletePacket.class);
         registerPacketCodec(new OutChatMessageCodec(), OutChatMessagePacket.class);

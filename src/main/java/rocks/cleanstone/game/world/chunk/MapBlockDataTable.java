@@ -11,7 +11,7 @@ import java.util.HashSet;
 
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.material.VanillaMaterial;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 
 public class MapBlockDataTable implements BlockDataTable {
 
@@ -28,7 +28,7 @@ public class MapBlockDataTable implements BlockDataTable {
     @Nullable
     public Block getBlock(int x, int y, int z) {
         Block block = getHeightMap(x, z).get(y);
-        return block != null ? block : ImmutableBlock.of(VanillaMaterial.AIR);
+        return block != null ? block : ImmutableBlock.of(VanillaBlockType.AIR);
     }
 
     public Collection<Block> getBlocks() {
@@ -42,7 +42,7 @@ public class MapBlockDataTable implements BlockDataTable {
 
     @Override
     public void setBlock(int x, int y, int z, Block block) {
-        if (block == null || block.getState().getMaterial() == VanillaMaterial.AIR) {
+        if (block == null || block.getState().getBlockType() == VanillaBlockType.AIR) {
             getHeightMap(x, z).remove(y);
         } else
             getHeightMap(x, z).put(y, block);

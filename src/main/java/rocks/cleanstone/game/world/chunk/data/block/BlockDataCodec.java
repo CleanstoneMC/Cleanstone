@@ -8,10 +8,17 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.data.Codec;
+import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class BlockDataCodec implements Codec<BlockDataStorage, ByteBuf> {
+
+    private final MaterialRegistry materialRegistry;
+
+    public BlockDataCodec(MaterialRegistry materialRegistry) {
+        this.materialRegistry = materialRegistry;
+    }
 
     @Override
     public BlockDataStorage deserialize(ByteBuf data) throws IOException {
@@ -20,11 +27,11 @@ public class BlockDataCodec implements Codec<BlockDataStorage, ByteBuf> {
         int dataSize = ByteBufUtils.readVarInt(data);
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
             if ((primaryBitMask & (1 << sectionY)) != 0) {
-                BlockDataSection section = new BlockDataSection(data, true);
+                BlockDataSection section = new BlockDataSection(data, true, materialRegistry);
                 sectionMap.put(sectionY, section);
             }
         }
-        return new BlockDataStorage(sectionMap, true);
+        return new BlockDataStorage(sectionMap, true, materialRegistry);
     }
 
     @Override

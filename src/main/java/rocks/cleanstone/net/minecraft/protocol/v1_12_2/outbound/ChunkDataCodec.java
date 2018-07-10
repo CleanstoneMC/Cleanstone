@@ -1,6 +1,7 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataCodec;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
@@ -10,6 +11,12 @@ import rocks.cleanstone.net.protocol.ProtocolState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class ChunkDataCodec implements MinecraftPacketCodec {
+
+    private final MaterialRegistry materialRegistry;
+
+    public ChunkDataCodec(MaterialRegistry materialRegistry) {
+        this.materialRegistry = materialRegistry;
+    }
 
     @Override
     public Packet decode(ByteBuf byteBuf) {
@@ -23,7 +30,7 @@ public class ChunkDataCodec implements MinecraftPacketCodec {
         byteBuf.writeInt(chunkDataPacket.getChunkZ());
         byteBuf.writeBoolean(chunkDataPacket.isGroundUpContinuous());
 
-        ByteBuf blockData = new BlockDataCodec().serialize(chunkDataPacket.getStorage());
+        ByteBuf blockData = new BlockDataCodec(materialRegistry).serialize(chunkDataPacket.getStorage());
         byteBuf.writeBytes(blockData);
         blockData.release();
 

@@ -25,7 +25,7 @@ public class BlockChangePacket implements Packet {
     }
 
     public int getBlockData() {
-        int blockID = block.getState().getMaterial().getID();
+        int blockID = block.getState().getBlockType().getID();
         int metaData = block.getState().getMetadata();
 
         return blockID << 4 | (metaData & 15);

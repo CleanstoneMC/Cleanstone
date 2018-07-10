@@ -2,6 +2,9 @@ package rocks.cleanstone.net.minecraft.protocol;
 
 import com.google.common.base.Preconditions;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.MinecraftProtocolLayer_v1_12_2;
 import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
@@ -17,11 +20,12 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
 
     private PacketTypeRegistry registry;
 
-    public void init() {
+    @Autowired
+    public SimpleMinecraftProtocol(MaterialRegistry materialRegistry) {
         registry = new SimplePacketTypeRegistry();
         registry.registerPacketType(MinecraftOutboundPacketType.values());
         registry.registerPacketType(MinecraftInboundPacketType.values());
-        registerProtocolLayer(new MinecraftProtocolLayer_v1_12_2());
+        registerProtocolLayer(new MinecraftProtocolLayer_v1_12_2(materialRegistry));
     }
 
     @Override
