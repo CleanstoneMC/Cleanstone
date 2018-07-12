@@ -184,9 +184,7 @@
     </bean>
 
     <!-- (Commands) -->
-    <bean id="stopCommand" class="rocks.cleanstone.game.command.cleanstone.StopCommand">
-        <constructor-arg ref="playerManager"/>
-    </bean>
+    <bean id="stopCommand" class="rocks.cleanstone.game.command.cleanstone.StopCommand"/>
     <bean id="kickCommand" class="rocks.cleanstone.game.command.cleanstone.KickCommand"/>
     <bean id="restartCommand" class="rocks.cleanstone.game.command.cleanstone.RestartCommand"/>
     <bean id="alertCommand" class="rocks.cleanstone.game.command.cleanstone.AlertCommand">

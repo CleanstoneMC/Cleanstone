@@ -5,12 +5,18 @@ import rocks.cleanstone.core.CleanstoneMainServer;
 import rocks.cleanstone.core.CleanstoneSubServer;
 
 public class Cleanstone {
+    private static String[] startupArgs;
 
     public static void main(String[] args) {
-        if (args.length > 0 && args[0].equalsIgnoreCase("subserver")) {
-            SpringApplication.run(CleanstoneSubServer.class, args);
+        startupArgs = args;
+        start();
+    }
+
+    public static void start() {
+        if (startupArgs.length > 0 && startupArgs[0].equalsIgnoreCase("subserver")) {
+            SpringApplication.run(CleanstoneSubServer.class, startupArgs);
         } else {
-            SpringApplication.run(CleanstoneMainServer.class, args);
+            SpringApplication.run(CleanstoneMainServer.class, startupArgs);
         }
     }
 }

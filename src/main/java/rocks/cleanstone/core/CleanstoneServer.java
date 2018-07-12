@@ -5,13 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import rocks.cleanstone.Cleanstone;
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
@@ -97,18 +97,23 @@ public abstract class CleanstoneServer implements ApplicationRunner {
         logger.info("Shutting down");
     }
 
+    public void stop(Text reasonText) {
+        playerManager.getOnlinePlayers().forEach(player -> player.kick(reasonText));
+        // fixme: online players is empty before all connections are terminated
+        while (!playerManager.getOnlinePlayers().isEmpty()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        context.close();
+    }
+
     public void restart(Text reasonText) {
         Thread restartThread = new Thread(() -> {
-            playerManager.getOnlinePlayers().forEach(player -> player.kick(reasonText));
-            while (!playerManager.getOnlinePlayers().isEmpty()) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            context.close();
-            SpringApplication.run(CleanstoneMainServer.class); // todo: args
+            stop(reasonText);
+            Cleanstone.start();
         });
         restartThread.setDaemon(false);
         restartThread.start();
