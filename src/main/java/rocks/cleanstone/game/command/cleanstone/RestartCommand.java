@@ -21,7 +21,7 @@ public class RestartCommand extends SimpleCommand {
 
         String reason = message.requireStringMessage(true);
         if (reason.equals("")) {
-            reason = CleanstoneServer.getMessage("game.command.cleanstone.default-stop-reason");
+            reason = CleanstoneServer.getMessage("game.command.cleanstone.default-restart-reason");
         }
 
         Text reasonText = Text.of(reason);
