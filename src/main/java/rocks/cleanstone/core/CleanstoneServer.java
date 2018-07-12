@@ -1,5 +1,6 @@
 package rocks.cleanstone.core;
 
+import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,6 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-
-import java.util.Locale;
-
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
@@ -102,13 +100,15 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     public void restart(Text reasonText) {
         Thread restartThread = new Thread(() -> {
             playerManager.getOnlinePlayers().forEach(player -> player.kick(reasonText));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            while (!playerManager.getOnlinePlayers().isEmpty()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             context.close();
-            SpringApplication.run(CleanstoneMainServer.class);
+            SpringApplication.run(CleanstoneMainServer.class); // todo: args
         });
         restartThread.setDaemon(false);
         restartThread.start();
