@@ -1,6 +1,5 @@
 package rocks.cleanstone.core;
 
-import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +10,14 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
+import java.util.Locale;
+
 import rocks.cleanstone.Cleanstone;
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
 import rocks.cleanstone.core.event.EventExecutionException;
-import rocks.cleanstone.game.chat.message.Text;
-import rocks.cleanstone.player.PlayerManager;
 
 public abstract class CleanstoneServer implements ApplicationRunner {
 
@@ -26,7 +26,6 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
     protected final CleanstoneConfig cleanstoneConfig;
     protected final MinecraftConfig minecraftConfig;
-    private final PlayerManager playerManager;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     protected CleanstoneEventPublisher eventPublisher;
@@ -34,14 +33,12 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     protected MessageSource messageSource;
     @Autowired
     protected SpringBeanDefinitionProxy springBeanDefinitionProxy;
-    public ConfigurableApplicationContext context;
+    @Autowired
+    protected ConfigurableApplicationContext context;
 
-    protected CleanstoneServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig,
-                               PlayerManager playerManager, ConfigurableApplicationContext context) {
+    protected CleanstoneServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig) {
         this.cleanstoneConfig = cleanstoneConfig;
         this.minecraftConfig = minecraftConfig;
-        this.playerManager = playerManager;
-        this.context = context;
     }
 
     public static <T> T publishEvent(T event) {
@@ -65,6 +62,19 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
     public static CleanstoneServer getInstance() {
         return INSTANCE;
+    }
+
+    public static void stop() {
+        getInstance().context.close();
+    }
+
+    public static void restart() {
+        Thread restartThread = new Thread(() -> {
+            stop();
+            Cleanstone.start();
+        });
+        restartThread.setDaemon(false);
+        restartThread.start();
     }
 
     public void init() {
@@ -95,27 +105,5 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     @EventListener
     public void onShutdown(ContextClosedEvent e) {
         logger.info("Shutting down");
-    }
-
-    public void stop(Text reasonText) {
-        playerManager.getOnlinePlayers().forEach(player -> player.kick(reasonText));
-        // fixme: online players is empty before all connections are terminated
-        while (!playerManager.getOnlinePlayers().isEmpty()) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        context.close();
-    }
-
-    public void restart(Text reasonText) {
-        Thread restartThread = new Thread(() -> {
-            stop(reasonText);
-            Cleanstone.start();
-        });
-        restartThread.setDaemon(false);
-        restartThread.start();
     }
 }

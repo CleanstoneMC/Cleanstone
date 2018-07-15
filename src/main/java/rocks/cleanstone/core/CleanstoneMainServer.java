@@ -1,16 +1,16 @@
 package rocks.cleanstone.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.Set;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+
+import java.util.Set;
+
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.game.chat.ConsoleSender;
-import rocks.cleanstone.player.PlayerManager;
 
 @SpringBootApplication
 @ComponentScan(excludeFilters = @ComponentScan.Filter(SpringBootApplication.class))
@@ -22,8 +22,8 @@ public class CleanstoneMainServer extends CleanstoneServer {
 
     @Autowired
     public CleanstoneMainServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig,
-                                ConsoleSender console, PlayerManager playerManager, ConfigurableApplicationContext context) {
-        super(cleanstoneConfig, minecraftConfig, playerManager, context);
+                                ConsoleSender console) {
+        super(cleanstoneConfig, minecraftConfig);
         this.console = console;
     }
 

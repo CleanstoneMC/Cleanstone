@@ -15,8 +15,10 @@ import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.protocol.Protocol;
+import rocks.cleanstone.player.PlayerManager;
 
 public class NettyNetworking extends AbstractNetworking {
 
@@ -24,10 +26,12 @@ public class NettyNetworking extends AbstractNetworking {
     private final int socketBacklog = 128;
     private final boolean socketKeepAlive = true;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final PlayerManager playerManager;
     private EventLoopGroup bossGroup, workerGroup;
 
-    public NettyNetworking(int port, InetAddress address, Protocol protocol) {
+    public NettyNetworking(int port, InetAddress address, Protocol protocol, PlayerManager playerManager) {
         super(port, address, protocol);
+        this.playerManager = playerManager;
     }
 
     public void init() {
@@ -53,6 +57,8 @@ public class NettyNetworking extends AbstractNetworking {
 
     @EventListener
     public void onPreDestroy(ContextClosedEvent e) {
+        playerManager.getOnlinePlayers().forEach(player -> player.kick(
+                Text.ofMessage("game.command.cleanstone.default-stop-reason", player.getLocale())));
         logger.info("Closing " + protocol.getClass().getSimpleName());
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();

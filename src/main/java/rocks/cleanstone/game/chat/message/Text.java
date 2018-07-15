@@ -5,6 +5,9 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+
+import rocks.cleanstone.core.CleanstoneServer;
 
 public class Text {
     private String plainText;
@@ -18,6 +21,10 @@ public class Text {
 
     public static Text of(String plainText) {
         return new Text(plainText);
+    }
+
+    public static Text ofMessage(String messageID, Locale locale, Object... args) {
+        return new Text(CleanstoneServer.getMessageOfLocale(messageID, locale, args));
     }
 
     public String getPlainText() {
