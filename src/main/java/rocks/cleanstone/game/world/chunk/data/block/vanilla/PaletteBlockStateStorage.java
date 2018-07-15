@@ -90,10 +90,11 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
 
         for (int i = 0; i < stateCount; i++) {
             int blockStateID = ByteBufUtils.readVarInt(in);
-            BlockState blockState = BlockState.of(blockStateID, materialRegistry);
-
-            if (blockState == null) {
-                throw new IOException("Could not read Blockstate for ID " + blockStateID);
+            BlockState blockState;
+            try {
+                blockState = BlockState.of(blockStateID, materialRegistry);
+            } catch (NullPointerException e) {
+                throw new IOException("Could not find BlockState for ID " + blockStateID, e);
             }
 
             this.palette.add(blockState);
