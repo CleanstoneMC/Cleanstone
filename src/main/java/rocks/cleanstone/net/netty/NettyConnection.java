@@ -1,6 +1,9 @@
 package rocks.cleanstone.net.netty;
 
+import com.google.common.util.concurrent.Futures;
+
 import java.net.InetAddress;
+import java.util.concurrent.Future;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
@@ -54,27 +57,29 @@ public class NettyConnection extends AbstractConnection {
     }
 
     @Override
-    public void sendPacket(Packet packet) {
+    public Future<Void> sendPacket(Packet packet) {
         if (!isClosed()) {
-            channel.writeAndFlush(packet);
+            return channel.writeAndFlush(packet);
         }
+        return Futures.immediateFuture(null);
     }
 
     @Override
-    public void close() {
-        close(null);
+    public Future<Void> close() {
+        return close(null);
     }
 
     @Override
-    public void close(Packet packet) {
+    public Future<Void> close(Packet packet) {
         if (!isClosed()) {
             if (packet != null && channel.isActive()) {
-                channel.writeAndFlush(packet).addListener(ChannelFutureListener.CLOSE);
+                return channel.writeAndFlush(packet).addListener(ChannelFutureListener.CLOSE);
             } else {
                 channel.flush();
-                channel.close();
+                return channel.close();
             }
         }
+        return Futures.immediateFuture(null);
     }
 
     @Override

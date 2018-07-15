@@ -2,11 +2,12 @@ package rocks.cleanstone.player;
 
 import java.net.InetAddress;
 import java.util.Collection;
+import java.util.concurrent.Future;
 
+import rocks.cleanstone.game.chat.ChatPosition;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.game.chat.ChatPosition;
 import rocks.cleanstone.net.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.net.packet.outbound.OutChatMessagePacket;
 
@@ -41,8 +42,8 @@ public class OnlinePlayer extends AbstractPlayer {
     }
 
     @Override
-    public void kick(Text reason) {
-        connection.close(new DisconnectPacket(reason));
+    public Future<Void> kick(Text reason) {
+        return connection.close(new DisconnectPacket(reason));
     }
 
     @Override

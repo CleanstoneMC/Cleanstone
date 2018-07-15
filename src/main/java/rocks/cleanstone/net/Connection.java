@@ -1,6 +1,7 @@
 package rocks.cleanstone.net;
 
 import java.net.InetAddress;
+import java.util.concurrent.Future;
 
 import javax.crypto.SecretKey;
 
@@ -32,11 +33,11 @@ public interface Connection {
 
     void setSharedSecret(SecretKey sharedSecret);
 
-    void sendPacket(Packet packet);
+    Future<Void> sendPacket(Packet packet);
 
-    void close();
+    Future<Void> close();
 
-    void close(Packet packet);
+    Future<Void> close(Packet packet);
 
     boolean isClosed();
 }

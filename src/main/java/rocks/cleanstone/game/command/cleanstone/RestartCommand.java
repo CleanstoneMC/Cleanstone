@@ -1,6 +1,14 @@
 package rocks.cleanstone.game.command.cleanstone;
 
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.JdkFutureAdapters;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.message.Text;
@@ -12,11 +20,13 @@ import rocks.cleanstone.player.PlayerManager;
 public class RestartCommand extends SimpleCommand {
 
     private final PlayerManager playerManager;
+    private final Executor executor;
 
     @Autowired
-    public RestartCommand(PlayerManager playerManager) {
+    public RestartCommand(PlayerManager playerManager, Executor commandExec) {
         super("restart", String.class);
         this.playerManager = playerManager;
+        this.executor = commandExec;
     }
 
     @Override
@@ -32,9 +42,12 @@ public class RestartCommand extends SimpleCommand {
         if (reason.equals("")) {
             reason = CleanstoneServer.getMessage("game.command.cleanstone.default-restart-reason");
         }
-
         Text reasonText = Text.of(reason);
-        playerManager.getOnlinePlayers().forEach(player -> player.kick(reasonText));
-        CleanstoneServer.restart();
+
+        List<ListenableFuture<Void>> listenableFutures = playerManager.getOnlinePlayers().stream()
+                .map(player -> player.kick(reasonText))
+                .map(future -> JdkFutureAdapters.listenInPoolThread(future, executor))
+                .collect(Collectors.toList());
+        Futures.whenAllComplete(listenableFutures).run(CleanstoneServer::restart, executor);
     }
 }

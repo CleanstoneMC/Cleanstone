@@ -1,6 +1,7 @@
 package rocks.cleanstone.net;
 
 import java.net.InetAddress;
+import java.util.concurrent.Future;
 
 import javax.crypto.SecretKey;
 
@@ -67,9 +68,9 @@ public abstract class AbstractConnection implements Connection {
         this.sharedSecret = sharedSecret;
     }
 
-    public abstract void sendPacket(Packet packet);
+    public abstract Future<Void> sendPacket(Packet packet);
 
-    public abstract void close();
+    public abstract Future<Void> close();
 
-    public abstract void close(Packet packet);
+    public abstract Future<Void> close(Packet packet);
 }
