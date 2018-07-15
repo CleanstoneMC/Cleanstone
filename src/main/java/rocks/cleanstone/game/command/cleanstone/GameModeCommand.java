@@ -1,7 +1,7 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import java.util.Collections;
-import rocks.cleanstone.core.CleanstoneServer;
+
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.game.gamemode.GameMode;
@@ -26,12 +26,11 @@ public class GameModeCommand extends SimpleCommand {
             target.setGameMode(gameMode);
             target.sendPacket(new ChangeGameStatePacket(GameStateChangeReason.CHANGE_GAMEMODE,
                     gameMode.getTypeId()));
-            target.sendMessage(CleanstoneServer.getMessage("game.command.cleanstone.own-gamemode-changed",
-                    gameMode.getName()));
+            target.sendMessage("game.command.cleanstone.own-gamemode-changed", gameMode.getName());
         }
         if (target != message.getCommandSender() || !gameModeChanged) {
-            message.getCommandSender().sendMessage(CleanstoneServer.getMessage(
-                    "game.command.cleanstone.changed-gamemode", target.getId().getName(), gameMode.getName()));
+            message.getCommandSender().sendMessage("game.command.cleanstone.changed-gamemode",
+                    target.getId().getName(), gameMode.getName());
         }
     }
 }

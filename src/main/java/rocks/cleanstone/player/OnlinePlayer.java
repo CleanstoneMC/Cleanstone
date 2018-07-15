@@ -52,12 +52,17 @@ public class OnlinePlayer extends AbstractPlayer {
     }
 
     @Override
-    public void sendMessage(Text message) {
+    public void sendRawMessage(Text message) {
         connection.sendPacket(new OutChatMessagePacket(message, ChatPosition.CHAT));
     }
 
     @Override
-    public void sendMessage(String message) {
-        sendMessage(Text.of(message));
+    public void sendRawMessage(String message) {
+        sendRawMessage(Text.of(message));
+    }
+
+    @Override
+    public void sendMessage(String messageID, Object... args) {
+        sendRawMessage(Text.ofLocalized(messageID, getLocale(), args));
     }
 }

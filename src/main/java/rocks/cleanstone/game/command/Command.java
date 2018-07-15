@@ -14,7 +14,7 @@ public interface Command extends SecuredAction {
 
     boolean allowsConsole();
 
-    boolean allowsSender(CommandSender sender);
+    boolean allowsSender(MessageRecipient sender);
 
     Map<String, Command> getSubCommands();
 

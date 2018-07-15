@@ -21,7 +21,7 @@ import rocks.cleanstone.core.event.EventExecutionException;
 
 public abstract class CleanstoneServer implements ApplicationRunner {
 
-    public static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
+    private static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
     private static CleanstoneServer INSTANCE;
 
     protected final CleanstoneConfig cleanstoneConfig;
@@ -75,6 +75,10 @@ public abstract class CleanstoneServer implements ApplicationRunner {
         });
         restartThread.setDaemon(false);
         restartThread.start();
+    }
+
+    public static Locale getDefaultLocale() {
+        return DEFAULT_LOCALE;
     }
 
     public void init() {

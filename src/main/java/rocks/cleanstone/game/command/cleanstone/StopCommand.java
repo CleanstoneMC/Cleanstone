@@ -33,19 +33,17 @@ public class StopCommand extends SimpleCommand {
     public void execute(CommandMessage message) {
         if (message.getCommandSender() instanceof Player) {
             if (!((Player) message.getCommandSender()).isOp()) {
-                message.getCommandSender().sendMessage("No permission");
+                message.getCommandSender().sendRawMessage("No permission");
                 return;
             }
         }
 
-        String reason = message.requireStringMessage(true);
-        if (reason.equals("")) {
-            reason = CleanstoneServer.getMessage("game.command.cleanstone.default-stop-reason");
-        }
-        Text reasonText = Text.of(reason);
+        Text reason = message.optionalTextMessage().orElse(
+                Text.ofLocalized("game.command.cleanstone.default-stop-reason",
+                        CleanstoneServer.getDefaultLocale()));
 
         List<ListenableFuture<Void>> listenableFutures = playerManager.getOnlinePlayers().stream()
-                .map(player -> player.kick(reasonText))
+                .map(player -> player.kick(reason))
                 .map(future -> JdkFutureAdapters.listenInPoolThread(future, executor))
                 .collect(Collectors.toList());
         Futures.whenAllComplete(listenableFutures).run(() -> {

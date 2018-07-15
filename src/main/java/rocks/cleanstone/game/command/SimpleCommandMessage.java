@@ -1,11 +1,14 @@
 package rocks.cleanstone.game.command;
 
 import com.google.common.base.Preconditions;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.completion.CompletionContext;
 import rocks.cleanstone.game.command.completion.SimpleCompletionContext;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
@@ -13,14 +16,14 @@ import rocks.cleanstone.player.Player;
 
 public class SimpleCommandMessage implements CommandMessage {
 
-    private final CommandSender commandSender;
+    private final MessageRecipient commandSender;
     private final String fullMessage;
     private final String commandName;
     private final List<String> parameters;
     private final CommandRegistry commandRegistry;
     private int parameterIndex = 0;
 
-    public SimpleCommandMessage(CommandSender commandSender, String fullMessage, String commandName,
+    public SimpleCommandMessage(MessageRecipient commandSender, String fullMessage, String commandName,
                                 List<String> parameters, CommandRegistry commandRegistry) {
         this.commandSender = commandSender;
         this.fullMessage = fullMessage;
@@ -30,7 +33,7 @@ public class SimpleCommandMessage implements CommandMessage {
     }
 
     @Override
-    public CommandSender getCommandSender() {
+    public MessageRecipient getCommandSender() {
         return commandSender;
     }
 
@@ -59,8 +62,10 @@ public class SimpleCommandMessage implements CommandMessage {
         this.parameterIndex = parameterIndex;
     }
 
-    private String getNextParameter() {
-        return parameters.size() <= parameterIndex ? null : parameters.get(parameterIndex);
+    @Override
+    public <T> T requireParameter(Class<T> parameterClass) {
+        return optionalParameter(parameterClass)
+                .orElseThrow(() -> new NotEnoughParametersException(parameters.size(), parameterIndex + 1));
     }
 
     @Override
@@ -78,9 +83,21 @@ public class SimpleCommandMessage implements CommandMessage {
     }
 
     @Override
-    public <T> T requireParameter(Class<T> parameterClass) {
-        return optionalParameter(parameterClass)
-                .orElseThrow(() -> new NotEnoughParametersException(parameters.size(), parameterIndex + 1));
+    public <T> Collection<T> requireVarargParameter(Class<T> parameterClass, boolean allowEmpty) {
+        Collection<T> collection = new ArrayList<>();
+        while (isParameterPresent(parameterClass)) {
+            collection.add(requireParameter(parameterClass));
+        }
+
+        if (collection.isEmpty() && !allowEmpty) {
+            throw new NotEnoughParametersException(parameters.size(), parameterIndex + 1);
+        }
+        return collection;
+    }
+
+    @Override
+    public boolean isParameterPresent(Class<?> parameterClass) {
+        return getParameter(parameterClass) != null;
     }
 
     @Override
@@ -96,27 +113,30 @@ public class SimpleCommandMessage implements CommandMessage {
     }
 
     @Override
-    public String requireStringMessage(boolean optional) {
-        return requireVarargParameter(String.class, optional).stream()
+    public String requireStringMessage() {
+        return optionalStringMessage()
+                .orElseThrow(() -> new NotEnoughParametersException(parameters.size(), parameterIndex + 1));
+    }
+
+    @Override
+    public Optional<String> optionalStringMessage() {
+        String message = requireVarargParameter(String.class, true).stream()
                 .collect(Collectors.joining(" "));
+        return message.equals("") ? Optional.empty() : Optional.of(message);
     }
 
     @Override
-    public <T> Collection<T> requireVarargParameter(Class<T> parameterClass, boolean allowEmpty) {
-        Collection<T> collection = new ArrayList<>();
-        while (isParameterPresent(parameterClass)) {
-            collection.add(requireParameter(parameterClass));
-        }
-
-        if (collection.isEmpty() && !allowEmpty) {
-            requireParameter(parameterClass);
-        }
-        return collection;
+    public Text requireTextMessage() {
+        return Text.of(requireStringMessage());
     }
 
     @Override
-    public boolean isParameterPresent(Class<?> parameterClass) {
-        return getParameter(parameterClass) != null;
+    public Optional<Text> optionalTextMessage() {
+        return optionalStringMessage().map(Text::of);
+    }
+
+    private String getNextParameter() {
+        return parameters.size() <= parameterIndex ? null : parameters.get(parameterIndex);
     }
 
     private <T> T getParameter(Class<T> parameterClass) {

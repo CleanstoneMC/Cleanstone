@@ -28,5 +28,5 @@ public interface CommandRegistry {
 
     void executeCommand(Command command, CommandMessage commandMessage);
 
-    void executeCommand(String commandLine, CommandSender sender);
+    void executeCommand(String commandLine, MessageRecipient sender);
 }

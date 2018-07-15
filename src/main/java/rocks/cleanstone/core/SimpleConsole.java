@@ -3,6 +3,9 @@ package rocks.cleanstone.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+
+import java.util.Locale;
+
 import rocks.cleanstone.game.chat.ConsoleSender;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandRegistry;
@@ -13,13 +16,23 @@ public class SimpleConsole implements ConsoleSender {
     private CommandRegistry commandRegistry;
 
     @Override
-    public void sendMessage(Text message) {
+    public void sendRawMessage(Text message) {
         logger.info(message.getPlainText());
     }
 
     @Override
-    public void sendMessage(String message) {
-        logger.info(message);
+    public void sendRawMessage(String message) {
+        sendRawMessage(Text.of(message));
+    }
+
+    @Override
+    public void sendMessage(String messageID, Object... args) {
+        sendRawMessage(Text.ofLocalized(messageID, getLocale(), args));
+    }
+
+    @Override
+    public Locale getLocale() {
+        return CleanstoneServer.getDefaultLocale();
     }
 
     @Override
@@ -37,7 +50,7 @@ public class SimpleConsole implements ConsoleSender {
         if (commandRegistry != null) {
             commandRegistry.executeCommand(inputEvent.getInput(), this);
         } else {
-            sendMessage("No command registry available");
+            sendRawMessage("No command registry available");
         }
     }
 }

@@ -1,9 +1,9 @@
 package rocks.cleanstone.game.chat;
 
 import rocks.cleanstone.game.command.CommandRegistry;
-import rocks.cleanstone.game.command.CommandSender;
+import rocks.cleanstone.game.command.MessageRecipient;
 
-public interface ConsoleSender extends CommandSender {
+public interface ConsoleSender extends MessageRecipient {
 
     void run();
 

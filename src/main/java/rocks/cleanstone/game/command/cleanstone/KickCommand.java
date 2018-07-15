@@ -1,8 +1,8 @@
 package rocks.cleanstone.game.command.cleanstone;
 
-import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandMessage;
+import rocks.cleanstone.game.command.MessageRecipient;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.player.Player;
 
@@ -14,19 +14,19 @@ public class KickCommand extends SimpleCommand {
 
     @Override
     public void execute(CommandMessage message) {
-        if (message.getCommandSender() instanceof Player) {
-            if (!((Player) message.getCommandSender()).isOp()) {
-                message.getCommandSender().sendMessage("No permission");
+        MessageRecipient sender = message.getCommandSender();
+        if (sender instanceof Player) {
+            if (!((Player) sender).isOp()) {
+                sender.sendRawMessage("No permission");
                 return;
             }
         }
 
         Player target = message.requireParameter(Player.class);
-        String reason = message.optionalParameter(String.class)
-                .orElseGet(() -> CleanstoneServer.getMessage("game.command.cleanstone.default-kick-reason"));
-        target.kick(Text.of(reason));
-        message.getCommandSender().sendMessage(Text.of(CleanstoneServer.getMessage(
-                "game.command.cleanstone.kicked-player", target.getId().getName(), reason)));
+        Text reason = message.optionalTextMessage().orElse(
+                Text.ofLocalized("game.command.cleanstone.default-kick-reason", target.getLocale()));
+        target.kick(reason);
+        sender.sendMessage("game.command.cleanstone.kicked-player", target.getId().getName(), reason);
     }
 
     @Override

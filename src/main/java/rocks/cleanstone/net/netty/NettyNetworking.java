@@ -58,7 +58,7 @@ public class NettyNetworking extends AbstractNetworking {
     @EventListener
     public void onPreDestroy(ContextClosedEvent e) {
         playerManager.getOnlinePlayers().forEach(player -> player.kick(
-                Text.ofMessage("game.command.cleanstone.default-stop-reason", player.getLocale())));
+                Text.ofLocalized("game.command.cleanstone.default-stop-reason", player.getLocale())));
         logger.info("Closing " + protocol.getClass().getSimpleName());
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();

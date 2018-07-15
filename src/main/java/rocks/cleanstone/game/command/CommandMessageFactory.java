@@ -10,7 +10,7 @@ public class CommandMessageFactory {
     private CommandMessageFactory() {
     }
 
-    public static CommandMessage construct(CommandSender commandSender, String message,
+    public static CommandMessage construct(MessageRecipient commandSender, String message,
                                            CommandRegistry commandRegistry) {
         String messageWithoutSlash = getMessageWithoutSlash(message);
 

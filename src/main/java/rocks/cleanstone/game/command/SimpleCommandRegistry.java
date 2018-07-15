@@ -128,7 +128,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
     @Async("commandExec")
     @Override
-    public void executeCommand(String commandLine, CommandSender sender) {
+    public void executeCommand(String commandLine, MessageRecipient sender) {
         Preconditions.checkNotNull(commandLine, "commandLine cannot be null");
         Preconditions.checkNotNull(sender, "sender cannot be null");
 
@@ -136,7 +136,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
         Command command = getCommand(commandMessage.getCommandName());
 
         if (command == null) {
-            sender.sendMessage(CleanstoneServer.getMessage(
+            sender.sendRawMessage(CleanstoneServer.getMessage(
                     "game.command.command-not-found", commandMessage.getCommandName()));
             return;
         }

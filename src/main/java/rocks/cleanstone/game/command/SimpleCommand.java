@@ -97,7 +97,7 @@ public class SimpleCommand implements Command {
     }
 
     @Override
-    public boolean allowsSender(CommandSender sender) {
+    public boolean allowsSender(MessageRecipient sender) {
         if (!allowsPlayer() && sender instanceof Player) return false;
         return allowsConsole() || !(sender instanceof ConsoleSender);
     }

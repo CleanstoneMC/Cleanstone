@@ -23,7 +23,7 @@ public class Text {
         return new Text(plainText);
     }
 
-    public static Text ofMessage(String messageID, Locale locale, Object... args) {
+    public static Text ofLocalized(String messageID, Locale locale, Object... args) {
         return new Text(CleanstoneServer.getMessageOfLocale(messageID, locale, args));
     }
 

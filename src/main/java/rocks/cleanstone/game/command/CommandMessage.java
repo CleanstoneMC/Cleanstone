@@ -2,12 +2,13 @@ package rocks.cleanstone.game.command;
 
 import java.util.Collection;
 import java.util.List;
-
 import java.util.Optional;
+
+import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.player.Player;
 
 public interface CommandMessage {
-    CommandSender getCommandSender();
+    MessageRecipient getCommandSender();
 
     String getFullMessage();
 
@@ -19,15 +20,21 @@ public interface CommandMessage {
 
     void setParameterIndex(int index);
 
-    Player requireTargetPlayer();
-
-    String requireStringMessage(boolean optional);
+    <T> T requireParameter(Class<T> parameterClass);
 
     <T> Optional<T> optionalParameter(Class<T> parameterClass);
-
-    <T> T requireParameter(Class<T> parameterClass);
 
     <T> Collection<T> requireVarargParameter(Class<T> parameterClass, boolean allowEmpty);
 
     boolean isParameterPresent(Class<?> parameterClass);
+
+    Player requireTargetPlayer();
+
+    String requireStringMessage();
+
+    Optional<String> optionalStringMessage();
+
+    Text requireTextMessage();
+
+    Optional<Text> optionalTextMessage();
 }
