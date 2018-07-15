@@ -17,4 +17,6 @@ public interface PlayerDataSource {
 
     <T extends Serializable> void setPlayerData(Player player, PlayerDataType type, T playerData)
             throws IOException;
+
+    void close();
 }

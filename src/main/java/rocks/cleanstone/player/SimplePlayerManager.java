@@ -144,4 +144,8 @@ public class SimplePlayerManager implements PlayerManager {
         }
         return dataFolder;
     }
+
+    void destroy() {
+        playerDataSource.close();
+    }
 }
