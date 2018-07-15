@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.inventory.item.SimpleItemStack;
@@ -219,16 +221,17 @@ public class ByteBufUtils {
         byteBuf.writeByte(0); // TODO Item NBT
     }
 
+    @Nullable
     public static ItemStack readItemStack(ByteBuf byteBuf, MaterialRegistry materialRegistry) {
         short itemID = byteBuf.readShort();
         ItemType itemType = materialRegistry.getItemType(itemID);
-        Preconditions.checkNotNull(itemType, "Cannot find itemType with ID " + itemID);
         if (itemID != -1) {
+            Preconditions.checkNotNull(itemType, "Cannot find itemType with ID " + itemID);
             byte itemCount = byteBuf.readByte();
             short itemMetadata = byteBuf.readShort();
             byte nbtStartByte = byteBuf.readByte(); // TODO Item NBT
             return new SimpleItemStack(itemType, itemCount, itemMetadata, null);
         }
-        return new SimpleItemStack(itemType, (byte) -1, (short) -1, null);
+        return null;
     }
 }
