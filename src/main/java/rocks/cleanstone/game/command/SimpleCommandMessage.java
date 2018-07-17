@@ -70,7 +70,7 @@ public class SimpleCommandMessage implements CommandMessage {
         }
         T result = getParameter(parameterClass);
         if (result == null) {
-            throw new InvalidParameterException(nextParameter, parameterClass);
+            throw new InvalidParameterException(nextParameter, parameterClass, parameterIndex);
         }
         parameterIndex++;
         return result;
@@ -115,7 +115,7 @@ public class SimpleCommandMessage implements CommandMessage {
                     if (commandSender instanceof Player) {
                         return (Player) commandSender;
                     } else {
-                        throw new NoValidTargetException(commandSender);
+                        throw new NoValidTargetException(commandSender, parameterIndex);
                     }
                 });
     }

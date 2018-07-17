@@ -18,7 +18,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.command.executor.HelpPageExecutor;
+import rocks.cleanstone.game.command.executor.InvalidUsageExecutor;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
 
 public class SimpleCommandRegistry implements CommandRegistry {
@@ -119,8 +119,8 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
         try {
             command.execute(commandMessage, true);
-        } catch (InvalidParameterException | NotEnoughParametersException e) {
-            new HelpPageExecutor(command).execute(commandMessage);
+        } catch (CommandException e) {
+            new InvalidUsageExecutor(command, e).execute(commandMessage);
         } catch (Exception e) {
             throw new CommandException("Error occurred while executing command " + command.getName(), e);
         }

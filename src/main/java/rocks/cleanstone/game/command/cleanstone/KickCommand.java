@@ -28,9 +28,4 @@ public class KickCommand extends SimpleCommand {
         target.kick(reason);
         sender.sendMessage("game.command.cleanstone.kicked-player", target.getName(), reason);
     }
-
-    @Override
-    public Class[] getExpectedParameterTypes() {
-        return new Class[]{Player.class, String.class};
-    }
 }

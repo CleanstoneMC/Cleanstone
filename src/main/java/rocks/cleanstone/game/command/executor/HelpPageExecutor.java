@@ -12,7 +12,7 @@ public class HelpPageExecutor implements CommandExecutor {
     }
 
     @Override
-    public void execute(CommandMessage commandMessage) {
-        commandMessage.getCommandSender().sendRawMessage("Invalid usage: " + commandMessage.getFullMessage());
+    public void execute(CommandMessage message) {
+        // TODO
     }
 }

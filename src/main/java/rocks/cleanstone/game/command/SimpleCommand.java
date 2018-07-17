@@ -1,19 +1,24 @@
 package rocks.cleanstone.game.command;
 
+import com.google.common.base.CaseFormat;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 
-import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.ConsoleSender;
 import rocks.cleanstone.game.command.executor.CommandExecutor;
 import rocks.cleanstone.game.command.executor.HelpPageExecutor;
@@ -115,6 +120,19 @@ public class SimpleCommand implements Command {
     @Override
     public Collection<Command> getParents() {
         return parents;
+    }
+
+    @Override
+    public String getUsage() {
+        String text = CleanstoneServer.getMessage("game.command.invalid-usage.text"),
+                number = CleanstoneServer.getMessage("game.command.invalid-usage.number");
+        return "/" + name + " " + Joiner.on(" ").join(
+                Arrays.stream(getExpectedParameterTypes())
+                        .map(Class::getSimpleName)
+                        .map(name -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, name))
+                        .map(name -> name.replace("string", text.toLowerCase())
+                                .replaceAll("int|double", number.toLowerCase()))
+                        .collect(Collectors.toList()));
     }
 
     /**
