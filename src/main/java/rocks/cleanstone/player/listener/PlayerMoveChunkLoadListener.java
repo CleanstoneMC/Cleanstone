@@ -4,7 +4,10 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -25,6 +28,8 @@ import rocks.cleanstone.player.event.PlayerQuitEvent;
 public class PlayerMoveChunkLoadListener {
 
     private final Multimap<UUID, Pair<Integer, Integer>> playerHasLoaded = ArrayListMultimap.create();
+    private final Map<UUID, Object> lockMap = new ConcurrentHashMap<>();
+    private final Map<UUID, AtomicInteger> updateCounterMap = new ConcurrentHashMap<>();
     private final MinecraftConfig minecraftConfig;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -46,13 +51,22 @@ public class PlayerMoveChunkLoadListener {
         if (chunkUpdateNotNeeded(playerMoveEvent, chunkX, chunkY, uuid)) {
             return;
         }
-        synchronized (playerHasLoaded.get(uuid)) {
+
+        int initialValue = updateCounterMap.computeIfAbsent(uuid, k -> new AtomicInteger(0)).incrementAndGet();
+        synchronized (lockMap.computeIfAbsent(uuid, k -> new Object())) {
+            // return early if the player already moved further
+            if (initialValue != updateCounterMap.get(uuid).get()) {
+                return;
+            }
             // check again because the chunk could already have been loaded inside synchronized block
             if (chunkUpdateNotNeeded(playerMoveEvent, chunkX, chunkY, uuid)) {
                 return;
             }
-            sendNewNearbyChunks(player, chunkX, chunkY);
+
+            logger.info("loading chunks around {}, {} for {}", chunkX, chunkY, player.getID().getName());
+            sendNewNearbyChunks(player, chunkX, chunkY, initialValue);
             unloadRemoteChunks(player, chunkX, chunkY);
+            logger.info("done loading chunks for {}", player.getID().getName());
         }
     }
 
@@ -61,7 +75,7 @@ public class PlayerMoveChunkLoadListener {
                 && hasPlayerLoaded(uuid, chunkX, chunkY);
     }
 
-    protected void sendNewNearbyChunks(Player player, int chunkX, int chunkY) {
+    protected void sendNewNearbyChunks(Player player, int chunkX, int chunkY, int initialCount) {
         final int sendDistance = player.getViewDistance() + 1;
         UUID uuid = player.getID().getUUID();
 
@@ -72,11 +86,16 @@ public class PlayerMoveChunkLoadListener {
             }
         }
 
-        builder.build().parallel()
+        builder.build()
                 .filter(coord -> !hasPlayerLoaded(uuid, coord.getLeft(), coord.getRight()))
                 .filter(coord -> isWithinRange(chunkX, chunkY, coord.getLeft(), coord.getRight(), sendDistance))
                 .sorted(Comparator.comparingInt(p -> Math.abs(chunkX - p.getLeft()) + Math.abs(chunkY - p.getRight())))
                 .forEach(coords -> {
+                    // stop sending if the player already moved further
+                    if (updateCounterMap.get(uuid).get() != initialCount) {
+                        return;
+                    }
+
                     final int currentX = coords.getLeft();
                     final int currentY = coords.getRight();
 
@@ -90,7 +109,7 @@ public class PlayerMoveChunkLoadListener {
         UUID uuid = player.getID().getUUID();
 
         // copy to avoid ConcurrentModificationException on unload
-        new ArrayList<>(playerHasLoaded.get(uuid)).parallelStream()
+        new ArrayList<>(playerHasLoaded.get(uuid)).stream()
                 .filter(chunk -> hasPlayerLoaded(uuid, chunk.getLeft(), chunk.getRight()))
                 .filter(chunk -> !isWithinRange(chunkX, chunkY, chunk.getLeft(), chunk.getRight(), sendDistance))
                 .forEach(chunk -> {
@@ -152,7 +171,13 @@ public class PlayerMoveChunkLoadListener {
         return playerHasLoaded.get(uuid).contains(Pair.of(chunkX, chunkY));
     }
 
-    private synchronized void playerUnloadAll(UUID uuid) {
-        playerHasLoaded.removeAll(uuid);
+    private void playerUnloadAll(UUID uuid) {
+        // request stop of loading process
+        updateCounterMap.computeIfAbsent(uuid, k -> new AtomicInteger(0)).incrementAndGet();
+        synchronized (lockMap.computeIfAbsent(uuid, k -> new Object())) {
+            playerHasLoaded.removeAll(uuid);
+            updateCounterMap.remove(uuid);
+            lockMap.remove(uuid);
+        }
     }
 }
