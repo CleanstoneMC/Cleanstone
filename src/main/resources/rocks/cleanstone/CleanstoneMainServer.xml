@@ -32,7 +32,7 @@
 
     <!-- SERVER -->
     <bean id="cleanstoneMainServer" class="rocks.cleanstone.core.CleanstoneMainServer"/>
-    <bean id="simpleConsole" class="rocks.cleanstone.core.SimpleConsole"/>
+    <bean id="simpleConsole" class="rocks.cleanstone.game.SimpleConsole"/>
 
     <!-- Events -->
     <bean id="cleanstoneEventPublisher" class="rocks.cleanstone.core.event.CleanstoneEventPublisher"/>

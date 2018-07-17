@@ -36,7 +36,7 @@ public class PlayerParameter implements CompletableParameter<Player> {
     @Override
     public List<String> getCompletion(CompletionContext<Player> context) {
         return playerManager.getOnlinePlayers().stream()
-                .map(player -> player.getId().getName())
+                .map(player -> player.getID().getName())
                 .filter(playerName -> playerName.toLowerCase(Locale.ENGLISH)
                         .startsWith(context.getInput().toLowerCase(Locale.ENGLISH)))
                 .collect(Collectors.toList());

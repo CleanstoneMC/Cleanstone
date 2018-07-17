@@ -13,7 +13,7 @@ import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
 import rocks.cleanstone.net.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.player.OnlinePlayer;
 import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.PlayerID;
+import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.AsyncPlayerLoginEvent;
 
@@ -31,7 +31,7 @@ public class PlayerInitializationCauseListener {
     @EventListener
     public synchronized void onPlayerLoginSuccess(AsyncLoginSuccessEvent loginEvent) {
         Connection connection = loginEvent.getConnection();
-        PlayerID playerID = playerManager.getPlayerID(loginEvent.getUUID(), loginEvent.getName());
+        Identity playerID = playerManager.getPlayerID(loginEvent.getUUID(), loginEvent.getName());
 
         Player alreadyOnlinePlayer = playerManager.getOnlinePlayer(playerID);
         if (alreadyOnlinePlayer != null) {

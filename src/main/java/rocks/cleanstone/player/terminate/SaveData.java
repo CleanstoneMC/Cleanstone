@@ -40,7 +40,7 @@ public class SaveData {
             playerManager.getPlayerDataSource().setPlayerData(player, StandardPlayerDataType.ENTITY_DATA,
                     entityData);
         } catch (IOException e1) {
-            logger.error("Failed to save player data for " + player.getId().getName(), e1);
+            logger.error("Failed to save player data for " + player, e1);
         }
     }
 }

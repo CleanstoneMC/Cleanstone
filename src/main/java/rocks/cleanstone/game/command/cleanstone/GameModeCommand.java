@@ -30,7 +30,7 @@ public class GameModeCommand extends SimpleCommand {
         }
         if (target != message.getCommandSender() || !gameModeChanged) {
             message.getCommandSender().sendMessage("game.command.cleanstone.changed-gamemode",
-                    target.getId().getName(), gameMode.getName());
+                    target.getName(), gameMode.getName());
         }
     }
 }

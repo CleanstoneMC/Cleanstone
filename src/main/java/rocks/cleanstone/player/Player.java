@@ -7,17 +7,17 @@ import java.util.concurrent.Future;
 
 import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.chat.message.Text;
-import rocks.cleanstone.game.command.MessageRecipient;
+import rocks.cleanstone.game.command.CommandSender;
+import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
 import rocks.cleanstone.net.packet.enums.PlayerAbility;
+import rocks.cleanstone.player.event.PlayerMoveEvent;
 
-public interface Player extends MessageRecipient {
-
-    PlayerID getId();
+public interface Player extends CommandSender {
 
     void sendPacket(Packet packet);
 

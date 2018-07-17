@@ -17,6 +17,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
@@ -31,7 +32,7 @@ public class SimplePlayerManager implements PlayerManager {
 
     private final Collection<Player> onlinePlayers = Sets.newConcurrentHashSet();
     private final Collection<Player> terminatingPlayers = Sets.newConcurrentHashSet();
-    private final Collection<PlayerID> playerIDs = Sets.newConcurrentHashSet();
+    private final Collection<Identity> playerIDs = Sets.newConcurrentHashSet();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final PlayerDataSource playerDataSource;
 
@@ -46,9 +47,9 @@ public class SimplePlayerManager implements PlayerManager {
 
     @Override
     @Nullable
-    public Player getOnlinePlayer(PlayerID id) {
+    public Player getOnlinePlayer(Identity id) {
         return onlinePlayers.stream()
-                .filter(player -> player.getId().equals(id))
+                .filter(player -> player.getID().equals(id))
                 .findFirst().orElse(null);
     }
 
@@ -65,17 +66,17 @@ public class SimplePlayerManager implements PlayerManager {
     @Nullable
     public Player getOnlinePlayer(String name) {
         return onlinePlayers.stream()
-                .filter(player -> player.getId().getName().equalsIgnoreCase(name))
+                .filter(player -> player.getID().getName().equalsIgnoreCase(name))
                 .findAny().orElse(null);
     }
 
     @Override
-    public Collection<PlayerID> getAllPlayerIDs() {
+    public Collection<Identity> getAllPlayerIDs() {
         return ImmutableSet.copyOf(playerIDs);
     }
 
     @Override
-    public PlayerID getPlayerID(UUID uuid, String accountName) {
+    public Identity getPlayerID(UUID uuid, String accountName) {
         return playerIDs.stream().filter(id -> id.getUUID().equals(uuid)).findFirst()
                 .orElse(registerNewPlayerID(uuid, accountName));
     }
@@ -85,14 +86,14 @@ public class SimplePlayerManager implements PlayerManager {
         return playerDataSource;
     }
 
-    private PlayerID registerNewPlayerID(UUID uuid, String accountName) {
-        PlayerID id = new SimplePlayerID(uuid, accountName);
+    private Identity registerNewPlayerID(UUID uuid, String accountName) {
+        Identity id = new SimplePlayerIdentity(uuid, accountName);
         playerIDs.add(id);
         return id;
     }
 
     @Override
-    public boolean isPlayerOperator(PlayerID playerID) {
+    public boolean isPlayerOperator(Identity playerID) {
         List<String> ops = CleanstoneServer.getInstance().getMinecraftConfig().getOps();
         return ops.contains(playerID.getName()) || ops.contains(playerID.getUUID().toString()); //TODO: Make this beauty <3
     }
@@ -112,7 +113,7 @@ public class SimplePlayerManager implements PlayerManager {
         try {
             CleanstoneServer.publishEvent(new AsyncPlayerInitializationEvent(player), true);
         } catch (Exception e) {
-            logger.error("Error occurred during player initialization for " + player.getId().getName(), e);
+            logger.error("Error occurred during player initialization for " + player, e);
             player.kick(Text.of("Error occurred during player initialization"));
             return;
         }

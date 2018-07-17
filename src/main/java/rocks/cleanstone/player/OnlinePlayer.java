@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.util.Collection;
 import java.util.concurrent.Future;
 
+import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.ChatPosition;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
@@ -16,7 +17,7 @@ public class OnlinePlayer extends AbstractPlayer {
     private final Connection connection;
     private final Collection<UserProperty> userProperties;
 
-    public OnlinePlayer(PlayerID id, Connection connection, Collection<UserProperty> userProperties) {
+    public OnlinePlayer(Identity id, Connection connection, Collection<UserProperty> userProperties) {
         super(id);
         this.connection = connection;
         this.userProperties = userProperties;

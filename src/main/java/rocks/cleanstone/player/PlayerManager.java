@@ -3,6 +3,8 @@ package rocks.cleanstone.player;
 import java.util.Collection;
 import java.util.UUID;
 import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.player.data.PlayerDataSource;
@@ -12,7 +14,7 @@ public interface PlayerManager {
     Collection<Player> getOnlinePlayers();
 
     @Nullable
-    Player getOnlinePlayer(PlayerID id);
+    Player getOnlinePlayer(Identity id);
 
     @Nullable
     Player getOnlinePlayer(Connection connection);
@@ -20,9 +22,9 @@ public interface PlayerManager {
     @Nullable
     Player getOnlinePlayer(String name);
 
-    Collection<PlayerID> getAllPlayerIDs();
+    Collection<Identity> getAllPlayerIDs();
 
-    PlayerID getPlayerID(UUID uuid, String accountName);
+    Identity getPlayerID(UUID uuid, String accountName);
 
     PlayerDataSource getPlayerDataSource();
 
@@ -30,7 +32,7 @@ public interface PlayerManager {
 
     void terminatePlayer(Player player);
 
-    boolean isPlayerOperator(PlayerID playerID);
+    boolean isPlayerOperator(Identity playerID);
 
     void broadcastPacket(Packet packet, Player... broadcastExemptions);
 

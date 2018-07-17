@@ -8,7 +8,7 @@ import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.player.Player;
 
 public interface CommandMessage {
-    MessageRecipient getCommandSender();
+    CommandSender getCommandSender();
 
     String getFullMessage();
 

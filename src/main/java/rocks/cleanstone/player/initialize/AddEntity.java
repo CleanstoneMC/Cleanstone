@@ -50,7 +50,7 @@ public class AddEntity {
             entityData = playerManager.getPlayerDataSource().getPlayerData(player,
                     StandardPlayerDataType.ENTITY_DATA);
         } catch (IOException e1) {
-            logger.error("Player data of " + player.getId().getName() + " is corrupted", e1);
+            logger.error("Player data of " + player.getName() + " is corrupted", e1);
         }
         HeadRotatablePosition position;
         GameMode gameMode;

@@ -128,7 +128,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
     @Async("commandExec")
     @Override
-    public void executeCommand(String commandLine, MessageRecipient sender) {
+    public void executeCommand(String commandLine, CommandSender sender) {
         Preconditions.checkNotNull(commandLine, "commandLine cannot be null");
         Preconditions.checkNotNull(sender, "sender cannot be null");
 

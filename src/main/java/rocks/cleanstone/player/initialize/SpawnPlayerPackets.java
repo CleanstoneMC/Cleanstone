@@ -37,7 +37,7 @@ public class SpawnPlayerPackets {
         RotatablePosition position = entity.getPosition();
 
         SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(entity.getEntityID(),
-                player.getId().getUUID(), position, null); //TODO: Add Metadata
+                player.getID().getUUID(), position, null); //TODO: Add Metadata
 
         playerManager.broadcastPacket(spawnPlayerPacket, player);
     }
@@ -56,7 +56,7 @@ public class SpawnPlayerPackets {
                     RotatablePosition position = entity.getPosition();
 
                     SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(entity.getEntityID(),
-                            onlinePlayer.getId().getUUID(), position, null); //TODO: Add Metadata
+                            onlinePlayer.getID().getUUID(), position, null); //TODO: Add Metadata
 
                     player.sendPacket(spawnPlayerPacket);
                 });

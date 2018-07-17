@@ -4,19 +4,21 @@ import com.google.common.base.Objects;
 
 import java.util.UUID;
 
-public class SimplePlayerID implements PlayerID {
+import rocks.cleanstone.game.Identity;
+
+public class SimplePlayerIdentity implements Identity {
 
     private final UUID uuid;
     private String accountName;
     private String name;
 
-    public SimplePlayerID(UUID uuid, String accountName, String name) {
+    public SimplePlayerIdentity(UUID uuid, String accountName, String name) {
         this.uuid = uuid;
         this.accountName = accountName;
         this.name = name;
     }
 
-    public SimplePlayerID(UUID uuid, String accountName) {
+    public SimplePlayerIdentity(UUID uuid, String accountName) {
         this(uuid, accountName, accountName);
     }
 
@@ -38,14 +40,14 @@ public class SimplePlayerID implements PlayerID {
 
     @Override
     public String toString() {
-        return name + " (" + uuid.toString() + ")";
+        return uuid.toString();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SimplePlayerID)) return false;
-        SimplePlayerID that = (SimplePlayerID) o;
+        if (!(o instanceof SimplePlayerIdentity)) return false;
+        SimplePlayerIdentity that = (SimplePlayerIdentity) o;
         return Objects.equal(uuid, that.uuid);
     }
 

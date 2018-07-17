@@ -16,14 +16,14 @@ import rocks.cleanstone.player.Player;
 
 public class SimpleCommandMessage implements CommandMessage {
 
-    private final MessageRecipient commandSender;
+    private final CommandSender commandSender;
     private final String fullMessage;
     private final String commandName;
     private final List<String> parameters;
     private final CommandRegistry commandRegistry;
     private int parameterIndex = 0;
 
-    public SimpleCommandMessage(MessageRecipient commandSender, String fullMessage, String commandName,
+    public SimpleCommandMessage(CommandSender commandSender, String fullMessage, String commandName,
                                 List<String> parameters, CommandRegistry commandRegistry) {
         this.commandSender = commandSender;
         this.fullMessage = fullMessage;
@@ -33,7 +33,7 @@ public class SimpleCommandMessage implements CommandMessage {
     }
 
     @Override
-    public MessageRecipient getCommandSender() {
+    public CommandSender getCommandSender() {
         return commandSender;
     }
 

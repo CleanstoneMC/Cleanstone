@@ -1,8 +1,8 @@
-package rocks.cleanstone.player;
+package rocks.cleanstone.game;
 
 import java.util.UUID;
 
-public interface PlayerID {
+public interface Identity {
     String getName();
 
     UUID getUUID();

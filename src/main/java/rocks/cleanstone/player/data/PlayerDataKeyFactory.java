@@ -11,7 +11,7 @@ public class PlayerDataKeyFactory {
 
     public static ByteBuf create(Player player, PlayerDataType type) {
         ByteBuf buf = Unpooled.buffer();
-        ByteBufUtils.writeUUID(buf, player.getId().getUUID());
+        ByteBufUtils.writeUUID(buf, player.getID().getUUID());
         ByteBufUtils.writeVarInt(buf, type.getTypeID());
         return buf;
     }

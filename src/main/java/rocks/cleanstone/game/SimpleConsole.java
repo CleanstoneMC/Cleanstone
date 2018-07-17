@@ -1,11 +1,17 @@
-package rocks.cleanstone.core;
+package rocks.cleanstone.game;
+
+import com.google.common.base.Charsets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
 import java.util.Locale;
+import java.util.UUID;
 
+import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.core.ConsoleInputEvent;
+import rocks.cleanstone.core.ConsoleInputEventPublisher;
 import rocks.cleanstone.game.chat.ConsoleSender;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandRegistry;
@@ -36,6 +42,16 @@ public class SimpleConsole implements ConsoleSender {
     }
 
     @Override
+    public Identity getID() {
+        return new ConsoleIdentity(UUID.nameUUIDFromBytes("Console:0".getBytes(Charsets.UTF_8)));
+    }
+
+    @Override
+    public String getName() {
+        return getID().getName();
+    }
+
+    @Override
     public void run() {
         ConsoleInputEventPublisher.startInstance();
     }
@@ -51,6 +67,24 @@ public class SimpleConsole implements ConsoleSender {
             commandRegistry.executeCommand(inputEvent.getInput(), this);
         } else {
             sendRawMessage("No command registry available");
+        }
+    }
+
+    public static class ConsoleIdentity implements Identity {
+        private final UUID uuid;
+
+        public ConsoleIdentity(UUID uuid) {
+            this.uuid = uuid;
+        }
+
+        @Override
+        public String getName() {
+            return CleanstoneServer.getMessage("game.console-name");
+        }
+
+        @Override
+        public UUID getUUID() {
+            return uuid;
         }
     }
 }

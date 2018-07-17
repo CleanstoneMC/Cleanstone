@@ -5,18 +5,25 @@ import com.google.common.base.Objects;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.concurrent.ThreadLocalRandom;
 
+import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.ChatMode;
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
+import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
 import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
 import rocks.cleanstone.net.packet.enums.PlayerAbility;
+import rocks.cleanstone.net.packet.outbound.OutPlayerPositionAndLookPacket;
+import rocks.cleanstone.player.event.PlayerMoveEvent;
 
 public abstract class AbstractPlayer implements Player {
 
-    protected final PlayerID id;
+    protected final Identity id;
     protected Human entity;
     private boolean op = false, flying = false;
     private GameMode gameMode = VanillaGameMode.CREATIVE;
@@ -27,13 +34,18 @@ public abstract class AbstractPlayer implements Player {
     private MainHandSide mainHandSide = MainHandSide.RIGHT;
     private Collection<DisplayedSkinPart> displayedSkinParts = new HashSet<>();
 
-    public AbstractPlayer(PlayerID id) {
+    public AbstractPlayer(Identity id) {
         this.id = id;
     }
 
     @Override
-    public PlayerID getId() {
+    public Identity getID() {
         return id;
+    }
+
+    @Override
+    public String getName() {
+        return id.getName();
     }
 
     @Override

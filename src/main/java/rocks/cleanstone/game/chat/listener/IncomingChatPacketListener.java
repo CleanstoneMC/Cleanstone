@@ -12,7 +12,7 @@ import rocks.cleanstone.game.chat.event.PlayerIssuedCommandEvent;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.packet.inbound.InChatMessagePacket;
 import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.PlayerID;
+import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.player.PlayerManager;
 
 public class IncomingChatPacketListener {
@@ -34,7 +34,7 @@ public class IncomingChatPacketListener {
 
         Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
         if (player == null) return;
-        PlayerID playerID = player.getId();
+        Identity playerID = player.getID();
         String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
 
         InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());

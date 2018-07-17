@@ -1,9 +1,9 @@
 package rocks.cleanstone.game.chat.message;
 
-import rocks.cleanstone.player.Player;
+import rocks.cleanstone.game.command.CommandSender;
 
 public class ChatMessage extends Text {
-    public ChatMessage(Player sender, String message) {
-        super(sender.getId().getName() + ": " + message);
+    public ChatMessage(CommandSender sender, String message) {
+        super(sender.getName() + ": " + message);
     }
 }

@@ -26,7 +26,7 @@ public class KickCommand extends SimpleCommand {
         Text reason = message.optionalTextMessage().orElse(
                 Text.ofLocalized("game.command.cleanstone.default-kick-reason", target.getLocale()));
         target.kick(reason);
-        sender.sendMessage("game.command.cleanstone.kicked-player", target.getId().getName(), reason);
+        sender.sendMessage("game.command.cleanstone.kicked-player", target.getName(), reason);
     }
 
     @Override

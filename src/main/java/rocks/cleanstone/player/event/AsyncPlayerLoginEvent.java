@@ -4,18 +4,18 @@ import java.util.Collection;
 
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.game.chat.message.Text;
-import rocks.cleanstone.player.PlayerID;
+import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.player.UserProperty;
 
 public class AsyncPlayerLoginEvent {
 
     private final Connection connection;
-    private final PlayerID playerID;
+    private final Identity playerID;
     private final Collection<UserProperty> userProperties;
     private Text kickReason = Text.of("");
     private boolean cancelled = false;
 
-    public AsyncPlayerLoginEvent(Connection connection, PlayerID playerID,
+    public AsyncPlayerLoginEvent(Connection connection, Identity playerID,
                                  Collection<UserProperty> userProperties) {
         this.connection = connection;
         this.playerID = playerID;
@@ -26,7 +26,7 @@ public class AsyncPlayerLoginEvent {
         return connection;
     }
 
-    public PlayerID getPlayerID() {
+    public Identity getPlayerID() {
         return playerID;
     }
 
