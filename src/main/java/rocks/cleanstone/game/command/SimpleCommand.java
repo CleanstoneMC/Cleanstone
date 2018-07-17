@@ -3,10 +3,6 @@ package rocks.cleanstone.game.command;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,7 +13,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.ConsoleSender;
 import rocks.cleanstone.game.command.executor.CommandExecutor;
@@ -60,7 +57,7 @@ public class SimpleCommand implements Command {
     }
 
     public SimpleCommand(String name) {
-        this(name, new ArrayList<>(), null);
+        this(name, new ArrayList<>(), new Class[0]);
     }
 
     @Override
@@ -103,7 +100,9 @@ public class SimpleCommand implements Command {
 
     @Override
     public boolean allowsSender(MessageRecipient sender) {
-        if (!allowsPlayer() && sender instanceof Player) return false;
+        if (!allowsPlayer() && sender instanceof Player) {
+            return false;
+        }
         return allowsConsole() || !(sender instanceof ConsoleSender);
     }
 
@@ -142,7 +141,9 @@ public class SimpleCommand implements Command {
     public void execute(CommandMessage commandMessage) {
         if (commandExecutor != null) {
             commandExecutor.execute(commandMessage);
-        } else new HelpPageExecutor(this).execute(commandMessage);
+        } else {
+            new HelpPageExecutor(this).execute(commandMessage);
+        }
     }
 
     /**
