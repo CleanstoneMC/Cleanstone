@@ -35,7 +35,7 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
             }
             if (CleanstoneServer.publishEvent(
                     new OutboundPacketEvent(packet, connection, networking)).isCancelled()) return;
-            logger.info("Sending " + packet.getType() + " packet to " + connection.getAddress().getHostAddress());
+            logger.trace("Sending " + packet.getType() + " packet to " + connection.getAddress().getHostAddress());
             ctx.write(packet, promise);
         } catch (Exception e) {
             logger.error("Error occurred while handling outbound packet", e);
