@@ -2,19 +2,16 @@ package rocks.cleanstone.player.listener;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.UUID;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.UUID;
-
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.Position;
@@ -45,42 +42,65 @@ public class PlayerMoveChunkLoadListener {
         final Player player = playerMoveEvent.getPlayer();
         UUID uuid = player.getID().getUUID();
 
-        if (isSameChunk(playerMoveEvent.getOldPosition(), playerMoveEvent.getNewPosition())
-                && hasPlayerLoaded(uuid, chunkX, chunkY)) {
+        // reject unneeded updates early
+        if (chunkUpdateNotNeeded(playerMoveEvent, chunkX, chunkY, uuid)) {
             return;
         }
-        sendNewNearbyChunks(player, chunkX, chunkY);
+        synchronized (playerHasLoaded.get(uuid)) {
+            // check again because the chunk could already have been loaded inside synchronized block
+            if (chunkUpdateNotNeeded(playerMoveEvent, chunkX, chunkY, uuid)) {
+                return;
+            }
+            sendNewNearbyChunks(player, chunkX, chunkY);
+            unloadRemoteChunks(player, chunkX, chunkY);
+        }
     }
 
-    protected synchronized void sendNewNearbyChunks(Player player, int chunkX, int chunkY) {
-        final int sendDistance = player.getViewDistance() + 1;
-        final int checkDistance = sendDistance + 5;
+    protected boolean chunkUpdateNotNeeded(PlayerMoveEvent playerMoveEvent, int chunkX, int chunkY, UUID uuid) {
+        return isSameChunk(playerMoveEvent.getOldPosition(), playerMoveEvent.getNewPosition())
+                && hasPlayerLoaded(uuid, chunkX, chunkY);
+    }
 
+    protected void sendNewNearbyChunks(Player player, int chunkX, int chunkY) {
+        final int sendDistance = player.getViewDistance() + 1;
         UUID uuid = player.getID().getUUID();
-        Collection<Pair<Integer, Integer>> relCoordinates = new HashSet<>();
-        for (int relX = -checkDistance; relX < checkDistance; relX++) {
-            for (int relY = -checkDistance; relY < checkDistance; relY++) {
-                relCoordinates.add(Pair.of(relX, relY));
+
+        Stream.Builder<Pair<Integer, Integer>> builder = Stream.builder();
+        for (int x = chunkX - sendDistance; x <= chunkX + sendDistance; x++) {
+            for (int y = chunkY - sendDistance; y <= chunkY + sendDistance; y++) {
+                builder.accept(Pair.of(x, y));
             }
         }
-        relCoordinates.stream()
-                .sorted(Comparator.comparingInt(p -> Math.abs(p.getLeft()) + Math.abs(p.getRight())))
-                .forEach(sortedCoordinates -> {
-                    int relX = sortedCoordinates.getLeft(), relY = sortedCoordinates.getRight();
-                    final int currentX = chunkX + relX;
-                    final int currentY = chunkY + relY;
 
-                    if (relX < -sendDistance || relX > sendDistance
-                            || relY < -sendDistance || relY > sendDistance) {
-                        if (hasPlayerLoaded(uuid, currentX, currentY)) {
-                            playerUnload(uuid, currentX, currentY);
-                            sendChunkUnload(player, currentX, currentY);
-                        }
-                    } else if (!hasPlayerLoaded(uuid, currentX, currentY)) {
-                        playerLoad(uuid, currentX, currentY);
-                        sendChunkLoad(player, currentX, currentY);
-                    }
+        builder.build().parallel()
+                .filter(coord -> !hasPlayerLoaded(uuid, coord.getLeft(), coord.getRight()))
+                .filter(coord -> isWithinRange(chunkX, chunkY, coord.getLeft(), coord.getRight(), sendDistance))
+                .sorted(Comparator.comparingInt(p -> Math.abs(chunkX - p.getLeft()) + Math.abs(chunkY - p.getRight())))
+                .forEach(coords -> {
+                    final int currentX = coords.getLeft();
+                    final int currentY = coords.getRight();
+
+                    playerLoad(uuid, currentX, currentY);
+                    sendChunkLoad(player, currentX, currentY);
                 });
+    }
+
+    protected void unloadRemoteChunks(Player player, int chunkX, int chunkY) {
+        final int sendDistance = player.getViewDistance() + 1;
+        UUID uuid = player.getID().getUUID();
+
+        // copy to avoid ConcurrentModificationException on unload
+        new ArrayList<>(playerHasLoaded.get(uuid)).parallelStream()
+                .filter(chunk -> hasPlayerLoaded(uuid, chunk.getLeft(), chunk.getRight()))
+                .filter(chunk -> !isWithinRange(chunkX, chunkY, chunk.getLeft(), chunk.getRight(), sendDistance))
+                .forEach(chunk -> {
+                    playerUnload(uuid, chunk.getLeft(), chunk.getRight());
+                    sendChunkUnload(player, chunk.getLeft(), chunk.getRight());
+                });
+    }
+
+    protected boolean isWithinRange(int x1, int y1, int x2, int y2, int range) {
+        return Math.abs(x2 - x1) <= range && Math.abs(y2 - y1) <= range;
     }
 
     protected void sendChunkUnload(Player player, int x, int y) {
