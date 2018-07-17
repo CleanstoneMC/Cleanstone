@@ -7,6 +7,8 @@ import rocks.cleanstone.game.gamemode.GameMode;
 
 public class EntityData implements Serializable {
 
+    private static final long serialVersionUID = -45622734L;
+
     private final RotatablePosition logoutPosition;
     private final String logoutWorldID;
     private final GameMode gameMode;

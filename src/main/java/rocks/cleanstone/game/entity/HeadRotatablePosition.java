@@ -8,6 +8,8 @@ import rocks.cleanstone.game.Position;
 
 public class HeadRotatablePosition extends RotatablePosition implements Serializable {
 
+    private static final long serialVersionUID = -28351072972L;
+
     protected Rotation headRotation;
 
     public HeadRotatablePosition(Position position, Rotation rotation, Rotation headRotation) {

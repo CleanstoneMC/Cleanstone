@@ -11,6 +11,8 @@ import rocks.cleanstone.utils.Vector;
  */
 public class Position implements Serializable {
 
+    private static final long serialVersionUID = -978234L;
+
     protected double x, y, z;
 
     public Position(double x, double y, double z) {

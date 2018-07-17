@@ -8,6 +8,8 @@ import rocks.cleanstone.utils.Vector;
 
 public class Rotation implements Serializable {
 
+    private static final long serialVersionUID = -6234637L;
+
     protected float yaw, pitch;
 
     public Rotation(float yaw, float pitch) {
