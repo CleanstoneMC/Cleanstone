@@ -53,7 +53,7 @@ public class PlayerMoveChunkLoadListener {
     }
 
     protected synchronized void sendNewNearbyChunks(Player player, int chunkX, int chunkY) {
-        final int sendDistance = player.getViewDistance();
+        final int sendDistance = player.getViewDistance() + 1;
         final int checkDistance = sendDistance + 5;
 
         UUID uuid = player.getID().getUUID();
