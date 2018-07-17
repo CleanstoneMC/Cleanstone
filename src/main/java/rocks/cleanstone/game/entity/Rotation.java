@@ -64,4 +64,9 @@ public class Rotation implements Serializable {
     public int hashCode() {
         return Objects.hashCode(yaw, pitch);
     }
+
+    @Override
+    public String toString() {
+        return Math.round(yaw) + ":" + Math.round(pitch);
+    }
 }

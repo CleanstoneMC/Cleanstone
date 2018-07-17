@@ -89,4 +89,9 @@ public class Position implements Serializable {
     public int hashCode() {
         return Objects.hashCode(x, y, z);
     }
+
+    @Override
+    public String toString() {
+        return "X=" + Math.round(x) + ";Y=" + Math.round(y) + ";Z=" + Math.round(z);
+    }
 }

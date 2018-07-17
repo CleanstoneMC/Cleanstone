@@ -37,9 +37,11 @@ public class PlayerMovePacketListener {
             newPosition.setRotation(new Rotation(newPosition.getHeadRotation()));
         }
 
-        entity.setPosition(newPosition);
-
-        CleanstoneServer.publishEvent(new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition));
+        if (!CleanstoneServer.publishEvent(
+                new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition,
+                        PlayerMoveEvent.StandardMoveReason.CLIENT_ACTION)).isCancelled()) {
+            entity.setPosition(newPosition);
+        }
     }
 
     @Async(value = "playerExec")
@@ -60,9 +62,11 @@ public class PlayerMovePacketListener {
         newPosition.setY(packet.getFeetY());
         newPosition.setZ(packet.getZ());
 
-        entity.setPosition(newPosition);
-
-        CleanstoneServer.publishEvent(new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition));
+        if (!CleanstoneServer.publishEvent(
+                new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition,
+                        PlayerMoveEvent.StandardMoveReason.CLIENT_ACTION)).isCancelled()) {
+            entity.setPosition(newPosition);
+        }
     }
 
     @Async(value = "playerExec")
@@ -88,8 +92,10 @@ public class PlayerMovePacketListener {
 
         newPosition.setHeadRotation(newPosition.getRotation());
 
-        entity.setPosition(newPosition);
-
-        CleanstoneServer.publishEvent(new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition));
+        if (!CleanstoneServer.publishEvent(
+                new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition,
+                        PlayerMoveEvent.StandardMoveReason.CLIENT_ACTION)).isCancelled()) {
+            entity.setPosition(newPosition);
+        }
     }
 }

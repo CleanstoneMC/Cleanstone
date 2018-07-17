@@ -104,6 +104,19 @@ public abstract class AbstractPlayer implements Player {
         return abilities;
     }
 
+    @Override
+    public void teleport(RotatablePosition newPosition, PlayerMoveEvent.MoveReason moveReason) {
+        RotatablePosition oldPosition = entity.getPosition();
+        PlayerMoveEvent event = new PlayerMoveEvent(this, new HeadRotatablePosition(oldPosition),
+                new HeadRotatablePosition(newPosition), moveReason);
+        if (!CleanstoneServer.publishEvent(event).isCancelled()) {
+            getEntity().setPosition(newPosition);
+            OutPlayerPositionAndLookPacket packet = new OutPlayerPositionAndLookPacket(newPosition, 0,
+                    ThreadLocalRandom.current().nextInt());
+            sendPacket(packet);
+        }
+    }
+
     public int getViewDistance() {
         return viewDistance;
     }

@@ -43,9 +43,8 @@ public class WorldPackets {
         player.sendPacket(new OutPlayerAbilitiesPacket(
                 player.getAbilities().toArray(new PlayerAbility[0]), player.getFlyingSpeed(), 0));
 
-        player.sendPacket(new OutPlayerPositionAndLookPacket(playerPosition.getX(), playerPosition.getY(),
-                playerPosition.getZ(), playerPosition.getRotation().getYaw(),
-                playerPosition.getRotation().getPitch(), 0, ThreadLocalRandom.current().nextInt()));
+        player.sendPacket(new OutPlayerPositionAndLookPacket(playerPosition, 0,
+                ThreadLocalRandom.current().nextInt()));
 
         //player.sendPacket(new WindowItemsPacket(0,));
     }

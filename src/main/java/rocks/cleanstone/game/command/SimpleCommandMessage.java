@@ -64,8 +64,16 @@ public class SimpleCommandMessage implements CommandMessage {
 
     @Override
     public <T> T requireParameter(Class<T> parameterClass) {
-        return optionalParameter(parameterClass)
-                .orElseThrow(() -> new NotEnoughParametersException(parameters.size(), parameterIndex + 1));
+        String nextParameter = getNextParameter();
+        if (nextParameter == null) {
+            throw new NotEnoughParametersException(parameters.size(), parameters.size() + 1);
+        }
+        T result = getParameter(parameterClass);
+        if (result == null) {
+            throw new InvalidParameterException(nextParameter, parameterClass);
+        }
+        parameterIndex++;
+        return result;
     }
 
     @Override
@@ -76,7 +84,7 @@ public class SimpleCommandMessage implements CommandMessage {
         }
         T result = getParameter(parameterClass);
         if (result == null) {
-            throw new InvalidParameterException(nextParameter, parameterClass);
+            return Optional.empty();
         }
         parameterIndex++;
         return Optional.of(result);

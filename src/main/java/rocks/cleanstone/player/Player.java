@@ -70,4 +70,6 @@ public interface Player extends CommandSender {
     void setDisplayedSkinParts(Collection<DisplayedSkinPart> displayedSkinParts);
 
     Collection<PlayerAbility> getAbilities();
+
+    void teleport(RotatablePosition position, PlayerMoveEvent.MoveReason moveReason);
 }

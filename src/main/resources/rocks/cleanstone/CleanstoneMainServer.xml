@@ -106,12 +106,14 @@
     <bean id="alertCommand" class="rocks.cleanstone.game.command.cleanstone.AlertCommand"/>
     <bean id="gameModeCommand" class="rocks.cleanstone.game.command.cleanstone.GameModeCommand"/>
     <bean id="setCommand" class="rocks.cleanstone.game.command.cleanstone.SetCommand"/>
+    <bean id="teleportCommand" class="rocks.cleanstone.game.command.cleanstone.TeleportCommand"/>
 
     <!-- (Command Parameters) -->
     <bean id="stringParameter" class="rocks.cleanstone.game.command.parameter.StringParameter"/>
     <bean id="intParameter" class="rocks.cleanstone.game.command.parameter.IntParameter"/>
     <bean id="playerParameter" class="rocks.cleanstone.game.command.parameter.PlayerParameter"/>
     <bean id="enumParameter" class="rocks.cleanstone.game.command.parameter.EnumParameter"/>
+    <bean id="doubleParameter" class="rocks.cleanstone.game.command.parameter.DoubleParameter"/>
 
     <!-- NETWORKING -->
     <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"/>

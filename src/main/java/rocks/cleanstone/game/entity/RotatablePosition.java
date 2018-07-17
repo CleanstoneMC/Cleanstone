@@ -41,4 +41,9 @@ public class RotatablePosition extends Position implements Serializable {
     public int hashCode() {
         return Objects.hashCode(super.hashCode(), rotation);
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ";Rot=" + rotation;
+    }
 }

@@ -43,7 +43,7 @@ public class PlayerMoveChunkLoadListener {
         final int chunkY = ((int) playerMoveEvent.getNewPosition().getZ()) >> 4;
 
         final Player player = playerMoveEvent.getPlayer();
-        UUID uuid = player.getId().getUUID();
+        UUID uuid = player.getID().getUUID();
 
         if (isSameChunk(playerMoveEvent.getOldPosition(), playerMoveEvent.getNewPosition())
                 && hasPlayerLoaded(uuid, chunkX, chunkY)) {
@@ -56,7 +56,7 @@ public class PlayerMoveChunkLoadListener {
         final int sendDistance = player.getViewDistance();
         final int checkDistance = sendDistance + 5;
 
-        UUID uuid = player.getId().getUUID();
+        UUID uuid = player.getID().getUUID();
         Collection<Pair<Integer, Integer>> relCoordinates = new HashSet<>();
         for (int relX = -checkDistance; relX < checkDistance; relX++) {
             for (int relY = -checkDistance; relY < checkDistance; relY++) {
@@ -107,7 +107,7 @@ public class PlayerMoveChunkLoadListener {
     @Async("playerExec")
     @EventListener
     public void onPlayerDisconnect(PlayerQuitEvent playerQuitEvent) {
-        playerUnloadAll(playerQuitEvent.getPlayer().getId().getUUID());
+        playerUnloadAll(playerQuitEvent.getPlayer().getID().getUUID());
     }
 
     private boolean isSameChunk(Position oldPosition, Position newPosition) {

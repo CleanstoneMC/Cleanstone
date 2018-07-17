@@ -1,6 +1,6 @@
 package rocks.cleanstone.game.command;
 
-public class NoValidTargetException extends RuntimeException {
+public class NoValidTargetException extends CommandException {
     private final MessageRecipient sender;
 
     public NoValidTargetException(MessageRecipient sender) {

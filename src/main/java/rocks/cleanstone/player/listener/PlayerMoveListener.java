@@ -63,14 +63,16 @@ public class PlayerMoveListener {
                 || deltaX < Short.MIN_VALUE || deltaY < Short.MIN_VALUE || deltaZ < Short.MIN_VALUE;
 
         if (teleport) {
-            EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, deltaX, deltaY, deltaZ, yaw, pitch, movingPlayer.isFlying());
-
+            EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, newPosition.getX(),
+                    newPosition.getY(), newPosition.getZ(), yaw, pitch, movingPlayer.isFlying());
+            // TODO viewers show teleported entity in wrong location
             playerManager.broadcastPacket(entityTeleportPacket, movingPlayer);
             return;
         }
 
         if (oldPosition.getRotation().equals(newPosition.getRotation())) {
-            EntityRelativeMovePacket entityRelativeMovePacket = new EntityRelativeMovePacket(entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), movingPlayer.isFlying());
+            EntityRelativeMovePacket entityRelativeMovePacket = new EntityRelativeMovePacket(entityID,
+                    ((short) deltaX), ((short) deltaY), ((short) deltaZ), movingPlayer.isFlying());
 
             playerManager.broadcastPacket(entityRelativeMovePacket, movingPlayer);
             return;
