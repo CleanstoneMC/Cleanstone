@@ -26,7 +26,7 @@ public interface CommandMessage {
 
     <T> Collection<T> requireVarargParameter(Class<T> parameterClass, boolean allowEmpty);
 
-    boolean isParameterPresent(Class<?> parameterClass);
+    boolean nextParameterIs(Class<?> parameterClass);
 
     Player requireTargetPlayer();
 

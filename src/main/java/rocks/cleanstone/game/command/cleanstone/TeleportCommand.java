@@ -22,8 +22,8 @@ public class TeleportCommand extends SimpleCommand {
         RotatablePosition newPosition;
         String targetID;
 
-        if (!message.isParameterPresent(Player.class)
-                && !message.isParameterPresent(Double.class)
+        if (!message.nextParameterIs(Player.class)
+                && !message.nextParameterIs(Double.class)
                 && p1 != message.getCommandSender()
                 && message.getCommandSender() instanceof Player) {
             // for /tp <destinationPlayer>
@@ -31,7 +31,7 @@ public class TeleportCommand extends SimpleCommand {
             p1 = (Player) message.getCommandSender();
             newPosition = p2.getEntity().getPosition();
             targetID = p2.getName();
-        } else if (message.isParameterPresent(Player.class)) {
+        } else if (message.nextParameterIs(Player.class)) {
             // for /tp <player> <destinationPlayer>
             Player p2 = message.requireParameter(Player.class);
             newPosition = p2.getEntity().getPosition();

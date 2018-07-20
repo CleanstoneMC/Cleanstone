@@ -151,7 +151,7 @@ public class SimpleCommand implements Command {
      */
     @Override
     public void execute(CommandMessage message, boolean considerSubCommands) {
-        if (considerSubCommands && message.isParameterPresent(String.class)) {
+        if (considerSubCommands && message.nextParameterIs(String.class)) {
             String parameter = message.requireParameter(String.class);
             Command subCommand = getSubCommands().get(parameter.toLowerCase(Locale.ENGLISH));
             if (subCommand != null) {

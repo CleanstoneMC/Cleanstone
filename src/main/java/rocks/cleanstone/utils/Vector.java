@@ -48,6 +48,10 @@ public class Vector {
         return x;
     }
 
+    public long getXAsLong() {
+        return (long) Math.floor(getX());
+    }
+
     public void setX(double x) {
         this.x = x;
     }
@@ -60,6 +64,10 @@ public class Vector {
         return y;
     }
 
+    public long getYAsLong() {
+        return (long) Math.floor(getY());
+    }
+
     public void setY(double y) {
         this.y = y;
     }
@@ -70,6 +78,10 @@ public class Vector {
 
     public double getZ() {
         return z;
+    }
+
+    public long getZAsLong() {
+        return (long) Math.floor(getZ());
     }
 
     public void setZ(double z) {

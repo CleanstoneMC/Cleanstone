@@ -41,7 +41,7 @@ public class PlayerMoveChunkLoadListener {
     @Async("playerExec")
     @EventListener
     public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
-        final int chunkX = ((int) playerMoveEvent.getNewPosition().getX()) >> 4;
+        final int chunkX = playerMoveEvent.getNewPosition().getXAsInt() >> 4;
         final int chunkY = ((int) playerMoveEvent.getNewPosition().getZ()) >> 4;
 
         final Player player = playerMoveEvent.getPlayer();
@@ -150,11 +150,11 @@ public class PlayerMoveChunkLoadListener {
     }
 
     private boolean isSameChunk(Position oldPosition, Position newPosition) {
-        final int oldChunkX = ((int) oldPosition.getX()) >> 4;
-        final int oldChunkY = ((int) oldPosition.getZ()) >> 4;
+        final int oldChunkX = oldPosition.getXAsInt() >> 4;
+        final int oldChunkY = oldPosition.getZAsInt() >> 4;
 
-        final int newChunkX = ((int) newPosition.getX()) >> 4;
-        final int newChunkY = ((int) newPosition.getZ()) >> 4;
+        final int newChunkX = newPosition.getXAsInt() >> 4;
+        final int newChunkY = newPosition.getZAsInt() >> 4;
 
         return oldChunkX == newChunkX && oldChunkY == newChunkY;
     }
