@@ -34,7 +34,6 @@ public class SimpleChunkProvider implements ChunkProvider {
             if (chunk == null) {
                 chunk = generator.generateChunk(x, y);
                 Preconditions.checkNotNull(chunk, "generated chunk cannot be null");
-                dataSource.saveChunk(chunk); //TODO: Remove this and create a correct Save system
             }
             return chunk;
         });
