@@ -24,5 +24,7 @@ public interface Region {
 
     void unloadChunk(int chunkX, int chunkY);
 
+    void unloadAllChunks();
+
     String getID();
 }

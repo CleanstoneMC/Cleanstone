@@ -60,7 +60,7 @@ public class SimpleWorldLoader implements WorldLoader {
     public void unloadWorld(World world) {
         logger.info("Unloading world '" + world.getID() + "'...");
 
-        world.getDataSource().close();
+        world.close();
 
         logger.info("World '" + world.getID() + "' unloaded.");
     }

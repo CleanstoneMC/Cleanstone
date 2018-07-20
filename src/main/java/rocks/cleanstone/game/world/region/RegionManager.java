@@ -20,4 +20,6 @@ public interface RegionManager {
     ListenableFuture<Region> getRegion(int chunkX, int chunkY);
 
     void unloadRegion(Region region);
+
+    void close();
 }

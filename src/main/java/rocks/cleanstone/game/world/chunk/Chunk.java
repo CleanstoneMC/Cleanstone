@@ -35,6 +35,8 @@ public interface Chunk {
 
     boolean hasSkylight();
 
+    boolean isDirty();
+
     BlockDataTable getBlockDataTable();
 
     BlockDataStorage getBlockDataStorage();

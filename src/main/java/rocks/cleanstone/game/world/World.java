@@ -35,4 +35,6 @@ public interface World {
     ListenableFuture<Chunk> getChunk(int chunkX, int chunkY);
 
     ListenableFuture<Chunk> getChunkAt(Position position);
+
+    void close();
 }

@@ -14,6 +14,7 @@ public class SimpleChunk implements Chunk {
     private final BlockDataStorage blockDataStorage;
     private final Collection<Entity> entityCollection;
     private final int x, y;
+    private boolean dirty = false;
     // TODO biome state
 
     public SimpleChunk(BlockDataTable blockDataTable, BlockDataStorage blockDataStorage,
@@ -61,6 +62,7 @@ public class SimpleChunk implements Chunk {
         blockDataTable.setBlock(x, y, z, block);
         // TODO run the following expensive operation async
         blockDataStorage.setBlockState(x, y, z, block.getState());
+        dirty = true;
     }
 
     @Override
@@ -72,6 +74,7 @@ public class SimpleChunk implements Chunk {
     public void setBlockLight(int x, int y, int z, byte blockLight) {
         blockDataTable.setBlockLight(x, y, z, blockLight);
         blockDataStorage.setBlockLight(x, y, z, blockLight);
+        dirty = true;
     }
 
     @Override
@@ -84,11 +87,17 @@ public class SimpleChunk implements Chunk {
         if (!hasSkylight()) return;
         blockDataTable.setSkyLight(x, y, z, skyLight);
         blockDataStorage.setSkyLight(x, y, z, skyLight);
+        dirty = true;
     }
 
     @Override
     public boolean hasSkylight() {
         return blockDataTable.hasSkylight();
+    }
+
+    @Override
+    public boolean isDirty() {
+        return dirty;
     }
 
     @Override

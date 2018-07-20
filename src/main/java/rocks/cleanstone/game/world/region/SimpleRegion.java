@@ -7,7 +7,6 @@ import com.google.common.cache.RemovalNotification;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import java.util.Collection;
-import java.util.concurrent.TimeUnit;
 import javax.annotation.Nullable;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -24,7 +23,6 @@ public class SimpleRegion implements Region {
     private ChunkProvider chunkProvider;
     private Cache<Pair<Integer, Integer>, Chunk> loadedChunks = CacheBuilder.newBuilder()
             .maximumSize(8192)
-            .expireAfterAccess(1, TimeUnit.MINUTES)
             .removalListener(this::removeChunkListener)
             .build();
 
@@ -40,7 +38,11 @@ public class SimpleRegion implements Region {
     }
 
     private void removeChunkListener(RemovalNotification removalNotification) {
-        this.chunkProvider.getDataSource().saveChunk((Chunk) removalNotification.getValue());
+        Chunk chunk = (Chunk) removalNotification.getValue();
+        if (chunk.isDirty()) {
+            logger.info("persisting chunk {}, {}", chunk.getX(), chunk.getY());
+            this.chunkProvider.getDataSource().saveChunk(chunk);
+        }
     }
 
     @Override
@@ -84,6 +86,11 @@ public class SimpleRegion implements Region {
         Preconditions.checkNotNull(chunk, "Cannot unload non-loaded chunk " + chunkX + ":" + chunkY);
 
         loadedChunks.invalidate(Pair.of(chunk.getX(), chunk.getY()));
+    }
+
+    @Override
+    public void unloadAllChunks() {
+        loadedChunks.invalidateAll();
     }
 
     @Override

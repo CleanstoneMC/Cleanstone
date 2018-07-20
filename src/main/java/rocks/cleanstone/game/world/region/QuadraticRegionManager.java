@@ -69,4 +69,9 @@ public class QuadraticRegionManager implements RegionManager {
         int y = chunkY >> 4;
         return Pair.of(x, y);
     }
+
+    @Override
+    public void close() {
+        regions.values().forEach(Region::unloadAllChunks);
+    }
 }

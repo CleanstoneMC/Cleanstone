@@ -1,13 +1,10 @@
 package rocks.cleanstone.game.world.region;
 
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.util.concurrent.ListenableFuture;
-
 import java.util.Collection;
 import java.util.Collections;
-
 import javax.annotation.Nullable;
-
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
 
 /**
@@ -49,5 +46,12 @@ public class SingleRegionManager implements RegionManager {
     @Override
     public void unloadRegion(Region region) {
         this.region = null;
+    }
+
+    @Override
+    public void close() {
+        if (region != null) {
+            region.unloadAllChunks();
+        }
     }
 }

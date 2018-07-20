@@ -130,7 +130,6 @@ public class SimpleGeneratedWorld implements World {
 
         getChunk(chunkX, chunkY).addCallback(chunk -> {
             chunk.setBlock(relX, y, relZ, block);
-            dataSource.saveChunk(chunk);
         }, throwable -> {
             logger.error("Failed to get chunk " + chunkX + ":" + chunkY + " in world " + id, throwable);
         });
@@ -157,5 +156,11 @@ public class SimpleGeneratedWorld implements World {
 
     private ListenableFuture<Region> getRegion(int chunkX, int chunkY) {
         return regionManager.getRegion(chunkX, chunkY);
+    }
+
+    @Override
+    public void close() {
+        regionManager.close();
+        getDataSource().close();
     }
 }
