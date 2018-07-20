@@ -30,7 +30,7 @@ public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
         if (packet.getType().getDirection() == PacketDirection.OUTBOUND) {
             throw new DecoderException("Received packet has invalid direction");
         }
-        logger.info("Received packet " + packet.getType() + " from " + connection.getAddress().getHostAddress());
+        logger.trace("Received packet " + packet.getType() + " from " + connection.getAddress().getHostAddress());
         CleanstoneServer.publishEvent(new InboundPacketEvent(packet, connection, networking));
     }
 
