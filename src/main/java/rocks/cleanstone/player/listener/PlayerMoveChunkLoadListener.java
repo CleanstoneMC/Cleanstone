@@ -42,7 +42,7 @@ public class PlayerMoveChunkLoadListener {
     @EventListener
     public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
         final int chunkX = playerMoveEvent.getNewPosition().getXAsInt() >> 4;
-        final int chunkY = ((int) playerMoveEvent.getNewPosition().getZ()) >> 4;
+        final int chunkY = playerMoveEvent.getNewPosition().getZAsInt() >> 4;
 
         final Player player = playerMoveEvent.getPlayer();
         UUID uuid = player.getID().getUUID();
