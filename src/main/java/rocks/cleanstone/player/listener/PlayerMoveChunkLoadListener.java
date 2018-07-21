@@ -80,15 +80,21 @@ public class PlayerMoveChunkLoadListener {
         UUID uuid = player.getID().getUUID();
 
         Stream.Builder<Pair<Integer, Integer>> builder = Stream.builder();
-        for (int x = chunkX - sendDistance; x <= chunkX + sendDistance; x++) {
-            for (int y = chunkY - sendDistance; y <= chunkY + sendDistance; y++) {
-                builder.accept(Pair.of(x, y));
+        builder.accept(Pair.of(chunkX, chunkY));
+        // generate positions around player in order of proximity
+        for (int distance = 1; distance <= sendDistance * 1.5; distance++) {
+            for (int relY = Math.max(0, distance - sendDistance); relY < Math.min(distance, sendDistance + 1); relY++) {
+                int relX = distance - relY;
+
+                builder.accept(Pair.of(chunkX + relX, chunkY + relY));
+                builder.accept(Pair.of(chunkX + relY, chunkY - relX));
+                builder.accept(Pair.of(chunkX - relX, chunkY - relY));
+                builder.accept(Pair.of(chunkX - relY, chunkY + relX));
             }
         }
 
         builder.build()
                 .filter(coord -> !hasPlayerLoaded(uuid, coord.getLeft(), coord.getRight()))
-                .sorted(Comparator.comparingInt(p -> Math.abs(chunkX - p.getLeft()) + Math.abs(chunkY - p.getRight())))
                 .forEach(coords -> {
                     // stop sending if the player already moved further
                     if (updateCounterMap.get(uuid).get() != initialCount) {
