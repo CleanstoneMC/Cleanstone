@@ -1,12 +1,6 @@
 package rocks.cleanstone.player;
 
 import com.google.common.base.Objects;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.concurrent.ThreadLocalRandom;
-
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.ChatMode;
@@ -21,13 +15,18 @@ import rocks.cleanstone.net.packet.enums.PlayerAbility;
 import rocks.cleanstone.net.packet.outbound.OutPlayerPositionAndLookPacket;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.concurrent.ThreadLocalRandom;
+
 public abstract class AbstractPlayer implements Player {
 
     protected final Identity id;
     protected Human entity;
     private boolean op = false, flying = false;
     private GameMode gameMode = VanillaGameMode.CREATIVE;
-    private float flyingSpeed = 0.4F;
+    private float flyingSpeed = 0.1F;
     private int viewDistance = 4;
     private Locale locale = Locale.ENGLISH;
     private ChatMode chatMode = ChatMode.ENABLED;
