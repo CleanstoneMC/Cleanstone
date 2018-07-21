@@ -187,9 +187,9 @@ public class ByteBufUtils {
     }
 
     public static void writeVector(ByteBuf byteBuf, Vector vector) {
-        final long x = (long) vector.getX();
-        final long y = (long) vector.getY();
-        final long z = (long) vector.getZ();
+        final long x = vector.getXAsLong();
+        final long y = vector.getYAsLong();
+        final long z = vector.getZAsLong();
 
         byteBuf.writeLong((x & 0x3ffffff) << 38 | (y & 0xfff) << 26 | z & 0x3ffffff);
     }

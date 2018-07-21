@@ -116,7 +116,7 @@ public class SimpleGeneratedWorld implements World {
 
     @Override
     public ListenableFuture<Block> getBlockAt(Position position) {
-        return getBlockAt((int) position.getX(), (int) position.getY(), (int) position.getZ());
+        return getBlockAt(position.getXAsInt(), position.getYAsInt(), position.getZAsInt());
     }
 
     @Override
@@ -137,7 +137,7 @@ public class SimpleGeneratedWorld implements World {
 
     @Override
     public void setBlockAt(Position position, Block block) {
-        setBlockAt((int) position.getX(), (int) position.getY(), (int) position.getZ(), block);
+        setBlockAt(position.getXAsInt(), position.getYAsInt(), position.getZAsInt(), block);
     }
 
     @Override
@@ -149,8 +149,8 @@ public class SimpleGeneratedWorld implements World {
 
     @Override
     public ListenableFuture<Chunk> getChunkAt(Position position) {
-        int chunkX = getChunkCoordinate((int) position.getX());
-        int chunkY = getChunkCoordinate((int) position.getZ());
+        int chunkX = getChunkCoordinate(position.getXAsInt());
+        int chunkY = getChunkCoordinate(position.getZAsInt());
         return getChunk(chunkX, chunkY);
     }
 

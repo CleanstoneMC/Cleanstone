@@ -33,6 +33,11 @@ public class Position implements Serializable {
         return x;
     }
 
+    // floor it, because -0.5 needs to become -1
+    public int getXAsInt() {
+        return (int) Math.floor(getX());
+    }
+
     public void setX(double x) {
         this.x = x;
     }
@@ -45,6 +50,10 @@ public class Position implements Serializable {
         return y;
     }
 
+    public int getYAsInt() {
+        return (int) Math.floor(getY());
+    }
+
     public void setY(double y) {
         this.y = y;
     }
@@ -55,6 +64,10 @@ public class Position implements Serializable {
 
     public double getZ() {
         return z;
+    }
+
+    public int getZAsInt() {
+        return (int) Math.floor(getZ());
     }
 
     public void setZ(double z) {
@@ -94,6 +107,6 @@ public class Position implements Serializable {
 
     @Override
     public String toString() {
-        return "X=" + Math.round(x) + ";Y=" + Math.round(y) + ";Z=" + Math.round(z);
+        return "X=" + getXAsInt() + ";Y=" + getYAsInt() + ";Z=" + getZAsInt();
     }
 }

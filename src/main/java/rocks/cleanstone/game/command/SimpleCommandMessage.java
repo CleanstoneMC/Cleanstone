@@ -93,7 +93,7 @@ public class SimpleCommandMessage implements CommandMessage {
     @Override
     public <T> Collection<T> requireVarargParameter(Class<T> parameterClass, boolean allowEmpty) {
         Collection<T> collection = new ArrayList<>();
-        while (isParameterPresent(parameterClass)) {
+        while (nextParameterIs(parameterClass)) {
             collection.add(requireParameter(parameterClass));
         }
 
@@ -104,7 +104,7 @@ public class SimpleCommandMessage implements CommandMessage {
     }
 
     @Override
-    public boolean isParameterPresent(Class<?> parameterClass) {
+    public boolean nextParameterIs(Class<?> parameterClass) {
         return getParameter(parameterClass) != null;
     }
 

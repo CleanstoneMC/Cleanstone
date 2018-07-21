@@ -1,13 +1,7 @@
 package rocks.cleanstone.game.command.executor;
 
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.command.Command;
-import rocks.cleanstone.game.command.CommandException;
-import rocks.cleanstone.game.command.CommandMessage;
-import rocks.cleanstone.game.command.CommandSender;
-import rocks.cleanstone.game.command.InvalidParameterException;
-import rocks.cleanstone.game.command.NoValidTargetException;
-import rocks.cleanstone.game.command.NotEnoughParametersException;
+import rocks.cleanstone.game.command.*;
 
 public class InvalidUsageExecutor implements CommandExecutor {
 
@@ -33,10 +27,7 @@ public class InvalidUsageExecutor implements CommandExecutor {
                     e.getRequiredAmount(), e.getGivenAmount());
         } else if (exception instanceof InvalidParameterException) {
             InvalidParameterException e = (InvalidParameterException) exception;
-            String text = CleanstoneServer.getMessage("game.command.invalid-usage.text"),
-                    number = CleanstoneServer.getMessage("game.command.invalid-usage.number");
-            String parameterName = e.getRequiredParameter().getSimpleName()
-                    .replace("String", text).replaceAll("Int|Double", number);
+            String parameterName = getParameterDisplayName(e.getRequiredParameter());
             sender.sendMessage("game.command.invalid-usage.invalid-parameter",
                     parameterName, e.getIndex() + 1, e.getGivenString());
         } else if (exception instanceof NoValidTargetException) {
@@ -44,5 +35,15 @@ public class InvalidUsageExecutor implements CommandExecutor {
             sender.sendMessage("game.command.invalid-usage.no-valid-target", e.getIndex() + 1);
         }
         sender.sendMessage("game.command.invalid-usage.usage", command.getUsage());
+    }
+
+    private String getParameterDisplayName(Class parameterType) {
+        if (String.class.isAssignableFrom(parameterType)) {
+            return CleanstoneServer.getMessage("game.command.invalid-usage.text");
+        } else if (Number.class.isAssignableFrom(parameterType)) {
+            return CleanstoneServer.getMessage("game.command.invalid-usage.number");
+        } else {
+            return parameterType.getSimpleName();
+        }
     }
 }

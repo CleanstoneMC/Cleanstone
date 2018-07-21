@@ -41,8 +41,8 @@ public class PlayerMoveChunkLoadListener {
     @Async("playerExec")
     @EventListener
     public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
-        final int chunkX = ((int) playerMoveEvent.getNewPosition().getX()) >> 4;
-        final int chunkY = ((int) playerMoveEvent.getNewPosition().getZ()) >> 4;
+        final int chunkX = playerMoveEvent.getNewPosition().getXAsInt() >> 4;
+        final int chunkY = playerMoveEvent.getNewPosition().getZAsInt() >> 4;
 
         final Player player = playerMoveEvent.getPlayer();
         UUID uuid = player.getID().getUUID();
@@ -80,16 +80,21 @@ public class PlayerMoveChunkLoadListener {
         UUID uuid = player.getID().getUUID();
 
         Stream.Builder<Pair<Integer, Integer>> builder = Stream.builder();
-        for (int x = chunkX - sendDistance; x <= chunkX + sendDistance; x++) {
-            for (int y = chunkY - sendDistance; y <= chunkY + sendDistance; y++) {
-                builder.accept(Pair.of(x, y));
+        builder.accept(Pair.of(chunkX, chunkY));
+        // generate positions around player in order of proximity
+        for (int distance = 1; distance <= sendDistance * 1.5; distance++) {
+            for (int relY = Math.max(0, distance - sendDistance); relY < Math.min(distance, sendDistance + 1); relY++) {
+                int relX = distance - relY;
+
+                builder.accept(Pair.of(chunkX + relX, chunkY + relY));
+                builder.accept(Pair.of(chunkX + relY, chunkY - relX));
+                builder.accept(Pair.of(chunkX - relX, chunkY - relY));
+                builder.accept(Pair.of(chunkX - relY, chunkY + relX));
             }
         }
 
         builder.build()
                 .filter(coord -> !hasPlayerLoaded(uuid, coord.getLeft(), coord.getRight()))
-                .filter(coord -> isWithinRange(chunkX, chunkY, coord.getLeft(), coord.getRight(), sendDistance))
-                .sorted(Comparator.comparingInt(p -> Math.abs(chunkX - p.getLeft()) + Math.abs(chunkY - p.getRight())))
                 .forEach(coords -> {
                     // stop sending if the player already moved further
                     if (updateCounterMap.get(uuid).get() != initialCount) {
@@ -110,8 +115,8 @@ public class PlayerMoveChunkLoadListener {
 
         // copy to avoid ConcurrentModificationException on unload
         new ArrayList<>(playerHasLoaded.get(uuid)).stream()
-                .filter(chunk -> hasPlayerLoaded(uuid, chunk.getLeft(), chunk.getRight()))
                 .filter(chunk -> !isWithinRange(chunkX, chunkY, chunk.getLeft(), chunk.getRight(), sendDistance))
+                .filter(chunk -> hasPlayerLoaded(uuid, chunk.getLeft(), chunk.getRight()))
                 .forEach(chunk -> {
                     playerUnload(uuid, chunk.getLeft(), chunk.getRight());
                     sendChunkUnload(player, chunk.getLeft(), chunk.getRight());
@@ -150,11 +155,11 @@ public class PlayerMoveChunkLoadListener {
     }
 
     private boolean isSameChunk(Position oldPosition, Position newPosition) {
-        final int oldChunkX = ((int) oldPosition.getX()) >> 4;
-        final int oldChunkY = ((int) oldPosition.getZ()) >> 4;
+        final int oldChunkX = oldPosition.getXAsInt() >> 4;
+        final int oldChunkY = oldPosition.getZAsInt() >> 4;
 
-        final int newChunkX = ((int) newPosition.getX()) >> 4;
-        final int newChunkY = ((int) newPosition.getZ()) >> 4;
+        final int newChunkX = newPosition.getXAsInt() >> 4;
+        final int newChunkY = newPosition.getZAsInt() >> 4;
 
         return oldChunkX == newChunkX && oldChunkY == newChunkY;
     }
