@@ -88,7 +88,6 @@ public class PlayerMoveChunkLoadListener {
 
         builder.build()
                 .filter(coord -> !hasPlayerLoaded(uuid, coord.getLeft(), coord.getRight()))
-                .filter(coord -> isWithinRange(chunkX, chunkY, coord.getLeft(), coord.getRight(), sendDistance))
                 .sorted(Comparator.comparingInt(p -> Math.abs(chunkX - p.getLeft()) + Math.abs(chunkY - p.getRight())))
                 .forEach(coords -> {
                     // stop sending if the player already moved further
@@ -110,8 +109,8 @@ public class PlayerMoveChunkLoadListener {
 
         // copy to avoid ConcurrentModificationException on unload
         new ArrayList<>(playerHasLoaded.get(uuid)).stream()
-                .filter(chunk -> hasPlayerLoaded(uuid, chunk.getLeft(), chunk.getRight()))
                 .filter(chunk -> !isWithinRange(chunkX, chunkY, chunk.getLeft(), chunk.getRight(), sendDistance))
+                .filter(chunk -> hasPlayerLoaded(uuid, chunk.getLeft(), chunk.getRight()))
                 .forEach(chunk -> {
                     playerUnload(uuid, chunk.getLeft(), chunk.getRight());
                     sendChunkUnload(player, chunk.getLeft(), chunk.getRight());
