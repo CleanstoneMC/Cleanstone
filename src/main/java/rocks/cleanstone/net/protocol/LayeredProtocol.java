@@ -70,11 +70,11 @@ public abstract class LayeredProtocol implements Protocol {
                 boolean skippedFirst = false;
                 for (ServerProtocolLayer serverLayer : protocolLayers) { // lower to higher
                     if (!skippedFirst) {
-                        skippedFirst = true;
                         serverLayer.getPacketCodec(packet.getClass()).encode(byteBuf, packet);
-                        continue;
+                    } else {
+                        serverLayer.getPacketCodec(packetClass).upgradeByteBuf(byteBuf);
                     }
-                    serverLayer.getPacketCodec(packetClass).upgradeByteBuf(byteBuf);
+                    skippedFirst = true;
                     if (serverLayer.getCorrespondingClientLayer().getOrderedVersionNumber() == clientLayer.getOrderedVersionNumber()) {
                         return byteBuf;
                     }
