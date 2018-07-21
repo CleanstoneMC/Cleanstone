@@ -29,7 +29,7 @@ public class StatusRequestListener {
     @EventListener
     public void onReceive(InboundPacketEvent event) {
         if (event.getPacket() instanceof RequestPacket) {
-            ClientProtocolLayer latestSupportedClientVersion = MinecraftClientProtocolLayer.getLatest();
+            ClientProtocolLayer latestSupportedClientVersion  = event.getConnection().getClientProtocolLayer();
 
             StatusResponse statusResponse = new StatusResponse(
                     new StatusResponse.Version(latestSupportedClientVersion.getName(),

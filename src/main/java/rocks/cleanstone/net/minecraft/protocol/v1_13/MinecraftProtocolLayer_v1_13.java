@@ -69,6 +69,6 @@ public class MinecraftProtocolLayer_v1_13 extends MinecraftServerProtocolLayer {
 
     @Override
     public int getOrderedID() {
-        return 0;
+        return 1;
     }
 }
