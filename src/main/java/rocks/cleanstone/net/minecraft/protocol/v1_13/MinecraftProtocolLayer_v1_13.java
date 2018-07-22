@@ -3,6 +3,7 @@ package rocks.cleanstone.net.minecraft.protocol.v1_13;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.SpawnMobCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.inbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.outbound.*;
 import rocks.cleanstone.net.packet.inbound.*;
@@ -34,6 +35,7 @@ public class MinecraftProtocolLayer_v1_13 extends MinecraftServerProtocolLayer {
         // outbound
         registerPacketCodec(new DisconnectCodec(), DisconnectPacket.class);
         registerPacketCodec(new DisconnectLoginCodec(), DisconnectLoginPacket.class);
+        registerPacketCodec(new SpawnMobCodec(), SpawnMobPacket.class);
         registerPacketCodec(new EncryptionResponseCodec(), EncryptionResponsePacket.class);
         registerPacketCodec(new SetCompressionCodec(), SetCompressionPacket.class);
         registerPacketCodec(new LoginSuccessCodec(), LoginSuccessPacket.class);

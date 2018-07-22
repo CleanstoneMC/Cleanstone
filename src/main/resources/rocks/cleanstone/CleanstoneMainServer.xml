@@ -101,6 +101,7 @@
 
     <!-- (Commands) -->
     <bean id="stopCommand" class="rocks.cleanstone.game.command.cleanstone.StopCommand"/>
+    <bean id="spawnCommand" class="rocks.cleanstone.game.command.cleanstone.SpawnCommand"/>
     <bean id="restartCommand" class="rocks.cleanstone.game.command.cleanstone.RestartCommand"/>
     <bean id="memCommand" class="rocks.cleanstone.game.command.cleanstone.MemCommand"/>
     <bean id="kickCommand" class="rocks.cleanstone.game.command.cleanstone.KickCommand"/>
@@ -115,6 +116,7 @@
     <bean id="playerParameter" class="rocks.cleanstone.game.command.parameter.PlayerParameter"/>
     <bean id="enumParameter" class="rocks.cleanstone.game.command.parameter.EnumParameter"/>
     <bean id="doubleParameter" class="rocks.cleanstone.game.command.parameter.DoubleParameter"/>
+    <bean id="floatParameter" class="rocks.cleanstone.game.command.parameter.FloatParameter"/>
 
     <!-- NETWORKING -->
     <bean id="abstractNetworking" class="rocks.cleanstone.net.AbstractNetworking" abstract="true"/>

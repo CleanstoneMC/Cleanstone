@@ -68,6 +68,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         // outbound
         registerPacketCodec(new DisconnectCodec(), DisconnectPacket.class);
         registerPacketCodec(new DisconnectLoginCodec(), DisconnectLoginPacket.class);
+        registerPacketCodec(new SpawnMobCodec(), SpawnMobPacket.class);
         registerPacketCodec(new EncryptionResponseCodec(), EncryptionResponsePacket.class);
         registerPacketCodec(new SetCompressionCodec(), SetCompressionPacket.class);
         registerPacketCodec(new LoginSuccessCodec(), LoginSuccessPacket.class);

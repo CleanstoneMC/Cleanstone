@@ -31,4 +31,4 @@ minecraft:
 
 logging.level.org.springframework: warn
 logging.level.com.whirvis.jraknet: warn
-logging.level.rocks.cleanstone: trace
+logging.level.rocks.cleanstone: debug
