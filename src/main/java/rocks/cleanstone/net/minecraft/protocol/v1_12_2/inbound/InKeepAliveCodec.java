@@ -1,13 +1,11 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.inbound.InKeepAlivePacket;
-import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
-import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.protocol.ProtocolState;
+import rocks.cleanstone.net.packet.inbound.InKeepAlivePacket;
+import rocks.cleanstone.net.protocol.PacketCodec;
 
-public class InKeepAliveCodec implements MinecraftPacketCodec {
+public class InKeepAliveCodec implements PacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) {
@@ -29,15 +27,5 @@ public class InKeepAliveCodec implements MinecraftPacketCodec {
     @Override
     public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
         return nextLayerByteBuf;
-    }
-
-    @Override
-    public int getProtocolPacketID() {
-        return 0x0B;
-    }
-
-    @Override
-    public ProtocolState getProtocolState() {
-        return VanillaProtocolState.PLAY;
     }
 }

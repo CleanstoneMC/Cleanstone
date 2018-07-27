@@ -1,13 +1,11 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.outbound.WindowItemsPacket;
-import rocks.cleanstone.net.minecraft.protocol.MinecraftPacketCodec;
-import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.protocol.ProtocolState;
+import rocks.cleanstone.net.packet.outbound.WindowItemsPacket;
+import rocks.cleanstone.net.protocol.PacketCodec;
 
-public class WindowItemsCodec implements MinecraftPacketCodec {
+public class WindowItemsCodec implements PacketCodec {
 
     @Override
     public Packet decode(ByteBuf byteBuf) {
@@ -33,15 +31,5 @@ public class WindowItemsCodec implements MinecraftPacketCodec {
     @Override
     public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
         return nextLayerByteBuf;
-    }
-
-    @Override
-    public int getProtocolPacketID() {
-        return 0x14;
-    }
-
-    @Override
-    public ProtocolState getProtocolState() {
-        return VanillaProtocolState.PLAY;
     }
 }

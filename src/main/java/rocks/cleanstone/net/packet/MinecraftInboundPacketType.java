@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.packet;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.net.packet.inbound.*;
+
+import javax.annotation.Nullable;
 
 public enum MinecraftInboundPacketType implements PacketType {
     HANDSHAKE(0, HandshakePacket.class),
@@ -55,7 +55,7 @@ public enum MinecraftInboundPacketType implements PacketType {
     @Nullable
     public static MinecraftInboundPacketType byPacketClass(Class<? extends Packet> packetClass) {
         for (MinecraftInboundPacketType type : values()) {
-            if (type.getPacketClass().getName().equals(packetClass.getName())) return type;
+            if (type.getPacketClass() == packetClass) return type;
         }
         return null;
     }
