@@ -2,6 +2,7 @@ package rocks.cleanstone.game.world.generation;
 
 import java.util.HashSet;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
@@ -17,6 +18,7 @@ public class FlatWorldGenerator implements WorldGenerator {
     private final BlockDataStorage blockDataStorage;
     private final MaterialRegistry materialRegistry;
 
+    @Autowired
     public FlatWorldGenerator(MaterialRegistry materialRegistry) {
         this.materialRegistry = materialRegistry;
         blockDataTable = new ArrayBlockDataTable(true);

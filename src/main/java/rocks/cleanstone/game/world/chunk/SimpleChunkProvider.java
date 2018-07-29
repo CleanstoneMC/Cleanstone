@@ -1,12 +1,10 @@
 package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Preconditions;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.task.AsyncListenableTaskExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
-
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 
@@ -17,26 +15,22 @@ public class SimpleChunkProvider implements ChunkProvider {
 
     private final WorldDataSource dataSource;
     private final WorldGenerator generator;
-    private final AsyncListenableTaskExecutor executor;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public SimpleChunkProvider(WorldDataSource dataSource, WorldGenerator generator,
-                               AsyncListenableTaskExecutor executor) {
+    @Autowired
+    public SimpleChunkProvider(WorldDataSource dataSource, WorldGenerator generator) {
         this.dataSource = dataSource;
         this.generator = generator;
-        this.executor = executor;
     }
 
+    @Async(value = "worldExec")
     @Override
     public ListenableFuture<Chunk> getChunk(int x, int y) {
-        return executor.submitListenable(() -> {
-            Chunk chunk = dataSource.loadExistingChunk(x, y);
-            if (chunk == null) {
-                chunk = generator.generateChunk(x, y);
-                Preconditions.checkNotNull(chunk, "generated chunk cannot be null");
-            }
-            return chunk;
-        });
+        Chunk chunk = dataSource.loadExistingChunk(x, y);
+        if (chunk == null) {
+            chunk = generator.generateChunk(x, y);
+            Preconditions.checkNotNull(chunk, "generated chunk cannot be null");
+        }
+        return new AsyncResult<>(chunk);
     }
 
     @Override

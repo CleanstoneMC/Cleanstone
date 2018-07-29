@@ -1,18 +1,16 @@
 package rocks.cleanstone.game.world;
 
 import com.google.common.base.Preconditions;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.task.AsyncListenableTaskExecutor;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
-
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.world.chunk.Chunk;
-import rocks.cleanstone.game.world.chunk.ChunkProvider;
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
@@ -21,37 +19,32 @@ import rocks.cleanstone.net.packet.enums.Difficulty;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
 
+import java.util.concurrent.ExecutionException;
+
 public class SimpleGeneratedWorld implements World {
 
     protected final WorldGenerator generator;
     protected final WorldDataSource dataSource;
     protected final RegionManager regionManager;
-    protected final ChunkProvider chunkProvider;
     private final String id;
-    private final AsyncListenableTaskExecutor executor;
     private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
     private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
     private LevelType levelType = LevelType.FLAT; //TODO: Move
     private RotatablePosition spawnPosition;
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public SimpleGeneratedWorld(String id, ChunkProvider chunkProvider, WorldGenerator generator,
-                                WorldDataSource dataSource, RegionManager regionManager,
-                                RotatablePosition spawnPosition,
-                                AsyncListenableTaskExecutor executor) {
+    public SimpleGeneratedWorld(String id, WorldGenerator generator, WorldDataSource dataSource,
+                                RegionManager regionManager, RotatablePosition spawnPosition) {
         this.id = id;
-        this.chunkProvider = chunkProvider;
         this.generator = generator;
         this.dataSource = dataSource;
         this.regionManager = regionManager;
         this.spawnPosition = spawnPosition;
-        this.executor = executor;
     }
 
-    public SimpleGeneratedWorld(String id, ChunkProvider chunkProvider, WorldGenerator generator,
-                                WorldDataSource dataSource, RegionManager regionManager,
-                                AsyncListenableTaskExecutor executor) {
-        this(id, chunkProvider, generator, dataSource, regionManager, null, executor);
+    public SimpleGeneratedWorld(String id, WorldGenerator generator, WorldDataSource dataSource,
+                                RegionManager regionManager) {
+        this(id, generator, dataSource, regionManager, null);
     }
 
     private static int getRelativeBlockCoordinate(int blockCoordinate) {
@@ -102,6 +95,7 @@ public class SimpleGeneratedWorld implements World {
         return dataSource;
     }
 
+    @Async(value = "worldExec")
     @Override
     public ListenableFuture<Block> getBlockAt(int x, int y, int z) {
         Preconditions.checkArgument(y < Chunk.HEIGHT && y >= 0,
@@ -109,9 +103,11 @@ public class SimpleGeneratedWorld implements World {
 
         int chunkX = getChunkCoordinate(x), chunkY = getChunkCoordinate(z);
         int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
-        return executor.submitListenable(() -> {
-            return getChunk(chunkX, chunkY).get().getBlock(relX, y, relZ);
-        });
+        try {
+            return new AsyncResult<>(getChunk(chunkX, chunkY).get().getBlock(relX, y, relZ));
+        } catch (InterruptedException | ExecutionException e) {
+            return AsyncResult.forExecutionException(e);
+        }
     }
 
     @Override
@@ -140,11 +136,14 @@ public class SimpleGeneratedWorld implements World {
         setBlockAt(position.getXAsInt(), position.getYAsInt(), position.getZAsInt(), block);
     }
 
+    @Async(value = "worldExec")
     @Override
     public ListenableFuture<Chunk> getChunk(int chunkX, int chunkY) {
-        return executor.submitListenable(() -> {
-            return getRegion(chunkX, chunkY).get().getChunk(chunkX, chunkY).get();
-        });
+        try {
+            return new AsyncResult<>(getRegion(chunkX, chunkY).get().getChunk(chunkX, chunkY).get());
+        } catch (InterruptedException | ExecutionException e) {
+            return AsyncResult.forExecutionException(e);
+        }
     }
 
     @Override

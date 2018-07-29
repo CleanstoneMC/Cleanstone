@@ -68,9 +68,24 @@
     <bean id="destroyPlayerPackets" class="rocks.cleanstone.player.terminate.DestroyPlayerPackets"/>
     <bean id="saveData" class="rocks.cleanstone.player.terminate.SaveData"/>
 
-    <!-- World Loader -->
+    <!-- World -->
     <bean id="worldLoader" class="rocks.cleanstone.game.world.SimpleWorldLoader"/>
     <bean id="worldManager" class="rocks.cleanstone.game.world.SimpleWorldManager"/>
+    <!--suppress SpringBeanConstructorArgInspection -->
+    <bean id="world" class="rocks.cleanstone.game.world.SimpleGeneratedWorld" scope="prototype"/>
+
+    <!-- Region -->
+    <bean id="regionManager" class="rocks.cleanstone.game.world.region.SingleRegionManager" scope="prototype"/>
+
+    <!-- Chunk Provider -->
+    <bean id="chunkProvider" class="rocks.cleanstone.game.world.chunk.SimpleChunkProvider" scope="prototype"/>
+
+    <!-- World Data Source -->
+    <!--suppress SpringBeanConstructorArgInspection -->
+    <bean id="worldDataSource" class="rocks.cleanstone.game.world.data.LevelDBWorldDataSource" scope="prototype"/>
+
+    <!-- World Generator -->
+    <bean id="worldGenerator" class="rocks.cleanstone.game.world.generation.FlatWorldGenerator" scope="prototype"/>
 
     <!-- Game -->
     <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame" lazy-init="true"/>

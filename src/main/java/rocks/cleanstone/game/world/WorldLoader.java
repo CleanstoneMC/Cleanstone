@@ -11,7 +11,5 @@ public interface WorldLoader {
 
     void unloadWorld(World world);
 
-    WorldDataSource getDataSource(String id) throws IOException;
-
     File getWorldDataFolder();
 }

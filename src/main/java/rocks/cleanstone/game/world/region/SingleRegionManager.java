@@ -1,11 +1,13 @@
 package rocks.cleanstone.game.world.region;
 
-import java.util.Collection;
-import java.util.Collections;
-import javax.annotation.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Manages a single region in the world to rule them all
@@ -15,6 +17,7 @@ public class SingleRegionManager implements RegionManager {
     private final ChunkProvider chunkProvider;
     private Region region;
 
+    @Autowired
     public SingleRegionManager(ChunkProvider chunkProvider) {
         this.chunkProvider = chunkProvider;
     }
