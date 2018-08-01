@@ -33,7 +33,7 @@ public class SimpleWorldLoader implements WorldLoader {
         logger.info("Loading world '" + id + "'...");
         // TODO Fetch generator from dataSource
 
-        WorldGenerator worldGenerator = context.getBean(WorldGenerator.class, materialRegistry);
+        WorldGenerator worldGenerator = context.getBean(WorldGenerator.class, materialRegistry, 234892734);
         WorldDataSource worldDataSource = context.getBean(WorldDataSource.class, getWorldDataFolder(), id, materialRegistry);
         ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);
         RegionManager regionManager = context.getBean(RegionManager.class, chunkProvider);

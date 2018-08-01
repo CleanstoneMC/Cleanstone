@@ -85,7 +85,12 @@
     <bean id="worldDataSource" class="rocks.cleanstone.game.world.data.LevelDBWorldDataSource" scope="prototype"/>
 
     <!-- World Generator -->
-    <bean id="worldGenerator" class="rocks.cleanstone.game.world.generation.FlatWorldGenerator" scope="prototype"/>
+    <!--<bean id="worldGenerator" class="rocks.cleanstone.game.world.generation.FlatWorldGenerator" scope="prototype"/>-->
+    <bean id="mountainWorldGenerator" class="rocks.cleanstone.game.world.generation.MountainWorldGenerator"
+          scope="prototype">
+        <constructor-arg index="0" ref="materialRegistry"/>
+        <constructor-arg index="1" value="1234567890"/>
+    </bean>
 
     <!-- Game -->
     <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame" lazy-init="true"/>
