@@ -27,9 +27,9 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
         noiseGenerator.SetNoiseType(NoiseGenerator.NoiseType.SimplexFractal);
         noiseGenerator.SetSeed(seed);
         noiseGenerator.SetFrequency(0.0125F);
-        noiseGenerator.SetFractalOctaves(4);
+        noiseGenerator.SetFractalOctaves(3);
         noiseGenerator.SetFractalGain(0.35F);
-        noiseGenerator.SetFractalLacunarity(2.0f);
+        noiseGenerator.SetFractalLacunarity(3.5f);
     }
 
     @Override
