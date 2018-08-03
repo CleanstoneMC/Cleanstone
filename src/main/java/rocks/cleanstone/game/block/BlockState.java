@@ -1,10 +1,8 @@
 package rocks.cleanstone.game.block;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Sets;
-
-import java.util.Collection;
-
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import rocks.cleanstone.game.material.Material;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.BlockType;
@@ -16,8 +14,7 @@ import rocks.cleanstone.game.material.block.BlockType;
  */
 public class BlockState {
 
-    private static final Collection<BlockState> CACHED_STATES = Sets.newConcurrentHashSet();
-
+    private static final Map<BlockType, Map<Byte, BlockState>> BLOCK_STATE_CACHE = new ConcurrentHashMap<>();
     private final BlockType blockType;
     private final byte metadata;
 
@@ -29,12 +26,8 @@ public class BlockState {
     }
 
     public static BlockState of(BlockType blockType, byte metadata) {
-        return CACHED_STATES.stream().filter(b -> b.getBlockType().equals(blockType) && b.getMetadata() == metadata)
-                .findFirst().orElseGet(() -> {
-                    BlockState newState = new BlockState(blockType, metadata);
-                    CACHED_STATES.add(newState);
-                    return newState;
-                });
+        return BLOCK_STATE_CACHE.computeIfAbsent(blockType, k -> new ConcurrentHashMap<>())
+                .computeIfAbsent(metadata, k -> new BlockState(blockType, metadata));
     }
 
     public static BlockState of(BlockType blockType) {

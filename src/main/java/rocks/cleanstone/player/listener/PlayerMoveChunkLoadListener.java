@@ -3,28 +3,21 @@ package rocks.cleanstone.player.listener;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.world.World;
-import rocks.cleanstone.net.packet.data.EntityMetadata;
-import rocks.cleanstone.net.packet.enums.MobType;
 import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
-import rocks.cleanstone.net.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.net.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
@@ -60,7 +53,7 @@ public class PlayerMoveChunkLoadListener {
         int initialValue = updateCounterMap.computeIfAbsent(uuid, k -> new AtomicInteger(0)).incrementAndGet();
         synchronized (lockMap.computeIfAbsent(uuid, k -> new Object())) {
             // return early if the player already moved further
-            if (initialValue != updateCounterMap.get(uuid).get()) {
+            if (updateCounterMap.get(uuid).get() != initialValue) {
                 return;
             }
             // check again because the chunk could already have been loaded inside synchronized block
@@ -84,34 +77,30 @@ public class PlayerMoveChunkLoadListener {
         final int sendDistance = player.getViewDistance() + 1;
         UUID uuid = player.getID().getUUID();
 
-        Stream.Builder<Pair<Integer, Integer>> builder = Stream.builder();
-        builder.accept(Pair.of(chunkX, chunkY));
+        maybeSendChunk(player, uuid, chunkX, chunkY);
         // generate positions around player in order of proximity
         for (int distance = 1; distance <= sendDistance * 1.5; distance++) {
             for (int relY = Math.max(0, distance - sendDistance); relY < Math.min(distance, sendDistance + 1); relY++) {
                 int relX = distance - relY;
 
-                builder.accept(Pair.of(chunkX + relX, chunkY + relY));
-                builder.accept(Pair.of(chunkX + relY, chunkY - relX));
-                builder.accept(Pair.of(chunkX - relX, chunkY - relY));
-                builder.accept(Pair.of(chunkX - relY, chunkY + relX));
+                if (updateCounterMap.get(uuid).get() != initialCount)
+                    return;
+
+                maybeSendChunk(player, uuid, chunkX + relX, chunkY + relY);
+                maybeSendChunk(player, uuid, chunkX + relY, chunkY - relX);
+                maybeSendChunk(player, uuid, chunkX - relX, chunkY - relY);
+                maybeSendChunk(player, uuid, chunkX - relY, chunkY + relX);
             }
         }
+    }
 
-        builder.build()
-                .filter(coord -> !hasPlayerLoaded(uuid, coord.getLeft(), coord.getRight()))
-                .forEach(coords -> {
-                    // stop sending if the player already moved further
-                    if (updateCounterMap.get(uuid).get() != initialCount) {
-                        return;
-                    }
+    protected void maybeSendChunk(Player player, UUID uuid, int currentX, int currentY) {
+        if (hasPlayerLoaded(uuid, currentX, currentY))
+            return;
 
-                    final int currentX = coords.getLeft();
-                    final int currentY = coords.getRight();
 
-                    playerLoad(uuid, currentX, currentY);
-                    sendChunkLoad(player, currentX, currentY);
-                });
+        playerLoad(uuid, currentX, currentY);
+        sendChunkLoad(player, currentX, currentY);
     }
 
     protected void unloadRemoteChunks(Player player, int chunkX, int chunkY) {

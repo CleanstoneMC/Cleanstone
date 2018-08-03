@@ -22,7 +22,7 @@ public class SimpleRegion implements Region {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private ChunkProvider chunkProvider;
     private Cache<Pair<Integer, Integer>, Chunk> loadedChunks = CacheBuilder.newBuilder()
-            .maximumSize(8192)
+            .maximumSize(1024)
             .removalListener(this::removeChunkListener)
             .build();
 

@@ -1,8 +1,7 @@
 package rocks.cleanstone.game.block;
 
-import java.util.Collection;
-
-import io.netty.util.internal.ConcurrentSet;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import rocks.cleanstone.game.material.block.BlockType;
 
 /**
@@ -10,7 +9,7 @@ import rocks.cleanstone.game.material.block.BlockType;
  */
 public class ImmutableBlock implements Block {
 
-    private static final Collection<ImmutableBlock> CACHED_BLOCKS = new ConcurrentSet<>();
+    private static final Map<BlockState, ImmutableBlock> CACHED_BLOCKS = new ConcurrentHashMap<>();
 
     private final BlockState state;
 
@@ -19,12 +18,7 @@ public class ImmutableBlock implements Block {
     }
 
     public static ImmutableBlock of(BlockState state) {
-        return CACHED_BLOCKS.stream().filter(b -> b.getState().equals(state)).findFirst()
-                .orElseGet(() -> {
-                    ImmutableBlock newBlock = new ImmutableBlock(state);
-                    CACHED_BLOCKS.add(newBlock);
-                    return newBlock;
-                });
+        return CACHED_BLOCKS.computeIfAbsent(state, k -> new ImmutableBlock(state));
     }
 
     public static ImmutableBlock of(BlockType blockType) {
