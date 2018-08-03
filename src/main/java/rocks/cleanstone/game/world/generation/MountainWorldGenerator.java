@@ -58,7 +58,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
         return new SimpleChunk(blockDataTable, blockDataStorage, new HashSet<>(), chunkX, chunkY);
     }
 
-    private int getHeightAt(int x, int z) {
+    public int getHeightAt(int x, int z) {
         return (int) Math.pow(((noiseGenerator.GetNoise(x, z) + 1.0) / 2.0) * 128.0, 1.0);
     }
 }

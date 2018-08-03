@@ -85,7 +85,7 @@ public class SimpleGeneratedWorld implements World {
     @Override
     public RotatablePosition getFirstSpawnPosition() {
         if (spawnPosition == null) {
-            spawnPosition = new RotatablePosition(new Position(0, 46, 0), new Rotation(0, 0)); //TODO: Check if y is highest block
+            spawnPosition = new RotatablePosition(new Position(0, generator.getHeightAt(0, 0) + 1, 0), new Rotation(0, 0));
         }
         return spawnPosition;
     }

@@ -1,7 +1,5 @@
 package rocks.cleanstone.game.world.generation;
 
-import java.util.HashSet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.MaterialRegistry;
@@ -11,6 +9,8 @@ import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
+
+import java.util.HashSet;
 
 public class FlatWorldGenerator implements WorldGenerator {
 
@@ -42,5 +42,10 @@ public class FlatWorldGenerator implements WorldGenerator {
     public Chunk generateChunk(int chunkX, int chunkY) {
         return new SimpleChunk(new ArrayBlockDataTable((ArrayBlockDataTable) blockDataTable), new
                 BlockDataStorage(blockDataStorage, materialRegistry), new HashSet<>(), chunkX, chunkY);
+    }
+
+    @Override
+    public int getHeightAt(int x, int y) {
+        return 45;
     }
 }
