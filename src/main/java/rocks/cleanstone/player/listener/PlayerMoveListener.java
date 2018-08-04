@@ -25,7 +25,7 @@ public class PlayerMoveListener {
         this.playerChunkLoadService = playerChunkLoadService;
     }
 
-    @Order(EventAction.MODIFY)
+    @Order(EventAction.PREVENT)
     @EventListener
     public void playerMoveCancellation(PlayerMoveEvent playerMoveEvent) {
         final HeadRotatablePosition oldPosition = playerMoveEvent.getOldPosition();
@@ -44,9 +44,6 @@ public class PlayerMoveListener {
         final int chunkY = newPosition.getZAsInt() >> 4;
 
         if (!playerChunkLoadService.hasPlayerLoaded(movingPlayer.getID().getUUID(), chunkX, chunkY)) {
-            newPosition.setX(oldPosition.getX());
-            newPosition.setY(oldPosition.getY());
-            newPosition.setZ(oldPosition.getZ());
             EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, oldPosition.getX(),
                     oldPosition.getY(), oldPosition.getZ(), yaw, pitch, movingPlayer.isFlying());
             movingPlayer.sendPacket(entityTeleportPacket);
