@@ -35,6 +35,14 @@ public class PlayerMoveListener {
             return;
         }
 
+        final double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
+        final double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
+        final double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
+
+        if (isTeleport(deltaX, deltaY, deltaZ)) {
+            return;
+        }
+
         final Player movingPlayer = playerMoveEvent.getPlayer();
         final int entityID = movingPlayer.getEntity().getEntityID();
         final int yaw = newPosition.getRotation().getIntYaw();
@@ -84,10 +92,7 @@ public class PlayerMoveListener {
         final double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
         final double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
 
-        boolean teleport = deltaX > Short.MAX_VALUE || deltaY > Short.MAX_VALUE || deltaZ > Short.MAX_VALUE
-                || deltaX < Short.MIN_VALUE || deltaY < Short.MIN_VALUE || deltaZ < Short.MIN_VALUE;
-
-        if (teleport) {
+        if (isTeleport(deltaX, deltaY, deltaZ)) {
             EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, newPosition.getX(),
                     newPosition.getY(), newPosition.getZ(), yaw, pitch, movingPlayer.isFlying());
             // TODO viewers show teleported entity in wrong location
@@ -107,5 +112,10 @@ public class PlayerMoveListener {
                 entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), yaw, pitch, movingPlayer.isFlying());
 
         playerManager.broadcastPacket(entityLookAndRelativeMovePacket, movingPlayer);
+    }
+
+    private boolean isTeleport(double deltaX, double deltaY, double deltaZ) {
+        return deltaX > Short.MAX_VALUE || deltaY > Short.MAX_VALUE || deltaZ > Short.MAX_VALUE
+                || deltaX < Short.MIN_VALUE || deltaY < Short.MIN_VALUE || deltaZ < Short.MIN_VALUE;
     }
 }
