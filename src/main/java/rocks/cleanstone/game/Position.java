@@ -1,9 +1,7 @@
 package rocks.cleanstone.game;
 
 import com.google.common.base.Objects;
-
 import java.io.Serializable;
-
 import rocks.cleanstone.utils.Vector;
 
 /**
@@ -90,14 +88,18 @@ public class Position implements Serializable {
         return new Vector(x, y, z);
     }
 
+    public boolean equalCoordinates(Position position) {
+        return Double.compare(position.x, x) == 0 &&
+                Double.compare(position.y, y) == 0 &&
+                Double.compare(position.z, z) == 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Position)) return false;
         Position position = (Position) o;
-        return Double.compare(position.x, x) == 0 &&
-                Double.compare(position.y, y) == 0 &&
-                Double.compare(position.z, z) == 0;
+        return equalCoordinates(position);
     }
 
     @Override

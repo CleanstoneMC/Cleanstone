@@ -4,25 +4,54 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
-
+import rocks.cleanstone.core.event.EventAction;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
-import rocks.cleanstone.net.packet.outbound.EntityHeadLookPacket;
-import rocks.cleanstone.net.packet.outbound.EntityLookAndRelativeMovePacket;
-import rocks.cleanstone.net.packet.outbound.EntityLookPacket;
-import rocks.cleanstone.net.packet.outbound.EntityRelativeMovePacket;
-import rocks.cleanstone.net.packet.outbound.EntityTeleportPacket;
+import rocks.cleanstone.net.packet.outbound.*;
 import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 
 public class PlayerMoveListener {
     private final PlayerManager playerManager;
+    private final PlayerChunkLoadService playerChunkLoadService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public PlayerMoveListener(PlayerManager playerManager) {
+    public PlayerMoveListener(PlayerManager playerManager, PlayerChunkLoadService playerChunkLoadService) {
         this.playerManager = playerManager;
+        this.playerChunkLoadService = playerChunkLoadService;
+    }
+
+    @Order(EventAction.MODIFY)
+    @EventListener
+    public void playerMoveCancellation(PlayerMoveEvent playerMoveEvent) {
+        final HeadRotatablePosition oldPosition = playerMoveEvent.getOldPosition();
+        final HeadRotatablePosition newPosition = playerMoveEvent.getNewPosition();
+
+        if (oldPosition.equalCoordinates(newPosition)) {
+            return;
+        }
+
+        final Player movingPlayer = playerMoveEvent.getPlayer();
+        final int entityID = movingPlayer.getEntity().getEntityID();
+        final int yaw = newPosition.getRotation().getIntYaw();
+        final int pitch = newPosition.getRotation().getIntPitch();
+
+        final int chunkX = newPosition.getXAsInt() >> 4;
+        final int chunkY = newPosition.getZAsInt() >> 4;
+
+        if (!playerChunkLoadService.hasPlayerLoaded(movingPlayer.getID().getUUID(), chunkX, chunkY)) {
+            newPosition.setX(oldPosition.getX());
+            newPosition.setY(oldPosition.getY());
+            newPosition.setZ(oldPosition.getZ());
+            EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, oldPosition.getX(),
+                    oldPosition.getY(), oldPosition.getZ(), yaw, pitch, movingPlayer.isFlying());
+            movingPlayer.sendPacket(entityTeleportPacket);
+            playerMoveEvent.cancel();
+        }
     }
 
     @Async(value = "playerExec")
@@ -43,7 +72,7 @@ public class PlayerMoveListener {
             playerManager.broadcastPacket(entityHeadLookPacket, movingPlayer);
         }
 
-        if (oldPosition.equals(newPosition)) {
+        if (oldPosition.equalCoordinates(newPosition)) {
             if (oldPosition.getRotation().equals(newPosition.getRotation())) {
                 return;
             }
@@ -57,7 +86,6 @@ public class PlayerMoveListener {
         final double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
         final double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
         final double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
-
 
         boolean teleport = deltaX > Short.MAX_VALUE || deltaY > Short.MAX_VALUE || deltaZ > Short.MAX_VALUE
                 || deltaX < Short.MIN_VALUE || deltaY < Short.MIN_VALUE || deltaZ < Short.MIN_VALUE;

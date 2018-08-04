@@ -1,13 +1,9 @@
 package rocks.cleanstone.player.listener;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +16,22 @@ import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
 
 public class PlayerMoveChunkLoadListener {
 
-    private final Multimap<UUID, Pair<Integer, Integer>> playerHasLoaded = ArrayListMultimap.create();
     private final Map<UUID, Object> lockMap = new ConcurrentHashMap<>();
     private final Map<UUID, AtomicInteger> updateCounterMap = new ConcurrentHashMap<>();
     private final MinecraftConfig minecraftConfig;
+    private final PlayerChunkLoadService playerChunkLoadService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public PlayerMoveChunkLoadListener(MinecraftConfig minecraftConfig) {
+    public PlayerMoveChunkLoadListener(MinecraftConfig minecraftConfig, PlayerChunkLoadService playerChunkLoadService) {
         this.minecraftConfig = minecraftConfig;
+        this.playerChunkLoadService = playerChunkLoadService;
     }
 
     @Async("playerExec")
@@ -64,13 +62,12 @@ public class PlayerMoveChunkLoadListener {
             logger.info("loading chunks around {}, {} for {}", chunkX, chunkY, player.getID().getName());
             sendNewNearbyChunks(player, chunkX, chunkY, initialValue);
             unloadRemoteChunks(player, chunkX, chunkY);
-            logger.info("done loading chunks for {}", player.getID().getName());
         }
     }
 
     protected boolean chunkUpdateNotNeeded(PlayerMoveEvent playerMoveEvent, int chunkX, int chunkY, UUID uuid) {
         return isSameChunk(playerMoveEvent.getOldPosition(), playerMoveEvent.getNewPosition())
-                && hasPlayerLoaded(uuid, chunkX, chunkY);
+                && playerChunkLoadService.hasPlayerLoaded(uuid, chunkX, chunkY);
     }
 
     protected void sendNewNearbyChunks(Player player, int chunkX, int chunkY, int initialCount) {
@@ -83,8 +80,11 @@ public class PlayerMoveChunkLoadListener {
             for (int relY = Math.max(0, distance - sendDistance); relY < Math.min(distance, sendDistance + 1); relY++) {
                 int relX = distance - relY;
 
-                if (updateCounterMap.get(uuid).get() != initialCount)
+                if (updateCounterMap.get(uuid).get() != initialCount) {
+                    logger.info("aborted loading chunks for {}", player.getID().getName());
                     return;
+                }
+
 
                 maybeSendChunk(player, uuid, chunkX + relX, chunkY + relY);
                 maybeSendChunk(player, uuid, chunkX + relY, chunkY - relX);
@@ -92,14 +92,15 @@ public class PlayerMoveChunkLoadListener {
                 maybeSendChunk(player, uuid, chunkX - relY, chunkY + relX);
             }
         }
+
+        logger.info("done loading chunks for {}", player.getID().getName());
     }
 
     protected void maybeSendChunk(Player player, UUID uuid, int currentX, int currentY) {
-        if (hasPlayerLoaded(uuid, currentX, currentY))
+        if (playerChunkLoadService.hasPlayerLoaded(uuid, currentX, currentY))
             return;
 
-
-        playerLoad(uuid, currentX, currentY);
+        playerChunkLoadService.playerLoad(uuid, currentX, currentY);
         sendChunkLoad(player, currentX, currentY);
     }
 
@@ -107,12 +108,10 @@ public class PlayerMoveChunkLoadListener {
         final int sendDistance = player.getViewDistance() + 1;
         UUID uuid = player.getID().getUUID();
 
-        // copy to avoid ConcurrentModificationException on unload
-        new ArrayList<>(playerHasLoaded.get(uuid)).stream()
+        playerChunkLoadService.loadedChunks(uuid).stream()
                 .filter(chunk -> !isWithinRange(chunkX, chunkY, chunk.getLeft(), chunk.getRight(), sendDistance))
-                .filter(chunk -> hasPlayerLoaded(uuid, chunk.getLeft(), chunk.getRight()))
                 .forEach(chunk -> {
-                    playerUnload(uuid, chunk.getLeft(), chunk.getRight());
+                    playerChunkLoadService.playerUnload(uuid, chunk.getLeft(), chunk.getRight());
                     sendChunkUnload(player, chunk.getLeft(), chunk.getRight());
                 });
     }
@@ -158,23 +157,12 @@ public class PlayerMoveChunkLoadListener {
         return oldChunkX == newChunkX && oldChunkY == newChunkY;
     }
 
-    private void playerLoad(UUID uuid, int chunkX, int chunkY) {
-        playerHasLoaded.get(uuid).add(Pair.of(chunkX, chunkY));
-    }
-
-    private void playerUnload(UUID uuid, int chunkX, int chunkY) {
-        playerHasLoaded.get(uuid).remove(Pair.of(chunkX, chunkY));
-    }
-
-    private boolean hasPlayerLoaded(UUID uuid, int chunkX, int chunkY) {
-        return playerHasLoaded.get(uuid).contains(Pair.of(chunkX, chunkY));
-    }
 
     private void playerUnloadAll(UUID uuid) {
         // request stop of loading process
         updateCounterMap.computeIfAbsent(uuid, k -> new AtomicInteger(0)).incrementAndGet();
         synchronized (lockMap.computeIfAbsent(uuid, k -> new Object())) {
-            playerHasLoaded.removeAll(uuid);
+            playerChunkLoadService.unloadAll(uuid);
             updateCounterMap.remove(uuid);
             lockMap.remove(uuid);
         }

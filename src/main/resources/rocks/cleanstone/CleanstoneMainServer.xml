@@ -50,6 +50,7 @@
 
     <bean id="playerMoveChunkLoadListener"
           class="rocks.cleanstone.player.listener.PlayerMoveChunkLoadListener"/>
+    <bean id="playerChunkLoadService" class="rocks.cleanstone.player.PlayerChunkLoadService"/>
     <bean id="playerMoveListener" class="rocks.cleanstone.player.listener.PlayerMoveListener"/>
     <bean id="creativeInventoryActionListener"
           class="rocks.cleanstone.player.listener.CreativeInventoryActionListener"/>
