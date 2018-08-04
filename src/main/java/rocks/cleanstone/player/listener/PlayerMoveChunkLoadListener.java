@@ -59,7 +59,7 @@ public class PlayerMoveChunkLoadListener {
                 return;
             }
 
-            logger.info("loading chunks around {}, {} for {}", chunkX, chunkY, player.getID().getName());
+            logger.debug("loading chunks around {}, {} for {}", chunkX, chunkY, player.getID().getName());
             sendNewNearbyChunks(player, chunkX, chunkY, initialValue);
             unloadRemoteChunks(player, chunkX, chunkY);
         }
@@ -81,7 +81,7 @@ public class PlayerMoveChunkLoadListener {
                 int relX = distance - relY;
 
                 if (updateCounterMap.get(uuid).get() != initialCount) {
-                    logger.info("aborted loading chunks for {}", player.getID().getName());
+                    logger.debug("aborted loading chunks for {}", player.getID().getName());
                     return;
                 }
 
@@ -93,7 +93,7 @@ public class PlayerMoveChunkLoadListener {
             }
         }
 
-        logger.info("done loading chunks for {}", player.getID().getName());
+        logger.debug("done loading chunks for {}", player.getID().getName());
     }
 
     protected void maybeSendChunk(Player player, UUID uuid, int currentX, int currentY) {

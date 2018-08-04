@@ -40,7 +40,6 @@ public class SimpleRegion implements Region {
     private void removeChunkListener(RemovalNotification removalNotification) {
         Chunk chunk = (Chunk) removalNotification.getValue();
         if (chunk.isDirty()) {
-            logger.info("persisting chunk {}, {}", chunk.getX(), chunk.getY());
             this.chunkProvider.getDataSource().saveChunk(chunk);
         }
     }

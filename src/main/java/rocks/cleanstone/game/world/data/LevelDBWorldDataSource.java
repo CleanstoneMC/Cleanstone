@@ -1,9 +1,12 @@
 package rocks.cleanstone.game.world.data;
 
 import io.netty.buffer.ByteBuf;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.Chunk;
@@ -12,11 +15,6 @@ import rocks.cleanstone.game.world.chunk.data.ChunkDataKeyFactory;
 import rocks.cleanstone.game.world.chunk.data.StandardChunkDataType;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataCodec;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
-
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
 
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
 
@@ -55,6 +53,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
 
     @Override
     public void saveChunk(Chunk chunk) {
+        logger.trace("persisting chunk {}, {}", chunk.getX(), chunk.getY());
         int x = chunk.getX(), y = chunk.getY();
         ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
         try {
