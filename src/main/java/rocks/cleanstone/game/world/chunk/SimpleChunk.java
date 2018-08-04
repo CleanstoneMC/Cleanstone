@@ -95,6 +95,10 @@ public class SimpleChunk implements Chunk {
         return blockDataTable.hasSkylight();
     }
 
+    public void setDirty(boolean dirty) {
+        this.dirty = dirty;
+    }
+
     @Override
     public boolean isDirty() {
         return dirty;

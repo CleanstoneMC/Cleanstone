@@ -35,6 +35,8 @@ public interface Chunk {
 
     boolean hasSkylight();
 
+    void setDirty(boolean dirty);
+
     boolean isDirty();
 
     BlockDataTable getBlockDataTable();

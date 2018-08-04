@@ -28,6 +28,7 @@ public class SimpleChunkProvider implements ChunkProvider {
         Chunk chunk = dataSource.loadExistingChunk(x, y);
         if (chunk == null) {
             chunk = generator.generateChunk(x, y);
+            chunk.setDirty(true);
             Preconditions.checkNotNull(chunk, "generated chunk cannot be null");
         }
         return new AsyncResult<>(chunk);
