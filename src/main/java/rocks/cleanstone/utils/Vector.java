@@ -26,22 +26,25 @@ public class Vector {
     public Vector() {
     }
 
-    public void addVector(Vector vector) {
+    public Vector addVector(Vector vector) {
         this.x += vector.getX();
         this.y += vector.getY();
         this.z += vector.getZ();
+        return this;
     }
 
-    public void subtractVector(Vector vector) {
+    public Vector subtractVector(Vector vector) {
         this.x -= vector.getX();
         this.y -= vector.getY();
         this.z -= vector.getZ();
+        return this;
     }
 
-    public void multiplyVector(Vector vector) {
+    public Vector multiplyVector(Vector vector) {
         this.x *= vector.getX();
         this.y *= vector.getY();
         this.z *= vector.getZ();
+        return this;
     }
 
     public double getX() {

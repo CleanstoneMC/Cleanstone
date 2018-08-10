@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.block;
 
+import rocks.cleanstone.utils.Vector;
+
 public enum Face {
     BOTTOM(0, "-Y"),
     TOP(1, "+Y"),
@@ -56,5 +58,30 @@ public enum Face {
 
     public String getOffset() {
         return offset;
+    }
+
+    public Vector toUnitVector() {
+        Vector vector = new Vector();
+        switch (this) {
+            case TOP:
+                vector.addY(1);
+                break;
+            case BOTTOM:
+                vector.addY(-1);
+                break;
+            case NORTH:
+                vector.addZ(-1);
+                break;
+            case SOUTH:
+                vector.addZ(1);
+                break;
+            case EAST:
+                vector.addX(1);
+                break;
+            case WEST:
+                vector.addX(-1);
+                break;
+        }
+        return vector;
     }
 }

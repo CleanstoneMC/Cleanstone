@@ -41,27 +41,8 @@ public class UseItemListener {
 
         PlayerBlockPlacementPacket packet = (PlayerBlockPlacementPacket) event.getPacket();
 
-        Position newBlockPosition = new Position(packet.getPosition());
-        switch (packet.getFace()) {
-            case TOP:
-                newBlockPosition.addY(1);
-                break;
-            case BOTTOM:
-                newBlockPosition.addY(-1);
-                break;
-            case NORTH:
-                newBlockPosition.addZ(-1);
-                break;
-            case SOUTH:
-                newBlockPosition.addZ(1);
-                break;
-            case EAST:
-                newBlockPosition.addX(1);
-                break;
-            case WEST:
-                newBlockPosition.addX(-1);
-                break;
-        }
+        Position newBlockPosition = new Position(packet.getPosition().toVector()
+                .addVector(packet.getFace().toUnitVector()));
 
         Player player = event.getPlayer();
 
