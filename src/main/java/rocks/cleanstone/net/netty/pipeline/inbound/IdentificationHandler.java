@@ -55,7 +55,7 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        logger.error("Error occurred while identifying incoming data", cause);
+        logger.warn("Error occurred while identifying incoming data: " + cause.getMessage());
         ctx.close();
     }
 }

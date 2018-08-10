@@ -1,17 +1,12 @@
 package rocks.cleanstone.net.netty.pipeline.inbound;
 
 import com.google.common.base.Preconditions;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.util.AttributeKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
@@ -19,6 +14,9 @@ import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import java.io.IOException;
+import java.util.List;
 
 public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
 
@@ -40,21 +38,28 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
                 connection.getClientProtocolLayer());
         Preconditions.checkNotNull(codec, "Cannot find codec for packetType " + packetType
                 + " and clientLayer " + connection.getClientProtocolLayer());
-        Packet packet = codec.decode(in);
+        Packet packet;
+        try {
+            packet = codec.decode(in);
+        } catch (Exception e) {
+            logger.warn("Failed to decode packet " + packetType + " for clientLayer "
+                    + connection.getClientProtocolLayer());
+            throw e;
+        }
         out.add(packet);
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        if (cause.getMessage() != null && cause.getMessage().contains("Cannot find packetType by")) {
-            logger.warn(cause.getMessage());
-        } else if (cause.getCause() != null && (cause.getCause() instanceof IllegalArgumentException)) {
-            logger.warn("Client sent illegal packet: " + cause.getMessage());
-        } else if (cause.getCause() != null && (cause.getCause() instanceof IOException)) {
-            logger.warn("Client sent malformed packet: " + cause.getMessage());
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable e) {
+        if (e.getMessage() != null && e.getMessage().contains("Cannot find ")) {
+            logger.warn(e.getMessage());
+        } else if (e.getCause() instanceof IllegalArgumentException) {
+            logger.warn("Client sent illegal packet: " + e.getMessage());
+        } else if (e.getCause() instanceof IOException || e.getCause() instanceof IndexOutOfBoundsException) {
+            logger.warn("Client sent malformed packet: " + e.getMessage());
             ctx.close();
         } else {
-            logger.error("Error occurred while decoding packet data", cause);
+            logger.error("Error occurred while decoding packet data", e);
         }
     }
 }
