@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 
+import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.MinecraftNetworking;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
@@ -26,6 +27,7 @@ public class StatusRequestListener {
         this.playerManager = playerManager;
     }
 
+    @Async
     @EventListener
     public void onReceive(InboundPacketEvent event) {
         if (event.getPacket() instanceof RequestPacket) {

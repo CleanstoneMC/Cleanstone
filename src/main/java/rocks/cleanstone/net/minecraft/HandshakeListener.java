@@ -3,6 +3,7 @@ package rocks.cleanstone.net.minecraft;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.packet.inbound.HandshakePacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
@@ -13,6 +14,7 @@ public class HandshakeListener {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Async
     @EventListener
     public void onReceive(InboundPacketEvent event) {
         if (event.getPacket() instanceof HandshakePacket) {

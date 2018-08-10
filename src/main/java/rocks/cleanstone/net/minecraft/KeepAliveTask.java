@@ -3,6 +3,7 @@ package rocks.cleanstone.net.minecraft;
 import com.google.common.collect.Maps;
 
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Map;
@@ -38,6 +39,7 @@ public class KeepAliveTask {
         });
     }
 
+    @Async
     @EventListener
     public void onKeepAliveReceive(InboundPacketEvent e) {
         if (e.getPacket() instanceof InKeepAlivePacket) {
