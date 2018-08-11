@@ -2,12 +2,12 @@ package rocks.cleanstone.net.packet;
 
 import java.util.Collection;
 
-public interface PacketTypeRegistry {
-    void registerPacketType(PacketType... packetTypes);
+public abstract class PacketTypeRegistry {
+    public abstract void registerPacketType(PacketType... packetTypes);
 
-    void unregisterPacketType(PacketType... packetTypes);
+    public abstract void unregisterPacketType(PacketType... packetTypes);
 
-    Collection<PacketType> getPacketTypes();
+    public abstract Collection<PacketType> getPacketTypes();
 
-    PacketType getPacketType(int packetTypeId);
+    public abstract PacketType getPacketType(int packetTypeId);
 }

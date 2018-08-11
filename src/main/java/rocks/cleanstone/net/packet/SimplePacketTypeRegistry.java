@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
-public class SimplePacketTypeRegistry implements PacketTypeRegistry {
+public class SimplePacketTypeRegistry extends PacketTypeRegistry {
 
     private Set<PacketType> packetTypes = Sets.newConcurrentHashSet();
 
