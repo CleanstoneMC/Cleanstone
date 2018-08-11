@@ -14,14 +14,14 @@ public class EncryptionResponseCodec implements PacketCodec {
     @Override
     public Packet decode(ByteBuf byteBuf) throws IOException {
         int publicKeyLength = ByteBufUtils.readVarInt(byteBuf);
-        Preconditions.checkArgument(publicKeyLength <= 256 || publicKeyLength > 0,
+        Preconditions.checkArgument(publicKeyLength <= 256 && publicKeyLength > 0,
                 "publicKeyLength " + publicKeyLength + " is too big/small");
 
         byte[] publicKeyArray = new byte[publicKeyLength];
         byteBuf.readBytes(publicKeyArray);
 
         int verifyTokenLength = ByteBufUtils.readVarInt(byteBuf);
-        Preconditions.checkArgument(verifyTokenLength <= 64 || verifyTokenLength > 0,
+        Preconditions.checkArgument(verifyTokenLength <= 64 && verifyTokenLength > 0,
                 "verifyTokenLength " + verifyTokenLength + " is too big/small");
 
         byte[] verifyTokenArray = new byte[verifyTokenLength];
