@@ -1,7 +1,7 @@
 package rocks.cleanstone.game.block.entity;
 
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.BlockState;
+import rocks.cleanstone.game.block.state.BlockState;
 
 /**
  * A block in the world with mutable state information and behavior optionally

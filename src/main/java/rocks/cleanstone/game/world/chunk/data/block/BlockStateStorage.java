@@ -1,7 +1,7 @@
 package rocks.cleanstone.game.world.chunk.data.block;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.block.BlockState;
+import rocks.cleanstone.game.block.state.BlockState;
 
 /**
  * Stores data about block states that can be converted into a byte stream efficiently

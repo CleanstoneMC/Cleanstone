@@ -61,24 +61,6 @@ public class SimpleMaterialRegistry implements MaterialRegistry {
     }
 
     @Override
-    @Nullable
-    public BlockType getBlockType(int id) {
-        return blockTypes.stream().filter(type -> type.getID() == id).findAny().orElse(null);
-    }
-
-    @Override
-    @Nullable
-    public ItemType getItemType(int id) {
-        return itemTypes.stream().filter(type -> type.getID() == id).findAny().orElse(null);
-    }
-
-    @Override
-    @Nullable
-    public Material getMaterial(int id) {
-        return materials.stream().filter(type -> type.getID() == id).findAny().orElse(null);
-    }
-
-    @Override
     public Collection<ItemType> getItemTypes() {
         return Collections.unmodifiableCollection(itemTypes);
     }

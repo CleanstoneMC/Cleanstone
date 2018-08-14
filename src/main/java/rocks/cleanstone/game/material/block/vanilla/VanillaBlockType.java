@@ -1,5 +1,6 @@
 package rocks.cleanstone.game.material.block.vanilla;
 
+import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.VanillaMiningLevel;
 
@@ -291,5 +292,10 @@ public enum VanillaBlockType implements BlockType {
     @Override
     public VanillaMiningLevel getMiningLevel() {
         return miningLevel;
+    }
+
+    @Override
+    public Property[] getProperties() {
+        return new Property[0]; // TODO
     }
 }
