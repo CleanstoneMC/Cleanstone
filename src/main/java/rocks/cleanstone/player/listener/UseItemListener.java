@@ -54,7 +54,7 @@ public class UseItemListener {
 
         BlockType blockType = materialRegistry.getBlockType(itemStack.getType().getID());
         if (blockType != null) {
-            Block placedBlock = ImmutableBlock.of(blockType, (byte) itemStack.getMetadata());
+            Block placedBlock = ImmutableBlock.of(blockType);
 
             player.getEntity().getWorld().setBlockAt(newBlockPosition, placedBlock);
             CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, packet.getFace()));

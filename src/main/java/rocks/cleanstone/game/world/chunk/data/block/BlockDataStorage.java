@@ -9,8 +9,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nullable;
 
-import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;

@@ -24,23 +24,21 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-
+import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.block.BlockState;
-import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataSection;
 import rocks.cleanstone.game.world.chunk.data.block.BlockStateStorage;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PaletteBlockStateStorage implements BlockStateStorage {
 
@@ -48,28 +46,28 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
 
     private final List<BlockState> palette = new ArrayList<>();
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final MaterialRegistry materialRegistry;
+    private final BlockStateMapping<Integer> blockStateMapping;
     private int bitsPerEntry;
     private EntrySizeBasedStorage baseStorage;
 
     public PaletteBlockStateStorage(PaletteBlockStateStorage paletteBlockStateStorage,
-                                    MaterialRegistry materialRegistry) {
-        this.materialRegistry = materialRegistry;
+                                    BlockStateMapping<Integer> blockStateMapping) {
+        this.blockStateMapping = blockStateMapping;
         palette.addAll(paletteBlockStateStorage.palette);
         bitsPerEntry = paletteBlockStateStorage.bitsPerEntry;
         baseStorage = new EntrySizeBasedStorage(paletteBlockStateStorage.baseStorage);
     }
 
-    public PaletteBlockStateStorage(MaterialRegistry materialRegistry) {
-        this.materialRegistry = materialRegistry;
+    public PaletteBlockStateStorage(BlockStateMapping<Integer> blockStateMapping) {
+        this.blockStateMapping = blockStateMapping;
         this.bitsPerEntry = 4;
         this.palette.add(BlockState.of(VanillaBlockType.AIR));
         this.baseStorage = new EntrySizeBasedStorage(this.bitsPerEntry, 4096);
     }
 
     public PaletteBlockStateStorage(BlockDataTable blockDataTable, int sectionY, AtomicBoolean isEmptyFlag,
-                                    MaterialRegistry materialRegistry) {
-        this(materialRegistry);
+                                    BlockStateMapping<Integer> blockStateMapping) {
+        this(blockStateMapping);
         isEmptyFlag.set(true);
         int sectionHeight = BlockDataSection.HEIGHT;
         for (int y = sectionY * sectionHeight; y < sectionY * sectionHeight + sectionHeight; y++) {
@@ -83,8 +81,8 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
         }
     }
 
-    public PaletteBlockStateStorage(ByteBuf in, MaterialRegistry materialRegistry) throws IOException {
-        this.materialRegistry = materialRegistry;
+    public PaletteBlockStateStorage(ByteBuf in, BlockStateMapping<Integer> blockStateMapping) throws IOException {
+        this.blockStateMapping = blockStateMapping;
         this.bitsPerEntry = in.readUnsignedByte();
         int stateCount = ByteBufUtils.readVarInt(in);
 
@@ -92,7 +90,7 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
             int blockStateID = ByteBufUtils.readVarInt(in);
             BlockState blockState;
             try {
-                blockState = BlockState.of(blockStateID, materialRegistry);
+                blockState = blockStateMapping.getState(blockStateID);
             } catch (NullPointerException e) {
                 throw new IOException("Could not find BlockState for ID " + blockStateID, e);
             }
@@ -114,7 +112,7 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
 
         ByteBufUtils.writeVarInt(out, this.palette.size());
         for (BlockState state : this.palette) {
-            ByteBufUtils.writeVarInt(out, state.getRaw());
+            ByteBufUtils.writeVarInt(out, blockStateMapping.getID(state));
         }
 
         long[] data = this.baseStorage.getData();
@@ -127,14 +125,14 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
     @Override
     public void set(int x, int y, int z, BlockState state) {
         Preconditions.checkNotNull(state, "state cannot be null");
-        int stateID = shouldUsePalette() ? this.palette.indexOf(state) : state.getRaw();
+        int stateID = shouldUsePalette() ? this.palette.indexOf(state) : blockStateMapping.getID(state);
         if (stateID == -1) {
             this.palette.add(state);
             // Are the bitsPerEntry too small to store all palette indexes?
             if (this.palette.size() > 1 << this.bitsPerEntry) {
                 resizeStorage(++this.bitsPerEntry);
             }
-            stateID = shouldUsePalette() ? this.palette.indexOf(state) : state.getRaw();
+            stateID = shouldUsePalette() ? this.palette.indexOf(state) : blockStateMapping.getID(state);
         }
 
         this.baseStorage.set(getIndex(x, y, z), stateID);
@@ -144,7 +142,7 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
     public BlockState get(int x, int y, int z) {
         int stateID = baseStorage.get(getIndex(x, y, z));
         if (stateID == 0) return BlockState.of(VanillaBlockType.AIR);
-        return shouldUsePalette() ? this.palette.get(stateID) : BlockState.of(stateID, materialRegistry);
+        return shouldUsePalette() ? this.palette.get(stateID) : blockStateMapping.getState(stateID);
     }
 
     private void resizeStorage(int bitsPerEntry) {
@@ -159,7 +157,7 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
         this.baseStorage = new EntrySizeBasedStorage(this.bitsPerEntry, this.baseStorage.getSize());
         for (int index = 0; index < this.baseStorage.getSize(); index++) {
             this.baseStorage.set(index, shouldUsePalette() ? previousStorage.get(index)
-                    : previousPalette.get(index).getRaw());
+                    : blockStateMapping.getID(previousPalette.get(index)));
         }
     }
 
