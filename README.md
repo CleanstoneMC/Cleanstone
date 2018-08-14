@@ -1,7 +1,7 @@
 # Cleanstone
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/badges/build.png?b=master)](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/build-status/master)
+[![Build Status](https://travis-ci.org/CleanstoneMC/Cleanstone.svg?branch=master)](https://travis-ci.org/CleanstoneMC/Cleanstone)
 
 ## What is Cleanstone?
 The plan is to properly build a scalable Minecraft Server from scratch without the outdated code and single-threaded nature that Minecraft was created with.
