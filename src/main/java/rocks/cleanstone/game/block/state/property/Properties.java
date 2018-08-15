@@ -1,11 +1,10 @@
 package rocks.cleanstone.game.block.state.property;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.MoreCollectors;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 public class Properties {
 
@@ -34,12 +33,17 @@ public class Properties {
 
     public <T> T get(Class<T> valueClass) {
         //noinspection unchecked
-        return (T) Iterables.getOnlyElement(propertyValuePairs.stream()
-                .filter(pair -> pair.getProperty().getTypeClass() == valueClass)
-                .collect(Collectors.toList())).getValue();
+        return (T) propertyValuePairs.stream()
+                .filter(pair -> pair.getProperty().getValueClass() == valueClass)
+                .collect(MoreCollectors.onlyElement()).getValue();
     }
 
     public Collection<PropertyValuePair<?>> getPropertyValuePairs() {
         return Collections.unmodifiableCollection(propertyValuePairs);
+    }
+
+    @Override
+    public String toString() {
+        return propertyValuePairs.toString();
     }
 }

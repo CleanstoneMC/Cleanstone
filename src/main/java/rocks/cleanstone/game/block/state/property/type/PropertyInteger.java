@@ -32,7 +32,7 @@ public class PropertyInteger extends AbstractProperty<Integer> {
     }
 
     @Override
-    public Class<Integer> getTypeClass() {
+    public Class<Integer> getValueClass() {
         return Integer.class;
     }
 }

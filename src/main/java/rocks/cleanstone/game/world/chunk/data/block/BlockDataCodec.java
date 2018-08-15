@@ -1,23 +1,23 @@
 package rocks.cleanstone.game.world.chunk.data.block;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.data.Codec;
-import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class BlockDataCodec implements Codec<BlockDataStorage, ByteBuf> {
 
-    private final MaterialRegistry materialRegistry;
+    private final BlockStateMapping<Integer> blockStateMapping;
 
-    public BlockDataCodec(MaterialRegistry materialRegistry) {
-        this.materialRegistry = materialRegistry;
+    public BlockDataCodec(BlockStateMapping<Integer> blockStateMapping) {
+        this.blockStateMapping = blockStateMapping;
     }
 
     @Override
@@ -27,11 +27,11 @@ public class BlockDataCodec implements Codec<BlockDataStorage, ByteBuf> {
         int dataSize = ByteBufUtils.readVarInt(data);
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
             if ((primaryBitMask & (1 << sectionY)) != 0) {
-                BlockDataSection section = new BlockDataSection(data, true, materialRegistry);
+                BlockDataSection section = new BlockDataSection(data, true, blockStateMapping);
                 sectionMap.put(sectionY, section);
             }
         }
-        return new BlockDataStorage(sectionMap, true, materialRegistry);
+        return new BlockDataStorage(sectionMap, true, blockStateMapping);
     }
 
     @Override

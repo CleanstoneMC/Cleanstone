@@ -58,4 +58,8 @@ public class BlockState {
         Properties properties = new PropertiesBuilder(this.properties).withProperty(property, value).create();
         return of(blockType, properties);
     }
+
+    public Properties getProperties() {
+        return properties;
+    }
 }

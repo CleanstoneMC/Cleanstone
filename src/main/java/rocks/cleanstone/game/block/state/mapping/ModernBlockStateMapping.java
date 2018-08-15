@@ -95,6 +95,7 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
             int serializedProperty = mask & property.getNeededSerializationBitAmount() << i; // (?)
             Object propertyValue = property.deserialize(serializedProperty);
         }
+        return null; // TODO
     }
 
     @Override

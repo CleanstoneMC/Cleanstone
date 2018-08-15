@@ -1,10 +1,9 @@
 package rocks.cleanstone.game.block;
 
 import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.block.state.property.Property;
+import rocks.cleanstone.game.block.state.property.Properties;
 import rocks.cleanstone.game.material.block.BlockType;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,7 +28,7 @@ public class ImmutableBlock implements Block {
         return of(BlockState.of(blockType));
     }
 
-    public static ImmutableBlock of(BlockType blockType, Property[] properties) {
+    public static ImmutableBlock of(BlockType blockType, Properties properties) {
         return of(BlockState.of(blockType, properties));
     }
 
@@ -40,6 +39,6 @@ public class ImmutableBlock implements Block {
 
     @Override
     public String toString() {
-        return "ImmutableBlock{" + state.getBlockType().getID() + "|" + Arrays.asList(state.getProperties()) + "}";
+        return "ImmutableBlock{" + state.getBlockType().getID() + "|" + state.getProperties() + "}";
     }
 }
