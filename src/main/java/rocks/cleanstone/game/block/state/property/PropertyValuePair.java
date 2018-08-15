@@ -17,4 +17,9 @@ public class PropertyValuePair<T> {
     public T getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "Property{" + property.getName() + "->" + value + "}";
+    }
 }

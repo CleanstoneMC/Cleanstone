@@ -27,7 +27,7 @@ public class PropertyBoolean extends AbstractProperty<Boolean> {
     }
 
     @Override
-    public Class<Boolean> getTypeClass() {
+    public Class<Boolean> getValueClass() {
         return Boolean.class;
     }
 }

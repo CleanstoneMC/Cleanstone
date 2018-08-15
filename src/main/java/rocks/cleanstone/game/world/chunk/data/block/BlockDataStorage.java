@@ -2,20 +2,18 @@ package rocks.cleanstone.game.world.chunk.data.block;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.PaletteBlockStateStorage;
+
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Stores data about blocks (e.g. block states, block light, etc.) that can be converted into a byte stream or
@@ -29,31 +27,31 @@ public class BlockDataStorage {
     private final Map<Integer, BlockDataSection> sectionMap = new HashMap<>();
     private final boolean hasSkyLight;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final MaterialRegistry materialRegistry;
+    private final BlockStateMapping<Integer> blockStateMapping;
 
-    public BlockDataStorage(BlockDataStorage blockDataStorage, MaterialRegistry materialRegistry) {
-        this.materialRegistry = materialRegistry;
+    public BlockDataStorage(BlockDataStorage blockDataStorage, BlockStateMapping<Integer> blockStateMapping) {
+        this.blockStateMapping = blockStateMapping;
         hasSkyLight = blockDataStorage.hasSkyLight;
 
         blockDataStorage.sectionMap.forEach((integer, blockDataSection) -> {
-            sectionMap.put(integer, new BlockDataSection(blockDataSection, materialRegistry));
+            sectionMap.put(integer, new BlockDataSection(blockDataSection, blockStateMapping));
         });
     }
 
     public BlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight,
-                            MaterialRegistry materialRegistry) {
+                            BlockStateMapping<Integer> blockStateMapping) {
         this.hasSkyLight = hasSkyLight;
-        this.materialRegistry = materialRegistry;
+        this.blockStateMapping = blockStateMapping;
         this.sectionMap.putAll(sectionMap);
     }
 
-    public BlockDataStorage(BlockDataTable table, MaterialRegistry materialRegistry) {
-        this.materialRegistry = materialRegistry;
+    public BlockDataStorage(BlockDataTable table, BlockStateMapping<Integer> blockStateMapping) {
+        this.blockStateMapping = blockStateMapping;
 
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             AtomicBoolean isEmptyFlag = new AtomicBoolean();
             BlockStateStorage storage = new PaletteBlockStateStorage(table, sectionY, isEmptyFlag,
-                    materialRegistry);
+                    blockStateMapping);
             if (isEmptyFlag.get()) continue;
             byte[][][] blockLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT],
                     skyLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT];
@@ -83,7 +81,7 @@ public class BlockDataStorage {
     private BlockDataSection getOrCreateSection(int y) {
         BlockDataSection section = getSection(y);
         if (section == null) {
-            section = new BlockDataSection(hasSkyLight, materialRegistry);
+            section = new BlockDataSection(hasSkyLight, blockStateMapping);
             sectionMap.put(y, section);
         }
         return section;

@@ -11,5 +11,5 @@ public interface Property<T> {
 
     int getNeededSerializationBitAmount();
 
-    Class<T> getTypeClass();
+    Class<T> getValueClass();
 }

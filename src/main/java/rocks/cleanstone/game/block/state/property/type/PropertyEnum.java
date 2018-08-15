@@ -32,7 +32,7 @@ public class PropertyEnum<E extends Enum<E>> extends AbstractProperty<E> {
     }
 
     @Override
-    public Class<E> getTypeClass() {
+    public Class<E> getValueClass() {
         return enumClass;
     }
 }
