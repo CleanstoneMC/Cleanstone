@@ -10,4 +10,6 @@ public interface Property<T> {
     T deserialize(int serializedValue);
 
     int getNeededSerializationBitAmount();
+
+    Class<T> getTypeClass();
 }

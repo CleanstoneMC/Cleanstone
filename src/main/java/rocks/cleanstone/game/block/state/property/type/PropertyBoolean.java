@@ -25,4 +25,9 @@ public class PropertyBoolean extends AbstractProperty<Boolean> {
     public int getNeededSerializationBitAmount() {
         return 1;
     }
+
+    @Override
+    public Class<Boolean> getTypeClass() {
+        return Boolean.class;
+    }
 }

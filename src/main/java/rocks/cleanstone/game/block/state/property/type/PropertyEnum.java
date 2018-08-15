@@ -30,4 +30,9 @@ public class PropertyEnum<E extends Enum<E>> extends AbstractProperty<E> {
     public int getNeededSerializationBitAmount() {
         return maxSerializationBits;
     }
+
+    @Override
+    public Class<E> getTypeClass() {
+        return enumClass;
+    }
 }
