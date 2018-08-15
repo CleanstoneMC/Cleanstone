@@ -30,4 +30,9 @@ public class PropertyInteger extends AbstractProperty<Integer> {
     public int getNeededSerializationBitAmount() {
         return maxSerializationBits;
     }
+
+    @Override
+    public Class<Integer> getTypeClass() {
+        return Integer.class;
+    }
 }

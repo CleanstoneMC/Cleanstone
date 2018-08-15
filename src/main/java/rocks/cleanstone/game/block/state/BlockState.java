@@ -1,10 +1,11 @@
 package rocks.cleanstone.game.block.state;
 
 import com.google.common.base.Preconditions;
+import rocks.cleanstone.game.block.state.property.Properties;
+import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,40 +14,48 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class BlockState {
 
-    private static final Map<BlockType, Map<Map<Property<?>, ?>, BlockState>> BLOCK_STATE_CACHE = new ConcurrentHashMap<>();
+    private static final Map<BlockType, Map<Properties, BlockState>> BLOCK_STATE_CACHE = new ConcurrentHashMap<>();
 
     private final BlockType blockType;
-    private final Map<Property<?>, ?> propertyValueMap;
+    private final Properties properties;
 
-    protected BlockState(BlockType blockType, Map<Property<?>, ?> propertyValueMap) {
+    protected BlockState(BlockType blockType, Properties properties) {
         Preconditions.checkNotNull(blockType, "blockType cannot be null");
         this.blockType = blockType;
-        this.propertyValueMap = propertyValueMap;
+        this.properties = properties;
     }
 
     protected BlockState(BlockType blockType) {
-        this(blockType, Collections.emptyMap());
+        this(blockType, new Properties());
     }
 
-    public static BlockState of(BlockType blockType, Map<Property<?>, ?> propertyValueMap) {
+    public static BlockState of(BlockType blockType, Properties properties) {
         return BLOCK_STATE_CACHE.computeIfAbsent(blockType, k -> new ConcurrentHashMap<>())
-                .computeIfAbsent(propertyValueMap, k -> new BlockState(blockType, propertyValueMap));
-    }
-
-    public static <T> BlockState withProperty(Property<T> property, T value) {
-
+                .computeIfAbsent(properties, k -> new BlockState(blockType, properties));
     }
 
     public static BlockState of(BlockType blockType) {
-        return of(blockType, Collections.emptyMap());
+        return of(blockType, new Properties());
     }
 
     public BlockType getBlockType() {
         return blockType;
     }
 
-    public <T> T getPropertyValue(Property<T> property) {
-        //noinspection unchecked
-        return (T) propertyValueMap.get(property);
+    public <T> T getProperty(Property<T> property) {
+        return properties.get(property);
+    }
+
+    public <T> T getProperty(String propertyName) {
+        return properties.get(propertyName);
+    }
+
+    public <T> T getProperty(Class<T> valueClass) {
+        return properties.get(valueClass);
+    }
+
+    public <T> BlockState withProperty(Property<T> property, T value) {
+        Properties properties = new PropertiesBuilder(this.properties).withProperty(property, value).create();
+        return of(blockType, properties);
     }
 }
