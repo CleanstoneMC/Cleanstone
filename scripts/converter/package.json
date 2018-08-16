@@ -10,8 +10,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^10.5.0",
+    "@types/node": "^10.7.1",
     "ts-node": "^7.0.0",
     "typescript": "^2.9.2"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }
