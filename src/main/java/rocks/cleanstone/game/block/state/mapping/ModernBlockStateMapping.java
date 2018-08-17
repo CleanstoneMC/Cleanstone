@@ -71,20 +71,18 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
     }
 
     private int serializeState(int baseID, BlockState state) {
-        int mask = 0, writtenBits = 0;
         BlockType type = state.getBlockType();
         Property[] properties = blockTypeDefaultPropertiesMap.get(type);
         if (properties == null) {
             properties = type.getProperties();
         }
-        for (int i = properties.length; i >= 0; i--) {
-            Property property = properties[i];
+        int temp = 0;
+        for (Property property : properties) {
             //noinspection unchecked
             int serializedProperty = property.serialize(state.getProperty(property));
-            mask |= (serializedProperty << writtenBits);
-            writtenBits += property.getNeededSerializationBitAmount();
+            temp = serializedProperty + property.getNeededSerializationBitAmount() * temp;
         }
-        return baseID + mask;
+        return baseID + temp;
     }
 
     private BlockState deserializeState(int id) {
@@ -97,6 +95,7 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
         }
         PropertiesBuilder builder = new PropertiesBuilder();
         int mask = id - baseID;
+        // TODO simplify
         for (int i = properties.length; i >= 0; i--) {
             Property property = properties[i];
             int neededBits = property.getNeededSerializationBitAmount();
