@@ -2,6 +2,8 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/?branch=master)
 [![Build Status](https://travis-ci.org/CleanstoneMC/Cleanstone.svg?branch=master)](https://travis-ci.org/CleanstoneMC/Cleanstone)
+[![Join our Discord](https://img.shields.io/discord/429029538778054657.svg?logo=discord)](https://discordapp.com/invite/q85KPn)
+
 
 ## What is Cleanstone?
 The plan is to properly build a scalable Minecraft Server from scratch without the outdated code and single-threaded nature that Minecraft was created with.
@@ -26,7 +28,7 @@ However, tasks like pathfinding and entity movement can be completely asynchrono
 Currently we aren't supporting Bukkit or Sponge since we simply need more features and fundamentals first but in the future we will add support for Bukkit and probably Sponge as well, however we wont integrate it into our code but keep it separate and map it to our own API.
 
 ## Discord
-We have a Discord! Join us here: https://discord.gg/UqhWwKB
+We have a Discord! Join us here: https://discordapp.com/invite/q85KPn
 
 ## Livedemo
 Connect to "demo.cleanstone.rocks" with Minecraft 1.12.2. The Server restarts from time to time with the latest changes.
