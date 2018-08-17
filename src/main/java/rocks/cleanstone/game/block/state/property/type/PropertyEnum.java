@@ -6,13 +6,14 @@ import java.math.RoundingMode;
 
 public class PropertyEnum<E extends Enum<E>> extends AbstractProperty<E> {
 
-    private final int maxSerializationBits;
+    private final int totalValuesAmount, maxSerializationBits;
     private final Class<E> enumClass;
 
     public PropertyEnum(String key, E defaultValue) {
         super(key, defaultValue);
         enumClass = defaultValue.getDeclaringClass();
-        this.maxSerializationBits = IntMath.log2(enumClass.getEnumConstants().length, RoundingMode.CEILING);
+        totalValuesAmount = enumClass.getEnumConstants().length;
+        maxSerializationBits = IntMath.log2(totalValuesAmount, RoundingMode.CEILING);
     }
 
     @Override
@@ -23,6 +24,11 @@ public class PropertyEnum<E extends Enum<E>> extends AbstractProperty<E> {
     @Override
     public E deserialize(int serializedValue) {
         return enumClass.getEnumConstants()[serializedValue];
+    }
+
+    @Override
+    public int getTotalValuesAmount() {
+        return totalValuesAmount;
     }
 
     @Override
