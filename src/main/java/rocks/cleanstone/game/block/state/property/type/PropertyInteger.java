@@ -1,18 +1,16 @@
 package rocks.cleanstone.game.block.state.property.type;
 
+import com.google.common.math.IntMath;
+
+import java.math.RoundingMode;
+
 public class PropertyInteger extends AbstractProperty<Integer> {
 
     private final int maxSerializationBits;
 
     public PropertyInteger(String key, int minValue, int maxValue, Integer defaultValue) {
         super(key, defaultValue);
-
-        int neededBits = 0;
-        while (maxValue != 0) {
-            neededBits++;
-            maxValue >>= 1;
-        }
-        this.maxSerializationBits = neededBits;
+        this.maxSerializationBits = IntMath.log2(maxValue - minValue, RoundingMode.CEILING);
     }
 
     @Override
