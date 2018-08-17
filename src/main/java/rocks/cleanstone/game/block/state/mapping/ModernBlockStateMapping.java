@@ -1,14 +1,16 @@
 package rocks.cleanstone.game.block.state.mapping;
 
 import com.google.common.collect.Maps;
-import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.block.state.property.Property;
-import rocks.cleanstone.game.material.MaterialRegistry;
-import rocks.cleanstone.game.material.block.BlockType;
 
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
+import rocks.cleanstone.game.block.state.property.Property;
+import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.material.block.BlockType;
 
 public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
 
@@ -69,13 +71,18 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
     }
 
     private int serializeState(int baseID, BlockState state) {
-        int mask = 0, neededBits = 0;
-        Property[] properties = state.getBlockType().getProperties();
+        int mask = 0, writtenBits = 0;
+        BlockType type = state.getBlockType();
+        Property[] properties = blockTypeDefaultPropertiesMap.get(type);
+        if (properties == null) {
+            properties = type.getProperties();
+        }
         for (int i = properties.length; i >= 0; i--) {
             Property property = properties[i];
             //noinspection unchecked
             int serializedProperty = property.serialize(state.getProperty(property));
-            mask |= (serializedProperty << (neededBits += property.getNeededSerializationBitAmount()));
+            mask |= (serializedProperty << writtenBits);
+            writtenBits += property.getNeededSerializationBitAmount();
         }
         return baseID + mask;
     }
@@ -88,14 +95,18 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
         if (properties == null) {
             properties = type.getProperties();
         }
+        PropertiesBuilder builder = new PropertiesBuilder();
         int mask = id - baseID;
         for (int i = properties.length; i >= 0; i--) {
             Property property = properties[i];
-            // TODO fix modern blockState deserialization
-            int serializedProperty = mask & property.getNeededSerializationBitAmount() << i; // (?)
+            int neededBits = property.getNeededSerializationBitAmount();
+            int serializedProperty = mask & (1 << neededBits - 1);
+            mask >>= neededBits;
             Object propertyValue = property.deserialize(serializedProperty);
+            //noinspection unchecked
+            builder.withProperty(property, propertyValue);
         }
-        return null; // TODO
+        return BlockState.of(type, builder.create());
     }
 
     @Override
