@@ -9,6 +9,8 @@ public interface Property<T> {
 
     T deserialize(int serializedValue);
 
+    int getTotalValuesAmount();
+
     int getNeededSerializationBitAmount();
 
     Class<T> getValueClass();

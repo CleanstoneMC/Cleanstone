@@ -80,7 +80,7 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
         for (Property property : properties) {
             //noinspection unchecked
             int serializedProperty = property.serialize(state.getProperty(property));
-            temp = serializedProperty + property.getNeededSerializationBitAmount() * temp;
+            temp = serializedProperty + property.getTotalValuesAmount() * temp;
         }
         return baseID + temp;
     }

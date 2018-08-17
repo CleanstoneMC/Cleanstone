@@ -6,12 +6,13 @@ import java.math.RoundingMode;
 
 public class PropertyInteger extends AbstractProperty<Integer> {
 
-    private final int maxSerializationBits, minValue;
+    private final int totalValuesAmount, minValue, maxSerializationBits;
 
     public PropertyInteger(String key, int minValue, int maxValue, Integer defaultValue) {
         super(key, defaultValue);
         this.minValue = minValue;
-        this.maxSerializationBits = IntMath.log2(maxValue - minValue + 1, RoundingMode.CEILING);
+        totalValuesAmount = maxValue - minValue + 1;
+        this.maxSerializationBits = IntMath.log2(totalValuesAmount, RoundingMode.CEILING);
     }
 
     @Override
@@ -22,6 +23,11 @@ public class PropertyInteger extends AbstractProperty<Integer> {
     @Override
     public Integer deserialize(int serializedValue) {
         return serializedValue;
+    }
+
+    @Override
+    public int getTotalValuesAmount() {
+        return totalValuesAmount;
     }
 
     @Override
