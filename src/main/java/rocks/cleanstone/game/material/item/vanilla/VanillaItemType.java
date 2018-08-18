@@ -8,6 +8,7 @@ import rocks.cleanstone.game.material.item.ItemType;
 
 public enum VanillaItemType implements ItemType {
     STONE("stone");
+    // ...
 
     private final String minecraftID;
     private final int stackSize;
