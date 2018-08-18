@@ -1,8 +1,9 @@
 package rocks.cleanstone.game.world.generation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
+import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
@@ -16,11 +17,9 @@ public class FlatWorldGenerator implements WorldGenerator {
 
     private final BlockDataTable blockDataTable;
     private final BlockDataStorage blockDataStorage;
-    private final MaterialRegistry materialRegistry;
+    private final BlockStateMapping<Integer> blockStateMapping = new ModernBlockStateMapping(BlockState.of(VanillaBlockType.STONE));
 
-    @Autowired
-    public FlatWorldGenerator(MaterialRegistry materialRegistry) {
-        this.materialRegistry = materialRegistry;
+    public FlatWorldGenerator() {
         blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
@@ -35,13 +34,14 @@ public class FlatWorldGenerator implements WorldGenerator {
                 }
             }
         }
-        blockDataStorage = new BlockDataStorage(blockDataTable, materialRegistry);
+
+        blockDataStorage = new BlockDataStorage(blockDataTable, blockStateMapping);
     }
 
     @Override
     public Chunk generateChunk(int chunkX, int chunkY) {
         return new SimpleChunk(new ArrayBlockDataTable((ArrayBlockDataTable) blockDataTable), new
-                BlockDataStorage(blockDataStorage, materialRegistry), new HashSet<>(), chunkX, chunkY);
+                BlockDataStorage(blockDataStorage, blockStateMapping), new HashSet<>(), chunkX, chunkY);
     }
 
     @Override

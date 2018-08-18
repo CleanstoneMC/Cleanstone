@@ -1,6 +1,9 @@
 package rocks.cleanstone.game.world.generation;
 
 import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
+import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
@@ -18,6 +21,8 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     private final MaterialRegistry materialRegistry;
     private final NoiseGenerator noiseGenerator;
+    private final BlockStateMapping<Integer> blockStateMapping = new ModernBlockStateMapping(BlockState.of(VanillaBlockType.STONE));
+
 
     public MountainWorldGenerator(MaterialRegistry materialRegistry, int seed) {
         super(Dimension.OVERWORLD, LevelType.DEFAULT, seed);
@@ -53,7 +58,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
                 }
             }
         }
-        BlockDataStorage blockDataStorage = new BlockDataStorage(blockDataTable, materialRegistry);
+        BlockDataStorage blockDataStorage = new BlockDataStorage(blockDataTable, blockStateMapping);
 
         return new SimpleChunk(blockDataTable, blockDataStorage, new HashSet<>(), chunkX, chunkY);
     }
