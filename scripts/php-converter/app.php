@@ -14,8 +14,6 @@ foreach ($blocksData as $blockName => $blockData) {
 $vanillaBlockTypeContent = 'package rocks.cleanstone.game.material.block.vanilla;
 
 import rocks.cleanstone.game.block.state.property.Property;
-import rocks.cleanstone.game.block.state.property.type.*;
-import rocks.cleanstone.game.block.state.property.vanilla.*;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.VanillaMiningLevel;
 
@@ -24,7 +22,7 @@ public enum VanillaBlockType implements BlockType {
 
 $vanillaBlockTypeContent .= implode(",\n", $blocks);
 
-$vanillaBlockTypeContent = rtrim($vanillaBlockTypeContent, ',') . ";\n";
+$vanillaBlockTypeContent = rtrim($vanillaBlockTypeContent, ',') . ";\n\n";
 
 $vanillaBlockTypeContent .= '
     private final String minecraftID;
@@ -70,5 +68,24 @@ $vanillaBlockTypeContent .= '
         return miningLevel;
     }
 }';
+
+
+$vanillaPropertiesContent = 'package rocks.cleanstone.game.material.block.vanilla;
+
+import rocks.cleanstone.game.block.state.property.Property;
+import rocks.cleanstone.game.block.state.property.type.PropertyBoolean;
+import rocks.cleanstone.game.block.state.property.type.PropertyEnum;
+import rocks.cleanstone.game.block.state.property.type.PropertyInteger;
+import rocks.cleanstone.game.block.state.property.vanilla.*;
+
+public class VanillaBlockProperties {
+';
+
+foreach (Property::$properties as $propertyName => $propertyString) {
+    $vanillaPropertiesContent .= '    public static final Property ' . $propertyName . ' = ' . $propertyString . ";\n";
+}
+
+$vanillaPropertiesContent .='}
+';
 
 file_put_contents('VanillaBlockType.java', $vanillaBlockTypeContent);
