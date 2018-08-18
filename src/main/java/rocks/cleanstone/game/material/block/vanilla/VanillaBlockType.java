@@ -1,277 +1,30 @@
 package rocks.cleanstone.game.material.block.vanilla;
 
 import rocks.cleanstone.game.block.state.property.Property;
+import rocks.cleanstone.game.block.state.property.type.PropertyBoolean;
+import rocks.cleanstone.game.block.state.property.type.PropertyInteger;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.VanillaMiningLevel;
 
 public enum VanillaBlockType implements BlockType {
-    AIR(0, "minecraft:air"),
-    STONE(1, "minecraft:stone"),
-    GRASS(2, "minecraft:grass"),
-    DIRT(3, "minecraft:dirt"),
-    COBBLESTONE(4, "minecraft:cobblestone"),
-    OAK_WOOD_PLANK(5, "minecraft:planks"),
-    OAK_SAPLING(6, "minecraft:sapling"),
-    BEDROCK(7, "minecraft:bedrock"),
-    FLOWING_WATER(8, "minecraft:flowing_water"),
-    STILL_WATER(9, "minecraft:water"),
-    FLOWING_LAVA(10, "minecraft:flowing_lava"),
-    STILL_LAVA(11, "minecraft:lava"),
-    SAND(12, "minecraft:sand"),
-    GRAVEL(13, "minecraft:gravel"),
-    GOLD_ORE(14, "minecraft:gold_ore"),
-    IRON_ORE(15, "minecraft:iron_ore"),
-    COAL_ORE(16, "minecraft:coal_ore"),
-    OAK_WOOD(17, "minecraft:log"),
-    OAK_LEAVES(18, "minecraft:leaves"),
-    SPONGE(19, "minecraft:sponge"),
-    GLASS(20, "minecraft:glass"),
-    LAPIS_LAZULI_ORE(21, "minecraft:lapis_ore"),
-    LAPIS_LAZULI_BLOCK(22, "minecraft:lapis_block"),
-    DISPENSER(23, "minecraft:dispenser"),
-    SANDSTONE(24, "minecraft:sandstone"),
-    NOTE_BLOCK(25, "minecraft:noteblock"),
-    BED(26, "minecraft:bed"),
-    POWERED_RAIL(27, "minecraft:golden_rail"),
-    DETECTOR_RAIL(28, "minecraft:detector_rail"),
-    STICKY_PISTON(29, "minecraft:sticky_piston"),
-    COBWEB(30, "minecraft:web"),
-    DEAD_SHRUB(31, "minecraft:tallgrass"),
-    DEAD_BUSH(32, "minecraft:deadbush"),
-    PISTON(33, "minecraft:piston"),
-    PISTON_HEAD(34, "minecraft:piston_head"),
-    WHITE_WOOL(35, "minecraft:wool"),
-    DANDELION(37, "minecraft:yellow_flower"),
-    POPPY(38, "minecraft:red_flower"),
-    BROWN_MUSHROOM(39, "minecraft:brown_mushroom"),
-    RED_MUSHROOM(40, "minecraft:red_mushroom"),
-    GOLD_BLOCK(41, "minecraft:gold_block"),
-    IRON_BLOCK(42, "minecraft:iron_block"),
-    DOUBLE_STONE_SLAB(43, "minecraft:double_stone_slab"),
-    STONE_SLAB(44, "minecraft:stone_slab"),
-    BRICKS(45, "minecraft:brick_block"),
-    TNT(46, "minecraft:tnt"),
-    BOOKSHELF(47, "minecraft:bookshelf"),
-    MOSS_STONE(48, "minecraft:mossy_cobblestone"),
-    OBSIDIAN(49, "minecraft:obsidian"),
-    TORCH(50, "minecraft:torch"),
-    FIRE(51, "minecraft:fire"),
-    MONSTER_SPAWNER(52, "minecraft:mob_spawner"),
-    OAK_WOOD_STAIRS(53, "minecraft:oak_stairs"),
-    CHEST(54, "minecraft:chest"),
-    REDSTONE_WIRE(55, "minecraft:redstone_wire"),
-    DIAMOND_ORE(56, "minecraft:diamond_ore"),
-    DIAMOND_BLOCK(57, "minecraft:diamond_block"),
-    CRAFTING_TABLE(58, "minecraft:crafting_table"),
-    WHEAT_CROPS(59, "minecraft:wheat"),
-    FARMLAND(60, "minecraft:farmland"),
-    FURNACE(61, "minecraft:furnace"),
-    BURNING_FURNACE(62, "minecraft:lit_furnace"),
-    STANDING_SIGN_BLOCK(63, "minecraft:standing_sign"),
-    OAK_DOOR_BLOCK(64, "minecraft:wooden_door"),
-    LADDER(65, "minecraft:ladder"),
-    RAIL(66, "minecraft:rail"),
-    COBBLESTONE_STAIRS(67, "minecraft:stone_stairs"),
-    WALL_MOUNTED_SIGN_BLOCK(68, "minecraft:wall_sign"),
-    LEVER(69, "minecraft:lever"),
-    STONE_PRESSURE_PLATE(70, "minecraft:stone_pressure_plate"),
-    IRON_DOOR_BLOCK(71, "minecraft:iron_door"),
-    WOODEN_PRESSURE_PLATE(72, "minecraft:wooden_pressure_plate"),
-    REDSTONE_ORE(73, "minecraft:redstone_ore"),
-    GLOWING_REDSTONE_ORE(74, "minecraft:lit_redstone_ore"),
-    REDSTONE_TORCH_OFF(75, "minecraft:unlit_redstone_torch"),
-    REDSTONE_TORCH_ON(76, "minecraft:redstone_torch"),
-    STONE_BUTTON(77, "minecraft:stone_button"),
-    SNOW(78, "minecraft:snow_layer"),
-    ICE(79, "minecraft:ice"),
-    SNOW_BLOCK(80, "minecraft:snow"),
-    CACTUS(81, "minecraft:cactus"),
-    CLAY(82, "minecraft:clay"),
-    SUGAR_CANES(83, "minecraft:reeds"),
-    JUKEBOX(84, "minecraft:jukebox"),
-    OAK_FENCE(85, "minecraft:fence"),
-    PUMPKIN(86, "minecraft:pumpkin"),
-    NETHERRACK(87, "minecraft:netherrack"),
-    SOUL_SAND(88, "minecraft:soul_sand"),
-    GLOWSTONE(89, "minecraft:glowstone"),
-    NETHER_PORTAL(90, "minecraft:portal"),
-    JACK_O_LANTERN(91, "minecraft:lit_pumpkin"),
-    CAKE_BLOCK(92, "minecraft:cake"),
-    REDSTONE_REPEATER_BLOCK_OFF(93, "minecraft:unpowered_repeater"),
-    REDSTONE_REPEATER_BLOCK_ON(94, "minecraft:powered_repeater"),
-    WHITE_STAINED_GLASS(95, "minecraft:stained_glass"),
-    WOODEN_TRAPDOOR(96, "minecraft:trapdoor"),
-    STONE_MONSTER_EGG(97, "minecraft:monster_egg"),
-    STONE_BRICKS(98, "minecraft:stonebrick"),
-    BROWN_MUSHROOM_BLOCK(99, "minecraft:brown_mushroom_block"),
-    RED_MUSHROOM_BLOCK(100, "minecraft:red_mushroom_block"),
-    IRON_BARS(101, "minecraft:iron_bars"),
-    GLASS_PANE(102, "minecraft:glass_pane"),
-    MELON_BLOCK(103, "minecraft:melon_block"),
-    PUMPKIN_STEM(104, "minecraft:pumpkin_stem"),
-    MELON_STEM(105, "minecraft:melon_stem"),
-    VINES(106, "minecraft:vine"),
-    OAK_FENCE_GATE(107, "minecraft:fence_gate"),
-    BRICK_STAIRS(108, "minecraft:brick_stairs"),
-    STONE_BRICK_STAIRS(109, "minecraft:stone_brick_stairs"),
-    MYCELIUM(110, "minecraft:mycelium"),
-    LILY_PAD(111, "minecraft:waterlily"),
-    NETHER_BRICK(112, "minecraft:nether_brick"),
-    NETHER_BRICK_FENCE(113, "minecraft:nether_brick_fence"),
-    NETHER_BRICK_STAIRS(114, "minecraft:nether_brick_stairs"),
-    NETHER_WART(115, "minecraft:nether_wart"),
-    ENCHANTMENT_TABLE(116, "minecraft:enchanting_table"),
-    BREWING_STAND(117, "minecraft:brewing_stand"),
-    CAULDRON(118, "minecraft:cauldron"),
-    END_PORTAL(119, "minecraft:end_portal"),
-    END_PORTAL_FRAME(120, "minecraft:end_portal_frame"),
-    END_STONE(121, "minecraft:end_stone"),
-    DRAGON_EGG(122, "minecraft:dragon_egg"),
-    REDSTONE_LAMP_INACTIVE(123, "minecraft:redstone_lamp"),
-    REDSTONE_LAMP_ACTIVE(124, "minecraft:lit_redstone_lamp"),
-    DOUBLE_OAK_WOOD_SLAB(125, "minecraft:double_wooden_slab"),
-    OAK_WOOD_SLAB(126, "minecraft:wooden_slab"),
-    COCOA(127, "minecraft:cocoa"),
-    SANDSTONE_STAIRS(128, "minecraft:sandstone_stairs"),
-    EMERALD_ORE(129, "minecraft:emerald_ore"),
-    ENDER_CHEST(130, "minecraft:ender_chest"),
-    TRIPWIRE_HOOK(131, "minecraft:tripwire_hook"),
-    TRIPWIRE(132, "minecraft:tripwire_hook"),
-    EMERALD_BLOCK(133, "minecraft:emerald_block"),
-    SPRUCE_WOOD_STAIRS(134, "minecraft:spruce_stairs"),
-    BIRCH_WOOD_STAIRS(135, "minecraft:birch_stairs"),
-    JUNGLE_WOOD_STAIRS(136, "minecraft:jungle_stairs"),
-    COMMAND_BLOCK(137, "minecraft:command_block"),
-    BEACON(138, "minecraft:beacon"),
-    COBBLESTONE_WALL(139, "minecraft:cobblestone_wall"),
-    FLOWER_POT(140, "minecraft:flower_pot"),
-    CARROTS(141, "minecraft:carrots"),
-    POTATOES(142, "minecraft:potatoes"),
-    WOODEN_BUTTON(143, "minecraft:wooden_button"),
-    MOB_HEAD(144, "minecraft:skull"),
-    ANVIL(145, "minecraft:anvil"),
-    TRAPPED_CHEST(146, "minecraft:trapped_chest"),
-    WEIGHTED_PRESSURE_PLATELIGHT(147, "minecraft:light_weighted_pressure_plate"),
-    WEIGHTED_PRESSURE_PLATE_HEAVY(148, "minecraft:heavy_weighted_pressure_plate"),
-    REDSTONE_COMPARATOR_INACTIVE(149, "minecraft:unpowered_comparator"),
-    REDSTONE_COMPARATOR_ACTIVE(150, "minecraft:powered_comparator"),
-    DAYLIGHT_SENSOR(151, "minecraft:daylight_detector"),
-    REDSTONE_BLOCK(152, "minecraft:redstone_block"),
-    NETHER_QUARTZ_ORE(153, "minecraft:quartz_ore"),
-    HOPPER(154, "minecraft:hopper"),
-    QUARTZ_BLOCK(155, "minecraft:quartz_block"),
-    QUARTZ_STAIRS(156, "minecraft:quartz_stairs"),
-    ACTIVATOR_RAIL(157, "minecraft:activator_rail"),
-    DROPPER(158, "minecraft:dropper"),
-    WHITE_HARDENED_CLAY(159, "minecraft:stained_hardened_clay"),
-    WHITE_STAINED_GLASS_PANE(160, "minecraft:stained_glass_pane"),
-    ACACIA_LEAVES(161, "minecraft:leaves2"),
-    ACACIA_WOOD(162, "minecraft:log2"),
-    ACACIA_WOOD_STAIRS(163, "minecraft:acacia_stairs"),
-    DARK_OAK_WOOD_STAIRS(164, "minecraft:dark_oak_stairs"),
-    SLIME_BLOCK(165, "minecraft:slime"),
-    BARRIER(166, "minecraft:barrier"),
-    IRON_TRAPDOOR(167, "minecraft:iron_trapdoor"),
-    PRISMARINE(168, "minecraft:prismarine"),
-    SEA_LANTERN(169, "minecraft:sea_lantern"),
-    HAY_BALE(170, "minecraft:hay_block"),
-    WHITE_CARPET(171, "minecraft:carpet"),
-    HARDENED_CLAY(172, "minecraft:hardened_clay"),
-    BLOCK_OF_COAL(173, "minecraft:coal_block"),
-    PACKED_ICE(174, "minecraft:packed_ice"),
-    SUNFLOWER(175, "minecraft:double_plant"),
-    FREE_STANDING_BANNER(176, "minecraft:standing_banner"),
-    WALL_MOUNTED_BANNER(177, "minecraft:wall_banner"),
-    INVERTED_DAYLIGHT_SENSOR(178, "minecraft:daylight_detector_inverted"),
-    RED_SANDSTONE(179, "minecraft:red_sandstone"),
-    RED_SANDSTONE_STAIRS(180, "minecraft:red_sandstone_stairs"),
-    DOUBLE_RED_SANDSTONE_SLAB(181, "minecraft:double_stone_slab2"),
-    RED_SANDSTONE_SLAB(182, "minecraft:stone_slab2"),
-    SPRUCE_FENCE_GATE(183, "minecraft:spruce_fence_gate"),
-    BIRCH_FENCE_GATE(184, "minecraft:birch_fence_gate"),
-    JUNGLE_FENCE_GATE(185, "minecraft:jungle_fence_gate"),
-    DARK_OAK_FENCE_GATE(186, "minecraft:dark_oak_fence_gate"),
-    ACACIA_FENCE_GATE(187, "minecraft:acacia_fence_gate"),
-    SPRUCE_FENCE(188, "minecraft:spruce_fence"),
-    BIRCH_FENCE(189, "minecraft:birch_fence"),
-    JUNGLE_FENCE(190, "minecraft:jungle_fence"),
-    DARK_OAK_FENCE(191, "minecraft:dark_oak_fence"),
-    ACACIA_FENCE(192, "minecraft:acacia_fence"),
-    SPRUCE_DOOR_BLOCK(193, "minecraft:spruce_door"),
-    BIRCH_DOOR_BLOCK(194, "minecraft:birch_door"),
-    JUNGLE_DOOR_BLOCK(195, "minecraft:jungle_door"),
-    ACACIA_DOOR_BLOCK(196, "minecraft:acacia_door"),
-    DARK_OAK_DOOR_BLOCK(197, "minecraft:dark_oak_door"),
-    END_ROD(198, "minecraft:end_rod"),
-    CHORUS_PLANT(199, "minecraft:chorus_plant"),
-    CHORUS_FLOWER(200, "minecraft:chorus_flower"),
-    PURPUR_BLOCK(201, "minecraft:purpur_block"),
-    PURPUR_PILLAR(202, "minecraft:purpur_pillar"),
-    PURPUR_STAIRS(203, "minecraft:purpur_stairs"),
-    PURPUR_DOUBLE_SLAB(204, "minecraft:purpur_double_slab"),
-    PURPUR_SLAB(205, "minecraft:purpur_slab"),
-    END_STONE_BRICKS(206, "minecraft:end_bricks"),
-    BEETROOT_BLOCK(207, "minecraft:beetroots"),
-    GRASS_PATH(208, "minecraft:grass_path"),
-    END_GATEWAY(209, "minecraft:end_gateway"),
-    REPEATING_COMMAND_BLOCK(210, "minecraft:repeating_command_block"),
-    CHAIN_COMMAND_BLOCK(211, "minecraft:chain_command_block"),
-    FROSTED_ICE(212, "minecraft:frosted_ice"),
-    MAGMA_BLOCK(213, "minecraft:magma"),
-    NETHER_WART_BLOCK(214, "minecraft:nether_wart_block"),
-    RED_NETHER_BRICK(215, "minecraft:red_nether_brick"),
-    BONE_BLOCK(216, "minecraft:bone_block"),
-    STRUCTURE_VOID(217, "minecraft:structure_void"),
-    OBSERVER(218, "minecraft:observer"),
-    WHITE_SHULKER_BOX(219, "minecraft:white_shulker_box"),
-    ORANGE_SHULKER_BOX(220, "minecraft:orange_shulker_box"),
-    MAGENTA_SHULKER_BOX(221, "minecraft:magenta_shulker_box"),
-    LIGHT_BLUE_SHULKER_BOX(222, "minecraft:light_blue_shulker_box"),
-    YELLOW_SHULKER_BOX(223, "minecraft:yellow_shulker_box"),
-    LIME_SHULKER_BOX(224, "minecraft:lime_shulker_box"),
-    PINK_SHULKER_BOX(225, "minecraft:pink_shulker_box"),
-    GRAY_SHULKER_BOX(226, "minecraft:gray_shulker_box"),
-    LIGHT_GRAY_SHULKER_BOX(227, "minecraft:silver_shulker_box"),
-    CYAN_SHULKER_BOX(228, "minecraft:cyan_shulker_box"),
-    PURPLE_SHULKER_BOX(229, "minecraft:purple_shulker_box"),
-    BLUE_SHULKER_BOX(230, "minecraft:blue_shulker_box"),
-    BROWN_SHULKER_BOX(231, "minecraft:brown_shulker_box"),
-    GREEN_SHULKER_BOX(232, "minecraft:green_shulker_box"),
-    RED_SHULKER_BOX(233, "minecraft:red_shulker_box"),
-    BLACK_SHULKER_BOX(234, "minecraft:black_shulker_box"),
-    WHITE_GLAZED_TERRACOTTA(235, "minecraft:white_glazed_terracotta"),
-    ORANGE_GLAZED_TERRACOTTA(236, "minecraft:orange_glazed_terracotta"),
-    MAGENTA_GLAZED_TERRACOTTA(237, "minecraft:magenta_glazed_terracotta"),
-    LIGHT_BLUE_GLAZED_TERRACOTTA(238, "minecraft:light_blue_glazed_terracotta"),
-    YELLOW_GLAZED_TERRACOTTA(239, "minecraft:yellow_glazed_terracotta"),
-    LIME_GLAZED_TERRACOTTA(240, "minecraft:lime_glazed_terracotta"),
-    PINK_GLAZED_TERRACOTTA(241, "minecraft:pink_glazed_terracotta"),
-    GRAY_GLAZED_TERRACOTTA(242, "minecraft:gray_glazed_terracotta"),
-    LIGHT_GRAY_GLAZED_TERRACOTTA(243, "minecraft:light_gray_glazed_terracotta"),
-    CYAN_GLAZED_TERRACOTTA(244, "minecraft:cyan_glazed_terracotta"),
-    PURPLE_GLAZED_TERRACOTTA(245, "minecraft:purple_glazed_terracotta"),
-    BLUE_GLAZED_TERRACOTTA(246, "minecraft:blue_glazed_terracotta"),
-    BROWN_GLAZED_TERRACOTTA(247, "minecraft:brown_glazed_terracotta"),
-    GREEN_GLAZED_TERRACOTTA(248, "minecraft:green_glazed_terracotta"),
-    RED_GLAZED_TERRACOTTA(249, "minecraft:red_glazed_terracotta"),
-    BLACK_GLAZED_TERRACOTTA(250, "minecraft:black_glazed_terracotta"),
-    WHITE_CONCRETE(251, "minecraft:concrete"),
-    WHITE_CONCRETE_POWDER(252, "minecraft:concrete_powder"),
-    STRUCTURE_BLOCK(255, "minecraft:structure_block");
+    FIRE("fire", new Property[]{new PropertyInteger("age", 0, 15, 0), new PropertyBoolean("north", false), new PropertyBoolean("east", false), new PropertyBoolean("south", false), new PropertyBoolean("west", false), new PropertyBoolean("up", false)});
 
-    private final int id;
     private final String minecraftID;
+    private final Property[] properties;
     private final VanillaMiningLevel miningLevel;
 
-
-    VanillaBlockType(int id, String minecraftID, VanillaMiningLevel miningLevel) {
-        this.id = id;
+    VanillaBlockType(String minecraftID, Property[] properties, VanillaMiningLevel miningLevel) {
         this.minecraftID = minecraftID;
+        this.properties = properties;
         this.miningLevel = miningLevel;
     }
 
-    VanillaBlockType(int id, String minecraftID) {
-        this(id, minecraftID, VanillaMiningLevel.HAND);
+    VanillaBlockType(String minecraftID, Property[] properties) {
+        this(minecraftID, properties, VanillaMiningLevel.HAND);
+    }
+
+    VanillaBlockType(String minecraftID) {
+        this(minecraftID, new Property[0], VanillaMiningLevel.HAND);
     }
 
     @Override
@@ -281,21 +34,21 @@ public enum VanillaBlockType implements BlockType {
 
     @Override
     public int getID() {
-        return id;
+        return ordinal();
     }
 
     @Override
     public String getMinecraftID() {
-        return minecraftID;
+        return "minecraft:" + minecraftID;
+    }
+
+    @Override
+    public Property[] getProperties() {
+        return properties;
     }
 
     @Override
     public VanillaMiningLevel getMiningLevel() {
         return miningLevel;
-    }
-
-    @Override
-    public Property[] getProperties() {
-        return new Property[0]; // TODO
     }
 }

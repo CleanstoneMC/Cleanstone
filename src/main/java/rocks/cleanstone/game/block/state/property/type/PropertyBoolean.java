@@ -6,10 +6,6 @@ public class PropertyBoolean extends AbstractProperty<Boolean> {
         super(key, defaultValue);
     }
 
-    public PropertyBoolean(String key) {
-        super(key, false);
-    }
-
     @Override
     public int serialize(Boolean value) {
         // Blame Mojang for true being 0
