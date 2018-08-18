@@ -1,14 +1,16 @@
 package rocks.cleanstone.game.block.state.mapping;
 
 import com.google.common.collect.Maps;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
+
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
-
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
 
@@ -89,13 +91,18 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
             properties = type.getProperties();
         }
         PropertiesBuilder builder = new PropertiesBuilder();
-        int P = id - baseID;
-        // TODO simplify
-        for (int i = properties.length; i >= 0; i--) {
-//            Property property = properties[i];
-//            Object propertyValue = property.deserialize(propertyData);
-//            noinspection unchecked
-//            builder.withProperty(property, propertyValue);
+        int propertyIDAmount = Arrays.stream(properties).mapToInt(Property::getTotalValuesAmount)
+                .reduce(1, (a, b) -> a * b);
+        id -= baseID;
+        int base = 0;
+        for (Property property : properties) {
+            propertyIDAmount /= property.getTotalValuesAmount();
+            int minPropertyID = (int) Math.floor((double) id / (double) propertyIDAmount) * propertyIDAmount;
+            int valueIndex = (minPropertyID - base) / propertyIDAmount;
+            Object propertyValue = property.deserialize(valueIndex);
+            // noinspection unchecked
+            builder.withProperty(property, propertyValue);
+            base = minPropertyID;
         }
         return BlockState.of(type, builder.create());
     }
