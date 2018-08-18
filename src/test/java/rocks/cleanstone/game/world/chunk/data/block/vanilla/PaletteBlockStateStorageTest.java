@@ -1,21 +1,24 @@
 package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
+import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
+import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.material.SimpleMaterialRegistry;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
+import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
+import rocks.cleanstone.game.world.chunk.BlockDataTable;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.material.MaterialRegistry;
-import rocks.cleanstone.game.material.SimpleMaterialRegistry;
-import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
-import rocks.cleanstone.game.world.chunk.BlockDataTable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,6 +28,7 @@ class PaletteBlockStateStorageTest {
     private PaletteBlockStateStorage storage;
     // TODO use materialRegistry bean
     private MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
+    private final BlockStateMapping<Integer> blockStateMapping = new ModernBlockStateMapping(BlockState.of(VanillaBlockType.STONE));
 
     @BeforeEach
     void createStorageByTable() {
@@ -35,7 +39,7 @@ class PaletteBlockStateStorageTest {
                             .get(random.nextInt(materialRegistry.getBlockTypes().size())));
             blockDataTable.setBlock(random.nextInt(16), random.nextInt(256), random.nextInt(16), randomBlock);
         }
-        storage = new PaletteBlockStateStorage(blockDataTable, 0, new AtomicBoolean(), materialRegistry);
+        storage = new PaletteBlockStateStorage(blockDataTable, 0, new AtomicBoolean(), blockStateMapping);
     }
 
     @Test
@@ -44,7 +48,7 @@ class PaletteBlockStateStorageTest {
         storage.write(buf);
         PaletteBlockStateStorage deserialized;
         try {
-            deserialized = new PaletteBlockStateStorage(buf, materialRegistry);
+            deserialized = new PaletteBlockStateStorage(buf, blockStateMapping);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

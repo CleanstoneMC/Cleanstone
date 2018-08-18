@@ -1,7 +1,11 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
+import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
 import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataCodec;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
@@ -11,6 +15,8 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
 public class ChunkDataCodec implements PacketCodec {
 
     private final MaterialRegistry materialRegistry;
+    private final BlockStateMapping<Integer> blockStateMapping = new ModernBlockStateMapping(BlockState.of(VanillaBlockType.STONE)); //TODO: Correct BlockStateMapping
+
 
     public ChunkDataCodec(MaterialRegistry materialRegistry) {
         this.materialRegistry = materialRegistry;
@@ -28,7 +34,7 @@ public class ChunkDataCodec implements PacketCodec {
         byteBuf.writeInt(chunkDataPacket.getChunkZ());
         byteBuf.writeBoolean(chunkDataPacket.isGroundUpContinuous());
 
-        ByteBuf blockData = new BlockDataCodec(materialRegistry).serialize(chunkDataPacket.getStorage());
+        ByteBuf blockData = new BlockDataCodec(blockStateMapping).serialize(chunkDataPacket.getStorage());
         byteBuf.writeBytes(blockData);
         blockData.release();
 

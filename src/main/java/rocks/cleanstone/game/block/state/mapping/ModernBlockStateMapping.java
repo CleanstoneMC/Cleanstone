@@ -1,34 +1,29 @@
 package rocks.cleanstone.game.block.state.mapping;
 
 import com.google.common.collect.Maps;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
+import rocks.cleanstone.game.block.state.property.Property;
+import rocks.cleanstone.game.material.block.BlockType;
 
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-
-import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
-import rocks.cleanstone.game.block.state.property.Property;
-import rocks.cleanstone.game.material.MaterialRegistry;
-import rocks.cleanstone.game.material.block.BlockType;
 
 public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
 
     private final Map<BlockType, Integer> blockTypeBaseStateIDMap = Maps.newConcurrentMap();
     private final Map<BlockType, Property[]> blockTypeDefaultPropertiesMap = Maps.newConcurrentMap();
     private final NavigableMap<Integer, BlockType> baseStateIDBlockTypeMap = new ConcurrentSkipListMap<>();
-    private final MaterialRegistry materialRegistry;
     private final BlockStateMapping<Integer> defaultMapping;
     private final BlockState defaultState;
 
-    public ModernBlockStateMapping(MaterialRegistry materialRegistry, BlockStateMapping<Integer> defaultMapping) {
-        this.materialRegistry = materialRegistry;
+    public ModernBlockStateMapping(BlockStateMapping<Integer> defaultMapping) {
         this.defaultMapping = defaultMapping;
         defaultState = null;
     }
 
-    public ModernBlockStateMapping(MaterialRegistry materialRegistry, BlockState defaultState) {
-        this.materialRegistry = materialRegistry;
+    public ModernBlockStateMapping(BlockState defaultState) {
         this.defaultState = defaultState;
         defaultMapping = null;
     }
@@ -94,16 +89,13 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
             properties = type.getProperties();
         }
         PropertiesBuilder builder = new PropertiesBuilder();
-        int mask = id - baseID;
+        int P = id - baseID;
         // TODO simplify
         for (int i = properties.length; i >= 0; i--) {
-            Property property = properties[i];
-            int neededBits = property.getNeededSerializationBitAmount();
-            int serializedProperty = mask & (1 << neededBits - 1);
-            mask >>= neededBits;
-            Object propertyValue = property.deserialize(serializedProperty);
-            //noinspection unchecked
-            builder.withProperty(property, propertyValue);
+//            Property property = properties[i];
+//            Object propertyValue = property.deserialize(propertyData);
+//            noinspection unchecked
+//            builder.withProperty(property, propertyValue);
         }
         return BlockState.of(type, builder.create());
     }
