@@ -17,6 +17,8 @@ import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.VanillaMiningLevel;
 
+import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties.*;
+
 public enum VanillaBlockType implements BlockType {
 ';
 
@@ -72,7 +74,6 @@ $vanillaBlockTypeContent .= '
 
 $vanillaPropertiesContent = 'package rocks.cleanstone.game.material.block.vanilla;
 
-import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.block.state.property.type.PropertyBoolean;
 import rocks.cleanstone.game.block.state.property.type.PropertyEnum;
 import rocks.cleanstone.game.block.state.property.type.PropertyInteger;
@@ -86,7 +87,7 @@ public class VanillaBlockProperties {
  * @var Property $property
  */
 foreach (Property::$properties as $propertyName => $property) {
-    $vanillaPropertiesContent .= '    public static final ' . $property->getBlockPropertiesType() . ' ' . $propertyName . ' = ' . $property->getBlockPropertiesString() . ";\n";
+    $vanillaPropertiesContent .= '    public static final ' . $property->getLongPropertyType() . ' ' . $property->getPropertyName() . ' = ' . $property->getBlockPropertiesString() . ";\n";
 }
 
 $vanillaPropertiesContent .= '}
