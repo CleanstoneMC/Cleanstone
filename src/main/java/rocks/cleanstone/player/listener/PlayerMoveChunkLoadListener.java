@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.world.World;
@@ -22,15 +21,12 @@ import rocks.cleanstone.player.event.PlayerQuitEvent;
 
 public class PlayerMoveChunkLoadListener {
 
-    private final Map<UUID, Object> lockMap = new ConcurrentHashMap<>();
     private final Map<UUID, AtomicInteger> updateCounterMap = new ConcurrentHashMap<>();
-    private final MinecraftConfig minecraftConfig;
     private final PlayerChunkLoadService playerChunkLoadService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public PlayerMoveChunkLoadListener(MinecraftConfig minecraftConfig, PlayerChunkLoadService playerChunkLoadService) {
-        this.minecraftConfig = minecraftConfig;
+    public PlayerMoveChunkLoadListener(PlayerChunkLoadService playerChunkLoadService) {
         this.playerChunkLoadService = playerChunkLoadService;
     }
 
@@ -49,7 +45,8 @@ public class PlayerMoveChunkLoadListener {
         }
 
         int initialValue = updateCounterMap.computeIfAbsent(uuid, k -> new AtomicInteger(0)).incrementAndGet();
-        synchronized (lockMap.computeIfAbsent(uuid, k -> new Object())) {
+        //noinspection SynchronizationOnLocalVariableOrMethodParameter
+        synchronized (uuid) {
             // return early if the player already moved further
             if (updateCounterMap.get(uuid).get() != initialValue) {
                 return;
@@ -84,7 +81,6 @@ public class PlayerMoveChunkLoadListener {
                     logger.debug("aborted loading chunks for {}", player.getID().getName());
                     return;
                 }
-
 
                 maybeSendChunk(player, uuid, chunkX + relX, chunkY + relY);
                 maybeSendChunk(player, uuid, chunkX + relY, chunkY - relX);
@@ -161,10 +157,10 @@ public class PlayerMoveChunkLoadListener {
     private void playerUnloadAll(UUID uuid) {
         // request stop of loading process
         updateCounterMap.computeIfAbsent(uuid, k -> new AtomicInteger(0)).incrementAndGet();
-        synchronized (lockMap.computeIfAbsent(uuid, k -> new Object())) {
+        //noinspection SynchronizationOnLocalVariableOrMethodParameter
+        synchronized (uuid) {
             playerChunkLoadService.unloadAll(uuid);
             updateCounterMap.remove(uuid);
-            lockMap.remove(uuid);
         }
     }
 }
