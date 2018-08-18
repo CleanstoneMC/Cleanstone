@@ -76,14 +76,16 @@
     <bean id="world" class="rocks.cleanstone.game.world.SimpleGeneratedWorld" scope="prototype"/>
 
     <!-- Region -->
-    <bean id="regionManager" class="rocks.cleanstone.game.world.region.SingleRegionManager" scope="prototype"/>
+    <bean id="regionManager" class="rocks.cleanstone.game.world.region.SingleRegionManager"
+          scope="prototype"/>
 
     <!-- Chunk Provider -->
     <bean id="chunkProvider" class="rocks.cleanstone.game.world.chunk.SimpleChunkProvider" scope="prototype"/>
 
     <!-- World Data Source -->
     <!--suppress SpringBeanConstructorArgInspection -->
-    <bean id="worldDataSource" class="rocks.cleanstone.game.world.data.LevelDBWorldDataSource" scope="prototype"/>
+    <bean id="worldDataSource" class="rocks.cleanstone.game.world.data.LevelDBWorldDataSource"
+          scope="prototype"/>
 
     <!-- World Generator -->
     <!--<bean id="worldGenerator" class="rocks.cleanstone.game.world.generation.FlatWorldGenerator" scope="prototype"/>-->
@@ -153,6 +155,16 @@
     <bean id="pingListener" class="rocks.cleanstone.net.minecraft.status.PingListener"/>
 
     <bean id="keepAliveTask" class="rocks.cleanstone.net.minecraft.KeepAliveTask"/>
+
+    <!-- (Protocol) -->
+    <bean id="minecraftServerProtocolLayer_1_13"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_13.MinecraftProtocolLayer_v1_13"/>
+    <bean id="minecraftProtocolBlockStateMapping_1_13"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping_v1_13"/>
+    <bean id="minecraftServerProtocolLayer_1_12_2"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_12_2.MinecraftProtocolLayer_v1_12_2"/>
+    <bean id="minecraftProtocolBlockStateMapping_1_12_2"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_12_2.ProtocolBlockStateMapping_v1_12_2"/>
 
     <!-- (Login) -->
     <bean id="sessionServerRequester"

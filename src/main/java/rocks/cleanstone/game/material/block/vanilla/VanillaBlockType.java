@@ -7,7 +7,14 @@ import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.VanillaMiningLevel;
 
 public enum VanillaBlockType implements BlockType {
+    AIR("air"),
+    GRANITE("granite"),
+    STONE("stone"),
+    DIRT("dirt"),
+    GRASS("grass_block", new Property[]{new PropertyBoolean("snowy", false)}),
+    BEDROCK("bedrock"),
     FIRE("fire", new Property[]{new PropertyInteger("age", 0, 15, 0), new PropertyBoolean("north", false), new PropertyBoolean("east", false), new PropertyBoolean("south", false), new PropertyBoolean("west", false), new PropertyBoolean("up", false)});
+    // ...
 
     private final String minecraftID;
     private final Property[] properties;

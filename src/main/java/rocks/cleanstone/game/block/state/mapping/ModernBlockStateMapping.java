@@ -1,10 +1,12 @@
 package rocks.cleanstone.game.block.state.mapping;
 
-import com.google.common.collect.Maps;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.NavigableMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 import rocks.cleanstone.game.block.state.BlockState;
@@ -14,20 +16,23 @@ import rocks.cleanstone.game.material.block.BlockType;
 
 public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
 
-    private final Map<BlockType, Integer> blockTypeBaseStateIDMap = Maps.newConcurrentMap();
-    private final Map<BlockType, Property[]> blockTypeDefaultPropertiesMap = Maps.newConcurrentMap();
-    private final NavigableMap<Integer, BlockType> baseStateIDBlockTypeMap = new ConcurrentSkipListMap<>();
-    private final BlockStateMapping<Integer> defaultMapping;
+    private final Map<BlockType, Integer> blockTypeBaseStateIDMap;
+    private final Map<BlockType, Property[]> blockTypeDefaultPropertiesMap;
+    private final NavigableMap<Integer, BlockType> baseStateIDBlockTypeMap;
     private final BlockState defaultState;
 
-    public ModernBlockStateMapping(BlockStateMapping<Integer> defaultMapping) {
-        this.defaultMapping = defaultMapping;
+    public ModernBlockStateMapping(ModernBlockStateMapping defaultMapping) {
+        blockTypeBaseStateIDMap = new ConcurrentHashMap<>(defaultMapping.blockTypeBaseStateIDMap);
+        blockTypeDefaultPropertiesMap = new ConcurrentHashMap<>(defaultMapping.blockTypeDefaultPropertiesMap);
+        baseStateIDBlockTypeMap = new ConcurrentSkipListMap<>(defaultMapping.baseStateIDBlockTypeMap);
         defaultState = null;
     }
 
     public ModernBlockStateMapping(BlockState defaultState) {
         this.defaultState = defaultState;
-        defaultMapping = null;
+        blockTypeBaseStateIDMap = new ConcurrentHashMap<>();
+        blockTypeDefaultPropertiesMap = new ConcurrentHashMap<>();
+        baseStateIDBlockTypeMap = new ConcurrentSkipListMap<>();
     }
 
     public int getBaseID(BlockType blockType) {
@@ -40,7 +45,14 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
     }
 
     public void shiftBiggerBaseIDs(int startBaseID, int shiftAmount) {
-
+        ImmutableMap.copyOf(blockTypeBaseStateIDMap).forEach((blockType, baseStateID) -> {
+            if (baseStateID >= startBaseID) {
+                blockTypeBaseStateIDMap.remove(blockType, baseStateID);
+                blockTypeBaseStateIDMap.put(blockType, baseStateID + shiftAmount);
+                baseStateIDBlockTypeMap.remove(baseStateID, blockType);
+                baseStateIDBlockTypeMap.put(baseStateID + shiftAmount, blockType);
+            }
+        });
     }
 
     public Property[] getDefaultProperties(BlockType blockType) {
@@ -53,26 +65,45 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
 
     @Override
     public Integer getID(BlockState state) {
-        int id = -1;
-        if (defaultState != null) {
-            id = state != defaultState ? getID(defaultState) : -1;
-        } else if (defaultMapping != null) {
-            id = defaultMapping.getID(state);
-        }
-        int baseID = blockTypeBaseStateIDMap.getOrDefault(state.getBlockType(), -1);
-        if (baseID != -1) {
-            return serializeState(baseID, state);
+        Integer baseID = blockTypeBaseStateIDMap.getOrDefault(state.getBlockType(), null);
+        if (baseID != null) {
+            Property[] properties = blockTypeDefaultPropertiesMap.get(state.getBlockType());
+            if (properties == null) {
+                properties = state.getBlockType().getProperties();
+            }
+            return serializeState(state, properties, baseID);
+        } else if (defaultState != null && state != defaultState) {
+            return getID(defaultState);
         } else {
-            return id;
+            throw new IllegalStateException("There is neither an explicit or inherited baseID for "
+                    + state + " nor for the default state " + defaultState);
         }
     }
 
-    private int serializeState(int baseID, BlockState state) {
-        BlockType type = state.getBlockType();
-        Property[] properties = blockTypeDefaultPropertiesMap.get(type);
-        if (properties == null) {
-            properties = type.getProperties();
+    @Override
+    public BlockState getState(Integer id) {
+        try {
+            Map.Entry<Integer, BlockType> entry = baseStateIDBlockTypeMap.floorEntry(id);
+            Preconditions.checkNotNull(entry);
+            int baseID = entry.getKey();
+            BlockType blockType = entry.getValue();
+            Property[] properties = blockTypeDefaultPropertiesMap.get(blockType);
+            if (properties == null) {
+                properties = blockType.getProperties();
+            }
+            return deserializeState(id, blockType, properties, baseID);
+        } catch (IllegalArgumentException e) {
+            if (defaultState != null) {
+                return defaultState;
+            } else {
+                throw new IllegalStateException("There is neither an explicit or inherited state for "
+                        + id + " and there is no default state");
+            }
         }
+    }
+
+    private int serializeState(BlockState state, Property[] properties, int baseID) {
+        BlockType blockType = state.getBlockType();
         int temp = 0;
         for (Property property : properties) {
             //noinspection unchecked
@@ -82,33 +113,26 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
         return baseID + temp;
     }
 
-    private BlockState deserializeState(int id) {
-        Map.Entry<Integer, BlockType> entry = baseStateIDBlockTypeMap.floorEntry(id);
-        int baseID = entry.getKey();
-        BlockType type = entry.getValue();
-        Property[] properties = blockTypeDefaultPropertiesMap.get(type);
-        if (properties == null) {
-            properties = type.getProperties();
-        }
+    private BlockState deserializeState(int id, BlockType blockType, Property[] properties, int baseID) {
         PropertiesBuilder builder = new PropertiesBuilder();
         int propertyIDAmount = Arrays.stream(properties).mapToInt(Property::getTotalValuesAmount)
                 .reduce(1, (a, b) -> a * b);
         id -= baseID;
+        Preconditions.checkArgument(id <= propertyIDAmount);
         int base = 0;
         for (Property property : properties) {
             propertyIDAmount /= property.getTotalValuesAmount();
-            int minPropertyID = (int) Math.floor((double) id / (double) propertyIDAmount) * propertyIDAmount;
+            int minPropertyID = id - id % propertyIDAmount;
             int valueIndex = (minPropertyID - base) / propertyIDAmount;
             Object propertyValue = property.deserialize(valueIndex);
             // noinspection unchecked
             builder.withProperty(property, propertyValue);
             base = minPropertyID;
         }
-        return BlockState.of(type, builder.create());
+        return BlockState.of(blockType, builder.create());
     }
 
-    @Override
-    public BlockState getState(Integer id) {
-        return deserializeState(id);
+    public BlockState getDefaultState() {
+        return defaultState;
     }
 }
