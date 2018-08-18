@@ -131,6 +131,8 @@ class Property
         $this->propertyName = $propertyName;
         $this->values = $values;
         $this->states = $states;
+
+        self::$properties[$this->getPropertyName()] = $this;
     }
 
     private function isInteger(): bool
@@ -172,6 +174,15 @@ class Property
         return 'PropertyEnum<>';
     }
 
+    private function getEnumName(): string
+    {
+        if (isset(self::BLOCK_NAME_ENUM_OVERRIDE[$this->blockName][$this->propertyName])) {
+            return ucfirst(self::BLOCK_NAME_ENUM_OVERRIDE[$this->blockName][$this->propertyName]);
+        }
+
+        return ucfirst($this->propertyName);
+    }
+
     private function getDefaultState(): array
     {
         foreach ($this->states as $state) {
@@ -196,22 +207,32 @@ class Property
             return ', ' . $defaultValue;
         }
 
-        if (isset(self::BLOCK_NAME_ENUM_OVERRIDE[$this->blockName][$this->propertyName])) {
-            return ', ' . ucfirst(self::BLOCK_NAME_ENUM_OVERRIDE[$this->blockName][$this->propertyName]) . '.' . strtoupper($defaultValue);
-        }
+        return ', ' . $this->getEnumName() . '.' . strtoupper($defaultValue);
+    }
 
-        return ', ' . ucfirst($this->propertyName) . '.' . strtoupper($defaultValue);
+    public function getPropertyName(): string
+    {
+        return strtoupper($this->from_camel_case($this->propertyName));
     }
 
     public function __toString()
     {
-        $propertyName = strtoupper($this->from_camel_case($this->propertyName));
+        return 'VanillaBlockProperties.' . $this->getPropertyName();
+    }
 
-        $string = 'new ' . $this->getPropertyTypeString() . '("' . $this->propertyName . '"' . $this->getDefaultValue() . ')';
+    public function getBlockPropertiesType(): string
+    {
+        switch ($this->getPropertyTypeString()) {
+            case 'PropertyEnum<>':
+                return 'PropertyEnum<' . $this->getEnumName() .'>';
+            default:
+                return $this->getPropertyTypeString();
+        }
+    }
 
-        self::$properties[$propertyName] = $string;
-
-        return 'VanillaBlockProperties.' . $propertyName;
+    public function getBlockPropertiesString(): string
+    {
+        return 'new ' . $this->getPropertyTypeString() . '("' . $this->propertyName . '"' . $this->getDefaultValue() . ')';
     }
 
     /**

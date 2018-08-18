@@ -81,11 +81,16 @@ import rocks.cleanstone.game.block.state.property.vanilla.*;
 public class VanillaBlockProperties {
 ';
 
-foreach (Property::$properties as $propertyName => $propertyString) {
-    $vanillaPropertiesContent .= '    public static final Property ' . $propertyName . ' = ' . $propertyString . ";\n";
+/**
+ * @var string $propertyName
+ * @var Property $property
+ */
+foreach (Property::$properties as $propertyName => $property) {
+    $vanillaPropertiesContent .= '    public static final ' . $property->getBlockPropertiesType() . ' ' . $propertyName . ' = ' . $property->getBlockPropertiesString() . ";\n";
 }
 
-$vanillaPropertiesContent .='}
+$vanillaPropertiesContent .= '}
 ';
 
 file_put_contents('VanillaBlockType.java', $vanillaBlockTypeContent);
+file_put_contents('VanillaBlockProperties.java', $vanillaPropertiesContent);
