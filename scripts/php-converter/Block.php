@@ -43,6 +43,14 @@ class Block
 
     public function __toString()
     {
-        return '    ' . strtoupper($this->blockName) . '("' . $this->blockName . '", new Property[]{' . rtrim(implode(',', $this->properties), ',') . '})';
+        $string = '    ' . strtoupper($this->blockName) . '("' . $this->blockName . '"';
+
+        if (count($this->properties) !== 0) {
+            $string .= ', new Property[]{' . rtrim(implode(', ', $this->properties), ', ') . '}';
+        }
+
+        $string .= ')';
+
+        return $string;
     }
 }
