@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.world.generation;
 
+import java.util.HashSet;
+
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
@@ -10,8 +12,6 @@ import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
-
-import java.util.HashSet;
 
 public class FlatWorldGenerator implements WorldGenerator {
 
