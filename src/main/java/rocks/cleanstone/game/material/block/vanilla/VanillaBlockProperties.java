@@ -19,18 +19,22 @@ public class VanillaBlockProperties {
     public static final PropertyBoolean POWERED = new PropertyBoolean("powered", false);
     public static final PropertyBoolean OCCUPIED = new PropertyBoolean("occupied", false);
     public static final PropertyEnum<BedPart> PART = new PropertyEnum<>("part", BedPart.FOOT);
-    public static final PropertyEnum<StairShape> SHAPE = new PropertyEnum<>("shape", StairShape.STRAIGHT);
+    public static final PropertyEnum<RailShape> SHAPE = new PropertyEnum<>("shape", RailShape.NORTH_SOUTH);
     public static final PropertyBoolean EXTENDED = new PropertyBoolean("extended", false);
-    public static final PropertyEnum<StairHalf> HALF = new PropertyEnum<>("half", StairHalf.BOTTOM);
+    public static final PropertyEnum<BlockHalf> HALF = new PropertyEnum<>("half", BlockHalf.LOWER);
     public static final PropertyBoolean SHORT = new PropertyBoolean("short", false);
-    public static final PropertyEnum<HalfBlockPosition> TYPE = new PropertyEnum<>("type", HalfBlockPosition.BOTTOM);
+    public static final PropertyEnum<PistonType> TYPE = new PropertyEnum<>("type", PistonType.NORMAL);
     public static final PropertyInteger AGE = new PropertyInteger("age", 0, 25, 0);
     public static final PropertyBoolean EAST = new PropertyBoolean("east", false);
     public static final PropertyBoolean NORTH = new PropertyBoolean("north", false);
     public static final PropertyBoolean SOUTH = new PropertyBoolean("south", false);
     public static final PropertyBoolean UP = new PropertyBoolean("up", false);
     public static final PropertyBoolean WEST = new PropertyBoolean("west", false);
+    public static final PropertyEnum<StairHalf> STAIR_HALF = new PropertyEnum<>("half", StairHalf.BOTTOM);
+    public static final PropertyEnum<StairShape> STAIR_SHAPE = new PropertyEnum<>("shape", StairShape.STRAIGHT);
     public static final PropertyBoolean WATERLOGGED = new PropertyBoolean("waterlogged", true);
+    public static final PropertyEnum<ChestType> CHEST_TYPE = new PropertyEnum<>("type", ChestType.SINGLE);
+    public static final PropertyEnum<RedstonePosition> REDSTONE_POSITION = new PropertyEnum<>("west", RedstonePosition.NONE);
     public static final PropertyInteger POWER = new PropertyInteger("power", 0, 15, 0);
     public static final PropertyInteger MOISTURE = new PropertyInteger("moisture", 0, 7, 0);
     public static final PropertyBoolean LIT = new PropertyBoolean("lit", false);
@@ -43,6 +47,7 @@ public class VanillaBlockProperties {
     public static final PropertyInteger BITES = new PropertyInteger("bites", 0, 6, 0);
     public static final PropertyInteger DELAY = new PropertyInteger("delay", 1, 4, 1);
     public static final PropertyBoolean LOCKED = new PropertyBoolean("locked", false);
+    public static final PropertyEnum<HalfBlockPosition> HALF_BLOCK_POSITION = new PropertyEnum<>("type", HalfBlockPosition.BOTTOM);
     public static final PropertyBoolean DOWN = new PropertyBoolean("down", false);
     public static final PropertyBoolean IN_WALL = new PropertyBoolean("in_wall", false);
     public static final PropertyBoolean HAS_BOTTLE = new PropertyBoolean("has_bottle_2", false);
@@ -50,11 +55,12 @@ public class VanillaBlockProperties {
     public static final PropertyBoolean ATTACHED = new PropertyBoolean("attached", false);
     public static final PropertyBoolean DISARMED = new PropertyBoolean("disarmed", false);
     public static final PropertyBoolean CONDITIONAL = new PropertyBoolean("conditional", false);
-    public static final PropertyEnum<StructureBlockMode> MODE = new PropertyEnum<>("mode", StructureBlockMode.SAVE);
+    public static final PropertyEnum<ComparatorMode> COMPARATOR_MODE = new PropertyEnum<>("mode", ComparatorMode.COMPARE);
     public static final PropertyBoolean INVERTED = new PropertyBoolean("inverted", false);
     public static final PropertyBoolean ENABLED = new PropertyBoolean("enabled", true);
     public static final PropertyInteger EGGS = new PropertyInteger("eggs", 1, 4, 1);
     public static final PropertyInteger HATCH = new PropertyInteger("hatch", 0, 2, 0);
     public static final PropertyInteger PICKLES = new PropertyInteger("pickles", 1, 4, 1);
     public static final PropertyBoolean DRAG = new PropertyBoolean("drag", true);
+    public static final PropertyEnum<StructureBlockMode> STRUCTURE_BLOCK_MODE = new PropertyEnum<>("mode", StructureBlockMode.SAVE);
 }

@@ -100,6 +100,67 @@ class Property
         'purpur_slab' => ['type' => 'HalfBlockPosition'],
     ];
 
+    const PROPERTY_NAME_OVERRIDE = [
+        'redstone_wire' => [
+            'east' => 'RedstonePosition',
+            'north' => 'RedstonePosition',
+            'south' => 'RedstonePosition',
+            'west' => 'RedstonePosition',
+        ],
+
+        'brick_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'cobblestone_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'stone_brick_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'nether_brick_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'sandstone_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'spruce_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'birch_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'jungle_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'quartz_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'acacia_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'dark_oak_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'oak_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'prismarine_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'prismarine_brick_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'dark_prismarine_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'red_sandstone_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+        'purpur_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
+
+        'chest' => ['type' => 'ChestType'],
+        'trapped_chest' => ['type' => 'ChestType'],
+
+        'oak_trapdoor' => ['half' => 'HalfBlockPosition'],
+        'spruce_trapdoor' => ['half' => 'HalfBlockPosition'],
+        'birch_trapdoor' => ['half' => 'HalfBlockPosition'],
+        'jungle_trapdoor' => ['half' => 'HalfBlockPosition'],
+        'acacia_trapdoor' => ['half' => 'HalfBlockPosition'],
+        'dark_oak_trapdoor' => ['half' => 'HalfBlockPosition'],
+        'iron_trapdoor' => ['half' => 'HalfBlockPosition'],
+
+        'prismarine_slab' => ['type' => 'HalfBlockPosition'],
+        'prismarine_brick_slab' => ['type' => 'HalfBlockPosition'],
+        'dark_prismarine_slab' => ['type' => 'HalfBlockPosition'],
+        'oak_slab' => ['type' => 'HalfBlockPosition'],
+        'spruce_slab' => ['type' => 'HalfBlockPosition'],
+        'birch_slab' => ['type' => 'HalfBlockPosition'],
+        'jungle_slab' => ['type' => 'HalfBlockPosition'],
+        'acacia_slab' => ['type' => 'HalfBlockPosition'],
+        'dark_oak_slab' => ['type' => 'HalfBlockPosition'],
+        'stone_slab' => ['type' => 'HalfBlockPosition'],
+        'sandstone_slab' => ['type' => 'HalfBlockPosition'],
+        'petrified_oak_slab' => ['type' => 'HalfBlockPosition'],
+        'cobblestone_slab' => ['type' => 'HalfBlockPosition'],
+        'brick_slab' => ['type' => 'HalfBlockPosition'],
+        'stone_brick_slab' => ['type' => 'HalfBlockPosition'],
+        'nether_brick_slab' => ['type' => 'HalfBlockPosition'],
+        'quartz_slab' => ['type' => 'HalfBlockPosition'],
+        'red_sandstone_slab' => ['type' => 'HalfBlockPosition'],
+        'purpur_slab' => ['type' => 'HalfBlockPosition'],
+
+        'comparator' => ['mode' => 'ComparatorMode'],
+        'structure_block' => ['mode' => 'StructureBlockMode'],
+    ];
+
     public static $properties = [];
 
     /**
@@ -124,6 +185,7 @@ class Property
      * @param string $propertyName
      * @param array $values
      * @param array $states
+     * @throws Exception
      */
     public function __construct(string $blockName, string $propertyName, array $values, array $states)
     {
@@ -132,7 +194,19 @@ class Property
         $this->values = $values;
         $this->states = $states;
 
-        self::$properties[$this->getPropertyName()] = $this;
+        if (isset(self::$properties[$this->getBlockPropertiesName()])) {
+            /** @var Property $duplicate */
+            $duplicate = self::$properties[$this->getBlockPropertiesName()];
+
+            if ($this->getLongPropertyType() !== $duplicate->getLongPropertyType()) {
+                throw new Exception('Override!!!1elf ' . $blockName . ':' . $this->getBlockPropertiesName());
+            }
+
+//            $cachePropertyName = strtoupper($blockName) . '_' . $cachePropertyName;
+        }
+
+        self::$properties[$this->getBlockPropertiesName()] = $this;
+
     }
 
     private function isInteger(): bool
@@ -161,7 +235,16 @@ class Property
         return true;
     }
 
-    private function getPropertyTypeString(): string
+    private function getEnumClass(): string
+    {
+        if (isset(self::BLOCK_NAME_ENUM_OVERRIDE[$this->blockName][$this->propertyName])) {
+            return ucfirst(self::BLOCK_NAME_ENUM_OVERRIDE[$this->blockName][$this->propertyName]);
+        }
+
+        return ucfirst($this->propertyName);
+    }
+
+    public function getShortPropertyType(): string
     {
         if ($this->isInteger()) {
             return 'PropertyInteger';
@@ -174,16 +257,32 @@ class Property
         return 'PropertyEnum<>';
     }
 
-    private function getEnumName(): string
+    public function getLongPropertyType(): string
     {
-        if (isset(self::BLOCK_NAME_ENUM_OVERRIDE[$this->blockName][$this->propertyName])) {
-            return ucfirst(self::BLOCK_NAME_ENUM_OVERRIDE[$this->blockName][$this->propertyName]);
+        if ($this->isInteger()) {
+            return 'PropertyInteger';
         }
 
-        return ucfirst($this->propertyName);
+        if ($this->isBoolean()) {
+            return 'PropertyBoolean';
+        }
+
+        return 'PropertyEnum<' . $this->getEnumClass() . '>';
     }
 
-    private function getDefaultState(): array
+    public function getBlockPropertiesName(): string
+    {
+        $name = $this->propertyName;
+
+        if (isset(self::PROPERTY_NAME_OVERRIDE[$this->blockName][$this->propertyName])) {
+            $name =  self::PROPERTY_NAME_OVERRIDE[$this->blockName][$this->propertyName];
+        }
+
+
+        return $this->from_camel_case($name);
+    }
+
+    public function getDefaultState(): array
     {
         foreach ($this->states as $state) {
             if (isset($state['default']) && $state['default'] === true) {
@@ -194,7 +293,7 @@ class Property
         throw new Exception('Could not found default State for ' . $this->propertyName);
     }
 
-    private function getDefaultValue(): string
+    public function getDefaultValue(): string
     {
         $defaultState = $this->getDefaultState();
         $defaultValue = $defaultState['properties'][$this->propertyName];
@@ -207,32 +306,22 @@ class Property
             return ', ' . $defaultValue;
         }
 
-        return ', ' . $this->getEnumName() . '.' . strtoupper($defaultValue);
+        return ', ' . $this->getEnumClass() . '.' . strtoupper($defaultValue);
     }
 
     public function getPropertyName(): string
     {
-        return strtoupper($this->from_camel_case($this->propertyName));
+        return strtoupper($this->getBlockPropertiesName());
     }
 
     public function __toString()
     {
-        return 'VanillaBlockProperties.' . $this->getPropertyName();
-    }
-
-    public function getBlockPropertiesType(): string
-    {
-        switch ($this->getPropertyTypeString()) {
-            case 'PropertyEnum<>':
-                return 'PropertyEnum<' . $this->getEnumName() .'>';
-            default:
-                return $this->getPropertyTypeString();
-        }
+        return $this->getPropertyName();
     }
 
     public function getBlockPropertiesString(): string
     {
-        return 'new ' . $this->getPropertyTypeString() . '("' . $this->propertyName . '"' . $this->getDefaultValue() . ')';
+        return 'new ' . $this->getShortPropertyType() . '("' . $this->propertyName . '"' . $this->getDefaultValue() . ')';
     }
 
     /**
