@@ -1,6 +1,6 @@
 package rocks.cleanstone.game.block.state.property.vanilla;
 
-public enum ActivatorRailShape {
+public enum RailShape {
     NORTH_SOUTH,
     EAST_WEST,
     ASCENDING_EAST,

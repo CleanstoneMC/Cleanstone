@@ -1,6 +1,6 @@
 package rocks.cleanstone.game.block.state.property.vanilla;
 
-public enum StructureBlockType {
+public enum StructureBlockMode {
     SAVE,
     LOAD,
     CORNER,

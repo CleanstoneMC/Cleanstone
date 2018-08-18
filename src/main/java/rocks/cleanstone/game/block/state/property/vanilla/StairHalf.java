@@ -1,6 +1,6 @@
 package rocks.cleanstone.game.block.state.property.vanilla;
 
-public enum DoorHalf {
-    UPPER,
-    LOWER
+public enum StairHalf {
+    TOP,
+    BOTTOM
 }

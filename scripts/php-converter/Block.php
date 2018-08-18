@@ -36,7 +36,7 @@ class Block
 
         if (isset($blockData['properties'])) {
             foreach ($blockData['properties'] as $propertyName => $propertyData) {
-                $this->properties[] = new Property($propertyName, $propertyData, $blockData['states']);
+                $this->properties[] = new Property($this->blockName, $propertyName, $propertyData, $blockData['states']);
             }
         }
     }
