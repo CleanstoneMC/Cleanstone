@@ -1,13 +1,14 @@
 package rocks.cleanstone.game.block.state;
 
 import com.google.common.base.Preconditions;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import rocks.cleanstone.game.block.state.property.Properties;
 import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * An immutable state of a block containing its material and properties
@@ -55,7 +56,20 @@ public class BlockState {
     }
 
     public <T> BlockState withProperty(Property<T> property, T value) {
-        Properties properties = new PropertiesBuilder(this.properties).withProperty(property, value).create();
+        Properties properties = new PropertiesBuilder(this.properties)
+                .withProperty(property, value).create();
+        return of(blockType, properties);
+    }
+
+    public <T> BlockState withProperty(String propertyName, T value) {
+        Properties properties = new PropertiesBuilder(this.properties)
+                .withProperty(propertyName, value, blockType).create();
+        return of(blockType, properties);
+    }
+
+    public <T> BlockState withProperty(Class<T> valueClass, T value) {
+        Properties properties = new PropertiesBuilder(this.properties)
+                .withProperty(valueClass, value, blockType).create();
         return of(blockType, properties);
     }
 
