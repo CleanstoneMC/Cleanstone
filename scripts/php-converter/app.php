@@ -14,8 +14,8 @@ foreach ($blocksData as $blockName => $blockData) {
 $vanillaBlockTypeContent = 'package rocks.cleanstone.game.material.block.vanilla;
 
 import rocks.cleanstone.game.block.state.property.Property;
-import rocks.cleanstone.game.block.state.property.type.PropertyBoolean;
-import rocks.cleanstone.game.block.state.property.type.PropertyInteger;
+import rocks.cleanstone.game.block.state.property.type.*;
+import rocks.cleanstone.game.block.state.property.vanilla.*;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.VanillaMiningLevel;
 
