@@ -42,6 +42,11 @@ public class EnumParameter<T extends Enum<T>> implements CompletableParameter<T>
     public T get(CompletionContext<T> context) {
         return getCompletion(context).stream()
                 .map(CompletionMatch::getMatch)
+                // sort perfect matches to the front
+                .sorted((o1, o2) -> Boolean.compare(
+                        !o1.equalsIgnoreCase(context.getInput()),
+                        !o2.equalsIgnoreCase(context.getInput())
+                ))
                 .map(completion -> completion.toUpperCase(Locale.ENGLISH))
                 .map(completion -> Enum.valueOf(context.getExpectedType(), completion))
                 .findFirst()
