@@ -1,0 +1,29 @@
+language: java
+
+jdk:
+- oraclejdk8
+- oraclejdk9
+- oraclejdk10
+- oraclejdk11
+- openjdk8
+- openjdk9
+- openjdk10
+- openjdk11
+
+before_cache:
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: H8SLyQNslviF5xVlWbURXjzzqBDJ3iSkCBjKrnYmGYoEa5MQTIQNq+b6UyPEMC3bsvqrXd8GwKg7QA+zJej1ekiUp47VBkfjwZAXm2BLkWGwJRSL7IBQJy+CtPwSDOPC5IwDHYUyez2Bj6MsnQtjhuOCIG+FzGB2LVqz2X0A/+XCpJPqZz+JMmQ0Hv1ro7czt8T+cUVfo2CKFpPOCLkZNMC/Jf3BMdGcVTuePY8Sv7k+yfcUgO+azXlvSFIegIuImSp56iwFAjxApQB0KEyNzi8zcW0JCRbkREbK5o4mAKeUWeoWeZLcgkiRG3Dke7s4eKPBntUQjdnQ3ffL9F51BQcBfVTkBzYN3vBWfvcRZGZZScdVD3MjcQcarAJNb9ERugTwnYAJC566ZB3j4+FmVZrNj0O50uPYyc31L4wtEHTDGQAGxaedErK1/dU10edrNivsKySR5ohIWTXMK6M6yjifttj2Ul3Pq3C7rcV1PBFTBLNVPxRx3rq7V1Ux3m+0VODiUt8uGcLVh1uWq8oR5EOtcp5cSz/8tbcXFHIKH9L5okx//iDuYZf/3y2IQguq/4JgIAZMnUyrrKzvgiUamfe95GYX/hsIvzPYtNULYEu0IVIhr9slOeweRCFhQ8W99KW103Lwj39Tjy9v/TdJv7NoyCYw32Tum5A2SXPQPW8=
+  file: target/Cleanstone*.jar
+  on:
+    tags: true
