@@ -1,23 +1,26 @@
-package rocks.cleanstone.net.minecraft.packet.inbound;
+package rocks.cleanstone.net.packet.inbound;
 
-import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
+import javax.annotation.Nullable;
+import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.utils.Vector;
 
 public class InTabCompletePacket implements Packet {
-
+    private final int transactionId;
     private final String text;
     private final boolean assumeCommand;
-    private final boolean hasPosition;
     private final Vector lookedAtBlock;
 
-
-    public InTabCompletePacket(String text, boolean assumeCommand, boolean hasPosition, Vector lookedAtBlock) {
+    public InTabCompletePacket(int transactionId, String text, boolean assumeCommand, @Nullable Vector lookedAtBlock) {
+        this.transactionId = transactionId;
         this.text = text;
         this.assumeCommand = assumeCommand;
-        this.hasPosition = hasPosition;
         this.lookedAtBlock = lookedAtBlock;
+    }
+
+    public int getTransactionId() {
+        return transactionId;
     }
 
     public String getText() {
@@ -28,10 +31,7 @@ public class InTabCompletePacket implements Packet {
         return assumeCommand;
     }
 
-    public boolean isHasPosition() {
-        return hasPosition;
-    }
-
+    @Nullable
     public Vector getLookedAtBlock() {
         return lookedAtBlock;
     }

@@ -18,6 +18,6 @@ public class TabCompleteListener {
 
     @EventListener
     public void onCommand(PlayerTabCompleteEvent event) {
-        commandCompletion.completeCommandLine(event.getText(), event.getPlayer(), event.getLookedAtBlock());
+        commandCompletion.completeCommandLine(event.getTransactionId(), event.getText(), event.getPlayer(), event.getLookedAtBlock());
     }
 }

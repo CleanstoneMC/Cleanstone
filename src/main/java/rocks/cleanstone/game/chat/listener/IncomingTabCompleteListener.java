@@ -37,6 +37,7 @@ public class IncomingTabCompleteListener {
 
         CleanstoneServer.publishEvent(new PlayerTabCompleteEvent(
                 player,
+                tabCompletePacket.getTransactionId(),
                 tabCompletePacket.getText(),
                 tabCompletePacket.getLookedAtBlock()
         ));
