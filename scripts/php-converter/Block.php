@@ -23,10 +23,14 @@ class Block
      */
     private $properties = [];
 
+    /** @var int */
+    private $baseID;
+
     /**
      * Block constructor.
      * @param string $minecraftBlockName
      * @param array $blockData
+     * @throws Exception
      */
     public function __construct(string $minecraftBlockName, array $blockData)
     {
@@ -39,11 +43,20 @@ class Block
                 $this->properties[] = new Property($this->blockName, $propertyName, $propertyData, $blockData['states']);
             }
         }
+
+        $minID = null;
+        foreach ($blockData['states'] as $state) {
+            if ($minID === null || $minID > $state['id']) {
+                $minID = $state['id'];
+            }
+        }
+        
+        $this->baseID = $minID;
     }
 
     public function __toString()
     {
-        $string = '    ' . strtoupper($this->blockName) . '("' . $this->blockName . '"';
+        $string = '    ' . $this->getBlockEnumName() . '("' . $this->blockName . '"';
 
         if (count($this->properties) !== 0) {
             $string .= ', new Property[]{' . rtrim(implode(', ', $this->properties), ', ') . '}';
@@ -52,5 +65,15 @@ class Block
         $string .= ')';
 
         return $string;
+    }
+
+    public function getBlockEnumName(): string
+    {
+        return strtoupper($this->blockName);
+    }
+
+    public function getBaseID(): int
+    {
+        return $this->baseID;
     }
 }

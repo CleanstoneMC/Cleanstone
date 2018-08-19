@@ -93,5 +93,32 @@ foreach (Property::$properties as $propertyName => $property) {
 $vanillaPropertiesContent .= '}
 ';
 
+$protocolBlockStateMappingContent = 'package rocks.cleanstone.net.minecraft.protocol.v1_13;
+
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
+
+import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockType.*;
+
+public class ProtocolBlockStateMapping_v1_13 extends ModernBlockStateMapping {
+
+    public ProtocolBlockStateMapping_v1_13() {
+        super(BlockState.of(STONE));
+';
+
+/** @var Block $block */
+foreach ($blocks as $block) {
+    $protocolBlockStateMappingContent .= '        setBaseID(' . $block->getBlockEnumName() .  ', ' . $block->getBaseID() . ');' . "\n";
+}
+
+//        setBaseID(VanillaBlockType.AIR, 0);
+//        setBaseID(VanillaBlockType.STONE, 1);
+//        setBaseID(VanillaBlockType.GRANITE, 2);
+//        // ...
+$protocolBlockStateMappingContent .= '    }
+}
+';
+
 file_put_contents('VanillaBlockType.java', $vanillaBlockTypeContent);
 file_put_contents('VanillaBlockProperties.java', $vanillaPropertiesContent);
+file_put_contents('ProtocolBlockStateMapping_v1_13.java', $protocolBlockStateMappingContent);
