@@ -48,7 +48,8 @@ import static rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState.*;
 public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
     @Autowired
-    public MinecraftProtocolLayer_v1_12_2(ProtocolBlockStateMapping_v1_12_2 blockStateMapping) {
+    public MinecraftProtocolLayer_v1_12_2(ProtocolBlockStateMapping blockStateMapping,
+                                          ProtocolItemTypeMapping itemTypeMapping) {
         // inbound
         registerPacketCodec(new HandshakeCodec(), HandshakePacket.class, HANDSHAKE, 0x00);
         registerPacketCodec(new LoginStartCodec(), LoginStartPacket.class, LOGIN, 0x00);

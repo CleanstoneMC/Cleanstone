@@ -160,11 +160,16 @@
     <bean id="minecraftServerProtocolLayer_1_13"
           class="rocks.cleanstone.net.minecraft.protocol.v1_13.MinecraftProtocolLayer_v1_13"/>
     <bean id="minecraftProtocolBlockStateMapping_1_13"
-          class="rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping_v1_13"/>
+          class="rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping"/>
+    <bean id="minecraftProtocolItemTypeMapping_1_13"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolItemTypeMapping"/>
+
     <bean id="minecraftServerProtocolLayer_1_12_2"
           class="rocks.cleanstone.net.minecraft.protocol.v1_12_2.MinecraftProtocolLayer_v1_12_2"/>
     <bean id="minecraftProtocolBlockStateMapping_1_12_2"
-          class="rocks.cleanstone.net.minecraft.protocol.v1_12_2.ProtocolBlockStateMapping_v1_12_2"/>
+          class="rocks.cleanstone.net.minecraft.protocol.v1_12_2.ProtocolBlockStateMapping"/>
+    <bean id="minecraftProtocolItemTypeMapping_1_12_2"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_12_2.ProtocolItemTypeMapping"/>
 
     <!-- (Login) -->
     <bean id="sessionServerRequester"
