@@ -76,4 +76,9 @@ public class BlockState {
     public Properties getProperties() {
         return properties;
     }
+
+    @Override
+    public String toString() {
+        return "BlockState{type=" + blockType + ";properties=" + properties + "}";
+    }
 }
