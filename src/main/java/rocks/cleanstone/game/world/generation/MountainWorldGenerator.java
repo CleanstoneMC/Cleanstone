@@ -1,6 +1,8 @@
 package rocks.cleanstone.game.world.generation;
 
 import java.util.HashSet;
+
+import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
@@ -14,6 +16,11 @@ import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
 
 public class MountainWorldGenerator extends AbstractWorldGenerator {
+
+    private static final Block GRASS = ImmutableBlock.of(VanillaBlockType.GRASS);
+    private static final Block DIRT = ImmutableBlock.of(VanillaBlockType.DIRT);
+    private static final Block STONE = ImmutableBlock.of(VanillaBlockType.STONE);
+    private static final Block BEDROCK = ImmutableBlock.of(VanillaBlockType.BEDROCK);
 
     private final MaterialRegistry materialRegistry;
     private final NoiseGenerator noiseGenerator;
@@ -33,24 +40,20 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     @Override
     public Chunk generateChunk(int chunkX, int chunkY) {
-        ImmutableBlock grass = ImmutableBlock.of(VanillaBlockType.GRASS);
-        ImmutableBlock dirt = ImmutableBlock.of(VanillaBlockType.DIRT);
-        ImmutableBlock stone = ImmutableBlock.of(VanillaBlockType.STONE);
-        ImmutableBlock bedrock = ImmutableBlock.of(VanillaBlockType.BEDROCK);
 
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int height = getHeightAt((chunkX << 4) + x, (chunkY << 4) + z);
-                blockDataTable.setBlock(x, height, z, grass);
-                blockDataTable.setBlock(x, height - 1, z, dirt);
-                blockDataTable.setBlock(x, height - 2, z, dirt);
+                blockDataTable.setBlock(x, height, z, GRASS);
+                blockDataTable.setBlock(x, height - 1, z, DIRT);
+                blockDataTable.setBlock(x, height - 2, z, DIRT);
 
                 for (int y = 1; y < (height - 2); y++) {
-                    blockDataTable.setBlock(x, y, z, stone);
+                    blockDataTable.setBlock(x, y, z, STONE);
                 }
 
-                blockDataTable.setBlock(x, 0, z, bedrock);
+                blockDataTable.setBlock(x, 0, z, BEDROCK);
                 for (int y = 0; y < Chunk.HEIGHT; y++) {
                     blockDataTable.setSkyLight(x, y, z, (byte) 15);
                 }

@@ -11,7 +11,7 @@ import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 
 public class ArrayBlockDataTable implements BlockDataTable {
 
-    private static final ImmutableBlock AIR = ImmutableBlock.of(VanillaBlockType.AIR);
+    private static final Block AIR = ImmutableBlock.of(VanillaBlockType.AIR);
     private final Block[][][] blocks;
     private final byte[][][] blockLight, skyLight;
     private final boolean hasSkylight;
