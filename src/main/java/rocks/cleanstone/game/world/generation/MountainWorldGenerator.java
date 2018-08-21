@@ -1,10 +1,10 @@
 package rocks.cleanstone.game.world.generation;
 
+import java.util.HashSet;
+
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
-import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
@@ -13,10 +13,9 @@ import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
 import rocks.cleanstone.game.world.generation.utils.NoiseGenerator;
+import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
-
-import java.util.HashSet;
 
 public class MountainWorldGenerator extends AbstractWorldGenerator {
 
@@ -27,7 +26,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     private final MaterialRegistry materialRegistry;
     private final NoiseGenerator noiseGenerator;
-    private final BlockStateMapping<Integer> blockStateMapping = new ModernBlockStateMapping(BlockState.of(VanillaBlockType.STONE));
+    private final BlockStateMapping<Integer> blockStateMapping = new ProtocolBlockStateMapping();
 
 
     public MountainWorldGenerator(MaterialRegistry materialRegistry, int seed) {

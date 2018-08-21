@@ -1,25 +1,25 @@
 package rocks.cleanstone.game.world.data;
 
-import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+
+import javax.annotation.Nullable;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
-import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
-import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
 import rocks.cleanstone.game.material.MaterialRegistry;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.ChunkDataKeyFactory;
 import rocks.cleanstone.game.world.chunk.data.StandardChunkDataType;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataCodec;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
-
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
+import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
 
@@ -27,7 +27,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     private final String worldID;
     private final boolean hasSkyLight;
     private final MaterialRegistry materialRegistry;
-    private final BlockStateMapping<Integer> blockStateMapping = new ModernBlockStateMapping(BlockState.of(VanillaBlockType.STONE)); //TODO: Correct BlockStateMapping
+    private final BlockStateMapping<Integer> blockStateMapping = new ProtocolBlockStateMapping();
 
     public LevelDBWorldDataSource(File worldDataFolder, String worldID, MaterialRegistry materialRegistry)
             throws IOException {
