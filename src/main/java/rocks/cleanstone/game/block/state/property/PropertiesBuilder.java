@@ -23,6 +23,7 @@ public class PropertiesBuilder {
     }
 
     public <T> PropertiesBuilder withProperty(Property<T> property, T value) {
+        propertyValuePairs.removeIf(pair -> pair.getProperty().getName().equals(property.getName()));
         propertyValuePairs.add(new PropertyValuePair<>(property, value));
         return this;
     }
@@ -32,6 +33,7 @@ public class PropertiesBuilder {
         Property<T> property = Arrays.stream(holder.getProperties())
                 .filter(prop -> prop.getName().equals(propertyName))
                 .findAny().orElseThrow(IllegalArgumentException::new);
+        propertyValuePairs.removeIf(pair -> pair.getProperty().getName().equals(property.getName()));
         propertyValuePairs.add(new PropertyValuePair<>(property, value));
         return this;
     }
@@ -41,6 +43,7 @@ public class PropertiesBuilder {
         Property<T> property = (Property<T>) propertyValuePairs.stream()
                 .filter(pair -> pair.getProperty().getValueClass() == valueClass)
                 .collect(MoreCollectors.onlyElement()).getProperty();
+        propertyValuePairs.removeIf(pair -> pair.getProperty().getName().equals(property.getName()));
         propertyValuePairs.add(new PropertyValuePair<>(property, value));
         return this;
     }

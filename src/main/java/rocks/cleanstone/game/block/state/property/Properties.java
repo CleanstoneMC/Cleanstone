@@ -1,5 +1,6 @@
 package rocks.cleanstone.game.block.state.property;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.MoreCollectors;
 
@@ -56,6 +57,19 @@ public class Properties {
 
     public Collection<PropertyValuePair<?>> getPropertyValuePairs() {
         return Collections.unmodifiableCollection(propertyValuePairs);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Properties)) return false;
+        Properties that = (Properties) o;
+        return Objects.equal(propertyValuePairs, that.propertyValuePairs);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(propertyValuePairs);
     }
 
     @Override
