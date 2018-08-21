@@ -1,24 +1,24 @@
 package rocks.cleanstone.game.block.state.mapping;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
+import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.material.SimpleMaterialRegistry;
+import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ModernBlockStateMappingTest {
 
-    ModernBlockStateMapping modernBlockStateMapping = new ModernBlockStateMapping(BlockState.of(VanillaBlockType.STONE));
-
-    @BeforeEach
-    void setUp() {
-
-    }
+    private final BlockStateMapping<Integer> blockStateMapping = new ProtocolBlockStateMapping();
+    private final MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
 
     @Test
-    void getID() {
-    }
-
-    @Test
-    void getState() {
+    void serializationShouldBeOneToOne() {
+        materialRegistry.getBlockTypes().forEach(blockType -> {
+            BlockState state = BlockState.of(blockType);
+            BlockState deserialized = blockStateMapping.getState(blockStateMapping.getID(state));
+            assertEquals(state, deserialized);
+        });
     }
 }

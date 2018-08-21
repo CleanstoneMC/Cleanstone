@@ -10,8 +10,12 @@ public class PropertiesBuilder {
 
     protected final Collection<PropertyValuePair<?>> propertyValuePairs;
 
-    public PropertiesBuilder() {
+    public PropertiesBuilder(PropertyHolder propertyHolder) {
         propertyValuePairs = new ArrayList<>();
+        Arrays.stream(propertyHolder.getProperties()).forEach(property -> {
+            //noinspection unchecked
+            propertyValuePairs.add(new PropertyValuePair<>(property, property.getDefaultValue()));
+        });
     }
 
     public PropertiesBuilder(Properties properties) {
@@ -19,25 +23,28 @@ public class PropertiesBuilder {
     }
 
     public <T> PropertiesBuilder withProperty(PropertyDefinition<T> propertyDefinition, T value) {
+        propertyValuePairs.removeIf(pair -> pair.getPropertyDefinition().getProperty().getName().equals(propertyDefinition.getProperty().getName()));
         propertyValuePairs.add(new PropertyValuePair<>(propertyDefinition, value));
         return this;
     }
 
     public <T> PropertiesBuilder withProperty(String propertyName, T value, PropertyHolder holder) {
         //noinspection unchecked
-        PropertyDefinition<T> property = Arrays.stream(holder.getProperties())
+        PropertyDefinition<T> propertyDefinition = Arrays.stream(holder.getProperties())
                 .filter(prop -> prop.getProperty().getName().equals(propertyName))
                 .findAny().orElseThrow(IllegalArgumentException::new);
-        propertyValuePairs.add(new PropertyValuePair<>(property, value));
+        propertyValuePairs.removeIf(pair -> pair.getPropertyDefinition().getProperty().getName().equals(propertyDefinition.getProperty().getName()));
+        propertyValuePairs.add(new PropertyValuePair<>(propertyDefinition, value));
         return this;
     }
 
     public <T> PropertiesBuilder withProperty(Class<T> valueClass, T value, PropertyHolder holder) {
         //noinspection unchecked
-        PropertyDefinition<T> property = (PropertyDefinition<T>) propertyValuePairs.stream()
+        PropertyDefinition<T> propertyDefinition = (PropertyDefinition<T>) propertyValuePairs.stream()
                 .filter(pair -> pair.getPropertyDefinition().getProperty().getValueClass() == valueClass)
                 .collect(MoreCollectors.onlyElement()).getPropertyDefinition();
-        propertyValuePairs.add(new PropertyValuePair<>(property, value));
+        propertyValuePairs.removeIf(pair -> pair.getPropertyDefinition().getProperty().getName().equals(propertyDefinition.getProperty().getName()));
+        propertyValuePairs.add(new PropertyValuePair<>(propertyDefinition, value));
         return this;
     }
 

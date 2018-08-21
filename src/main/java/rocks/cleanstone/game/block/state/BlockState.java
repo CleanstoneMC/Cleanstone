@@ -27,7 +27,7 @@ public class BlockState {
     }
 
     protected BlockState(BlockType blockType) {
-        this(blockType, new Properties());
+        this(blockType, new Properties(blockType.getProperties()));
     }
 
     public static BlockState of(BlockType blockType, Properties properties) {
@@ -36,7 +36,7 @@ public class BlockState {
     }
 
     public static BlockState of(BlockType blockType) {
-        return of(blockType, new Properties());
+        return of(blockType, new Properties(blockType.getProperties()));
     }
 
     public BlockType getBlockType() {
@@ -75,5 +75,10 @@ public class BlockState {
 
     public Properties getProperties() {
         return properties;
+    }
+
+    @Override
+    public String toString() {
+        return "BlockState{type=" + blockType + ";properties=" + properties + "}";
     }
 }

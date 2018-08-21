@@ -4,16 +4,16 @@ public class PropertyDefinition<T> {
     private final Property<T> property;
     private final T value;
 
-    private PropertyDefinition(Property<T> property, T value) {
+    private PropertyDefinition(Property<T> property, T defaultValue) {
         this.property = property;
-        this.value = value;
+        this.value = defaultValue;
     }
 
     public Property<T> getProperty() {
         return property;
     }
 
-    public T getValue() {
+    public T getDefaultValue() {
         return value;
     }
 

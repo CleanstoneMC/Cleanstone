@@ -2,9 +2,11 @@ package rocks.cleanstone.game.world.chunk.data.block;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
@@ -118,8 +120,9 @@ public class BlockDataStorage {
                     for (int z = 0; z < SEC_WIDTH; z++) {
                         for (int x = 0; x < SEC_WIDTH; x++) {
                             int chunkRelativeY = y + sectionY * SEC_HEIGHT;
-                            table.setBlock(x, chunkRelativeY, z,
-                                    ImmutableBlock.of(section.getBlockStateStorage().get(x, y, z)));
+                            BlockState state = section.getBlockStateStorage().get(x, y, z);
+                            Block block = state.getBlockType() == VanillaBlockType.AIR ? null : ImmutableBlock.of(state);
+                            table.setBlock(x, chunkRelativeY, z, block);
                             table.setBlockLight(x, chunkRelativeY, z, section.getBlockLight()[x][z][y]);
                             if (hasSkyLight)
                                 table.setSkyLight(x, chunkRelativeY, z, section.getSkyLight()[x][z][y]);

@@ -2,6 +2,8 @@ package rocks.cleanstone.game.block.state.mapping;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
 import rocks.cleanstone.game.block.state.property.PropertyDefinition;
@@ -19,6 +21,7 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
     private final Map<BlockType, PropertyDefinition[]> blockTypeDefaultPropertiesMap;
     private final NavigableMap<Integer, BlockType> baseStateIDBlockTypeMap;
     private final BlockState defaultState;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public ModernBlockStateMapping(ModernBlockStateMapping defaultMapping) {
         blockTypeBaseStateIDMap = new ConcurrentHashMap<>(defaultMapping.blockTypeBaseStateIDMap);
@@ -64,6 +67,7 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
 
     @Override
     public Integer getID(BlockState state) {
+        logger.debug("searching ID for state " + state);
         Integer baseID = blockTypeBaseStateIDMap.getOrDefault(state.getBlockType(), null);
         if (baseID != null) {
             PropertyDefinition[] properties = blockTypeDefaultPropertiesMap.get(state.getBlockType());
@@ -81,10 +85,14 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
 
     @Override
     public BlockState getState(Integer id) {
+        logger.debug("searching state for id " + id);
+
         try {
             Map.Entry<Integer, BlockType> entry = baseStateIDBlockTypeMap.floorEntry(id);
             Preconditions.checkNotNull(entry);
             int baseID = entry.getKey();
+            logger.debug("floor baseID is " + baseID);
+
             BlockType blockType = entry.getValue();
             PropertyDefinition[] properties = blockTypeDefaultPropertiesMap.get(blockType);
             if (properties == null) {
@@ -113,7 +121,7 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
     }
 
     private BlockState deserializeState(int id, BlockType blockType, PropertyDefinition[] propertyDefinitions, int baseID) {
-        PropertiesBuilder builder = new PropertiesBuilder();
+        PropertiesBuilder builder = new PropertiesBuilder(blockType);
         int propertyIDAmount = Arrays.stream(propertyDefinitions).mapToInt(definition -> definition.getProperty().getTotalValuesAmount())
                 .reduce(1, (a, b) -> a * b);
         id -= baseID;
