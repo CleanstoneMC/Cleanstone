@@ -1,13 +1,14 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
+
+import java.io.IOException;
+
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
-
-import java.io.IOException;
 
 public class EncryptionResponseCodec implements PacketCodec {
 
@@ -21,7 +22,7 @@ public class EncryptionResponseCodec implements PacketCodec {
         byteBuf.readBytes(publicKeyArray);
 
         int verifyTokenLength = ByteBufUtils.readVarInt(byteBuf);
-        Preconditions.checkArgument(verifyTokenLength <= 64 && verifyTokenLength > 0,
+        Preconditions.checkArgument(verifyTokenLength <= 256 && verifyTokenLength > 0,
                 "verifyTokenLength " + verifyTokenLength + " is too big/small");
 
         byte[] verifyTokenArray = new byte[verifyTokenLength];
@@ -33,15 +34,5 @@ public class EncryptionResponseCodec implements PacketCodec {
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
         throw new UnsupportedOperationException("EncryptionResponse is inbound and cannot be encoded");
-    }
-
-    @Override
-    public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
-        return previousLayerByteBuf;
-    }
-
-    @Override
-    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-        return nextLayerByteBuf;
     }
 }

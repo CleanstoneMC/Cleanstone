@@ -23,14 +23,4 @@ public class LoginSuccessCodec implements PacketCodec {
         ByteBufUtils.writeUTF8(byteBuf, loginSuccessPacket.getUserName());
         return byteBuf;
     }
-
-    @Override
-    public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
-        return previousLayerByteBuf;
-    }
-
-    @Override
-    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-        return nextLayerByteBuf;
-    }
 }

@@ -1,12 +1,13 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
+
+import java.io.IOException;
+
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.inbound.InPlayerPositionAndLookPacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
-
-import java.io.IOException;
 
 public class PlayerPositionAndLookCodec implements PacketCodec {
 
@@ -31,15 +32,5 @@ public class PlayerPositionAndLookCodec implements PacketCodec {
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
         throw new UnsupportedOperationException("PlayerPositionAndLook is inbound and cannot be encoded");
-    }
-
-    @Override
-    public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
-        return previousLayerByteBuf;
-    }
-
-    @Override
-    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-        return nextLayerByteBuf;
     }
 }

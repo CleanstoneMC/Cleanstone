@@ -9,8 +9,4 @@ public interface PacketCodec {
     Packet decode(ByteBuf byteBuf) throws IOException;
 
     ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException;
-
-    ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf);
-
-    ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf);
 }
