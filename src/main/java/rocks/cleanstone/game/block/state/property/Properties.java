@@ -2,7 +2,6 @@ package rocks.cleanstone.game.block.state.property;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.MoreCollectors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +20,8 @@ public class Properties {
         Collection<PropertyValuePair<?>> propertyValuePairs = new ArrayList<>();
         Arrays.stream(properties).forEach(propertyDefinition -> {
             //noinspection unchecked
-            propertyValuePairs.add(new PropertyValuePair<>(propertyDefinition, propertyDefinition.getDefaultValue()));
+            propertyValuePairs.add(new PropertyValuePair<>(propertyDefinition.getProperty(),
+                    propertyDefinition.getDefaultValue()));
         });
         this.propertyValuePairs = propertyValuePairs;
     }
@@ -35,24 +35,13 @@ public class Properties {
     }
 
 
-    public <T> T get(String propertyName) {
-        Preconditions.checkNotNull(propertyName, "propertyName cannot be null");
-        //noinspection unchecked
-        return (T) propertyValuePairs.stream()
-                .filter(pair -> pair.getPropertyDefinition().getProperty().getName().equals(propertyName)).findAny()
-                .orElseThrow(() -> new IllegalArgumentException("cannot find property named " + propertyName))
-                .getValue();
-    }
-
     public <T> T get(Property<T> property) {
-        return get(property.getName());
-    }
-
-    public <T> T get(Class<T> valueClass) {
+        Preconditions.checkNotNull(property, "property cannot be null");
         //noinspection unchecked
         return (T) propertyValuePairs.stream()
-                .filter(pair -> pair.getPropertyDefinition().getProperty().getValueClass() == valueClass)
-                .collect(MoreCollectors.onlyElement()).getValue();
+                .filter(pair -> pair.getProperty().equals(property)).findAny()
+                .orElseThrow(() -> new IllegalArgumentException("cannot find property named " + property.getName()))
+                .getValue();
     }
 
     public Collection<PropertyValuePair<?>> getPropertyValuePairs() {

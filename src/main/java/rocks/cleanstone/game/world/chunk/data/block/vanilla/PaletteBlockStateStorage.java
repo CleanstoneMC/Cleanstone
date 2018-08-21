@@ -24,9 +24,16 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import io.netty.buffer.ByteBuf;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
@@ -35,14 +42,9 @@ import rocks.cleanstone.game.world.chunk.data.block.BlockDataSection;
 import rocks.cleanstone.game.world.chunk.data.block.BlockStateStorage;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class PaletteBlockStateStorage implements BlockStateStorage {
 
-    private static final int MAX_BITS_PER_ENTRY_FOR_USING_PALETTE = 8, GLOBAL_PALETTE_BITS_PER_ENTRY = 13;
+    private static final int MAX_BITS_PER_ENTRY_FOR_USING_PALETTE = 8, GLOBAL_PALETTE_BITS_PER_ENTRY = 14;
 
     private final List<BlockState> palette = new ArrayList<>();
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -109,8 +111,8 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
     @Override
     public void write(ByteBuf out) {
         out.writeByte(this.bitsPerEntry);
-
-        ByteBufUtils.writeVarInt(out, this.palette.size());
+        if (this.bitsPerEntry != GLOBAL_PALETTE_BITS_PER_ENTRY)
+            ByteBufUtils.writeVarInt(out, this.palette.size());
         for (BlockState state : this.palette) {
             ByteBufUtils.writeVarInt(out, blockStateMapping.getID(state));
         }

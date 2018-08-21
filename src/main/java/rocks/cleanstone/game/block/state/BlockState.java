@@ -1,14 +1,14 @@
 package rocks.cleanstone.game.block.state;
 
 import com.google.common.base.Preconditions;
-import rocks.cleanstone.game.block.state.property.Properties;
-import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
-import rocks.cleanstone.game.block.state.property.Property;
-import rocks.cleanstone.game.block.state.property.PropertyDefinition;
-import rocks.cleanstone.game.material.block.BlockType;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import rocks.cleanstone.game.block.state.property.Properties;
+import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
+import rocks.cleanstone.game.block.state.property.Property;
+import rocks.cleanstone.game.material.block.BlockType;
 
 /**
  * An immutable state of a block containing its material and properties
@@ -47,29 +47,9 @@ public class BlockState {
         return properties.get(property);
     }
 
-    public <T> T getProperty(String propertyName) {
-        return properties.get(propertyName);
-    }
-
-    public <T> T getProperty(Class<T> valueClass) {
-        return properties.get(valueClass);
-    }
-
-    public <T> BlockState withProperty(PropertyDefinition<T> propertyDefinition, T value) {
+    public <T> BlockState withProperty(Property<T> property, T value) {
         Properties properties = new PropertiesBuilder(this.properties)
-                .withProperty(propertyDefinition, value).create();
-        return of(blockType, properties);
-    }
-
-    public <T> BlockState withProperty(String propertyName, T value) {
-        Properties properties = new PropertiesBuilder(this.properties)
-                .withProperty(propertyName, value, blockType).create();
-        return of(blockType, properties);
-    }
-
-    public <T> BlockState withProperty(Class<T> valueClass, T value) {
-        Properties properties = new PropertiesBuilder(this.properties)
-                .withProperty(valueClass, value, blockType).create();
+                .withProperty(property, value).create();
         return of(blockType, properties);
     }
 

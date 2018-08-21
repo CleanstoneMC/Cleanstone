@@ -4,15 +4,15 @@ import com.google.common.base.Objects;
 
 public class PropertyValuePair<T> {
 
-    private final PropertyDefinition<T> property;
+    private final Property<T> property;
     private final T value;
 
-    public PropertyValuePair(PropertyDefinition<T> property, T value) {
+    public PropertyValuePair(Property<T> property, T value) {
         this.property = property;
         this.value = value;
     }
 
-    public PropertyDefinition<T> getPropertyDefinition() {
+    public Property<T> getProperty() {
         return property;
     }
 
@@ -36,6 +36,6 @@ public class PropertyValuePair<T> {
 
     @Override
     public String toString() {
-        return "Property{" + property.getProperty().getName() + "->" + value + "}";
+        return "Property{" + property.getName() + "->" + value + "}";
     }
 }
