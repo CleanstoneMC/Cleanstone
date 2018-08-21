@@ -10,9 +10,9 @@ public class PropertyEnum<E extends Enum<E>> extends AbstractProperty<E> {
     private final int totalValuesAmount, maxSerializationBits;
     private final Class<E> enumClass;
 
-    public PropertyEnum(String key, E defaultValue) {
-        super(key, defaultValue);
-        enumClass = defaultValue.getDeclaringClass();
+    public PropertyEnum(String key, Class<E> enumClass) {
+        super(key);
+        this.enumClass = enumClass;
         totalValuesAmount = enumClass.getEnumConstants().length;
         maxSerializationBits = IntMath.log2(totalValuesAmount, RoundingMode.CEILING);
     }

@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 
 public class PropertyBoolean extends AbstractProperty<Boolean> {
 
-    public PropertyBoolean(String key, Boolean defaultValue) {
-        super(key, defaultValue);
+    public PropertyBoolean(String key) {
+        super(key);
     }
 
     @Override

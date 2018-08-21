@@ -1,6 +1,6 @@
 package rocks.cleanstone.game.material.block;
 
-import rocks.cleanstone.game.block.state.property.Property;
+import rocks.cleanstone.game.block.state.property.PropertyDefinition;
 import rocks.cleanstone.game.block.state.property.PropertyHolder;
 import rocks.cleanstone.game.material.Material;
 
@@ -13,5 +13,5 @@ public interface BlockType extends Material, PropertyHolder {
 
     VanillaMiningLevel getMiningLevel();
 
-    Property[] getProperties();
+    PropertyDefinition[] getProperties();
 }

@@ -9,8 +9,8 @@ public class PropertyInteger extends AbstractProperty<Integer> {
 
     private final int totalValuesAmount, minValue, maxValue, maxSerializationBits;
 
-    public PropertyInteger(String key, int minValue, int maxValue, Integer defaultValue) {
-        super(key, defaultValue);
+    public PropertyInteger(String key, int minValue, int maxValue) {
+        super(key);
         this.minValue = minValue;
         this.maxValue = maxValue;
         totalValuesAmount = maxValue - minValue + 1;

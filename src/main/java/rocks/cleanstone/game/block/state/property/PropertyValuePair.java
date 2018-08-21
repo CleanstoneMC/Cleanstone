@@ -2,15 +2,15 @@ package rocks.cleanstone.game.block.state.property;
 
 public class PropertyValuePair<T> {
 
-    private final Property<T> property;
+    private final PropertyDefinition<T> property;
     private final T value;
 
-    public PropertyValuePair(Property<T> property, T value) {
+    public PropertyValuePair(PropertyDefinition<T> property, T value) {
         this.property = property;
         this.value = value;
     }
 
-    public Property<T> getProperty() {
+    public PropertyDefinition<T> getPropertyDefinition() {
         return property;
     }
 
@@ -20,6 +20,6 @@ public class PropertyValuePair<T> {
 
     @Override
     public String toString() {
-        return "Property{" + property.getName() + "->" + value + "}";
+        return "Property{" + property.getProperty().getName() + "->" + value + "}";
     }
 }

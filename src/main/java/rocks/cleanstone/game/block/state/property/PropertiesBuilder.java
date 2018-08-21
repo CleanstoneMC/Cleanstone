@@ -18,15 +18,15 @@ public class PropertiesBuilder {
         propertyValuePairs = new ArrayList<>(properties.getPropertyValuePairs());
     }
 
-    public <T> PropertiesBuilder withProperty(Property<T> property, T value) {
-        propertyValuePairs.add(new PropertyValuePair<>(property, value));
+    public <T> PropertiesBuilder withProperty(PropertyDefinition<T> propertyDefinition, T value) {
+        propertyValuePairs.add(new PropertyValuePair<>(propertyDefinition, value));
         return this;
     }
 
     public <T> PropertiesBuilder withProperty(String propertyName, T value, PropertyHolder holder) {
         //noinspection unchecked
-        Property<T> property = Arrays.stream(holder.getProperties())
-                .filter(prop -> prop.getName().equals(propertyName))
+        PropertyDefinition<T> property = Arrays.stream(holder.getProperties())
+                .filter(prop -> prop.getProperty().getName().equals(propertyName))
                 .findAny().orElseThrow(IllegalArgumentException::new);
         propertyValuePairs.add(new PropertyValuePair<>(property, value));
         return this;
@@ -34,9 +34,9 @@ public class PropertiesBuilder {
 
     public <T> PropertiesBuilder withProperty(Class<T> valueClass, T value, PropertyHolder holder) {
         //noinspection unchecked
-        Property<T> property = (Property<T>) propertyValuePairs.stream()
-                .filter(pair -> pair.getProperty().getValueClass() == valueClass)
-                .collect(MoreCollectors.onlyElement()).getProperty();
+        PropertyDefinition<T> property = (PropertyDefinition<T>) propertyValuePairs.stream()
+                .filter(pair -> pair.getPropertyDefinition().getProperty().getValueClass() == valueClass)
+                .collect(MoreCollectors.onlyElement()).getPropertyDefinition();
         propertyValuePairs.add(new PropertyValuePair<>(property, value));
         return this;
     }

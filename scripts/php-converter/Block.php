@@ -59,7 +59,7 @@ class Block
         $string = '    ' . $this->getBlockEnumName() . '("' . $this->blockName . '"';
 
         if (count($this->properties) !== 0) {
-            $string .= ', new Property[]{' . rtrim(implode(', ', $this->properties), ', ') . '}';
+            $string .= ', arrayOf(' . rtrim(implode(', ', $this->properties), ', ') . ')';
         }
 
         $string .= ')';

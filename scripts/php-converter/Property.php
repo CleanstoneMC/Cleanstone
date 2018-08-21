@@ -275,7 +275,7 @@ class Property
         $name = $this->propertyName;
 
         if (isset(self::PROPERTY_NAME_OVERRIDE[$this->blockName][$this->propertyName])) {
-            $name =  self::PROPERTY_NAME_OVERRIDE[$this->blockName][$this->propertyName];
+            $name = self::PROPERTY_NAME_OVERRIDE[$this->blockName][$this->propertyName];
         }
 
 
@@ -299,14 +299,38 @@ class Property
         $defaultValue = $defaultState['properties'][$this->propertyName];
 
         if ($this->isInteger()) {
-            return ', ' . $this->values[0] . ', ' . array_reverse($this->values)[0] . ', ' . $defaultValue;
+            return ', ' . $defaultValue;
         }
 
         if ($this->isBoolean()) {
+            if ($defaultValue === 'true') {
+                echo $this->blockName;
+            }
+
             return ', ' . $defaultValue;
         }
 
         return ', ' . $this->getEnumClass() . '.' . strtoupper($defaultValue);
+    }
+
+    public function getPropertiesStringDefaultValue(): string
+    {
+        $defaultState = $this->getDefaultState();
+        $defaultValue = $defaultState['properties'][$this->propertyName];
+
+        if ($this->isInteger()) {
+            return ', ' . $this->values[0] . ', ' . array_reverse($this->values)[0];
+        }
+
+        if ($this->isBoolean()) {
+            if ($defaultValue === 'true') {
+                echo $this->blockName;
+            }
+
+            return '';
+        }
+
+        return ', ' . $this->getEnumClass() . '.class';
     }
 
     public function getPropertyName(): string
@@ -316,12 +340,12 @@ class Property
 
     public function __toString()
     {
-        return $this->getPropertyName();
+        return 'definitionOf(' . $this->getPropertyName() . $this->getDefaultValue() . ')';
     }
 
     public function getBlockPropertiesString(): string
     {
-        return 'new ' . $this->getShortPropertyType() . '("' . $this->propertyName . '"' . $this->getDefaultValue() . ')';
+        return 'new ' . $this->getShortPropertyType() . '("' . $this->propertyName . '"' . $this->getPropertiesStringDefaultValue() . ')';
     }
 
     /**

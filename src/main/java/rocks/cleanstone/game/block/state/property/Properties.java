@@ -22,7 +22,7 @@ public class Properties {
         Preconditions.checkNotNull(propertyName, "propertyName cannot be null");
         //noinspection unchecked
         return (T) propertyValuePairs.stream()
-                .filter(pair -> pair.getProperty().getName().equals(propertyName)).findAny()
+                .filter(pair -> pair.getPropertyDefinition().getProperty().getName().equals(propertyName)).findAny()
                 .orElseThrow(() -> new IllegalArgumentException("cannot find property named " + propertyName))
                 .getValue();
     }
@@ -34,7 +34,7 @@ public class Properties {
     public <T> T get(Class<T> valueClass) {
         //noinspection unchecked
         return (T) propertyValuePairs.stream()
-                .filter(pair -> pair.getProperty().getValueClass() == valueClass)
+                .filter(pair -> pair.getPropertyDefinition().getProperty().getValueClass() == valueClass)
                 .collect(MoreCollectors.onlyElement()).getValue();
     }
 
