@@ -3,6 +3,8 @@ package rocks.cleanstone.game.block.state.property;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.MoreCollectors;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -14,9 +16,23 @@ public class Properties {
         this.propertyValuePairs = propertyValuePairs;
     }
 
+    public Properties(Property[] properties) {
+        Collection<PropertyValuePair<?>> propertyValuePairs = new ArrayList<>();
+        Arrays.stream(properties).forEach(property -> {
+            //noinspection unchecked
+            propertyValuePairs.add(new PropertyValuePair<>(property, property.getDefault()));
+        });
+        this.propertyValuePairs = propertyValuePairs;
+    }
+
+    public Properties(PropertyHolder propertyHolder) {
+        this(propertyHolder.getProperties());
+    }
+
     public Properties() {
         this(Collections.emptyList());
     }
+
 
     public <T> T get(String propertyName) {
         Preconditions.checkNotNull(propertyName, "propertyName cannot be null");

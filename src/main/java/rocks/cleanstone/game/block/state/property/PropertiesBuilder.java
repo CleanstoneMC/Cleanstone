@@ -10,8 +10,12 @@ public class PropertiesBuilder {
 
     protected final Collection<PropertyValuePair<?>> propertyValuePairs;
 
-    public PropertiesBuilder() {
+    public PropertiesBuilder(PropertyHolder propertyHolder) {
         propertyValuePairs = new ArrayList<>();
+        Arrays.stream(propertyHolder.getProperties()).forEach(property -> {
+            //noinspection unchecked
+            propertyValuePairs.add(new PropertyValuePair<>(property, property.getDefault()));
+        });
     }
 
     public PropertiesBuilder(Properties properties) {
