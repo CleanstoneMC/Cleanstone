@@ -34,8 +34,11 @@ public class VanillaBlockProperties {
     public static final PropertyEnum<StairShape> STAIR_SHAPE = new PropertyEnum<>("shape", StairShape.class);
     public static final PropertyBoolean WATERLOGGED = new PropertyBoolean("waterlogged");
     public static final PropertyEnum<ChestType> CHEST_TYPE = new PropertyEnum<>("type", ChestType.class);
-    public static final PropertyEnum<RedstonePosition> REDSTONE_POSITION = new PropertyEnum<>("west", RedstonePosition.class);
+    public static final PropertyEnum<RedstonePosition> REDSTONE_POSITION_EAST = new PropertyEnum<>("east", RedstonePosition.class);
+    public static final PropertyEnum<RedstonePosition> REDSTONE_POSITION_NORTH = new PropertyEnum<>("north", RedstonePosition.class);
     public static final PropertyInteger POWER = new PropertyInteger("power", 0, 15);
+    public static final PropertyEnum<RedstonePosition> REDSTONE_POSITION_SOUTH = new PropertyEnum<>("south", RedstonePosition.class);
+    public static final PropertyEnum<RedstonePosition> REDSTONE_POSITION_WEST = new PropertyEnum<>("west", RedstonePosition.class);
     public static final PropertyInteger MOISTURE = new PropertyInteger("moisture", 0, 7);
     public static final PropertyBoolean LIT = new PropertyBoolean("lit");
     public static final PropertyInteger ROTATION = new PropertyInteger("rotation", 0, 15);
@@ -50,7 +53,9 @@ public class VanillaBlockProperties {
     public static final PropertyEnum<HalfBlockPosition> HALF_BLOCK_POSITION = new PropertyEnum<>("type", HalfBlockPosition.class);
     public static final PropertyBoolean DOWN = new PropertyBoolean("down");
     public static final PropertyBoolean IN_WALL = new PropertyBoolean("in_wall");
-    public static final PropertyBoolean HAS_BOTTLE = new PropertyBoolean("has_bottle_2");
+    public static final PropertyBoolean HAS_BOTTLE_LEFT = new PropertyBoolean("has_bottle_0");
+    public static final PropertyBoolean HAS_BOTTLE_MIDDLE = new PropertyBoolean("has_bottle_1");
+    public static final PropertyBoolean HAS_BOTTLE_RIGHT = new PropertyBoolean("has_bottle_2");
     public static final PropertyBoolean EYE = new PropertyBoolean("eye");
     public static final PropertyBoolean ATTACHED = new PropertyBoolean("attached");
     public static final PropertyBoolean DISARMED = new PropertyBoolean("disarmed");

@@ -102,10 +102,10 @@ class Property
 
     const PROPERTY_NAME_OVERRIDE = [
         'redstone_wire' => [
-            'east' => 'RedstonePosition',
-            'north' => 'RedstonePosition',
-            'south' => 'RedstonePosition',
-            'west' => 'RedstonePosition',
+            'east' => 'RedstonePositionEast',
+            'north' => 'RedstonePositionNorth',
+            'south' => 'RedstonePositionSouth',
+            'west' => 'RedstonePositionWest',
         ],
 
         'brick_stairs' => ['half' => 'StairHalf', 'shape' => 'StairShape'],
@@ -159,8 +159,13 @@ class Property
 
         'comparator' => ['mode' => 'ComparatorMode'],
         'structure_block' => ['mode' => 'StructureBlockMode'],
+
+        'brewing_stand' => ['has_bottle_0' => 'HasBottleLeft','has_bottle_1' => 'HasBottleMiddle','has_bottle_2' => 'HasBottleRight'],
     ];
 
+    /**
+     * @var self[]
+     */
     public static $properties = [];
 
     /**
@@ -278,6 +283,9 @@ class Property
             $name = self::PROPERTY_NAME_OVERRIDE[$this->blockName][$this->propertyName];
         }
 
+        if (isset(self::$properties[$name]) && self::$properties[$name]->getLongPropertyType() !== $this->getLongPropertyType()) {
+            throw new \Exception('override: ' . $name);
+        }
 
         return $this->from_camel_case($name);
     }
@@ -303,10 +311,6 @@ class Property
         }
 
         if ($this->isBoolean()) {
-            if ($defaultValue === 'true') {
-                echo $this->blockName;
-            }
-
             return ', ' . $defaultValue;
         }
 
@@ -323,10 +327,6 @@ class Property
         }
 
         if ($this->isBoolean()) {
-            if ($defaultValue === 'true') {
-                echo $this->blockName;
-            }
-
             return '';
         }
 
