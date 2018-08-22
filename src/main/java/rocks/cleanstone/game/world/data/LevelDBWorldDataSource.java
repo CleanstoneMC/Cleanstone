@@ -10,6 +10,7 @@ import java.util.Collections;
 import javax.annotation.Nullable;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.data.EnumCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.material.MaterialRegistry;
@@ -61,9 +62,12 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     public void saveChunk(Chunk chunk) {
         logger.trace("persisting chunk {}, {}", chunk.getX(), chunk.getY());
         int x = chunk.getX(), y = chunk.getY();
+        ByteBuf versionKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.VERSION);
         ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
         try {
             set(blocksKey, chunk.getBlockDataStorage(), new BlockDataCodec(blockStateMapping));
+            set(versionKey, StandardWorldDataVersion.MODERN_PALETTE_1_13,
+                    new EnumCodec<>(StandardWorldDataVersion.class));
         } catch (IOException e) {
             logger.error("Failed to save corrupted chunk block data at " + x + ":" + y + " in LevelDB '"
                     + worldID + "'", e);
