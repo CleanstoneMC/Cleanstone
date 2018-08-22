@@ -6,6 +6,7 @@ import rocks.cleanstone.game.material.item.vanilla.VanillaItemType;
 import static rocks.cleanstone.game.material.item.vanilla.VanillaItemType.*;
 
 public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
+
     public ProtocolItemTypeMapping() {
         super(VanillaItemType.STONE);
         setID(AIR, 0);

@@ -1,21 +1,32 @@
 package rocks.cleanstone.game.block.state.mapping;
 
 import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.material.block.BlockType;
+import rocks.cleanstone.utils.SimpleIDMapping;
 
 public class LegacyBlockStateMapping implements BlockStateMapping<Integer> {
 
-    // TODO allow legacy ID registration
+    private final SimpleIDMapping<BlockType, Integer> blockTypeMapping;
+
+    public LegacyBlockStateMapping(BlockState defaultState) {
+        blockTypeMapping = new SimpleIDMapping<>(defaultState.getBlockType());
+    }
+
+    public void setID(BlockType blockType, Integer id) {
+        blockTypeMapping.setID(blockType, id);
+    }
 
     @Override
     public Integer getID(BlockState state) {
-        int metadata = 0; // TODO add property -> legacy metadata mapping
-        return state.getBlockType().getID() /* TODO */ << 4 | (metadata & 0xF);
+        int blockTypeID = blockTypeMapping.getID(state.getBlockType());
+        byte metadata = (byte) 0;  // TODO add property -> legacy metadata mapping
+        return blockTypeID << 4 | (metadata & 0xF);
     }
 
     @Override
     public BlockState getState(Integer id) {
         byte metadata = (byte) (id & 0xF); // TODO add property -> legacy metadata mapping
-        int blockID = id >> 4;
-        return null; // TODO
+        int blockTypeID = id >> 4;
+        return BlockState.of(blockTypeMapping.getType(blockTypeID));
     }
 }

@@ -11,6 +11,7 @@ import rocks.cleanstone.net.packet.outbound.*;
 import static rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState.*;
 
 public class MinecraftProtocolLayer_v1_13 extends MinecraftServerProtocolLayer {
+
     @Autowired
     public MinecraftProtocolLayer_v1_13(ProtocolBlockStateMapping blockStateMapping,
                                         ProtocolItemTypeMapping itemTypeMapping) {
