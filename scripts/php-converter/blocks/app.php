@@ -122,6 +122,9 @@ $protocolBlockStateMappingContent .= '    }
 }
 ';
 
-file_put_contents('VanillaBlockType.java', $vanillaBlockTypeContent);
-file_put_contents('VanillaBlockProperties.java', $vanillaPropertiesContent);
-file_put_contents('ProtocolBlockStateMapping_v1_13.java', $protocolBlockStateMappingContent);
+//file_put_contents('VanillaBlockType.java', $vanillaBlockTypeContent);
+//file_put_contents('VanillaBlockProperties.java', $vanillaPropertiesContent);
+//file_put_contents('ProtocolBlockStateMapping_v1_13.java', $protocolBlockStateMappingContent);
+file_put_contents('/home/fionera/src/Cleanstone/src/main/java/rocks/cleanstone/game/material/block/vanilla/VanillaBlockType.java', $vanillaBlockTypeContent);
+file_put_contents('/home/fionera/src/Cleanstone/src/main/java/rocks/cleanstone/game/material/block/vanilla/VanillaBlockProperties.java', $vanillaPropertiesContent);
+file_put_contents('/home/fionera/src/Cleanstone/src/main/java/rocks/cleanstone/net/minecraft/protocol/v1_13/ProtocolBlockStateMapping_v1_13.java', $protocolBlockStateMappingContent);
