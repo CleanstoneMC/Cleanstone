@@ -61,4 +61,27 @@ $vanillaItemTypeContent .= '    private final String minecraftID;
     }
 }';
 
+$protocolItemTypeMappingContent = 'package rocks.cleanstone.net.minecraft.protocol.v1_13;
+
+import rocks.cleanstone.game.material.item.mapping.SimpleItemTypeMapping;
+import rocks.cleanstone.game.material.item.vanilla.VanillaItemType;
+
+import static rocks.cleanstone.game.material.item.vanilla.VanillaItemType.*;
+
+public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
+    public ProtocolItemTypeMapping() {
+        super(VanillaItemType.STONE);
+';
+
+/** @var Item $item */
+foreach ($items as $item) {
+    $protocolItemTypeMappingContent .= '        setID(' . $item->getItemEnumName() .', ' . $item->getProtocolID() . ');' . "\n";
+}
+
+
+$protocolItemTypeMappingContent .= '    }
+}
+';
+
 file_put_contents('VanillaItemType.java', $vanillaItemTypeContent);
+file_put_contents('ProtocolItemTypeMapping.java', $protocolItemTypeMappingContent);
