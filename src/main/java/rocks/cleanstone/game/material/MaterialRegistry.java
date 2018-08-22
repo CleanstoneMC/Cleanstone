@@ -1,9 +1,11 @@
 package rocks.cleanstone.game.material;
 
+import java.util.Collection;
+
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.item.ItemType;
-
-import java.util.Collection;
 
 public interface MaterialRegistry {
     void registerBlockType(BlockType blockType);
@@ -19,4 +21,10 @@ public interface MaterialRegistry {
     Collection<BlockType> getBlockTypes();
 
     Collection<Material> getMaterials();
+
+    @Nullable
+    BlockType getBlockTypeByItemType(ItemType itemType);
+
+    @Nullable
+    ItemType getItemTypeByBlockType(BlockType blockType);
 }

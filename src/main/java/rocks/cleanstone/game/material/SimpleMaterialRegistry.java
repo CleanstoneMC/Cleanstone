@@ -74,4 +74,20 @@ public class SimpleMaterialRegistry implements MaterialRegistry {
     public Collection<Material> getMaterials() {
         return Collections.unmodifiableCollection(materials);
     }
+
+    @Nullable
+    @Override
+    public BlockType getBlockTypeByItemType(ItemType itemType) {
+        return blockTypes.stream()
+                .filter(blockType -> blockType.getMinecraftID().equals(itemType.getMinecraftID()))
+                .findAny().orElse(null);
+    }
+
+    @Nullable
+    @Override
+    public ItemType getItemTypeByBlockType(BlockType blockType) {
+        return itemTypes.stream()
+                .filter(itemType -> itemType.getMinecraftID().equals(blockType.getMinecraftID()))
+                .findAny().orElse(null);
+    }
 }
