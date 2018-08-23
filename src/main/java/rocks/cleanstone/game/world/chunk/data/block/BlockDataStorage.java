@@ -2,6 +2,13 @@ package rocks.cleanstone.game.world.chunk.data.block;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
@@ -10,12 +17,8 @@ import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.PaletteBlockStateStorage;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Stores data about blocks (e.g. block states, block light, etc.) that can be converted into a byte stream or
@@ -53,7 +56,7 @@ public class BlockDataStorage {
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             AtomicBoolean isEmptyFlag = new AtomicBoolean();
             BlockStateStorage storage = new PaletteBlockStateStorage(table, sectionY, isEmptyFlag,
-                    blockStateMapping);
+                    new DirectPalette(blockStateMapping, 14), true);
             if (isEmptyFlag.get()) continue;
             byte[][][] blockLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT],
                     skyLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT];

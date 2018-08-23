@@ -1,11 +1,12 @@
 package rocks.cleanstone.game.world.chunk.data.block;
 
+import java.io.IOException;
+
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.PaletteBlockStateStorage;
-
-import java.io.IOException;
 
 public class BlockDataSection {
 
@@ -17,7 +18,7 @@ public class BlockDataSection {
 
     public BlockDataSection(BlockDataSection blockDataSection, BlockStateMapping<Integer> blockStateMapping) {
         blockStateStorage = new PaletteBlockStateStorage(
-                (PaletteBlockStateStorage) blockDataSection.blockStateStorage, blockStateMapping);
+                (PaletteBlockStateStorage) blockDataSection.blockStateStorage);
         blockLight = blockDataSection.blockLight.clone();
         skyLight = blockDataSection.skyLight.clone();
         hasSkyLight = blockDataSection.hasSkyLight;
@@ -33,7 +34,7 @@ public class BlockDataSection {
     }
 
     public BlockDataSection(boolean hasSkyLight, BlockStateMapping<Integer> blockStateMapping) {
-        this.blockStateStorage = new PaletteBlockStateStorage(blockStateMapping);
+        this.blockStateStorage = new PaletteBlockStateStorage(new DirectPalette(blockStateMapping, 14), true);
         blockLight = new byte[WIDTH][WIDTH][HEIGHT];
         skyLight = new byte[WIDTH][WIDTH][HEIGHT];
         if (hasSkyLight)
@@ -48,7 +49,7 @@ public class BlockDataSection {
     }
 
     public BlockDataSection(ByteBuf in, boolean hasSkyLight, BlockStateMapping<Integer> blockStateMapping) throws IOException {
-        blockStateStorage = new PaletteBlockStateStorage(in, blockStateMapping);
+        blockStateStorage = new PaletteBlockStateStorage(in, new DirectPalette(blockStateMapping, 14), true);
 
         this.blockLight = new byte[WIDTH][WIDTH][HEIGHT];
         this.skyLight = new byte[WIDTH][WIDTH][HEIGHT];
