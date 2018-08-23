@@ -22,8 +22,7 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
 public class PaletteBlockStateStorage implements BlockStateStorage {
 
     private static final int MINIMUM_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 4,
-            MAX_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 8,
-            DIRECT_PALETTE_BITS_PER_ENTRY = 14;
+            MAX_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 8;
 
     private final DirectPalette directPalette;
     private final List<BlockState> indirectPalette;
@@ -115,7 +114,7 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
             // Are the bitsPerEntry too small to store all palette indexes?
             if (indirectPalette.size() > 1 << bitsPerEntry) {
                 int bitsPerEntry = isIndirectPalette(this.bitsPerEntry + 1) ?
-                        this.bitsPerEntry + 1 : DIRECT_PALETTE_BITS_PER_ENTRY;
+                        this.bitsPerEntry + 1 : directPalette.getBitsPerEntry();
                 resizeBaseStorage(bitsPerEntry);
             }
             paletteIndex = getPaletteIndex(state);
