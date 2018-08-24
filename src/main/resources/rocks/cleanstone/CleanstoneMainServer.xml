@@ -27,9 +27,7 @@
     <task:executor id="commandExec" pool-size="10"/>
     <task:executor id="worldExec" pool-size="50-5000" queue-capacity="50" rejection-policy="CALLER_RUNS"/>
 
-    <bean id="cacheManager" class="org.springframework.cache.caffeine.CaffeineCacheManager">
-        <constructor-arg index="0" value="blockstates"/>
-    </bean>
+    <bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager"/>
 
     <!-- CONFIG -->
     <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
