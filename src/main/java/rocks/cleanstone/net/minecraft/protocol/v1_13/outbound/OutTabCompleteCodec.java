@@ -1,7 +1,6 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_13.outbound;
 
 import io.netty.buffer.ByteBuf;
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.chat.message.ChatMessage;
@@ -10,6 +9,8 @@ import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import java.io.IOException;
 
 public class OutTabCompleteCodec implements PacketCodec {
 
@@ -44,15 +45,5 @@ public class OutTabCompleteCodec implements PacketCodec {
         }
 
         return byteBuf;
-    }
-
-    @Override
-    public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
-        return previousLayerByteBuf;
-    }
-
-    @Override
-    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-        return nextLayerByteBuf;
     }
 }

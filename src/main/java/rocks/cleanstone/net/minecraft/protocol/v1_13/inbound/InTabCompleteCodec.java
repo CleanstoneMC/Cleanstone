@@ -1,11 +1,12 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_13.inbound;
 
 import io.netty.buffer.ByteBuf;
-import java.io.IOException;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.inbound.InTabCompletePacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import java.io.IOException;
 
 public class InTabCompleteCodec implements PacketCodec {
 
@@ -20,15 +21,5 @@ public class InTabCompleteCodec implements PacketCodec {
     @Override
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
         throw new UnsupportedOperationException("TabCompletion is inbound and cannot be encoded");
-    }
-
-    @Override
-    public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
-        return previousLayerByteBuf;
-    }
-
-    @Override
-    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-        return nextLayerByteBuf;
     }
 }
