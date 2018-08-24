@@ -22,14 +22,4 @@ public class DisconnectCodec implements PacketCodec {
         ByteBufUtils.writeUTF8(byteBuf, disconnectPacket.getReason().toString());
         return byteBuf;
     }
-
-    @Override
-    public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
-        return previousLayerByteBuf;
-    }
-
-    @Override
-    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-        return nextLayerByteBuf;
-    }
 }

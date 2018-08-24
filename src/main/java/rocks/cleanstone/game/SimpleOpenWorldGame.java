@@ -3,7 +3,6 @@ package rocks.cleanstone.game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.World;
@@ -28,7 +27,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
         CleanstoneServer.getInstance().getMinecraftConfig().getAutoLoadWorlds().forEach(worldName -> {
             this.worldManager.loadWorld(worldName).addCallback(world -> {
                 if (world == null) {
-                    this.worldManager.createWorld(worldName, new FlatWorldGenerator(materialRegistry));
+                    this.worldManager.createWorld(worldName, new FlatWorldGenerator());
                     //TODO: Change
                     // Generator
                 }

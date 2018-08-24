@@ -20,14 +20,4 @@ public class InPlayerAbilitiesCodec implements PacketCodec {
     public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
         throw new UnsupportedOperationException("InPlayerAbilities is inbound and cannot be encoded");
     }
-
-    @Override
-    public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
-        return previousLayerByteBuf;
-    }
-
-    @Override
-    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-        return nextLayerByteBuf;
-    }
 }

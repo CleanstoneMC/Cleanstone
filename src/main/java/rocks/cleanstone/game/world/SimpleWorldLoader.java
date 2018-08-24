@@ -7,13 +7,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.io.File;
+
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.RegionManager;
-
-import java.io.File;
 
 public class SimpleWorldLoader implements WorldLoader {
 
@@ -27,14 +28,14 @@ public class SimpleWorldLoader implements WorldLoader {
         this.materialRegistry = materialRegistry;
     }
 
-    @Async(value = "worldLoadingExec")
+    @Async(value = "worldExec")
     @Override
     public ListenableFuture<World> loadWorld(String id) {
         logger.info("Loading world '" + id + "'...");
         // TODO Fetch generator from dataSource
 
-        WorldGenerator worldGenerator = context.getBean(WorldGenerator.class, materialRegistry, 234892734);
-        WorldDataSource worldDataSource = context.getBean(WorldDataSource.class, getWorldDataFolder(), id, materialRegistry);
+        WorldGenerator worldGenerator = context.getBean(WorldGenerator.class, 234892734);
+        WorldDataSource worldDataSource = context.getBean(WorldDataSource.class, getWorldDataFolder(), id);
         ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);
         RegionManager regionManager = context.getBean(RegionManager.class, chunkProvider);
         World world = context.getBean(World.class, id, worldGenerator, worldDataSource, regionManager);

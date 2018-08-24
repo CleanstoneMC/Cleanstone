@@ -1,6 +1,6 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
-import rocks.cleanstone.game.material.MaterialRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
@@ -12,7 +12,9 @@ import static rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState.*;
 
 public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
-    public MinecraftProtocolLayer_v1_12_2(MaterialRegistry materialRegistry) {
+    @Autowired
+    public MinecraftProtocolLayer_v1_12_2(ProtocolBlockStateMapping blockStateMapping,
+                                          ProtocolItemTypeMapping itemTypeMapping) {
         // inbound
         registerPacketCodec(new HandshakeCodec(), HandshakePacket.class, HANDSHAKE, 0x00);
         registerPacketCodec(new LoginStartCodec(), LoginStartPacket.class, LOGIN, 0x00);
@@ -29,7 +31,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new UseItemCodec(), UseItemPacket.class, PLAY, 0x20);
         registerPacketCodec(new PlayerBlockPlacementCodec(), PlayerBlockPlacementPacket.class, PLAY, 0x1F);
         registerPacketCodec(new PlayerDiggingCodec(), PlayerDiggingPacket.class, PLAY, 0x14);
-        registerPacketCodec(new CreativeInventoryActionCodec(materialRegistry), CreativeInventoryActionPacket.class, PLAY, 0x1B);
+        registerPacketCodec(new CreativeInventoryActionCodec(blockStateMapping), CreativeInventoryActionPacket.class, PLAY, 0x1B);
         registerPacketCodec(new HeldItemChangeCodec(), HeldItemChangePacket.class, PLAY, 0x1A);
         registerPacketCodec(new InPlayerAbilitiesCodec(), InPlayerAbilitiesPacket.class, PLAY, 0x13);
 
@@ -46,7 +48,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new SpawnPositionCodec(), SpawnPositionPacket.class, PLAY, 0x46);
         registerPacketCodec(new OutPlayerAbilitiesCodec(), OutPlayerAbilitiesPacket.class, PLAY, 0x2C);
         registerPacketCodec(new OutPlayerPositionAndLookCodec(), OutPlayerPositionAndLookPacket.class, PLAY, 0x2F);
-        registerPacketCodec(new ChunkDataCodec(materialRegistry), ChunkDataPacket.class, PLAY, 0x20);
+        registerPacketCodec(new ChunkDataCodec(blockStateMapping), ChunkDataPacket.class, PLAY, 0x20);
         registerPacketCodec(new OutKeepAliveCodec(), OutKeepAlivePacket.class, PLAY, 0x1F);
         registerPacketCodec(new OutTabCompleteCodec(), OutTabCompletePacket.class, PLAY, 0x0E);
         registerPacketCodec(new OutChatMessageCodec(), OutChatMessagePacket.class, PLAY, 0x0F);

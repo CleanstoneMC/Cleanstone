@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { Block } from './block';
+import {Block} from './block';
 
 const basefile = fs.readFileSync(process.argv[2] || '1.13.json');
 

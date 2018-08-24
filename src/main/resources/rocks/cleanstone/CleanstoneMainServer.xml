@@ -1,16 +1,21 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:cache="http://www.springframework.org/schema/cache"
        xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context-3.0.xsd
-       http://www.springframework.org/schema/task
-       http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+       http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
        default-init-method="init"
        default-destroy-method="destroy">
 
+    <aop:aspectj-autoproxy/>
+    <cache:annotation-driven/>
     <context:annotation-config/>
     <task:scheduler id="taskScheduler" pool-size="10"/>
     <task:executor id="taskExecutor" pool-size="10"/>
@@ -18,10 +23,13 @@
 
     <task:executor id="playerExec" pool-size="10"/>
     <task:executor id="mcLoginExec" pool-size="10"/>
-    <task:executor id="worldLoadingExec" pool-size="10"/>
     <task:executor id="chatExec" pool-size="10"/>
     <task:executor id="commandExec" pool-size="10"/>
     <task:executor id="worldExec" pool-size="50-5000" queue-capacity="50" rejection-policy="CALLER_RUNS"/>
+
+    <bean id="cacheManager" class="org.springframework.cache.caffeine.CaffeineCacheManager">
+        <constructor-arg index="0" value="blockstates"/>
+    </bean>
 
     <!-- CONFIG -->
     <bean id="cleanstoneConfig" class="rocks.cleanstone.core.config.CleanstoneConfig"/>
@@ -76,26 +84,32 @@
     <bean id="world" class="rocks.cleanstone.game.world.SimpleGeneratedWorld" scope="prototype"/>
 
     <!-- Region -->
-    <bean id="regionManager" class="rocks.cleanstone.game.world.region.SingleRegionManager" scope="prototype"/>
+    <bean id="regionManager" class="rocks.cleanstone.game.world.region.SingleRegionManager"
+          scope="prototype"/>
 
     <!-- Chunk Provider -->
     <bean id="chunkProvider" class="rocks.cleanstone.game.world.chunk.SimpleChunkProvider" scope="prototype"/>
 
     <!-- World Data Source -->
     <!--suppress SpringBeanConstructorArgInspection -->
-    <bean id="worldDataSource" class="rocks.cleanstone.game.world.data.LevelDBWorldDataSource" scope="prototype"/>
+    <bean id="worldDataSource" class="rocks.cleanstone.game.world.data.LevelDBWorldDataSource"
+          scope="prototype"/>
 
     <!-- World Generator -->
     <!--<bean id="worldGenerator" class="rocks.cleanstone.game.world.generation.FlatWorldGenerator" scope="prototype"/>-->
     <bean id="mountainWorldGenerator" class="rocks.cleanstone.game.world.generation.MountainWorldGenerator"
-          scope="prototype">
-        <constructor-arg index="0" ref="materialRegistry"/>
-        <constructor-arg index="1" value="1234567890"/>
+          scope="prototype" depends-on="blockStateProvider">
+        <constructor-arg index="0" value="1234567890"/>
     </bean>
 
     <!-- Game -->
     <bean id="game" class="rocks.cleanstone.game.SimpleOpenWorldGame" lazy-init="true"/>
     <bean id="materialRegistry" class="rocks.cleanstone.game.material.SimpleMaterialRegistry"/>
+
+    <!-- Block States -->
+    <bean id="blockStateProvider" class="rocks.cleanstone.game.block.state.SimpleBlockStateProvider">
+        <constructor-arg index="0" ref="cacheManager"/>
+    </bean>
 
     <!-- Block Place -->
     <bean id="useItemListener" class="rocks.cleanstone.player.listener.UseItemListener"/>
@@ -153,6 +167,21 @@
     <bean id="pingListener" class="rocks.cleanstone.net.minecraft.status.PingListener"/>
 
     <bean id="keepAliveTask" class="rocks.cleanstone.net.minecraft.KeepAliveTask"/>
+
+    <!-- (Protocol) -->
+    <bean id="minecraftServerProtocolLayer_1_13"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_13.MinecraftProtocolLayer_v1_13"/>
+    <bean id="minecraftProtocolBlockStateMapping_1_13"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping"/>
+    <bean id="minecraftProtocolItemTypeMapping_1_13"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolItemTypeMapping"/>
+
+    <bean id="minecraftServerProtocolLayer_1_12_2"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_12_2.MinecraftProtocolLayer_v1_12_2"/>
+    <bean id="minecraftProtocolBlockStateMapping_1_12_2"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_12_2.ProtocolBlockStateMapping"/>
+    <bean id="minecraftProtocolItemTypeMapping_1_12_2"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_12_2.ProtocolItemTypeMapping"/>
 
     <!-- (Login) -->
     <bean id="sessionServerRequester"

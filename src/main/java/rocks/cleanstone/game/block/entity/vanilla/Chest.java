@@ -1,7 +1,7 @@
 package rocks.cleanstone.game.block.entity.vanilla;
 
-import rocks.cleanstone.game.block.BlockState;
 import rocks.cleanstone.game.block.entity.BlockEntity;
+import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.inventory.Inventory;
 import rocks.cleanstone.game.inventory.InventoryHolder;
 

@@ -1,26 +1,23 @@
 package rocks.cleanstone.game.world.generation;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.HashSet;
+
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
-import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
-
-import java.util.HashSet;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
+import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
 public class FlatWorldGenerator implements WorldGenerator {
 
     private final BlockDataTable blockDataTable;
-    private final BlockDataStorage blockDataStorage;
-    private final MaterialRegistry materialRegistry;
+    private final VanillaBlockDataStorage blockDataStorage;
 
-    @Autowired
-    public FlatWorldGenerator(MaterialRegistry materialRegistry) {
-        this.materialRegistry = materialRegistry;
+    public FlatWorldGenerator() {
         blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
@@ -35,13 +32,15 @@ public class FlatWorldGenerator implements WorldGenerator {
                 }
             }
         }
-        blockDataStorage = new BlockDataStorage(blockDataTable, materialRegistry);
+
+        DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
+        blockDataStorage = new VanillaBlockDataStorage(blockDataTable, directPalette, true);
     }
 
     @Override
     public Chunk generateChunk(int chunkX, int chunkY) {
         return new SimpleChunk(new ArrayBlockDataTable((ArrayBlockDataTable) blockDataTable), new
-                BlockDataStorage(blockDataStorage, materialRegistry), new HashSet<>(), chunkX, chunkY);
+                VanillaBlockDataStorage(blockDataStorage), new HashSet<>(), chunkX, chunkY);
     }
 
     @Override

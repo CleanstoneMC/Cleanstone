@@ -21,14 +21,4 @@ public class PongCodec implements PacketCodec {
         byteBuf.writeLong(pongPacket.getPayload());
         return byteBuf;
     }
-
-    @Override
-    public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
-        return previousLayerByteBuf;
-    }
-
-    @Override
-    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-        return nextLayerByteBuf;
-    }
 }

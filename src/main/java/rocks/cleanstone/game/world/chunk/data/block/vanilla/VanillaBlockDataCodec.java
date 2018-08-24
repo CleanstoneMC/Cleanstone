@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.world.chunk.data.block;
+package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,34 +8,36 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
 import rocks.cleanstone.data.Codec;
-import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class BlockDataCodec implements Codec<BlockDataStorage, ByteBuf> {
+public class VanillaBlockDataCodec implements Codec<VanillaBlockDataStorage, ByteBuf> {
 
-    private final MaterialRegistry materialRegistry;
+    private final DirectPalette directPalette;
+    private final boolean omitDirectPaletteLength;
 
-    public BlockDataCodec(MaterialRegistry materialRegistry) {
-        this.materialRegistry = materialRegistry;
+    public VanillaBlockDataCodec(DirectPalette directPalette, boolean omitDirectPaletteLength) {
+        this.directPalette = directPalette;
+        this.omitDirectPaletteLength = omitDirectPaletteLength;
     }
 
     @Override
-    public BlockDataStorage deserialize(ByteBuf data) throws IOException {
+    public VanillaBlockDataStorage deserialize(ByteBuf data) throws IOException {
         Map<Integer, BlockDataSection> sectionMap = new HashMap<>();
         int primaryBitMask = ByteBufUtils.readVarInt(data);
         int dataSize = ByteBufUtils.readVarInt(data);
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
             if ((primaryBitMask & (1 << sectionY)) != 0) {
-                BlockDataSection section = new BlockDataSection(data, true, materialRegistry);
+                BlockDataSection section = new BlockDataSection(data, true, directPalette,
+                        omitDirectPaletteLength);
                 sectionMap.put(sectionY, section);
             }
         }
-        return new BlockDataStorage(sectionMap, true, materialRegistry);
+        return new VanillaBlockDataStorage(sectionMap, true, directPalette, omitDirectPaletteLength);
     }
 
     @Override
-    public ByteBuf serialize(BlockDataStorage storage) {
+    public ByteBuf serialize(VanillaBlockDataStorage storage) {
         ByteBuf data = Unpooled.buffer();
         int primaryBitMask = 0;
 
@@ -49,7 +51,10 @@ public class BlockDataCodec implements Codec<BlockDataStorage, ByteBuf> {
         }
         for (int z = 0; z < Chunk.WIDTH; z++) {
             for (int x = 0; x < Chunk.WIDTH; x++) {
-                dataBuf.writeByte(127);  // TODO write biome data
+                if (!omitDirectPaletteLength)
+                    dataBuf.writeByte(127);  // TODO write biome data
+                else
+                    dataBuf.writeInt(127);
             }
         }
 

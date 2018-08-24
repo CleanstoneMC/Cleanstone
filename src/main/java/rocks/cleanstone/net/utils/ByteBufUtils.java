@@ -23,20 +23,15 @@
  */
 package rocks.cleanstone.net.utils;
 
-import com.google.common.base.Preconditions;
+import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.inventory.item.ItemStack;
+import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.utils.Vector;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
-
-import javax.annotation.Nullable;
-
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.inventory.item.ItemStack;
-import rocks.cleanstone.game.inventory.item.SimpleItemStack;
-import rocks.cleanstone.game.material.MaterialRegistry;
-import rocks.cleanstone.game.material.item.ItemType;
-import rocks.cleanstone.utils.Vector;
 
 /**
  * A class containing various utility methods that act on byte buffers.
@@ -224,14 +219,14 @@ public class ByteBufUtils {
     @Nullable
     public static ItemStack readItemStack(ByteBuf byteBuf, MaterialRegistry materialRegistry) {
         short itemID = byteBuf.readShort();
-        ItemType itemType = materialRegistry.getItemType(itemID);
-        if (itemID != -1) {
-            Preconditions.checkNotNull(itemType, "Cannot find itemType with ID " + itemID);
-            byte itemCount = byteBuf.readByte();
-            short itemMetadata = byteBuf.readShort();
-            byte nbtStartByte = byteBuf.readByte(); // TODO Item NBT
-            return new SimpleItemStack(itemType, itemCount, itemMetadata, null);
-        }
+//        ItemType itemType = materialRegistry.getItemType(itemID); //TODO: Add ItemStack Read
+//        if (itemID != -1) {
+//            Preconditions.checkNotNull(itemType, "Cannot find itemType with ID " + itemID);
+//            byte itemCount = byteBuf.readByte();
+//            short itemMetadata = byteBuf.readShort();
+//            byte nbtStartByte = byteBuf.readByte(); // TODO Item NBT
+//            return new SimpleItemStack(itemType, itemCount, itemMetadata, null);
+//        }
         return null;
     }
 }

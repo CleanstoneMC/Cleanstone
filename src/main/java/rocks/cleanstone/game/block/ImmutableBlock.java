@@ -1,8 +1,11 @@
 package rocks.cleanstone.game.block;
 
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.property.Properties;
+import rocks.cleanstone.game.material.block.BlockType;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import rocks.cleanstone.game.material.block.BlockType;
 
 /**
  * A standard block in the world that cannot be changed without being replaced
@@ -25,8 +28,8 @@ public class ImmutableBlock implements Block {
         return of(BlockState.of(blockType));
     }
 
-    public static ImmutableBlock of(BlockType blockType, byte metadata) {
-        return of(BlockState.of(blockType, metadata));
+    public static ImmutableBlock of(BlockType blockType, Properties properties) {
+        return of(BlockState.of(blockType, properties));
     }
 
     @Override
@@ -36,6 +39,6 @@ public class ImmutableBlock implements Block {
 
     @Override
     public String toString() {
-        return "ImmutableBlock{" + state.getBlockType().getID() + "|" + state.getMetadata() + "}";
+        return "ImmutableBlock{" + state.getBlockType().getID() + "|" + state.getProperties() + "}";
     }
 }

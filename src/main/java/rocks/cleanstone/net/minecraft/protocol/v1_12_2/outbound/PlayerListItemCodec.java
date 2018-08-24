@@ -80,14 +80,4 @@ public class PlayerListItemCodec implements PacketCodec {
             writeUTF8(byteBuf, playerItem.getDisplayName().toString());
         }
     }
-
-    @Override
-    public ByteBuf upgradeByteBuf(ByteBuf previousLayerByteBuf) {
-        return previousLayerByteBuf;
-    }
-
-    @Override
-    public ByteBuf downgradeByteBuf(ByteBuf nextLayerByteBuf) {
-        return nextLayerByteBuf;
-    }
 }

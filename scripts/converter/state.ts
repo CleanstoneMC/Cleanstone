@@ -1,20 +1,20 @@
 export class State {
   private static mappings = {
     blp: 'Face',
-    blx: 'DoorHalf',
+    blx: 'BlockHalf',
     blw: 'HingePosition',
     ep$a: 'Axis',
     bmg: 'SlabType',
     blz: 'HalfBlockPosition',
     bmh: 'StairShape',
-    bme: 'ActivatorRailShape',
+    bme: 'RailShape',
     blq: 'BedPart',
     blt: 'ChestType',
     blu: 'ComparatorMode',
     bmc: 'PistonType',
     bmb: 'NoteBlockInstrument',
     dontknow: 'RedstonePosition',
-    bmi: 'StructureBlockType',
+    bmi: 'StructureBlockMode',
     blr: 'Facing',
   };
 

@@ -16,18 +16,15 @@ public interface MaterialRegistry {
 
     void unregisterItemType(ItemType itemType);
 
-    @Nullable
-    BlockType getBlockType(int id);
-
-    @Nullable
-    ItemType getItemType(int id);
-
-    @Nullable
-    Material getMaterial(int id);
-
     Collection<ItemType> getItemTypes();
 
     Collection<BlockType> getBlockTypes();
 
     Collection<Material> getMaterials();
+
+    @Nullable
+    BlockType getBlockTypeByItemType(ItemType itemType);
+
+    @Nullable
+    ItemType getItemTypeByBlockType(BlockType blockType);
 }

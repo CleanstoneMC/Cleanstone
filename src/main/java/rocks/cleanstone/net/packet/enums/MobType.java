@@ -30,7 +30,7 @@ public enum MobType {
     ZOMBIE_VILLAGER(27, "minecraft:zombie_villager"),
     SKELETON_HORSE(28, "minecraft:skeleton_horse"),
     ZOMBIE_HORSE(29, "minecraft:zombie_horse"),
-    ARM_ORSTAND(30, "minecraft:armor_stand"),
+    ARMOR_STAND(30, "minecraft:armor_stand"),
     DONKEY(31, "minecraft:donkey"),
     MULE(32, "minecraft:mule"),
     EVOCATION_FANGS(33, "minecraft:evocation_fangs"),
