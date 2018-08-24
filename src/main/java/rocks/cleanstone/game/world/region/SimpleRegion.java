@@ -6,13 +6,17 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalNotification;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import java.util.Collection;
-import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.util.Collection;
+
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
 
@@ -39,7 +43,7 @@ public class SimpleRegion implements Region {
 
     private void removeChunkListener(RemovalNotification removalNotification) {
         Chunk chunk = (Chunk) removalNotification.getValue();
-        if (chunk.isDirty()) {
+        if (chunk.hasUnsavedChanges()) {
             this.chunkProvider.getDataSource().saveChunk(chunk);
         }
     }

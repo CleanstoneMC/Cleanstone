@@ -14,7 +14,7 @@ public class SimpleChunk implements Chunk {
     private final BlockDataStorage blockDataStorage;
     private final Collection<Entity> entityCollection;
     private final int x, y;
-    private boolean dirty = false;
+    private boolean hasUnsavedChanges = false;
     // TODO biome state
 
     public SimpleChunk(BlockDataTable blockDataTable, BlockDataStorage blockDataStorage,
@@ -58,7 +58,7 @@ public class SimpleChunk implements Chunk {
         blockDataTable.setBlock(x, y, z, block);
         // TODO run the following expensive operation async
         blockDataStorage.setBlockState(x, y, z, block.getState());
-        dirty = true;
+        hasUnsavedChanges = true;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class SimpleChunk implements Chunk {
         validateRelativeBlockCoordinates(x, y, z);
         blockDataTable.setBlockLight(x, y, z, blockLight);
         blockDataStorage.setBlockLight(x, y, z, blockLight);
-        dirty = true;
+        hasUnsavedChanges = true;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class SimpleChunk implements Chunk {
         if (!hasSkylight()) return;
         blockDataTable.setSkyLight(x, y, z, skyLight);
         blockDataStorage.setSkyLight(x, y, z, skyLight);
-        dirty = true;
+        hasUnsavedChanges = true;
     }
 
     @Override
@@ -96,12 +96,13 @@ public class SimpleChunk implements Chunk {
     }
 
     @Override
-    public boolean isDirty() {
-        return dirty;
+    public boolean hasUnsavedChanges() {
+        return hasUnsavedChanges;
     }
 
-    public void setDirty(boolean dirty) {
-        this.dirty = dirty;
+    @Override
+    public void setHasUnsavedChanges(boolean hasUnsavedChanges) {
+        this.hasUnsavedChanges = hasUnsavedChanges;
     }
 
     @Override
