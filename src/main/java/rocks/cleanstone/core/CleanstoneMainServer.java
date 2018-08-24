@@ -23,7 +23,7 @@ import java.util.Set;
 @EnableAspectJAutoProxy
 @EnableAutoConfiguration
 @EnableScheduling
-@Component
+@Component("cleanstoneMainServer")
 public class CleanstoneMainServer extends CleanstoneServer {
 
     private final ConsoleSender console;
