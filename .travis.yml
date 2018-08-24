@@ -10,6 +10,15 @@ jdk:
 - openjdk10
 - openjdk11
 
+matrix:
+  allow_failures:
+  - jdk: oraclejdk9
+  - jdk: oraclejdk10
+  - jdk: oraclejdk11
+  - jdk: openjdk9
+  - jdk: openjdk10
+  - jdk: openjdk11
+
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
