@@ -15,11 +15,9 @@ import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
-import rocks.cleanstone.game.world.chunk.data.block.BlockDataSection;
-import rocks.cleanstone.game.world.chunk.data.block.BlockStateStorage;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class PaletteBlockStateStorage implements BlockStateStorage {
+public class PaletteBlockStateStorage {
 
     private static final int MINIMUM_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 4,
             MAX_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 8;
@@ -88,7 +86,6 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
         this.omitDirectPaletteLength = omitDirectPaletteLength;
     }
 
-    @Override
     public void write(ByteBuf out) {
         out.writeByte(bitsPerEntry);
         if (isIndirectPalette(bitsPerEntry) || !omitDirectPaletteLength) {
@@ -105,7 +102,6 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
         }
     }
 
-    @Override
     public void set(int x, int y, int z, BlockState state) {
         Preconditions.checkNotNull(state, "state cannot be null");
         int paletteIndex = getPaletteIndex(state);
@@ -123,7 +119,6 @@ public class PaletteBlockStateStorage implements BlockStateStorage {
         baseStorage.set(getPositionIndex(x, y, z), paletteIndex);
     }
 
-    @Override
     public BlockState get(int x, int y, int z) {
         int paletteIndex = baseStorage.get(getPositionIndex(x, y, z));
         if (paletteIndex == 0) return BlockState.of(VanillaBlockType.AIR);

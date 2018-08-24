@@ -1,40 +1,35 @@
-package rocks.cleanstone.game.world.chunk.data.block;
+package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.world.chunk.Chunk;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.PaletteBlockStateStorage;
 
 public class BlockDataSection {
 
     public static final int HEIGHT = Chunk.HEIGHT / 16, WIDTH = Chunk.WIDTH;
 
-    private final BlockStateStorage blockStateStorage;
+    private final PaletteBlockStateStorage blockStateStorage;
     private final byte[][][] blockLight, skyLight;
     private final boolean hasSkyLight;
 
-    public BlockDataSection(BlockDataSection blockDataSection, BlockStateMapping<Integer> blockStateMapping) {
-        blockStateStorage = new PaletteBlockStateStorage(
-                (PaletteBlockStateStorage) blockDataSection.blockStateStorage);
+    public BlockDataSection(BlockDataSection blockDataSection) {
+        blockStateStorage = new PaletteBlockStateStorage(blockDataSection.blockStateStorage);
         blockLight = blockDataSection.blockLight.clone();
         skyLight = blockDataSection.skyLight.clone();
         hasSkyLight = blockDataSection.hasSkyLight;
     }
 
-    public BlockDataSection(BlockStateStorage blockStateStorage, byte[][][] blockLight, byte[][][] skyLight,
+    public BlockDataSection(PaletteBlockStateStorage blockStateStorage, byte[][][] blockLight, byte[][][] skyLight,
                             boolean hasSkyLight) {
         this.blockStateStorage = blockStateStorage;
-
         this.blockLight = blockLight;
         this.skyLight = skyLight;
         this.hasSkyLight = hasSkyLight;
     }
 
-    public BlockDataSection(boolean hasSkyLight, BlockStateMapping<Integer> blockStateMapping) {
-        this.blockStateStorage = new PaletteBlockStateStorage(new DirectPalette(blockStateMapping, 14), true);
+    public BlockDataSection(boolean hasSkyLight, DirectPalette directPalette, boolean omitDirectPaletteLength) {
+        this.blockStateStorage = new PaletteBlockStateStorage(directPalette, omitDirectPaletteLength);
         blockLight = new byte[WIDTH][WIDTH][HEIGHT];
         skyLight = new byte[WIDTH][WIDTH][HEIGHT];
         if (hasSkyLight)
@@ -48,8 +43,9 @@ public class BlockDataSection {
         this.hasSkyLight = hasSkyLight;
     }
 
-    public BlockDataSection(ByteBuf in, boolean hasSkyLight, BlockStateMapping<Integer> blockStateMapping) throws IOException {
-        blockStateStorage = new PaletteBlockStateStorage(in, new DirectPalette(blockStateMapping, 14), true);
+    public BlockDataSection(ByteBuf in, boolean hasSkyLight, DirectPalette directPalette,
+                            boolean omitDirectPaletteLength) throws IOException {
+        this.blockStateStorage = new PaletteBlockStateStorage(in, directPalette, omitDirectPaletteLength);
 
         this.blockLight = new byte[WIDTH][WIDTH][HEIGHT];
         this.skyLight = new byte[WIDTH][WIDTH][HEIGHT];
@@ -60,7 +56,7 @@ public class BlockDataSection {
         }
     }
 
-    public BlockStateStorage getBlockStateStorage() {
+    public PaletteBlockStateStorage getBlockStateStorage() {
         return blockStateStorage;
     }
 

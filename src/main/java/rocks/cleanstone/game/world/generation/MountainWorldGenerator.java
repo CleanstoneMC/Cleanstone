@@ -4,14 +4,13 @@ import java.util.HashSet;
 
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
-import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
-import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.generation.utils.NoiseGenerator;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 import rocks.cleanstone.net.packet.enums.Dimension;
@@ -24,14 +23,10 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     private static final Block STONE = ImmutableBlock.of(VanillaBlockType.STONE);
     private static final Block BEDROCK = ImmutableBlock.of(VanillaBlockType.BEDROCK);
 
-    private final MaterialRegistry materialRegistry;
     private final NoiseGenerator noiseGenerator;
-    private final BlockStateMapping<Integer> blockStateMapping = new ProtocolBlockStateMapping();
 
-
-    public MountainWorldGenerator(MaterialRegistry materialRegistry, int seed) {
+    public MountainWorldGenerator(int seed) {
         super(Dimension.OVERWORLD, LevelType.DEFAULT, seed);
-        this.materialRegistry = materialRegistry;
 
         noiseGenerator = new NoiseGenerator();
         noiseGenerator.SetNoiseType(NoiseGenerator.NoiseType.SimplexFractal);
@@ -63,7 +58,9 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
                 }
             }
         }
-        BlockDataStorage blockDataStorage = new BlockDataStorage(blockDataTable, blockStateMapping);
+        DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
+        VanillaBlockDataStorage blockDataStorage = new VanillaBlockDataStorage(blockDataTable,
+                directPalette, true);
 
         return new SimpleChunk(blockDataTable, blockDataStorage, new HashSet<>(), chunkX, chunkY);
     }

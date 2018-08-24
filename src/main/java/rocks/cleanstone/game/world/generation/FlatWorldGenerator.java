@@ -3,21 +3,19 @@ package rocks.cleanstone.game.world.generation;
 import java.util.HashSet;
 
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
-import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
-import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
+import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
 public class FlatWorldGenerator implements WorldGenerator {
 
     private final BlockDataTable blockDataTable;
-    private final BlockDataStorage blockDataStorage;
-    private final BlockStateMapping<Integer> blockStateMapping = new ModernBlockStateMapping(BlockState.of(VanillaBlockType.STONE));
+    private final VanillaBlockDataStorage blockDataStorage;
 
     public FlatWorldGenerator() {
         blockDataTable = new ArrayBlockDataTable(true);
@@ -35,13 +33,14 @@ public class FlatWorldGenerator implements WorldGenerator {
             }
         }
 
-        blockDataStorage = new BlockDataStorage(blockDataTable, blockStateMapping);
+        DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
+        blockDataStorage = new VanillaBlockDataStorage(blockDataTable, directPalette, true);
     }
 
     @Override
     public Chunk generateChunk(int chunkX, int chunkY) {
         return new SimpleChunk(new ArrayBlockDataTable((ArrayBlockDataTable) blockDataTable), new
-                BlockDataStorage(blockDataStorage, blockStateMapping), new HashSet<>(), chunkX, chunkY);
+                VanillaBlockDataStorage(blockDataStorage), new HashSet<>(), chunkX, chunkY);
     }
 
     @Override

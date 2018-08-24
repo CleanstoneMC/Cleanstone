@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.outbound;
 
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
-import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
+import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
@@ -11,15 +11,15 @@ public class ChunkDataPacket implements Packet {
     private final int chunkX;
     private final int chunkZ;
     private final boolean groundUpContinuous;
-    private final BlockDataStorage storage;
+    private final BlockDataTable blockDataTable;
     private final NamedBinaryTag[] blockEntities;
 
     public ChunkDataPacket(int chunkX, int chunkZ, boolean groundUpContinuous,
-                           BlockDataStorage storage, NamedBinaryTag[] blockEntities) {
+                           BlockDataTable blockDataTable, NamedBinaryTag[] blockEntities) {
         this.chunkX = chunkX;
         this.chunkZ = chunkZ;
         this.groundUpContinuous = groundUpContinuous;
-        this.storage = storage;
+        this.blockDataTable = blockDataTable;
         this.blockEntities = blockEntities;
     }
 
@@ -35,8 +35,8 @@ public class ChunkDataPacket implements Packet {
         return groundUpContinuous;
     }
 
-    public BlockDataStorage getStorage() {
-        return storage;
+    public BlockDataTable getBlockDataTable() {
+        return blockDataTable;
     }
 
     public NamedBinaryTag[] getBlockEntities() {

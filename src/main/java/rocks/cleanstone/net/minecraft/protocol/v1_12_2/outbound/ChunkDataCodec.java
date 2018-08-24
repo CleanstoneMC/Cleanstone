@@ -2,7 +2,9 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
-import rocks.cleanstone.game.world.chunk.data.block.BlockDataCodec;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodec;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
@@ -28,7 +30,11 @@ public class ChunkDataCodec implements PacketCodec {
         byteBuf.writeInt(chunkDataPacket.getChunkZ());
         byteBuf.writeBoolean(chunkDataPacket.isGroundUpContinuous());
 
-        ByteBuf blockData = new BlockDataCodec(blockStateMapping).serialize(chunkDataPacket.getStorage());
+        DirectPalette directPalette = new DirectPalette(blockStateMapping, 13);
+        VanillaBlockDataStorage storage = new VanillaBlockDataStorage(chunkDataPacket.getBlockDataTable(),
+                directPalette, false);
+
+        ByteBuf blockData = new VanillaBlockDataCodec(directPalette, false).serialize(storage);
         byteBuf.writeBytes(blockData);
         blockData.release();
 
