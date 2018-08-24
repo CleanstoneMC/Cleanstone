@@ -31,4 +31,5 @@ Currently we aren't supporting Bukkit or Sponge since we simply need more featur
 We have a Discord! Join us here: https://discord.gg/Jx5kk3u
 
 ## Livedemo
-Connect to "demo.cleanstone.rocks" with Minecraft 1.12.2. The Server restarts from time to time with the latest changes.
+Connect to "demo.cleanstone.rocks" with Minecraft 1.13.1 or 1.12.2. The Server restarts from time to time 
+with the latest changes.
