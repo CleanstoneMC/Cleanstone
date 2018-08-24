@@ -3,14 +3,15 @@ package rocks.cleanstone.player.terminate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
-
-import java.util.Collections;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.packet.outbound.DestroyEntitiesPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 
+import java.util.Collections;
+
+@Component
 public class DestroyPlayerPackets {
 
     private final PlayerManager playerManager;

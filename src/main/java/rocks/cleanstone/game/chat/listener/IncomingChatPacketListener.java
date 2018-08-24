@@ -5,16 +5,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.event.PlayerChatMessageEvent;
 import rocks.cleanstone.game.chat.event.PlayerIssuedCommandEvent;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.packet.inbound.InChatMessagePacket;
 import rocks.cleanstone.player.Player;
-import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.player.PlayerManager;
 
+@Component
 public class IncomingChatPacketListener {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());

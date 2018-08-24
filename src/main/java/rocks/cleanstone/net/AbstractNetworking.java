@@ -1,12 +1,12 @@
 package rocks.cleanstone.net;
 
+import rocks.cleanstone.net.protocol.Protocol;
+import rocks.cleanstone.net.utils.SecurityUtils;
+
 import java.net.InetAddress;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import rocks.cleanstone.net.protocol.Protocol;
-import rocks.cleanstone.net.utils.SecurityUtils;
 
 public abstract class AbstractNetworking implements Networking {
 

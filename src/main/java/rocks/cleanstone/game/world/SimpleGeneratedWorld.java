@@ -3,8 +3,10 @@ package rocks.cleanstone.game.world;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
@@ -21,6 +23,8 @@ import rocks.cleanstone.net.packet.enums.LevelType;
 
 import java.util.concurrent.ExecutionException;
 
+@Component
+@Scope("prototype")
 public class SimpleGeneratedWorld implements World {
 
     protected final WorldGenerator generator;

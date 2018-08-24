@@ -1,18 +1,18 @@
 package rocks.cleanstone.game.command.parameter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.command.completion.CompletableParameter;
 import rocks.cleanstone.game.command.completion.CompletionContext;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
+@Component
 public class PlayerParameter implements CompletableParameter<Player> {
 
     private final PlayerManager playerManager;

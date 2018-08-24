@@ -1,19 +1,18 @@
 package rocks.cleanstone.net.minecraft.status;
 
 import com.google.gson.Gson;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
-
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.MinecraftNetworking;
-import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.packet.inbound.RequestPacket;
 import rocks.cleanstone.net.packet.outbound.ResponsePacket;
 import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 import rocks.cleanstone.player.PlayerManager;
 
+@Component
 public class StatusRequestListener {
 
     private final String motd;

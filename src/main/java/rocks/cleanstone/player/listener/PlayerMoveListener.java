@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.event.EventAction;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.net.packet.outbound.*;
@@ -14,6 +15,7 @@ import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 
+@Component
 public class PlayerMoveListener {
     private final PlayerManager playerManager;
     private final PlayerChunkLoadService playerChunkLoadService;

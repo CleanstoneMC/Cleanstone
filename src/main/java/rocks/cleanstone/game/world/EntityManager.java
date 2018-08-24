@@ -1,14 +1,15 @@
 package rocks.cleanstone.game.world;
 
+import org.springframework.stereotype.Component;
+import rocks.cleanstone.game.entity.AbstractEntity;
+import rocks.cleanstone.game.entity.Entity;
+
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-import javax.annotation.Nullable;
-
-import rocks.cleanstone.game.entity.AbstractEntity;
-import rocks.cleanstone.game.entity.Entity;
-
+@Component("entityManager")
 public class EntityManager {
     private final Map<Integer, Entity> entityMap = new HashMap<>();
     private final ThreadLocalRandom current = ThreadLocalRandom.current();

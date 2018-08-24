@@ -1,22 +1,23 @@
 package rocks.cleanstone.net.mcpe.protocol;
 
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.mcpe.MCPEClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
-import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
-import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.PacketTypeRegistry;
-import rocks.cleanstone.net.packet.SimplePacketTypeRegistry;
+import rocks.cleanstone.net.packet.*;
 import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.net.protocol.ProtocolState;
 
+import javax.annotation.PostConstruct;
+
+@Component
 public class SimpleMCPEProtocol implements Protocol {
 
     private PacketTypeRegistry registry;
 
+    @PostConstruct
     public void init() {
         registry = new SimplePacketTypeRegistry();
         registry.registerPacketType(MinecraftOutboundPacketType.values());

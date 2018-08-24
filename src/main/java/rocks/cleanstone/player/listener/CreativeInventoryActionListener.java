@@ -2,10 +2,11 @@ package rocks.cleanstone.player.listener;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.packet.inbound.CreativeInventoryActionPacket;
 import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
 
+@Component
 public class CreativeInventoryActionListener {
 
     @Async(value = "playerExec")

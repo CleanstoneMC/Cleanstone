@@ -1,15 +1,15 @@
 package rocks.cleanstone.net.mcpe;
 
 import com.whirvis.jraknet.identifier.MinecraftIdentifier;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-
-import java.util.concurrent.ThreadLocalRandom;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.player.PlayerManager;
 
+import java.util.concurrent.ThreadLocalRandom;
+
+@Component
 public class StatusProvider extends MinecraftIdentifier {
 
     private final PlayerManager playerManager;

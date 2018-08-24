@@ -1,10 +1,12 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_13;
 
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.material.item.mapping.SimpleItemTypeMapping;
 import rocks.cleanstone.game.material.item.vanilla.VanillaItemType;
 
 import static rocks.cleanstone.game.material.item.vanilla.VanillaItemType.*;
 
+@Component("protocolItemTypeMapping_v1_13")
 public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
 
     public ProtocolItemTypeMapping() {

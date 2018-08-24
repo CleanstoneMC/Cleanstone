@@ -1,21 +1,18 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
 import com.google.common.base.Preconditions;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Collection;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
-import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
-import rocks.cleanstone.net.packet.PacketType;
-import rocks.cleanstone.net.packet.PacketTypeRegistry;
-import rocks.cleanstone.net.packet.SimplePacketTypeRegistry;
+import rocks.cleanstone.net.packet.*;
 import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.protocol.LayeredProtocol;
 import rocks.cleanstone.net.protocol.ProtocolState;
 
+import javax.annotation.PostConstruct;
+import java.util.Collection;
+
+@Component
 public class SimpleMinecraftProtocol extends LayeredProtocol {
 
     private PacketTypeRegistry registry;
@@ -29,6 +26,7 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
         registry.registerPacketType(MinecraftInboundPacketType.values());
     }
 
+    @PostConstruct
     public void init() {
         serverProtocolLayers.forEach(this::registerProtocolLayer);
     }

@@ -1,12 +1,13 @@
 package rocks.cleanstone.net.minecraft;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.net.minecraft.protocol.SimpleMinecraftProtocol;
 import rocks.cleanstone.net.netty.NettyNetworking;
 import rocks.cleanstone.player.PlayerManager;
 
+@Component
 public class SimpleMinecraftNetworking extends NettyNetworking implements MinecraftNetworking {
 
     private final MinecraftConfig minecraftConfig;

@@ -3,7 +3,9 @@ package rocks.cleanstone.core;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SpringBeanDefinitionProxy {
     private DefaultListableBeanFactory beanDefinitionRegistry;
 

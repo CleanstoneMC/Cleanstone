@@ -3,11 +3,10 @@ package rocks.cleanstone.core.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import rocks.cleanstone.core.CleanstoneServer;
 
 import java.net.InetAddress;
 import java.util.List;
-
-import rocks.cleanstone.core.CleanstoneServer;
 
 @Configuration
 @EnableConfigurationProperties
@@ -22,6 +21,7 @@ public class MinecraftConfig {
     private List<String> autoLoadWorlds;
     private String firstSpawnWorld;
     private List<String> ops;
+    private int seed;
 
     public static MinecraftConfig getInstance() {
         return CleanstoneServer.getInstance().getMinecraftConfig();
@@ -113,5 +113,13 @@ public class MinecraftConfig {
 
     public void setMaxViewDistance(int maxViewDistance) {
         this.maxViewDistance = maxViewDistance;
+    }
+
+    public int getSeed() {
+        return seed;
+    }
+
+    public void setSeed(int seed) {
+        this.seed = seed;
     }
 }

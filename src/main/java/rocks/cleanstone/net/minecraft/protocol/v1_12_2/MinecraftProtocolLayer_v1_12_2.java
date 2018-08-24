@@ -1,6 +1,7 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
@@ -10,6 +11,7 @@ import rocks.cleanstone.net.packet.outbound.*;
 
 import static rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState.*;
 
+@Component("minecraftProtocolLayer_v1_12_2")
 public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
 
     @Autowired

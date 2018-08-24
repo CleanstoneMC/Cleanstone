@@ -1,9 +1,7 @@
 package rocks.cleanstone.game.command.cleanstone;
 
-import java.util.Collections;
-import java.util.Random;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.net.packet.data.EntityMetadata;
@@ -12,6 +10,11 @@ import rocks.cleanstone.net.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
+import java.util.Collections;
+import java.util.Random;
+import java.util.UUID;
+
+@Component
 public class SpawnCommand extends SimpleCommand {
     private final PlayerManager playerManager;
 

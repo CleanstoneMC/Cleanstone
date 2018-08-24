@@ -5,9 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
-
-import java.io.IOException;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.OpenWorldGame;
 import rocks.cleanstone.game.world.WorldManager;
 import rocks.cleanstone.player.Player;
@@ -16,6 +14,9 @@ import rocks.cleanstone.player.data.standard.EntityData;
 import rocks.cleanstone.player.data.standard.StandardPlayerDataType;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 
+import java.io.IOException;
+
+@Component
 public class SaveData {
 
     private final PlayerManager playerManager;

@@ -1,14 +1,10 @@
 package rocks.cleanstone.game;
 
 import com.google.common.base.Charsets;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
-
-import java.util.Locale;
-import java.util.UUID;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.ConsoleInputEvent;
 import rocks.cleanstone.core.ConsoleInputEventPublisher;
@@ -16,6 +12,10 @@ import rocks.cleanstone.game.chat.ConsoleSender;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandRegistry;
 
+import java.util.Locale;
+import java.util.UUID;
+
+@Component("console")
 public class SimpleConsole implements ConsoleSender {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());

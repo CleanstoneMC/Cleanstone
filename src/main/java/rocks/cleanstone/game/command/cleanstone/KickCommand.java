@@ -1,11 +1,13 @@
 package rocks.cleanstone.game.command.cleanstone;
 
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.MessageRecipient;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.player.Player;
 
+@Component
 public class KickCommand extends SimpleCommand {
 
     public KickCommand() {

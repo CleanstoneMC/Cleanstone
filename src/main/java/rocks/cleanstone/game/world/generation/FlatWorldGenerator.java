@@ -1,7 +1,8 @@
 package rocks.cleanstone.game.world.generation;
 
-import java.util.HashSet;
-
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
@@ -12,6 +13,11 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
+import java.util.HashSet;
+
+@Component("flatWorldGenerator")
+@Scope("prototype")
+@DependsOn("blockStateProvider")
 public class FlatWorldGenerator implements WorldGenerator {
 
     private final BlockDataTable blockDataTable;

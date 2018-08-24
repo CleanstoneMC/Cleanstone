@@ -3,16 +3,16 @@ package rocks.cleanstone.game.world;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.world.generation.WorldGenerator;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.annotation.Nullable;
-
-import rocks.cleanstone.game.world.generation.WorldGenerator;
-
+@Component
 public class SimpleWorldManager implements WorldManager {
 
     private final WorldLoader worldLoader;

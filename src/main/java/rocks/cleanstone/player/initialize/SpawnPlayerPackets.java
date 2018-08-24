@@ -3,7 +3,7 @@ package rocks.cleanstone.player.initialize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.net.packet.outbound.SpawnPlayerPacket;
@@ -11,6 +11,7 @@ import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 
+@Component
 public class SpawnPlayerPackets {
 
     private final PlayerManager playerManager;

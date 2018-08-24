@@ -2,7 +2,7 @@ package rocks.cleanstone.player.listener;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.LivingEntity;
@@ -13,6 +13,7 @@ import rocks.cleanstone.net.packet.inbound.PlayerPositionPacket;
 import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 
+@Component
 public class PlayerMovePacketListener {
 
     @Async(value = "playerExec")
