@@ -1,14 +1,10 @@
 package rocks.cleanstone.game.world.chunk.data.block;
 
+import io.netty.buffer.ByteBuf;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
-
-import io.netty.buffer.ByteBuf;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.SimpleBlockStateProvider;
@@ -20,6 +16,10 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodec;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,7 +33,7 @@ class VanillaBlockDataStorageTest {
 
     @BeforeEach
     void createStorageByTable() {
-        blockStateProvider = new SimpleBlockStateProvider();
+        blockStateProvider = new SimpleBlockStateProvider(new CaffeineCacheManager());
         blockStateProvider.init();
 
         random = new Random(1);
