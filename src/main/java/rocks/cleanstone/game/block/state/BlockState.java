@@ -1,12 +1,8 @@
 package rocks.cleanstone.game.block.state;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import rocks.cleanstone.game.block.state.property.Properties;
-import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
 
@@ -14,8 +10,6 @@ import rocks.cleanstone.game.material.block.BlockType;
  * An immutable state of a block containing its material and properties
  */
 public class BlockState {
-
-    private static final Map<BlockType, Map<Properties, BlockState>> BLOCK_STATE_CACHE = new ConcurrentHashMap<>();
 
     private final BlockType blockType;
     private final Properties properties;
@@ -31,12 +25,11 @@ public class BlockState {
     }
 
     public static BlockState of(BlockType blockType, Properties properties) {
-        return BLOCK_STATE_CACHE.computeIfAbsent(blockType, k -> new ConcurrentHashMap<>())
-                .computeIfAbsent(properties, k -> new BlockState(blockType, properties));
+        return BlockStateProvider.get().of(blockType, properties);
     }
 
     public static BlockState of(BlockType blockType) {
-        return of(blockType, new Properties(blockType.getProperties()));
+        return BlockStateProvider.get().of(blockType);
     }
 
     public BlockType getBlockType() {
@@ -48,9 +41,7 @@ public class BlockState {
     }
 
     public <T> BlockState withProperty(Property<T> property, T value) {
-        Properties properties = new PropertiesBuilder(this.properties)
-                .withProperty(property, value).create();
-        return of(blockType, properties);
+        return BlockStateProvider.get().withProperty(blockType, property, value);
     }
 
     public Properties getProperties() {
@@ -60,5 +51,19 @@ public class BlockState {
     @Override
     public String toString() {
         return "BlockState{type=" + blockType + ";properties=" + properties + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BlockState)) return false;
+        BlockState that = (BlockState) o;
+        return Objects.equal(blockType, that.blockType) &&
+                Objects.equal(properties, that.properties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(blockType, properties);
     }
 }
