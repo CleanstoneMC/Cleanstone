@@ -3,19 +3,9 @@ package rocks.cleanstone.player;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.message.Text;
@@ -28,6 +18,16 @@ import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
 
+import javax.annotation.Nullable;
+import javax.annotation.PreDestroy;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+@Component
 public class SimplePlayerManager implements PlayerManager {
 
     private final Collection<Player> onlinePlayers = Sets.newConcurrentHashSet();
@@ -146,6 +146,7 @@ public class SimplePlayerManager implements PlayerManager {
         return dataFolder;
     }
 
+    @PreDestroy
     void destroy() {
         playerDataSource.close();
     }

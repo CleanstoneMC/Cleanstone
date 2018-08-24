@@ -3,13 +3,8 @@ package rocks.cleanstone.game.command.cleanstone;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.JdkFutureAdapters;
 import com.google.common.util.concurrent.ListenableFuture;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.stream.Collectors;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandMessage;
@@ -17,6 +12,11 @@ import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
+
+@Component
 public class StopCommand extends SimpleCommand {
 
     private final PlayerManager playerManager;

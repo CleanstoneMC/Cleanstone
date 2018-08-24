@@ -2,8 +2,10 @@ package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
@@ -11,6 +13,8 @@ import rocks.cleanstone.game.world.generation.WorldGenerator;
 /**
  * Loads/Generates a chunk that isnt already in local memory
  */
+@Component
+@Scope("prototype")
 public class SimpleChunkProvider implements ChunkProvider {
 
     private final WorldDataSource dataSource;

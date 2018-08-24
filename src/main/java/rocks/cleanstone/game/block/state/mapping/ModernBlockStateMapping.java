@@ -2,20 +2,18 @@ package rocks.cleanstone.game.block.state.mapping;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
+import rocks.cleanstone.game.block.state.property.PropertyDefinition;
+import rocks.cleanstone.game.material.block.BlockType;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-
-import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
-import rocks.cleanstone.game.block.state.property.PropertyDefinition;
-import rocks.cleanstone.game.material.block.BlockType;
 
 public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
 

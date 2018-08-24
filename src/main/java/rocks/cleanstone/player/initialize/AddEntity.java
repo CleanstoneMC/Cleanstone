@@ -5,9 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
-
-import java.io.IOException;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.OpenWorldGame;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.vanilla.Human;
@@ -23,6 +21,9 @@ import rocks.cleanstone.player.data.standard.EntityData;
 import rocks.cleanstone.player.data.standard.StandardPlayerDataType;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 
+import java.io.IOException;
+
+@Component
 public class AddEntity {
 
     private final OpenWorldGame openWorldGame;

@@ -2,11 +2,14 @@ package rocks.cleanstone.player;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
-import org.apache.commons.lang3.tuple.Pair;
 
+@Component
 public class PlayerChunkLoadService {
     private final Multimap<UUID, Pair<Integer, Integer>> playerHasLoaded = ArrayListMultimap.create();
 

@@ -1,5 +1,9 @@
 package rocks.cleanstone.game.world.generation;
 
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
@@ -16,6 +20,10 @@ import rocks.cleanstone.net.packet.enums.LevelType;
 
 import java.util.HashSet;
 
+@Component("mountainWorldGenerator")
+@Scope("prototype")
+@DependsOn("blockStateProvider")
+@Lazy
 public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     private static final Block GRASS_BLOCK = ImmutableBlock.of(VanillaBlockType.GRASS_BLOCK);
@@ -25,6 +33,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     private final NoiseGenerator noiseGenerator;
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public MountainWorldGenerator(int seed) {
         super(Dimension.OVERWORLD, LevelType.DEFAULT, seed);
 

@@ -3,12 +3,19 @@ package rocks.cleanstone.game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
 import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+@Component("game")
+@Lazy()
 public class SimpleOpenWorldGame implements OpenWorldGame {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -22,6 +29,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
         this.materialRegistry = materialRegistry;
     }
 
+    @PostConstruct
     public void init() {
         logger.info("Started OpenWorldGame");
         CleanstoneServer.getInstance().getMinecraftConfig().getAutoLoadWorlds().forEach(worldName -> {
@@ -37,6 +45,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
         });
     }
 
+    @PreDestroy
     public void destroy() {
         logger.info("Stopping OpenWorldGame");
 

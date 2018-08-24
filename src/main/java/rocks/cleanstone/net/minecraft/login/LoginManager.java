@@ -2,22 +2,11 @@ package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.crypto.SecretKey;
-
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
@@ -33,6 +22,12 @@ import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;
 import rocks.cleanstone.player.UserProperty;
 
+import javax.crypto.SecretKey;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.*;
+
+@Component
 public class LoginManager {
 
     private final Map<Connection, LoginData> connectionLoginDataMap = Maps.newConcurrentMap();

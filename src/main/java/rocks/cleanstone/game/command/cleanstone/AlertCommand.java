@@ -1,14 +1,15 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Arrays;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
+import java.util.Arrays;
+
+@Component
 public class AlertCommand extends SimpleCommand {
 
     private final PlayerManager playerManager;

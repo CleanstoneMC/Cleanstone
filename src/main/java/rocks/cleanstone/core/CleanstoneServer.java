@@ -10,14 +10,15 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-
-import java.util.Locale;
-
 import rocks.cleanstone.Cleanstone;
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
 import rocks.cleanstone.core.event.EventExecutionException;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.Locale;
 
 public abstract class CleanstoneServer implements ApplicationRunner {
 
@@ -81,10 +82,12 @@ public abstract class CleanstoneServer implements ApplicationRunner {
         return DEFAULT_LOCALE;
     }
 
+    @PostConstruct
     public void init() {
         INSTANCE = this;
     }
 
+    @PreDestroy
     public void destroy() {
         INSTANCE = null;
     }

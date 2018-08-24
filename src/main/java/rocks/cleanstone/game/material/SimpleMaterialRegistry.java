@@ -1,23 +1,23 @@
 package rocks.cleanstone.game.material;
 
 import com.google.common.collect.Sets;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.material.item.BlockItemType;
 import rocks.cleanstone.game.material.item.ItemType;
 import rocks.cleanstone.game.material.item.vanilla.VanillaItemType;
 
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+
 /**
  * Registry for all registered Materials (BlockType and/or ItemType)
  */
+@Component("materialRegistry")
 public class SimpleMaterialRegistry implements MaterialRegistry {
 
     private final Set<BlockType> blockTypes = Sets.newConcurrentHashSet();

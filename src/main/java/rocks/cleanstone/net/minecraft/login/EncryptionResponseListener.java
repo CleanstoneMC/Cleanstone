@@ -5,11 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
 
+@Component
 public class EncryptionResponseListener {
 
     private final LoginManager loginManager;

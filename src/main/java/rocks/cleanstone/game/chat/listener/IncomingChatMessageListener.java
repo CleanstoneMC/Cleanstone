@@ -3,11 +3,12 @@ package rocks.cleanstone.game.chat.listener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.chat.ChatManager;
 import rocks.cleanstone.game.chat.event.PlayerChatMessageEvent;
 import rocks.cleanstone.game.chat.message.ChatMessage;
 
+@Component
 public class IncomingChatMessageListener {
     private ChatManager chatManager;
 

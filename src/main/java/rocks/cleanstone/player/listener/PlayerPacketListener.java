@@ -3,7 +3,7 @@ package rocks.cleanstone.player.listener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.event.EventAction;
 import rocks.cleanstone.net.event.InboundPacketEvent;
@@ -13,6 +13,7 @@ import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.player.event.PlayerOutboundPacketEvent;
 
+@Component
 public class PlayerPacketListener {
 
     private final PlayerManager playerManager;

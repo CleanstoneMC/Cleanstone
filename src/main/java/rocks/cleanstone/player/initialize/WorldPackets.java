@@ -2,9 +2,7 @@ package rocks.cleanstone.player.initialize;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
-
-import java.util.concurrent.ThreadLocalRandom;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.game.world.World;
@@ -19,6 +17,9 @@ import rocks.cleanstone.net.packet.outbound.SpawnPositionPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 
+import java.util.concurrent.ThreadLocalRandom;
+
+@Component
 public class WorldPackets {
 
     @Order(value = 20)

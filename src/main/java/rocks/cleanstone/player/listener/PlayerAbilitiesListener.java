@@ -2,14 +2,15 @@ package rocks.cleanstone.player.listener;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-
-import java.util.Arrays;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.packet.enums.PlayerAbility;
 import rocks.cleanstone.net.packet.inbound.InPlayerAbilitiesPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
 
+import java.util.Arrays;
+
+@Component
 public class PlayerAbilitiesListener {
 
     @Async(value = "playerExec")

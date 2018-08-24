@@ -1,10 +1,12 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.state.mapping.LegacyMaterialMapping;
 import rocks.cleanstone.game.material.item.vanilla.VanillaItemType;
 
 import static rocks.cleanstone.game.material.item.vanilla.VanillaItemType.*;
 
+@Component("protocolItemTypeMapping_v1_12_2")
 public class ProtocolItemTypeMapping extends LegacyMaterialMapping {
     public ProtocolItemTypeMapping() {
         super(VanillaItemType.STONE);

@@ -1,8 +1,10 @@
 package rocks.cleanstone.game.command.cleanstone;
 
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 
+@Component
 public class SetCommand extends SimpleCommand {
 
     public SetCommand() {

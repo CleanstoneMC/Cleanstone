@@ -3,12 +3,13 @@ package rocks.cleanstone.player.listener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.net.packet.inbound.ClientSettingsPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
 
+@Component
 public class ClientSettingsListener {
 
     private final MinecraftConfig minecraftConfig;

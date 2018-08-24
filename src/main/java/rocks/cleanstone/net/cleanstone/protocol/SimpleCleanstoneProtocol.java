@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.cleanstone.protocol;
 
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.cleanstone.packet.CleanstoneInboundPacketType;
 import rocks.cleanstone.net.cleanstone.packet.CleanstoneOutboundPacketType;
@@ -11,10 +12,14 @@ import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.net.protocol.ProtocolState;
 
+import javax.annotation.PostConstruct;
+
+@Component
 public class SimpleCleanstoneProtocol implements Protocol {
 
     private PacketTypeRegistry registry;
 
+    @PostConstruct
     public void init() {
         registry = new SimplePacketTypeRegistry();
         registry.registerPacketType(CleanstoneOutboundPacketType.values());

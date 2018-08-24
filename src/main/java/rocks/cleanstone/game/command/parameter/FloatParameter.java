@@ -1,8 +1,11 @@
 package rocks.cleanstone.game.command.parameter;
 
-import javax.annotation.Nullable;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.command.completion.CompletionContext;
 
+import javax.annotation.Nullable;
+
+@Component
 public class FloatParameter implements CommandParameter<Float> {
     @Nullable
     @Override

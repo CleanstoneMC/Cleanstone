@@ -1,15 +1,10 @@
 package rocks.cleanstone.game.world.data;
 
+import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
-
-import javax.annotation.Nullable;
-
-import io.netty.buffer.ByteBuf;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.data.Codec;
 import rocks.cleanstone.data.EnumCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
@@ -22,6 +17,13 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCode
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
+import javax.annotation.Nullable;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+
+@Component
+@Scope("prototype")
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
