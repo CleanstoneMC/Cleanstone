@@ -34,7 +34,7 @@ public class ChunkDataCodec implements PacketCodec {
         VanillaBlockDataStorage storage = new VanillaBlockDataStorage(chunkDataPacket.getBlockDataTable(),
                 directPalette, true);
 
-        ByteBuf blockData = new VanillaBlockDataCodec(directPalette, false).serialize(storage);
+        ByteBuf blockData = new VanillaBlockDataCodec(directPalette, true).serialize(storage);
         byteBuf.writeBytes(blockData);
         blockData.release();
 
