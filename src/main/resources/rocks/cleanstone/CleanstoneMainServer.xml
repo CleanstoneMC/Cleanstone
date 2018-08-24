@@ -90,8 +90,7 @@
     <!--<bean id="worldGenerator" class="rocks.cleanstone.game.world.generation.FlatWorldGenerator" scope="prototype"/>-->
     <bean id="mountainWorldGenerator" class="rocks.cleanstone.game.world.generation.MountainWorldGenerator"
           scope="prototype">
-        <constructor-arg index="0" ref="materialRegistry"/>
-        <constructor-arg index="1" value="1234567890"/>
+        <constructor-arg value="1234567890"/>
     </bean>
 
     <!-- Game -->

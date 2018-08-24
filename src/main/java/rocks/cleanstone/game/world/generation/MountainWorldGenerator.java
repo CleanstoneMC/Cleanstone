@@ -18,7 +18,7 @@ import rocks.cleanstone.net.packet.enums.LevelType;
 
 public class MountainWorldGenerator extends AbstractWorldGenerator {
 
-    private static final Block GRASS = ImmutableBlock.of(VanillaBlockType.GRASS);
+    private static final Block GRASS_BLOCK = ImmutableBlock.of(VanillaBlockType.GRASS_BLOCK);
     private static final Block DIRT = ImmutableBlock.of(VanillaBlockType.DIRT);
     private static final Block STONE = ImmutableBlock.of(VanillaBlockType.STONE);
     private static final Block BEDROCK = ImmutableBlock.of(VanillaBlockType.BEDROCK);
@@ -34,7 +34,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
         noiseGenerator.SetFrequency(0.0125F);
         noiseGenerator.SetFractalOctaves(3);
         noiseGenerator.SetFractalGain(0.35F);
-        noiseGenerator.SetFractalLacunarity(3.5f);
+        noiseGenerator.SetFractalLacunarity(3.5F);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int height = getHeightAt((chunkX << 4) + x, (chunkY << 4) + z);
-                blockDataTable.setBlock(x, height, z, GRASS);
+                blockDataTable.setBlock(x, height, z, GRASS_BLOCK);
                 blockDataTable.setBlock(x, height - 1, z, DIRT);
                 blockDataTable.setBlock(x, height - 2, z, DIRT);
 
