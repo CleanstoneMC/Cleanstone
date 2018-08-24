@@ -98,7 +98,7 @@
     <!-- World Generator -->
     <!--<bean id="worldGenerator" class="rocks.cleanstone.game.world.generation.FlatWorldGenerator" scope="prototype"/>-->
     <bean id="mountainWorldGenerator" class="rocks.cleanstone.game.world.generation.MountainWorldGenerator"
-          scope="prototype" depends-on="blockStateProvider">
+          scope="prototype">
         <constructor-arg index="0" value="1234567890"/>
     </bean>
 
