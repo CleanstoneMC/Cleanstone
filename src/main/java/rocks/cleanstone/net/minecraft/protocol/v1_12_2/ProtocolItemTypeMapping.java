@@ -9,186 +9,346 @@ public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
     public ProtocolItemTypeMapping() {
         super(VanillaItemType.STONE);
         setID(AIR, 0);
-        setID(STONE, 1:6);
+        setID(STONE, 1);
+////      setID(GRANITE, 1:1); //TODO: Add Metadata workaround
+////      setID(POLISHED_GRANITE, 1:2); //TODO: Add Metadata workaround
+////      setID(DIORITE, 1:3); //TODO: Add Metadata workaround
+////      setID(POLISHED_DIORITE, 1:4); //TODO: Add Metadata workaround
+////      setID(ANDESITE, 1:5); //TODO: Add Metadata workaround
+////      setID(POLISHED_ANDESITE, 1:6); //TODO: Add Metadata workaround
         setID(GRASS, 2);
-        setID(DIRT, 3:2);
+        setID(DIRT, 3);
+////      setID(COARSE_DIRT, 3:1); //TODO: Add Metadata workaround
+////      setID(PODZOL, 3:2); //TODO: Add Metadata workaround
         setID(COBBLESTONE, 4);
-        setID(OAK_PLANKS, 5:5);
-        setID(OAK_SAPLING, 6:5);
+        setID(OAK_PLANKS, 5);
+////      setID(SPRUCE_PLANKS, 5:1); //TODO: Add Metadata workaround
+////      setID(BIRCH_PLANKS, 5:2); //TODO: Add Metadata workaround
+////      setID(JUNGLE_PLANKS, 5:3); //TODO: Add Metadata workaround
+////      setID(ACACIA_PLANKS, 5:4); //TODO: Add Metadata workaround
+////      setID(DARK_OAK_PLANKS, 5:5); //TODO: Add Metadata workaround
+        setID(OAK_SAPLING, 6);
+////      setID(SPRUCE_SAPLING, 6:1); //TODO: Add Metadata workaround
+////      setID(BIRCH_SAPLING, 6:2); //TODO: Add Metadata workaround
+////      setID(JUNGLE_SAPLING, 6:3); //TODO: Add Metadata workaround
+////      setID(ACACIA_SAPLING, 6:4); //TODO: Add Metadata workaround
+////      setID(DARK_OAK_SAPLING, 6:5); //TODO: Add Metadata workaround
         setID(BEDROCK, 7);
-        setID(FLOWING_WATER, 8);
-        setID(WATER, 9);
-        setID(FLOWING_LAVA, 10);
-        setID(LAVA, 11);
-        setID(SAND, 12:1);
+//        setID(FLOWING_WATER, 8);
+//        setID(STILL_WATER, 9);
+//        setID(FLOWING_LAVA, 10);
+//        setID(STILL_LAVA, 11);
+        setID(SAND, 12);
+////      setID(RED_SAND, 12:1); //TODO: Add Metadata workaround
         setID(GRAVEL, 13);
         setID(GOLD_ORE, 14);
         setID(IRON_ORE, 15);
         setID(COAL_ORE, 16);
-        setID(OAK_WOOD, 17:3);
-        setID(OAK_LEAVES, 18:3);
-        setID(SPONGE, 19:1);
+        setID(OAK_WOOD, 17);
+////      setID(SPRUCE_WOOD, 17:1); //TODO: Add Metadata workaround
+////      setID(BIRCH_WOOD, 17:2); //TODO: Add Metadata workaround
+////      setID(JUNGLE_WOOD, 17:3); //TODO: Add Metadata workaround
+        setID(OAK_LEAVES, 18);
+////      setID(SPRUCE_LEAVES, 18:1); //TODO: Add Metadata workaround
+////      setID(BIRCH_LEAVES, 18:2); //TODO: Add Metadata workaround
+////      setID(JUNGLE_LEAVES, 18:3); //TODO: Add Metadata workaround
+        setID(SPONGE, 19);
+////      setID(WET_SPONGE, 19:1); //TODO: Add Metadata workaround
         setID(GLASS, 20);
         setID(LAPIS_ORE, 21);
         setID(LAPIS_BLOCK, 22);
         setID(DISPENSER, 23);
-        setID(SANDSTONE, 24:2);
+        setID(SANDSTONE, 24);
+////      setID(CHISELED_SANDSTONE, 24:1); //TODO: Add Metadata workaround
+////      setID(SMOOTH_SANDSTONE, 24:2); //TODO: Add Metadata workaround
         setID(NOTE_BLOCK, 25);
-        setID(RED_BED, 355);
+        setID(RED_BED, 26);
         setID(POWERED_RAIL, 27);
         setID(DETECTOR_RAIL, 28);
         setID(STICKY_PISTON, 29);
         setID(COBWEB, 30);
-        setID(TALL_GRASS, 31:2);
+//        setID(DEAD_SHRUB, 31);
+////      setID(GRASS, 31:1); //TODO: Add Metadata workaround
+////      setID(FERN, 31:2); //TODO: Add Metadata workaround
         setID(DEAD_BUSH, 32);
         setID(PISTON, 33);
-        setID(PISTON_HEAD, 34);
-        setID(WHITE_WOOL, 35:15);
-        setID(CHORUS_FLOWER, 37);
-        setID(RED_TULIP, 38:8);
+//        setID(PISTON_HEAD, 34);
+        setID(WHITE_WOOL, 35);
+////      setID(ORANGE_WOOL, 35:1); //TODO: Add Metadata workaround
+////      setID(MAGENTA_WOOL, 35:2); //TODO: Add Metadata workaround
+////      setID(LIGHT_BLUE_WOOL, 35:3); //TODO: Add Metadata workaround
+////      setID(YELLOW_WOOL, 35:4); //TODO: Add Metadata workaround
+////      setID(LIME_WOOL, 35:5); //TODO: Add Metadata workaround
+////      setID(PINK_WOOL, 35:6); //TODO: Add Metadata workaround
+////      setID(GRAY_WOOL, 35:7); //TODO: Add Metadata workaround
+////      setID(LIGHT_GRAY_WOOL, 35:8); //TODO: Add Metadata workaround
+////      setID(CYAN_WOOL, 35:9); //TODO: Add Metadata workaround
+////      setID(PURPLE_WOOL, 35:10); //TODO: Add Metadata workaround
+////      setID(BLUE_WOOL, 35:11); //TODO: Add Metadata workaround
+////      setID(BROWN_WOOL, 35:12); //TODO: Add Metadata workaround
+////      setID(GREEN_WOOL, 35:13); //TODO: Add Metadata workaround
+////      setID(RED_WOOL, 35:14); //TODO: Add Metadata workaround
+////      setID(BLACK_WOOL, 35:15); //TODO: Add Metadata workaround
+        setID(DANDELION, 37);
+        setID(POPPY, 38);
+////      setID(BLUE_ORCHID, 38:1); //TODO: Add Metadata workaround
+////      setID(ALLIUM, 38:2); //TODO: Add Metadata workaround
+////      setID(AZURE_BLUET, 38:3); //TODO: Add Metadata workaround
+////      setID(RED_TULIP, 38:4); //TODO: Add Metadata workaround
+////      setID(ORANGE_TULIP, 38:5); //TODO: Add Metadata workaround
+////      setID(WHITE_TULIP, 38:6); //TODO: Add Metadata workaround
+////      setID(PINK_TULIP, 38:7); //TODO: Add Metadata workaround
+////      setID(OXEYE_DAISY, 38:8); //TODO: Add Metadata workaround
         setID(BROWN_MUSHROOM, 39);
         setID(RED_MUSHROOM, 40);
         setID(GOLD_BLOCK, 41);
         setID(IRON_BLOCK, 42);
-        setID(STONE_SLAB, 43:7);
-        setID(STONE_SLAB, 44:7);
-        setID(STONE_BRICKS, 45);
+//        setID(DOUBLE_STONE_SLAB, 43);
+////      setID(DOUBLE_SANDSTONE_SLAB, 43:1); //TODO: Add Metadata workaround
+////      setID(DOUBLE_WOODEN_SLAB, 43:2); //TODO: Add Metadata workaround
+////      setID(DOUBLE_COBBLESTONE_SLAB, 43:3); //TODO: Add Metadata workaround
+////      setID(DOUBLE_BRICK_SLAB, 43:4); //TODO: Add Metadata workaround
+////      setID(DOUBLE_STONE_BRICK_SLAB, 43:5); //TODO: Add Metadata workaround
+////      setID(DOUBLE_NETHER_BRICK_SLAB, 43:6); //TODO: Add Metadata workaround
+////      setID(DOUBLE_QUARTZ_SLAB, 43:7); //TODO: Add Metadata workaround
+        setID(STONE_SLAB, 44);
+////      setID(SANDSTONE_SLAB, 44:1); //TODO: Add Metadata workaround
+////      setID(WOODEN_SLAB, 44:2); //TODO: Add Metadata workaround
+////      setID(COBBLESTONE_SLAB, 44:3); //TODO: Add Metadata workaround
+////      setID(BRICK_SLAB, 44:4); //TODO: Add Metadata workaround
+////      setID(STONE_BRICK_SLAB, 44:5); //TODO: Add Metadata workaround
+////      setID(NETHER_BRICK_SLAB, 44:6); //TODO: Add Metadata workaround
+////      setID(QUARTZ_SLAB, 44:7); //TODO: Add Metadata workaround
+        setID(BRICKS, 45);
         setID(TNT, 46);
         setID(BOOKSHELF, 47);
-        setID(MOSSY_COBBLESTONE, 48);
+//        setID(MOSS_STONE, 48);
         setID(OBSIDIAN, 49);
         setID(TORCH, 50);
-        setID(FIRE, 51);
-        setID(SPAWNER, 52);
-        setID(OAK_STAIRS, 53);
+//        setID(FIRE, 51);
+//        setID(MONSTER_SPAWNER, 52);
+//        setID(OAK_WOOD_STAIRS, 53);
         setID(CHEST, 54);
-        setID(REDSTONE, 55);
+//        setID(REDSTONE_WIRE, 55);
         setID(DIAMOND_ORE, 56);
         setID(DIAMOND_BLOCK, 57);
         setID(CRAFTING_TABLE, 58);
-        setID(WHEAT, 296);
+//        setID(WHEAT_CROPS, 59);
         setID(FARMLAND, 60);
         setID(FURNACE, 61);
-        setID(LIT_FURNACE, 62);
-        setID(SIGN, 63);
-        setID(OAK_DOOR, 324);
+//        setID(BURNING_FURNACE, 62);
+//        setID(STANDING_SIGN_BLOCK, 63);
+//        setID(OAK_DOOR_BLOCK, 64);
         setID(LADDER, 65);
         setID(RAIL, 66);
         setID(COBBLESTONE_STAIRS, 67);
-        setID(WALL_SIGN, 68);
+//        setID(WALL_MOUNTED_SIGN_BLOCK, 68);
         setID(LEVER, 69);
         setID(STONE_PRESSURE_PLATE, 70);
-        setID(IRON_DOOR, 330);
-        setID(OAK_PRESSURE_PLATE, 72);
+//        setID(IRON_DOOR_BLOCK, 71);
+//        setID(WOODEN_PRESSURE_PLATE, 72);
         setID(REDSTONE_ORE, 73);
-        setID(LIT_REDSTONE_ORE, 74);
-        setID(UNLIT_REDSTONE_TORCH, 75);
-        setID(REDSTONE_TORCH, 76);
+//        setID(GLOWING_REDSTONE_ORE, 74);
+//        setID(REDSTONE_TORCH_OFF, 75);
+//        setID(REDSTONE_TORCH_ON, 76);
         setID(STONE_BUTTON, 77);
-        setID(SNOW_LAYER, 78);
+        setID(SNOW, 78);
         setID(ICE, 79);
-        setID(SNOW, 80);
+        setID(SNOW_BLOCK, 80);
         setID(CACTUS, 81);
         setID(CLAY, 82);
-        setID(REEDS, 338);
+//        setID(SUGAR_CANES, 83);
         setID(JUKEBOX, 84);
         setID(OAK_FENCE, 85);
         setID(PUMPKIN, 86);
         setID(NETHERRACK, 87);
         setID(SOUL_SAND, 88);
         setID(GLOWSTONE, 89);
-        setID(PORTAL, 90);
-        setID(LIT_PUMPKIN, 91);
-        setID(CAKE, 354);
-        setID(UNPOWERED_REPEATER, 93);
-        setID(POWERED_REPEATER, 94);
-        setID(STAINED_GLASS, 95:15);
-        setID(TRAPDOOR, 96);
-        setID(MONSTER_EGG, 97:5);
-        setID(STONEBRICK, 98:3);
+//        setID(NETHER_PORTAL, 90);
+        setID(JACK_O_LANTERN, 91);
+//        setID(CAKE_BLOCK, 92);
+//        setID(REDSTONE_REPEATER_BLOCK_OFF, 93);
+//        setID(REDSTONE_REPEATER_BLOCK_ON, 94);
+        setID(WHITE_STAINED_GLASS, 95);
+////      setID(ORANGE_STAINED_GLASS, 95:1); //TODO: Add Metadata workaround
+////      setID(MAGENTA_STAINED_GLASS, 95:2); //TODO: Add Metadata workaround
+////      setID(LIGHT_BLUE_STAINED_GLASS, 95:3); //TODO: Add Metadata workaround
+////      setID(YELLOW_STAINED_GLASS, 95:4); //TODO: Add Metadata workaround
+////      setID(LIME_STAINED_GLASS, 95:5); //TODO: Add Metadata workaround
+////      setID(PINK_STAINED_GLASS, 95:6); //TODO: Add Metadata workaround
+////      setID(GRAY_STAINED_GLASS, 95:7); //TODO: Add Metadata workaround
+////      setID(LIGHT_GRAY_STAINED_GLASS, 95:8); //TODO: Add Metadata workaround
+////      setID(CYAN_STAINED_GLASS, 95:9); //TODO: Add Metadata workaround
+////      setID(PURPLE_STAINED_GLASS, 95:10); //TODO: Add Metadata workaround
+////      setID(BLUE_STAINED_GLASS, 95:11); //TODO: Add Metadata workaround
+////      setID(BROWN_STAINED_GLASS, 95:12); //TODO: Add Metadata workaround
+////      setID(GREEN_STAINED_GLASS, 95:13); //TODO: Add Metadata workaround
+////      setID(RED_STAINED_GLASS, 95:14); //TODO: Add Metadata workaround
+////      setID(BLACK_STAINED_GLASS, 95:15); //TODO: Add Metadata workaround
+//        setID(WOODEN_TRAPDOOR, 96);
+//        setID(STONE_MONSTER_EGG, 97);
+////      setID(COBBLESTONE_MONSTER_EGG, 97:1); //TODO: Add Metadata workaround
+////      setID(STONE_BRICK_MONSTER_EGG, 97:2); //TODO: Add Metadata workaround
+////      setID(MOSSY_STONE_BRICK_MONSTER_EGG, 97:3); //TODO: Add Metadata workaround
+////      setID(CRACKED_STONE_BRICK_MONSTER_EGG, 97:4); //TODO: Add Metadata workaround
+////      setID(CHISELED_STONE_BRICK_MONSTER_EGG, 97:5); //TODO: Add Metadata workaround
+        setID(STONE_BRICKS, 98);
+////      setID(MOSSY_STONE_BRICKS, 98:1); //TODO: Add Metadata workaround
+////      setID(CRACKED_STONE_BRICKS, 98:2); //TODO: Add Metadata workaround
+////      setID(CHISELED_STONE_BRICKS, 98:3); //TODO: Add Metadata workaround
         setID(BROWN_MUSHROOM_BLOCK, 99);
         setID(RED_MUSHROOM_BLOCK, 100);
         setID(IRON_BARS, 101);
         setID(GLASS_PANE, 102);
-        setID(MELON_BLOCK, 103);
-        setID(PUMPKIN_STEM, 104);
-        setID(MELON_STEM, 105);
-        setID(VINE, 106);
-        setID(FENCE_GATE, 107);
+//        setID(MELON_BLOCK, 103);
+//        setID(PUMPKIN_STEM, 104);
+//        setID(MELON_STEM, 105);
+//        setID(VINES, 106);
+        setID(OAK_FENCE_GATE, 107);
         setID(BRICK_STAIRS, 108);
         setID(STONE_BRICK_STAIRS, 109);
         setID(MYCELIUM, 110);
-        setID(WATERLILY, 111);
+        setID(LILY_PAD, 111);
         setID(NETHER_BRICK, 112);
         setID(NETHER_BRICK_FENCE, 113);
         setID(NETHER_BRICK_STAIRS, 114);
-        setID(NETHER_WART, 372);
-        setID(ENCHANTING_TABLE, 116);
-        setID(BREWING_STAND, 379);
-        setID(CAULDRON, 380);
-        setID(END_PORTAL, 119);
+        setID(NETHER_WART, 115);
+//        setID(ENCHANTMENT_TABLE, 116);
+        setID(BREWING_STAND, 117);
+        setID(CAULDRON, 118);
+//        setID(END_PORTAL, 119);
         setID(END_PORTAL_FRAME, 120);
         setID(END_STONE, 121);
         setID(DRAGON_EGG, 122);
-        setID(REDSTONE_LAMP, 123);
-        setID(LIT_REDSTONE_LAMP, 124);
-        setID(DOUBLE_WOODEN_SLAB, 125:5);
-        setID(WOODEN_SLAB, 126:5);
-        setID(COCOA, 127);
+//        setID(REDSTONE_LAMP_INACTIVE, 123);
+//        setID(REDSTONE_LAMP_ACTIVE, 124);
+//        setID(DOUBLE_OAK_WOOD_SLAB, 125);
+////      setID(DOUBLE_SPRUCE_WOOD_SLAB, 125:1); //TODO: Add Metadata workaround
+////      setID(DOUBLE_BIRCH_WOOD_SLAB, 125:2); //TODO: Add Metadata workaround
+////      setID(DOUBLE_JUNGLE_WOOD_SLAB, 125:3); //TODO: Add Metadata workaround
+////      setID(DOUBLE_ACACIA_WOOD_SLAB, 125:4); //TODO: Add Metadata workaround
+////      setID(DOUBLE_DARK_OAK_WOOD_SLAB, 125:5); //TODO: Add Metadata workaround
+//        setID(OAK_WOOD_SLAB, 126);
+////      setID(SPRUCE_WOOD_SLAB, 126:1); //TODO: Add Metadata workaround
+////      setID(BIRCH_WOOD_SLAB, 126:2); //TODO: Add Metadata workaround
+////      setID(JUNGLE_WOOD_SLAB, 126:3); //TODO: Add Metadata workaround
+////      setID(ACACIA_WOOD_SLAB, 126:4); //TODO: Add Metadata workaround
+////      setID(DARK_OAK_WOOD_SLAB, 126:5); //TODO: Add Metadata workaround
+//        setID(COCOA, 127);
         setID(SANDSTONE_STAIRS, 128);
         setID(EMERALD_ORE, 129);
         setID(ENDER_CHEST, 130);
-        setID(TRIPWIRE_HOOK, 132);
+        setID(TRIPWIRE_HOOK, 131);
+//        setID(TRIPWIRE, 132);
         setID(EMERALD_BLOCK, 133);
-        setID(SPRUCE_STAIRS, 134);
-        setID(BIRCH_STAIRS, 135);
-        setID(JUNGLE_STAIRS, 136);
+//        setID(SPRUCE_WOOD_STAIRS, 134);
+//        setID(BIRCH_WOOD_STAIRS, 135);
+//        setID(JUNGLE_WOOD_STAIRS, 136);
         setID(COMMAND_BLOCK, 137);
         setID(BEACON, 138);
-        setID(COBBLESTONE_WALL, 139:1);
-        setID(FLOWER_POT, 390);
-        setID(CARROTS, 141);
-        setID(POTATOES, 142);
-        setID(WOODEN_BUTTON, 143);
-        setID(SKULL, 397:5);
+        setID(COBBLESTONE_WALL, 139);
+////      setID(MOSSY_COBBLESTONE_WALL, 139:1); //TODO: Add Metadata workaround
+        setID(FLOWER_POT, 140);
+//        setID(CARROTS, 141);
+//        setID(POTATOES, 142);
+//        setID(WOODEN_BUTTON, 143);
+//        setID(MOB_HEAD, 144);
         setID(ANVIL, 145);
         setID(TRAPPED_CHEST, 146);
-        setID(LIGHT_WEIGHTED_PRESSURE_PLATE, 147);
-        setID(HEAVY_WEIGHTED_PRESSURE_PLATE, 148);
-        setID(UNPOWERED_COMPARATOR, 149);
-        setID(POWERED_COMPARATOR, 150);
-        setID(DAYLIGHT_DETECTOR, 151);
+//        setID(WEIGHTED_PRESSURE_PLATE_LIGHT, 147);
+//        setID(WEIGHTED_PRESSURE_PLATE_HEAVY, 148);
+//        setID(REDSTONE_COMPARATOR_INACTIVE, 149);
+//        setID(REDSTONE_COMPARATOR_ACTIVE, 150);
+//        setID(DAYLIGHT_SENSOR, 151);
         setID(REDSTONE_BLOCK, 152);
-        setID(QUARTZ_ORE, 153);
+        setID(NETHER_QUARTZ_ORE, 153);
         setID(HOPPER, 154);
-        setID(QUARTZ_BLOCK, 155:2);
+        setID(QUARTZ_BLOCK, 155);
+////      setID(CHISELED_QUARTZ_BLOCK, 155:1); //TODO: Add Metadata workaround
+////      setID(PILLAR_QUARTZ_BLOCK, 155:2); //TODO: Add Metadata workaround
         setID(QUARTZ_STAIRS, 156);
         setID(ACTIVATOR_RAIL, 157);
         setID(DROPPER, 158);
-        setID(STAINED_HARDENED_CLAY, 159:15);
-        setID(STAINED_GLASS_PANE, 160:15);
-        setID(OAK_LEAVES2, 161:1);
-        setID(OAK_WOOD2, 162:1);
-        setID(ACACIA_STAIRS, 163);
-        setID(DARK_OAK_STAIRS, 164);
-        setID(SLIME, 165);
+//        setID(WHITE_HARDENED_CLAY, 159);
+////      setID(ORANGE_HARDENED_CLAY, 159:1); //TODO: Add Metadata workaround
+////      setID(MAGENTA_HARDENED_CLAY, 159:2); //TODO: Add Metadata workaround
+////      setID(LIGHT_BLUE_HARDENED_CLAY, 159:3); //TODO: Add Metadata workaround
+////      setID(YELLOW_HARDENED_CLAY, 159:4); //TODO: Add Metadata workaround
+////      setID(LIME_HARDENED_CLAY, 159:5); //TODO: Add Metadata workaround
+////      setID(PINK_HARDENED_CLAY, 159:6); //TODO: Add Metadata workaround
+////      setID(GRAY_HARDENED_CLAY, 159:7); //TODO: Add Metadata workaround
+////      setID(LIGHT_GRAY_HARDENED_CLAY, 159:8); //TODO: Add Metadata workaround
+////      setID(CYAN_HARDENED_CLAY, 159:9); //TODO: Add Metadata workaround
+////      setID(PURPLE_HARDENED_CLAY, 159:10); //TODO: Add Metadata workaround
+////      setID(BLUE_HARDENED_CLAY, 159:11); //TODO: Add Metadata workaround
+////      setID(BROWN_HARDENED_CLAY, 159:12); //TODO: Add Metadata workaround
+////      setID(GREEN_HARDENED_CLAY, 159:13); //TODO: Add Metadata workaround
+////      setID(RED_HARDENED_CLAY, 159:14); //TODO: Add Metadata workaround
+////      setID(BLACK_HARDENED_CLAY, 159:15); //TODO: Add Metadata workaround
+        setID(WHITE_STAINED_GLASS_PANE, 160);
+////      setID(ORANGE_STAINED_GLASS_PANE, 160:1); //TODO: Add Metadata workaround
+////      setID(MAGENTA_STAINED_GLASS_PANE, 160:2); //TODO: Add Metadata workaround
+////      setID(LIGHT_BLUE_STAINED_GLASS_PANE, 160:3); //TODO: Add Metadata workaround
+////      setID(YELLOW_STAINED_GLASS_PANE, 160:4); //TODO: Add Metadata workaround
+////      setID(LIME_STAINED_GLASS_PANE, 160:5); //TODO: Add Metadata workaround
+////      setID(PINK_STAINED_GLASS_PANE, 160:6); //TODO: Add Metadata workaround
+////      setID(GRAY_STAINED_GLASS_PANE, 160:7); //TODO: Add Metadata workaround
+////      setID(LIGHT_GRAY_STAINED_GLASS_PANE, 160:8); //TODO: Add Metadata workaround
+////      setID(CYAN_STAINED_GLASS_PANE, 160:9); //TODO: Add Metadata workaround
+////      setID(PURPLE_STAINED_GLASS_PANE, 160:10); //TODO: Add Metadata workaround
+////      setID(BLUE_STAINED_GLASS_PANE, 160:11); //TODO: Add Metadata workaround
+////      setID(BROWN_STAINED_GLASS_PANE, 160:12); //TODO: Add Metadata workaround
+////      setID(GREEN_STAINED_GLASS_PANE, 160:13); //TODO: Add Metadata workaround
+////      setID(RED_STAINED_GLASS_PANE, 160:14); //TODO: Add Metadata workaround
+////      setID(BLACK_STAINED_GLASS_PANE, 160:15); //TODO: Add Metadata workaround
+        setID(ACACIA_LEAVES, 161);
+////      setID(DARK_OAK_LEAVES, 161:1); //TODO: Add Metadata workaround
+        setID(ACACIA_WOOD, 162);
+////      setID(DARK_OAK_WOOD, 162:1); //TODO: Add Metadata workaround
+//        setID(ACACIA_WOOD_STAIRS, 163);
+//        setID(DARK_OAK_WOOD_STAIRS, 164);
+        setID(SLIME_BLOCK, 165);
         setID(BARRIER, 166);
         setID(IRON_TRAPDOOR, 167);
-        setID(PRISMARINE, 168:2);
+        setID(PRISMARINE, 168);
+////      setID(PRISMARINE_BRICKS, 168:1); //TODO: Add Metadata workaround
+////      setID(DARK_PRISMARINE, 168:2); //TODO: Add Metadata workaround
         setID(SEA_LANTERN, 169);
-        setID(HAY_BLOCK, 170);
-        setID(CARPET, 171:15);
-        setID(HARDENED_CLAY, 172);
-        setID(COAL_BLOCK, 173);
+//        setID(HAY_BALE, 170);
+        setID(WHITE_CARPET, 171);
+////      setID(ORANGE_CARPET, 171:1); //TODO: Add Metadata workaround
+////      setID(MAGENTA_CARPET, 171:2); //TODO: Add Metadata workaround
+////      setID(LIGHT_BLUE_CARPET, 171:3); //TODO: Add Metadata workaround
+////      setID(YELLOW_CARPET, 171:4); //TODO: Add Metadata workaround
+////      setID(LIME_CARPET, 171:5); //TODO: Add Metadata workaround
+////      setID(PINK_CARPET, 171:6); //TODO: Add Metadata workaround
+////      setID(GRAY_CARPET, 171:7); //TODO: Add Metadata workaround
+////      setID(LIGHT_GRAY_CARPET, 171:8); //TODO: Add Metadata workaround
+////      setID(CYAN_CARPET, 171:9); //TODO: Add Metadata workaround
+////      setID(PURPLE_CARPET, 171:10); //TODO: Add Metadata workaround
+////      setID(BLUE_CARPET, 171:11); //TODO: Add Metadata workaround
+////      setID(BROWN_CARPET, 171:12); //TODO: Add Metadata workaround
+////      setID(GREEN_CARPET, 171:13); //TODO: Add Metadata workaround
+////      setID(RED_CARPET, 171:14); //TODO: Add Metadata workaround
+////      setID(BLACK_CARPET, 171:15); //TODO: Add Metadata workaround
+//        setID(HARDENED_CLAY, 172);
+//        setID(BLOCK_OF_COAL, 173);
         setID(PACKED_ICE, 174);
-        setID(DOUBLE_PLANT, 175:5);
-        setID(STANDING_WHITE_BANNER, 176);
-        setID(WALL_WHITE_BANNER, 177);
-        setID(DAYLIGHT_DETECTOR_INVERTED, 178);
-        setID(RED_SANDSTONE, 179:2);
+        setID(SUNFLOWER, 175);
+////      setID(LILAC, 175:1); //TODO: Add Metadata workaround
+////      setID(DOUBLE_TALLGRASS, 175:2); //TODO: Add Metadata workaround
+////      setID(LARGE_FERN, 175:3); //TODO: Add Metadata workaround
+////      setID(ROSE_BUSH, 175:4); //TODO: Add Metadata workaround
+////      setID(PEONY, 175:5); //TODO: Add Metadata workaround
+//        setID(FREE_STANDING_BANNER, 176);
+//        setID(WALL_MOUNTED_BANNER, 177);
+//        setID(INVERTED_DAYLIGHT_SENSOR, 178);
+        setID(RED_SANDSTONE, 179);
+////      setID(CHISELED_RED_SANDSTONE, 179:1); //TODO: Add Metadata workaround
+////      setID(SMOOTH_RED_SANDSTONE, 179:2); //TODO: Add Metadata workaround
         setID(RED_SANDSTONE_STAIRS, 180);
-        setID(DOUBLE_STONE_SLAB2, 181);
-        setID(STONE_SLAB2, 182);
+//        setID(DOUBLE_RED_SANDSTONE_SLAB, 181);
+        setID(RED_SANDSTONE_SLAB, 182);
         setID(SPRUCE_FENCE_GATE, 183);
         setID(BIRCH_FENCE_GATE, 184);
         setID(JUNGLE_FENCE_GATE, 185);
@@ -199,29 +359,29 @@ public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
         setID(JUNGLE_FENCE, 190);
         setID(DARK_OAK_FENCE, 191);
         setID(ACACIA_FENCE, 192);
-        setID(SPRUCE_DOOR, 427);
-        setID(BIRCH_DOOR, 428);
-        setID(JUNGLE_DOOR, 429);
-        setID(ACACIA_DOOR, 430);
-        setID(DARK_OAK_DOOR, 431);
+//        setID(SPRUCE_DOOR_BLOCK, 193);
+//        setID(BIRCH_DOOR_BLOCK, 194);
+//        setID(JUNGLE_DOOR_BLOCK, 195);
+//        setID(ACACIA_DOOR_BLOCK, 196);
+//        setID(DARK_OAK_DOOR_BLOCK, 197);
         setID(END_ROD, 198);
         setID(CHORUS_PLANT, 199);
         setID(CHORUS_FLOWER, 200);
         setID(PURPUR_BLOCK, 201);
         setID(PURPUR_PILLAR, 202);
         setID(PURPUR_STAIRS, 203);
-        setID(PURPUR_DOUBLE_SLAB, 204);
+//        setID(PURPUR_DOUBLE_SLAB, 204);
         setID(PURPUR_SLAB, 205);
-        setID(END_BRICKS, 206);
-        setID(BEETROOTS, 207);
+        setID(END_STONE_BRICKS, 206);
+//        setID(BEETROOT_BLOCK, 207);
         setID(GRASS_PATH, 208);
-        setID(END_GATEWAY, 209);
+//        setID(END_GATEWAY, 209);
         setID(REPEATING_COMMAND_BLOCK, 210);
         setID(CHAIN_COMMAND_BLOCK, 211);
-        setID(FROSTED_ICE, 212);
-        setID(MAGMA, 213);
+//        setID(FROSTED_ICE, 212);
+        setID(MAGMA_BLOCK, 213);
         setID(NETHER_WART_BLOCK, 214);
-        setID(RED_NETHER_BRICK, 215);
+//        setID(RED_NETHER_BRICK, 215);
         setID(BONE_BLOCK, 216);
         setID(STRUCTURE_VOID, 217);
         setID(OBSERVER, 218);
@@ -233,7 +393,7 @@ public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
         setID(LIME_SHULKER_BOX, 224);
         setID(PINK_SHULKER_BOX, 225);
         setID(GRAY_SHULKER_BOX, 226);
-        setID(SILVER_SHULKER_BOX, 227);
+        setID(LIGHT_GRAY_SHULKER_BOX, 227);
         setID(CYAN_SHULKER_BOX, 228);
         setID(PURPLE_SHULKER_BOX, 229);
         setID(BLUE_SHULKER_BOX, 230);
@@ -257,8 +417,38 @@ public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
         setID(GREEN_GLAZED_TERRACOTTA, 248);
         setID(RED_GLAZED_TERRACOTTA, 249);
         setID(BLACK_GLAZED_TERRACOTTA, 250);
-        setID(CONCRETE, 251:15);
-        setID(CONCRETE_POWDER, 252:15);
+        setID(WHITE_CONCRETE, 251);
+////      setID(ORANGE_CONCRETE, 251:1); //TODO: Add Metadata workaround
+////      setID(MAGENTA_CONCRETE, 251:2); //TODO: Add Metadata workaround
+////      setID(LIGHT_BLUE_CONCRETE, 251:3); //TODO: Add Metadata workaround
+////      setID(YELLOW_CONCRETE, 251:4); //TODO: Add Metadata workaround
+////      setID(LIME_CONCRETE, 251:5); //TODO: Add Metadata workaround
+////      setID(PINK_CONCRETE, 251:6); //TODO: Add Metadata workaround
+////      setID(GRAY_CONCRETE, 251:7); //TODO: Add Metadata workaround
+////      setID(LIGHT_GRAY_CONCRETE, 251:8); //TODO: Add Metadata workaround
+////      setID(CYAN_CONCRETE, 251:9); //TODO: Add Metadata workaround
+////      setID(PURPLE_CONCRETE, 251:10); //TODO: Add Metadata workaround
+////      setID(BLUE_CONCRETE, 251:11); //TODO: Add Metadata workaround
+////      setID(BROWN_CONCRETE, 251:12); //TODO: Add Metadata workaround
+////      setID(GREEN_CONCRETE, 251:13); //TODO: Add Metadata workaround
+////      setID(RED_CONCRETE, 251:14); //TODO: Add Metadata workaround
+////      setID(BLACK_CONCRETE, 251:15); //TODO: Add Metadata workaround
+        setID(WHITE_CONCRETE_POWDER, 252);
+////      setID(ORANGE_CONCRETE_POWDER, 252:1); //TODO: Add Metadata workaround
+////      setID(MAGENTA_CONCRETE_POWDER, 252:2); //TODO: Add Metadata workaround
+////      setID(LIGHT_BLUE_CONCRETE_POWDER, 252:3); //TODO: Add Metadata workaround
+////      setID(YELLOW_CONCRETE_POWDER, 252:4); //TODO: Add Metadata workaround
+////      setID(LIME_CONCRETE_POWDER, 252:5); //TODO: Add Metadata workaround
+////      setID(PINK_CONCRETE_POWDER, 252:6); //TODO: Add Metadata workaround
+////      setID(GRAY_CONCRETE_POWDER, 252:7); //TODO: Add Metadata workaround
+////      setID(LIGHT_GRAY_CONCRETE_POWDER, 252:8); //TODO: Add Metadata workaround
+////      setID(CYAN_CONCRETE_POWDER, 252:9); //TODO: Add Metadata workaround
+////      setID(PURPLE_CONCRETE_POWDER, 252:10); //TODO: Add Metadata workaround
+////      setID(BLUE_CONCRETE_POWDER, 252:11); //TODO: Add Metadata workaround
+////      setID(BROWN_CONCRETE_POWDER, 252:12); //TODO: Add Metadata workaround
+////      setID(GREEN_CONCRETE_POWDER, 252:13); //TODO: Add Metadata workaround
+////      setID(RED_CONCRETE_POWDER, 252:14); //TODO: Add Metadata workaround
+////      setID(BLACK_CONCRETE_POWDER, 252:15); //TODO: Add Metadata workaround
         setID(STRUCTURE_BLOCK, 255);
         setID(IRON_SHOVEL, 256);
         setID(IRON_PICKAXE, 257);
@@ -267,7 +457,8 @@ public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
         setID(APPLE, 260);
         setID(BOW, 261);
         setID(ARROW, 262);
-        setID(COAL, 263:1);
+        setID(COAL, 263);
+////      setID(CHARCOAL, 263:1); //TODO: Add Metadata workaround
         setID(DIAMOND, 264);
         setID(IRON_INGOT, 265);
         setID(GOLD_INGOT, 266);
@@ -300,10 +491,11 @@ public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
         setID(DIAMOND_HOE, 293);
         setID(GOLDEN_HOE, 294);
         setID(WHEAT_SEEDS, 295);
+        setID(WHEAT, 296);
         setID(BREAD, 297);
         setID(LEATHER_HELMET, 298);
-        setID(LEATHER_CHESTPLATE, 299);
-        setID(LEATHER_LEGGINGS, 300);
+//        setID(LEATHER_TUNIC, 299);
+//        setID(LEATHER_PANTS, 300);
         setID(LEATHER_BOOTS, 301);
         setID(CHAINMAIL_HELMET, 302);
         setID(CHAINMAIL_CHESTPLATE, 303);
@@ -322,89 +514,166 @@ public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
         setID(GOLDEN_LEGGINGS, 316);
         setID(GOLDEN_BOOTS, 317);
         setID(FLINT, 318);
-        setID(PORKCHOP, 319);
+//        setID(RAW_PORKCHOP, 319);
         setID(COOKED_PORKCHOP, 320);
         setID(PAINTING, 321);
-        setID(GOLDEN_APPLE, 322:1);
+        setID(GOLDEN_APPLE, 322);
+////      setID(ENCHANTED_GOLDEN_APPLE, 322:1); //TODO: Add Metadata workaround
         setID(SIGN, 323);
+        setID(OAK_DOOR, 324);
         setID(BUCKET, 325);
         setID(WATER_BUCKET, 326);
         setID(LAVA_BUCKET, 327);
         setID(MINECART, 328);
         setID(SADDLE, 329);
+        setID(IRON_DOOR, 330);
         setID(REDSTONE, 331);
         setID(SNOWBALL, 332);
-        setID(BOAT, 333);
+        setID(OAK_BOAT, 333);
         setID(LEATHER, 334);
         setID(MILK_BUCKET, 335);
         setID(BRICK, 336);
-        setID(CLAY_BALL, 337);
+        setID(CLAY, 337);
+//        setID(SUGAR_CANES, 338);
         setID(PAPER, 339);
         setID(BOOK, 340);
-        setID(SLIME_BALL, 341);
-        setID(CHEST_MINECART, 342);
-        setID(FURNACE_MINECART, 343);
+//        setID(SLIMEBALL, 341);
+//        setID(MINECART_WITH_CHEST, 342);
+//        setID(MINECART_WITH_FURNACE, 343);
         setID(EGG, 344);
         setID(COMPASS, 345);
         setID(FISHING_ROD, 346);
         setID(CLOCK, 347);
         setID(GLOWSTONE_DUST, 348);
-        setID(FISH, 349:3);
-        setID(COOKED_FISH, 350:1);
-        setID(DYE, 351:15);
+//        setID(RAW_FISH, 349);
+////      setID(RAW_SALMON, 349:1); //TODO: Add Metadata workaround
+////      setID(CLOWNFISH, 349:2); //TODO: Add Metadata workaround
+////      setID(PUFFERFISH, 349:3); //TODO: Add Metadata workaround
+//        setID(COOKED_FISH, 350);
+////      setID(COOKED_SALMON, 350:1); //TODO: Add Metadata workaround
+//        setID(INK_SACK, 351);
+////      setID(ROSE_RED, 351:1); //TODO: Add Metadata workaround
+////      setID(CACTUS_GREEN, 351:2); //TODO: Add Metadata workaround
+////      setID(COCO_BEANS, 351:3); //TODO: Add Metadata workaround
+////      setID(LAPIS_LAZULI, 351:4); //TODO: Add Metadata workaround
+////      setID(PURPLE_DYE, 351:5); //TODO: Add Metadata workaround
+////      setID(CYAN_DYE, 351:6); //TODO: Add Metadata workaround
+////      setID(LIGHT_GRAY_DYE, 351:7); //TODO: Add Metadata workaround
+////      setID(GRAY_DYE, 351:8); //TODO: Add Metadata workaround
+////      setID(PINK_DYE, 351:9); //TODO: Add Metadata workaround
+////      setID(LIME_DYE, 351:10); //TODO: Add Metadata workaround
+////      setID(DANDELION_YELLOW, 351:11); //TODO: Add Metadata workaround
+////      setID(LIGHT_BLUE_DYE, 351:12); //TODO: Add Metadata workaround
+////      setID(MAGENTA_DYE, 351:13); //TODO: Add Metadata workaround
+////      setID(ORANGE_DYE, 351:14); //TODO: Add Metadata workaround
+////      setID(BONE_MEAL, 351:15); //TODO: Add Metadata workaround
         setID(BONE, 352);
         setID(SUGAR, 353);
-        setID(REPEATER, 356);
+        setID(CAKE, 354);
+//        setID(BED, 355);
+//        setID(REDSTONE_REPEATER, 356);
         setID(COOKIE, 357);
-        setID(FILLED_MAP, 358);
+        setID(MAP, 358);
         setID(SHEARS, 359);
         setID(MELON, 360);
         setID(PUMPKIN_SEEDS, 361);
         setID(MELON_SEEDS, 362);
-        setID(BEEF, 363);
-        setID(COOKED_BEEF, 364);
-        setID(CHICKEN, 365);
+//        setID(RAW_BEEF, 363);
+//        setID(STEAK, 364);
+//        setID(RAW_CHICKEN, 365);
         setID(COOKED_CHICKEN, 366);
         setID(ROTTEN_FLESH, 367);
         setID(ENDER_PEARL, 368);
         setID(BLAZE_ROD, 369);
         setID(GHAST_TEAR, 370);
         setID(GOLD_NUGGET, 371);
+        setID(NETHER_WART, 372);
         setID(POTION, 373);
         setID(GLASS_BOTTLE, 374);
         setID(SPIDER_EYE, 375);
         setID(FERMENTED_SPIDER_EYE, 376);
         setID(BLAZE_POWDER, 377);
         setID(MAGMA_CREAM, 378);
-        setID(ENDER_EYE, 381);
-        setID(SPECKLED_MELON, 382);
-        setID(SPAWN_EGG, 383:120);
+        setID(BREWING_STAND, 379);
+        setID(CAULDRON, 380);
+//        setID(EYE_OF_ENDER, 381);
+//        setID(GLISTERING_MELON, 382);
+////      setID(SPAWN_ELDER_GUARDIAN, 383:4); //TODO: Add Metadata workaround
+////      setID(SPAWN_WITHER_SKELETON, 383:5); //TODO: Add Metadata workaround
+////      setID(SPAWN_STRAY, 383:6); //TODO: Add Metadata workaround
+////      setID(SPAWN_HUSK, 383:23); //TODO: Add Metadata workaround
+////      setID(SPAWN_ZOMBIE_VILLAGER, 383:27); //TODO: Add Metadata workaround
+////      setID(SPAWN_SKELETON_HORSE, 383:28); //TODO: Add Metadata workaround
+////      setID(SPAWN_ZOMBIE_HORSE, 383:29); //TODO: Add Metadata workaround
+////      setID(SPAWN_DONKEY, 383:31); //TODO: Add Metadata workaround
+////      setID(SPAWN_MULE, 383:32); //TODO: Add Metadata workaround
+////      setID(SPAWN_EVOKER, 383:34); //TODO: Add Metadata workaround
+////      setID(SPAWN_VEX, 383:35); //TODO: Add Metadata workaround
+////      setID(SPAWN_VINDICATOR, 383:36); //TODO: Add Metadata workaround
+////      setID(SPAWN_CREEPER, 383:50); //TODO: Add Metadata workaround
+////      setID(SPAWN_SKELETON, 383:51); //TODO: Add Metadata workaround
+////      setID(SPAWN_SPIDER, 383:52); //TODO: Add Metadata workaround
+////      setID(SPAWN_ZOMBIE, 383:54); //TODO: Add Metadata workaround
+////      setID(SPAWN_SLIME, 383:55); //TODO: Add Metadata workaround
+////      setID(SPAWN_GHAST, 383:56); //TODO: Add Metadata workaround
+////      setID(SPAWN_ZOMBIE_PIGMAN, 383:57); //TODO: Add Metadata workaround
+////      setID(SPAWN_ENDERMAN, 383:58); //TODO: Add Metadata workaround
+////      setID(SPAWN_CAVE_SPIDER, 383:59); //TODO: Add Metadata workaround
+////      setID(SPAWN_SILVERFISH, 383:60); //TODO: Add Metadata workaround
+////      setID(SPAWN_BLAZE, 383:61); //TODO: Add Metadata workaround
+////      setID(SPAWN_MAGMA_CUBE, 383:62); //TODO: Add Metadata workaround
+////      setID(SPAWN_BAT, 383:65); //TODO: Add Metadata workaround
+////      setID(SPAWN_WITCH, 383:66); //TODO: Add Metadata workaround
+////      setID(SPAWN_ENDERMITE, 383:67); //TODO: Add Metadata workaround
+////      setID(SPAWN_GUARDIAN, 383:68); //TODO: Add Metadata workaround
+////      setID(SPAWN_SHULKER, 383:69); //TODO: Add Metadata workaround
+////      setID(SPAWN_PIG, 383:90); //TODO: Add Metadata workaround
+////      setID(SPAWN_SHEEP, 383:91); //TODO: Add Metadata workaround
+////      setID(SPAWN_COW, 383:92); //TODO: Add Metadata workaround
+////      setID(SPAWN_CHICKEN, 383:93); //TODO: Add Metadata workaround
+////      setID(SPAWN_SQUID, 383:94); //TODO: Add Metadata workaround
+////      setID(SPAWN_WOLF, 383:95); //TODO: Add Metadata workaround
+////      setID(SPAWN_MOOSHROOM, 383:96); //TODO: Add Metadata workaround
+////      setID(SPAWN_OCELOT, 383:98); //TODO: Add Metadata workaround
+////      setID(SPAWN_HORSE, 383:100); //TODO: Add Metadata workaround
+////      setID(SPAWN_RABBIT, 383:101); //TODO: Add Metadata workaround
+////      setID(SPAWN_POLAR_BEAR, 383:102); //TODO: Add Metadata workaround
+////      setID(SPAWN_LLAMA, 383:103); //TODO: Add Metadata workaround
+////      setID(SPAWN_PARROT, 383:105); //TODO: Add Metadata workaround
+////      setID(SPAWN_VILLAGER, 383:120); //TODO: Add Metadata workaround
         setID(EXPERIENCE_BOTTLE, 384);
         setID(FIRE_CHARGE, 385);
-        setID(WRITABLE_BOOK, 386);
+//        setID(BOOK_AND_QUILL, 386);
         setID(WRITTEN_BOOK, 387);
         setID(EMERALD, 388);
         setID(ITEM_FRAME, 389);
+        setID(FLOWER_POT, 390);
         setID(CARROT, 391);
         setID(POTATO, 392);
         setID(BAKED_POTATO, 393);
         setID(POISONOUS_POTATO, 394);
-        setID(MAP, 395);
+//        setID(EMPTY_MAP, 395);
         setID(GOLDEN_CARROT, 396);
+//        setID(MOB_HEAD_SKELETON, 397);
+////      setID(MOB_HEAD_WITHER_SKELETON, 397:1); //TODO: Add Metadata workaround
+////      setID(MOB_HEAD_[¬º-°]¬, 397:2); //TODO: Add Metadata workaround
+////      setID(MOB_HEAD_HUMAN, 397:3); //TODO: Add Metadata workaround
+////      setID(MOB_HEAD_CREEPER, 397:4); //TODO: Add Metadata workaround
+////      setID(MOB_HEAD_DRAGON, 397:5); //TODO: Add Metadata workaround
         setID(CARROT_ON_A_STICK, 398);
         setID(NETHER_STAR, 399);
         setID(PUMPKIN_PIE, 400);
-        setID(FIREWORKS, 401);
-        setID(FIREWORK_CHARGE, 402);
+        setID(FIREWORK_ROCKET, 401);
+        setID(FIREWORK_STAR, 402);
         setID(ENCHANTED_BOOK, 403);
-        setID(COMPARATOR, 404);
-        setID(NETHERBRICK, 405);
-        setID(QUARTZ, 406);
-        setID(TNT_MINECART, 407);
-        setID(HOPPER_MINECART, 408);
+//        setID(REDSTONE_COMPARATOR, 404);
+        setID(NETHER_BRICK, 405);
+//        setID(NETHER_QUARTZ, 406);
+//        setID(MINECART_WITH_TNT, 407);
+//        setID(MINECART_WITH_HOPPER, 408);
         setID(PRISMARINE_SHARD, 409);
         setID(PRISMARINE_CRYSTALS, 410);
-        setID(RABBIT, 411);
+//        setID(RAW_RABBIT, 411);
         setID(COOKED_RABBIT, 412);
         setID(RABBIT_STEW, 413);
         setID(RABBIT_FOOT, 414);
@@ -415,11 +684,16 @@ public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
         setID(DIAMOND_HORSE_ARMOR, 419);
         setID(LEAD, 420);
         setID(NAME_TAG, 421);
-        setID(COMMAND_BLOCK_MINECART, 422);
-        setID(MUTTON, 423);
+//        setID(MINECART_WITH_COMMAND_BLOCK, 422);
+//        setID(RAW_MUTTON, 423);
         setID(COOKED_MUTTON, 424);
-        setID(WHITE_BANNER, 425);
+//        setID(BANNER, 425);
         setID(END_CRYSTAL, 426);
+        setID(SPRUCE_DOOR, 427);
+        setID(BIRCH_DOOR, 428);
+        setID(JUNGLE_DOOR, 429);
+        setID(ACACIA_DOOR, 430);
+        setID(DARK_OAK_DOOR, 431);
         setID(CHORUS_FRUIT, 432);
         setID(POPPED_CHORUS_FRUIT, 433);
         setID(BEETROOT, 434);
