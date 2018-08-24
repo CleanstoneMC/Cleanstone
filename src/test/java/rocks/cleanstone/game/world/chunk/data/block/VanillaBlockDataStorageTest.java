@@ -1,12 +1,17 @@
 package rocks.cleanstone.game.world.chunk.data.block;
 
-import io.netty.buffer.ByteBuf;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.block.state.BlockStateProvider;
+import rocks.cleanstone.game.block.state.SimpleBlockStateProvider;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.SimpleMaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
@@ -16,23 +21,25 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCode
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VanillaBlockDataStorageTest {
 
-    private final Random random = new Random(1);
-    private final DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
-    private final MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
+    private Random random;
+    private DirectPalette directPalette;
+    private MaterialRegistry materialRegistry;
+    private SimpleBlockStateProvider blockStateProvider;
     private VanillaBlockDataStorage storage;
-    private final BlockStateProvider blockStateProvider = new BlockStateProvider();
 
     @BeforeEach
     void createStorageByTable() {
+        blockStateProvider = new SimpleBlockStateProvider();
         blockStateProvider.init();
+
+        random = new Random(1);
+        directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
+        materialRegistry = new SimpleMaterialRegistry();
+
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 20; i++) {
             Block randomBlock = ImmutableBlock.of(

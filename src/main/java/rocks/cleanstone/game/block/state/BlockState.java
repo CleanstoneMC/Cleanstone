@@ -25,11 +25,11 @@ public class BlockState {
     }
 
     public static BlockState of(BlockType blockType, Properties properties) {
-        return BlockStateProvider.get().of(blockType, properties);
+        return SimpleBlockStateProvider.get().of(blockType, properties);
     }
 
     public static BlockState of(BlockType blockType) {
-        return BlockStateProvider.get().of(blockType);
+        return SimpleBlockStateProvider.get().of(blockType);
     }
 
     public BlockType getBlockType() {
@@ -41,7 +41,7 @@ public class BlockState {
     }
 
     public <T> BlockState withProperty(Property<T> property, T value) {
-        return BlockStateProvider.get().withProperty(blockType, property, value);
+        return SimpleBlockStateProvider.get().withProperty(blockType, property, value);
     }
 
     public Properties getProperties() {
