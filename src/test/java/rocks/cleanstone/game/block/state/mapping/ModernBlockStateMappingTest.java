@@ -3,7 +3,7 @@ package rocks.cleanstone.game.block.state.mapping;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.SimpleBlockStateProvider;
 import rocks.cleanstone.game.material.MaterialRegistry;
@@ -20,7 +20,7 @@ class ModernBlockStateMappingTest {
 
     @BeforeEach
     void setUp() {
-        blockStateProvider = new SimpleBlockStateProvider(new CaffeineCacheManager());
+        blockStateProvider = new SimpleBlockStateProvider(new ConcurrentMapCacheManager());
         blockStateProvider.init();
         blockStateMapping = new ProtocolBlockStateMapping();
         materialRegistry = new SimpleMaterialRegistry();

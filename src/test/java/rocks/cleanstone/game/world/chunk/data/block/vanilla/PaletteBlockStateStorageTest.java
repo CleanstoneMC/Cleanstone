@@ -5,7 +5,7 @@ import io.netty.buffer.Unpooled;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.SimpleBlockStateProvider;
@@ -33,7 +33,7 @@ class PaletteBlockStateStorageTest {
 
     @BeforeEach
     void createStorageByTable() {
-        blockStateProvider = new SimpleBlockStateProvider(new CaffeineCacheManager());
+        blockStateProvider = new SimpleBlockStateProvider(new ConcurrentMapCacheManager());
         blockStateProvider.init();
 
         random = new Random(1);

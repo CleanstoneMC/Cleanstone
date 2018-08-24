@@ -2,7 +2,7 @@ package rocks.cleanstone.game.block.state;
 
 import com.google.common.base.Objects;
 import org.springframework.cache.Cache;
-import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.CacheManager;
 import rocks.cleanstone.game.block.state.property.Properties;
 import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
 import rocks.cleanstone.game.block.state.property.Property;
@@ -13,8 +13,8 @@ public class SimpleBlockStateProvider implements BlockStateProvider {
     private static BlockStateProvider INSTANCE;
     private final Cache cache;
 
-    public SimpleBlockStateProvider(CaffeineCacheManager caffeineCacheManager) {
-        cache = caffeineCacheManager.getCache("blockstates"); //TODO: Use annotation
+    public SimpleBlockStateProvider(CacheManager cacheManager) {
+        cache = cacheManager.getCache("blockstates"); //TODO: Use annotation
     }
 
     public static BlockStateProvider get() {
