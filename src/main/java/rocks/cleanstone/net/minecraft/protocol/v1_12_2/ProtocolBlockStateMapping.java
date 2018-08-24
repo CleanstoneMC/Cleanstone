@@ -17,7 +17,7 @@ public class ProtocolBlockStateMapping extends LegacyMaterialMapping {
         setID(POLISHED_DIORITE, 1, 4);
         setID(ANDESITE, 1, 5);
         setID(POLISHED_ANDESITE, 1, 6);
-        setID(GRASS, 2);
+        setID(GRASS_BLOCK, 2);
         setID(DIRT, 3);
         setID(COARSE_DIRT, 3, 1);
         setID(PODZOL, 3, 2);

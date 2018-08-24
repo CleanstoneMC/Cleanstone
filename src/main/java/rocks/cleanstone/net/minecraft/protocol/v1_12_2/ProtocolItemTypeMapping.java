@@ -16,7 +16,7 @@ public class ProtocolItemTypeMapping extends LegacyMaterialMapping {
         setID(POLISHED_DIORITE, 1, 4); //TODO, Add Metadata workaround
         setID(ANDESITE, 1, 5); //TODO, Add Metadata workaround
         setID(POLISHED_ANDESITE, 1, 6); //TODO, Add Metadata workaround
-        setID(GRASS, 2);
+        setID(GRASS_BLOCK, 2);
         setID(DIRT, 3);
         setID(COARSE_DIRT, 3, 1); //TODO, Add Metadata workaround
         setID(PODZOL, 3, 2); //TODO, Add Metadata workaround
