@@ -27,7 +27,7 @@ public class SimpleWorldLoader implements WorldLoader {
         this.materialRegistry = materialRegistry;
     }
 
-    @Async(value = "worldLoadingExec")
+    @Async(value = "worldExec")
     @Override
     public ListenableFuture<World> loadWorld(String id) {
         logger.info("Loading world '" + id + "'...");

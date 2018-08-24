@@ -18,7 +18,6 @@
 
     <task:executor id="playerExec" pool-size="10"/>
     <task:executor id="mcLoginExec" pool-size="10"/>
-    <task:executor id="worldLoadingExec" pool-size="10"/>
     <task:executor id="chatExec" pool-size="10"/>
     <task:executor id="commandExec" pool-size="10"/>
     <task:executor id="worldExec" pool-size="50-5000" queue-capacity="50" rejection-policy="CALLER_RUNS"/>
