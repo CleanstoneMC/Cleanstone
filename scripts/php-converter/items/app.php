@@ -61,7 +61,8 @@ $vanillaItemTypeContent .= '    private final String minecraftID;
     }
 }';
 
-$protocolItemTypeMappingContent = 'package rocks.cleanstone.net.minecraft.protocol.v1_13;
+$protocolItemTypeMappingContent = /** @lang text */
+    'package rocks.cleanstone.net.minecraft.protocol.v1_13;
 
 import rocks.cleanstone.game.material.item.mapping.SimpleItemTypeMapping;
 import rocks.cleanstone.game.material.item.vanilla.VanillaItemType;

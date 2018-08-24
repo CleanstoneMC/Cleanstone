@@ -2,16 +2,15 @@ package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-
 import org.springframework.lang.Nullable;
+import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
+import java.util.Objects;
 
 public class MapBlockDataTable implements BlockDataTable {
 
@@ -35,7 +34,7 @@ public class MapBlockDataTable implements BlockDataTable {
         Collection<Block> blockCollection = new HashSet<>();
 
         coordHeightMapTable.cellSet().forEach(integerIntegerHashMapCell ->
-                blockCollection.addAll(integerIntegerHashMapCell.getValue().values()));
+                blockCollection.addAll(Objects.requireNonNull(integerIntegerHashMapCell.getValue()).values()));
 
         return blockCollection;
     }

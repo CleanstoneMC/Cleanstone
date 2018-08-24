@@ -22,9 +22,6 @@ import java.net.InetAddress;
 
 public class NettyNetworking extends AbstractNetworking {
 
-    private final boolean epoll = false;
-    private final int socketBacklog = 128;
-    private final boolean socketKeepAlive = true;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final PlayerManager playerManager;
     private EventLoopGroup bossGroup, workerGroup;
@@ -36,9 +33,12 @@ public class NettyNetworking extends AbstractNetworking {
 
     @PostConstruct
     public void init() {
+        boolean epoll = false;
         bossGroup = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
         workerGroup = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
         ServerBootstrap bootstrap = new ServerBootstrap();
+        boolean socketKeepAlive = true;
+        int socketBacklog = 128;
         bootstrap.group(bossGroup, workerGroup)
                 .channel(epoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                 .childHandler(new ServerChannelInitializer(this))

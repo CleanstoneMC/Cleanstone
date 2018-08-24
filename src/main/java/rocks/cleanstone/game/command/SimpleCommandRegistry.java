@@ -29,10 +29,15 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private final Collection<Command> standardCommands;
+
+    private final Collection<CommandParameter<?>> standardParameters;
+
     @Autowired
-    private Collection<Command> standardCommands;
-    @Autowired
-    private Collection<CommandParameter<?>> standardParameters;
+    public SimpleCommandRegistry(Collection<Command> standardCommands, Collection<CommandParameter<?>> standardParameters) {
+        this.standardCommands = standardCommands;
+        this.standardParameters = standardParameters;
+    }
 
     @PostConstruct
     public void init() {

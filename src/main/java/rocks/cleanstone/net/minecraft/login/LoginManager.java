@@ -33,14 +33,13 @@ public class LoginManager {
     private final Map<Connection, LoginData> connectionLoginDataMap = Maps.newConcurrentMap();
     private final SessionServerRequester sessionServerRequester;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final MinecraftNetworking networking;
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
     private final boolean onlineMode;
 
     @Autowired
     public LoginManager(MinecraftNetworking networking, SessionServerRequester sessionServerRequester) {
-        this.networking = networking;
+        MinecraftNetworking networking1 = networking;
         this.sessionServerRequester = sessionServerRequester;
         this.onlineMode = networking.getMinecraftConfig().isOnlineMode();
         publicKey = networking.getKeyPair().getPublic();
@@ -107,7 +106,7 @@ public class LoginManager {
                 sessionServerRequester.request(connection, loginData, publicKey);
         responseResult.addCallback((response) -> {
             try {
-                UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
+                UUID uuid = UUIDUtils.fromStringWithoutHyphens(Objects.requireNonNull(response).getId());
                 String name = response.getName();
                 finishLogin(connection, uuid, name, response.getProperties());
             } catch (Exception e) {

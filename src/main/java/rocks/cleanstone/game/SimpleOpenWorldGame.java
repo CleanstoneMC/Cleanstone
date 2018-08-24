@@ -20,29 +20,24 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final WorldManager worldManager;
-    private final MaterialRegistry materialRegistry;
     private String firstSpawnWorld = null;
 
     @Autowired
     public SimpleOpenWorldGame(WorldManager worldManager, MaterialRegistry materialRegistry) {
         this.worldManager = worldManager;
-        this.materialRegistry = materialRegistry;
+        MaterialRegistry materialRegistry1 = materialRegistry;
     }
 
     @PostConstruct
     public void init() {
         logger.info("Started OpenWorldGame");
-        CleanstoneServer.getInstance().getMinecraftConfig().getAutoLoadWorlds().forEach(worldName -> {
-            this.worldManager.loadWorld(worldName).addCallback(world -> {
-                if (world == null) {
-                    this.worldManager.createWorld(worldName, new FlatWorldGenerator());
-                    //TODO: Change
-                    // Generator
-                }
-            }, throwable -> {
-                logger.error("Failed to load auto-load world " + worldName, throwable);
-            });
-        });
+        CleanstoneServer.getInstance().getMinecraftConfig().getAutoLoadWorlds().forEach(worldName -> this.worldManager.loadWorld(worldName).addCallback(world -> {
+            if (world == null) {
+                this.worldManager.createWorld(worldName, new FlatWorldGenerator());
+                //TODO: Change
+                // Generator
+            }
+        }, throwable -> logger.error("Failed to load auto-load world " + worldName, throwable)));
     }
 
     @PreDestroy

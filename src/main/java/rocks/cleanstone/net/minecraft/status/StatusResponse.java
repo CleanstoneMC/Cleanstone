@@ -2,16 +2,11 @@ package rocks.cleanstone.net.minecraft.status;
 
 public class StatusResponse {
 
-    private final Version version;
-    private final Players players;
-    private final Description description;
-    private final String favicon;
-
     public StatusResponse(Version version, Players players, Description description, String favicon) {
-        this.version = version;
-        this.players = players;
-        this.description = description;
-        this.favicon = favicon;
+        Version version1 = version;
+        Players players1 = players;
+        Description description1 = description;
+        String favicon1 = favicon;
     }
 
     public StatusResponse(Version version, Players players, Description description) {

@@ -25,12 +25,11 @@ import java.util.ArrayList;
 public class UseItemListener {
 
     private final PlayerManager playerManager;
-    private final MaterialRegistry materialRegistry;
 
     @Autowired
     public UseItemListener(PlayerManager playerManager, MaterialRegistry materialRegistry) {
         this.playerManager = playerManager;
-        this.materialRegistry = materialRegistry;
+        MaterialRegistry materialRegistry1 = materialRegistry;
     }
 
     @Async(value = "playerExec")

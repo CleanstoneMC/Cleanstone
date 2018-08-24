@@ -3,8 +3,14 @@
 
 class Item
 {
+    private $itemName;
+    private $minecraftItemName;
+    private $protocolID;
+
     /**
      * Item constructor.
+     * @param string $minecraftItemName
+     * @param array $data
      */
     public function __construct(string $minecraftItemName, array $data)
     {
@@ -37,7 +43,7 @@ class Item
         return $this->protocolID;
     }
 
-    public function getItemEnumName()
+    public function getItemEnumName(): string
     {
         return strtoupper($this->itemName);
     }

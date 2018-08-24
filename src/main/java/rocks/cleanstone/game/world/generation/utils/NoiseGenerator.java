@@ -30,6 +30,7 @@ package rocks.cleanstone.game.world.generation.utils;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
+@SuppressWarnings("Duplicates")
 public class NoiseGenerator {
     public enum NoiseType {Value, ValueFractal, Perlin, PerlinFractal, Simplex, SimplexFractal, Cellular, WhiteNoise, Cubic, CubicFractal}
     public enum Interp {Linear, Hermite, Quintic}

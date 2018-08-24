@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 
 class Property
@@ -187,6 +187,7 @@ class Property
 
     /**
      * Block constructor.
+     * @param string $blockName
      * @param string $propertyName
      * @param array $values
      * @param array $states
@@ -204,7 +205,7 @@ class Property
             $duplicate = self::$properties[$this->getBlockPropertiesName()];
 
             if ($this->getLongPropertyType() !== $duplicate->getLongPropertyType()) {
-                throw new Exception('Override!!!1elf ' . $blockName . ':' . $this->getBlockPropertiesName());
+                throw new RuntimeException('Override!!!1elf ' . $blockName . ':' . $this->getBlockPropertiesName());
             }
 
 //            $cachePropertyName = strtoupper($blockName) . '_' . $cachePropertyName;
@@ -284,7 +285,7 @@ class Property
         }
 
         if (isset(self::$properties[$name]) && self::$properties[$name]->getLongPropertyType() !== $this->getLongPropertyType()) {
-            throw new \Exception('override: ' . $name);
+            throw new \RuntimeException('override: ' . $name);
         }
 
         return $this->from_camel_case($name);
@@ -298,7 +299,7 @@ class Property
             }
         }
 
-        throw new Exception('Could not found default State for ' . $this->propertyName);
+        throw new RuntimeException('Could not found default State for ' . $this->propertyName);
     }
 
     public function getDefaultValue(): string
@@ -353,12 +354,12 @@ class Property
      * @param $input
      * @return string
      */
-    private function from_camel_case($input)
+    private function from_camel_case($input): string
     {
         preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
         $ret = $matches[0];
         foreach ($ret as &$match) {
-            $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+            $match = $match === strtoupper($match) ? strtolower($match) : lcfirst($match);
         }
         return implode('_', $ret);
     }

@@ -6,8 +6,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalNotification;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import java.util.Collection;
-import javax.annotation.Nullable;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +13,10 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Objects;
 
 public class SimpleRegion implements Region {
 
@@ -73,7 +75,7 @@ public class SimpleRegion implements Region {
     public ListenableFuture<Chunk> loadChunk(int chunkX, int chunkY) {
         ListenableFuture<Chunk> chunkFuture = chunkProvider.getChunk(chunkX, chunkY);
         chunkFuture.addCallback(
-                chunk -> loadedChunks.put(Pair.of(chunkX, chunkY), chunk),
+                chunk -> loadedChunks.put(Pair.of(chunkX, chunkY), Objects.requireNonNull(chunk)),
                 error -> logger.error("could not load chunk " + chunkX + ", " + chunkY, error)
         );
         return chunkFuture;

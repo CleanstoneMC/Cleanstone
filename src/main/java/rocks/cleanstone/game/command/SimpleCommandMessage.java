@@ -1,18 +1,16 @@
 package rocks.cleanstone.game.command;
 
 import com.google.common.base.Preconditions;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.completion.CompletionContext;
 import rocks.cleanstone.game.command.completion.SimpleCompletionContext;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
 import rocks.cleanstone.player.Player;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public class SimpleCommandMessage implements CommandMessage {
 
@@ -128,8 +126,7 @@ public class SimpleCommandMessage implements CommandMessage {
 
     @Override
     public Optional<String> optionalStringMessage() {
-        String message = requireVarargParameter(String.class, true).stream()
-                .collect(Collectors.joining(" "));
+        String message = String.join(" ", requireVarargParameter(String.class, true));
         return message.equals("") ? Optional.empty() : Optional.of(message);
     }
 

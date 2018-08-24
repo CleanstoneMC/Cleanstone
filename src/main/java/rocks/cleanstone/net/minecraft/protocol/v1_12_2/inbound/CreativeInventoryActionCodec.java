@@ -10,10 +10,8 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class CreativeInventoryActionCodec implements PacketCodec {
 
-    private final BlockStateMapping<Integer> blockStateMapping;
-
     public CreativeInventoryActionCodec(BlockStateMapping<Integer> blockStateMapping) {
-        this.blockStateMapping = blockStateMapping;
+        BlockStateMapping<Integer> blockStateMapping1 = blockStateMapping;
     }
 
     @Override

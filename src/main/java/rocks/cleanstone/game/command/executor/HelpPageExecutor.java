@@ -5,10 +5,8 @@ import rocks.cleanstone.game.command.CommandMessage;
 
 public class HelpPageExecutor implements CommandExecutor {
 
-    private final Command command;
-
     public HelpPageExecutor(Command command) {
-        this.command = command;
+        Command command1 = command;
     }
 
     @Override

@@ -26,9 +26,14 @@ class Item
         'RABBIT_S_FOOT' => 'RABBIT_FOOT',
         'BOTTLE_O__ENCHANTING' => 'EXPERIENCE_BOTTLE',
     ];
+    private $minecraftItemName;
+    private $englishName;
+    private $itemName;
+    private $protocolID;
 
     /**
      * Item constructor.
+     * @param array $data
      */
     public function __construct(array $data)
     {

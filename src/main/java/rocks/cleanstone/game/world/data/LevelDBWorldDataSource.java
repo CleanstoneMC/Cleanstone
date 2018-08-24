@@ -28,7 +28,6 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String worldID;
-    private final boolean hasSkyLight;
     private final DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
 
     public LevelDBWorldDataSource(File worldDataFolder, String worldID)
@@ -37,7 +36,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         this.worldID = worldID;
 
         // TODO read general world data (dimension, seed, etc)
-        hasSkyLight = true;
+        boolean hasSkyLight = true;
     }
 
     @Nullable

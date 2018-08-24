@@ -8,19 +8,25 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 public class CleanstoneEventPublisher {
 
     private static Logger LOGGER = LoggerFactory.getLogger(CleanstoneEventPublisher.class);
+    private final ApplicationEventPublisher publisher;
+    private final CleanstoneEventMulticaster multicaster;
+
     @Autowired
-    private ApplicationEventPublisher publisher;
-    @Autowired
-    private CleanstoneEventMulticaster multicaster;
+    public CleanstoneEventPublisher(ApplicationEventPublisher publisher, CleanstoneEventMulticaster multicaster) {
+        this.publisher = publisher;
+        this.multicaster = multicaster;
+    }
 
     public synchronized <T> T publishEvent(T event, boolean rethrowExceptions) throws EventExecutionException {
         long preEventTime = System.currentTimeMillis();
         String eventName = event.getClass().getSimpleName();
-        multicaster.getErrorHandler().setRethrowExceptions(rethrowExceptions);
+        Objects.requireNonNull(multicaster.getErrorHandler()).setRethrowExceptions(rethrowExceptions);
         try {
             publisher.publishEvent(event);
         } catch (EventCancellationException e) {

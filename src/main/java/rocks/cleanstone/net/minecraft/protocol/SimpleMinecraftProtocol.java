@@ -17,13 +17,15 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
 
     private PacketTypeRegistry registry;
 
-    @Autowired
-    private Collection<MinecraftServerProtocolLayer> serverProtocolLayers;
+    private final Collection<MinecraftServerProtocolLayer> serverProtocolLayers;
 
-    public SimpleMinecraftProtocol() {
+    @Autowired
+    public SimpleMinecraftProtocol(Collection<MinecraftServerProtocolLayer> serverProtocolLayers) {
         registry = new SimplePacketTypeRegistry();
         registry.registerPacketType(MinecraftOutboundPacketType.values());
         registry.registerPacketType(MinecraftInboundPacketType.values());
+
+        this.serverProtocolLayers = serverProtocolLayers;
     }
 
     @PostConstruct

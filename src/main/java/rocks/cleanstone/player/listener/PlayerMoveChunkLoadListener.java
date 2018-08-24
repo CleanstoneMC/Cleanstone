@@ -141,9 +141,7 @@ public class PlayerMoveChunkLoadListener {
 
             ChunkDataPacket chunkDataPacket = new ChunkDataPacket(x, y, true, chunk.getBlockDataTable(), new NamedBinaryTag[]{});
             player.sendPacket(chunkDataPacket);
-        }, throwable -> {
-            logger.error("Error getting Chunk", throwable);
-        });
+        }, throwable -> logger.error("Error getting Chunk", throwable));
     }
 
     private boolean isSameChunk(Position oldPosition, Position newPosition) {

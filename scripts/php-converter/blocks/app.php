@@ -8,7 +8,10 @@ $blocksData = json_decode($blocksJsonContent, true);
 
 $blocks = [];
 foreach ($blocksData as $blockName => $blockData) {
-    $blocks[] = new Block($blockName, $blockData);
+    try {
+        $blocks[] = new Block($blockName, $blockData);
+    } catch (Exception $e) {
+    }
 }
 
 $vanillaBlockTypeContent = 'package rocks.cleanstone.game.material.block.vanilla;

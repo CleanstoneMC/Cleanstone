@@ -25,9 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VanillaBlockDataStorageTest {
 
-    private Random random;
     private DirectPalette directPalette;
-    private MaterialRegistry materialRegistry;
     private SimpleBlockStateProvider blockStateProvider;
     private VanillaBlockDataStorage storage;
 
@@ -36,9 +34,9 @@ class VanillaBlockDataStorageTest {
         blockStateProvider = new SimpleBlockStateProvider(new ConcurrentMapCacheManager());
         blockStateProvider.init();
 
-        random = new Random(1);
+        Random random = new Random(1);
         directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
-        materialRegistry = new SimpleMaterialRegistry();
+        MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
 
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 20; i++) {

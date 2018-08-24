@@ -1,12 +1,12 @@
 package rocks.cleanstone.game.inventory;
 
+import rocks.cleanstone.game.inventory.item.ItemStack;
+import rocks.cleanstone.game.material.item.ItemType;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import rocks.cleanstone.game.inventory.item.ItemStack;
-import rocks.cleanstone.game.material.item.ItemType;
 
 public class SimpleInventory implements Inventory {
     private int size;
@@ -82,8 +82,8 @@ public class SimpleInventory implements Inventory {
             }
         }
 
-        for (int i = 0; i < inventoryClone.length; i++) {
-            if (inventoryClone[i] == null) {
+        for (ItemStack anInventoryClone : inventoryClone) {
+            if (anInventoryClone == null) {
                 //TODO: Add Itemstack of item
             }
         }

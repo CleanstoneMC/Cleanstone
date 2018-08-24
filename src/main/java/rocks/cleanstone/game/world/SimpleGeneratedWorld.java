@@ -128,11 +128,7 @@ public class SimpleGeneratedWorld implements World {
         int chunkX = getChunkCoordinate(x), chunkY = getChunkCoordinate(z);
         int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
 
-        getChunk(chunkX, chunkY).addCallback(chunk -> {
-            chunk.setBlock(relX, y, relZ, block);
-        }, throwable -> {
-            logger.error("Failed to get chunk " + chunkX + ":" + chunkY + " in world " + id, throwable);
-        });
+        getChunk(chunkX, chunkY).addCallback(chunk -> chunk.setBlock(relX, y, relZ, block), throwable -> logger.error("Failed to get chunk " + chunkX + ":" + chunkY + " in world " + id, throwable));
     }
 
     @Override

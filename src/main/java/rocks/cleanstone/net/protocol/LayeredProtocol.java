@@ -1,16 +1,15 @@
 package rocks.cleanstone.net.protocol;
 
 import com.google.common.collect.Lists;
+import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.packet.Packet;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-
-import javax.annotation.Nullable;
-
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.Packet;
+import java.util.Objects;
 
 public abstract class LayeredProtocol implements Protocol {
 
@@ -49,13 +48,13 @@ public abstract class LayeredProtocol implements Protocol {
 
         @Override
         public Packet decode(ByteBuf byteBuf) throws IOException {
-            return getServerLayerFromClientLayer(clientLayer)
+            return Objects.requireNonNull(getServerLayerFromClientLayer(clientLayer))
                     .getPacketCodec(packetClass).decode(byteBuf);
         }
 
         @Override
         public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
-            return getServerLayerFromClientLayer(clientLayer)
+            return Objects.requireNonNull(getServerLayerFromClientLayer(clientLayer))
                     .getPacketCodec(packetClass).encode(byteBuf, packet);
         }
     }

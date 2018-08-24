@@ -3,16 +3,6 @@ package rocks.cleanstone.game.command;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.core.CleanstoneServer;
@@ -21,6 +11,9 @@ import rocks.cleanstone.game.command.executor.CommandExecutor;
 import rocks.cleanstone.game.command.executor.HelpPageExecutor;
 import rocks.cleanstone.game.permission.Permission;
 import rocks.cleanstone.player.Player;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SimpleCommand implements Command {
 

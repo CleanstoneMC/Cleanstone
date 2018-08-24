@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 require_once 'Item.php';
 

@@ -9,7 +9,6 @@ import rocks.cleanstone.net.raknet.RakNetNetworking;
 @Component
 public class SimpleMCPENetworking extends RakNetNetworking implements MCPENetworking {
 
-    private final StatusProvider statusProvider;
     private final MinecraftConfig minecraftConfig;
 
     @Autowired
@@ -17,7 +16,7 @@ public class SimpleMCPENetworking extends RakNetNetworking implements MCPENetwor
                                 StatusProvider statusProvider) {
         super(minecraftConfig.getMcpePort(), minecraftConfig.getMcpeAddress(), mcpeProtocol, statusProvider);
         this.minecraftConfig = minecraftConfig;
-        this.statusProvider = statusProvider;
+        StatusProvider statusProvider1 = statusProvider;
     }
 
     @Override

@@ -22,12 +22,11 @@ public class SimpleWorldLoader implements WorldLoader {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ApplicationContext context;
-    private final MaterialRegistry materialRegistry;
 
     @Autowired
     public SimpleWorldLoader(ApplicationContext context, MaterialRegistry materialRegistry) {
         this.context = context;
-        this.materialRegistry = materialRegistry;
+        MaterialRegistry materialRegistry1 = materialRegistry;
     }
 
     @Async(value = "worldExec")

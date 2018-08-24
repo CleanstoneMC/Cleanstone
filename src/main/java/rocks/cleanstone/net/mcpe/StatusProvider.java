@@ -13,16 +13,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public class StatusProvider extends MinecraftIdentifier {
 
     private final PlayerManager playerManager;
-    private final String motd;
-    private final int maxPlayers;
 
     @Autowired
     public StatusProvider(MinecraftConfig minecraftConfig, PlayerManager playerManager) {
         super(minecraftConfig.getMotd(), 137, "1.2", playerManager.getOnlinePlayers().size(),
                 minecraftConfig.getMaxPlayers(), ThreadLocalRandom.current().nextLong(),
                 "Cleanstone World", "Creative");
-        this.motd = minecraftConfig.getMotd();
-        this.maxPlayers = minecraftConfig.getMaxPlayers();
+        String motd = minecraftConfig.getMotd();
+        int maxPlayers = minecraftConfig.getMaxPlayers();
         this.playerManager = playerManager;
     }
 

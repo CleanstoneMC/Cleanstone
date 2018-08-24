@@ -20,15 +20,13 @@ import java.io.IOException;
 public class SaveData {
 
     private final PlayerManager playerManager;
-    private final OpenWorldGame openWorldGame;
-    private final WorldManager worldManager;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public SaveData(PlayerManager playerManager, OpenWorldGame openWorldGame, WorldManager worldManager) {
         this.playerManager = playerManager;
-        this.openWorldGame = openWorldGame;
-        this.worldManager = worldManager;
+        OpenWorldGame openWorldGame1 = openWorldGame;
+        WorldManager worldManager1 = worldManager;
     }
 
     @Order(value = 50)
