@@ -51,7 +51,10 @@ public class VanillaBlockDataCodec implements Codec<VanillaBlockDataStorage, Byt
         }
         for (int z = 0; z < Chunk.WIDTH; z++) {
             for (int x = 0; x < Chunk.WIDTH; x++) {
-                dataBuf.writeByte(127);  // TODO write biome data
+                if (!omitDirectPaletteLength)
+                    dataBuf.writeByte(127);  // TODO write biome data
+                else
+                    dataBuf.writeInt(127);
             }
         }
 
