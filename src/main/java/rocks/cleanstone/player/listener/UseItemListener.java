@@ -3,13 +3,18 @@ package rocks.cleanstone.player.listener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+
+import java.util.ArrayList;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.event.BlockBreakEvent;
+import rocks.cleanstone.game.block.event.BlockPlaceEvent;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.net.packet.inbound.PlayerBlockPlacementPacket;
 import rocks.cleanstone.net.packet.inbound.PlayerDiggingPacket;
@@ -17,8 +22,6 @@ import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
-
-import java.util.ArrayList;
 
 public class UseItemListener {
 
@@ -51,17 +54,17 @@ public class UseItemListener {
             return;
         }
 
-//        BlockType blockType = materialRegistry.getBlockType(itemStack.getType().getID());
-//        if (blockType != null) {
-//            Block placedBlock = ImmutableBlock.of(blockType);
-//
-//            player.getEntity().getWorld().setBlockAt(newBlockPosition, placedBlock);
-//            CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, packet.getFace()));
-//
+        BlockType blockType = materialRegistry.getBlockTypeByItemType(itemStack.getType());
+        if (blockType != null) {
+            Block placedBlock = ImmutableBlock.of(blockType);
+
+            player.getEntity().getWorld().setBlockAt(newBlockPosition, placedBlock);
+            CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, packet.getFace()));
+
             //TODO: Move this to a BlockPlaceEvent Listener?
-//            BlockChangePacket blockChangePacket = new BlockChangePacket(newBlockPosition, placedBlock);
-//            playerManager.broadcastPacket(blockChangePacket);
-//        }
+            BlockChangePacket blockChangePacket = new BlockChangePacket(newBlockPosition, placedBlock);
+            playerManager.broadcastPacket(blockChangePacket);
+        }
     }
 
     @Async(value = "playerExec")
