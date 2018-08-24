@@ -13,7 +13,6 @@ import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.data.Codec;
 import rocks.cleanstone.data.EnumCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
-import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.ChunkDataKeyFactory;
@@ -28,14 +27,12 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String worldID;
     private final boolean hasSkyLight;
-    private final MaterialRegistry materialRegistry;
     private final DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
 
-    public LevelDBWorldDataSource(File worldDataFolder, String worldID, MaterialRegistry materialRegistry)
+    public LevelDBWorldDataSource(File worldDataFolder, String worldID)
             throws IOException {
         super(new File(worldDataFolder, worldID));
         this.worldID = worldID;
-        this.materialRegistry = materialRegistry;
 
         // TODO read general world data (dimension, seed, etc)
         hasSkyLight = true;
