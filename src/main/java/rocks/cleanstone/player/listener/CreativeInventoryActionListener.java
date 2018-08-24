@@ -15,7 +15,6 @@ public class CreativeInventoryActionListener {
             return;
         }
         CreativeInventoryActionPacket packet = (CreativeInventoryActionPacket) event.getPacket();
-
         event.getPlayer().getEntity().getInventory().setItemInSlot(packet.getSlot(), packet.getClickedItem());
     }
 }

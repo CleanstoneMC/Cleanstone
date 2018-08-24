@@ -10,6 +10,4 @@ public interface ItemStack extends Serializable {
     int getAmount();
 
     void setAmount(int amount);
-
-    short getMetadata();
 }

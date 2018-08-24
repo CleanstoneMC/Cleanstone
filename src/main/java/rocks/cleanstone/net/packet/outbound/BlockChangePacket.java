@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.packet.outbound;
 
 import rocks.cleanstone.game.Position;
-import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
@@ -9,26 +9,19 @@ import rocks.cleanstone.net.packet.PacketType;
 public class BlockChangePacket implements Packet {
 
     private final Position position;
-    private final Block block;
+    private final BlockState blockState;
 
-    public BlockChangePacket(Position position, Block block) {
+    public BlockChangePacket(Position position, BlockState blockState) {
         this.position = position;
-        this.block = block;
+        this.blockState = blockState;
     }
 
     public Position getPosition() {
         return position;
     }
 
-    public Block getBlock() {
-        return block;
-    }
-
-    public int getBlockData() {
-        int blockID = block.getState().getBlockType().getID();
-        int metaData = 0;//block.getState().getMetadata(); //TODO: Add Metadata
-
-        return blockID << 4 | (metaData & 15);
+    public BlockState getBlockState() {
+        return blockState;
     }
 
     @Override

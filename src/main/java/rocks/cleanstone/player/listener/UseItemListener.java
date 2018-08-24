@@ -1,5 +1,7 @@
 package rocks.cleanstone.player.listener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -27,6 +29,7 @@ public class UseItemListener {
 
     private final PlayerManager playerManager;
     private final MaterialRegistry materialRegistry;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public UseItemListener(PlayerManager playerManager, MaterialRegistry materialRegistry) {
@@ -62,7 +65,7 @@ public class UseItemListener {
             CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, packet.getFace()));
 
             //TODO: Move this to a BlockPlaceEvent Listener?
-            BlockChangePacket blockChangePacket = new BlockChangePacket(newBlockPosition, placedBlock);
+            BlockChangePacket blockChangePacket = new BlockChangePacket(newBlockPosition, placedBlock.getState());
             playerManager.broadcastPacket(blockChangePacket);
         }
     }
@@ -81,8 +84,7 @@ public class UseItemListener {
         CleanstoneServer.publishEvent(new BlockBreakEvent(placedBlock, packet.getPosition(),
                 event.getPlayer(), new ArrayList<>()));//TODO: Add Drops
 
-        BlockChangePacket blockChangePacket = new BlockChangePacket(
-                packet.getPosition(), placedBlock);
+        BlockChangePacket blockChangePacket = new BlockChangePacket(packet.getPosition(), placedBlock.getState());
 
         playerManager.broadcastPacket(blockChangePacket);
     }

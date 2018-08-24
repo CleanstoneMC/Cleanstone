@@ -1,23 +1,23 @@
-package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
+package rocks.cleanstone.net.minecraft.protocol.v1_13.inbound;
 
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nullable;
 
 import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.block.state.mapping.LegacyMaterialMapping;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.inventory.item.SimpleItemStack;
 import rocks.cleanstone.game.material.item.ItemType;
+import rocks.cleanstone.game.material.item.mapping.ItemTypeMapping;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.inbound.CreativeInventoryActionPacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
 public class CreativeInventoryActionCodec implements PacketCodec {
 
-    private final LegacyMaterialMapping itemTypeMapping;
+    private final ItemTypeMapping<Integer> itemTypeMapping;
 
-    public CreativeInventoryActionCodec(LegacyMaterialMapping itemTypeMapping) {
+    public CreativeInventoryActionCodec(ItemTypeMapping<Integer> itemTypeMapping) {
         this.itemTypeMapping = itemTypeMapping;
 
     }
@@ -41,8 +41,7 @@ public class CreativeInventoryActionCodec implements PacketCodec {
 
         if (itemID != -1) {
             byte itemCount = byteBuf.readByte();
-            short itemMetadata = byteBuf.readShort();
-            ItemType itemType = itemTypeMapping.getItemType(itemID, itemMetadata);
+            ItemType itemType = itemTypeMapping.getItemType((int) itemID);
             Preconditions.checkNotNull(itemType, "Cannot find itemType with ID " + itemID);
             byte nbtStartByte = byteBuf.readByte(); // TODO Item NBT
             return new SimpleItemStack(itemType, itemCount, null);

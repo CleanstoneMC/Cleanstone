@@ -3,12 +3,19 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class BlockChangeCodec implements PacketCodec {
+
+    private final BlockStateMapping<Integer> blockStateMapping;
+
+    public BlockChangeCodec(BlockStateMapping<Integer> blockStateMapping) {
+        this.blockStateMapping = blockStateMapping;
+    }
 
     @Override
     public Packet decode(ByteBuf byteBuf) {
@@ -20,7 +27,7 @@ public class BlockChangeCodec implements PacketCodec {
         BlockChangePacket blockChangePacket = (BlockChangePacket) packet;
 
         ByteBufUtils.writeVector(byteBuf, blockChangePacket.getPosition().toVector());
-        ByteBufUtils.writeVarInt(byteBuf, blockChangePacket.getBlockData());
+        ByteBufUtils.writeVarInt(byteBuf, blockStateMapping.getID(blockChangePacket.getBlockState()));
 
         return byteBuf;
     }

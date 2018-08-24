@@ -1,6 +1,7 @@
 package rocks.cleanstone.game.block.state.mapping;
 
 import com.google.common.base.Preconditions;
+
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.Material;
 import rocks.cleanstone.game.material.block.BlockType;
@@ -26,6 +27,10 @@ public class LegacyMaterialMapping implements BlockStateMapping<Integer>, ItemTy
         Preconditions.checkArgument(metadata < 16, "metadata out of range");
         int id = typeID << 4 | (metadata & 0xF);
         materialMapping.setID(material, id);
+    }
+
+    public ItemType getItemType(int typeID, int metadata) {
+        return getItemType(typeID << 4 | (metadata & 0xF));
     }
 
     @Override

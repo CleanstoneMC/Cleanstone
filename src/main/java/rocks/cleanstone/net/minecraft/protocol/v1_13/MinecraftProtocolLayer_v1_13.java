@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.ClientSettingsCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.CreativeInventoryActionCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.EncryptionResponseCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.HandshakeCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.HeldItemChangeCodec;
@@ -23,6 +22,7 @@ import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerPositionCod
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.RequestCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.UseItemCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
+import rocks.cleanstone.net.minecraft.protocol.v1_13.inbound.CreativeInventoryActionCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.outbound.ChunkDataCodec;
 import rocks.cleanstone.net.packet.inbound.ClientSettingsPacket;
 import rocks.cleanstone.net.packet.inbound.CreativeInventoryActionPacket;
@@ -67,7 +67,7 @@ public class MinecraftProtocolLayer_v1_13 extends MinecraftServerProtocolLayer {
         registerPacketCodec(new UseItemCodec(), UseItemPacket.class, PLAY, 0x2A);
         registerPacketCodec(new PlayerBlockPlacementCodec(), PlayerBlockPlacementPacket.class, PLAY, 0x29);
         registerPacketCodec(new PlayerDiggingCodec(), PlayerDiggingPacket.class, PLAY, 0x18);
-        registerPacketCodec(new CreativeInventoryActionCodec(blockStateMapping), CreativeInventoryActionPacket.class, PLAY, 0x24);
+        registerPacketCodec(new CreativeInventoryActionCodec(itemTypeMapping), CreativeInventoryActionPacket.class, PLAY, 0x24);
         registerPacketCodec(new HeldItemChangeCodec(), HeldItemChangePacket.class, PLAY, 0x21);
         registerPacketCodec(new InPlayerAbilitiesCodec(), InPlayerAbilitiesPacket.class, PLAY, 0x17);
 
@@ -96,7 +96,7 @@ public class MinecraftProtocolLayer_v1_13 extends MinecraftServerProtocolLayer {
         registerPacketCodec(new SpawnPlayerCodec(), SpawnPlayerPacket.class, PLAY, 0x05);
         registerPacketCodec(new TimeUpdateCodec(), TimeUpdatePacket.class, PLAY, 0x47);
         registerPacketCodec(new UnloadChunkCodec(), UnloadChunkPacket.class, PLAY, 0x1F);
-        registerPacketCodec(new BlockChangeCodec(), BlockChangePacket.class, PLAY, 0x0B);
+        registerPacketCodec(new BlockChangeCodec(blockStateMapping), BlockChangePacket.class, PLAY, 0x0B);
         registerPacketCodec(new EntityTeleportCodec(), EntityTeleportPacket.class, PLAY, 0x50);
         registerPacketCodec(new DestroyEntitiesCodec(), DestroyEntitiesPacket.class, PLAY, 0x35);
         registerPacketCodec(new ChangeGameStateCodec(), ChangeGameStatePacket.class, PLAY, 0x20);

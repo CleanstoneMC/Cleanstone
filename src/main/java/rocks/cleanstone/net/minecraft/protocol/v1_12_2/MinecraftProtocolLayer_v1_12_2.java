@@ -1,11 +1,46 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.ClientSettingsCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.CreativeInventoryActionCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.EncryptionResponseCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.HandshakeCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.HeldItemChangeCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InChatMessageCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InKeepAliveCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InPlayerAbilitiesCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InTabCompleteCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.LoginStartCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PingCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerBlockPlacementCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerDiggingCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerLookCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerPositionAndLookCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerPositionCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.RequestCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.UseItemCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
-import rocks.cleanstone.net.packet.inbound.*;
+import rocks.cleanstone.net.packet.inbound.ClientSettingsPacket;
+import rocks.cleanstone.net.packet.inbound.CreativeInventoryActionPacket;
+import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
+import rocks.cleanstone.net.packet.inbound.HandshakePacket;
+import rocks.cleanstone.net.packet.inbound.HeldItemChangePacket;
+import rocks.cleanstone.net.packet.inbound.InChatMessagePacket;
+import rocks.cleanstone.net.packet.inbound.InKeepAlivePacket;
+import rocks.cleanstone.net.packet.inbound.InPlayerAbilitiesPacket;
+import rocks.cleanstone.net.packet.inbound.InPlayerPositionAndLookPacket;
+import rocks.cleanstone.net.packet.inbound.InTabCompletePacket;
+import rocks.cleanstone.net.packet.inbound.LoginStartPacket;
+import rocks.cleanstone.net.packet.inbound.PingPacket;
+import rocks.cleanstone.net.packet.inbound.PlayerBlockPlacementPacket;
+import rocks.cleanstone.net.packet.inbound.PlayerDiggingPacket;
+import rocks.cleanstone.net.packet.inbound.PlayerLookPacket;
+import rocks.cleanstone.net.packet.inbound.PlayerPositionPacket;
+import rocks.cleanstone.net.packet.inbound.RequestPacket;
+import rocks.cleanstone.net.packet.inbound.UseItemPacket;
 import rocks.cleanstone.net.packet.outbound.*;
 
 import static rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState.*;
@@ -31,7 +66,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new UseItemCodec(), UseItemPacket.class, PLAY, 0x20);
         registerPacketCodec(new PlayerBlockPlacementCodec(), PlayerBlockPlacementPacket.class, PLAY, 0x1F);
         registerPacketCodec(new PlayerDiggingCodec(), PlayerDiggingPacket.class, PLAY, 0x14);
-        registerPacketCodec(new CreativeInventoryActionCodec(blockStateMapping), CreativeInventoryActionPacket.class, PLAY, 0x1B);
+        registerPacketCodec(new CreativeInventoryActionCodec(itemTypeMapping), CreativeInventoryActionPacket.class, PLAY, 0x1B);
         registerPacketCodec(new HeldItemChangeCodec(), HeldItemChangePacket.class, PLAY, 0x1A);
         registerPacketCodec(new InPlayerAbilitiesCodec(), InPlayerAbilitiesPacket.class, PLAY, 0x13);
 
@@ -60,7 +95,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new SpawnPlayerCodec(), SpawnPlayerPacket.class, PLAY, 0x05);
         registerPacketCodec(new TimeUpdateCodec(), TimeUpdatePacket.class, PLAY, 0x47);
         registerPacketCodec(new UnloadChunkCodec(), UnloadChunkPacket.class, PLAY, 0x1D);
-        registerPacketCodec(new BlockChangeCodec(), BlockChangePacket.class, PLAY, 0x0B);
+        registerPacketCodec(new BlockChangeCodec(blockStateMapping), BlockChangePacket.class, PLAY, 0x0B);
         registerPacketCodec(new EntityTeleportCodec(), EntityTeleportPacket.class, PLAY, 0x4C);
         registerPacketCodec(new DestroyEntitiesCodec(), DestroyEntitiesPacket.class, PLAY, 0x32);
         registerPacketCodec(new ChangeGameStateCodec(), ChangeGameStatePacket.class, PLAY, 0x1E);
