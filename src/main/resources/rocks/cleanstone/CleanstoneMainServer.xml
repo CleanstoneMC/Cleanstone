@@ -167,6 +167,8 @@
     <bean id="keepAliveTask" class="rocks.cleanstone.net.minecraft.KeepAliveTask"/>
 
     <!-- (Protocol) -->
+    <bean id="minecraftServerProtocolLayer_1_13_1"
+          class="rocks.cleanstone.net.minecraft.protocol.v1_13.MinecraftProtocolLayer_v1_13_1"/>
     <bean id="minecraftServerProtocolLayer_1_13"
           class="rocks.cleanstone.net.minecraft.protocol.v1_13.MinecraftProtocolLayer_v1_13"/>
     <bean id="minecraftProtocolBlockStateMapping_1_13"
