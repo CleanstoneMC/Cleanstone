@@ -10,8 +10,8 @@ public class ImmutableBlock implements Block {
     private final BlockState state;
 
     /**
-     * @deprecated Use the {@link ImmutableBlockProvider}
      * @param state The Blockstate for the Block
+     * @deprecated Use the {@link ImmutableBlockProvider}
      */
     @SuppressWarnings("DeprecatedIsStillUsed")
     public ImmutableBlock(BlockState state) {

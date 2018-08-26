@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
-
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());

@@ -39,7 +39,13 @@ public class SimpleWorldLoader implements WorldLoader {
         // TODO Fetch generator from dataSource
 
         WorldGenerator worldGenerator = worldGeneratorManager.getWorldGenerator("mountainWorldGenerator");
-        WorldDataSource worldDataSource = null;
+
+        if (worldGenerator == null) {
+            logger.error("Cannot find Worldgenerator - Exiting");
+            System.exit(0);
+        }
+
+        WorldDataSource worldDataSource;
         try {
             worldDataSource = levelDBWorldDataSourceFactory.get(getWorldDataFolder(), id);
         } catch (IOException e) {

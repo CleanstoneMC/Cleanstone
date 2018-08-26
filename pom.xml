@@ -104,23 +104,23 @@
             <version>2.0.8.RELEASE</version>
         </dependency>
         <!-- Spring AspectJ -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-aspects</artifactId>-->
-            <!--<version>5.0.8.RELEASE</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>5.0.8.RELEASE</version>
+        </dependency>
         <!-- Spring AOP -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-aop</artifactId>-->
-            <!--<version>5.0.8.RELEASE</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>5.0.8.RELEASE</version>
+        </dependency>
         <!-- AspectJ JRT -->
-        <!--<dependency>-->
-            <!--<groupId>org.aspectj</groupId>-->
-            <!--<artifactId>aspectjrt</artifactId>-->
-            <!--<version>1.8.13</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.13</version>
+        </dependency>
         <!-- Netty -->
         <dependency>
             <groupId>io.netty</groupId>

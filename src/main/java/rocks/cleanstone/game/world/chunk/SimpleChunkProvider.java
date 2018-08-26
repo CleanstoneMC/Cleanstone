@@ -1,7 +1,6 @@
 package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Preconditions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -21,7 +20,6 @@ public class SimpleChunkProvider implements ChunkProvider {
     private final WorldGenerator generator;
     private int seed = 1234567890; //TODO: Move me
 
-    @Autowired
     public SimpleChunkProvider(WorldDataSource dataSource, WorldGenerator generator) {
         this.dataSource = dataSource;
         this.generator = generator;

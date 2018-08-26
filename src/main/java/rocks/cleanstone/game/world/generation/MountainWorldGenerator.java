@@ -84,6 +84,6 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     @Override
     public String getName() {
-        return "MountainWorldGenerator";
+        return "mountainWorldGenerator";
     }
 }
