@@ -2,45 +2,13 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.ClientSettingsCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.CreativeInventoryActionCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.EncryptionResponseCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.HandshakeCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.HeldItemChangeCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InChatMessageCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InKeepAliveCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InPlayerAbilitiesCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.InTabCompleteCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.LoginStartCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PingCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerBlockPlacementCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerDiggingCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerLookCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerPositionAndLookCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.PlayerPositionCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.RequestCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.UseItemCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
-import rocks.cleanstone.net.packet.inbound.ClientSettingsPacket;
-import rocks.cleanstone.net.packet.inbound.CreativeInventoryActionPacket;
-import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.packet.inbound.HandshakePacket;
-import rocks.cleanstone.net.packet.inbound.HeldItemChangePacket;
-import rocks.cleanstone.net.packet.inbound.InChatMessagePacket;
-import rocks.cleanstone.net.packet.inbound.InKeepAlivePacket;
-import rocks.cleanstone.net.packet.inbound.InPlayerAbilitiesPacket;
-import rocks.cleanstone.net.packet.inbound.InPlayerPositionAndLookPacket;
-import rocks.cleanstone.net.packet.inbound.InTabCompletePacket;
-import rocks.cleanstone.net.packet.inbound.LoginStartPacket;
-import rocks.cleanstone.net.packet.inbound.PingPacket;
-import rocks.cleanstone.net.packet.inbound.PlayerBlockPlacementPacket;
-import rocks.cleanstone.net.packet.inbound.PlayerDiggingPacket;
-import rocks.cleanstone.net.packet.inbound.PlayerLookPacket;
-import rocks.cleanstone.net.packet.inbound.PlayerPositionPacket;
-import rocks.cleanstone.net.packet.inbound.RequestPacket;
-import rocks.cleanstone.net.packet.inbound.UseItemPacket;
+import rocks.cleanstone.net.packet.inbound.*;
 import rocks.cleanstone.net.packet.outbound.*;
 
 import static rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState.*;
@@ -50,7 +18,9 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
 
     @Autowired
     public MinecraftProtocolLayer_v1_12_2(ProtocolBlockStateMapping blockStateMapping,
-                                          ProtocolItemTypeMapping itemTypeMapping) {
+                                          ProtocolItemTypeMapping itemTypeMapping,
+                                          VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
+                                          VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory) {
         // inbound
         registerPacketCodec(new HandshakeCodec(), HandshakePacket.class, HANDSHAKE, 0x00);
         registerPacketCodec(new LoginStartCodec(), LoginStartPacket.class, LOGIN, 0x00);
@@ -84,7 +54,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new SpawnPositionCodec(), SpawnPositionPacket.class, PLAY, 0x46);
         registerPacketCodec(new OutPlayerAbilitiesCodec(), OutPlayerAbilitiesPacket.class, PLAY, 0x2C);
         registerPacketCodec(new OutPlayerPositionAndLookCodec(), OutPlayerPositionAndLookPacket.class, PLAY, 0x2F);
-        registerPacketCodec(new ChunkDataCodec(blockStateMapping), ChunkDataPacket.class, PLAY, 0x20);
+        registerPacketCodec(new ChunkDataCodec(blockStateMapping, vanillaBlockDataStorageFactory, vanillaBlockDataCodecFactory), ChunkDataPacket.class, PLAY, 0x20);
         registerPacketCodec(new OutKeepAliveCodec(), OutKeepAlivePacket.class, PLAY, 0x1F);
         registerPacketCodec(new OutTabCompleteCodec(), OutTabCompletePacket.class, PLAY, 0x0E);
         registerPacketCodec(new OutChatMessageCodec(), OutChatMessagePacket.class, PLAY, 0x0F);

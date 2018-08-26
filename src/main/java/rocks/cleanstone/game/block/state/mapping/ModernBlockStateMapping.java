@@ -4,7 +4,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.BlockStateProvider;
 import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
 import rocks.cleanstone.game.block.state.property.PropertyDefinition;
 import rocks.cleanstone.game.material.block.BlockType;
@@ -15,7 +17,7 @@ import java.util.NavigableMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
+public abstract class ModernBlockStateMapping implements BlockStateMapping<Integer> {
 
     private final Map<BlockType, Integer> blockTypeBaseStateIDMap;
     private final Map<BlockType, PropertyDefinition[]> blockTypeDefaultPropertiesMap;
@@ -23,15 +25,20 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
     private final BlockState defaultState;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public ModernBlockStateMapping(ModernBlockStateMapping defaultMapping) {
+    @Autowired
+    protected BlockStateProvider blockStateProvider;
+
+    public ModernBlockStateMapping(ModernBlockStateMapping defaultMapping, BlockStateProvider blockStateProvider) {
         blockTypeBaseStateIDMap = new ConcurrentHashMap<>(defaultMapping.blockTypeBaseStateIDMap);
         blockTypeDefaultPropertiesMap = new ConcurrentHashMap<>(defaultMapping.blockTypeDefaultPropertiesMap);
         baseStateIDBlockTypeMap = new ConcurrentSkipListMap<>(defaultMapping.baseStateIDBlockTypeMap);
+        this.blockStateProvider = blockStateProvider;
         defaultState = null;
     }
 
-    public ModernBlockStateMapping(BlockState defaultState) {
+    public ModernBlockStateMapping(BlockState defaultState, BlockStateProvider blockStateProvider) {
         this.defaultState = defaultState;
+        this.blockStateProvider = blockStateProvider;
         blockTypeBaseStateIDMap = new ConcurrentHashMap<>();
         blockTypeDefaultPropertiesMap = new ConcurrentHashMap<>();
         baseStateIDBlockTypeMap = new ConcurrentSkipListMap<>();
@@ -131,7 +138,7 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
             builder.withProperty(propertyDefinition.getProperty(), propertyValue);
             base = minPropertyID;
         }
-        return BlockState.of(blockType, builder.create());
+        return blockStateProvider.of(blockType, builder.create());
     }
 
     public BlockState getDefaultState() {

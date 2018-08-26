@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
-import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -20,13 +18,11 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final WorldManager worldManager;
-    private final MaterialRegistry materialRegistry;
     private String firstSpawnWorld = null;
 
     @Autowired
-    public SimpleOpenWorldGame(WorldManager worldManager, MaterialRegistry materialRegistry) {
+    public SimpleOpenWorldGame(WorldManager worldManager) {
         this.worldManager = worldManager;
-        this.materialRegistry = materialRegistry;
     }
 
     @PostConstruct
@@ -35,7 +31,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
         CleanstoneServer.getInstance().getMinecraftConfig().getAutoLoadWorlds().forEach(worldName -> {
             this.worldManager.loadWorld(worldName).addCallback(world -> {
                 if (world == null) {
-                    this.worldManager.createWorld(worldName, new FlatWorldGenerator());
+                    this.worldManager.createWorld(worldName, null);
                     //TODO: Change
                     // Generator
                 }

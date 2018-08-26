@@ -4,7 +4,9 @@ import rocks.cleanstone.game.world.chunk.Chunk;
 
 public interface WorldGenerator {
 
-    Chunk generateChunk(int x, int y);
+    Chunk generateChunk(int seed, int x, int y);
 
-    int getHeightAt(int x, int y);
+    int getHeightAt(int seed, int x, int y);
+
+    String getName();
 }

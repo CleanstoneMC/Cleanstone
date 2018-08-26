@@ -1,6 +1,7 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.game.block.state.BlockStateProvider;
 import rocks.cleanstone.game.block.state.mapping.LegacyMaterialMapping;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 
@@ -8,8 +9,8 @@ import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockType.*;
 
 @Component("protocolBlockStateMapping_v1_12_2")
 public class ProtocolBlockStateMapping extends LegacyMaterialMapping {
-    public ProtocolBlockStateMapping() {
-        super(VanillaBlockType.STONE);
+    public ProtocolBlockStateMapping(BlockStateProvider blockStateProvider) {
+        super(blockStateProvider, VanillaBlockType.STONE);
 
         setID(AIR, 0);
         setID(STONE, 1);

@@ -1,22 +1,21 @@
 package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
+import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.block.ImmutableBlockProvider;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
+
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VanillaBlockDataStorage implements BlockDataStorage {
 
@@ -28,19 +27,22 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final DirectPalette directPalette;
     private final boolean omitDirectPaletteLength;
+    private final ImmutableBlockProvider immutableBlockProvider;
 
-    public VanillaBlockDataStorage(VanillaBlockDataStorage blockDataStorage) {
+    VanillaBlockDataStorage(VanillaBlockDataStorage blockDataStorage, ImmutableBlockProvider immutableBlockProvider) {
         this.hasSkyLight = blockDataStorage.hasSkyLight;
         this.directPalette = blockDataStorage.directPalette;
         this.omitDirectPaletteLength = blockDataStorage.omitDirectPaletteLength;
+        this.immutableBlockProvider = immutableBlockProvider;
 
         blockDataStorage.sectionMap.forEach((integer, blockDataSection) -> {
             sectionMap.put(integer, new BlockDataSection(blockDataSection));
         });
     }
 
-    public VanillaBlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight,
-                                   DirectPalette directPalette, boolean omitDirectPaletteLength) {
+    VanillaBlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight,
+                                   DirectPalette directPalette, boolean omitDirectPaletteLength, ImmutableBlockProvider immutableBlockProvider) {
+        this.immutableBlockProvider = immutableBlockProvider;
         this.sectionMap.putAll(sectionMap);
         this.hasSkyLight = hasSkyLight;
         this.directPalette = directPalette;
@@ -48,7 +50,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
     }
 
     public VanillaBlockDataStorage(BlockDataTable table, DirectPalette directPalette,
-                                   boolean omitDirectPaletteLength) {
+                                   boolean omitDirectPaletteLength, ImmutableBlockProvider immutableBlockProvider) {
 
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             AtomicBoolean isEmptyFlag = new AtomicBoolean();
@@ -76,6 +78,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
         this.hasSkyLight = table.hasSkylight();
         this.directPalette = directPalette;
         this.omitDirectPaletteLength = omitDirectPaletteLength;
+        this.immutableBlockProvider = immutableBlockProvider;
     }
 
     @Nullable
@@ -124,7 +127,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
                         for (int x = 0; x < SEC_WIDTH; x++) {
                             int chunkRelativeY = y + sectionY * SEC_HEIGHT;
                             BlockState state = section.getBlockStateStorage().get(x, y, z);
-                            Block block = state.getBlockType() == VanillaBlockType.AIR ? null : ImmutableBlock.of(state);
+                            Block block = state.getBlockType() == VanillaBlockType.AIR ? null : immutableBlockProvider.of(state);
                             table.setBlock(x, chunkRelativeY, z, block);
                             table.setBlockLight(x, chunkRelativeY, z, section.getBlockLight()[x][z][y]);
                             if (hasSkyLight)
@@ -142,5 +145,21 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
 
     public Map<Integer, BlockDataSection> getSectionMap() {
         return sectionMap;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VanillaBlockDataStorage)) return false;
+        VanillaBlockDataStorage that = (VanillaBlockDataStorage) o;
+        return hasSkyLight == that.hasSkyLight &&
+                omitDirectPaletteLength == that.omitDirectPaletteLength &&
+                Objects.equal(sectionMap, that.sectionMap) &&
+                Objects.equal(directPalette, that.directPalette);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(sectionMap, hasSkyLight, directPalette, omitDirectPaletteLength);
     }
 }

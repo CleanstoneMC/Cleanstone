@@ -3,6 +3,7 @@ package rocks.cleanstone.game.world.chunk;
 import com.google.common.base.Objects;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import java.util.Collection;
 
 public class ArrayBlockDataTable implements BlockDataTable {
 
-    private static final Block AIR = ImmutableBlock.of(VanillaBlockType.AIR);
+    private static final Block AIR = new ImmutableBlock(new BlockState(VanillaBlockType.AIR));
     private final Block[][][] blocks;
     private final byte[][][] blockLight, skyLight;
     private final boolean hasSkylight;

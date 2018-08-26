@@ -1,9 +1,7 @@
 package rocks.cleanstone.game.block.state.mapping;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.SimpleBlockStateProvider;
 import rocks.cleanstone.game.material.MaterialRegistry;
@@ -20,23 +18,17 @@ class ModernBlockStateMappingTest {
 
     @BeforeEach
     void setUp() {
-        blockStateProvider = new SimpleBlockStateProvider(new ConcurrentMapCacheManager());
-        blockStateProvider.init();
-        blockStateMapping = new ProtocolBlockStateMapping();
+        blockStateProvider = new SimpleBlockStateProvider();
+        blockStateMapping = new ProtocolBlockStateMapping(blockStateProvider);
         materialRegistry = new SimpleMaterialRegistry();
     }
 
     @Test
     void serializationShouldBeOneToOne() {
         materialRegistry.getBlockTypes().forEach(blockType -> {
-            BlockState state = BlockState.of(blockType);
+            BlockState state = blockStateProvider.of(blockType);
             BlockState deserialized = blockStateMapping.getState(blockStateMapping.getID(state));
             assertEquals(state, deserialized);
         });
-    }
-
-    @AfterEach
-    void tearDown() {
-        blockStateProvider.destroy();
     }
 }

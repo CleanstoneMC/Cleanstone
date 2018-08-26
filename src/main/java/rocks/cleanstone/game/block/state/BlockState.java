@@ -14,22 +14,22 @@ public class BlockState {
     private final BlockType blockType;
     private final Properties properties;
 
-    protected BlockState(BlockType blockType, Properties properties) {
+    /**
+     * @deprecated Use the {@link BlockStateProvider}
+     */
+    @SuppressWarnings("DeprecatedIsStillUsed")
+    public BlockState(BlockType blockType, Properties properties) {
         Preconditions.checkNotNull(blockType, "blockType cannot be null");
         this.blockType = blockType;
         this.properties = properties;
     }
 
-    protected BlockState(BlockType blockType) {
+    /**
+     * @deprecated Use the {@link BlockStateProvider}
+     */
+    @SuppressWarnings("DeprecatedIsStillUsed")
+    public BlockState(BlockType blockType) {
         this(blockType, new Properties(blockType.getProperties()));
-    }
-
-    public static BlockState of(BlockType blockType, Properties properties) {
-        return SimpleBlockStateProvider.get().of(blockType, properties);
-    }
-
-    public static BlockState of(BlockType blockType) {
-        return SimpleBlockStateProvider.get().of(blockType);
     }
 
     public BlockType getBlockType() {
@@ -38,10 +38,6 @@ public class BlockState {
 
     public <T> T getProperty(Property<T> property) {
         return properties.get(property);
-    }
-
-    public <T> BlockState withProperty(Property<T> property, T value) {
-        return SimpleBlockStateProvider.get().withProperty(blockType, property, value);
     }
 
     public Properties getProperties() {

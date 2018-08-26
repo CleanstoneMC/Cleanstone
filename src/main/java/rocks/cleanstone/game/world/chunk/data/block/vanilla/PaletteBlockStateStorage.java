@@ -2,25 +2,25 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-
+import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
+import rocks.cleanstone.game.world.chunk.BlockDataTable;
+import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
-import rocks.cleanstone.game.world.chunk.BlockDataTable;
-import rocks.cleanstone.net.utils.ByteBufUtils;
-
 public class PaletteBlockStateStorage {
 
     private static final int MINIMUM_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 4,
             MAX_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 8;
+
+    private static final BlockState AIR = new BlockState(VanillaBlockType.AIR);
 
     private final DirectPalette directPalette;
     private final List<BlockState> indirectPalette;
@@ -29,11 +29,12 @@ public class PaletteBlockStateStorage {
     private int bitsPerEntry;
     private EntrySizeBasedStorage baseStorage;
 
+
     public PaletteBlockStateStorage(DirectPalette directPalette, boolean omitDirectPaletteLength) {
         this.directPalette = directPalette;
         this.bitsPerEntry = MINIMUM_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE;
         this.indirectPalette = new ArrayList<>();
-        indirectPalette.add(BlockState.of(VanillaBlockType.AIR));
+        indirectPalette.add(AIR);
         this.baseStorage = new EntrySizeBasedStorage(bitsPerEntry, 4096);
         this.omitDirectPaletteLength = omitDirectPaletteLength;
     }
@@ -121,7 +122,7 @@ public class PaletteBlockStateStorage {
 
     public BlockState get(int x, int y, int z) {
         int paletteIndex = baseStorage.get(getPositionIndex(x, y, z));
-        if (paletteIndex == 0) return BlockState.of(VanillaBlockType.AIR);
+        if (paletteIndex == 0) return AIR;
         return getBlockState(paletteIndex);
     }
 

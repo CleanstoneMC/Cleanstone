@@ -2,12 +2,11 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.block.ImmutableBlockProvider;
+import rocks.cleanstone.game.block.SimpleImmutableBlockProvider;
 import rocks.cleanstone.game.block.state.SimpleBlockStateProvider;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.material.MaterialRegistry;
@@ -30,19 +29,20 @@ class PaletteBlockStateStorageTest {
     private MaterialRegistry materialRegistry;
     private SimpleBlockStateProvider blockStateProvider;
     private PaletteBlockStateStorage storage;
+    private ImmutableBlockProvider immutableBlockProvider;
 
     @BeforeEach
     void createStorageByTable() {
-        blockStateProvider = new SimpleBlockStateProvider(new ConcurrentMapCacheManager());
-        blockStateProvider.init();
+        blockStateProvider = new SimpleBlockStateProvider();
+        immutableBlockProvider = new SimpleImmutableBlockProvider(blockStateProvider);
 
         random = new Random(1);
-        blockStateMapping = new ProtocolBlockStateMapping();
+        blockStateMapping = new ProtocolBlockStateMapping(blockStateProvider);
         materialRegistry = new SimpleMaterialRegistry();
 
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 40; i++) {
-            Block randomBlock = ImmutableBlock.of(
+            Block randomBlock = immutableBlockProvider.of(
                     new ArrayList<>(materialRegistry.getBlockTypes())
                             .get(random.nextInt(materialRegistry.getBlockTypes().size())));
             blockDataTable.setBlock(random.nextInt(16), random.nextInt(256), random.nextInt(16), randomBlock);
@@ -63,10 +63,5 @@ class PaletteBlockStateStorageTest {
         }
         assertEquals(storage, deserialized);
         buf.release();
-    }
-
-    @AfterEach
-    void tearDown() {
-        blockStateProvider.destroy();
     }
 }

@@ -1,9 +1,5 @@
 package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
@@ -11,12 +7,18 @@ import rocks.cleanstone.data.Codec;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class VanillaBlockDataCodec implements Codec<VanillaBlockDataStorage, ByteBuf> {
 
+    private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
     private final DirectPalette directPalette;
     private final boolean omitDirectPaletteLength;
 
-    public VanillaBlockDataCodec(DirectPalette directPalette, boolean omitDirectPaletteLength) {
+    public VanillaBlockDataCodec(VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory, DirectPalette directPalette, boolean omitDirectPaletteLength) {
+        this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
         this.directPalette = directPalette;
         this.omitDirectPaletteLength = omitDirectPaletteLength;
     }
@@ -33,7 +35,7 @@ public class VanillaBlockDataCodec implements Codec<VanillaBlockDataStorage, Byt
                 sectionMap.put(sectionY, section);
             }
         }
-        return new VanillaBlockDataStorage(sectionMap, true, directPalette, omitDirectPaletteLength);
+        return vanillaBlockDataStorageFactory.get(sectionMap, true, directPalette, omitDirectPaletteLength);
     }
 
     @Override
