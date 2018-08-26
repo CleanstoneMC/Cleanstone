@@ -4,17 +4,37 @@ import rocks.cleanstone.data.vanilla.nbt.TagType;
 import rocks.cleanstone.data.vanilla.nbt.VanillaTagType;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 public class DoubleTag extends AbstractTag<Double> {
 
-    public DoubleTag(byte[] rawData) {
-        super(rawData);
+    private Double value;
+
+    public DoubleTag() {
+        super();
+    }
+
+    public DoubleTag(Double value) {
+        super(value);
+        this.value = value;
     }
 
     @Override
-    public Double get() {
-        return ByteBuffer.wrap(this.rawData).order(ByteOrder.BIG_ENDIAN).asDoubleBuffer().get();
+    public Double getValue() {
+        return value;
+    }
+
+    @Override
+    public AbstractTag loadBuffer(ByteBuffer buffer) {
+        this.value = buffer.getDouble();
+        return this;
+    }
+
+    @Override
+    public void writeToBuffer(ByteBuffer buffer) {
+        if (value == null) {
+            throw new IllegalStateException("DoubleTag has no value.");
+        }
+        buffer.putDouble(value);
     }
 
     @Override

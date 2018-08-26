@@ -4,17 +4,37 @@ import rocks.cleanstone.data.vanilla.nbt.TagType;
 import rocks.cleanstone.data.vanilla.nbt.VanillaTagType;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 public class ShortTag extends AbstractTag<Short> {
 
-    public ShortTag(byte[] rawData) {
-        super(rawData);
+    private Short value;
+
+    public ShortTag() {
+        super();
+    }
+
+    public ShortTag(Short value) {
+        super(value);
+        this.value = value;
     }
 
     @Override
-    public Short get() {
-        return ByteBuffer.wrap(this.rawData).order(ByteOrder.BIG_ENDIAN).asShortBuffer().get();
+    public Short getValue() {
+        return value;
+    }
+
+    @Override
+    public AbstractTag loadBuffer(ByteBuffer buffer) {
+        this.value = buffer.getShort();
+        return this;
+    }
+
+    @Override
+    public void writeToBuffer(ByteBuffer buffer) {
+        if (value == null) {
+            throw new IllegalStateException("ShortTag has no value.");
+        }
+        buffer.putShort(value);
     }
 
     @Override
