@@ -20,7 +20,7 @@ public class PaletteBlockStateStorage {
     private static final int MINIMUM_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 4,
             MAX_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 8;
 
-    private static final BlockState AIR = new BlockState(VanillaBlockType.AIR);
+    private static final BlockState AIR = BlockState.of(VanillaBlockType.AIR);
 
     private final DirectPalette directPalette;
     private final List<BlockState> indirectPalette;

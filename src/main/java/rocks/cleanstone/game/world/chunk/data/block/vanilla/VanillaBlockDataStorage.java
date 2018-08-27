@@ -4,7 +4,7 @@ import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.ImmutableBlockProvider;
+import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
@@ -27,13 +27,11 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final DirectPalette directPalette;
     private final boolean omitDirectPaletteLength;
-    private final ImmutableBlockProvider immutableBlockProvider;
 
-    VanillaBlockDataStorage(VanillaBlockDataStorage blockDataStorage, ImmutableBlockProvider immutableBlockProvider) {
+    VanillaBlockDataStorage(VanillaBlockDataStorage blockDataStorage) {
         this.hasSkyLight = blockDataStorage.hasSkyLight;
         this.directPalette = blockDataStorage.directPalette;
         this.omitDirectPaletteLength = blockDataStorage.omitDirectPaletteLength;
-        this.immutableBlockProvider = immutableBlockProvider;
 
         blockDataStorage.sectionMap.forEach((integer, blockDataSection) -> {
             sectionMap.put(integer, new BlockDataSection(blockDataSection));
@@ -41,8 +39,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
     }
 
     VanillaBlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight,
-                                   DirectPalette directPalette, boolean omitDirectPaletteLength, ImmutableBlockProvider immutableBlockProvider) {
-        this.immutableBlockProvider = immutableBlockProvider;
+                                   DirectPalette directPalette, boolean omitDirectPaletteLength) {
         this.sectionMap.putAll(sectionMap);
         this.hasSkyLight = hasSkyLight;
         this.directPalette = directPalette;
@@ -50,7 +47,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
     }
 
     public VanillaBlockDataStorage(BlockDataTable table, DirectPalette directPalette,
-                                   boolean omitDirectPaletteLength, ImmutableBlockProvider immutableBlockProvider) {
+                                   boolean omitDirectPaletteLength) {
 
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             AtomicBoolean isEmptyFlag = new AtomicBoolean();
@@ -78,7 +75,6 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
         this.hasSkyLight = table.hasSkylight();
         this.directPalette = directPalette;
         this.omitDirectPaletteLength = omitDirectPaletteLength;
-        this.immutableBlockProvider = immutableBlockProvider;
     }
 
     @Nullable
@@ -127,7 +123,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
                         for (int x = 0; x < SEC_WIDTH; x++) {
                             int chunkRelativeY = y + sectionY * SEC_HEIGHT;
                             BlockState state = section.getBlockStateStorage().get(x, y, z);
-                            Block block = state.getBlockType() == VanillaBlockType.AIR ? null : immutableBlockProvider.of(state);
+                            Block block = state.getBlockType() == VanillaBlockType.AIR ? null : ImmutableBlock.of(state);
                             table.setBlock(x, chunkRelativeY, z, block);
                             table.setBlockLight(x, chunkRelativeY, z, section.getBlockLight()[x][z][y]);
                             if (hasSkyLight)

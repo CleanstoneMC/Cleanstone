@@ -1,12 +1,15 @@
 package rocks.cleanstone.game.world.data;
 
 import io.netty.buffer.ByteBuf;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.data.Codec;
 import rocks.cleanstone.data.EnumCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
-import rocks.cleanstone.game.block.state.BlockStateProvider;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.ChunkDataKeyFactory;
@@ -15,11 +18,6 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
-
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
 
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
 
@@ -32,16 +30,19 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     /**
      * @deprecated Use the {@link LevelDBWorldDataSourceFactory}
      */
-    public LevelDBWorldDataSource(BlockStateProvider blockStateProvider,
-                                  VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,
-                                  File worldDataFolder, String worldID) throws IOException {
+    public LevelDBWorldDataSource(
+            VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,
+            ProtocolBlockStateMapping protocolBlockStateMapping,
+            File worldDataFolder,
+            String worldID
+    ) throws IOException {
         super(new File(worldDataFolder, worldID));
         this.vanillaBlockDataCodecFactory = vanillaBlockDataCodecFactory;
         this.worldID = worldID;
 
         // TODO read general world data (dimension, seed, etc)
         hasSkyLight = true;
-        directPalette = new DirectPalette(new ProtocolBlockStateMapping(blockStateProvider), 14);
+        directPalette = new DirectPalette(protocolBlockStateMapping, 14);
     }
 
     @Nullable
@@ -58,7 +59,9 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
             return null;
         }
         blocksKey.release();
-        if (blockDataStorage == null) return null;
+        if (blockDataStorage == null) {
+            return null;
+        }
         // TODO load blockEntities, entities, biome state, version
         return new SimpleChunk(blockDataStorage.constructTable(), blockDataStorage, Collections.emptyList(), x, y);
     }

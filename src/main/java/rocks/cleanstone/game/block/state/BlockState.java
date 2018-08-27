@@ -10,26 +10,31 @@ import rocks.cleanstone.game.material.block.BlockType;
  * An immutable state of a block containing its material and properties
  */
 public class BlockState {
+    private static CachingBlockStateProvider loadingSource;
+
+    static void setLoadingSource(CachingBlockStateProvider loadingSource) {
+        BlockState.loadingSource = loadingSource;
+    }
+
+    public static BlockState of(BlockType blockType, Properties properties) {
+        return loadingSource.of(blockType, properties);
+    }
+
+    public static BlockState of(BlockType blockType) {
+        return loadingSource.of(blockType);
+    }
+
+    public static <T> BlockState withProperty(BlockType blockType, Property<T> property, T value) {
+        return loadingSource.withProperty(blockType, property, value);
+    }
 
     private final BlockType blockType;
     private final Properties properties;
 
-    /**
-     * @deprecated Use the {@link BlockStateProvider}
-     */
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    public BlockState(BlockType blockType, Properties properties) {
+    BlockState(BlockType blockType, Properties properties) {
         Preconditions.checkNotNull(blockType, "blockType cannot be null");
         this.blockType = blockType;
         this.properties = properties;
-    }
-
-    /**
-     * @deprecated Use the {@link BlockStateProvider}
-     */
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    public BlockState(BlockType blockType) {
-        this(blockType, new Properties(blockType.getProperties()));
     }
 
     public BlockType getBlockType() {
