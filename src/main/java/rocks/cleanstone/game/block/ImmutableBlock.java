@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.block;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.property.Properties;
 import rocks.cleanstone.game.material.block.BlockType;
@@ -9,21 +11,31 @@ import rocks.cleanstone.game.material.block.BlockType;
  */
 public class ImmutableBlock implements Block {
     private static CachingImmutableBlockProvider loadingSource;
+    private static Logger log = LoggerFactory.getLogger(ImmutableBlock.class);
 
     static void setLoadingSource(CachingImmutableBlockProvider loadingSource) {
         ImmutableBlock.loadingSource = loadingSource;
     }
 
+    private static CachingImmutableBlockProvider getLoadingSource() {
+        if (loadingSource == null) {
+            log.warn("no ImmutableBlock loading source provided, caching will not work");
+            return new CachingImmutableBlockProvider();
+        } else {
+            return loadingSource;
+        }
+    }
+
     public static ImmutableBlock of(BlockState state) {
-        return loadingSource.of(state);
+        return getLoadingSource().of(state);
     }
 
     public static ImmutableBlock of(BlockType blockType) {
-        return loadingSource.of(blockType);
+        return getLoadingSource().of(blockType);
     }
 
     public static ImmutableBlock of(BlockType blockType, Properties properties) {
-        return loadingSource.of(blockType, properties);
+        return getLoadingSource().of(blockType, properties);
     }
 
     private final BlockState state;

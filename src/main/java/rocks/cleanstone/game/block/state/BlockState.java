@@ -2,6 +2,10 @@ package rocks.cleanstone.game.block.state;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import rocks.cleanstone.game.block.CachingImmutableBlockProvider;
+import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.property.Properties;
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
@@ -11,21 +15,31 @@ import rocks.cleanstone.game.material.block.BlockType;
  */
 public class BlockState {
     private static CachingBlockStateProvider loadingSource;
+    private static Logger log = LoggerFactory.getLogger(BlockState.class);
 
     static void setLoadingSource(CachingBlockStateProvider loadingSource) {
         BlockState.loadingSource = loadingSource;
     }
 
+    private static CachingBlockStateProvider getLoadingSource() {
+        if (loadingSource == null) {
+            log.warn("no BlockState loading source provided, caching will not work");
+            return new CachingBlockStateProvider();
+        } else {
+            return loadingSource;
+        }
+    }
+
     public static BlockState of(BlockType blockType, Properties properties) {
-        return loadingSource.of(blockType, properties);
+        return getLoadingSource().of(blockType, properties);
     }
 
     public static BlockState of(BlockType blockType) {
-        return loadingSource.of(blockType);
+        return getLoadingSource().of(blockType);
     }
 
     public static <T> BlockState withProperty(BlockType blockType, Property<T> property, T value) {
-        return loadingSource.withProperty(blockType, property, value);
+        return getLoadingSource().withProperty(blockType, property, value);
     }
 
     private final BlockType blockType;
