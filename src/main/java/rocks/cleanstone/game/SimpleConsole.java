@@ -7,7 +7,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.ConsoleInputEvent;
-import rocks.cleanstone.core.ConsoleInputEventPublisher;
 import rocks.cleanstone.game.chat.ConsoleSender;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandRegistry;
@@ -20,6 +19,10 @@ public class SimpleConsole implements ConsoleSender {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private CommandRegistry commandRegistry;
+
+    public SimpleConsole(CommandRegistry commandRegistry) {
+        this.commandRegistry = commandRegistry;
+    }
 
     @Override
     public void sendRawMessage(Text message) {
@@ -49,16 +52,6 @@ public class SimpleConsole implements ConsoleSender {
     @Override
     public String getName() {
         return getID().getName();
-    }
-
-    @Override
-    public void run() {
-        ConsoleInputEventPublisher.startInstance();
-    }
-
-    @Override
-    public void setCommandRegistry(CommandRegistry commandRegistry) {
-        this.commandRegistry = commandRegistry;
     }
 
     @EventListener
