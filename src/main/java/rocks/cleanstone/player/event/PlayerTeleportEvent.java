@@ -4,12 +4,12 @@ import rocks.cleanstone.game.entity.EntityMoveEvent;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.player.Player;
 
-public class PlayerMoveEvent extends EntityMoveEvent {
+public class PlayerTeleportEvent extends EntityMoveEvent {
     private final Player player;
     private final MoveReason moveReason;
 
-    public PlayerMoveEvent(Player player, HeadRotatablePosition oldPosition,
-                           HeadRotatablePosition newPosition, MoveReason moveReason) {
+    public PlayerTeleportEvent(Player player, HeadRotatablePosition oldPosition,
+                               HeadRotatablePosition newPosition, MoveReason moveReason) {
         super(player.getEntity(), oldPosition, newPosition);
         this.player = player;
         this.moveReason = moveReason;
@@ -22,5 +22,4 @@ public class PlayerMoveEvent extends EntityMoveEvent {
     public MoveReason getMoveReason() {
         return moveReason;
     }
-
 }

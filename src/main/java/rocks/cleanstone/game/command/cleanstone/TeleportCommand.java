@@ -7,7 +7,7 @@ import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.event.PlayerMoveEvent;
+import rocks.cleanstone.player.event.StandardMoveReason;
 
 import java.util.Collections;
 
@@ -52,7 +52,7 @@ public class TeleportCommand extends SimpleCommand {
             targetID = newPosition.toString();
         }
 
-        p1.teleport(newPosition, PlayerMoveEvent.StandardMoveReason.CLIENT_REQUEST);
+        p1.teleport(newPosition, StandardMoveReason.CLIENT_REQUEST);
         if (p1 == message.getCommandSender()) {
             p1.sendMessage("game.command.cleanstone.teleported-self", targetID);
         } else {

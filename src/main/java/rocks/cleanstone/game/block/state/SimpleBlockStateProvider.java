@@ -13,21 +13,18 @@ public class SimpleBlockStateProvider implements BlockStateProvider {
     @Cacheable("blockStates")
     @Override
     public BlockState of(BlockType blockType, Properties properties) {
-        System.out.println("two "  + blockType.hashCode());
         return new BlockState(blockType, properties);
     }
 
     @Cacheable("blockStates")
     @Override
     public BlockState of(BlockType blockType) {
-        System.out.println("one "  + blockType.hashCode());
         return new BlockState(blockType, new Properties(blockType.getProperties()));
     }
 
     @Cacheable("blockStates")
     @Override
     public <T> BlockState withProperty(BlockType blockType, Property<T> property, T value) {
-        System.out.println("three "  + blockType.hashCode());
         Properties properties = new PropertiesBuilder(blockType).withProperty(property, value).create();
 
         return new BlockState(blockType, properties);
