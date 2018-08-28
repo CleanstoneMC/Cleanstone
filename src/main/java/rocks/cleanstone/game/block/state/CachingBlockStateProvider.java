@@ -8,25 +8,22 @@ import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
 
 @Component("blockStateProvider")
-public class SimpleBlockStateProvider implements BlockStateProvider {
+public class CachingBlockStateProvider {
 
-    @Cacheable("blockStates")
-    @Override
+    @Cacheable(value = "blockStates", sync = true)
     public BlockState of(BlockType blockType, Properties properties) {
         return new BlockState(blockType, properties);
     }
 
-    @Cacheable("blockStates")
-    @Override
+    @Cacheable(value = "blockStates", sync = true)
     public BlockState of(BlockType blockType) {
-        return new BlockState(blockType, new Properties(blockType.getProperties()));
+        return BlockState.of(blockType, new Properties(blockType.getProperties()));
     }
 
-    @Cacheable("blockStates")
-    @Override
+    @Cacheable(value = "blockStates", sync = true)
     public <T> BlockState withProperty(BlockType blockType, Property<T> property, T value) {
         Properties properties = new PropertiesBuilder(blockType).withProperty(property, value).create();
 
-        return new BlockState(blockType, properties);
+        return BlockState.of(blockType, properties);
     }
 }

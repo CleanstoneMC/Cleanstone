@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.ImmutableBlockProvider;
+import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.event.BlockBreakEvent;
 import rocks.cleanstone.game.block.event.BlockPlaceEvent;
 import rocks.cleanstone.game.inventory.item.ItemStack;
@@ -30,14 +30,12 @@ public class UseItemListener {
 
     private final PlayerManager playerManager;
     private final MaterialRegistry materialRegistry;
-    private final ImmutableBlockProvider immutableBlockProvider;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public UseItemListener(PlayerManager playerManager, MaterialRegistry materialRegistry, ImmutableBlockProvider immutableBlockProvider) {
+    public UseItemListener(PlayerManager playerManager, MaterialRegistry materialRegistry) {
         this.playerManager = playerManager;
         this.materialRegistry = materialRegistry;
-        this.immutableBlockProvider = immutableBlockProvider;
     }
 
     @Async(value = "playerExec")
@@ -62,7 +60,7 @@ public class UseItemListener {
 
         BlockType blockType = materialRegistry.getBlockTypeByItemType(itemStack.getType());
         if (blockType != null) {
-            Block placedBlock = immutableBlockProvider.of(blockType);
+            Block placedBlock = ImmutableBlock.of(blockType);
 
             player.getEntity().getWorld().setBlockAt(newBlockPosition, placedBlock);
             CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, packet.getFace()));
@@ -81,7 +79,7 @@ public class UseItemListener {
         }
         PlayerDiggingPacket packet = (PlayerDiggingPacket) event.getPacket();
 
-        Block placedBlock = immutableBlockProvider.of(VanillaBlockType.AIR);
+        Block placedBlock = ImmutableBlock.of(VanillaBlockType.AIR);
 
         event.getPlayer().getEntity().getWorld().setBlockAt(packet.getPosition(), placedBlock);
         CleanstoneServer.publishEvent(new BlockBreakEvent(placedBlock, packet.getPosition(),

@@ -14,9 +14,9 @@ public class Cleanstone {
 
     public static void start() {
         if (startupArgs.length > 0 && startupArgs[0].equalsIgnoreCase("subserver")) {
-            SpringApplication.run(CleanstoneSubServer.class, startupArgs);
+            SpringApplication.run(CleanstoneSubServer.class, startupArgs).start();
         } else {
-            SpringApplication.run(CleanstoneMainServer.class, startupArgs);
+            SpringApplication.run(CleanstoneMainServer.class, startupArgs).start();
         }
     }
 }

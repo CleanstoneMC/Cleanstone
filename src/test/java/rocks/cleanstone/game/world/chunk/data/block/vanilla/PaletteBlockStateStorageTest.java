@@ -5,9 +5,9 @@ import io.netty.buffer.Unpooled;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.ImmutableBlockProvider;
-import rocks.cleanstone.game.block.SimpleImmutableBlockProvider;
-import rocks.cleanstone.game.block.state.SimpleBlockStateProvider;
+import rocks.cleanstone.game.block.CachingImmutableBlockProvider;
+import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.block.state.CachingBlockStateProvider;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.SimpleMaterialRegistry;
@@ -27,22 +27,19 @@ class PaletteBlockStateStorageTest {
     private Random random;
     private BlockStateMapping<Integer> blockStateMapping;
     private MaterialRegistry materialRegistry;
-    private SimpleBlockStateProvider blockStateProvider;
+    private CachingBlockStateProvider blockStateProvider;
     private PaletteBlockStateStorage storage;
-    private ImmutableBlockProvider immutableBlockProvider;
 
     @BeforeEach
     void createStorageByTable() {
-        blockStateProvider = new SimpleBlockStateProvider();
-        immutableBlockProvider = new SimpleImmutableBlockProvider(blockStateProvider);
-
+        blockStateProvider = new CachingBlockStateProvider();
         random = new Random(1);
-        blockStateMapping = new ProtocolBlockStateMapping(blockStateProvider);
+        blockStateMapping = new ProtocolBlockStateMapping();
         materialRegistry = new SimpleMaterialRegistry();
 
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 40; i++) {
-            Block randomBlock = immutableBlockProvider.of(
+            Block randomBlock = ImmutableBlock.of(
                     new ArrayList<>(materialRegistry.getBlockTypes())
                             .get(random.nextInt(materialRegistry.getBlockTypes().size())));
             blockDataTable.setBlock(random.nextInt(16), random.nextInt(256), random.nextInt(16), randomBlock);

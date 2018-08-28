@@ -2,8 +2,9 @@ package rocks.cleanstone.net.minecraft.protocol.v1_13;
 
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.game.block.state.BlockStateProvider;
+import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
+
 
 import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockType.*;
 
@@ -11,8 +12,7 @@ import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockType.*;
 @Component("protocolBlockStateMapping_v1_13")
 public class ProtocolBlockStateMapping extends ModernBlockStateMapping {
 
-    public ProtocolBlockStateMapping(BlockStateProvider blockStateProvider) {
-        super(blockStateProvider.of(STONE), blockStateProvider);
+    public ProtocolBlockStateMapping() {
         setBaseID(AIR, 0);
         setBaseID(STONE, 1);
         setBaseID(GRANITE, 2);
@@ -606,5 +606,10 @@ public class ProtocolBlockStateMapping extends ModernBlockStateMapping {
         setBaseID(CAVE_AIR, 8575);
         setBaseID(BUBBLE_COLUMN, 8576);
         setBaseID(STRUCTURE_BLOCK, 8578);
+    }
+
+    @Override
+    protected BlockState createDefaultState() {
+        return BlockState.of(STONE);
     }
 }

@@ -5,8 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.SimpleImmutableBlockProvider;
-import rocks.cleanstone.game.block.state.SimpleBlockStateProvider;
+import rocks.cleanstone.game.block.CachingImmutableBlockProvider;
+import rocks.cleanstone.game.block.state.CachingBlockStateProvider;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.SimpleMaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
@@ -32,12 +32,12 @@ class VanillaBlockDataStorageTest {
 
     @BeforeEach
     void createStorageByTable() {
-        SimpleBlockStateProvider blockStateProvider = new SimpleBlockStateProvider();
-        SimpleImmutableBlockProvider immutableBlockProvider = new SimpleImmutableBlockProvider(blockStateProvider);
-        simpleVanillaBlockDataStorageFactory = new SimpleVanillaBlockDataStorageFactory(immutableBlockProvider);
+        CachingBlockStateProvider blockStateProvider = new CachingBlockStateProvider();
+        CachingImmutableBlockProvider immutableBlockProvider = new CachingImmutableBlockProvider();
+        simpleVanillaBlockDataStorageFactory = new SimpleVanillaBlockDataStorageFactory();
 
         random = new Random(1);
-        directPalette = new DirectPalette(new ProtocolBlockStateMapping(blockStateProvider), 14);
+        directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
         MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
 
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
@@ -47,7 +47,7 @@ class VanillaBlockDataStorageTest {
                             .get(random.nextInt(materialRegistry.getBlockTypes().size())));
             blockDataTable.setBlock(random.nextInt(16), random.nextInt(256), random.nextInt(16), randomBlock);
         }
-        storage = new VanillaBlockDataStorage(blockDataTable, directPalette, true, immutableBlockProvider);
+        storage = new VanillaBlockDataStorage(blockDataTable, directPalette, true);
     }
 
     @Disabled

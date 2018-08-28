@@ -2,7 +2,6 @@ package rocks.cleanstone.game.block.state.mapping;
 
 import com.google.common.base.Preconditions;
 import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.block.state.BlockStateProvider;
 import rocks.cleanstone.game.material.Material;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.item.ItemType;
@@ -11,11 +10,9 @@ import rocks.cleanstone.utils.SimpleIDMapping;
 
 public class LegacyMaterialMapping implements BlockStateMapping<Integer>, ItemTypeMapping<Integer> {
 
-    private final BlockStateProvider blockStateProvider;
     private final SimpleIDMapping<Material, Integer> materialMapping;
 
-    public LegacyMaterialMapping(BlockStateProvider blockStateProvider, Material defaultMaterial) {
-        this.blockStateProvider = blockStateProvider;
+    public LegacyMaterialMapping(Material defaultMaterial) {
         materialMapping = new SimpleIDMapping<>(defaultMaterial);
     }
 
@@ -47,7 +44,7 @@ public class LegacyMaterialMapping implements BlockStateMapping<Integer>, ItemTy
 
     @Override
     public BlockState getState(Integer id) {
-        return blockStateProvider.of((BlockType) materialMapping.getType(id));
+        return BlockState.of((BlockType) materialMapping.getType(id));
     }
 
     @Override

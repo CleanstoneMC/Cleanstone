@@ -11,7 +11,7 @@ import java.util.Collection;
 
 public class ArrayBlockDataTable implements BlockDataTable {
 
-    private static final Block AIR = new ImmutableBlock(new BlockState(VanillaBlockType.AIR));
+    private static final Block AIR = ImmutableBlock.of(VanillaBlockType.AIR);
     private final Block[][][] blocks;
     private final byte[][][] blockLight, skyLight;
     private final boolean hasSkylight;

@@ -14,7 +14,7 @@ import java.util.HashSet;
 
 public class MapBlockDataTable implements BlockDataTable {
 
-    private static final Block AIR = new ImmutableBlock(new BlockState(VanillaBlockType.AIR));
+    private static final Block AIR = ImmutableBlock.of(VanillaBlockType.AIR);
 
     private final Table<Integer, Integer, HashMap<Integer, Block>> coordHeightMapTable;
 
