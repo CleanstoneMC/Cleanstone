@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 @Component
 public class ConsoleInputEventPublisher implements Lifecycle {
     private final Logger logger = LoggerFactory.getLogger(ConsoleInputEventPublisher.class);
-    private boolean running = false;
+    private static boolean running = false;
 
     @Override
     public void start() {
