@@ -22,12 +22,13 @@ import java.util.Locale;
 
 public abstract class CleanstoneServer implements ApplicationRunner {
 
+    private static final Logger logger = LoggerFactory.getLogger(CleanstoneServer.class);
     private static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
     private static CleanstoneServer INSTANCE;
+    private static Thread restartThread;
 
     protected final CleanstoneConfig cleanstoneConfig;
     protected final MinecraftConfig minecraftConfig;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     protected CleanstoneEventPublisher eventPublisher;
     @Autowired
@@ -69,10 +70,16 @@ public abstract class CleanstoneServer implements ApplicationRunner {
         getInstance().context.close();
     }
 
-    public static void restart() {
-        Thread restartThread = new Thread(() -> {
+    public static synchronized void restart() {
+        if (restartThread != null) {
+            logger.warn("Server is already restarting");
+            return;
+        }
+
+        restartThread = new Thread(() -> {
             stop();
             Cleanstone.start();
+            restartThread = null;
         });
         restartThread.setDaemon(false);
         restartThread.start();
