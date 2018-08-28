@@ -8,26 +8,28 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
+import rocks.cleanstone.game.world.data.LevelDBWorldDataSourceFactory;
 import rocks.cleanstone.game.world.data.WorldDataSource;
-import rocks.cleanstone.game.world.generation.MountainWorldGenerator;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.RegionManager;
 
 import java.io.File;
+import java.io.IOException;
 
 @Component
 public class SimpleWorldLoader implements WorldLoader {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ApplicationContext context;
-    private final MaterialRegistry materialRegistry;
+    private final WorldGeneratorManager worldGeneratorManager;
+    private final LevelDBWorldDataSourceFactory levelDBWorldDataSourceFactory;
 
     @Autowired
-    public SimpleWorldLoader(ApplicationContext context, MaterialRegistry materialRegistry) {
+    public SimpleWorldLoader(ApplicationContext context, WorldGeneratorManager worldGeneratorManager, LevelDBWorldDataSourceFactory levelDBWorldDataSourceFactory) {
         this.context = context;
-        this.materialRegistry = materialRegistry;
+        this.worldGeneratorManager = worldGeneratorManager;
+        this.levelDBWorldDataSourceFactory = levelDBWorldDataSourceFactory;
     }
 
     @Async(value = "worldExec")
@@ -36,10 +38,20 @@ public class SimpleWorldLoader implements WorldLoader {
         logger.info("Loading world '" + id + "'...");
         // TODO Fetch generator from dataSource
 
-        Class<? extends WorldGenerator> worldGeneratorClass = MountainWorldGenerator.class;
+        WorldGenerator worldGenerator = worldGeneratorManager.getWorldGenerator("mountainWorldGenerator");
 
-        WorldGenerator worldGenerator = context.getBean(worldGeneratorClass, 234892734);
-        WorldDataSource worldDataSource = context.getBean(WorldDataSource.class, getWorldDataFolder(), id);
+        if (worldGenerator == null) {
+            logger.error("Cannot find Worldgenerator - Exiting");
+            System.exit(0);
+        }
+
+        WorldDataSource worldDataSource;
+        try {
+            worldDataSource = levelDBWorldDataSourceFactory.get(getWorldDataFolder(), id);
+        } catch (IOException e) {
+            logger.error("Could not get World Datasource", e);
+            return new AsyncResult<>(null);
+        }
         ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);
         RegionManager regionManager = context.getBean(RegionManager.class, chunkProvider);
         World world = context.getBean(World.class, id, worldGenerator, worldDataSource, regionManager);

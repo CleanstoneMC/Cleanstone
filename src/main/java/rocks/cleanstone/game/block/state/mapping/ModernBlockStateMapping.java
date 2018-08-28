@@ -2,36 +2,35 @@ package rocks.cleanstone.game.block.state.mapping;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
-import rocks.cleanstone.game.block.state.property.PropertyDefinition;
-import rocks.cleanstone.game.material.block.BlockType;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
+import rocks.cleanstone.game.block.state.property.PropertyDefinition;
+import rocks.cleanstone.game.material.block.BlockType;
 
-public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
+public abstract class ModernBlockStateMapping implements BlockStateMapping<Integer> {
 
     private final Map<BlockType, Integer> blockTypeBaseStateIDMap;
     private final Map<BlockType, PropertyDefinition[]> blockTypeDefaultPropertiesMap;
     private final NavigableMap<Integer, BlockType> baseStateIDBlockTypeMap;
-    private final BlockState defaultState;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    protected BlockState _defaultState;
 
     public ModernBlockStateMapping(ModernBlockStateMapping defaultMapping) {
         blockTypeBaseStateIDMap = new ConcurrentHashMap<>(defaultMapping.blockTypeBaseStateIDMap);
         blockTypeDefaultPropertiesMap = new ConcurrentHashMap<>(defaultMapping.blockTypeDefaultPropertiesMap);
         baseStateIDBlockTypeMap = new ConcurrentSkipListMap<>(defaultMapping.baseStateIDBlockTypeMap);
-        defaultState = null;
+        _defaultState = defaultMapping.getDefaultState();
     }
 
-    public ModernBlockStateMapping(BlockState defaultState) {
-        this.defaultState = defaultState;
+    public ModernBlockStateMapping() {
         blockTypeBaseStateIDMap = new ConcurrentHashMap<>();
         blockTypeDefaultPropertiesMap = new ConcurrentHashMap<>();
         baseStateIDBlockTypeMap = new ConcurrentSkipListMap<>();
@@ -74,11 +73,11 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
                 properties = state.getBlockType().getProperties();
             }
             return serializeState(state, properties, baseID);
-        } else if (defaultState != null && state != defaultState) {
-            return getID(defaultState);
+        } else if (getDefaultState() != null && state != getDefaultState()) {
+            return getID(getDefaultState());
         } else {
             throw new IllegalStateException("There is neither an explicit or inherited baseID for "
-                    + state + " nor for the default state " + defaultState);
+                    + state + " nor for the default state " + getDefaultState());
         }
     }
 
@@ -95,8 +94,8 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
             }
             return deserializeState(id, blockType, properties, baseID);
         } catch (IllegalArgumentException e) {
-            if (defaultState != null) {
-                return defaultState;
+            if (getDefaultState() != null) {
+                return getDefaultState();
             } else {
                 throw new IllegalStateException("There is neither an explicit or inherited state for "
                         + id + " and there is no default state");
@@ -134,7 +133,13 @@ public class ModernBlockStateMapping implements BlockStateMapping<Integer> {
         return BlockState.of(blockType, builder.create());
     }
 
+    protected abstract BlockState createDefaultState();
+
     public BlockState getDefaultState() {
-        return defaultState;
+        if (_defaultState == null) {
+            return (_defaultState = createDefaultState());
+        } else {
+            return _defaultState;
+        }
     }
 }

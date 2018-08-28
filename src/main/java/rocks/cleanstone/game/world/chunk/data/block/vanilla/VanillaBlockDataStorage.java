@@ -1,14 +1,8 @@
 package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
+import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
@@ -17,6 +11,11 @@ import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
+
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VanillaBlockDataStorage implements BlockDataStorage {
 
@@ -29,7 +28,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
     private final DirectPalette directPalette;
     private final boolean omitDirectPaletteLength;
 
-    public VanillaBlockDataStorage(VanillaBlockDataStorage blockDataStorage) {
+    VanillaBlockDataStorage(VanillaBlockDataStorage blockDataStorage) {
         this.hasSkyLight = blockDataStorage.hasSkyLight;
         this.directPalette = blockDataStorage.directPalette;
         this.omitDirectPaletteLength = blockDataStorage.omitDirectPaletteLength;
@@ -39,7 +38,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
         });
     }
 
-    public VanillaBlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight,
+    VanillaBlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight,
                                    DirectPalette directPalette, boolean omitDirectPaletteLength) {
         this.sectionMap.putAll(sectionMap);
         this.hasSkyLight = hasSkyLight;
@@ -142,5 +141,21 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
 
     public Map<Integer, BlockDataSection> getSectionMap() {
         return sectionMap;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VanillaBlockDataStorage)) return false;
+        VanillaBlockDataStorage that = (VanillaBlockDataStorage) o;
+        return hasSkyLight == that.hasSkyLight &&
+                omitDirectPaletteLength == that.omitDirectPaletteLength &&
+                Objects.equal(sectionMap, that.sectionMap) &&
+                Objects.equal(directPalette, that.directPalette);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(sectionMap, hasSkyLight, directPalette, omitDirectPaletteLength);
     }
 }

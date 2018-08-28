@@ -2,24 +2,22 @@ package rocks.cleanstone.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.Lifecycle;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ConsoleInputEventPublisher {
-    // can not use a spring bean, because the stdin reader needs to persist across spring context restarts
-    private static ConsoleInputEventPublisher INSTANCE;
-
+@Component
+public class ConsoleInputEventPublisher implements Lifecycle {
     private final Logger logger = LoggerFactory.getLogger(ConsoleInputEventPublisher.class);
+    private static boolean running = false;
 
-    private ConsoleInputEventPublisher() {
-        init();
-    }
+    @Override
+    public void start() {
+        running = true;
 
-    @PostConstruct
-    private void init() {
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
         Thread inputReaderThread = new Thread(() -> {
@@ -43,9 +41,12 @@ public class ConsoleInputEventPublisher {
         inputReaderThread.start();
     }
 
-    public static synchronized void startInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ConsoleInputEventPublisher();
-        }
+    @Override
+    public void stop() {
+    }
+
+    @Override
+    public boolean isRunning() {
+        return running;
     }
 }

@@ -1,7 +1,6 @@
 package rocks.cleanstone.game.block.state.mapping;
 
 import com.google.common.base.Preconditions;
-
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.Material;
 import rocks.cleanstone.game.material.block.BlockType;

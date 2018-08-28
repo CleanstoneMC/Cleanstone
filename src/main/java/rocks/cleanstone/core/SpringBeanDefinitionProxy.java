@@ -25,4 +25,8 @@ public class SpringBeanDefinitionProxy {
 
         beanDefinitionRegistry.registerBeanDefinition(beanName, beanDefinition);
     }
+
+    public DefaultListableBeanFactory getBeanDefinitionRegistry() {
+        return beanDefinitionRegistry;
+    }
 }

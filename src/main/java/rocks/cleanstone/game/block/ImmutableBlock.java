@@ -1,35 +1,50 @@
 package rocks.cleanstone.game.block;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.property.Properties;
 import rocks.cleanstone.game.material.block.BlockType;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A standard block in the world that cannot be changed without being replaced
  */
 public class ImmutableBlock implements Block {
+    private static CachingImmutableBlockProvider loadingSource;
+    private static Logger log = LoggerFactory.getLogger(ImmutableBlock.class);
 
-    private static final Map<BlockState, ImmutableBlock> CACHED_BLOCKS = new ConcurrentHashMap<>();
+    static void setLoadingSource(CachingImmutableBlockProvider loadingSource) {
+        ImmutableBlock.loadingSource = loadingSource;
+    }
 
-    private final BlockState state;
-
-    private ImmutableBlock(BlockState state) {
-        this.state = state;
+    private static CachingImmutableBlockProvider getLoadingSource() {
+        if (loadingSource == null) {
+            log.warn("no ImmutableBlock loading source provided, caching will not work");
+            return new CachingImmutableBlockProvider();
+        } else {
+            return loadingSource;
+        }
     }
 
     public static ImmutableBlock of(BlockState state) {
-        return CACHED_BLOCKS.computeIfAbsent(state, k -> new ImmutableBlock(state));
+        return getLoadingSource().of(state);
     }
 
     public static ImmutableBlock of(BlockType blockType) {
-        return of(BlockState.of(blockType));
+        return getLoadingSource().of(blockType);
     }
 
     public static ImmutableBlock of(BlockType blockType, Properties properties) {
-        return of(BlockState.of(blockType, properties));
+        return getLoadingSource().of(blockType, properties);
+    }
+
+    private final BlockState state;
+
+    /**
+     * @param state The Blockstate for the Block
+     */
+    ImmutableBlock(BlockState state) {
+        this.state = state;
     }
 
     @Override

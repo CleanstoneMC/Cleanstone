@@ -3,8 +3,9 @@ package rocks.cleanstone.net.minecraft.protocol.v1_13.outbound;
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodec;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
@@ -13,9 +14,14 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
 public class ChunkDataCodec implements PacketCodec {
 
     private final BlockStateMapping<Integer> blockStateMapping;
+    private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
+    private final VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory;
 
-    public ChunkDataCodec(BlockStateMapping<Integer> blockStateMapping) {
+    public ChunkDataCodec(BlockStateMapping<Integer> blockStateMapping, VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
+                          VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory) {
         this.blockStateMapping = blockStateMapping;
+        this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
+        this.vanillaBlockDataCodecFactory = vanillaBlockDataCodecFactory;
     }
 
     @Override
@@ -31,10 +37,10 @@ public class ChunkDataCodec implements PacketCodec {
         byteBuf.writeBoolean(chunkDataPacket.isGroundUpContinuous());
 
         DirectPalette directPalette = new DirectPalette(blockStateMapping, 14);
-        VanillaBlockDataStorage storage = new VanillaBlockDataStorage(chunkDataPacket.getBlockDataTable(),
+        VanillaBlockDataStorage storage = vanillaBlockDataStorageFactory.get(chunkDataPacket.getBlockDataTable(),
                 directPalette, true);
 
-        ByteBuf blockData = new VanillaBlockDataCodec(directPalette, true).serialize(storage);
+        ByteBuf blockData = vanillaBlockDataCodecFactory.get(directPalette, true).serialize(storage);
         byteBuf.writeBytes(blockData);
         blockData.release();
 

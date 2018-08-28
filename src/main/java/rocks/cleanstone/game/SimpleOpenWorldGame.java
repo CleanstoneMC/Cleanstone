@@ -3,55 +3,28 @@ package rocks.cleanstone.game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.Lifecycle;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
-import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 @Component("game")
 @Lazy()
-public class SimpleOpenWorldGame implements OpenWorldGame {
+public class SimpleOpenWorldGame implements OpenWorldGame, Lifecycle {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final WorldManager worldManager;
-    private final MaterialRegistry materialRegistry;
+    private final MinecraftConfig minecraftConfig;
     private String firstSpawnWorld = null;
+    private boolean running = false;
 
     @Autowired
-    public SimpleOpenWorldGame(WorldManager worldManager, MaterialRegistry materialRegistry) {
+    public SimpleOpenWorldGame(WorldManager worldManager, MinecraftConfig minecraftConfig) {
         this.worldManager = worldManager;
-        this.materialRegistry = materialRegistry;
-    }
-
-    @PostConstruct
-    public void init() {
-        logger.info("Started OpenWorldGame");
-        CleanstoneServer.getInstance().getMinecraftConfig().getAutoLoadWorlds().forEach(worldName -> {
-            this.worldManager.loadWorld(worldName).addCallback(world -> {
-                if (world == null) {
-                    this.worldManager.createWorld(worldName, new FlatWorldGenerator());
-                    //TODO: Change
-                    // Generator
-                }
-            }, throwable -> {
-                logger.error("Failed to load auto-load world " + worldName, throwable);
-            });
-        });
-    }
-
-    @PreDestroy
-    public void destroy() {
-        logger.info("Stopping OpenWorldGame");
-
-        this.worldManager.getLoadedWorlds().forEach(world -> this.worldManager.unloadWorld(world.getID()));
-
-        logger.info("Stopped OpenWorldGame");
+        this.minecraftConfig = minecraftConfig;
     }
 
     @Override
@@ -71,5 +44,38 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
         }
 
         return world;
+    }
+
+    @Override
+    public void start() {
+        running = true;
+        logger.info("Started OpenWorldGame");
+        minecraftConfig.getAutoLoadWorlds().forEach(worldName -> {
+            this.worldManager.loadWorld(worldName).addCallback(world -> {
+                if (world == null) {
+                    this.worldManager.createWorld(worldName, null);
+                    //TODO: Change
+                    // Generator
+                }
+            }, throwable -> {
+                logger.error("Failed to load auto-load world " + worldName, throwable);
+            });
+        });
+    }
+
+    @Override
+    public void stop() {
+        logger.info("Stopping OpenWorldGame");
+
+        this.worldManager.getLoadedWorlds().forEach(world -> this.worldManager.unloadWorld(world.getID()));
+
+        logger.info("Stopped OpenWorldGame");
+
+        running = false;
+    }
+
+    @Override
+    public boolean isRunning() {
+        return running;
     }
 }

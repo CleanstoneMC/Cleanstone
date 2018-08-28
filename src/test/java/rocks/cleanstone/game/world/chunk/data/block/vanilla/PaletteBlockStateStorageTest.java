@@ -2,13 +2,12 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.block.CachingImmutableBlockProvider;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.block.state.SimpleBlockStateProvider;
+import rocks.cleanstone.game.block.state.CachingBlockStateProvider;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.SimpleMaterialRegistry;
@@ -28,14 +27,12 @@ class PaletteBlockStateStorageTest {
     private Random random;
     private BlockStateMapping<Integer> blockStateMapping;
     private MaterialRegistry materialRegistry;
-    private SimpleBlockStateProvider blockStateProvider;
+    private CachingBlockStateProvider blockStateProvider;
     private PaletteBlockStateStorage storage;
 
     @BeforeEach
     void createStorageByTable() {
-        blockStateProvider = new SimpleBlockStateProvider(new ConcurrentMapCacheManager());
-        blockStateProvider.init();
-
+        blockStateProvider = new CachingBlockStateProvider();
         random = new Random(1);
         blockStateMapping = new ProtocolBlockStateMapping();
         materialRegistry = new SimpleMaterialRegistry();
@@ -63,10 +60,5 @@ class PaletteBlockStateStorageTest {
         }
         assertEquals(storage, deserialized);
         buf.release();
-    }
-
-    @AfterEach
-    void tearDown() {
-        blockStateProvider.destroy();
     }
 }
