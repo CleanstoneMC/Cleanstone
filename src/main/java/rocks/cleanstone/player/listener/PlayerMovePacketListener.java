@@ -12,6 +12,7 @@ import rocks.cleanstone.net.packet.inbound.PlayerLookPacket;
 import rocks.cleanstone.net.packet.inbound.PlayerPositionPacket;
 import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
+import rocks.cleanstone.player.event.StandardMoveReason;
 
 @Component
 public class PlayerMovePacketListener {
@@ -40,7 +41,7 @@ public class PlayerMovePacketListener {
 
         if (!CleanstoneServer.publishEvent(
                 new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition,
-                        PlayerMoveEvent.StandardMoveReason.CLIENT_ACTION)).isCancelled()) {
+                        StandardMoveReason.CLIENT_ACTION)).isCancelled()) {
             entity.setPosition(newPosition);
         }
     }
@@ -65,7 +66,7 @@ public class PlayerMovePacketListener {
 
         if (!CleanstoneServer.publishEvent(
                 new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition,
-                        PlayerMoveEvent.StandardMoveReason.CLIENT_ACTION)).isCancelled()) {
+                        StandardMoveReason.CLIENT_ACTION)).isCancelled()) {
             entity.setPosition(newPosition);
         }
     }
@@ -95,7 +96,7 @@ public class PlayerMovePacketListener {
 
         if (!CleanstoneServer.publishEvent(
                 new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition,
-                        PlayerMoveEvent.StandardMoveReason.CLIENT_ACTION)).isCancelled()) {
+                        StandardMoveReason.CLIENT_ACTION)).isCancelled()) {
             entity.setPosition(newPosition);
         }
     }

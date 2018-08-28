@@ -38,6 +38,14 @@ public class EntityManager {
         return entity;
     }
 
+    public void removeEntity(Entity entity) {
+        entityMap.remove(entity.getEntityID());
+    }
+
+    public void removeEntity(int entityID) {
+        entityMap.remove(entityID);
+    }
+
     private int getUnoccupiedEntityID() {
         int random = current.nextInt();
 

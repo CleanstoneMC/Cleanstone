@@ -12,13 +12,12 @@ import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
 import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
 import rocks.cleanstone.net.packet.enums.PlayerAbility;
-import rocks.cleanstone.net.packet.outbound.OutPlayerPositionAndLookPacket;
-import rocks.cleanstone.player.event.PlayerMoveEvent;
+import rocks.cleanstone.player.event.MoveReason;
+import rocks.cleanstone.player.event.PlayerTeleportEvent;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class AbstractPlayer implements Player {
 
@@ -104,16 +103,11 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    public void teleport(RotatablePosition newPosition, PlayerMoveEvent.MoveReason moveReason) {
-        RotatablePosition oldPosition = entity.getPosition();
-        PlayerMoveEvent event = new PlayerMoveEvent(this, new HeadRotatablePosition(oldPosition),
-                new HeadRotatablePosition(newPosition), moveReason);
-        if (!CleanstoneServer.publishEvent(event).isCancelled()) {
-            getEntity().setPosition(newPosition);
-            OutPlayerPositionAndLookPacket packet = new OutPlayerPositionAndLookPacket(newPosition, 0,
-                    ThreadLocalRandom.current().nextInt());
-            sendPacket(packet);
-        }
+    public void teleport(RotatablePosition newPosition, MoveReason moveReason) {
+        HeadRotatablePosition oldPosition = getEntity().getPosition();
+        HeadRotatablePosition newHeadRotatablePosition = new HeadRotatablePosition(newPosition, oldPosition.getHeadRotation());
+
+        CleanstoneServer.publishEvent(new PlayerTeleportEvent(this, oldPosition, newHeadRotatablePosition, moveReason));
     }
 
     public int getViewDistance() {

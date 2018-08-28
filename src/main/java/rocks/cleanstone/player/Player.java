@@ -1,10 +1,5 @@
 package rocks.cleanstone.player;
 
-import java.net.InetAddress;
-import java.util.Collection;
-import java.util.Locale;
-import java.util.concurrent.Future;
-
 import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandSender;
@@ -15,7 +10,12 @@ import rocks.cleanstone.game.inventory.MainHandSide;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
 import rocks.cleanstone.net.packet.enums.PlayerAbility;
-import rocks.cleanstone.player.event.PlayerMoveEvent;
+import rocks.cleanstone.player.event.MoveReason;
+
+import java.net.InetAddress;
+import java.util.Collection;
+import java.util.Locale;
+import java.util.concurrent.Future;
 
 public interface Player extends CommandSender {
 
@@ -71,5 +71,5 @@ public interface Player extends CommandSender {
 
     Collection<PlayerAbility> getAbilities();
 
-    void teleport(RotatablePosition position, PlayerMoveEvent.MoveReason moveReason);
+    void teleport(RotatablePosition position, MoveReason moveReason);
 }
