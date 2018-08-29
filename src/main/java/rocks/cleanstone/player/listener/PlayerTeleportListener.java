@@ -43,7 +43,7 @@ public class PlayerTeleportListener {
 
         Human human = new SimpleHuman(player.getEntity().getWorld(), playerTeleportEvent.getNewPosition());
 
-        entityManager.addEntityWithoutID(human);
+        human = entityManager.addEntityWithoutID(human);
         player.setEntity(human);
         entityManager.removeEntity(player.getEntity());
 
