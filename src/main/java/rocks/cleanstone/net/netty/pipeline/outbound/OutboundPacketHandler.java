@@ -1,13 +1,12 @@
 package rocks.cleanstone.net.netty.pipeline.outbound;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.DecoderException;
 import io.netty.util.AttributeKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
@@ -34,7 +33,7 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
                 throw new DecoderException("Sent packet has invalid direction");
             }
             if (CleanstoneServer.publishEvent(
-                    new OutboundPacketEvent(packet, connection, networking)).isCancelled()) return;
+                    new OutboundPacketEvent<>(packet, connection, networking)).isCancelled()) return;
             logger.trace("Sending " + packet.getType() + " packet to " + connection.getAddress().getHostAddress());
             ctx.write(packet, promise);
         } catch (Exception e) {

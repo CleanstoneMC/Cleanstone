@@ -24,14 +24,9 @@ public class PlayerAnimationPacketListener {
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPlayerMove(InboundPacketEvent inboundPacketEvent) {
-        if (!(inboundPacketEvent.getPacket() instanceof InAnimationPacket)) {
-            return;
-        }
+    public void onPlayerMove(InboundPacketEvent<InAnimationPacket> inboundPacketEvent) {
 
-        InAnimationPacket inAnimationPacket = (InAnimationPacket) inboundPacketEvent.getPacket();
-
-        PlayerAnimationEvent playerAnimationEvent = new PlayerAnimationEvent(playerManager.getOnlinePlayer(inboundPacketEvent.getConnection()), inAnimationPacket.getHand());
+        PlayerAnimationEvent playerAnimationEvent = new PlayerAnimationEvent(playerManager.getOnlinePlayer(inboundPacketEvent.getConnection()), inboundPacketEvent.getPacket().getHand());
 
         CleanstoneServer.publishEvent(playerAnimationEvent);
     }

@@ -5,13 +5,13 @@ import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
 import rocks.cleanstone.net.packet.Packet;
 
-public class OutboundPacketEvent extends CancellableEvent {
+public class OutboundPacketEvent<T extends Packet> extends CancellableEvent {
 
     private final Networking networking;
-    private final Packet packet;
+    private final T packet;
     private final Connection connection;
 
-    public OutboundPacketEvent(Packet packet, Connection connection, Networking networking) {
+    public OutboundPacketEvent(T packet, Connection connection, Networking networking) {
         this.packet = packet;
         this.connection = connection;
         this.networking = networking;
@@ -25,7 +25,7 @@ public class OutboundPacketEvent extends CancellableEvent {
         return connection;
     }
 
-    public Packet getPacket() {
+    public T getPacket() {
         return packet;
     }
 }
