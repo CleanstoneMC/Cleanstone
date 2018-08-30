@@ -1,26 +1,24 @@
-package rocks.cleanstone.player.listener;
+package rocks.cleanstone.net.event.packet.inbound;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.net.packet.enums.PlayerAbility;
 import rocks.cleanstone.net.packet.inbound.InPlayerAbilitiesPacket;
 import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
 
 import java.util.Arrays;
 
 @Component
-public class PlayerAbilitiesListener {
+public class PlayerAbilitiesListener extends PlayerInboundPacketEventListener<InPlayerAbilitiesPacket> {
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPlayerAbilities(PlayerInboundPacketEvent event) {
-        if (!(event.getPacket() instanceof InPlayerAbilitiesPacket)) {
-            return;
-        }
-        InPlayerAbilitiesPacket packet = (InPlayerAbilitiesPacket) event.getPacket();
-        Player player = event.getPlayer();
+    @Override
+    public void onPacket(PlayerInboundPacketEvent<InPlayerAbilitiesPacket> playerInboundPacketEvent) {
+        InPlayerAbilitiesPacket packet = playerInboundPacketEvent.getPacket();
+        Player player = playerInboundPacketEvent.getPlayer();
 
         player.setFlying(Arrays.asList(packet.getPlayerAbilities()).contains(PlayerAbility.IS_FLYING));
     }

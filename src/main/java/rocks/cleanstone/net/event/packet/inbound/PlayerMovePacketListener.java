@@ -1,4 +1,4 @@
-package rocks.cleanstone.player.listener;
+package rocks.cleanstone.net.event.packet.inbound;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -7,10 +7,10 @@ import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.LivingEntity;
 import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.net.packet.inbound.InPlayerPositionAndLookPacket;
 import rocks.cleanstone.net.packet.inbound.PlayerLookPacket;
 import rocks.cleanstone.net.packet.inbound.PlayerPositionPacket;
-import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 import rocks.cleanstone.player.event.StandardMoveReason;
 
@@ -19,11 +19,8 @@ public class PlayerMovePacketListener {
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPlayerLookPacket(PlayerInboundPacketEvent event) {
-        if (!(event.getPacket() instanceof PlayerLookPacket)) {
-            return;
-        }
-        PlayerLookPacket packet = (PlayerLookPacket) event.getPacket();
+    public void onPlayerLookPacket(PlayerInboundPacketEvent<PlayerLookPacket> event) {
+        PlayerLookPacket packet = event.getPacket();
         LivingEntity entity = event.getPlayer().getEntity();
         if (entity == null) return;
 
@@ -48,11 +45,8 @@ public class PlayerMovePacketListener {
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPlayerPositionPacket(PlayerInboundPacketEvent event) {
-        if (!(event.getPacket() instanceof PlayerPositionPacket)) {
-            return;
-        }
-        PlayerPositionPacket packet = (PlayerPositionPacket) event.getPacket();
+    public void onPlayerPositionPacket(PlayerInboundPacketEvent<PlayerPositionPacket> event) {
+        PlayerPositionPacket packet = event.getPacket();
 
         LivingEntity entity = event.getPlayer().getEntity();
         if (entity == null) return;
@@ -73,11 +67,8 @@ public class PlayerMovePacketListener {
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPlayerPositionAndLookPacket(PlayerInboundPacketEvent event) {
-        if (!(event.getPacket() instanceof InPlayerPositionAndLookPacket)) {
-            return;
-        }
-        InPlayerPositionAndLookPacket packet = (InPlayerPositionAndLookPacket) event.getPacket();
+    public void onPlayerPositionAndLookPacket(PlayerInboundPacketEvent<InPlayerPositionAndLookPacket> event) {
+        InPlayerPositionAndLookPacket packet = event.getPacket();
 
         LivingEntity entity = event.getPlayer().getEntity();
         if (entity == null) return;

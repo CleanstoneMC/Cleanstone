@@ -1,7 +1,5 @@
-package rocks.cleanstone.player.listener;
+package rocks.cleanstone.net.event.packet.inbound;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -10,47 +8,39 @@ import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.block.event.BlockBreakEvent;
 import rocks.cleanstone.game.block.event.BlockPlaceEvent;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.BlockType;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
+import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.net.packet.inbound.PlayerBlockPlacementPacket;
-import rocks.cleanstone.net.packet.inbound.PlayerDiggingPacket;
 import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
-import rocks.cleanstone.player.event.PlayerInboundPacketEvent;
-
-import java.util.ArrayList;
 
 @Component
-public class UseItemListener {
+public class PlayerBlockPlacementPacketListener extends PlayerInboundPacketEventListener<PlayerBlockPlacementPacket> {
 
     private final PlayerManager playerManager;
     private final MaterialRegistry materialRegistry;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public UseItemListener(PlayerManager playerManager, MaterialRegistry materialRegistry) {
+    public PlayerBlockPlacementPacketListener(PlayerManager playerManager, MaterialRegistry materialRegistry) {
         this.playerManager = playerManager;
         this.materialRegistry = materialRegistry;
     }
 
     @Async(value = "playerExec")
     @EventListener
-    public void onBlockPlace(PlayerInboundPacketEvent event) {
-        if (!(event.getPacket() instanceof PlayerBlockPlacementPacket)) {
-            return;
-        }
+    @Override
+    public void onPacket(PlayerInboundPacketEvent<PlayerBlockPlacementPacket> playerInboundPacketEvent) {
 
-        PlayerBlockPlacementPacket packet = (PlayerBlockPlacementPacket) event.getPacket();
+        PlayerBlockPlacementPacket packet = playerInboundPacketEvent.getPacket();
 
         Position newBlockPosition = new Position(packet.getPosition().toVector()
                 .addVector(packet.getFace().toUnitVector()));
 
-        Player player = event.getPlayer();
+        Player player = playerInboundPacketEvent.getPlayer();
 
         ItemStack itemStack = player.getEntity().getItemByHand(packet.getHand());
 
@@ -69,24 +59,5 @@ public class UseItemListener {
             BlockChangePacket blockChangePacket = new BlockChangePacket(newBlockPosition, placedBlock.getState());
             playerManager.broadcastPacket(blockChangePacket);
         }
-    }
-
-    @Async(value = "playerExec")
-    @EventListener
-    public void onBlockBreak(PlayerInboundPacketEvent event) {
-        if (!(event.getPacket() instanceof PlayerDiggingPacket)) {
-            return;
-        }
-        PlayerDiggingPacket packet = (PlayerDiggingPacket) event.getPacket();
-
-        Block placedBlock = ImmutableBlock.of(VanillaBlockType.AIR);
-
-        event.getPlayer().getEntity().getWorld().setBlockAt(packet.getPosition(), placedBlock);
-        CleanstoneServer.publishEvent(new BlockBreakEvent(placedBlock, packet.getPosition(),
-                event.getPlayer(), new ArrayList<>()));//TODO: Add Drops
-
-        BlockChangePacket blockChangePacket = new BlockChangePacket(packet.getPosition(), placedBlock.getState());
-
-        playerManager.broadcastPacket(blockChangePacket);
     }
 }
