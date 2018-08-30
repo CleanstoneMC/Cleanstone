@@ -1,6 +1,5 @@
 package rocks.cleanstone.game.world.generation;
 
-import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -14,6 +13,8 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
+
+import java.util.HashSet;
 
 @Component("flatWorldGenerator")
 @Scope("prototype")
@@ -45,7 +46,7 @@ public class FlatWorldGenerator implements WorldGenerator {
         blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                blockDataTable.setBlock(x, 45, z, ImmutableBlock.of(VanillaBlockType.GRASS));
+                blockDataTable.setBlock(x, 45, z, ImmutableBlock.of(VanillaBlockType.GRASS_BLOCK));
                 for (int y = 44; y > 0; y--) {
                     blockDataTable.setBlock(x, y, z, ImmutableBlock.of(VanillaBlockType.STONE));
                 }
