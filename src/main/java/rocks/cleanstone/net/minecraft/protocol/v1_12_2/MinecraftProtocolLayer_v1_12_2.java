@@ -40,6 +40,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new CreativeInventoryActionCodec(itemTypeMapping), CreativeInventoryActionPacket.class, PLAY, 0x1B);
         registerPacketCodec(new HeldItemChangeCodec(), HeldItemChangePacket.class, PLAY, 0x1A);
         registerPacketCodec(new InPlayerAbilitiesCodec(), InPlayerAbilitiesPacket.class, PLAY, 0x13);
+        registerPacketCodec(new InAnimationCodec(), InAnimationPacket.class, PLAY, 0x1D);
 
         // outbound
         registerPacketCodec(new DisconnectCodec(), DisconnectPacket.class, PLAY, 0x1A);
@@ -71,6 +72,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer
         registerPacketCodec(new DestroyEntitiesCodec(), DestroyEntitiesPacket.class, PLAY, 0x32);
         registerPacketCodec(new ChangeGameStateCodec(), ChangeGameStatePacket.class, PLAY, 0x1E);
         registerPacketCodec(new EntityHeadLookCodec(), EntityHeadLookPacket.class, PLAY, 0x36);
+        registerPacketCodec(new OutAnimationCodec(), AnimationPacket.class, PLAY, 0x06);
     }
 
     @Override

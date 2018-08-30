@@ -34,7 +34,7 @@ public enum MinecraftInboundPacketType implements PacketType {
     HELD_ITEM_CHANGE(26, HeldItemChangePacket.class),
     CREATIVE_INVENTORY_ACTION(27, CreativeInventoryActionPacket.class),
     UPDATE_SIGN(28, UpdateSignPacket.class),
-    ANIMATION(29, AnimationPacket.class),
+    ANIMATION(29, InAnimationPacket.class),
     SPECTATE(30, SpectatePacket.class),
     PLAYER_BLOCK_PLACEMENT(31, PlayerBlockPlacementPacket.class),
     USE_ITEM(32, UseItemPacket.class),
