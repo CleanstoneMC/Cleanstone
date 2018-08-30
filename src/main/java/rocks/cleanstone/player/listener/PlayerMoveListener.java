@@ -90,8 +90,6 @@ public class PlayerMoveListener {
             return;
         }
 
-        System.out.println(newPosition.toString());
-
         final double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
         final double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
         final double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
