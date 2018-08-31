@@ -3,8 +3,6 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 
-import java.util.Map;
-
 @Component
 public class SimpleVanillaBlockDataStorageFactory implements VanillaBlockDataStorageFactory {
 
@@ -14,9 +12,9 @@ public class SimpleVanillaBlockDataStorageFactory implements VanillaBlockDataSto
     }
 
     @Override
-    public VanillaBlockDataStorage get(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight,
+    public VanillaBlockDataStorage get(BlockDataSection[] sections, boolean hasSkyLight,
                                        DirectPalette directPalette, boolean omitDirectPaletteLength) {
-        return new VanillaBlockDataStorage(sectionMap, hasSkyLight, directPalette, omitDirectPaletteLength);
+        return new VanillaBlockDataStorage(sections, hasSkyLight, directPalette, omitDirectPaletteLength);
     }
 
     @Override

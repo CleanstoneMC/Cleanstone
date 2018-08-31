@@ -1,9 +1,11 @@
 package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import com.google.common.base.Objects;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
@@ -12,17 +14,12 @@ import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
 
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class VanillaBlockDataStorage implements BlockDataStorage {
 
     private static final int SEC_HEIGHT = BlockDataSection.HEIGHT, SEC_WIDTH = BlockDataSection.WIDTH,
             SEC_AMNT = Chunk.HEIGHT / SEC_HEIGHT;
 
-    private final Map<Integer, BlockDataSection> sectionMap = new HashMap<>();
+    private BlockDataSection[] sections = new BlockDataSection[SEC_AMNT];
     private final boolean hasSkyLight;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final DirectPalette directPalette;
@@ -33,14 +30,14 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
         this.directPalette = blockDataStorage.directPalette;
         this.omitDirectPaletteLength = blockDataStorage.omitDirectPaletteLength;
 
-        blockDataStorage.sectionMap.forEach((integer, blockDataSection) -> {
-            sectionMap.put(integer, new BlockDataSection(blockDataSection));
-        });
+        for (int i = 0; i < SEC_AMNT; i++) {
+            sections[i] = new BlockDataSection(blockDataStorage.sections[i]);
+        }
     }
 
-    VanillaBlockDataStorage(Map<Integer, BlockDataSection> sectionMap, boolean hasSkyLight,
-                                   DirectPalette directPalette, boolean omitDirectPaletteLength) {
-        this.sectionMap.putAll(sectionMap);
+    VanillaBlockDataStorage(BlockDataSection[] sections, boolean hasSkyLight,
+                            DirectPalette directPalette, boolean omitDirectPaletteLength) {
+        this.sections = Arrays.copyOf(sections, SEC_AMNT);
         this.hasSkyLight = hasSkyLight;
         this.directPalette = directPalette;
         this.omitDirectPaletteLength = omitDirectPaletteLength;
@@ -69,7 +66,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
 
             BlockDataSection section = new BlockDataSection(storage, blockLight,
                     skyLight, table.hasSkylight());
-            sectionMap.put(sectionY, section);
+            sections[sectionY] = section;
 
         }
         this.hasSkyLight = table.hasSkylight();
@@ -79,14 +76,14 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
 
     @Nullable
     public BlockDataSection getSection(int sectionY) {
-        return sectionMap.get(sectionY);
+        return sections[sectionY];
     }
 
     private BlockDataSection getOrCreateSection(int y) {
         BlockDataSection section = getSection(y);
         if (section == null) {
             section = new BlockDataSection(hasSkyLight, directPalette, omitDirectPaletteLength);
-            sectionMap.put(y, section);
+            sections[y] = section;
         }
         return section;
     }
@@ -116,7 +113,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
     public BlockDataTable constructTable() {
         ArrayBlockDataTable table = new ArrayBlockDataTable(hasSkyLight);
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
-            BlockDataSection section = sectionMap.get(sectionY);
+            BlockDataSection section = sections[sectionY];
             if (section != null)
                 for (int y = 0; y < SEC_HEIGHT; y++) {
                     for (int z = 0; z < SEC_WIDTH; z++) {
@@ -139,10 +136,6 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
         return hasSkyLight;
     }
 
-    public Map<Integer, BlockDataSection> getSectionMap() {
-        return sectionMap;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -150,12 +143,12 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
         VanillaBlockDataStorage that = (VanillaBlockDataStorage) o;
         return hasSkyLight == that.hasSkyLight &&
                 omitDirectPaletteLength == that.omitDirectPaletteLength &&
-                Objects.equal(sectionMap, that.sectionMap) &&
+                Objects.equal(sections, that.sections) &&
                 Objects.equal(directPalette, that.directPalette);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(sectionMap, hasSkyLight, directPalette, omitDirectPaletteLength);
+        return Objects.hashCode(sections, hasSkyLight, directPalette, omitDirectPaletteLength);
     }
 }

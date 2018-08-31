@@ -3,13 +3,10 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
+import java.io.IOException;
 import rocks.cleanstone.data.Codec;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class VanillaBlockDataCodec implements Codec<VanillaBlockDataStorage, ByteBuf> {
 
@@ -25,17 +22,17 @@ public class VanillaBlockDataCodec implements Codec<VanillaBlockDataStorage, Byt
 
     @Override
     public VanillaBlockDataStorage deserialize(ByteBuf data) throws IOException {
-        Map<Integer, BlockDataSection> sectionMap = new HashMap<>();
+        BlockDataSection[] sections = new BlockDataSection[Chunk.HEIGHT / BlockDataSection.HEIGHT];
         int primaryBitMask = ByteBufUtils.readVarInt(data);
         int dataSize = ByteBufUtils.readVarInt(data);
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
             if ((primaryBitMask & (1 << sectionY)) != 0) {
                 BlockDataSection section = new BlockDataSection(data, true, directPalette,
                         omitDirectPaletteLength);
-                sectionMap.put(sectionY, section);
+                sections[sectionY] = section;
             }
         }
-        return vanillaBlockDataStorageFactory.get(sectionMap, true, directPalette, omitDirectPaletteLength);
+        return vanillaBlockDataStorageFactory.get(sections, true, directPalette, omitDirectPaletteLength);
     }
 
     @Override
@@ -45,7 +42,7 @@ public class VanillaBlockDataCodec implements Codec<VanillaBlockDataStorage, Byt
 
         ByteBuf dataBuf = Unpooled.buffer();
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
-            BlockDataSection section = storage.getSectionMap().get(sectionY);
+            BlockDataSection section = storage.getSection(sectionY);
             if (section != null) {
                 section.write(dataBuf);
                 primaryBitMask |= (1 << sectionY);
