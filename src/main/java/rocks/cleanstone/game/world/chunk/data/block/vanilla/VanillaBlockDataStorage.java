@@ -120,8 +120,9 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
                         for (int x = 0; x < SEC_WIDTH; x++) {
                             int chunkRelativeY = y + sectionY * SEC_HEIGHT;
                             BlockState state = section.getBlockStateStorage().get(x, y, z);
-                            Block block = state.getBlockType() == VanillaBlockType.AIR ? null : ImmutableBlock.of(state);
-                            table.setBlock(x, chunkRelativeY, z, block);
+                            if (state.getBlockType() != VanillaBlockType.AIR) {
+                                table.setBlock(x, chunkRelativeY, z, ImmutableBlock.of(state));
+                            }
                             table.setBlockLight(x, chunkRelativeY, z, section.getBlockLight()[x][z][y]);
                             if (hasSkyLight)
                                 table.setSkyLight(x, chunkRelativeY, z, section.getSkyLight()[x][z][y]);
