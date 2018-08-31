@@ -38,4 +38,9 @@ public class Creative implements GameModeRuleSet {
     public boolean canModifyWorld() {
         return true;
     }
+
+    @Override
+    public boolean canInstantBreakBlocks() {
+        return true;
+    }
 }

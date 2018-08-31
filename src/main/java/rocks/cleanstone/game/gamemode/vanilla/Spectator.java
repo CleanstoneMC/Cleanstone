@@ -38,4 +38,9 @@ public class Spectator implements GameModeRuleSet {
     public boolean canModifyWorld() {
         return false;
     }
+
+    @Override
+    public boolean canInstantBreakBlocks() {
+        return false;
+    }
 }

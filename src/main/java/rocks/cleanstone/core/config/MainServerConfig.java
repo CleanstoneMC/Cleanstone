@@ -28,7 +28,7 @@ public class MainServerConfig {
     }
 
     @Bean
-    public TaskExecutor taskSheduler() {
+    public ThreadPoolTaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
         threadPoolTaskScheduler.setPoolSize(10);
         return threadPoolTaskScheduler;

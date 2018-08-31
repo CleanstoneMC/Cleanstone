@@ -38,4 +38,9 @@ public class Survival implements GameModeRuleSet {
     public boolean canModifyWorld() {
         return true;
     }
+
+    @Override
+    public boolean canInstantBreakBlocks() {
+        return false;
+    }
 }

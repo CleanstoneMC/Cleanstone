@@ -10,6 +10,10 @@ import rocks.cleanstone.net.packet.enums.DiggingStatus;
 public class PlayerDiggingPacket implements Packet {
 
     private final DiggingStatus diggingStatus;
+
+    /**
+     * The Block Position
+     */
     private final Position location;
     private final Face face;
 

@@ -3,28 +3,22 @@ package rocks.cleanstone.game.block.event;
 import rocks.cleanstone.core.event.CancellableEvent;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.player.Player;
 
-import java.util.Collection;
-
-public class BlockBreakEvent extends CancellableEvent {
+public class BlockDamageEvent extends CancellableEvent {
     private Block block;
     private final Position position;
     private final Player player;
-    private Collection<ItemStack> drops;
 
     /**
      * @param block The Block
      * @param position The BlockPosition
      * @param player The Player
-     * @param drops The Drops
      */
-    public BlockBreakEvent(Block block, Position position, Player player, Collection<ItemStack> drops) {
+    public BlockDamageEvent(Block block, Position position, Player player) {
         this.block = block;
         this.position = position;
         this.player = player;
-        this.drops = drops;
     }
 
     public Block getBlock() {
@@ -41,13 +35,5 @@ public class BlockBreakEvent extends CancellableEvent {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public Collection<ItemStack> getDrops() {
-        return drops;
-    }
-
-    public void setDrops(Collection<ItemStack> drops) {
-        this.drops = drops;
     }
 }

@@ -1,44 +1,49 @@
 package rocks.cleanstone.net.event.packet.inbound;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.event.BlockBreakEvent;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
+import rocks.cleanstone.game.block.event.BlockDamageEvent;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
+import rocks.cleanstone.net.packet.enums.DiggingStatus;
 import rocks.cleanstone.net.packet.inbound.PlayerDiggingPacket;
-import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
-import rocks.cleanstone.player.PlayerManager;
+import rocks.cleanstone.player.Player;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 @Component
 public class PlayerDiggingPacketListener extends PlayerInboundPacketEventListener<PlayerDiggingPacket> {
-    private PlayerManager playerManager;
-
-    @Autowired
-    public PlayerDiggingPacketListener(PlayerManager playerManager) {
-        this.playerManager = playerManager;
-    }
 
     @Async(value = "playerExec")
     @EventListener
     @Override
     public void onPacket(PlayerInboundPacketEvent<PlayerDiggingPacket> playerInboundPacketEvent) {
         PlayerDiggingPacket packet = playerInboundPacketEvent.getPacket();
+        Player player = playerInboundPacketEvent.getPlayer();
+        Position position = packet.getPosition();
 
-        Block placedBlock = ImmutableBlock.of(VanillaBlockType.AIR);
+        if (packet.getDiggingStatus() == DiggingStatus.STARTED_DIGGING || packet.getDiggingStatus() == DiggingStatus.FINISHED_DIGGING) {
+            player.getEntity().getWorld().getBlockAt(position).addCallback(block -> {
+                boolean blockBroken = false;
 
-        playerInboundPacketEvent.getPlayer().getEntity().getWorld().setBlockAt(packet.getPosition(), placedBlock);
-        CleanstoneServer.publishEvent(new BlockBreakEvent(placedBlock, packet.getPosition(),
-                playerInboundPacketEvent.getPlayer(), new ArrayList<>()));//TODO: Add Drops
+                if (packet.getDiggingStatus() == DiggingStatus.STARTED_DIGGING) {
+                    BlockDamageEvent blockDamageEvent = CleanstoneServer.publishEvent(new BlockDamageEvent(block, position, player));
 
-        BlockChangePacket blockChangePacket = new BlockChangePacket(packet.getPosition(), placedBlock.getState());
+                    if (!blockDamageEvent.isCancelled()) {
+                        blockBroken = playerInboundPacketEvent.getPlayer().getGameMode().getRuleSet().canInstantBreakBlocks();
+                    }
+                }
 
-        playerManager.broadcastPacket(blockChangePacket);
+                if (packet.getDiggingStatus() == DiggingStatus.FINISHED_DIGGING || blockBroken) {
+                    BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, packet.getPosition(), playerInboundPacketEvent.getPlayer(), Collections.emptySet());
+
+                    CleanstoneServer.publishEvent(blockBreakEvent);
+                }
+            }, e -> logger.error("Could not get Block", e));
+        }
     }
+
 }

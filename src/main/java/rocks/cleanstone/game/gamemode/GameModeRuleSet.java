@@ -14,4 +14,6 @@ public interface GameModeRuleSet {
     boolean canChat();
 
     boolean canModifyWorld();
+
+    boolean canInstantBreakBlocks();
 }

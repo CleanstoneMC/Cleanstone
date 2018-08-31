@@ -15,7 +15,6 @@ public class PlayerAnimationPacketListener extends PlayerInboundPacketEventListe
     @EventListener
     @Override
     public void onPacket(PlayerInboundPacketEvent<InAnimationPacket> playerInboundPacketEvent) {
-        logger.error("Test");
         PlayerAnimationEvent playerAnimationEvent = new PlayerAnimationEvent(playerInboundPacketEvent.getPlayer(), playerInboundPacketEvent.getPacket().getHand());
 
         CleanstoneServer.publishEvent(playerAnimationEvent);
