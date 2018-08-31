@@ -1,5 +1,6 @@
 package rocks.cleanstone.core.config;
 
+import java.util.concurrent.ThreadPoolExecutor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
@@ -78,8 +79,9 @@ public class MainServerConfig {
     public TaskExecutor worldExec() {
         ThreadPoolTaskExecutor executor = createTaskExecutor(5000, "worldExec");
         executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(128);
         executor.setQueueCapacity(50);
-//        rejection-policy="CALLER_RUNS" //TODO
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
 
         return executor;
