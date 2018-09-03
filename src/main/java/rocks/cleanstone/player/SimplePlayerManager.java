@@ -139,7 +139,7 @@ public class SimplePlayerManager implements PlayerManager {
     private File getPlayerDataFolder() {
         File dataFolder = new File("data/players");
         try {
-            dataFolder.mkdir();
+            dataFolder.mkdirs();
         } catch (SecurityException e) {
             logger.error("Cannot create data folder (no permission?)", e);
         }
