@@ -32,7 +32,6 @@ public class SimpleGeneratedWorld implements World {
     protected final WorldDataSource dataSource;
     protected final RegionManager regionManager;
     private final WorldConfig worldConfig;
-    private int seed = 1234567890;
     private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
     private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
     private LevelType levelType = LevelType.FLAT; //TODO: Move
@@ -79,6 +78,11 @@ public class SimpleGeneratedWorld implements World {
     }
 
     @Override
+    public WorldGenerator getWorldGenerator() {
+        return generator;
+    }
+
+    @Override
     public Dimension getDimension() {
         return dimension;
     }
@@ -96,7 +100,7 @@ public class SimpleGeneratedWorld implements World {
     @Override
     public RotatablePosition getFirstSpawnPosition() {
         if (spawnPosition == null) {
-            spawnPosition = new RotatablePosition(new Position(0, generator.getHeightAt(seed, 0, 0) + 1, 0), new Rotation(0, 0));
+            spawnPosition = new RotatablePosition(new Position(0, generator.getHeightAt(worldConfig.getSeed(), 0, 0) + 1, 0), new Rotation(0, 0));
         }
         return spawnPosition;
     }
@@ -147,7 +151,6 @@ public class SimpleGeneratedWorld implements World {
         setBlockAt(position.getXAsInt(), position.getYAsInt(), position.getZAsInt(), block);
     }
 
-    @Async(value = "worldExec")
     @Override
     public ListenableFuture<Chunk> getChunk(int chunkX, int chunkY) {
         try {
