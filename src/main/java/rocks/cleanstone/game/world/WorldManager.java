@@ -1,28 +1,26 @@
 package rocks.cleanstone.game.world;
 
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
+import rocks.cleanstone.core.config.WorldConfig;
 
 import javax.annotation.Nullable;
-
-import rocks.cleanstone.game.world.generation.WorldGenerator;
+import java.util.Collection;
 
 public interface WorldManager {
 
     Collection<World> getLoadedWorlds();
 
     @Nullable
-    World getLoadedWorld(String id);
+    World getLoadedWorld(WorldConfig worldConfig);
 
-    ListenableFuture<World> loadWorld(String id);
+    ListenableFuture<World> loadWorld(WorldConfig worldConfig);
 
-    boolean isWorldLoaded(String id);
+    boolean isWorldLoaded(WorldConfig worldConfig);
 
-    void unloadWorld(String id);
+    void unloadWorld(WorldConfig worldConfig);
 
-    void createWorld(String id, WorldGenerator generator);
+    void createWorld(WorldConfig worldConfig);
 
-    void deleteWorld(String id);
+    void deleteWorld(WorldConfig worldConfig);
 
 }

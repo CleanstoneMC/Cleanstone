@@ -8,13 +8,13 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
-import rocks.cleanstone.game.world.data.WorldDataSourceFactory;
 import rocks.cleanstone.game.world.data.WorldDataSource;
+import rocks.cleanstone.game.world.data.WorldDataSourceFactory;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.RegionManager;
 
-import java.io.File;
 import java.io.IOException;
 
 @Component
@@ -34,11 +34,11 @@ public class SimpleWorldLoader implements WorldLoader {
 
     @Async(value = "worldExec")
     @Override
-    public ListenableFuture<World> loadWorld(String id) {
-        logger.info("Loading world '" + id + "'...");
+    public ListenableFuture<World> loadWorld(WorldConfig worldConfig) {
+        logger.info("Loading world '" + worldConfig.getName() + "'...");
         // TODO Fetch generator from dataSource
 
-        WorldGenerator worldGenerator = worldGeneratorManager.getWorldGenerator("mountainWorldGenerator");
+        WorldGenerator worldGenerator = worldGeneratorManager.getWorldGenerator(worldConfig.getGenerator());
 
         if (worldGenerator == null) {
             logger.error("Cannot find Worldgenerator - Exiting");
@@ -47,17 +47,17 @@ public class SimpleWorldLoader implements WorldLoader {
 
         WorldDataSource worldDataSource;
         try {
-            worldDataSource = worldDataSourceFactory.get(id);
+            worldDataSource = worldDataSourceFactory.get(worldConfig.getName());
         } catch (IOException e) {
             logger.error("Could not get World Datasource", e);
             return new AsyncResult<>(null);
         }
         ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);
         RegionManager regionManager = context.getBean(RegionManager.class, chunkProvider);
-        World world = context.getBean(World.class, id, worldGenerator, worldDataSource, regionManager);
+        World world = context.getBean(World.class, worldConfig, worldGenerator, worldDataSource, regionManager);
 
         // TODO: Loading spawn and other tasks(?)
-        logger.info("World '" + id + "' loaded.");
+        logger.info("World '" + worldConfig.getName() + "' loaded.");
         return new AsyncResult<>(world);
     }
 

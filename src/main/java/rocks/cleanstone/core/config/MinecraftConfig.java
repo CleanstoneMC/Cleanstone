@@ -18,10 +18,8 @@ public class MinecraftConfig {
     private boolean onlineMode;
     private String motd;
     private int maxPlayers, maxViewDistance;
-    private List<String> autoLoadWorlds;
-    private String firstSpawnWorld;
     private List<String> ops;
-    private int seed;
+    private List<WorldConfig> worlds;
 
     public static MinecraftConfig getInstance() {
         return CleanstoneServer.getInstance().getMinecraftConfig();
@@ -83,22 +81,6 @@ public class MinecraftConfig {
         this.maxPlayers = maxPlayers;
     }
 
-    public List<String> getAutoLoadWorlds() {
-        return autoLoadWorlds;
-    }
-
-    public void setAutoLoadWorlds(List<String> autoLoadWorlds) {
-        this.autoLoadWorlds = autoLoadWorlds;
-    }
-
-    public String getFirstSpawnWorld() {
-        return firstSpawnWorld;
-    }
-
-    public void setFirstSpawnWorld(String firstSpawnWorld) {
-        this.firstSpawnWorld = firstSpawnWorld;
-    }
-
     public List<String> getOps() {
         return ops;
     }
@@ -115,11 +97,12 @@ public class MinecraftConfig {
         this.maxViewDistance = maxViewDistance;
     }
 
-    public int getSeed() {
-        return seed;
+    public List<WorldConfig> getWorlds() {
+        return worlds;
     }
 
-    public void setSeed(int seed) {
-        this.seed = seed;
+    public void setWorlds(List<WorldConfig> worlds) {
+        this.worlds = worlds;
     }
 }
+

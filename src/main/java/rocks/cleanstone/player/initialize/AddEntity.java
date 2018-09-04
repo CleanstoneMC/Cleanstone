@@ -63,7 +63,14 @@ public class AddEntity {
         } else {
             position = new HeadRotatablePosition(entityData.getLogoutPosition());
             gameMode = entityData.getGameMode();
-            world = worldManager.getLoadedWorld(entityData.getLogoutWorldID());
+
+            for (World loadedWorld : worldManager.getLoadedWorlds()) {
+                if (loadedWorld.getWorldConfig().getName().equals(entityData.getLogoutWorldID())) {
+                    world = loadedWorld;
+                    break;
+                }
+            }
+
             flying = entityData.isFlying();
         }
         if (world == null) {

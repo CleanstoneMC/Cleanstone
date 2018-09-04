@@ -1,7 +1,7 @@
 package rocks.cleanstone.game.world;
 
 import org.springframework.util.concurrent.ListenableFuture;
-
+import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.RotatablePosition;
@@ -13,6 +13,8 @@ import rocks.cleanstone.net.packet.enums.LevelType;
 
 public interface World {
     String getID();
+
+    WorldConfig getWorldConfig();
 
     Dimension getDimension();
 

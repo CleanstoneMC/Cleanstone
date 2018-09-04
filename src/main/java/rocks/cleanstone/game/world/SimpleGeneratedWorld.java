@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.RotatablePosition;
@@ -30,7 +31,7 @@ public class SimpleGeneratedWorld implements World {
     protected final WorldGenerator generator;
     protected final WorldDataSource dataSource;
     protected final RegionManager regionManager;
-    private final String id;
+    private final WorldConfig worldConfig;
     private int seed = 1234567890;
     private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
     private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
@@ -38,18 +39,18 @@ public class SimpleGeneratedWorld implements World {
     private RotatablePosition spawnPosition;
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public SimpleGeneratedWorld(String id, WorldGenerator generator, WorldDataSource dataSource,
+    public SimpleGeneratedWorld(WorldConfig worldConfig, WorldGenerator generator, WorldDataSource dataSource,
                                 RegionManager regionManager, RotatablePosition spawnPosition) {
-        this.id = id;
+        this.worldConfig = worldConfig;
         this.generator = generator;
         this.dataSource = dataSource;
         this.regionManager = regionManager;
         this.spawnPosition = spawnPosition;
     }
 
-    public SimpleGeneratedWorld(String id, WorldGenerator generator, WorldDataSource dataSource,
+    public SimpleGeneratedWorld(WorldConfig worldConfig, WorldGenerator generator, WorldDataSource dataSource,
                                 RegionManager regionManager) {
-        this(id, generator, dataSource, regionManager, null);
+        this(worldConfig, generator, dataSource, regionManager, null);
     }
 
     private static int getRelativeBlockCoordinate(int blockCoordinate) {
@@ -69,7 +70,12 @@ public class SimpleGeneratedWorld implements World {
 
     @Override
     public String getID() {
-        return id;
+        return worldConfig.getName();
+    }
+
+    @Override
+    public WorldConfig getWorldConfig() {
+        return worldConfig;
     }
 
     @Override
@@ -132,7 +138,7 @@ public class SimpleGeneratedWorld implements World {
         getChunk(chunkX, chunkY).addCallback(chunk -> {
             chunk.setBlock(relX, y, relZ, block);
         }, throwable -> {
-            logger.error("Failed to get chunk " + chunkX + ":" + chunkY + " in world " + id, throwable);
+            logger.error("Failed to get chunk " + chunkX + ":" + chunkY + " in world " + worldConfig.getName(), throwable);
         });
     }
 

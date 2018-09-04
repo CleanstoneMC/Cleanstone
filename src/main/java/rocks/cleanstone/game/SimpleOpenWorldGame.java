@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.config.MinecraftConfig;
+import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
 
@@ -17,7 +18,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final WorldManager worldManager;
     private final MinecraftConfig minecraftConfig;
-    private String firstSpawnWorld = null;
+    private WorldConfig firstSpawnWorld = null;
     private boolean running = false;
 
     @Autowired
@@ -29,14 +30,22 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
     @Override
     public World getFirstSpawnWorld() {
         if (firstSpawnWorld == null) {
-            this.firstSpawnWorld = CleanstoneServer.getInstance().getMinecraftConfig().getFirstSpawnWorld();
+            CleanstoneServer.getInstance().getMinecraftConfig().getWorlds().forEach(worldConfig -> {
+                if (this.firstSpawnWorld != null) {
+                    throw new RuntimeException("There can only be one FirstSpawnWorld");
+                }
+
+                if (worldConfig.isFirstSpawnWorld()) {
+                    this.firstSpawnWorld = worldConfig;
+                }
+            });
         }
 
         if (!worldManager.isWorldLoaded(this.firstSpawnWorld)) {
             worldManager.loadWorld(this.firstSpawnWorld);
         }
 
-        World world = worldManager.getLoadedWorld("world");
+        World world = worldManager.getLoadedWorld(firstSpawnWorld);
 
         if (world == null) {
             throw new NullPointerException("First spawn world is not loaded");
@@ -49,15 +58,19 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
     public void start() {
         running = true;
         logger.info("Started OpenWorldGame");
-        minecraftConfig.getAutoLoadWorlds().forEach(worldName -> {
-            this.worldManager.loadWorld(worldName).addCallback(world -> {
+        minecraftConfig.getWorlds().forEach(worldConfig -> {
+            if (!worldConfig.isAutoload()) {
+                return;
+            }
+
+            this.worldManager.loadWorld(worldConfig).addCallback(world -> {
                 if (world == null) {
-                    this.worldManager.createWorld(worldName, null);
+                    this.worldManager.createWorld(worldConfig);
                     //TODO: Change
                     // Generator
                 }
             }, throwable -> {
-                logger.error("Failed to load auto-load world " + worldName, throwable);
+                logger.error("Failed to load auto-load world " + worldConfig, throwable);
             });
         });
     }
@@ -66,7 +79,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
     public void stop() {
         logger.info("Stopping OpenWorldGame");
 
-        this.worldManager.getLoadedWorlds().forEach(world -> this.worldManager.unloadWorld(world.getID()));
+        this.worldManager.getLoadedWorlds().forEach(world -> this.worldManager.unloadWorld(world.getWorldConfig()));
 
         logger.info("Stopped OpenWorldGame");
 
