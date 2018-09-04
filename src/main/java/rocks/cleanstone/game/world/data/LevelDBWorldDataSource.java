@@ -28,7 +28,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     private final DirectPalette directPalette;
 
     /**
-     * @deprecated Use the {@link LevelDBWorldDataSourceFactory}
+     * @deprecated Use the {@link WorldDataSourceFactory}
      */
     public LevelDBWorldDataSource(
             VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,

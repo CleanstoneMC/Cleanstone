@@ -36,5 +36,7 @@ public interface World {
 
     ListenableFuture<Chunk> getChunkAt(Position position);
 
+    void unloadRegions();
+
     void close();
 }

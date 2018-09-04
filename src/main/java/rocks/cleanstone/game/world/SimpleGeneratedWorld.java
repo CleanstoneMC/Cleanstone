@@ -158,6 +158,11 @@ public class SimpleGeneratedWorld implements World {
         return getChunk(chunkX, chunkY);
     }
 
+    @Override
+    public void unloadRegions() {
+        regionManager.getLoadedRegions().forEach(regionManager::unloadRegion);
+    }
+
     private ListenableFuture<Region> getRegion(int chunkX, int chunkY) {
         return regionManager.getRegion(chunkX, chunkY);
     }

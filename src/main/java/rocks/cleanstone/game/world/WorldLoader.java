@@ -10,6 +10,4 @@ public interface WorldLoader {
     ListenableFuture<World> loadWorld(String id);
 
     void unloadWorld(World world);
-
-    File getWorldDataFolder();
 }

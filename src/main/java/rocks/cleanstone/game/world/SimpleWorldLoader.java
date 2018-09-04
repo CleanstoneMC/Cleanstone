@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
-import rocks.cleanstone.game.world.data.LevelDBWorldDataSourceFactory;
+import rocks.cleanstone.game.world.data.WorldDataSourceFactory;
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.RegionManager;
@@ -23,13 +23,13 @@ public class SimpleWorldLoader implements WorldLoader {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ApplicationContext context;
     private final WorldGeneratorManager worldGeneratorManager;
-    private final LevelDBWorldDataSourceFactory levelDBWorldDataSourceFactory;
+    private final WorldDataSourceFactory worldDataSourceFactory;
 
     @Autowired
-    public SimpleWorldLoader(ApplicationContext context, WorldGeneratorManager worldGeneratorManager, LevelDBWorldDataSourceFactory levelDBWorldDataSourceFactory) {
+    public SimpleWorldLoader(ApplicationContext context, WorldGeneratorManager worldGeneratorManager, WorldDataSourceFactory worldDataSourceFactory) {
         this.context = context;
         this.worldGeneratorManager = worldGeneratorManager;
-        this.levelDBWorldDataSourceFactory = levelDBWorldDataSourceFactory;
+        this.worldDataSourceFactory = worldDataSourceFactory;
     }
 
     @Async(value = "worldExec")
@@ -47,7 +47,7 @@ public class SimpleWorldLoader implements WorldLoader {
 
         WorldDataSource worldDataSource;
         try {
-            worldDataSource = levelDBWorldDataSourceFactory.get(getWorldDataFolder(), id);
+            worldDataSource = worldDataSourceFactory.get(id);
         } catch (IOException e) {
             logger.error("Could not get World Datasource", e);
             return new AsyncResult<>(null);
@@ -68,16 +68,5 @@ public class SimpleWorldLoader implements WorldLoader {
         world.close();
 
         logger.info("World '" + world.getID() + "' unloaded.");
-    }
-
-    @Override
-    public File getWorldDataFolder() {
-        File dataFolder = new File("data");
-        try {
-            dataFolder.mkdir();
-        } catch (SecurityException e) {
-            logger.error("Cannot create data folder (no permission?)", e);
-        }
-        return dataFolder;
     }
 }
