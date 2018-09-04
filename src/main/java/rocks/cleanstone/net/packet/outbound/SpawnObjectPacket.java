@@ -1,11 +1,12 @@
 package rocks.cleanstone.net.packet.outbound;
 
-import java.util.UUID;
-
+import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
-import rocks.cleanstone.net.packet.enums.ObjectType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.net.packet.enums.ObjectType;
+
+import java.util.UUID;
 
 public class SpawnObjectPacket implements Packet {
 
@@ -46,6 +47,21 @@ public class SpawnObjectPacket implements Packet {
         this.z = z;
         this.pitch = pitch;
         this.yaw = yaw;
+        this.data = data;
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
+        this.velocityZ = velocityZ;
+    }
+
+    public SpawnObjectPacket(int entityID, UUID objectUUID, ObjectType entityType, RotatablePosition position, int data, short velocityX, short velocityY, short velocityZ) {
+        this.entityID = entityID;
+        this.objectUUID = objectUUID;
+        this.entityType = entityType;
+        this.x = position.getX();
+        this.y = position.getY();
+        this.z = position.getZ();
+        this.pitch = position.getRotation().getPitch();
+        this.yaw = position.getRotation().getYaw();
         this.data = data;
         this.velocityX = velocityX;
         this.velocityY = velocityY;

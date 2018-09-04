@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.packet;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.net.packet.outbound.*;
+
+import javax.annotation.Nullable;
 
 public enum MinecraftOutboundPacketType implements PacketType {
     SPAWN_OBJECT(0, SpawnObjectPacket.class),
@@ -65,7 +65,7 @@ public enum MinecraftOutboundPacketType implements PacketType {
 //    CAMERA(57, CameraPacket.class),
 //    HELD_ITEM_CHANGE(58, HeldItemChangePacket.class),
 //    DISPLAY_SCOREBOARD(59, DisplayScoreboardPacket.class),
-//    ENTITY_METADATA(60, EntityMetadataPacket.class),
+    ENTITY_METADATA(60, EntityMetadataPacket.class),
 //    ATTACH_ENTITY(61, AttachEntityPacket.class),
 //    ENTITY_VELOCITY(62, EntityVelocityPacket.class),
 //    ENTITY_EQUIPMENT(63, EntityEquipmentPacket.class),

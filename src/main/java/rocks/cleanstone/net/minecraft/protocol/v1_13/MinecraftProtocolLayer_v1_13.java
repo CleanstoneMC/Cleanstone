@@ -75,6 +75,7 @@ public class MinecraftProtocolLayer_v1_13 extends MinecraftServerProtocolLayer {
         registerPacketCodec(new ChangeGameStateCodec(), ChangeGameStatePacket.class, PLAY, 0x20);
         registerPacketCodec(new EntityHeadLookCodec(), EntityHeadLookPacket.class, PLAY, 0x39);
         registerPacketCodec(new OutAnimationCodec(), AnimationPacket.class, PLAY, 0x06);
+        registerPacketCodec(new SpawnObjectCodec(), SpawnObjectPacket.class, PLAY, 0x00);
     }
 
     @Override
