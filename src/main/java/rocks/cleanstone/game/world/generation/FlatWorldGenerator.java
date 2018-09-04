@@ -15,10 +15,11 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStor
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
 import java.util.HashSet;
+import rocks.cleanstone.net.packet.enums.Dimension;
+import rocks.cleanstone.net.packet.enums.LevelType;
 
 @Component("flatWorldGenerator")
-@Scope("prototype")
-public class FlatWorldGenerator implements WorldGenerator {
+public class FlatWorldGenerator extends AbstractWorldGenerator {
 
     private BlockDataTable blockDataTable;
     private VanillaBlockDataStorage blockDataStorage;
@@ -28,6 +29,7 @@ public class FlatWorldGenerator implements WorldGenerator {
     public FlatWorldGenerator(
             VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory
     ) {
+        super(Dimension.OVERWORLD, LevelType.FLAT);
         this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
 
         blockDataTable = new ArrayBlockDataTable(true);

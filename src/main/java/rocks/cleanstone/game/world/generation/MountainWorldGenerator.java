@@ -1,12 +1,9 @@
 package rocks.cleanstone.game.world.generation;
 
 import java.util.HashSet;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
@@ -19,6 +16,12 @@ import rocks.cleanstone.game.world.generation.utils.NoiseGenerator;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
+
+
+import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.FRACTAL_GAIN;
+import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.FRACTAL_LACUNARITY;
+import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.FRACTAL_OCTAVES;
+import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.FREQUENCY;
 
 @Component
 public class MountainWorldGenerator extends AbstractWorldGenerator {
@@ -42,15 +45,37 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
         noiseGenerator = new NoiseGenerator();
         noiseGenerator.SetNoiseType(NoiseGenerator.NoiseType.SimplexFractal);
-        noiseGenerator.SetFrequency(0.0125F);
-        noiseGenerator.SetFractalOctaves(3);
-        noiseGenerator.SetFractalGain(0.35F);
-        noiseGenerator.SetFractalLacunarity(3.5F);
+
+        setGenerationParameter(FREQUENCY, 0.0125F);
+        setGenerationParameter(FRACTAL_OCTAVES, 3);
+        setGenerationParameter(FRACTAL_GAIN, 0.35F);
+        setGenerationParameter(FRACTAL_LACUNARITY, 3.5F);
 
         GRASS_BLOCK = ImmutableBlock.of(VanillaBlockType.GRASS_BLOCK);
         DIRT = ImmutableBlock.of(VanillaBlockType.DIRT);
         STONE = ImmutableBlock.of(VanillaBlockType.STONE);
         BEDROCK = ImmutableBlock.of(VanillaBlockType.BEDROCK);
+    }
+
+
+    @Override
+    public void setGenerationParameter(WorldGenerationParameter parameter, double value) {
+        super.setGenerationParameter(parameter, value);
+
+        switch (parameter) {
+            case FREQUENCY:
+                noiseGenerator.SetFrequency((float) value);
+                break;
+            case FRACTAL_OCTAVES:
+                noiseGenerator.SetFractalOctaves((int) value);
+                break;
+            case FRACTAL_GAIN:
+                noiseGenerator.SetFractalGain((float) value);
+                break;
+            case FRACTAL_LACUNARITY:
+                noiseGenerator.SetFractalLacunarity((float) value);
+                break;
+        }
     }
 
     @Override
