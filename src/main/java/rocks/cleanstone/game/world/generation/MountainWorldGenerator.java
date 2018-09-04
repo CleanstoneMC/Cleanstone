@@ -23,7 +23,6 @@ import rocks.cleanstone.net.packet.enums.LevelType;
 @Component
 public class MountainWorldGenerator extends AbstractWorldGenerator {
 
-    private boolean initialized;
     private Block GRASS_BLOCK;
     private Block DIRT;
     private Block STONE;
@@ -31,7 +30,6 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     private NoiseGenerator noiseGenerator;
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
     private final ProtocolBlockStateMapping blockStateMapping;
-
 
     public MountainWorldGenerator(
             VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
@@ -48,22 +46,15 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
         noiseGenerator.SetFractalOctaves(3);
         noiseGenerator.SetFractalGain(0.35F);
         noiseGenerator.SetFractalLacunarity(3.5F);
-    }
 
-    public void initialize() {
         GRASS_BLOCK = ImmutableBlock.of(VanillaBlockType.GRASS_BLOCK);
         DIRT = ImmutableBlock.of(VanillaBlockType.DIRT);
         STONE = ImmutableBlock.of(VanillaBlockType.STONE);
         BEDROCK = ImmutableBlock.of(VanillaBlockType.BEDROCK);
-        initialized = true;
     }
 
     @Override
     public Chunk generateChunk(int seed, int chunkX, int chunkY) {
-        if (!initialized) {
-            initialize();
-        }
-
         noiseGenerator.SetSeed(seed);
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {

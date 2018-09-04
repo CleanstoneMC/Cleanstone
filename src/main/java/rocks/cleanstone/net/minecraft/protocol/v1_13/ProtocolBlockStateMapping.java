@@ -13,6 +13,7 @@ import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockType.*;
 public class ProtocolBlockStateMapping extends ModernBlockStateMapping {
 
     public ProtocolBlockStateMapping() {
+        super(BlockState.of(STONE));
         setBaseID(AIR, 0);
         setBaseID(STONE, 1);
         setBaseID(GRANITE, 2);
@@ -606,10 +607,5 @@ public class ProtocolBlockStateMapping extends ModernBlockStateMapping {
         setBaseID(CAVE_AIR, 8575);
         setBaseID(BUBBLE_COLUMN, 8576);
         setBaseID(STRUCTURE_BLOCK, 8578);
-    }
-
-    @Override
-    protected BlockState createDefaultState() {
-        return BlockState.of(STONE);
     }
 }

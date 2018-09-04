@@ -20,7 +20,6 @@ import java.util.HashSet;
 @Scope("prototype")
 public class FlatWorldGenerator implements WorldGenerator {
 
-    private boolean initialized = false;
     private BlockDataTable blockDataTable;
     private VanillaBlockDataStorage blockDataStorage;
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
@@ -30,19 +29,7 @@ public class FlatWorldGenerator implements WorldGenerator {
             VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory
     ) {
         this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
-    }
 
-    @Override
-    public Chunk generateChunk(int seed, int chunkX, int chunkY) {
-        if (!initialized) {
-            initialize();
-        }
-
-        return new SimpleChunk(new ArrayBlockDataTable((ArrayBlockDataTable) blockDataTable),
-                vanillaBlockDataStorageFactory.get(blockDataStorage), new HashSet<>(), chunkX, chunkY);
-    }
-
-    private void initialize() {
         blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
@@ -60,8 +47,12 @@ public class FlatWorldGenerator implements WorldGenerator {
 
         DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
         blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable, directPalette, true);
+    }
 
-        initialized = true;
+    @Override
+    public Chunk generateChunk(int seed, int chunkX, int chunkY) {
+        return new SimpleChunk(new ArrayBlockDataTable((ArrayBlockDataTable) blockDataTable),
+                vanillaBlockDataStorageFactory.get(blockDataStorage), new HashSet<>(), chunkX, chunkY);
     }
 
     @Override
