@@ -24,7 +24,7 @@ public class BlockState {
     private static CachingBlockStateProvider getLoadingSource() {
         if (loadingSource == null) {
             log.warn("no BlockState loading source provided, caching will not work");
-            return new CachingBlockStateProvider();
+            return (loadingSource = new CachingBlockStateProvider());
         } else {
             return loadingSource;
         }

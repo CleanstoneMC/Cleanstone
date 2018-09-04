@@ -1,8 +1,11 @@
 package rocks.cleanstone.game.block;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.block.state.BlockStateProviderInitializer;
+import rocks.cleanstone.game.block.state.CachingBlockStateProvider;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.SimpleMaterialRegistry;
 
