@@ -8,6 +8,11 @@ import rocks.cleanstone.game.material.block.BlockType;
 
 @Component("immutableBlockProvider")
 public class CachingImmutableBlockProvider {
+
+    public CachingImmutableBlockProvider() {
+        ImmutableBlock.setLoadingSource(this);
+    }
+
     @Cacheable(value = "immutableBlocks", sync = true)
     public ImmutableBlock of(BlockState state) {
         return new ImmutableBlock(state);

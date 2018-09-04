@@ -10,6 +10,10 @@ import rocks.cleanstone.game.material.block.BlockType;
 @Component("blockStateProvider")
 public class CachingBlockStateProvider {
 
+    public CachingBlockStateProvider() {
+        BlockState.setLoadingSource(this);
+    }
+
     @Cacheable(value = "blockStates", sync = true)
     public BlockState of(BlockType blockType, Properties properties) {
         return new BlockState(blockType, properties);
