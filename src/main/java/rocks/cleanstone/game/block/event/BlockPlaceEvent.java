@@ -6,16 +6,16 @@ import rocks.cleanstone.game.block.Face;
 import rocks.cleanstone.player.Player;
 
 public class BlockPlaceEvent {
-    Block block;
-    Position position;
-    Player player;
-    Face blocKFace;
+    private Block block;
+    private Position position;
+    private Player player;
+    private Face blockFace;
 
-    public BlockPlaceEvent(Block block, Position position, Player player, Face blocKFace) {
+    public BlockPlaceEvent(Block block, Position position, Player player, Face blockFace) {
         this.block = block;
         this.position = position;
         this.player = player;
-        this.blocKFace = blocKFace;
+        this.blockFace = blockFace;
     }
 
     public Block getBlock() {
@@ -42,11 +42,11 @@ public class BlockPlaceEvent {
         this.player = player;
     }
 
-    public Face getBlocKFace() {
-        return blocKFace;
+    public Face getBlockFace() {
+        return blockFace;
     }
 
-    public void setBlocKFace(Face blocKFace) {
-        this.blocKFace = blocKFace;
+    public void setBlockFace(Face blockFace) {
+        this.blockFace = blockFace;
     }
 }
