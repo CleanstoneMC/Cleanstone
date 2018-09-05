@@ -19,7 +19,6 @@ public class ImmutableBlock implements Block {
 
     private static CachingImmutableBlockProvider getLoadingSource() {
         if (loadingSource == null) {
-            log.warn("no ImmutableBlock loading source provided, caching will not work");
             return (loadingSource = new CachingImmutableBlockProvider());
         } else {
             return loadingSource;
