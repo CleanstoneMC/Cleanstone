@@ -35,11 +35,8 @@ public class SimpleWorldLoader implements WorldLoader {
     @Async(value = "worldExec")
     @Override
     public ListenableFuture<World> loadWorld(WorldConfig worldConfig) {
-        logger.info("Loading world '" + worldConfig.getName() + "'...");
-        // TODO Fetch generator from dataSource
 
         WorldGenerator worldGenerator = worldGeneratorManager.getWorldGenerator(worldConfig.getGenerator());
-
         if (worldGenerator == null) {
             logger.error("Cannot find Worldgenerator - Exiting");
             System.exit(0);
@@ -57,16 +54,13 @@ public class SimpleWorldLoader implements WorldLoader {
         World world = context.getBean(World.class, worldConfig, worldGenerator, worldDataSource, regionManager);
 
         // TODO: Loading spawn and other tasks(?)
-        logger.info("World '" + worldConfig.getName() + "' loaded.");
+        logger.info("World '" + worldConfig.getName() + "' loaded");
         return new AsyncResult<>(world);
     }
 
     @Override
     public void unloadWorld(World world) {
-        logger.info("Unloading world '" + world.getID() + "'...");
-
         world.close();
-
-        logger.info("World '" + world.getID() + "' unloaded.");
+        logger.info("World '" + world.getID() + "' unloaded");
     }
 }
