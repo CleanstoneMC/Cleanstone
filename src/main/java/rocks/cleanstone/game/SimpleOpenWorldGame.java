@@ -3,6 +3,7 @@ package rocks.cleanstone.game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
@@ -11,9 +12,11 @@ import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
 
+import javax.annotation.Nonnull;
+
 @Component("game")
 @Lazy()
-public class SimpleOpenWorldGame implements OpenWorldGame {
+public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final WorldManager worldManager;
@@ -46,18 +49,14 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
         }
 
         World world = worldManager.getLoadedWorld(firstSpawnWorld);
-
         if (world == null) {
             throw new NullPointerException("First spawn world is not loaded");
         }
-
         return world;
     }
 
     @Override
     public void start() {
-        running = true;
-        logger.info("Started OpenWorldGame");
         minecraftConfig.getWorlds().forEach(worldConfig -> {
             if (!worldConfig.isAutoload()) {
                 return;
@@ -73,21 +72,35 @@ public class SimpleOpenWorldGame implements OpenWorldGame {
                 logger.error("Failed to load auto-load world " + worldConfig, throwable);
             });
         });
+        logger.info("Started OpenWorldGame");
+        running = true;
     }
 
     @Override
     public void stop() {
-        logger.info("Stopping OpenWorldGame");
-
         this.worldManager.getLoadedWorlds().forEach(world -> this.worldManager.unloadWorld(world.getWorldConfig()));
-
         logger.info("Stopped OpenWorldGame");
-
         running = false;
     }
 
     @Override
     public boolean isRunning() {
         return running;
+    }
+
+    @Override
+    public boolean isAutoStartup() {
+        return true;
+    }
+
+    @Override
+    public void stop(@Nonnull Runnable callback) {
+        stop();
+        callback.run();
+    }
+
+    @Override
+    public int getPhase() {
+        return 5;
     }
 }

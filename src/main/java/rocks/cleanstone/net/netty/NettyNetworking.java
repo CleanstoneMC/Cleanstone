@@ -9,18 +9,17 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.event.ContextClosedEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.context.SmartLifecycle;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.player.PlayerManager;
 
-import javax.annotation.PostConstruct;
+import javax.annotation.Nonnull;
 import java.net.InetAddress;
 
-public class NettyNetworking extends AbstractNetworking {
+public class NettyNetworking extends AbstractNetworking implements SmartLifecycle {
 
     private final boolean epoll = false;
     private final int socketBacklog = 128;
@@ -28,14 +27,15 @@ public class NettyNetworking extends AbstractNetworking {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final PlayerManager playerManager;
     private EventLoopGroup bossGroup, workerGroup;
+    private boolean running = false;
 
     public NettyNetworking(int port, InetAddress address, Protocol protocol, PlayerManager playerManager) {
         super(port, address, protocol);
         this.playerManager = playerManager;
     }
 
-    @PostConstruct
-    public void init() {
+    @Override
+    public void start() {
         bossGroup = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
         workerGroup = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
         ServerBootstrap bootstrap = new ServerBootstrap();
@@ -54,14 +54,37 @@ public class NettyNetworking extends AbstractNetworking {
                         getAddress().getHostAddress(), getPort() + ""), future.cause());
             }
         });
+        running = true;
     }
 
-    @EventListener
-    public void onPreDestroy(ContextClosedEvent e) {
+    @Override
+    public void stop() {
         playerManager.getOnlinePlayers().forEach(player -> player.kick(
                 Text.ofLocalized("game.command.cleanstone.default-stop-reason", player.getLocale())));
         logger.info("Closing " + protocol.getClass().getSimpleName());
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
+        running = false;
+    }
+
+    @Override
+    public boolean isAutoStartup() {
+        return true;
+    }
+
+    @Override
+    public void stop(@Nonnull Runnable callback) {
+        stop();
+        callback.run();
+    }
+
+    @Override
+    public boolean isRunning() {
+        return running;
+    }
+
+    @Override
+    public int getPhase() {
+        return 10;
     }
 }
