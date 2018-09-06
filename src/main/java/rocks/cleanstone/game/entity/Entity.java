@@ -13,4 +13,8 @@ public interface Entity {
     void setPosition(RotatablePosition rotatablePosition);
 
     World getWorld();
+
+    boolean isPersistent();
+
+    void setPersistent(boolean persistent);
 }

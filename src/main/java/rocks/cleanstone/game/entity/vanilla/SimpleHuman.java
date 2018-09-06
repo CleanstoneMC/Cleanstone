@@ -1,7 +1,5 @@
 package rocks.cleanstone.game.entity.vanilla;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.entity.AbstractEntity;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.inventory.Hand;
@@ -10,6 +8,8 @@ import rocks.cleanstone.game.inventory.SimpleInventory;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.world.World;
 
+import javax.annotation.Nullable;
+
 public class SimpleHuman extends AbstractEntity implements Human {
 
     private HeadRotatablePosition position;
@@ -17,7 +17,7 @@ public class SimpleHuman extends AbstractEntity implements Human {
     private short mainHandSlot = 0;
 
     public SimpleHuman(World world, HeadRotatablePosition position) {
-        super(VanillaEntityType.HUMAN, world, position);
+        super(VanillaEntityType.HUMAN, world, position, false);
         this.position = position;
         this.inventory = new SimpleInventory(128);//TODO: Correct Size
     }
