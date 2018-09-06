@@ -69,7 +69,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
                     // Generator
                 }
             }, throwable -> {
-                logger.error("Failed to load auto-load world " + worldConfig, throwable);
+                logger.error("Failed to load auto-load world " + worldConfig.getName(), throwable);
             });
         });
         logger.info("Started OpenWorldGame");

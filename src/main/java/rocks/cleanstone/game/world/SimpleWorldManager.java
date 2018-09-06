@@ -1,5 +1,6 @@
 package rocks.cleanstone.game.world;
 
+import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,13 +46,9 @@ public class SimpleWorldManager implements WorldManager {
         ListenableFuture<World> worldListenableFuture = worldLoader.loadWorld(worldConfig);
 
         worldListenableFuture.addCallback(world -> {
-            if (world == null) {
-                logger.error("Error while loading world: {}", worldConfig);
-                return;
-            }
-
+            Preconditions.checkNotNull(world, "Loaded world " + worldConfig.getName() + " cannot be null");
             worldMap.put(world.getWorldConfig(), world);
-        }, throwable -> logger.error("Error while loading world", throwable));
+        }, throwable -> logger.error("Error while loading world " + worldConfig.getName(), throwable));
 
         return worldListenableFuture;
     }

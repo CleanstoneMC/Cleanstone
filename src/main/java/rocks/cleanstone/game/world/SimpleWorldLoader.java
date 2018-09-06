@@ -38,16 +38,15 @@ public class SimpleWorldLoader implements WorldLoader {
 
         WorldGenerator worldGenerator = worldGeneratorManager.getWorldGenerator(worldConfig.getGenerator());
         if (worldGenerator == null) {
-            logger.error("Cannot find Worldgenerator - Exiting");
-            System.exit(0);
+            return AsyncResult.forExecutionException(
+                    new IllegalArgumentException("Cannot find worldGenerator " + worldConfig.getGenerator()));
         }
 
         WorldDataSource worldDataSource;
         try {
             worldDataSource = worldDataSourceFactory.get(worldConfig.getName());
         } catch (IOException e) {
-            logger.error("Could not get World Datasource", e);
-            return new AsyncResult<>(null);
+            return AsyncResult.forExecutionException(new IOException("Failed to create worldDataSource", e));
         }
         ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);
         RegionManager regionManager = context.getBean(RegionManager.class, chunkProvider);
