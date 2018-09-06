@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.block.entity.metadata.type;
+package rocks.cleanstone.game.entity.metadata.type;
 
 public enum VanillaMetadataType implements MetadataType {
     BYTE(0),
