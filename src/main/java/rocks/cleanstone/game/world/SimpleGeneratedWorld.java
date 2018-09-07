@@ -134,6 +134,7 @@ public class SimpleGeneratedWorld implements World {
         }
     }
 
+    @Async(value = "worldExec")
     @Override
     public ListenableFuture<Block> getBlockAt(Position position) {
         return getBlockAt(position.getXAsInt(), position.getYAsInt(), position.getZAsInt());
