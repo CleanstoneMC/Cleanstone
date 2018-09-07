@@ -37,7 +37,7 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
     }
 
     @Override
-    public int translateInboundPacketID(int clientPacketID, Connection connection) {
+    public PacketType translateInboundPacketID(int clientPacketID, Connection connection) {
         MinecraftServerProtocolLayer layer = (MinecraftServerProtocolLayer) getServerLayerFromClientLayer
                 (connection.getClientProtocolLayer());
         Preconditions.checkNotNull(layer, "Cannot find ServerLayer by ClientLayer "
@@ -47,17 +47,17 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
         Preconditions.checkNotNull(packetType, "Missing codec: Cannot find packetType by clientPacketID " +
                 String.format("0x%02X", clientPacketID) + " and protocolState " + connection
                 .getProtocolState() + " in " + layer.getClass().getSimpleName());
-        return packetType.getTypeID();
+        return packetType;
     }
 
     @Override
-    public int translateOutboundPacketID(int serverPacketID, Connection connection) {
+    public int translateOutboundPacketID(PacketType packetType, Connection connection) {
         MinecraftServerProtocolLayer layer = (MinecraftServerProtocolLayer) getServerLayerFromClientLayer
                 (connection.getClientProtocolLayer());
         Preconditions.checkNotNull(layer, "Cannot find ServerLayer by ClientLayer "
                 + connection.getClientProtocolLayer().getName());
 
-        return layer.getProtocolPacketID(MinecraftOutboundPacketType.byTypeID(serverPacketID));
+        return layer.getProtocolPacketID(packetType);
     }
 
     @Override

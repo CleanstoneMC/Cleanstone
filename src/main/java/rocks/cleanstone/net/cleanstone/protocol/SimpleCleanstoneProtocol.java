@@ -5,6 +5,7 @@ import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.cleanstone.packet.CleanstoneInboundPacketType;
 import rocks.cleanstone.net.cleanstone.packet.CleanstoneOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.SimplePacketTypeRegistry;
 import rocks.cleanstone.net.protocol.ClientProtocolLayer;
@@ -37,13 +38,13 @@ public class SimpleCleanstoneProtocol implements Protocol {
     }
 
     @Override
-    public int translateInboundPacketID(int clientPacketID, Connection connection) {
-        return clientPacketID;
+    public PacketType translateInboundPacketID(int clientPacketID, Connection connection) {
+        return null; // TODO
     }
 
     @Override
-    public int translateOutboundPacketID(int serverPacketID, Connection connection) {
-        return serverPacketID;
+    public int translateOutboundPacketID(PacketType packetType, Connection connection) {
+        return -1; // TODO
     }
 
     @Override

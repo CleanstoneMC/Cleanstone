@@ -8,6 +8,4 @@ public abstract class PacketTypeRegistry {
     public abstract void unregisterPacketType(PacketType... packetTypes);
 
     public abstract Collection<PacketType> getPacketTypes();
-
-    public abstract PacketType getPacketType(int packetTypeId);
 }

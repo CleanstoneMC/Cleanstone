@@ -29,7 +29,7 @@ public class PacketEncoder extends MessageToMessageEncoder<Packet> {
         try {
             Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
-            int packetID = protocol.translateOutboundPacketID(in.getType().getTypeID(), connection);
+            int packetID = protocol.translateOutboundPacketID(in.getType(), connection);
             PacketCodec codec = protocol.getPacketCodec(in.getClass(), connection.getClientProtocolLayer());
             ByteBuf data = ctx.alloc().buffer();
             ByteBufUtils.writeVarInt(data, packetID);

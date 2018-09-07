@@ -26,12 +26,4 @@ public class SimplePacketTypeRegistry extends PacketTypeRegistry {
     public Collection<PacketType> getPacketTypes() {
         return packetTypes;
     }
-
-    @Override
-    @Nullable
-    public PacketType getPacketType(int packetTypeId) {
-        return packetTypes.stream().filter(
-                (packetType) -> packetType.getTypeID() == packetTypeId
-        ).findFirst().orElse(null);
-    }
 }

@@ -35,13 +35,13 @@ public class SimpleMCPEProtocol implements Protocol {
     }
 
     @Override
-    public int translateInboundPacketID(int clientPacketID, Connection connection) {
-        return clientPacketID;
+    public PacketType translateInboundPacketID(int clientPacketID, Connection connection) {
+        return null; // TODO
     }
 
     @Override
-    public int translateOutboundPacketID(int serverPacketID, Connection connection) {
-        return serverPacketID;
+    public int translateOutboundPacketID(PacketType packetType, Connection connection) {
+        return -1; // TODO
     }
 
     @Override

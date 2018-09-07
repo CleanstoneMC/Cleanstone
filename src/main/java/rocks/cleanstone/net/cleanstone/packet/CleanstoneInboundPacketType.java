@@ -6,19 +6,12 @@ import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
 
 public enum CleanstoneInboundPacketType implements PacketType {
-    KEEP_ALIVE(0, KeepAlive.class);
+    KEEP_ALIVE(KeepAlive.class);
 
-    private final int typeId;
     private final Class<? extends Packet> packetClass;
 
-    CleanstoneInboundPacketType(int typeId, Class<? extends Packet> packetClass) {
-        this.typeId = typeId;
+    CleanstoneInboundPacketType(Class<? extends Packet> packetClass) {
         this.packetClass = packetClass;
-    }
-
-    @Override
-    public int getTypeID() {
-        return 1000 + typeId;
     }
 
     public Class<? extends Packet> getPacketClass() {
