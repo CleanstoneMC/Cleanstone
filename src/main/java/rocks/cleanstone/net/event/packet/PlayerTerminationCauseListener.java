@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.game.world.EntityManager;
+import rocks.cleanstone.game.entity.SimpleEntityRegistry;
 import rocks.cleanstone.net.event.ConnectionClosedEvent;
 import rocks.cleanstone.player.OnlinePlayer;
 import rocks.cleanstone.player.Player;
@@ -16,12 +16,12 @@ import java.util.Optional;
 public class PlayerTerminationCauseListener {
 
     private final PlayerManager playerManager;
-    private final EntityManager entityManager;
+    private final SimpleEntityRegistry entityRegistry;
 
     @Autowired
-    public PlayerTerminationCauseListener(PlayerManager playerManager, EntityManager entityManager) {
+    public PlayerTerminationCauseListener(PlayerManager playerManager, SimpleEntityRegistry entityRegistry) {
         this.playerManager = playerManager;
-        this.entityManager = entityManager;
+        this.entityRegistry = entityRegistry;
     }
 
     @Async(value = "playerExec")
@@ -33,7 +33,7 @@ public class PlayerTerminationCauseListener {
                 .findAny();
 
         optionalPlayer.ifPresent(player -> {
-            entityManager.removeEntity(player.getEntity());
+            entityRegistry.removeEntity(player.getEntity());
             playerManager.terminatePlayer(player);
         });
     }

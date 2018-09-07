@@ -4,6 +4,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.entity.EntityRegistry;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.data.WorldDataSource;
@@ -28,6 +29,8 @@ public interface World {
     RotatablePosition getFirstSpawnPosition();
 
     WorldDataSource getDataSource();
+
+    EntityRegistry getEntityRegistry();
 
     ListenableFuture<Block> getBlockAt(int x, int y, int z);
 

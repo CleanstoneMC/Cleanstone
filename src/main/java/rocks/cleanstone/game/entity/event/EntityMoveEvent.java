@@ -5,10 +5,10 @@ import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 
 public class EntityMoveEvent extends CancellableEvent {
+
     private final Entity entity;
     private final HeadRotatablePosition oldPosition;
     private HeadRotatablePosition newPosition;
-
 
     public EntityMoveEvent(Entity entity, HeadRotatablePosition oldPosition,
                            HeadRotatablePosition newPosition) {

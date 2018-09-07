@@ -12,7 +12,6 @@ import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
-import rocks.cleanstone.game.world.EntityManager;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
 import rocks.cleanstone.player.Player;
@@ -28,22 +27,19 @@ public class AddEntity {
 
     private final OpenWorldGame openWorldGame;
     private final WorldManager worldManager;
-    private final EntityManager entityManager;
     private final PlayerManager playerManager;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public AddEntity(OpenWorldGame openWorldGame, WorldManager worldManager, EntityManager entityManager,
-                     PlayerManager playerManager) {
+    public AddEntity(OpenWorldGame openWorldGame, WorldManager worldManager, PlayerManager playerManager) {
         this.openWorldGame = openWorldGame;
         this.worldManager = worldManager;
-        this.entityManager = entityManager;
         this.playerManager = playerManager;
     }
 
     @Order(value = 5)
     @EventListener
-    public void onJoin(AsyncPlayerInitializationEvent e) {
+    public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
 
         EntityData entityData = null;
@@ -79,8 +75,8 @@ public class AddEntity {
         }
 
         Human human = new SimpleHuman(world, position);
-        human = entityManager.addEntityWithoutID(human);
         player.setEntity(human);
+        world.getEntityRegistry().addEntity(human);
         player.setGameMode(gameMode);
         player.setFlying(flying);
     }

@@ -1,6 +1,7 @@
 package rocks.cleanstone.player;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.ChatMode;
@@ -15,6 +16,7 @@ import rocks.cleanstone.net.packet.enums.PlayerAbility;
 import rocks.cleanstone.player.event.MoveReason;
 import rocks.cleanstone.player.event.PlayerTeleportEvent;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Locale;
@@ -56,6 +58,7 @@ public abstract class AbstractPlayer implements Player {
         this.op = op;
     }
 
+    @Nullable
     @Override
     public Human getEntity() {
         return entity;
@@ -63,6 +66,7 @@ public abstract class AbstractPlayer implements Player {
 
     @Override
     public void setEntity(Human entity) {
+        Preconditions.checkNotNull(entity, "Player entity cannot be null after player init");
         this.entity = entity;
     }
 

@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.config.WorldConfig;
+import rocks.cleanstone.game.entity.EntityRegistry;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.data.WorldDataSourceFactory;
@@ -50,7 +51,8 @@ public class SimpleWorldLoader implements WorldLoader {
         }
         ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);
         RegionManager regionManager = context.getBean(RegionManager.class, chunkProvider);
-        World world = context.getBean(World.class, worldConfig, worldGenerator, worldDataSource, regionManager);
+        EntityRegistry entityRegistry = context.getBean(EntityRegistry.class);
+        World world = context.getBean(World.class, worldConfig, worldGenerator, worldDataSource, regionManager, entityRegistry);
 
         // TODO: Loading spawn and other tasks(?)
         logger.info("World '" + worldConfig.getName() + "' loaded");

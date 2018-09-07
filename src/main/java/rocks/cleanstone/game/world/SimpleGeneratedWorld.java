@@ -11,6 +11,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
+import rocks.cleanstone.game.entity.EntityRegistry;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.world.chunk.Chunk;
@@ -31,7 +32,8 @@ public class SimpleGeneratedWorld implements World {
     protected final WorldGenerator generator;
     protected final WorldDataSource dataSource;
     protected final RegionManager regionManager;
-    private final WorldConfig worldConfig;
+    protected final EntityRegistry entityRegistry;
+    protected final WorldConfig worldConfig;
     private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
     private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
     private LevelType levelType = LevelType.FLAT; //TODO: Move
@@ -39,17 +41,19 @@ public class SimpleGeneratedWorld implements World {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     public SimpleGeneratedWorld(WorldConfig worldConfig, WorldGenerator generator, WorldDataSource dataSource,
-                                RegionManager regionManager, RotatablePosition spawnPosition) {
+                                RegionManager regionManager, EntityRegistry entityRegistry,
+                                RotatablePosition spawnPosition) {
         this.worldConfig = worldConfig;
         this.generator = generator;
         this.dataSource = dataSource;
         this.regionManager = regionManager;
+        this.entityRegistry = entityRegistry;
         this.spawnPosition = spawnPosition;
     }
 
     public SimpleGeneratedWorld(WorldConfig worldConfig, WorldGenerator generator, WorldDataSource dataSource,
-                                RegionManager regionManager) {
-        this(worldConfig, generator, dataSource, regionManager, null);
+                                RegionManager regionManager, EntityRegistry entityRegistry) {
+        this(worldConfig, generator, dataSource, regionManager, entityRegistry, null);
     }
 
     private static int getRelativeBlockCoordinate(int blockCoordinate) {
@@ -108,6 +112,11 @@ public class SimpleGeneratedWorld implements World {
     @Override
     public WorldDataSource getDataSource() {
         return dataSource;
+    }
+
+    @Override
+    public EntityRegistry getEntityRegistry() {
+        return entityRegistry;
     }
 
     @Async(value = "worldExec")

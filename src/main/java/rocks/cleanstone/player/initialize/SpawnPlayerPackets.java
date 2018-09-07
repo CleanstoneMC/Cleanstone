@@ -23,7 +23,7 @@ public class SpawnPlayerPackets {
 
     @Order(value = 35)
     @EventListener
-    public void onJoin(AsyncPlayerInitializationEvent e) {
+    public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
 
         sendToJoined(player);

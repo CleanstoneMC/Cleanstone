@@ -23,7 +23,7 @@ public class DestroyPlayerPackets {
 
     @Order(value = 25)
     @EventListener
-    public void onJoin(AsyncPlayerTerminationEvent e) {
+    public void onTerminate(AsyncPlayerTerminationEvent e) {
         Player player = e.getPlayer();
         broadcastRemoval(player, player);
     }

@@ -48,6 +48,7 @@ public class EntityDataCodec implements Codec<EntityData, ByteBuf> {
         ByteBuf data = Unpooled.buffer();
         ByteBufUtils.writeVarInt(data, entityData.getEntities().size());
         for (Entity entity : entityData.getEntities()) {
+            if (!entity.isPersistent()) continue;
             ByteBufUtils.writeVarInt(data, entity.getType().getTypeID());
             Codec<Entity, ByteBuf> entityCodec = entityTypeRegistry.getEntityCodec(entity.getType());
             Preconditions.checkNotNull(entityCodec, "Cannot serialize unregistered entityType " + entity.getType());

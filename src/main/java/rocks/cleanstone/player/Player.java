@@ -12,6 +12,7 @@ import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
 import rocks.cleanstone.net.packet.enums.PlayerAbility;
 import rocks.cleanstone.player.event.MoveReason;
 
+import javax.annotation.Nullable;
 import java.net.InetAddress;
 import java.util.Collection;
 import java.util.Locale;

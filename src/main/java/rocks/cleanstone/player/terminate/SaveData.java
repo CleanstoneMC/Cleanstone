@@ -33,7 +33,7 @@ public class SaveData {
 
     @Order(value = 50)
     @EventListener
-    public void onJoin(AsyncPlayerTerminationEvent e) {
+    public void onTerminate(AsyncPlayerTerminationEvent e) {
         Player player = e.getPlayer();
         EntityData entityData = new EntityData(player.getEntity().getPosition(),
                 player.getEntity().getWorld().getID(), player.getGameMode(), player.isFlying());

@@ -6,35 +6,27 @@ public abstract class AbstractEntity implements Entity {
 
     private final EntityType type;
     private final World world;
-    protected RotatablePosition position;
+    private final int entityID;
     private boolean persistent;
-    private int entityID;
+    protected RotatablePosition position;
 
-    protected AbstractEntity(int entityID, EntityType type, World world, RotatablePosition position,
-                             boolean persistent) {
-        this.entityID = entityID;
+    protected AbstractEntity(EntityType type, World world, RotatablePosition position, boolean persistent) {
         this.type = type;
         this.world = world;
         this.position = position;
         this.persistent = persistent;
+
+        entityID = world.getEntityRegistry().acquireEntityID();
     }
 
-    protected AbstractEntity(EntityType type, World world, RotatablePosition position, boolean persistent) {
-        this.type = type;
-        this.position = position;
-        this.world = world;
-    }
-
+    @Override
     public EntityType getType() {
         return type;
     }
 
+    @Override
     public int getEntityID() {
         return entityID;
-    }
-
-    public void setEntityID(int entityID) {
-        this.entityID = entityID;
     }
 
     @Override
