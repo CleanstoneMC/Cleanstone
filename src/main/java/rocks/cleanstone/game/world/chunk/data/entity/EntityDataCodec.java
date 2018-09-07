@@ -12,8 +12,10 @@ import rocks.cleanstone.game.entity.EntityTypeRegistry;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EntityDataCodec implements Codec<EntityData, ByteBuf> {
 
@@ -46,9 +48,10 @@ public class EntityDataCodec implements Codec<EntityData, ByteBuf> {
     @Override
     public ByteBuf serialize(EntityData entityData) throws IOException {
         ByteBuf data = Unpooled.buffer();
-        ByteBufUtils.writeVarInt(data, entityData.getEntities().size());
-        for (Entity entity : entityData.getEntities()) {
-            if (!entity.isPersistent()) continue;
+        Collection<Entity> entities = entityData.getEntities().stream()
+                .filter(Entity::isPersistent).collect(Collectors.toSet());
+        ByteBufUtils.writeVarInt(data, entities.size());
+        for (Entity entity : entities) {
             ByteBufUtils.writeVarInt(data, entity.getType().getTypeID());
             Codec<Entity, ByteBuf> entityCodec = entityTypeRegistry.getEntityCodec(entity.getType());
             Preconditions.checkNotNull(entityCodec, "Cannot serialize unregistered entityType " + entity.getType());
