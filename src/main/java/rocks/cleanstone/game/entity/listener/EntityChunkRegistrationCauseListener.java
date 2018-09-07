@@ -13,7 +13,7 @@ import rocks.cleanstone.game.entity.event.EntityRemoveEvent;
 import rocks.cleanstone.game.world.chunk.Chunk;
 
 @Component
-public class EntityChunkRegistrationListener {
+public class EntityChunkRegistrationCauseListener {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

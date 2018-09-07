@@ -6,19 +6,19 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalNotification;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
-
-import javax.annotation.Nullable;
-
+import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
+import rocks.cleanstone.game.world.event.ChunkLoadedEvent;
+import rocks.cleanstone.game.world.event.ChunkUnloadEvent;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
 
 public class SimpleRegion implements Region {
 
@@ -69,7 +69,6 @@ public class SimpleRegion implements Region {
         if (isChunkLoaded(chunkX, chunkY)) {
             return new AsyncResult<>(getLoadedChunk(chunkX, chunkY));
         }
-
         return loadChunk(chunkX, chunkY);
     }
 
@@ -77,7 +76,11 @@ public class SimpleRegion implements Region {
     public ListenableFuture<Chunk> loadChunk(int chunkX, int chunkY) {
         ListenableFuture<Chunk> chunkFuture = chunkProvider.getChunk(chunkX, chunkY);
         chunkFuture.addCallback(
-                chunk -> loadedChunks.put(Pair.of(chunkX, chunkY), chunk),
+                chunk -> {
+                    Preconditions.checkNotNull(chunk);
+                    loadedChunks.put(Pair.of(chunkX, chunkY), chunk);
+                    CleanstoneServer.publishEvent(new ChunkLoadedEvent(chunk));
+                },
                 error -> logger.error("could not load chunk " + chunkX + ", " + chunkY, error)
         );
         return chunkFuture;
@@ -87,7 +90,7 @@ public class SimpleRegion implements Region {
     public void unloadChunk(int chunkX, int chunkY) {
         Chunk chunk = getLoadedChunk(chunkX, chunkY);
         Preconditions.checkNotNull(chunk, "Cannot unload non-loaded chunk " + chunkX + ":" + chunkY);
-
+        CleanstoneServer.publishEvent(new ChunkUnloadEvent(chunk));
         loadedChunks.invalidate(Pair.of(chunk.getX(), chunk.getY()));
     }
 
