@@ -1,27 +1,27 @@
 package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Preconditions;
-
-import java.util.Collection;
-
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
+import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
+
+import java.util.Collection;
 
 public class SimpleChunk implements Chunk {
 
     private final BlockDataTable blockDataTable;
     private final BlockDataStorage blockDataStorage;
-    private final Collection<Entity> entityCollection;
+    private final EntityData entityData;
     private final int x, y;
     private boolean hasUnsavedChanges = false;
     // TODO biome state
 
     public SimpleChunk(BlockDataTable blockDataTable, BlockDataStorage blockDataStorage,
-                       Collection<Entity> entityCollection, int x, int y) {
+                       EntityData entityData, int x, int y) {
         this.blockDataTable = blockDataTable;
         this.blockDataStorage = blockDataStorage;
-        this.entityCollection = entityCollection;
+        this.entityData = entityData;
         this.x = x;
         this.y = y;
     }
@@ -33,7 +33,12 @@ public class SimpleChunk implements Chunk {
 
     @Override
     public Collection<Entity> getEntities() {
-        return entityCollection;
+        return entityData.getEntities();
+    }
+
+    @Override
+    public EntityData getEntityData() {
+        return entityData;
     }
 
     @Override

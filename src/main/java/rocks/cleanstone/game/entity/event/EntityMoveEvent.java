@@ -1,6 +1,8 @@
-package rocks.cleanstone.game.entity;
+package rocks.cleanstone.game.entity.event;
 
 import rocks.cleanstone.core.event.CancellableEvent;
+import rocks.cleanstone.game.entity.Entity;
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
 
 public class EntityMoveEvent extends CancellableEvent {
     private final Entity entity;

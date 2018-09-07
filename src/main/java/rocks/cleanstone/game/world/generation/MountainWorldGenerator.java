@@ -1,6 +1,5 @@
 package rocks.cleanstone.game.world.generation;
 
-import java.util.HashSet;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
@@ -12,16 +11,16 @@ import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
+import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.generation.utils.NoiseGenerator;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 
-import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.FRACTAL_GAIN;
-import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.FRACTAL_LACUNARITY;
-import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.FRACTAL_OCTAVES;
-import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.FREQUENCY;
+import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.*;
 
 @Component
 public class MountainWorldGenerator extends AbstractWorldGenerator {
@@ -103,7 +102,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
         VanillaBlockDataStorage blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable,
                 directPalette, true);
 
-        return new SimpleChunk(blockDataTable, blockDataStorage, new HashSet<>(), chunkX, chunkY);
+        return new SimpleChunk(blockDataTable, blockDataStorage, new EntityData(new HashSet<>()), chunkX, chunkY);
     }
 
     public int getHeightAt(int seed, int x, int z) {

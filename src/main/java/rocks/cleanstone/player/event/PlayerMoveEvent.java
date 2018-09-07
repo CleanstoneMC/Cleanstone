@@ -1,6 +1,6 @@
 package rocks.cleanstone.player.event;
 
-import rocks.cleanstone.game.entity.EntityMoveEvent;
+import rocks.cleanstone.game.entity.event.EntityMoveEvent;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.player.Player;
 

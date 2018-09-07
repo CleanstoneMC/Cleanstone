@@ -2,9 +2,11 @@ package rocks.cleanstone.game.world.chunk;
 
 import java.util.Collection;
 
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
+import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 
 public interface Chunk {
 
@@ -42,4 +44,6 @@ public interface Chunk {
     BlockDataTable getBlockDataTable();
 
     BlockDataStorage getBlockDataStorage();
+
+    EntityData getEntityData();
 }

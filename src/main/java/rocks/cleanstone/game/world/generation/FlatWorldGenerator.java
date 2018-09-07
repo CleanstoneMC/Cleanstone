@@ -1,7 +1,6 @@
 package rocks.cleanstone.game.world.generation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
@@ -12,11 +11,13 @@ import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
+import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
-
-import java.util.HashSet;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 @Component("flatWorldGenerator")
 public class FlatWorldGenerator extends AbstractWorldGenerator {
@@ -54,7 +55,7 @@ public class FlatWorldGenerator extends AbstractWorldGenerator {
     @Override
     public Chunk generateChunk(int seed, int chunkX, int chunkY) {
         return new SimpleChunk(new ArrayBlockDataTable((ArrayBlockDataTable) blockDataTable),
-                vanillaBlockDataStorageFactory.get(blockDataStorage), new HashSet<>(), chunkX, chunkY);
+                vanillaBlockDataStorageFactory.get(blockDataStorage), new EntityData(new HashSet<>()), chunkX, chunkY);
     }
 
     @Override
