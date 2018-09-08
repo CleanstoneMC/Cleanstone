@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.ExecutionException;
 
 @Component("game")
 @Lazy()
@@ -21,7 +21,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final WorldManager worldManager;
     private final MinecraftConfig minecraftConfig;
-    private WorldConfig firstSpawnWorld = null;
+    private World firstSpawnWorld;
     private boolean running = false;
 
     @Autowired
@@ -32,45 +32,20 @@ public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
 
     @Override
     public World getFirstSpawnWorld() {
-        if (firstSpawnWorld == null) {
-            CleanstoneServer.getInstance().getMinecraftConfig().getWorlds().forEach(worldConfig -> {
-                if (this.firstSpawnWorld != null) {
-                    throw new RuntimeException("There can only be one FirstSpawnWorld");
-                }
-
-                if (worldConfig.isFirstSpawnWorld()) {
-                    this.firstSpawnWorld = worldConfig;
-                }
-            });
-        }
-
-        if (!worldManager.isWorldLoaded(this.firstSpawnWorld)) {
-            worldManager.loadWorld(this.firstSpawnWorld);
-        }
-
-        World world = worldManager.getLoadedWorld(firstSpawnWorld);
-        if (world == null) {
-            throw new NullPointerException("First spawn world is not loaded");
-        }
-        return world;
+        return firstSpawnWorld;
     }
 
     @Override
     public void start() {
-        minecraftConfig.getWorlds().forEach(worldConfig -> {
-            if (!worldConfig.isAutoload()) {
-                return;
-            }
-
-            this.worldManager.loadWorld(worldConfig).addCallback(world -> {
-                if (world == null) {
-                    this.worldManager.createWorld(worldConfig);
-                    //TODO: Change
-                    // Generator
+        minecraftConfig.getWorlds().stream().filter(WorldConfig::isAutoload).forEach(worldConfig -> {
+            try {
+                World world = this.worldManager.loadWorld(worldConfig).get();
+                if (worldConfig.isFirstSpawnWorld()) {
+                    firstSpawnWorld = world;
                 }
-            }, throwable -> {
-                logger.error("Failed to load auto-load world " + worldConfig.getName(), throwable);
-            });
+            } catch (InterruptedException | ExecutionException e) {
+                logger.error("Failed to load auto-load world " + worldConfig.getName(), e);
+            }
         });
         logger.info("Started OpenWorldGame");
         running = true;
