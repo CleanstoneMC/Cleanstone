@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.data.Codec;
-import rocks.cleanstone.data.EnumCodec;
+import rocks.cleanstone.data.VersionedCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
 import rocks.cleanstone.game.entity.EntityTypeRegistry;
 import rocks.cleanstone.game.world.chunk.Chunk;
@@ -32,6 +32,9 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     private final DirectPalette directPalette;
     private final EntityTypeRegistry entityTypeRegistry;
 
+    private final Codec<EntityData, ByteBuf> entityDataCodec;
+    private final Codec<VanillaBlockDataStorage, ByteBuf> blockDataCodec;
+
     /**
      * @deprecated Use the {@link WorldDataSourceFactory}
      */
@@ -50,6 +53,9 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         // TODO read general world data (dimension, seed, etc)
         hasSkyLight = true;
         directPalette = new DirectPalette(protocolBlockStateMapping, 14);
+
+        entityDataCodec = VersionedCodec.withMainCodec(0, new EntityDataCodec(entityTypeRegistry));
+        blockDataCodec = VersionedCodec.withMainCodec(0, vanillaBlockDataCodecFactory.get(directPalette, true));
     }
 
     @Nullable
@@ -59,7 +65,6 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         ByteBuf entitiesKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.ENTITIES);
         VanillaBlockDataStorage blockDataStorage;
         try {
-            Codec<VanillaBlockDataStorage, ByteBuf> blockDataCodec = vanillaBlockDataCodecFactory.get(directPalette, true);
             blockDataStorage = get(blocksKey, blockDataCodec);
             if (blockDataStorage == null) {
                 return null;
@@ -71,7 +76,6 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         }
         EntityData entityData;
         try {
-            Codec<EntityData, ByteBuf> entityDataCodec = new EntityDataCodec(entityTypeRegistry);
             entityData = get(entitiesKey, entityDataCodec);
             if (entityData == null) {
                 entityData = new EntityData(new HashSet<>());
@@ -83,7 +87,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         }
         blocksKey.release();
         entitiesKey.release();
-        // TODO load blockEntities, biome state, version
+        // TODO load blockEntities, biome state
         return new SimpleChunk(blockDataStorage.constructTable(), blockDataStorage, entityData, x, y);
     }
 
@@ -91,21 +95,16 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     public void saveChunk(Chunk chunk) {
         logger.trace("persisting chunk {}, {}", chunk.getX(), chunk.getY());
         int x = chunk.getX(), y = chunk.getY();
-        ByteBuf versionKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.VERSION);
         ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
         ByteBuf entitiesKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.ENTITIES);
         try {
             // TODO Rewrite Chunk to be a bean and add ChunkCodec
-            set(blocksKey, (VanillaBlockDataStorage) chunk.getBlockDataStorage(),
-                    vanillaBlockDataCodecFactory.get(directPalette, true));
-            set(versionKey, StandardWorldDataVersion.MODERN_PALETTE_1_13,
-                    new EnumCodec<>(StandardWorldDataVersion.class));
-            set(entitiesKey, chunk.getEntityData(), new EntityDataCodec(entityTypeRegistry));
+            set(blocksKey, (VanillaBlockDataStorage) chunk.getBlockDataStorage(), blockDataCodec);
+            set(entitiesKey, chunk.getEntityData(), entityDataCodec);
         } catch (IOException e) {
             logger.error("Failed to save corrupted chunk block data at " + x + ":" + y + " in LevelDB '"
                     + worldID + "'", e);
         }
-        versionKey.release();
         blocksKey.release();
         entitiesKey.release();
         // TODO save blockEntities, biome state
