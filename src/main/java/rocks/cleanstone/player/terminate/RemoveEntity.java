@@ -13,6 +13,7 @@ public class RemoveEntity {
     @EventListener
     public void onTerminate(AsyncPlayerTerminationEvent e) {
         Entity playerEntity = e.getPlayer().getEntity();
+        if (playerEntity == null) return;
         playerEntity.getWorld().getEntityRegistry().removeEntity(playerEntity);
     }
 }

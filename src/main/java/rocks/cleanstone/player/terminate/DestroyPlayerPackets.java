@@ -25,6 +25,7 @@ public class DestroyPlayerPackets {
     @EventListener
     public void onTerminate(AsyncPlayerTerminationEvent e) {
         Player player = e.getPlayer();
+        if (player.getEntity() == null) return;
         broadcastRemoval(player, player);
     }
 
