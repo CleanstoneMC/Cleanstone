@@ -32,9 +32,6 @@ public class PlayerTerminationCauseListener {
                 .filter(player -> ((OnlinePlayer) player).getConnection().equals(event.getConnection()))
                 .findAny();
 
-        optionalPlayer.ifPresent(player -> {
-            entityRegistry.removeEntity(player.getEntity());
-            playerManager.terminatePlayer(player);
-        });
+        optionalPlayer.ifPresent(playerManager::terminatePlayer);
     }
 }
