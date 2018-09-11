@@ -1,13 +1,14 @@
 package rocks.cleanstone.player;
 
-import java.util.Collection;
-import java.util.UUID;
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.Identity;
+import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.player.data.PlayerDataSource;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.UUID;
 
 public interface PlayerManager {
 
@@ -21,6 +22,9 @@ public interface PlayerManager {
 
     @Nullable
     Player getOnlinePlayer(String name);
+
+    @Nullable
+    Player getOnlinePlayer(Entity entity);
 
     Collection<Identity> getAllPlayerIDs();
 
