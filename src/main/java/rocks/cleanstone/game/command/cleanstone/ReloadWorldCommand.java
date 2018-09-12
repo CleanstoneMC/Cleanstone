@@ -1,13 +1,10 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.game.world.SimpleWorldManager;
 import rocks.cleanstone.game.world.World;
-import rocks.cleanstone.net.packet.outbound.ChunkDataPacket;
-import rocks.cleanstone.net.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.PlayerManager;
 
@@ -34,26 +31,11 @@ public class ReloadWorldCommand extends SimpleCommand {
                 .forEach(World::unloadRegions);
 
         playerManager.getOnlinePlayers().forEach(player -> {
-            playerChunkLoadService.loadedChunks(player.getID().getUUID())
-                    .forEach(chunk -> {
-                        int x = chunk.getLeft();
-                        int y = chunk.getRight();
-                        UnloadChunkPacket unloadChunkPacket = new UnloadChunkPacket(x, y);
-                        player.sendPacket(unloadChunkPacket);
-                        playerChunkLoadService.playerUnload(player.getID().getUUID(), x, y);
-                    });
+            playerChunkLoadService.unloadAllChunks(player);
 
             int x = player.getEntity().getPosition().getXAsInt() << 4;
-            int y = player.getEntity().getPosition().getYAsInt() << 4;
-            player.getEntity().getWorld().getChunk(x, y).addCallback(chunk -> {
-                if (chunk == null) {
-                    return;
-                }
-
-                ChunkDataPacket chunkDataPacket = new ChunkDataPacket(x, y, true, chunk.getBlockDataTable(), new NamedBinaryTag[]{});
-                player.sendPacket(chunkDataPacket);
-            }, throwable -> {
-            });
+            int z = player.getEntity().getPosition().getYAsInt() << 4;
+            playerChunkLoadService.loadChunk(player, x, z);
         });
     }
 }

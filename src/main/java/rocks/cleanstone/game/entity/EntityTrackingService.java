@@ -1,26 +1,29 @@
 package rocks.cleanstone.game.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.ChunkService;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class EntityTrackingService {
 
     private final PlayerManager playerManager;
+    private final ChunkService chunkService;
 
-    public EntityTrackingService(PlayerManager playerManager) {
+    public EntityTrackingService(PlayerManager playerManager, ChunkService chunkService) {
         this.playerManager = playerManager;
+        this.chunkService = chunkService;
     }
 
     @Async
@@ -31,18 +34,9 @@ public class EntityTrackingService {
         int baseChunkX = baseChunk.getX();
         int baseChunkY = baseChunk.getY();
 
-        int chunkRadiusPositiveHalf = chunkRadius / 2;
-
-        Chunk[][] chunks = new Chunk[chunkRadius][chunkRadius];
-
-        for (int x = 0; x < chunkRadius; x++) {
-            for (int y = 0; y < chunkRadius; y++) {
-                chunks[x][y] = world.getChunk(baseChunkX + x - chunkRadiusPositiveHalf, baseChunkY + y - chunkRadiusPositiveHalf).get();
-            }
-        }
-
-        Set<Entity> entities = new HashSet<>();
-        Arrays.stream(chunks).forEach(xChunks -> Arrays.stream(xChunks).forEach(chunk -> entities.addAll(chunk.getEntities())));
+        Set<Entity> entities = chunkService.getChunksAround(baseChunkX, baseChunkY, chunkRadius, world)
+                .flatMap(c -> c.getEntities().stream())
+                .collect(Collectors.toSet());
 
         return new AsyncResult<>(entities);
     }
@@ -53,6 +47,10 @@ public class EntityTrackingService {
 
         Set<Player> players = new HashSet<>();
         for (Entity entity : entities) {
+            if (!(entity instanceof Human)) {
+                continue;
+            }
+
             Player onlinePlayer = playerManager.getOnlinePlayer(entity);
 
             if (onlinePlayer != null) {
