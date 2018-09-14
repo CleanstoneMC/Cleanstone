@@ -106,7 +106,7 @@ public class PlayerMoveChunkLoadListener {
                 .forEach(chunk -> {
                     // use specific functions, because it is certain that the player has loaded these chunks
                     playerChunkLoadService.unregisterLoadedChunk(uuid, chunk.getLeft(), chunk.getRight());
-                    playerChunkLoadService.sendChunkLoadPacket(player, chunk.getLeft(), chunk.getRight());
+                    playerChunkLoadService.sendChunkUnloadPacket(player, chunk.getLeft(), chunk.getRight());
                 });
     }
 
