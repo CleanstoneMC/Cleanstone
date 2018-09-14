@@ -4,11 +4,15 @@ import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import rocks.cleanstone.game.world.World;
 
 @Service
 public class ChunkService {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     public Stream<Pair<Integer, Integer>> getChunkCoordsAround(int chunkX, int chunkZ, int radius) {
         Stream.Builder<Pair<Integer, Integer>> builder = Stream.builder();
 
@@ -36,7 +40,7 @@ public class ChunkService {
                     try {
                         return chunkFuture.get();
                     } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
+                        logger.error("Failed to get chunk " + chunkX + ":" + chunkZ + " in world " + world.getWorldConfig().getName(), e);
                         return null;
                     }
                 })
