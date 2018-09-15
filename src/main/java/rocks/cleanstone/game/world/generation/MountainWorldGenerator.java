@@ -17,7 +17,6 @@ import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.*;
@@ -78,12 +77,12 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     }
 
     @Override
-    public Chunk generateChunk(int seed, int chunkX, int chunkY) {
+    public Chunk generateChunk(int seed, int chunkX, int chunkZ) {
         noiseGenerator.SetSeed(seed);
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                int height = getHeightAt(seed, (chunkX << 4) + x, (chunkY << 4) + z);
+                int height = getHeightAt(seed, (chunkX << 4) + x, (chunkZ << 4) + z);
                 blockDataTable.setBlock(x, height, z, GRASS_BLOCK);
                 blockDataTable.setBlock(x, height - 1, z, DIRT);
                 blockDataTable.setBlock(x, height - 2, z, DIRT);
@@ -102,7 +101,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
         VanillaBlockDataStorage blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable,
                 directPalette, true);
 
-        return new SimpleChunk(blockDataTable, blockDataStorage, new EntityData(new HashSet<>()), chunkX, chunkY);
+        return new SimpleChunk(blockDataTable, blockDataStorage, new EntityData(new HashSet<>()), chunkX, chunkZ);
     }
 
     public int getHeightAt(int seed, int x, int z) {

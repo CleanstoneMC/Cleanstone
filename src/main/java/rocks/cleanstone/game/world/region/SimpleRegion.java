@@ -33,7 +33,7 @@ public class SimpleRegion implements Region {
     public SimpleRegion(String id, Collection<Chunk> loadedChunks, RegionWorker regionWorker,
                         ChunkProvider chunkProvider) {
         this.id = id;
-        loadedChunks.forEach(chunk -> this.loadedChunks.put(Pair.of(chunk.getX(), chunk.getY()), chunk));
+        loadedChunks.forEach(chunk -> this.loadedChunks.put(Pair.of(chunk.getX(), chunk.getZ()), chunk));
         this.chunkProvider = chunkProvider;
     }
 
@@ -54,44 +54,44 @@ public class SimpleRegion implements Region {
     }
 
     @Override
-    public boolean isChunkLoaded(int chunkX, int chunkY) {
-        return loadedChunks.asMap().containsKey(Pair.of(chunkX, chunkY));
+    public boolean isChunkLoaded(int chunkX, int chunkZ) {
+        return loadedChunks.asMap().containsKey(Pair.of(chunkX, chunkZ));
     }
 
     @Nullable
     @Override
-    public Chunk getLoadedChunk(int chunkX, int chunkY) {
-        return loadedChunks.getIfPresent(Pair.of(chunkX, chunkY));
+    public Chunk getLoadedChunk(int chunkX, int chunkZ) {
+        return loadedChunks.getIfPresent(Pair.of(chunkX, chunkZ));
     }
 
     @Override
-    public ListenableFuture<Chunk> getChunk(int chunkX, int chunkY) {
-        if (isChunkLoaded(chunkX, chunkY)) {
-            return new AsyncResult<>(getLoadedChunk(chunkX, chunkY));
+    public ListenableFuture<Chunk> getChunk(int chunkX, int chunkZ) {
+        if (isChunkLoaded(chunkX, chunkZ)) {
+            return new AsyncResult<>(getLoadedChunk(chunkX, chunkZ));
         }
-        return loadChunk(chunkX, chunkY);
+        return loadChunk(chunkX, chunkZ);
     }
 
     @Override
-    public ListenableFuture<Chunk> loadChunk(int chunkX, int chunkY) {
-        ListenableFuture<Chunk> chunkFuture = chunkProvider.getChunk(chunkX, chunkY);
+    public ListenableFuture<Chunk> loadChunk(int chunkX, int chunkZ) {
+        ListenableFuture<Chunk> chunkFuture = chunkProvider.getChunk(chunkX, chunkZ);
         chunkFuture.addCallback(
                 chunk -> {
                     Preconditions.checkNotNull(chunk);
-                    loadedChunks.put(Pair.of(chunkX, chunkY), chunk);
+                    loadedChunks.put(Pair.of(chunkX, chunkZ), chunk);
                     CleanstoneServer.publishEvent(new ChunkLoadedEvent(chunk));
                 },
-                error -> logger.error("could not load chunk " + chunkX + ", " + chunkY, error)
+                error -> logger.error("could not load chunk " + chunkX + ", " + chunkZ, error)
         );
         return chunkFuture;
     }
 
     @Override
-    public void unloadChunk(int chunkX, int chunkY) {
-        Chunk chunk = getLoadedChunk(chunkX, chunkY);
-        Preconditions.checkNotNull(chunk, "Cannot unload non-loaded chunk " + chunkX + ":" + chunkY);
+    public void unloadChunk(int chunkX, int chunkZ) {
+        Chunk chunk = getLoadedChunk(chunkX, chunkZ);
+        Preconditions.checkNotNull(chunk, "Cannot unload non-loaded chunk " + chunkX + ":" + chunkZ);
         CleanstoneServer.publishEvent(new ChunkUnloadEvent(chunk));
-        loadedChunks.invalidate(Pair.of(chunk.getX(), chunk.getY()));
+        loadedChunks.invalidate(Pair.of(chunk.getX(), chunk.getZ()));
     }
 
     @Override

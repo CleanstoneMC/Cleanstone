@@ -1,18 +1,15 @@
 package rocks.cleanstone.game.world.region;
 
 import com.google.common.collect.ImmutableSet;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.world.chunk.ChunkProvider;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.annotation.Nullable;
-
-import rocks.cleanstone.game.world.chunk.ChunkProvider;
 
 /**
  * Divides the world into equal quadratic regions
@@ -35,13 +32,13 @@ public class QuadraticRegionManager implements RegionManager {
 
     @Nullable
     @Override
-    public Region getLoadedRegion(int chunkX, int chunkY) {
-        return regions.get(getRegionCoordinates(chunkX, chunkY));
+    public Region getLoadedRegion(int chunkX, int chunkZ) {
+        return regions.get(getRegionCoordinates(chunkX, chunkZ));
     }
 
     @Override
-    public ListenableFuture<Region> loadRegion(int chunkX, int chunkY) {
-        Pair<Integer, Integer> coordPair = getRegionCoordinates(chunkX, chunkY);
+    public ListenableFuture<Region> loadRegion(int chunkX, int chunkZ) {
+        Pair<Integer, Integer> coordPair = getRegionCoordinates(chunkX, chunkZ);
 
         Region region = new SimpleRegion("QuR[" + coordPair.getLeft() + ":" + coordPair.getRight() + "]",
                 new LocalRegionWorker(), chunkProvider);
@@ -50,8 +47,8 @@ public class QuadraticRegionManager implements RegionManager {
     }
 
     @Override
-    public ListenableFuture<Region> getRegion(int chunkX, int chunkY) {
-        Pair<Integer, Integer> coordPair = getRegionCoordinates(chunkX, chunkY);
+    public ListenableFuture<Region> getRegion(int chunkX, int chunkZ) {
+        Pair<Integer, Integer> coordPair = getRegionCoordinates(chunkX, chunkZ);
         if (regions.containsKey(coordPair)) {
             return new AsyncResult<>(regions.get(coordPair));
         }
@@ -64,9 +61,9 @@ public class QuadraticRegionManager implements RegionManager {
         regions.values().remove(region);
     }
 
-    private Pair<Integer, Integer> getRegionCoordinates(int chunkX, int chunkY) {
+    private Pair<Integer, Integer> getRegionCoordinates(int chunkX, int chunkZ) {
         int x = chunkX >> 4;
-        int y = chunkY >> 4;
+        int y = chunkZ >> 4;
         return Pair.of(x, y);
     }
 

@@ -13,17 +13,17 @@ public class SimpleChunk implements Chunk {
     private final BlockDataTable blockDataTable;
     private final BlockDataStorage blockDataStorage;
     private final EntityData entityData;
-    private final int x, y;
+    private final int x, z;
     private boolean hasUnsavedChanges = false;
     // TODO biome state
 
     public SimpleChunk(BlockDataTable blockDataTable, BlockDataStorage blockDataStorage,
-                       EntityData entityData, int x, int y) {
+                       EntityData entityData, int x, int z) {
         this.blockDataTable = blockDataTable;
         this.blockDataStorage = blockDataStorage;
         this.entityData = entityData;
         this.x = x;
-        this.y = y;
+        this.z = z;
     }
 
     @Override
@@ -47,8 +47,8 @@ public class SimpleChunk implements Chunk {
     }
 
     @Override
-    public int getY() {
-        return y;
+    public int getZ() {
+        return z;
     }
 
     @Override

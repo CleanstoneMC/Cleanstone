@@ -1,10 +1,9 @@
 package rocks.cleanstone.game.world.region;
 
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.world.chunk.Chunk;
 
 import java.util.Collection;
-
-import rocks.cleanstone.game.world.chunk.Chunk;
 
 /**
  * An independent area in the world that contains workers to do all the computational work (gravity, path
@@ -14,15 +13,15 @@ public interface Region {
 
     Collection<Chunk> getLoadedChunks();
 
-    boolean isChunkLoaded(int chunkX, int chunkY);
+    boolean isChunkLoaded(int chunkX, int chunkZ);
 
-    Chunk getLoadedChunk(int chunkX, int chunkY);
+    Chunk getLoadedChunk(int chunkX, int chunkZ);
 
-    ListenableFuture<Chunk> getChunk(int chunkX, int chunkY);
+    ListenableFuture<Chunk> getChunk(int chunkX, int chunkZ);
 
-    ListenableFuture<Chunk> loadChunk(int chunkX, int chunkY);
+    ListenableFuture<Chunk> loadChunk(int chunkX, int chunkZ);
 
-    void unloadChunk(int chunkX, int chunkY);
+    void unloadChunk(int chunkX, int chunkZ);
 
     void unloadAllChunks();
 

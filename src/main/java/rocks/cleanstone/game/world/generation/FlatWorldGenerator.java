@@ -16,7 +16,6 @@ import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 import rocks.cleanstone.net.packet.enums.Dimension;
 import rocks.cleanstone.net.packet.enums.LevelType;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 @Component("flatWorldGenerator")
@@ -53,9 +52,9 @@ public class FlatWorldGenerator extends AbstractWorldGenerator {
     }
 
     @Override
-    public Chunk generateChunk(int seed, int chunkX, int chunkY) {
+    public Chunk generateChunk(int seed, int chunkX, int chunkZ) {
         return new SimpleChunk(new ArrayBlockDataTable((ArrayBlockDataTable) blockDataTable),
-                vanillaBlockDataStorageFactory.get(blockDataStorage), new EntityData(new HashSet<>()), chunkX, chunkY);
+                vanillaBlockDataStorageFactory.get(blockDataStorage), new EntityData(new HashSet<>()), chunkX, chunkZ);
     }
 
     @Override

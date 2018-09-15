@@ -1,9 +1,5 @@
 package rocks.cleanstone.game.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -14,6 +10,11 @@ import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkService;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Service
 public class EntityTrackingService {
@@ -32,9 +33,9 @@ public class EntityTrackingService {
 
         Chunk baseChunk = world.getChunkAt(entity.getPosition()).get();
         int baseChunkX = baseChunk.getX();
-        int baseChunkY = baseChunk.getY();
+        int basechunkZ = baseChunk.getZ();
 
-        Set<Entity> entities = chunkService.getChunksAround(baseChunkX, baseChunkY, chunkRadius, world)
+        Set<Entity> entities = chunkService.getChunksAround(baseChunkX, basechunkZ, chunkRadius, world)
                 .flatMap(c -> c.getEntities().stream())
                 .collect(Collectors.toSet());
 

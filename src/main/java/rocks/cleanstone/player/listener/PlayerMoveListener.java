@@ -51,9 +51,9 @@ public class PlayerMoveListener {
         final int pitch = newPosition.getRotation().getIntPitch();
 
         final int chunkX = newPosition.getXAsInt() >> 4;
-        final int chunkY = newPosition.getZAsInt() >> 4;
+        final int chunkZ = newPosition.getZAsInt() >> 4;
 
-        if (!playerChunkLoadService.hasPlayerLoaded(movingPlayer.getID().getUUID(), chunkX, chunkY)) {
+        if (!playerChunkLoadService.hasPlayerLoaded(movingPlayer.getID().getUUID(), chunkX, chunkZ)) {
             EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, oldPosition.getX(),
                     oldPosition.getY(), oldPosition.getZ(), yaw, pitch, movingPlayer.isFlying());
             movingPlayer.sendPacket(entityTeleportPacket);
