@@ -17,7 +17,7 @@ public class UnloadChunkCodec implements PacketCodec {
         UnloadChunkPacket unloadChunkPacket = (UnloadChunkPacket) packet;
 
         byteBuf.writeInt(unloadChunkPacket.getChunkX());
-        byteBuf.writeInt(unloadChunkPacket.getChunkY());
+        byteBuf.writeInt(unloadChunkPacket.getchunkZ());
 
         return byteBuf;
     }

@@ -1,21 +1,21 @@
 package rocks.cleanstone.net.packet.outbound;
 
-import java.util.List;
-
 import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
-import rocks.cleanstone.net.packet.data.BlockChange;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.net.packet.data.BlockChange;
+
+import java.util.List;
 
 public class MultiBlockChangePacket implements Packet {
 
     private final int chunkX;
-    private final int chunkY;
+    private final int chunkZ;
     private final List<BlockChange> blockChangeList;
 
-    public MultiBlockChangePacket(int chunkX, int chunkY, List<BlockChange> blockChangeList) {
+    public MultiBlockChangePacket(int chunkX, int chunkZ, List<BlockChange> blockChangeList) {
         this.chunkX = chunkX;
-        this.chunkY = chunkY;
+        this.chunkZ = chunkZ;
         this.blockChangeList = blockChangeList;
     }
 
@@ -23,8 +23,8 @@ public class MultiBlockChangePacket implements Packet {
         return chunkX;
     }
 
-    public int getChunkY() {
-        return chunkY;
+    public int getchunkZ() {
+        return chunkZ;
     }
 
     public List<BlockChange> getBlockChangeList() {

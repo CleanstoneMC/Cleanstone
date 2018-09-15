@@ -40,7 +40,7 @@ public interface World {
 
     void setBlockAt(Position position, Block block);
 
-    ListenableFuture<Chunk> getChunk(int chunkX, int chunkY);
+    ListenableFuture<Chunk> getChunk(int chunkX, int chunkZ);
 
     ListenableFuture<Chunk> getChunkAt(Position position);
 

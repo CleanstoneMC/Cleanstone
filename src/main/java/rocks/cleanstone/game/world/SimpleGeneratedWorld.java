@@ -125,10 +125,10 @@ public class SimpleGeneratedWorld implements World {
         Preconditions.checkArgument(y < Chunk.HEIGHT && y >= 0,
                 "Coordinate y (" + y + ") is not in allowed range (0<=y<" + Chunk.HEIGHT + ")");
 
-        int chunkX = getChunkCoordinate(x), chunkY = getChunkCoordinate(z);
+        int chunkX = getChunkCoordinate(x), chunkZ = getChunkCoordinate(z);
         int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
         try {
-            return new AsyncResult<>(getChunk(chunkX, chunkY).get().getBlock(relX, y, relZ));
+            return new AsyncResult<>(getChunk(chunkX, chunkZ).get().getBlock(relX, y, relZ));
         } catch (InterruptedException | ExecutionException e) {
             return AsyncResult.forExecutionException(e);
         }
@@ -146,13 +146,13 @@ public class SimpleGeneratedWorld implements World {
                 "Coordinate y (" + y + ") is not in allowed range (0<=y<" + Chunk.HEIGHT + ")");
         Preconditions.checkNotNull(block, "block cannot be null");
 
-        int chunkX = getChunkCoordinate(x), chunkY = getChunkCoordinate(z);
+        int chunkX = getChunkCoordinate(x), chunkZ = getChunkCoordinate(z);
         int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
 
-        getChunk(chunkX, chunkY).addCallback(chunk -> {
+        getChunk(chunkX, chunkZ).addCallback(chunk -> {
             chunk.setBlock(relX, y, relZ, block);
         }, throwable -> {
-            logger.error("Failed to get chunk " + chunkX + ":" + chunkY + " in world " + worldConfig.getName(), throwable);
+            logger.error("Failed to get chunk " + chunkX + ":" + chunkZ + " in world " + worldConfig.getName(), throwable);
         });
     }
 
@@ -162,9 +162,9 @@ public class SimpleGeneratedWorld implements World {
     }
 
     @Override
-    public ListenableFuture<Chunk> getChunk(int chunkX, int chunkY) {
+    public ListenableFuture<Chunk> getChunk(int chunkX, int chunkZ) {
         try {
-            return new AsyncResult<>(getRegion(chunkX, chunkY).get().getChunk(chunkX, chunkY).get());
+            return new AsyncResult<>(getRegion(chunkX, chunkZ).get().getChunk(chunkX, chunkZ).get());
         } catch (InterruptedException | ExecutionException e) {
             return AsyncResult.forExecutionException(e);
         }
@@ -173,8 +173,8 @@ public class SimpleGeneratedWorld implements World {
     @Override
     public ListenableFuture<Chunk> getChunkAt(Position position) {
         int chunkX = getChunkCoordinate(position.getXAsInt());
-        int chunkY = getChunkCoordinate(position.getZAsInt());
-        return getChunk(chunkX, chunkY);
+        int chunkZ = getChunkCoordinate(position.getZAsInt());
+        return getChunk(chunkX, chunkZ);
     }
 
     @Override
@@ -182,8 +182,8 @@ public class SimpleGeneratedWorld implements World {
         regionManager.getLoadedRegions().forEach(regionManager::unloadRegion);
     }
 
-    private ListenableFuture<Region> getRegion(int chunkX, int chunkY) {
-        return regionManager.getRegion(chunkX, chunkY);
+    private ListenableFuture<Region> getRegion(int chunkX, int chunkZ) {
+        return regionManager.getRegion(chunkX, chunkZ);
     }
 
     @Override

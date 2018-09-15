@@ -34,25 +34,25 @@ public class SingleRegionManager implements RegionManager {
 
     @Nullable
     @Override
-    public Region getLoadedRegion(int chunkX, int chunkY) {
+    public Region getLoadedRegion(int chunkX, int chunkZ) {
         return region;
     }
 
     @Async(value = "worldExec")
     @Override
-    public ListenableFuture<Region> loadRegion(int chunkX, int chunkY) {
+    public ListenableFuture<Region> loadRegion(int chunkX, int chunkZ) {
         region = new SimpleRegion("SingleR", new LocalRegionWorker(), chunkProvider);
         return new AsyncResult<>(region);
     }
 
     @Async(value = "worldExec")
     @Override
-    public ListenableFuture<Region> getRegion(int chunkX, int chunkY) {
-        Region region = getLoadedRegion(chunkX, chunkY);
+    public ListenableFuture<Region> getRegion(int chunkX, int chunkZ) {
+        Region region = getLoadedRegion(chunkX, chunkZ);
         if (region != null) {
             return new AsyncResult<>(region);
         }
-        return loadRegion(chunkX, chunkY);
+        return loadRegion(chunkX, chunkZ);
     }
 
     @Override

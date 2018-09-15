@@ -1,12 +1,11 @@
 package rocks.cleanstone.game.world.chunk;
 
-import java.util.Collection;
-
-import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
+
+import java.util.Collection;
 
 public interface Chunk {
 
@@ -21,7 +20,7 @@ public interface Chunk {
 
     int getX();
 
-    int getY();
+    int getZ();
 
     Block getBlock(int x, int y, int z);
 

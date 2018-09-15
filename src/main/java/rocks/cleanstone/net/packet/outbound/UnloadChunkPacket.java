@@ -7,19 +7,19 @@ import rocks.cleanstone.net.packet.PacketType;
 public class UnloadChunkPacket implements Packet {
 
     private final int chunkX;
-    private final int chunkY;
+    private final int chunkZ;
 
-    public UnloadChunkPacket(int chunkX, int chunkY) {
+    public UnloadChunkPacket(int chunkX, int chunkZ) {
         this.chunkX = chunkX;
-        this.chunkY = chunkY;
+        this.chunkZ = chunkZ;
     }
 
     public int getChunkX() {
         return chunkX;
     }
 
-    public int getChunkY() {
-        return chunkY;
+    public int getchunkZ() {
+        return chunkZ;
     }
 
     @Override

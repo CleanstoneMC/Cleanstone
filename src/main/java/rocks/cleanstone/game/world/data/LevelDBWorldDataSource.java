@@ -93,8 +93,8 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
 
     @Override
     public void saveChunk(Chunk chunk) {
-        logger.trace("persisting chunk {}, {}", chunk.getX(), chunk.getY());
-        int x = chunk.getX(), y = chunk.getY();
+        logger.trace("persisting chunk {}, {}", chunk.getX(), chunk.getZ());
+        int x = chunk.getX(), y = chunk.getZ();
         ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
         ByteBuf entitiesKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.ENTITIES);
         try {
