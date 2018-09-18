@@ -15,11 +15,11 @@ import java.util.Random;
 import java.util.UUID;
 
 @Component
-public class SpawnCommand extends SimpleCommand {
+public class SummonCommand extends SimpleCommand {
     private final PlayerManager playerManager;
 
     @Autowired
-    public SpawnCommand(PlayerManager playerManager) {
+    public SummonCommand(PlayerManager playerManager) {
         super("summon", Collections.emptyList(), MobType.class);
         this.playerManager = playerManager;
     }
