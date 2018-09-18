@@ -16,7 +16,6 @@ public class HandshakeListener {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Async
     @EventListener
     public void onReceive(InboundPacketEvent event) {
         if (event.getPacket() instanceof HandshakePacket) {
