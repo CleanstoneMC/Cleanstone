@@ -12,6 +12,26 @@ const PACKET_BOUND_RE = '/\*\*Sent from server:\*\* (true|false).*
 
 const TYPE_REPLACE_MAPPING = [
     'string' => 'String',
+    'SignedVarLong' => 'long',
+    'UnsignedVarLong' => 'long',
+    'SignedVarInt' => 'int',
+    'UnsignedVarInt' => 'int',
+    'VarInt' => 'int',
+    'bool' => 'boolean',
+    'uint' => 'int',
+    'ulong' => 'long',
+    'ushort' => 'short',
+    'ByteArray' => 'byte[]',
+    'Vector3' => 'Vector',
+    'Vector2' => 'Vector2D',
+    'Nbt' => 'NamedBinaryTag',
+    'ItemStacks' => 'ItemStack',
+    'PlayerLocation' => 'HeadRotatablePosition',
+    'Blockstates' => 'List<BlockState>',
+];
+
+const FIELD_NAME_REPLACE_MAPPING = [
+  'Type' => 'PacketType'
 ];
 
 function camelCase($str, array $noStrip = [])
@@ -30,6 +50,11 @@ function camelCase($str, array $noStrip = [])
 function mapType($type)
 {
     return TYPE_REPLACE_MAPPING[$type] ?? $type;
+}
+
+function mapField($field)
+{
+    return FIELD_NAME_REPLACE_MAPPING[$field] ?? $field;
 }
 
 $packetsMarkdown = explode('## Packets', $fullMarkdown)[1];
@@ -107,58 +132,68 @@ foreach ($packetArray as $i => $packet) {
 
     $classContent = 'package ' . $packageName . ';
 
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
+import rocks.cleanstone.game.inventory.item.ItemStack;
+import rocks.cleanstone.net.mcpe.packet.*;
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
-import rocks.cleanstone.net.minecraft.packet.enums.ClientStatus;
+import rocks.cleanstone.utils.Vector;
+import rocks.cleanstone.utils.Vector2D;
+import rocks.cleanstone.net.mcpe.packet.data.*;
+import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
+
+import java.util.List;
+import java.util.UUID;
 
 public class ' . $className . ' implements Packet {
 
 ';
 
     foreach ($packet['fields'] as $field) {
-        $classContent .= '    private final ' . mapType($field['Type']) . ' ' . camelCase($field['Name']) . ";\n";
+        $classContent .= '    private final ' . mapType($field['Type']) . ' ' . camelCase(mapField($field['Name'])) . ";\n";
     }
 
     $classContent .= '
     public ' . $className . '(' . implode(', ', array_map(function ($field) {
-            return mapType($field['Type']) . ' ' . camelCase($field['Name']);
+            return mapType($field['Type']) . ' ' . camelCase(mapField($field['Name']));
         }, $packet['fields'])) . ') {
 ' . implode("\n", array_map(function ($field) {
-            return '        ' . 'this.' . camelCase($field['Name']) . ' = ' . ' ' . camelCase($field['Name']) . ';';
+            return '        ' . 'this.' . camelCase(mapField($field['Name'])) . ' = ' . ' ' . camelCase(mapField($field['Name'])) . ';';
         }, $packet['fields'])) . '
     }
 
 ' . implode("\n", array_map(function ($field) {
-            return '    public ' . mapType($field['Type']) . ' ' . camelCase('get' . $field['Name']) . '() {
-        return ' . camelCase($field['Name']) . ';
+            return '    public ' . mapType($field['Type']) . ' ' . camelCase('get' . mapField($field['Name'])) . '() {
+        return ' . camelCase(mapField($field['Name'])) . ';
     }
 ';
         }, $packet['fields'])) . '
     @Override
     public PacketType getType() {
-        return MinecraftInboundPacketType.CLIENT_STATUS;
+        return MCPE' . ($packet['inbound'] === true ? 'Inbound' : 'Outbound') . 'PacketType' . '.' . strtoupper(str_replace(' ', '_', $packet['name'])) . ';
     }
 }
 
 ';
 
-    if (!is_dir('packets') && !mkdir('packets') && !is_dir('packets')) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', 'packets'));
+    if (!is_dir('packet') && !mkdir('packet') && !is_dir('packet')) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', 'packet'));
     }
-    if (!is_dir('packets/inbound') && !mkdir('packets/inbound') && !is_dir('packets/inbound')) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', 'packets/inbound'));
+    if (!is_dir('packet/inbound') && !mkdir('packet/inbound') && !is_dir('packet/inbound')) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', 'packet/inbound'));
     }
-    if (!is_dir('packets/outbound') && !mkdir('packets/outbound') && !is_dir('packets/outbound')) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', 'packets/outbound'));
+    if (!is_dir('packet/outbound') && !mkdir('packet/outbound') && !is_dir('packet/outbound')) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', 'packet/outbound'));
     }
 
-    file_put_contents('packets/' . ($packet['inbound'] === true ? 'inbound' : 'outbound') . '/' . $fileName, $classContent);
+    file_put_contents('packet/' . ($packet['inbound'] === true ? 'inbound' : 'outbound') . '/' . $fileName, $classContent);
 }
 
 $inboundPacketType = 'package rocks.cleanstone.net.mcpe.packet;
 
-import rocks.cleanstone.net.mcpe.packet.outbound.*;
+import rocks.cleanstone.net.mcpe.packet.inbound.*;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 import rocks.cleanstone.net.packet.PacketType;
@@ -167,14 +202,14 @@ import javax.annotation.Nullable;
 
 public enum MCPEInboundPacketType implements PacketType {
 ' . implode(",\n", array_map(function ($packet) {
-        return '    ' .  strtoupper(str_replace(' ', '_', $packet['name'])) .'(' . str_replace(' ', '', $packet['name']) . '.class' . ')';
+        return '    ' . strtoupper(str_replace(' ', '_', $packet['name'])) . '(' . str_replace(' ', '', $packet['name']) . 'Packet.class' . ')';
     }, array_filter($packetArray, function ($packet) {
         return $packet['inbound'] === true;
     }))) . ';
 
     private final Class<? extends Packet> packetClass;
 
-    MinecraftInboundPacketType(Class<? extends Packet> packetClass) {
+    MCPEInboundPacketType(Class<? extends Packet> packetClass) {
         this.packetClass = packetClass;
     }
 
@@ -198,7 +233,7 @@ public enum MCPEInboundPacketType implements PacketType {
 ';
 
 
-file_put_contents('packets/MCPEOutboundPacketType.java', $inboundPacketType);
+file_put_contents('packet/MCPEInboundPacketType.java', $inboundPacketType);
 
 $outboundPacketType = 'package rocks.cleanstone.net.mcpe.packet;
 
@@ -211,14 +246,14 @@ import javax.annotation.Nullable;
 
 public enum MCPEOutboundPacketType implements PacketType {
 ' . implode(",\n", array_map(function ($packet) {
-        return '    ' .  strtoupper(str_replace(' ', '_', $packet['name'])) .'(' . str_replace(' ', '', $packet['name']) . '.class' . ')';
+        return '    ' . strtoupper(str_replace(' ', '_', $packet['name'])) . '(' . str_replace(' ', '', $packet['name']) . 'Packet.class' . ')';
     }, array_filter($packetArray, function ($packet) {
-        return $packet['outbound'] === true;
+        return $packet['inbound'] === false;
     }))) . ';
 
     private final Class<? extends Packet> packetClass;
 
-    MinecraftOutboundPacketType(Class<? extends Packet> packetClass) {
+    MCPEOutboundPacketType(Class<? extends Packet> packetClass) {
         this.packetClass = packetClass;
     }
 
@@ -242,6 +277,6 @@ public enum MCPEOutboundPacketType implements PacketType {
 ';
 
 
-file_put_contents('packets/MCPEOutboundPacketType.java', $outboundPacketType);
+file_put_contents('packet/MCPEOutboundPacketType.java', $outboundPacketType);
 
 //file_put_contents('test.php', "<?php\n" . var_export($packetArray, true));
