@@ -5,8 +5,8 @@ import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
-import rocks.cleanstone.net.packet.enums.GameStateChangeReason;
-import rocks.cleanstone.net.packet.outbound.ChangeGameStatePacket;
+import rocks.cleanstone.net.minecraft.packet.enums.GameStateChangeReason;
+import rocks.cleanstone.net.minecraft.packet.outbound.ChangeGameStatePacket;
 import rocks.cleanstone.player.Player;
 
 import java.util.Collections;

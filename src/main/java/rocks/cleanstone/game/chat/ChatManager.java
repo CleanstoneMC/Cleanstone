@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.chat.message.ChatMessage;
 import rocks.cleanstone.game.chat.message.Text;
-import rocks.cleanstone.net.packet.outbound.OutChatMessagePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutChatMessagePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 

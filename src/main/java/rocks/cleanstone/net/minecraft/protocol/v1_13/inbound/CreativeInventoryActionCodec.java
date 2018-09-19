@@ -1,17 +1,16 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_13.inbound;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.inventory.item.SimpleItemStack;
 import rocks.cleanstone.game.material.item.ItemType;
 import rocks.cleanstone.game.material.item.mapping.ItemTypeMapping;
+import rocks.cleanstone.net.minecraft.packet.inbound.CreativeInventoryActionPacket;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.inbound.CreativeInventoryActionPacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
+
+import javax.annotation.Nullable;
 
 public class CreativeInventoryActionCodec implements PacketCodec {
 

@@ -12,9 +12,9 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
+import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
+import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
-import rocks.cleanstone.net.packet.enums.Dimension;
-import rocks.cleanstone.net.packet.enums.LevelType;
 
 import java.util.HashSet;
 

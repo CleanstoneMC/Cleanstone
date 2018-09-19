@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
+import rocks.cleanstone.net.minecraft.packet.enums.DisplayedSkinPart;
+import rocks.cleanstone.net.minecraft.packet.inbound.ClientSettingsPacket;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
-import rocks.cleanstone.net.packet.inbound.ClientSettingsPacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 

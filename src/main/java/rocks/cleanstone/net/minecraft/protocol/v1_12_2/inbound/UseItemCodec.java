@@ -3,8 +3,8 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.inventory.Hand;
+import rocks.cleanstone.net.minecraft.packet.inbound.UseItemPacket;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.inbound.UseItemPacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 

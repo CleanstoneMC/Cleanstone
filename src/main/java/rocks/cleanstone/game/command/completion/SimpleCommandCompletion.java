@@ -11,7 +11,7 @@ import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.CommandMessageFactory;
 import rocks.cleanstone.game.command.CommandRegistry;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
-import rocks.cleanstone.net.packet.outbound.OutTabCompletePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.utils.Vector;
 

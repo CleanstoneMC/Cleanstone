@@ -1,14 +1,13 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
-
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import java.io.IOException;
 
 public class EncryptionResponseCodec implements PacketCodec {
 

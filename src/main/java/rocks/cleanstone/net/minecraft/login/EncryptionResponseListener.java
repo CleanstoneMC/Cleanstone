@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.event.InboundPacketEvent;
-import rocks.cleanstone.net.packet.inbound.EncryptionResponsePacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
 
 @Component
 public class EncryptionResponseListener {

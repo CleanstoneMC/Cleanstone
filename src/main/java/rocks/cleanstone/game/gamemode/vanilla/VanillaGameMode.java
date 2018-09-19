@@ -1,16 +1,14 @@
 package rocks.cleanstone.game.gamemode.vanilla;
 
 import com.google.common.base.CaseFormat;
+import rocks.cleanstone.game.gamemode.GameMode;
+import rocks.cleanstone.game.gamemode.GameModeRuleSet;
+import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbility;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-
-import javax.annotation.Nullable;
-
-import rocks.cleanstone.game.gamemode.GameMode;
-import rocks.cleanstone.game.gamemode.GameModeRuleSet;
-import rocks.cleanstone.net.packet.enums.PlayerAbility;
 
 public enum VanillaGameMode implements GameMode {
     SURVIVAL(0, new Survival()),

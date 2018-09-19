@@ -11,9 +11,9 @@ import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.event.ConnectionClosedEvent;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
-import rocks.cleanstone.net.packet.inbound.InKeepAlivePacket;
-import rocks.cleanstone.net.packet.outbound.DisconnectPacket;
-import rocks.cleanstone.net.packet.outbound.OutKeepAlivePacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.InKeepAlivePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutKeepAlivePacket;
 
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;

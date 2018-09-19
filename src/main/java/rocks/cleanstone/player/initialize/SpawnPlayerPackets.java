@@ -6,7 +6,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.entity.RotatablePosition;
-import rocks.cleanstone.net.packet.outbound.SpawnPlayerPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;

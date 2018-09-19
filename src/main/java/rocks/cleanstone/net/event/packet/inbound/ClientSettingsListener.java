@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
-import rocks.cleanstone.net.packet.inbound.ClientSettingsPacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.ClientSettingsPacket;
 import rocks.cleanstone.player.Player;
 
 @Component

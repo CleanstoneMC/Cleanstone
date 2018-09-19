@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.inbound.HandshakePacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 

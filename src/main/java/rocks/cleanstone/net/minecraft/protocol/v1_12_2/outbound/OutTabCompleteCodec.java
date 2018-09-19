@@ -3,8 +3,8 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 

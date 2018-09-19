@@ -7,7 +7,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.event.InboundPacketEvent;
-import rocks.cleanstone.net.packet.inbound.LoginStartPacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
 
 @Component
 public class LoginStartListener {

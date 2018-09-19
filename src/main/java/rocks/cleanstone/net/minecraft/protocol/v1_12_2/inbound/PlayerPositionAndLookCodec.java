@@ -1,13 +1,12 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
+import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.minecraft.packet.inbound.InPlayerPositionAndLookPacket;
+import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.protocol.PacketCodec;
 
 import java.io.IOException;
-
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.inbound.InPlayerPositionAndLookPacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
 
 public class PlayerPositionAndLookCodec implements PacketCodec {
 

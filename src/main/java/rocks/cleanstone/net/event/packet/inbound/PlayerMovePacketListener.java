@@ -8,9 +8,9 @@ import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.LivingEntity;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
-import rocks.cleanstone.net.packet.inbound.InPlayerPositionAndLookPacket;
-import rocks.cleanstone.net.packet.inbound.PlayerLookPacket;
-import rocks.cleanstone.net.packet.inbound.PlayerPositionPacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.InPlayerPositionAndLookPacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.PlayerLookPacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.PlayerPositionPacket;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 import rocks.cleanstone.player.event.StandardMoveReason;
 

@@ -13,8 +13,8 @@ import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
-import rocks.cleanstone.net.packet.inbound.PlayerBlockPlacementPacket;
-import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.PlayerBlockPlacementPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 

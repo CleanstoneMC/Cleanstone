@@ -5,7 +5,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
-import rocks.cleanstone.net.packet.inbound.InAnimationPacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.InAnimationPacket;
 import rocks.cleanstone.player.event.PlayerAnimationEvent;
 
 @Component

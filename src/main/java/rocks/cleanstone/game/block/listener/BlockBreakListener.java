@@ -9,7 +9,7 @@ import rocks.cleanstone.game.block.event.BlockBreakEvent;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.gamemode.GameModeRuleSet;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
-import rocks.cleanstone.net.packet.outbound.BlockChangePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.player.PlayerManager;
 
 @Component

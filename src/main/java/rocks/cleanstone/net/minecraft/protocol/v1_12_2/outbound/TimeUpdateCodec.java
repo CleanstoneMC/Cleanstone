@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.minecraft.packet.outbound.TimeUpdatePacket;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.outbound.TimeUpdatePacket;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
 public class TimeUpdateCodec implements PacketCodec {

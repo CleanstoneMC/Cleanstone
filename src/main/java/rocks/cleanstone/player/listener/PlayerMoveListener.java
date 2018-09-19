@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.event.EventAction;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
-import rocks.cleanstone.net.packet.outbound.*;
+import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.PlayerManager;

@@ -9,7 +9,7 @@ import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
-import rocks.cleanstone.net.packet.outbound.DisconnectPacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.player.OnlinePlayer;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;

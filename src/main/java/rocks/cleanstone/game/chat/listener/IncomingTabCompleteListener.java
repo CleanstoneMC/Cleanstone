@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.event.PlayerTabCompleteEvent;
 import rocks.cleanstone.net.event.InboundPacketEvent;
-import rocks.cleanstone.net.packet.inbound.InTabCompletePacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.InTabCompletePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 

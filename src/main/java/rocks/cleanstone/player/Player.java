@@ -7,12 +7,11 @@ import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
+import rocks.cleanstone.net.minecraft.packet.enums.DisplayedSkinPart;
+import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbility;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.net.packet.enums.DisplayedSkinPart;
-import rocks.cleanstone.net.packet.enums.PlayerAbility;
 import rocks.cleanstone.player.event.MoveReason;
 
-import javax.annotation.Nullable;
 import java.net.InetAddress;
 import java.util.Collection;
 import java.util.Locale;

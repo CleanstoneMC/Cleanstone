@@ -19,9 +19,9 @@ import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
 import rocks.cleanstone.game.world.region.RegionManager;
-import rocks.cleanstone.net.packet.enums.Difficulty;
-import rocks.cleanstone.net.packet.enums.Dimension;
-import rocks.cleanstone.net.packet.enums.LevelType;
+import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
+import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
+import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 
 import java.util.concurrent.ExecutionException;
 

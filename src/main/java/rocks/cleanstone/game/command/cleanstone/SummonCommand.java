@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
-import rocks.cleanstone.net.packet.data.EntityMetadata;
-import rocks.cleanstone.net.packet.enums.MobType;
-import rocks.cleanstone.net.packet.outbound.SpawnMobPacket;
+import rocks.cleanstone.net.minecraft.packet.data.EntityMetadata;
+import rocks.cleanstone.net.minecraft.packet.enums.MobType;
+import rocks.cleanstone.net.minecraft.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 

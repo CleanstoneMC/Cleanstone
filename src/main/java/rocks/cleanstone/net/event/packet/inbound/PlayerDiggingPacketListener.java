@@ -8,8 +8,8 @@ import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.event.BlockBreakEvent;
 import rocks.cleanstone.game.block.event.BlockDamageEvent;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
-import rocks.cleanstone.net.packet.enums.DiggingStatus;
-import rocks.cleanstone.net.packet.inbound.PlayerDiggingPacket;
+import rocks.cleanstone.net.minecraft.packet.enums.DiggingStatus;
+import rocks.cleanstone.net.minecraft.packet.inbound.PlayerDiggingPacket;
 import rocks.cleanstone.player.Player;
 
 import java.util.Collections;

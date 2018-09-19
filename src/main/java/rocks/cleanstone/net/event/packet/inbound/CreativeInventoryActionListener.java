@@ -4,7 +4,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
-import rocks.cleanstone.net.packet.inbound.CreativeInventoryActionPacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.CreativeInventoryActionPacket;
 
 @Component
 public class CreativeInventoryActionListener extends PlayerInboundPacketEventListener<CreativeInventoryActionPacket> {

@@ -1,9 +1,10 @@
 package rocks.cleanstone.game.world.generation;
 
+import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
+import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
+
 import java.util.HashMap;
 import java.util.Map;
-import rocks.cleanstone.net.packet.enums.Dimension;
-import rocks.cleanstone.net.packet.enums.LevelType;
 
 public abstract class AbstractWorldGenerator implements WorldGenerator {
 

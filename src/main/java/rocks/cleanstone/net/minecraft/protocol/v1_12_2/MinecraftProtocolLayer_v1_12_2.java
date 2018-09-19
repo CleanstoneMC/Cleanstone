@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
+import rocks.cleanstone.net.minecraft.packet.inbound.*;
+import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
-import rocks.cleanstone.net.packet.inbound.*;
-import rocks.cleanstone.net.packet.outbound.*;
 
 import static rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState.*;
 
