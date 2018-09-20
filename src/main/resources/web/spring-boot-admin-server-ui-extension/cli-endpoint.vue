@@ -1,6 +1,7 @@
 <template>
     <div class="cli">
-        <span v-text="log"/>
+        <input v-model="command" title="Command"/>
+        <button v-on:click="sendCommand">Send</button>
     </div>
 </template>
 
@@ -13,11 +14,14 @@
             }
         },
         data: () => ({
-            log: ''
+            command: ''
         }),
-        async created() {
-            const response = await this.instance.axios.get('actuator/cli'); //<2>
-            this.log = response.data;
+        methods: {
+            sendCommand: async function () {
+                await this.instance.axios.post('actuator/cli', {
+                    command: this.command
+                })
+            }
         }
     };
 </script>
