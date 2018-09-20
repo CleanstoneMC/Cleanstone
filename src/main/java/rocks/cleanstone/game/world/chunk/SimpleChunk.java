@@ -11,16 +11,13 @@ import java.util.Collection;
 public class SimpleChunk implements Chunk {
 
     private final BlockDataTable blockDataTable;
-    private final BlockDataStorage blockDataStorage;
     private final EntityData entityData;
     private final int x, z;
     private boolean hasUnsavedChanges = false;
     // TODO biome state
 
-    public SimpleChunk(BlockDataTable blockDataTable, BlockDataStorage blockDataStorage,
-                       EntityData entityData, int x, int z) {
+    public SimpleChunk(BlockDataTable blockDataTable, EntityData entityData, int x, int z) {
         this.blockDataTable = blockDataTable;
-        this.blockDataStorage = blockDataStorage;
         this.entityData = entityData;
         this.x = x;
         this.z = z;
@@ -62,7 +59,6 @@ public class SimpleChunk implements Chunk {
         validateRelativeBlockCoordinates(x, y, z);
         blockDataTable.setBlock(x, y, z, block);
         // TODO run the following expensive operation async
-        blockDataStorage.setBlockState(x, y, z, block.getState());
         hasUnsavedChanges = true;
     }
 
@@ -76,7 +72,6 @@ public class SimpleChunk implements Chunk {
     public void setBlockLight(int x, int y, int z, byte blockLight) {
         validateRelativeBlockCoordinates(x, y, z);
         blockDataTable.setBlockLight(x, y, z, blockLight);
-        blockDataStorage.setBlockLight(x, y, z, blockLight);
         hasUnsavedChanges = true;
     }
 
@@ -91,7 +86,6 @@ public class SimpleChunk implements Chunk {
         validateRelativeBlockCoordinates(x, y, z);
         if (!hasSkylight()) return;
         blockDataTable.setSkyLight(x, y, z, skyLight);
-        blockDataStorage.setSkyLight(x, y, z, skyLight);
         hasUnsavedChanges = true;
     }
 
@@ -113,11 +107,6 @@ public class SimpleChunk implements Chunk {
     @Override
     public BlockDataTable getBlockDataTable() {
         return blockDataTable;
-    }
-
-    @Override
-    public BlockDataStorage getBlockDataStorage() {
-        return blockDataStorage;
     }
 
     private void validateRelativeBlockCoordinates(int x, int y, int z) {

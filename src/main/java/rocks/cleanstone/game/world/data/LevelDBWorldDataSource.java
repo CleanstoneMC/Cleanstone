@@ -14,6 +14,7 @@ import rocks.cleanstone.game.world.chunk.data.StandardChunkDataType;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityDataCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
@@ -30,6 +31,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     private final String worldID;
     private final boolean hasSkyLight;
     private final DirectPalette directPalette;
+    private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
     private final EntityTypeRegistry entityTypeRegistry;
 
     private final Codec<EntityData, ByteBuf> entityDataCodec;
@@ -40,6 +42,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
      */
     public LevelDBWorldDataSource(
             VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,
+            VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
             EntityTypeRegistry entityTypeRegistry,
             ProtocolBlockStateMapping protocolBlockStateMapping,
             File worldDataFolder,
@@ -47,6 +50,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     ) throws IOException {
         super(new File(worldDataFolder, worldID));
         this.vanillaBlockDataCodecFactory = vanillaBlockDataCodecFactory;
+        this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
         this.entityTypeRegistry = entityTypeRegistry;
         this.worldID = worldID;
 
@@ -88,7 +92,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         blocksKey.release();
         entitiesKey.release();
         // TODO load blockEntities, biome state
-        return new SimpleChunk(blockDataStorage.constructTable(), blockDataStorage, entityData, x, y);
+        return new SimpleChunk(blockDataStorage.constructTable(), entityData, x, y);
     }
 
     @Override
@@ -99,7 +103,10 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         ByteBuf entitiesKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.ENTITIES);
         try {
             // TODO Rewrite Chunk to be a bean and add ChunkCodec
-            set(blocksKey, (VanillaBlockDataStorage) chunk.getBlockDataStorage(), blockDataCodec);
+            DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
+            VanillaBlockDataStorage blockDataStorage = vanillaBlockDataStorageFactory.get(chunk.getBlockDataTable(), directPalette, true);
+
+            set(blocksKey, blockDataStorage, blockDataCodec);
             set(entitiesKey, chunk.getEntityData(), entityDataCodec);
         } catch (IOException e) {
             logger.error("Failed to save corrupted chunk block data at " + x + ":" + y + " in LevelDB '"

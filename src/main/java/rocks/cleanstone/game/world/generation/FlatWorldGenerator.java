@@ -22,15 +22,10 @@ import java.util.HashSet;
 public class FlatWorldGenerator extends AbstractWorldGenerator {
 
     private BlockDataTable blockDataTable;
-    private VanillaBlockDataStorage blockDataStorage;
-    private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
 
     @Autowired
-    public FlatWorldGenerator(
-            VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory
-    ) {
+    public FlatWorldGenerator() {
         super(Dimension.OVERWORLD, LevelType.FLAT);
-        this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
 
         blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {
@@ -46,15 +41,12 @@ public class FlatWorldGenerator extends AbstractWorldGenerator {
                 }
             }
         }
-
-        DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
-        blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable, directPalette, true);
     }
 
     @Override
     public Chunk generateChunk(int seed, int chunkX, int chunkZ) {
         return new SimpleChunk(new ArrayBlockDataTable((ArrayBlockDataTable) blockDataTable),
-                vanillaBlockDataStorageFactory.get(blockDataStorage), new EntityData(new HashSet<>()), chunkX, chunkZ);
+                new EntityData(new HashSet<>()), chunkX, chunkZ);
     }
 
     @Override
