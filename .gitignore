@@ -30,3 +30,4 @@ target/*
 data/*
 /scripts/php-converter/bedrock_edition/MiNet/packets.md
 /scripts/php-converter/bedrock_edition/MiNet/packet/
+/node_modules/
