@@ -46,6 +46,8 @@ spring:
       client:
         url: http://localhost:8080
         instance.name: "Cleanstone Main"
+      ui:
+        title: "Cleanstone Admin"
 
 logging:
   level:
@@ -53,5 +55,13 @@ logging:
     whirvis.jraknet: warn
     rocks.cleanstone: debug
     de.codecentric.boot: warn
+  file: "cleanstone.log"
 
-management.endpoints.web.exposure.include: "*"
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
