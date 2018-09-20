@@ -40,6 +40,18 @@ minecraft:
       generator: mountainWorldGenerator
       autoload: true
 
-logging.level.org.springframework: warn
-logging.level.com.whirvis.jraknet: warn
-logging.level.rocks.cleanstone: debug
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+        instance.name: "Cleanstone Main"
+
+logging:
+  level:
+    org.springframework: warn
+    whirvis.jraknet: warn
+    rocks.cleanstone: debug
+    de.codecentric.boot: warn
+
+management.endpoints.web.exposure.include: "*"

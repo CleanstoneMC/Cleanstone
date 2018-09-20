@@ -1,5 +1,6 @@
 package rocks.cleanstone.core;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,7 @@ import java.util.Set;
 
 @SpringBootApplication
 @ComponentScan(excludeFilters = @ComponentScan.Filter(SpringBootApplication.class), basePackages = "rocks.cleanstone")
+@EnableAdminServer
 @Component("cleanstoneMainServer")
 public class CleanstoneMainServer extends CleanstoneServer {
 
@@ -25,5 +27,4 @@ public class CleanstoneMainServer extends CleanstoneServer {
     @Override
     public void run(ApplicationArguments args) {
     }
-
 }
