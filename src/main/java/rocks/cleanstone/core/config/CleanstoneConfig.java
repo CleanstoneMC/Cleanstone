@@ -3,18 +3,15 @@ package rocks.cleanstone.core.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import rocks.cleanstone.core.CleanstoneServer;
 
 import java.net.InetAddress;
 import java.util.Set;
-
-import rocks.cleanstone.core.CleanstoneServer;
 
 @Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "cleanstone")
 public class CleanstoneConfig {
-
-    private boolean subServer;
 
     private int mainServerPort;
     private InetAddress mainServerAddress;
@@ -26,14 +23,6 @@ public class CleanstoneConfig {
 
     public static CleanstoneConfig getInstance() {
         return CleanstoneServer.getInstance().getCleanstoneConfig();
-    }
-
-    public boolean isSubServer() {
-        return subServer;
-    }
-
-    public void setSubServer(boolean subServer) {
-        this.subServer = subServer;
     }
 
     public int getMainServerPort() {
@@ -79,7 +68,6 @@ public class CleanstoneConfig {
     @Override
     public String toString() {
         return "CleanstoneConfig{" +
-                "subServer=" + subServer +
                 ", mainServerPort=" + mainServerPort +
                 ", mainServerAddress=" + mainServerAddress +
                 ", requiredSubServers=" + requiredSubServers +
