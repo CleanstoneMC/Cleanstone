@@ -1,5 +1,6 @@
 module.exports = {
     outputDir: 'target/dist',
+    filenameHashing: false,
     chainWebpack: config => {
         config.entryPoints.delete('app');
         config.entry('cleanstone').add('./src/main/resources/web/spring-boot-admin-server-ui-extension/index.js');
