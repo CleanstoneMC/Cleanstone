@@ -1,6 +1,4 @@
 cleanstone:
-  subServer: false
-
   mainServerAddress: 127.0.0.1
   mainServerPort: 25564
 
@@ -48,6 +46,8 @@ spring:
         instance.name: "Cleanstone Main"
       ui:
         title: "Cleanstone Admin"
+  profiles:
+    active: mainServer
 
 logging:
   level:

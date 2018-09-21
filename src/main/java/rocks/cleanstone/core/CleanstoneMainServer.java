@@ -1,10 +1,9 @@
 package rocks.cleanstone.core;
 
-import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
@@ -12,9 +11,8 @@ import rocks.cleanstone.core.config.MinecraftConfig;
 import java.util.Set;
 
 @SpringBootApplication
-@ComponentScan(excludeFilters = @ComponentScan.Filter(SpringBootApplication.class), basePackages = "rocks.cleanstone")
-@EnableAdminServer
 @Component("cleanstoneMainServer")
+@Profile(value = "mainServer")
 public class CleanstoneMainServer extends CleanstoneServer {
 
     private Set<ExternalServer> externalServers;

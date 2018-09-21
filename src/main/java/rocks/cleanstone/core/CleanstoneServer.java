@@ -10,7 +10,6 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import rocks.cleanstone.Cleanstone;
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
@@ -67,7 +66,7 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     }
 
     public static void stop() {
-        getInstance().context.close();
+        getInstance().context.stop();
     }
 
     public static synchronized void restart() {
@@ -78,7 +77,7 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
         restartThread = new Thread(() -> {
             stop();
-            Cleanstone.start();
+            getInstance().context.start();
             restartThread = null;
         });
         restartThread.setDaemon(false);
