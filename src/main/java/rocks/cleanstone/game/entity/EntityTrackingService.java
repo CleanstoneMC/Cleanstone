@@ -43,7 +43,7 @@ public class EntityTrackingService {
     }
 
     @Async
-    public ListenableFuture<Set<Player>> getPlayerInRadius(Entity baseEntity, int chunkRadius) throws ExecutionException, InterruptedException {
+    public ListenableFuture<Set<Player>> getPlayersInRadius(Entity baseEntity, int chunkRadius) throws ExecutionException, InterruptedException {
         Set<Entity> entities = getEntitiesInRadius(baseEntity, chunkRadius).get();
 
         Set<Player> players = new HashSet<>();
