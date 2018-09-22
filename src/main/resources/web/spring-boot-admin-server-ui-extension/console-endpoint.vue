@@ -86,7 +86,7 @@
         async beforeMount() {
             await this.getConsoleLog();
 
-            setInterval(this.getConsoleLog, 10000);
+            setInterval(this.getConsoleLog, 1000);
 
             this.hasLoaded = true;
         }
