@@ -6,15 +6,17 @@ public enum VanillaMetadataType implements MetadataType {
     FLOAT(2),
     STRING(3),
     CHAT(4),
-    SLOT(5),
-    BOOLEAN(6),
-    ROTATION(7),
-    POSITION(8),
-    OPT_POSITION(9),
-    DIRECTION(10),
-    OPT_UUID(11),
-    OPT_BLOCKID(12),
-    NBT_TAG(13);
+    OPT_CHAT(5),
+    SLOT(6),
+    BOOLEAN(7),
+    ROTATION(8),
+    POSITION(9),
+    OPT_POSITION(10),
+    DIRECTION(11),
+    OPT_UUID(12),
+    OPT_BLOCKID(13),
+    NBT_TAG(14),
+    PARTICLE(15);
 
     private final int typeID;
 
