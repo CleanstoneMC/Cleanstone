@@ -79,6 +79,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     @Override
     public Chunk generateChunk(int seed, int chunkX, int chunkZ) {
         noiseGenerator.SetSeed(seed);
+
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
@@ -97,11 +98,8 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
                 }
             }
         }
-        DirectPalette directPalette = new DirectPalette(blockStateMapping, 14);
-        VanillaBlockDataStorage blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable,
-                directPalette, true);
 
-        return new SimpleChunk(blockDataTable, blockDataStorage, new EntityData(new HashSet<>()), chunkX, chunkZ);
+        return new SimpleChunk(blockDataTable, new EntityData(new HashSet<>()), chunkX, chunkZ);
     }
 
     public int getHeightAt(int seed, int x, int z) {

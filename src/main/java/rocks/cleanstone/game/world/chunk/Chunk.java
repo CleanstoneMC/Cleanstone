@@ -42,7 +42,5 @@ public interface Chunk {
 
     BlockDataTable getBlockDataTable();
 
-    BlockDataStorage getBlockDataStorage();
-
     EntityData getEntityData();
 }
