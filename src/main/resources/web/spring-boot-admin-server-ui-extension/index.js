@@ -1,6 +1,6 @@
 import consoleEndpoint from './console-endpoint';
 
-SBA.use({
+window.SBA.use({
     install({viewRegistry}) {
         viewRegistry.addView({
             name: 'instances/console',
