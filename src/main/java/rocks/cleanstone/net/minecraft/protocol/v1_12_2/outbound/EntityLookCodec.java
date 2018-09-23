@@ -1,26 +1,26 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.EntityLookPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class EntityLookCodec implements PacketCodec {
+@Component
+public class EntityLookCodec implements PacketCodec<EntityLookPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public EntityLookPacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("EntityLook is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        EntityLookPacket entityLookPacket = (EntityLookPacket) packet;
+    public ByteBuf encode(ByteBuf byteBuf, EntityLookPacket packet) {
 
-        ByteBufUtils.writeVarInt(byteBuf, entityLookPacket.getEntityID());
-        byteBuf.writeByte(entityLookPacket.getYaw());
-        byteBuf.writeByte(entityLookPacket.getPitch());
-        byteBuf.writeBoolean(entityLookPacket.isOnGround());
+        ByteBufUtils.writeVarInt(byteBuf, packet.getEntityID());
+        byteBuf.writeByte(packet.getYaw());
+        byteBuf.writeByte(packet.getPitch());
+        byteBuf.writeBoolean(packet.isOnGround());
 
         return byteBuf;
     }

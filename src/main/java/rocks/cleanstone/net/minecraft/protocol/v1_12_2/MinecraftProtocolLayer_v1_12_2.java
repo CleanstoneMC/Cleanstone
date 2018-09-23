@@ -2,78 +2,76 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
-import rocks.cleanstone.net.minecraft.packet.inbound.*;
-import rocks.cleanstone.net.minecraft.packet.outbound.*;
+import rocks.cleanstone.net.minecraft.protocol.AutowiredServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
-import rocks.cleanstone.net.minecraft.protocol.MinecraftServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
+import rocks.cleanstone.net.protocol.PacketCodec;
+
+import java.util.List;
 
 import static rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState.*;
 
 @Component("minecraftProtocolLayer_v1_12_2")
-public class MinecraftProtocolLayer_v1_12_2 extends MinecraftServerProtocolLayer {
+public class MinecraftProtocolLayer_v1_12_2 extends AutowiredServerProtocolLayer {
 
     @Autowired
-    public MinecraftProtocolLayer_v1_12_2(ProtocolBlockStateMapping blockStateMapping,
-                                          ProtocolItemTypeMapping itemTypeMapping,
-                                          VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
-                                          VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory) {
-        // inbound
-        registerPacketCodec(new HandshakeCodec(), HandshakePacket.class, HANDSHAKE, 0x00);
-        registerPacketCodec(new LoginStartCodec(), LoginStartPacket.class, LOGIN, 0x00);
-        registerPacketCodec(new EncryptionRequestCodec(), EncryptionRequestPacket.class, LOGIN, 0x01);
-        registerPacketCodec(new RequestCodec(), RequestPacket.class, STATUS, 0x00);
-        registerPacketCodec(new PingCodec(), PingPacket.class, STATUS, 0x01);
-        registerPacketCodec(new ClientSettingsCodec(), ClientSettingsPacket.class, PLAY, 0x04);
-        registerPacketCodec(new InKeepAliveCodec(), InKeepAlivePacket.class, PLAY, 0x0B);
-        registerPacketCodec(new InChatMessageCodec(), InChatMessagePacket.class, PLAY, 0x02);
-        registerPacketCodec(new InTabCompleteCodec(), InTabCompletePacket.class, PLAY, 0x01);
-        registerPacketCodec(new PlayerPositionCodec(), PlayerPositionPacket.class, PLAY, 0x0D);
-        registerPacketCodec(new PlayerLookCodec(), PlayerLookPacket.class, PLAY, 0x0F);
-        registerPacketCodec(new PlayerPositionAndLookCodec(), InPlayerPositionAndLookPacket.class, PLAY, 0x0E);
-        registerPacketCodec(new UseItemCodec(), UseItemPacket.class, PLAY, 0x20);
-        registerPacketCodec(new PlayerBlockPlacementCodec(), PlayerBlockPlacementPacket.class, PLAY, 0x1F);
-        registerPacketCodec(new PlayerDiggingCodec(), PlayerDiggingPacket.class, PLAY, 0x14);
-        registerPacketCodec(new CreativeInventoryActionCodec(itemTypeMapping), CreativeInventoryActionPacket.class, PLAY, 0x1B);
-        registerPacketCodec(new HeldItemChangeCodec(), HeldItemChangePacket.class, PLAY, 0x1A);
-        registerPacketCodec(new InPlayerAbilitiesCodec(), InPlayerAbilitiesPacket.class, PLAY, 0x13);
-        registerPacketCodec(new InAnimationCodec(), InAnimationPacket.class, PLAY, 0x1D);
+    public MinecraftProtocolLayer_v1_12_2(List<? extends PacketCodec> packetCodecs) {
+        super(packetCodecs);
 
-        // outbound
-        registerPacketCodec(new DisconnectCodec(), DisconnectPacket.class, PLAY, 0x1A);
-        registerPacketCodec(new DisconnectLoginCodec(), DisconnectLoginPacket.class, LOGIN, 0x00);
-        registerPacketCodec(new SpawnMobCodec(), SpawnMobPacket.class, PLAY, 0x03);
-        registerPacketCodec(new EncryptionResponseCodec(), EncryptionResponsePacket.class, LOGIN, 0x01);
-        registerPacketCodec(new SetCompressionCodec(), SetCompressionPacket.class, LOGIN, 0x03);
-        registerPacketCodec(new LoginSuccessCodec(), LoginSuccessPacket.class, LOGIN, 0x02);
-        registerPacketCodec(new ResponseCodec(), ResponsePacket.class, STATUS, 0x00);
-        registerPacketCodec(new PongCodec(), PongPacket.class, STATUS, 0x01);
-        registerPacketCodec(new JoinGameCodec(), JoinGamePacket.class, PLAY, 0x23);
-        registerPacketCodec(new SpawnPositionCodec(), SpawnPositionPacket.class, PLAY, 0x46);
-        registerPacketCodec(new OutPlayerAbilitiesCodec(), OutPlayerAbilitiesPacket.class, PLAY, 0x2C);
-        registerPacketCodec(new OutPlayerPositionAndLookCodec(), OutPlayerPositionAndLookPacket.class, PLAY, 0x2F);
-        registerPacketCodec(new ChunkDataCodec(blockStateMapping, vanillaBlockDataStorageFactory, vanillaBlockDataCodecFactory), ChunkDataPacket.class, PLAY, 0x20);
-        registerPacketCodec(new OutKeepAliveCodec(), OutKeepAlivePacket.class, PLAY, 0x1F);
-        registerPacketCodec(new OutTabCompleteCodec(), OutTabCompletePacket.class, PLAY, 0x0E);
-        registerPacketCodec(new OutChatMessageCodec(), OutChatMessagePacket.class, PLAY, 0x0F);
-        registerPacketCodec(new WindowItemsCodec(), WindowItemsPacket.class, PLAY, 0x14);
-        registerPacketCodec(new PlayerListItemCodec(), PlayerListItemPacket.class, PLAY, 0x2E);
-        registerPacketCodec(new EntityLookCodec(), EntityLookPacket.class, PLAY, 0x28);
-        registerPacketCodec(new EntityRelativeMoveCodec(), EntityRelativeMovePacket.class, PLAY, 0x26);
-        registerPacketCodec(new EntityLookAndRelativeMoveCodec(), EntityLookAndRelativeMovePacket.class, PLAY, 0x27);
-        registerPacketCodec(new SpawnPlayerCodec(), SpawnPlayerPacket.class, PLAY, 0x05);
-        registerPacketCodec(new TimeUpdateCodec(), TimeUpdatePacket.class, PLAY, 0x47);
-        registerPacketCodec(new UnloadChunkCodec(), UnloadChunkPacket.class, PLAY, 0x1D);
-        registerPacketCodec(new BlockChangeCodec(blockStateMapping), BlockChangePacket.class, PLAY, 0x0B);
-        registerPacketCodec(new EntityTeleportCodec(), EntityTeleportPacket.class, PLAY, 0x4C);
-        registerPacketCodec(new DestroyEntitiesCodec(), DestroyEntitiesPacket.class, PLAY, 0x32);
-        registerPacketCodec(new ChangeGameStateCodec(), ChangeGameStatePacket.class, PLAY, 0x1E);
-        registerPacketCodec(new EntityHeadLookCodec(), EntityHeadLookPacket.class, PLAY, 0x36);
-        registerPacketCodec(new OutAnimationCodec(), AnimationPacket.class, PLAY, 0x06);
-        registerPacketCodec(new SpawnObjectCodec(), SpawnObjectPacket.class, PLAY, 0x00);
+        //inbound
+        registerPacketCodec(HandshakeCodec.class, HANDSHAKE, 0x00);
+        registerPacketCodec(LoginStartCodec.class, LOGIN, 0x00);
+        registerPacketCodec(EncryptionRequestCodec.class, LOGIN, 0x01);
+        registerPacketCodec(RequestCodec.class, STATUS, 0x00);
+        registerPacketCodec(PingCodec.class, STATUS, 0x01);
+        registerPacketCodec(ClientSettingsCodec.class, PLAY, 0x04);
+        registerPacketCodec(InKeepAliveCodec.class, PLAY, 0x0B);
+        registerPacketCodec(InChatMessageCodec.class, PLAY, 0x02);
+        registerPacketCodec(InTabCompleteCodec.class, PLAY, 0x01);
+        registerPacketCodec(PlayerPositionCodec.class, PLAY, 0x0D);
+        registerPacketCodec(PlayerLookCodec.class, PLAY, 0x0F);
+        registerPacketCodec(PlayerPositionAndLookCodec.class, PLAY, 0x0E);
+        registerPacketCodec(UseItemCodec.class, PLAY, 0x20);
+        registerPacketCodec(PlayerBlockPlacementCodec.class, PLAY, 0x1F);
+        registerPacketCodec(PlayerDiggingCodec.class, PLAY, 0x14);
+        registerPacketCodec(CreativeInventoryActionCodec.class, PLAY, 0x1B);
+        registerPacketCodec(HeldItemChangeCodec.class, PLAY, 0x1A);
+        registerPacketCodec(InPlayerAbilitiesCodec.class, PLAY, 0x13);
+        registerPacketCodec(InAnimationCodec.class, PLAY, 0x1D);
+
+        //outbound
+        registerPacketCodec(DisconnectCodec.class, PLAY, 0x1A);
+        registerPacketCodec(DisconnectLoginCodec.class, LOGIN, 0x00);
+        registerPacketCodec(SpawnMobCodec.class, PLAY, 0x03);
+        registerPacketCodec(EncryptionResponseCodec.class, LOGIN, 0x01);
+        registerPacketCodec(SetCompressionCodec.class, LOGIN, 0x03);
+        registerPacketCodec(LoginSuccessCodec.class, LOGIN, 0x02);
+        registerPacketCodec(ResponseCodec.class, STATUS, 0x00);
+        registerPacketCodec(PongCodec.class, STATUS, 0x01);
+        registerPacketCodec(JoinGameCodec.class, PLAY, 0x23);
+        registerPacketCodec(SpawnPositionCodec.class, PLAY, 0x46);
+        registerPacketCodec(OutPlayerAbilitiesCodec.class, PLAY, 0x2C);
+        registerPacketCodec(OutPlayerPositionAndLookCodec.class, PLAY, 0x2F);
+        registerPacketCodec(ChunkDataCodec.class, PLAY, 0x20);
+        registerPacketCodec(OutKeepAliveCodec.class, PLAY, 0x1F);
+        registerPacketCodec(OutTabCompleteCodec.class, PLAY, 0x0E);
+        registerPacketCodec(OutChatMessageCodec.class, PLAY, 0x0F);
+        registerPacketCodec(WindowItemsCodec.class, PLAY, 0x14);
+        registerPacketCodec(PlayerListItemCodec.class, PLAY, 0x2E);
+        registerPacketCodec(EntityLookCodec.class, PLAY, 0x28);
+        registerPacketCodec(EntityRelativeMoveCodec.class, PLAY, 0x26);
+        registerPacketCodec(EntityLookAndRelativeMoveCodec.class, PLAY, 0x27);
+        registerPacketCodec(SpawnPlayerCodec.class, PLAY, 0x05);
+        registerPacketCodec(TimeUpdateCodec.class, PLAY, 0x47);
+        registerPacketCodec(UnloadChunkCodec.class, PLAY, 0x1D);
+        registerPacketCodec(BlockChangeCodec.class, PLAY, 0x0B);
+        registerPacketCodec(EntityTeleportCodec.class, PLAY, 0x4C);
+        registerPacketCodec(DestroyEntitiesCodec.class, PLAY, 0x32);
+        registerPacketCodec(ChangeGameStateCodec.class, PLAY, 0x1E);
+        registerPacketCodec(EntityHeadLookCodec.class, PLAY, 0x36);
+        registerPacketCodec(OutAnimationCodec.class, PLAY, 0x06);
+        registerPacketCodec(SpawnObjectCodec.class, PLAY, 0x00);
     }
 
     @Override

@@ -1,24 +1,24 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.EntityHeadLookPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class EntityHeadLookCodec implements PacketCodec {
+@Component
+public class EntityHeadLookCodec implements PacketCodec<EntityHeadLookPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public EntityHeadLookPacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("EntityHeadLook is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        EntityHeadLookPacket entityHeadLookPacket = (EntityHeadLookPacket) packet;
+    public ByteBuf encode(ByteBuf byteBuf, EntityHeadLookPacket packet) {
 
-        ByteBufUtils.writeVarInt(byteBuf, entityHeadLookPacket.getEntityID());
-        byteBuf.writeByte(entityHeadLookPacket.getYaw());
+        ByteBufUtils.writeVarInt(byteBuf, packet.getEntityID());
+        byteBuf.writeByte(packet.getYaw());
 
         return byteBuf;
     }

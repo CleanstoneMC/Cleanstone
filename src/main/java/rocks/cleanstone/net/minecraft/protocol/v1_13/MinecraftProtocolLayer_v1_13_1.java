@@ -2,19 +2,17 @@ package rocks.cleanstone.net.minecraft.protocol.v1_13;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
+import rocks.cleanstone.net.protocol.PacketCodec;
+
+import java.util.List;
 
 @Component("minecraftProtocolLayer_v1_13_1")
 public class MinecraftProtocolLayer_v1_13_1 extends MinecraftProtocolLayer_v1_13 {
 
     @Autowired
-    public MinecraftProtocolLayer_v1_13_1(ProtocolBlockStateMapping blockStateMapping,
-                                          ProtocolItemTypeMapping itemTypeMapping,
-                                          VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
-                                          VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory) {
-        super(blockStateMapping, itemTypeMapping, vanillaBlockDataStorageFactory, vanillaBlockDataCodecFactory);
+    public MinecraftProtocolLayer_v1_13_1(List<? extends PacketCodec> packetCodecs) {
+        super(packetCodecs);
     }
 
     @Override

@@ -2,17 +2,18 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 
-public class EncryptionResponseCodec implements PacketCodec {
+@Component
+public class EncryptionResponseCodec implements PacketCodec<EncryptionResponsePacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) throws IOException {
+    public EncryptionResponsePacket decode(ByteBuf byteBuf) throws IOException {
         int publicKeyLength = ByteBufUtils.readVarInt(byteBuf);
         Preconditions.checkArgument(publicKeyLength <= 256 && publicKeyLength > 0,
                 "publicKeyLength " + publicKeyLength + " is too big/small");
@@ -31,7 +32,7 @@ public class EncryptionResponseCodec implements PacketCodec {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, EncryptionResponsePacket packet) {
         throw new UnsupportedOperationException("EncryptionResponse is inbound and cannot be encoded");
     }
 }

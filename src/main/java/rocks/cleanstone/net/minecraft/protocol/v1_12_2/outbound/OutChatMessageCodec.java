@@ -1,26 +1,26 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutChatMessagePacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 
-public class OutChatMessageCodec implements PacketCodec {
+@Component
+public class OutChatMessageCodec implements PacketCodec<OutChatMessagePacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public OutChatMessagePacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("ChatMessage is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
-        OutChatMessagePacket chatMessagePacket = (OutChatMessagePacket) packet;
+    public ByteBuf encode(ByteBuf byteBuf, OutChatMessagePacket packet) throws IOException {
 
-        ByteBufUtils.writeUTF8(byteBuf, chatMessagePacket.getChat().toString());
-        byteBuf.writeByte(chatMessagePacket.getChatPosition().getPositionID());
+        ByteBufUtils.writeUTF8(byteBuf, packet.getChat().toString());
+        byteBuf.writeByte(packet.getChatPosition().getPositionID());
         return byteBuf;
     }
 }

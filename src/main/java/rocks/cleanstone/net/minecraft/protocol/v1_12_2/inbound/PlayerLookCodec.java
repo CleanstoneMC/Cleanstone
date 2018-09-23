@@ -2,16 +2,15 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerLookPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
-import java.io.IOException;
-
-public class PlayerLookCodec implements PacketCodec {
+@Component
+public class PlayerLookCodec implements PacketCodec<PlayerLookPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) throws IOException {
+    public PlayerLookPacket decode(ByteBuf byteBuf) {
         final float yaw = byteBuf.readFloat();
         final float pitch = byteBuf.readFloat();
         final boolean onGround = byteBuf.readBoolean();
@@ -23,7 +22,7 @@ public class PlayerLookCodec implements PacketCodec {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, PlayerLookPacket packet) {
         throw new UnsupportedOperationException("PlayerLook is inbound and cannot be encoded");
     }
 }

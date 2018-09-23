@@ -1,36 +1,34 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnObjectPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.io.IOException;
-
-public class SpawnObjectCodec implements PacketCodec {
+@Component
+public class SpawnObjectCodec implements PacketCodec<SpawnObjectPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public SpawnObjectPacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("SpawnObject is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
-        SpawnObjectPacket spawnObjectPacket = (SpawnObjectPacket) packet;
+    public ByteBuf encode(ByteBuf byteBuf, SpawnObjectPacket packet) {
 
-        ByteBufUtils.writeVarInt(byteBuf, spawnObjectPacket.getEntityID());
-        ByteBufUtils.writeUUID(byteBuf, spawnObjectPacket.getObjectUUID());
+        ByteBufUtils.writeVarInt(byteBuf, packet.getEntityID());
+        ByteBufUtils.writeUUID(byteBuf, packet.getObjectUUID());
         //byteBuf.writeByte(spawnObjectPacket.getType().getTypeID());
-        byteBuf.writeDouble(spawnObjectPacket.getX());
-        byteBuf.writeDouble(spawnObjectPacket.getY());
-        byteBuf.writeDouble(spawnObjectPacket.getZ());
-        byteBuf.writeByte((int) spawnObjectPacket.getPitch());
-        byteBuf.writeByte((int) spawnObjectPacket.getPitch());
-        byteBuf.writeInt(spawnObjectPacket.getData());
-        byteBuf.writeShort(spawnObjectPacket.getVelocityX());
-        byteBuf.writeShort(spawnObjectPacket.getVelocityY());
-        byteBuf.writeShort(spawnObjectPacket.getVelocityZ());
+        byteBuf.writeDouble(packet.getX());
+        byteBuf.writeDouble(packet.getY());
+        byteBuf.writeDouble(packet.getZ());
+        byteBuf.writeByte((int) packet.getPitch());
+        byteBuf.writeByte((int) packet.getPitch());
+        byteBuf.writeInt(packet.getData());
+        byteBuf.writeShort(packet.getVelocityX());
+        byteBuf.writeShort(packet.getVelocityY());
+        byteBuf.writeShort(packet.getVelocityZ());
 
         return byteBuf;
     }

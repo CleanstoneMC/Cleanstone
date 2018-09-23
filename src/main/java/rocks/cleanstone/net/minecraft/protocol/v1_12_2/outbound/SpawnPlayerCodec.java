@@ -1,29 +1,29 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class SpawnPlayerCodec implements PacketCodec {
+@Component
+public class SpawnPlayerCodec implements PacketCodec<SpawnPlayerPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public SpawnPlayerPacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("SpawnPlayer is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        SpawnPlayerPacket spawnPlayerPacket = (SpawnPlayerPacket) packet;
+    public ByteBuf encode(ByteBuf byteBuf, SpawnPlayerPacket packet) {
 
-        ByteBufUtils.writeVarInt(byteBuf, spawnPlayerPacket.getEntityID());
-        ByteBufUtils.writeUUID(byteBuf, spawnPlayerPacket.getPlayerUUID());
-        byteBuf.writeDouble(spawnPlayerPacket.getPosition().getX());
-        byteBuf.writeDouble(spawnPlayerPacket.getPosition().getY());
-        byteBuf.writeDouble(spawnPlayerPacket.getPosition().getZ());
-        byteBuf.writeByte((int) spawnPlayerPacket.getPosition().getRotation().getPitch());
-        byteBuf.writeByte((int) spawnPlayerPacket.getPosition().getRotation().getYaw());
+        ByteBufUtils.writeVarInt(byteBuf, packet.getEntityID());
+        ByteBufUtils.writeUUID(byteBuf, packet.getPlayerUUID());
+        byteBuf.writeDouble(packet.getPosition().getX());
+        byteBuf.writeDouble(packet.getPosition().getY());
+        byteBuf.writeDouble(packet.getPosition().getZ());
+        byteBuf.writeByte((int) packet.getPosition().getRotation().getPitch());
+        byteBuf.writeByte((int) packet.getPosition().getRotation().getYaw());
 
         byteBuf.writeByte(0xff);
         //TODO: Write EntityMetadata

@@ -1,25 +1,25 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 
-public class DisconnectCodec implements PacketCodec {
+@Component
+public class DisconnectCodec implements PacketCodec<DisconnectPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public DisconnectPacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("Disconnect is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
-        DisconnectPacket disconnectPacket = (DisconnectPacket) packet;
+    public ByteBuf encode(ByteBuf byteBuf, DisconnectPacket packet) throws IOException {
 
-        ByteBufUtils.writeUTF8(byteBuf, disconnectPacket.getReason().toString());
+        ByteBufUtils.writeUTF8(byteBuf, packet.getReason().toString());
         return byteBuf;
     }
 }

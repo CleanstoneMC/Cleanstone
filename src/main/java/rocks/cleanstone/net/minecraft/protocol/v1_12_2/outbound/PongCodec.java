@@ -1,24 +1,22 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.PongPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
-import java.io.IOException;
-
-public class PongCodec implements PacketCodec {
+@Component
+public class PongCodec implements PacketCodec<PongPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public PongPacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("Pong is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
-        PongPacket pongPacket = (PongPacket) packet;
+    public ByteBuf encode(ByteBuf byteBuf, PongPacket packet) {
 
-        byteBuf.writeLong(pongPacket.getPayload());
+        byteBuf.writeLong(packet.getPayload());
         return byteBuf;
     }
 }

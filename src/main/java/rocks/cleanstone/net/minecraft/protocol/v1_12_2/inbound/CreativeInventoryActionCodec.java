@@ -2,27 +2,28 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.state.mapping.LegacyMaterialMapping;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.inventory.item.SimpleItemStack;
 import rocks.cleanstone.game.material.item.ItemType;
 import rocks.cleanstone.net.minecraft.packet.inbound.CreativeInventoryActionPacket;
-import rocks.cleanstone.net.packet.Packet;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.ProtocolItemTypeMapping;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
 import javax.annotation.Nullable;
 
-public class CreativeInventoryActionCodec implements PacketCodec {
+@Component
+public class CreativeInventoryActionCodec implements PacketCodec<CreativeInventoryActionPacket> {
 
     private final LegacyMaterialMapping itemTypeMapping;
 
-    public CreativeInventoryActionCodec(LegacyMaterialMapping itemTypeMapping) {
+    public CreativeInventoryActionCodec(ProtocolItemTypeMapping itemTypeMapping) {
         this.itemTypeMapping = itemTypeMapping;
-
     }
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public CreativeInventoryActionPacket decode(ByteBuf byteBuf) {
         short slot = byteBuf.readShort();
         ItemStack clickedItem = readItemStack(byteBuf);
 
@@ -30,7 +31,7 @@ public class CreativeInventoryActionCodec implements PacketCodec {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, CreativeInventoryActionPacket packet) {
         throw new UnsupportedOperationException("CreativeInventoryAction is inbound and cannot be encoded");
     }
 

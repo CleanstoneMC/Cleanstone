@@ -2,16 +2,15 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.InPlayerPositionAndLookPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
-import java.io.IOException;
-
-public class PlayerPositionAndLookCodec implements PacketCodec {
+@Component
+public class PlayerPositionAndLookCodec implements PacketCodec<InPlayerPositionAndLookPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) throws IOException {
+    public InPlayerPositionAndLookPacket decode(ByteBuf byteBuf) {
         final double x = byteBuf.readDouble();
         final double y = byteBuf.readDouble();
         final double z = byteBuf.readDouble();
@@ -29,7 +28,7 @@ public class PlayerPositionAndLookCodec implements PacketCodec {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, InPlayerPositionAndLookPacket packet) {
         throw new UnsupportedOperationException("PlayerPositionAndLook is inbound and cannot be encoded");
     }
 }

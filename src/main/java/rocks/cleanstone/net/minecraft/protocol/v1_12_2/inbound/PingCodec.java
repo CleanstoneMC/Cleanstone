@@ -1,21 +1,22 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.PingPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
-public class PingCodec implements PacketCodec {
+@Component
+public class PingCodec implements PacketCodec<PingPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public PingPacket decode(ByteBuf byteBuf) {
         final long payload = byteBuf.readLong();
 
         return new PingPacket(payload);
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, PingPacket packet) {
         throw new UnsupportedOperationException("Ping is inbound and cannot be encoded");
     }
 }

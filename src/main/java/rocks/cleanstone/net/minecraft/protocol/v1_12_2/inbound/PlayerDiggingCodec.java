@@ -2,21 +2,22 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Face;
 import rocks.cleanstone.net.minecraft.packet.enums.DiggingStatus;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerDiggingPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.utils.Vector;
 
 import java.io.IOException;
 
-public class PlayerDiggingCodec implements PacketCodec {
+@Component
+public class PlayerDiggingCodec implements PacketCodec<PlayerDiggingPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) throws IOException {
+    public PlayerDiggingPacket decode(ByteBuf byteBuf) throws IOException {
         final int diggingStatusID = ByteBufUtils.readVarInt(byteBuf);
         final Vector positionVector = ByteBufUtils.readVector(byteBuf);
         final byte faceID = byteBuf.readByte();
@@ -32,7 +33,7 @@ public class PlayerDiggingCodec implements PacketCodec {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, PlayerDiggingPacket packet) {
         throw new UnsupportedOperationException("PlayerDigging is inbound and cannot be encoded");
     }
 }

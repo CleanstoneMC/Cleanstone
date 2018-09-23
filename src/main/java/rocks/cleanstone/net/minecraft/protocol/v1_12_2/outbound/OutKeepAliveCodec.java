@@ -1,22 +1,22 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutKeepAlivePacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
-public class OutKeepAliveCodec implements PacketCodec {
+@Component
+public class OutKeepAliveCodec implements PacketCodec<OutKeepAlivePacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public OutKeepAlivePacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("KeepAlive is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        OutKeepAlivePacket keepAlivePacket = (OutKeepAlivePacket) packet;
+    public ByteBuf encode(ByteBuf byteBuf, OutKeepAlivePacket packet) {
 
-        byteBuf.writeLong(keepAlivePacket.getKeepAliveID());
+        byteBuf.writeLong(packet.getKeepAliveID());
         return byteBuf;
     }
 }

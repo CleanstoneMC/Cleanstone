@@ -1,19 +1,20 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerBlockPlacementPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.utils.Vector;
 
 import java.io.IOException;
 
-public class PlayerBlockPlacementCodec implements PacketCodec {
+@Component
+public class PlayerBlockPlacementCodec implements PacketCodec<PlayerBlockPlacementPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) throws IOException {
+    public PlayerBlockPlacementPacket decode(ByteBuf byteBuf) throws IOException {
         final Vector positionVector = ByteBufUtils.readVector(byteBuf);
         final int face = ByteBufUtils.readVarInt(byteBuf);
         final int hand = ByteBufUtils.readVarInt(byteBuf);
@@ -28,7 +29,7 @@ public class PlayerBlockPlacementCodec implements PacketCodec {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, PlayerBlockPlacementPacket packet) {
         throw new UnsupportedOperationException("PlayerBlockPlacement is inbound and cannot be encoded");
     }
 }

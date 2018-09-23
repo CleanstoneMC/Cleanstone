@@ -1,42 +1,43 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class ChunkDataCodec implements PacketCodec {
+@Component
+public class ChunkDataCodec implements PacketCodec<ChunkDataPacket> {
 
     private final BlockStateMapping<Integer> blockStateMapping;
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
     private final VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory;
 
-    public ChunkDataCodec(BlockStateMapping<Integer> blockStateMapping, VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory, VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory) {
+    public ChunkDataCodec(@Qualifier("protocolBlockStateMapping_v1_12_2") BlockStateMapping<Integer> blockStateMapping, VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory, VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory) {
         this.blockStateMapping = blockStateMapping;
         this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
         this.vanillaBlockDataCodecFactory = vanillaBlockDataCodecFactory;
     }
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public ChunkDataPacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("ChunkData is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        ChunkDataPacket chunkDataPacket = (ChunkDataPacket) packet;
-        byteBuf.writeInt(chunkDataPacket.getChunkX());
-        byteBuf.writeInt(chunkDataPacket.getChunkZ());
-        byteBuf.writeBoolean(chunkDataPacket.isGroundUpContinuous());
+    public ByteBuf encode(ByteBuf byteBuf, ChunkDataPacket packet) {
+        byteBuf.writeInt(packet.getChunkX());
+        byteBuf.writeInt(packet.getChunkZ());
+        byteBuf.writeBoolean(packet.isGroundUpContinuous());
 
         DirectPalette directPalette = new DirectPalette(blockStateMapping, 13);
-        VanillaBlockDataStorage storage = vanillaBlockDataStorageFactory.get(chunkDataPacket.getBlockDataTable(),
+        VanillaBlockDataStorage storage = vanillaBlockDataStorageFactory.get(packet.getBlockDataTable(),
                 directPalette, false);
 
         ByteBuf blockData = vanillaBlockDataCodecFactory.get(directPalette, false).serialize(storage);

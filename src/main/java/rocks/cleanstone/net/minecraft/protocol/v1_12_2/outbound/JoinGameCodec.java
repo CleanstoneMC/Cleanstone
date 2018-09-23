@@ -1,31 +1,31 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.JoinGamePacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 
-public class JoinGameCodec implements PacketCodec {
+@Component
+public class JoinGameCodec implements PacketCodec<JoinGamePacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public JoinGamePacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("JoinGame is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
-        JoinGamePacket joinGamePacket = (JoinGamePacket) packet;
+    public ByteBuf encode(ByteBuf byteBuf, JoinGamePacket packet) throws IOException {
 
-        byteBuf.writeInt(joinGamePacket.getEntityID());
-        byteBuf.writeByte(joinGamePacket.getGamemode().getTypeId());
-        byteBuf.writeInt(joinGamePacket.getDimension().getDimensionID());
-        byteBuf.writeByte(joinGamePacket.getDifficulty().getDifficultyID());
-        byteBuf.writeByte(joinGamePacket.getMaxPlayers());
-        ByteBufUtils.writeUTF8(byteBuf, joinGamePacket.getLevelType().getLevelType());
-        byteBuf.writeBoolean(joinGamePacket.isReduceDebugInfo());
+        byteBuf.writeInt(packet.getEntityID());
+        byteBuf.writeByte(packet.getGamemode().getTypeId());
+        byteBuf.writeInt(packet.getDimension().getDimensionID());
+        byteBuf.writeByte(packet.getDifficulty().getDifficultyID());
+        byteBuf.writeByte(packet.getMaxPlayers());
+        ByteBufUtils.writeUTF8(byteBuf, packet.getLevelType().getLevelType());
+        byteBuf.writeBoolean(packet.isReduceDebugInfo());
 
         return byteBuf;
     }

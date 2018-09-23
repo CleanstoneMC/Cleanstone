@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.PlayerListItemPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.player.UserProperty;
@@ -13,19 +13,19 @@ import java.util.Collection;
 import static rocks.cleanstone.net.utils.ByteBufUtils.writeUTF8;
 import static rocks.cleanstone.net.utils.ByteBufUtils.writeVarInt;
 
-public class PlayerListItemCodec implements PacketCodec {
+@Component
+public class PlayerListItemCodec implements PacketCodec<PlayerListItemPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public PlayerListItemPacket decode(ByteBuf byteBuf) {
         throw new UnsupportedOperationException("PlayerListItem is outbound and cannot be decoded");
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
-        PlayerListItemPacket playerListItemPacket = (PlayerListItemPacket) packet;
-        PlayerListItemPacket.Action action = playerListItemPacket.getAction();
+    public ByteBuf encode(ByteBuf byteBuf, PlayerListItemPacket packet) throws IOException {
+        PlayerListItemPacket.Action action = packet.getAction();
         writeVarInt(byteBuf, action.getId());
-        Collection<PlayerListItemPacket.PlayerItem> players = playerListItemPacket.getPlayers();
+        Collection<PlayerListItemPacket.PlayerItem> players = packet.getPlayers();
         writeVarInt(byteBuf, players.size());
 
         for (PlayerListItemPacket.PlayerItem playerItem : players) {

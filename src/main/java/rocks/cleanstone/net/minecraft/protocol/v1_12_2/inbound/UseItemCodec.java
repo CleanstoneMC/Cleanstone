@@ -2,18 +2,19 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.inventory.Hand;
 import rocks.cleanstone.net.minecraft.packet.inbound.UseItemPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 
-public class UseItemCodec implements PacketCodec {
+@Component
+public class UseItemCodec implements PacketCodec<UseItemPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) throws IOException {
+    public UseItemPacket decode(ByteBuf byteBuf) throws IOException {
         final int handID = ByteBufUtils.readVarInt(byteBuf);
         Hand hand = Hand.fromHandID(handID);
         Preconditions.checkNotNull(hand, "Invalid handID " + handID);
@@ -22,7 +23,7 @@ public class UseItemCodec implements PacketCodec {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, UseItemPacket packet) {
         throw new UnsupportedOperationException("UseItem is inbound and cannot be encoded");
     }
 }

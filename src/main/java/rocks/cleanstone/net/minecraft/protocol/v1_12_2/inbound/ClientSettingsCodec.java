@@ -4,11 +4,11 @@ import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
 import rocks.cleanstone.net.minecraft.packet.enums.DisplayedSkinPart;
 import rocks.cleanstone.net.minecraft.packet.inbound.ClientSettingsPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
@@ -16,12 +16,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Locale;
 
-public class ClientSettingsCodec implements PacketCodec {
+@Component
+public class ClientSettingsCodec implements PacketCodec<ClientSettingsPacket> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public Packet decode(ByteBuf byteBuf) throws IOException {
+    public ClientSettingsPacket decode(ByteBuf byteBuf) throws IOException {
 
         String localeID = ByteBufUtils.readUTF8(byteBuf, 16);
         Locale locale = new Locale.Builder().setLanguageTag(localeID.replace("_", "-")).build();
@@ -44,7 +45,7 @@ public class ClientSettingsCodec implements PacketCodec {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, ClientSettingsPacket packet) {
         throw new UnsupportedOperationException("ClientSettings is inbound and cannot be encoded");
     }
 }

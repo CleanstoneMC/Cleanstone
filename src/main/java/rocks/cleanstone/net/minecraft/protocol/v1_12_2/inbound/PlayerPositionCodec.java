@@ -3,14 +3,15 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerPositionPacket;
-import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
-public class PlayerPositionCodec implements PacketCodec {
+@Component
+public class PlayerPositionCodec implements PacketCodec<PlayerPositionPacket> {
 
     @Override
-    public Packet decode(ByteBuf byteBuf) {
+    public PlayerPositionPacket decode(ByteBuf byteBuf) {
         double x = byteBuf.readDouble();
         double feetY = byteBuf.readDouble();
         double z = byteBuf.readDouble();
@@ -25,7 +26,7 @@ public class PlayerPositionCodec implements PacketCodec {
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, PlayerPositionPacket packet) {
         throw new UnsupportedOperationException("PlayerPosition is inbound and cannot be encoded");
     }
 }
