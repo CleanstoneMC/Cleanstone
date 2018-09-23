@@ -30,7 +30,8 @@
         <p class="control">
           <button
             @click="sendCommand"
-            class="button">Send</button>
+            class="button">Send
+          </button>
         </p>
       </div>
       <div class="card panel">
@@ -54,86 +55,86 @@
 </template>
 
 <script>
-import AnsiUp from 'ansi_up';
+  import AnsiUp from 'ansi_up';
 
-export default {
-  props: {
-    instance: {
-      type: Object,
-      required: true,
+  export default {
+    props: {
+      instance: {
+        type: Object,
+        required: true,
+      },
     },
-  },
-  data: () => ({
-    command: '',
-    hasLoaded: false,
-    logEntries: [],
-    ansiUp: new AnsiUp(),
-  }),
-  methods: {
-    sendCommand: async function() {
-      await this.instance.axios.post('actuator/console', {
-        command: this.command,
-      });
-
-      this.getConsoleLog();
-    },
-    getConsoleLog: async function() {
-      let consoleData = await this.instance.axios.get('actuator/console');
-
-      let entries = [];
-      consoleData.data.forEach(line => {
-        const regex = /([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}) {2}(.*) {3}: (.*)/gm;
-
-        let regexResult = regex.exec(line);
-
-        if (regexResult === null) {
-          return;
-        }
-
-        entries.push({
-          time: this.ansiUp.ansi_to_html(regexResult[1]),
-          source: this.ansiUp.ansi_to_html(regexResult[2]),
-          message: this.ansiUp.ansi_to_html(regexResult[3]),
+    data: () => ({
+      command: '',
+      hasLoaded: false,
+      logEntries: [],
+      ansiUp: new AnsiUp(),
+    }),
+    methods: {
+      sendCommand: async function () {
+        await this.instance.axios.post('actuator/console', {
+          command: this.command,
         });
 
-        this.logEntries = entries;
-      });
+        this.getConsoleLog();
+      },
+      getConsoleLog: async function () {
+        let consoleData = await this.instance.axios.get('actuator/console');
+
+        let entries = [];
+        consoleData.data.forEach(line => {
+          const regex = /([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}) {2}(.*) {3}: (.*)/gm;
+
+          let regexResult = regex.exec(line);
+
+          if (regexResult === null) {
+            return;
+          }
+
+          entries.push({
+            time: this.ansiUp.ansi_to_html(regexResult[1]),
+            source: this.ansiUp.ansi_to_html(regexResult[2]),
+            message: this.ansiUp.ansi_to_html(regexResult[3]),
+          });
+
+          this.logEntries = entries;
+        });
+      },
     },
-  },
-  async beforeMount() {
-    await this.getConsoleLog();
+    async beforeMount() {
+      await this.getConsoleLog();
 
-    setInterval(this.getConsoleLog, 1000);
+      setInterval(this.getConsoleLog, 1000);
 
-    this.hasLoaded = true;
-  },
-};
+      this.hasLoaded = true;
+    },
+  };
 </script>
 
 <style>
-.logTime,
-.logSource,
-.logMessage {
-  display: inline;
-}
+  .logTime,
+  .logSource,
+  .logMessage {
+    display: inline;
+  }
 
-.logTime,
-.logSource {
-  padding-right: 10px;
-}
+  .logTime,
+  .logSource {
+    padding-right: 10px;
+  }
 
-.logEntry {
-  display: block;
-  width: 100%;
-  border-bottom: 1px solid #aaa;
-}
+  .logEntry {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #aaa;
+  }
 
-#consoleArea {
-  border: 1px solid #aaa;
-  padding: 4px;
-  font-family: Lucida Console, monospace;
-  height: 100%;
-  bottom: 64px;
-  overflow: auto;
-}
+  #consoleArea {
+    border: 1px solid #aaa;
+    padding: 4px;
+    font-family: Lucida Console, monospace;
+    height: 100%;
+    bottom: 64px;
+    overflow: auto;
+  }
 </style>
