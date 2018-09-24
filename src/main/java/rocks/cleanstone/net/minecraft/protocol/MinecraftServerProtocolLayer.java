@@ -4,14 +4,14 @@ import com.google.common.collect.Maps;
 import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.net.protocol.AbstractServerProtocolLayer;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.protocol.ProtocolState;
-import rocks.cleanstone.net.protocol.ServerProtocolLayer;
 
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public abstract class MinecraftServerProtocolLayer extends ServerProtocolLayer {
+public abstract class MinecraftServerProtocolLayer extends AbstractServerProtocolLayer {
 
     private final Map<Class<? extends Packet>, Integer> packetClassProtocolPacketIDMap = Maps.newConcurrentMap();
     private final Map<Class<? extends Packet>, ProtocolState> packetClassProtocolStateMap = Maps.newConcurrentMap();

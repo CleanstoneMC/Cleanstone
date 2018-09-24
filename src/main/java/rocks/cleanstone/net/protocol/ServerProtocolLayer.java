@@ -1,33 +1,22 @@
 package rocks.cleanstone.net.protocol;
 
-import com.google.common.collect.Maps;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.packet.Packet;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public abstract class ServerProtocolLayer implements Comparable<ServerProtocolLayer> {
-    private final Map<Class<? extends Packet>, PacketCodec> packetClassCodecMap = Maps.newConcurrentMap();
+public interface ServerProtocolLayer extends Comparable<ServerProtocolLayer> {
+    MinecraftClientProtocolLayer getCorrespondingClientLayer();
 
-    public abstract MinecraftClientProtocolLayer getCorrespondingClientLayer();
+    <T extends Packet> void registerPacketCodec(PacketCodec codec, Class<T> packetClass);
 
-    public <T extends Packet> void registerPacketCodec(PacketCodec codec, Class<T> packetClass) {
-        packetClassCodecMap.put(packetClass, codec);
-    }
+    PacketCodec getPacketCodec(Class<? extends Packet> packetClass);
 
-    public PacketCodec getPacketCodec(Class<? extends Packet> packetClass) {
-        return packetClassCodecMap.get(packetClass);
-    }
+    Map<Class<? extends Packet>, PacketCodec> getPacketClassCodecMap();
 
-    public Map<Class<? extends Packet>, PacketCodec> getPacketClassCodecMap() {
-        return packetClassCodecMap;
-    }
-
-    public abstract int getOrderedID();
+    int getOrderedID();
 
     @Override
-    public int compareTo(@Nonnull ServerProtocolLayer serverProtocolLayer) {
-        return Integer.compare(serverProtocolLayer.getOrderedID(), getOrderedID());
-    }
+    int compareTo(@Nonnull ServerProtocolLayer serverProtocolLayer);
 }
