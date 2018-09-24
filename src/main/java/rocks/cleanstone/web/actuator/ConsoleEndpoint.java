@@ -1,6 +1,11 @@
 package rocks.cleanstone.web.actuator;
 
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +21,6 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.ConsoleInputEvent;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 @Endpoint(id = "console")
 public class ConsoleEndpoint {
@@ -30,9 +29,9 @@ public class ConsoleEndpoint {
 
     private final Environment environment;
 
-    private File externalFile;
+    private Path externalFile;
 
-    public ConsoleEndpoint(Environment environment, File externalFile) {
+    public ConsoleEndpoint(Environment environment, Path externalFile) {
         this.environment = environment;
         this.externalFile = externalFile;
     }
@@ -83,7 +82,7 @@ public class ConsoleEndpoint {
 
     private Resource getLogFileResource() {
         if (this.externalFile != null) {
-            return new FileSystemResource(this.externalFile);
+            return new FileSystemResource(this.externalFile.toFile());
         }
         LogFile logFile = LogFile.get(this.environment);
         if (logFile == null) {

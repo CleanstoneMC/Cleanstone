@@ -12,6 +12,7 @@ import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.entity.EntityRegistry;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
 import rocks.cleanstone.game.world.data.WorldDataSource;
+import rocks.cleanstone.game.world.data.WorldDataSourceCreationException;
 import rocks.cleanstone.game.world.data.WorldDataSourceFactory;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.RegionManager;
@@ -46,7 +47,7 @@ public class SimpleWorldLoader implements WorldLoader {
         WorldDataSource worldDataSource;
         try {
             worldDataSource = worldDataSourceFactory.get(worldConfig.getName());
-        } catch (IOException e) {
+        } catch (WorldDataSourceCreationException e) {
             return AsyncResult.forExecutionException(new IOException("Failed to create worldDataSource", e));
         }
         ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);

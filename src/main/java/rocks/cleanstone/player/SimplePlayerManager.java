@@ -3,6 +3,16 @@ package rocks.cleanstone.player;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.Nullable;
+import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -18,15 +28,6 @@ import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
-
-import javax.annotation.Nullable;
-import javax.annotation.PreDestroy;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
 
 @Component
 public class SimplePlayerManager implements PlayerManager {
@@ -145,11 +146,11 @@ public class SimplePlayerManager implements PlayerManager {
         return terminatingPlayers.contains(player);
     }
 
-    private File getPlayerDataFolder() {
-        File dataFolder = new File("data/players");
+    private Path getPlayerDataFolder() {
+        Path dataFolder = Paths.get("data", "players");
         try {
-            dataFolder.mkdirs();
-        } catch (SecurityException e) {
+            Files.createDirectories(dataFolder);
+        } catch (IOException e) {
             logger.error("Cannot create data folder (no permission?)", e);
         }
         return dataFolder;

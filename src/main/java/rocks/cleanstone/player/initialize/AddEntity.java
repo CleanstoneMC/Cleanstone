@@ -66,13 +66,13 @@ public class AddEntity {
     }
 
     private HeadRotatablePosition getPosition(EntityData entityData, World world) {
-        return entityData == null || !worldIdMatches(entityData, world)
+        return !worldIdMatches(entityData, world)
                 ? new HeadRotatablePosition(world.getFirstSpawnPosition())
                 : new HeadRotatablePosition(entityData.getLogoutPosition());
     }
 
     private boolean worldIdMatches(EntityData entityData, World world) {
-        return world.getWorldConfig().getName().equals(entityData.getLogoutWorldID());
+        return entityData != null && world.getWorldConfig().getName().equals(entityData.getLogoutWorldID());
     }
 
     private GameMode getGameMode(EntityData entityData) {

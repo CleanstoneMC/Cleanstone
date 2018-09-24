@@ -1,22 +1,22 @@
 package rocks.cleanstone.data.vanilla.nbt;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import rocks.cleanstone.data.vanilla.nbt.type.AbstractTag;
-
-import java.io.File;
 
 public class NamedBinaryTag {
 
-    private final File file;
+    private final Path path;
     private final AbstractTag rootTag;
     private String rootTagId;
     private byte rootTagType;
 
     public NamedBinaryTag(String fileName) {
-        this(new File(fileName));
+        this(Paths.get(fileName));
     }
 
-    public NamedBinaryTag(File file) {
-        this.file = file;
+    public NamedBinaryTag(Path path) {
+        this.path = path;
         // TODO decompress from GZip if needed and read root tag
         rootTag = null;
     }

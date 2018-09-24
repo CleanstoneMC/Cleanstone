@@ -1,10 +1,9 @@
 package rocks.cleanstone.player.data;
 
-import java.io.File;
+import io.netty.buffer.ByteBuf;
 import java.io.IOException;
 import java.io.Serializable;
-
-import io.netty.buffer.ByteBuf;
+import java.nio.file.Path;
 import rocks.cleanstone.data.Codec;
 import rocks.cleanstone.data.JavaSerializableCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
@@ -12,7 +11,7 @@ import rocks.cleanstone.player.Player;
 
 public class LevelDBPlayerDataSource extends LevelDBDataSource implements PlayerDataSource {
 
-    public LevelDBPlayerDataSource(File playerDataFolder) throws IOException {
+    public LevelDBPlayerDataSource(Path playerDataFolder) throws IOException {
         super(playerDataFolder);
     }
 

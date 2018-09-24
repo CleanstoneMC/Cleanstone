@@ -1,35 +1,32 @@
 package rocks.cleanstone.data.leveldb;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import java.io.IOException;
+import java.nio.file.Path;
+import javax.annotation.Nullable;
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-
-import javax.annotation.Nullable;
-
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import rocks.cleanstone.data.KeyValueDataRepository;
 
 public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBuf>, AutoCloseable {
 
-    private final File file;
+    private final Path path;
     private final DB database;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public LevelDBDataSource(File file, Options options) throws IOException {
-        this.file = file;
+    public LevelDBDataSource(Path path, Options options) throws IOException {
+        this.path = path;
         if (options == null) options = new Options();
         options.createIfMissing(true);
-        database = JniDBFactory.factory.open(file, options);
+        database = JniDBFactory.factory.open(path.toFile(), options);
     }
 
-    public LevelDBDataSource(File file) throws IOException {
-        this(file, null);
+    public LevelDBDataSource(Path path) throws IOException {
+        this(path, null);
     }
 
     @Override
@@ -37,7 +34,7 @@ public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBu
         try {
             database.close();
         } catch (IOException e) {
-            logger.error("Error occurred while closing LevelDB '" + file.getName() + "'", e);
+            logger.error("Error occurred while closing LevelDB '" + path.getFileName() + "'", e);
         }
     }
 

@@ -1,6 +1,10 @@
 package rocks.cleanstone.game.world.data;
 
 import io.netty.buffer.ByteBuf;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashSet;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.data.Codec;
@@ -17,11 +21,6 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStor
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityDataCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
-
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
 
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
 
@@ -42,10 +41,10 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
             VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,
             EntityTypeRegistry entityTypeRegistry,
             ProtocolBlockStateMapping protocolBlockStateMapping,
-            File worldDataFolder,
+            Path worldDataFolder,
             String worldID
     ) throws IOException {
-        super(new File(worldDataFolder, worldID));
+        super(worldDataFolder.resolve(worldID));
         this.vanillaBlockDataCodecFactory = vanillaBlockDataCodecFactory;
         this.entityTypeRegistry = entityTypeRegistry;
         this.worldID = worldID;
