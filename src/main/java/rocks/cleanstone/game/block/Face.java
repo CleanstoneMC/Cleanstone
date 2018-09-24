@@ -41,15 +41,12 @@ public enum Face {
     }
 
     public Face getOpposite() {
-
-        String newOffset;
+        char axis = offset.charAt(1);
         if (offset.charAt(0) == '-') {
-            newOffset = offset.replace('-', '+');
+            return Face.fromOffset("+" + axis);
         } else {
-            newOffset = offset.replace('+', '-');
+            return Face.fromOffset("-" + axis);
         }
-
-        return Face.fromOffset(newOffset);
     }
 
     public int getFaceID() {
@@ -61,27 +58,21 @@ public enum Face {
     }
 
     public Vector toUnitVector() {
-        Vector vector = new Vector();
         switch (this) {
-            case TOP:
-                vector.addY(1);
-                break;
             case BOTTOM:
-                vector.addY(-1);
-                break;
+                return new Vector(0, -1, 0);
+            case TOP:
+                return new Vector(0, 1, 0);
             case NORTH:
-                vector.addZ(-1);
-                break;
+                return new Vector(0, 0, -1);
             case SOUTH:
-                vector.addZ(1);
-                break;
-            case EAST:
-                vector.addX(1);
-                break;
+                return new Vector(0, 0, 1);
             case WEST:
-                vector.addX(-1);
-                break;
+                return new Vector(-1, 0, 0);
+            case EAST:
+                return new Vector(1, 0, 0);
+            default:
+                throw new IllegalStateException("can't map face " + this + " to unit vector");
         }
-        return vector;
     }
 }

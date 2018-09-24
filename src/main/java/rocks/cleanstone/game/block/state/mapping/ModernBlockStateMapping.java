@@ -11,12 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
-import rocks.cleanstone.game.block.state.property.PropertyDefinition;
+import rocks.cleanstone.game.block.state.property.Property;
+import rocks.cleanstone.game.block.state.property.PropertyValuePair;
 import rocks.cleanstone.game.material.block.BlockType;
 
 public abstract class ModernBlockStateMapping implements BlockStateMapping<Integer> {
     private final Map<BlockType, Integer> blockTypeBaseStateIDMap;
-    private final Map<BlockType, PropertyDefinition[]> blockTypeDefaultPropertiesMap;
+    private final Map<BlockType, PropertyValuePair<?>[]> blockTypeDefaultPropertiesMap;
     private final NavigableMap<Integer, BlockType> baseStateIDBlockTypeMap;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     protected BlockState defaultState;
@@ -54,11 +55,11 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
         });
     }
 
-    public PropertyDefinition[] getDefaultProperties(BlockType blockType) {
+    public PropertyValuePair<?>[] getDefaultProperties(BlockType blockType) {
         return blockTypeDefaultPropertiesMap.get(blockType);
     }
 
-    public void setDefaultProperties(BlockType blockType, PropertyDefinition[] properties) {
+    public void setDefaultProperties(BlockType blockType, PropertyValuePair<?>[] properties) {
         blockTypeDefaultPropertiesMap.put(blockType, properties);
     }
 
@@ -66,7 +67,7 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
     public Integer getID(BlockState state) {
         Integer baseID = blockTypeBaseStateIDMap.getOrDefault(state.getBlockType(), null);
         if (baseID != null) {
-            PropertyDefinition[] properties = blockTypeDefaultPropertiesMap.get(state.getBlockType());
+            PropertyValuePair<?>[] properties = blockTypeDefaultPropertiesMap.get(state.getBlockType());
             if (properties == null) {
                 properties = state.getBlockType().getProperties();
             }
@@ -86,7 +87,7 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
             Preconditions.checkNotNull(entry);
             int baseID = entry.getKey();
             BlockType blockType = entry.getValue();
-            PropertyDefinition[] properties = blockTypeDefaultPropertiesMap.get(blockType);
+            PropertyValuePair<?>[] properties = blockTypeDefaultPropertiesMap.get(blockType);
             if (properties == null) {
                 properties = blockType.getProperties();
             }
@@ -101,33 +102,43 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
         }
     }
 
-    private int serializeState(BlockState state, PropertyDefinition[] propertyDefinitions, int baseID) {
+    private int serializeState(BlockState state, PropertyValuePair<?>[] propertyDefinitions, int baseID) {
         BlockType blockType = state.getBlockType();
         int temp = 0;
-        for (PropertyDefinition propertyDefinition : propertyDefinitions) {
+        for (PropertyValuePair<?> propertyDefinition : propertyDefinitions) {
             //noinspection unchecked
-            int serializedProperty = propertyDefinition.getProperty().serialize(state.getProperty(propertyDefinition.getProperty()));
-            temp = serializedProperty + propertyDefinition.getProperty().getTotalValuesAmount() * temp;
+            Property<?> property = propertyDefinition.getProperty();
+            int serializedProperty = serializeProperty(state, property);
+            temp = serializedProperty + property.getTotalValuesAmount() * temp;
         }
         return baseID + temp;
     }
 
-    private BlockState deserializeState(int id, BlockType blockType, PropertyDefinition[] propertyDefinitions, int baseID) {
+    private <T> int serializeProperty(BlockState state, Property<T> property) {
+        return property.serialize(state.getProperty(property));
+    }
+
+    private BlockState deserializeState(int id, BlockType blockType, PropertyValuePair<?>[] propertyDefinitions, int baseID) {
         PropertiesBuilder builder = new PropertiesBuilder(blockType);
         int propertyIDAmount = Arrays.stream(propertyDefinitions).mapToInt(definition -> definition.getProperty().getTotalValuesAmount())
                 .reduce(1, (a, b) -> a * b);
         id -= baseID;
         Preconditions.checkArgument(id <= propertyIDAmount);
         int base = 0;
-        for (PropertyDefinition propertyDefinition : propertyDefinitions) {
+        for (PropertyValuePair<?> propertyDefinition : propertyDefinitions) {
             propertyIDAmount /= propertyDefinition.getProperty().getTotalValuesAmount();
             int minPropertyID = id - id % propertyIDAmount;
             int valueIndex = (minPropertyID - base) / propertyIDAmount;
-            Object propertyValue = propertyDefinition.getProperty().deserialize(valueIndex);
-            // noinspection unchecked
-            builder.withProperty(propertyDefinition.getProperty(), propertyValue);
+            applyProperty(builder, propertyDefinition, valueIndex);
             base = minPropertyID;
         }
         return BlockState.of(blockType, builder.create());
+    }
+
+    private <T> void applyProperty(PropertiesBuilder builder, PropertyValuePair<T> propertyDefinition, int valueIndex) {
+        Property<T> property = propertyDefinition.getProperty();
+        T propertyValue = property.deserialize(valueIndex);
+        // noinspection unchecked
+        builder.withProperty(property, propertyValue);
     }
 }
