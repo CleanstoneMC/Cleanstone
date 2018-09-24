@@ -3,6 +3,13 @@ package rocks.cleanstone.game.block.state.property;
 import com.google.common.base.Objects;
 
 public class PropertyValuePair<T> {
+    public static <T> PropertyValuePair<T> definitionOf(Property<T> property, T value) {
+        return new PropertyValuePair<>(property, value);
+    }
+
+    public static PropertyValuePair<?>[] arrayOf(PropertyValuePair<?>... properties) {
+        return properties;
+    }
 
     private final Property<T> property;
     private final T value;

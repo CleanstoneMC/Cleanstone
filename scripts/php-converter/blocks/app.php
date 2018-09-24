@@ -13,13 +13,13 @@ foreach ($blocksData as $blockName => $blockData) {
 
 $vanillaBlockTypeContent = 'package rocks.cleanstone.game.material.block.vanilla;
 
-import rocks.cleanstone.game.block.state.property.PropertyDefinition;
+import rocks.cleanstone.game.block.state.property.PropertyValuePair;
 import rocks.cleanstone.game.block.state.property.vanilla.*;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.material.block.VanillaMiningLevel;
 
-import static rocks.cleanstone.game.block.state.property.PropertyDefinition.arrayOf;
-import static rocks.cleanstone.game.block.state.property.PropertyDefinition.definitionOf;
+import static rocks.cleanstone.game.block.state.property.PropertyValuePair.arrayOf;
+import static rocks.cleanstone.game.block.state.property.PropertyValuePair.definitionOf;
 import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties.*;
 
 public enum VanillaBlockType implements BlockType {
@@ -31,21 +31,21 @@ $vanillaBlockTypeContent = rtrim($vanillaBlockTypeContent, ',') . ";\n\n";
 
 $vanillaBlockTypeContent .= '
     private final String minecraftID;
-    private final PropertyDefinition[] properties;
+    private final PropertyValuePair<?>[] properties;
     private final VanillaMiningLevel miningLevel;
 
-    VanillaBlockType(String minecraftID, PropertyDefinition[] properties, VanillaMiningLevel miningLevel) {
+    VanillaBlockType(String minecraftID, PropertyValuePair<?>[] properties, VanillaMiningLevel miningLevel) {
         this.minecraftID = minecraftID;
         this.properties = properties;
         this.miningLevel = miningLevel;
     }
 
-    VanillaBlockType(String minecraftID, PropertyDefinition[] properties) {
+    VanillaBlockType(String minecraftID, PropertyValuePair<?>[] properties) {
         this(minecraftID, properties, VanillaMiningLevel.HAND);
     }
 
     VanillaBlockType(String minecraftID) {
-        this(minecraftID, new PropertyDefinition[0], VanillaMiningLevel.HAND);
+        this(minecraftID, new PropertyValuePair<?>[0], VanillaMiningLevel.HAND);
     }
 
     @Override
@@ -64,7 +64,7 @@ $vanillaBlockTypeContent .= '
     }
 
     @Override
-    public PropertyDefinition[] getProperties() {
+    public PropertyValuePair<?>[] getProperties() {
         return properties;
     }
 
