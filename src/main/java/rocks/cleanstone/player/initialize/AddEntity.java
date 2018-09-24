@@ -1,5 +1,6 @@
 package rocks.cleanstone.player.initialize;
 
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,6 @@ import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.data.standard.EntityData;
 import rocks.cleanstone.player.data.standard.StandardPlayerDataType;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
-
-import java.io.IOException;
 
 @Component
 public class AddEntity {
@@ -42,42 +41,47 @@ public class AddEntity {
     public void onInitialize(AsyncPlayerInitializationEvent e) {
         Player player = e.getPlayer();
 
-        EntityData entityData = null;
         try {
-            entityData = playerManager.getPlayerDataSource().getPlayerData(player,
-                    StandardPlayerDataType.ENTITY_DATA);
+            EntityData entityData = playerManager.getPlayerDataSource()
+                    .getPlayerData(player, StandardPlayerDataType.ENTITY_DATA);
+
+            World world = getWorld(entityData);
+            HeadRotatablePosition position = getPosition(entityData, world);
+
+            Human human = new SimpleHuman(world, position);
+            player.setEntity(human);
+            world.getEntityRegistry().addEntity(human);
+            player.setGameMode(getGameMode(entityData));
+            player.setFlying(isFlying(entityData));
         } catch (IOException e1) {
             logger.error("Player data of " + player.getName() + " is corrupted", e1);
         }
-        HeadRotatablePosition position;
-        GameMode gameMode;
-        World world = null;
-        boolean flying = false;
-        if (entityData == null) {
-            position = new HeadRotatablePosition(openWorldGame.getFirstSpawnWorld().getFirstSpawnPosition());
-            gameMode = VanillaGameMode.CREATIVE;
-        } else {
-            position = new HeadRotatablePosition(entityData.getLogoutPosition());
-            gameMode = entityData.getGameMode();
+    }
 
-            for (World loadedWorld : worldManager.getLoadedWorlds()) {
-                if (loadedWorld.getWorldConfig().getName().equals(entityData.getLogoutWorldID())) {
-                    world = loadedWorld;
-                    break;
-                }
-            }
+    private World getWorld(EntityData entityData) {
+        return worldManager.getLoadedWorlds().stream()
+                .filter(world -> worldIdMatches(entityData, world))
+                .findAny()
+                .orElseGet(openWorldGame::getFirstSpawnWorld);
+    }
 
-            flying = entityData.isFlying();
-        }
-        if (world == null) {
-            world = openWorldGame.getFirstSpawnWorld();
-            position = new HeadRotatablePosition(world.getFirstSpawnPosition());
-        }
+    private HeadRotatablePosition getPosition(EntityData entityData, World world) {
+        return entityData == null || !worldIdMatches(entityData, world)
+                ? new HeadRotatablePosition(world.getFirstSpawnPosition())
+                : new HeadRotatablePosition(entityData.getLogoutPosition());
+    }
 
-        Human human = new SimpleHuman(world, position);
-        player.setEntity(human);
-        world.getEntityRegistry().addEntity(human);
-        player.setGameMode(gameMode);
-        player.setFlying(flying);
+    private boolean worldIdMatches(EntityData entityData, World world) {
+        return world.getWorldConfig().getName().equals(entityData.getLogoutWorldID());
+    }
+
+    private GameMode getGameMode(EntityData entityData) {
+        return entityData == null
+                ? VanillaGameMode.CREATIVE
+                : entityData.getGameMode();
+    }
+
+    private boolean isFlying(EntityData entityData) {
+        return entityData != null && entityData.isFlying();
     }
 }
