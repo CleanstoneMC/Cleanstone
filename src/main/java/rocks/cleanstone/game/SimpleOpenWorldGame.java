@@ -37,18 +37,23 @@ public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
 
     @Override
     public void start() {
-        minecraftConfig.getWorlds().stream().filter(WorldConfig::isAutoload).forEach(worldConfig -> {
-            try {
-                World world = this.worldManager.loadWorld(worldConfig).get();
-                if (worldConfig.isFirstSpawnWorld()) {
-                    firstSpawnWorld = world;
-                }
-            } catch (InterruptedException | ExecutionException e) {
-                logger.error("Failed to load auto-load world " + worldConfig.getName(), e);
-            }
-        });
+        minecraftConfig.getWorlds().stream()
+                .filter(WorldConfig::isAutoload)
+                .forEach(this::loadWorld);
         logger.info("Started OpenWorldGame");
         running = true;
+    }
+
+    private void loadWorld(WorldConfig worldConfig) {
+        try {
+            World world = this.worldManager.loadWorld(worldConfig).get();
+
+            if (worldConfig.isFirstSpawnWorld()) {
+                firstSpawnWorld = world;
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            logger.error("Failed to load auto-load world " + worldConfig.getName(), e);
+        }
     }
 
     @Override
