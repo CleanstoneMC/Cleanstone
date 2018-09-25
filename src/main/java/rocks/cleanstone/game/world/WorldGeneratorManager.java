@@ -4,4 +4,6 @@ import rocks.cleanstone.game.world.generation.WorldGenerator;
 
 public interface WorldGeneratorManager {
     WorldGenerator getWorldGenerator(String worldGeneratorName);
+
+    void registerWorldGenerator(WorldGenerator worldGenerator);
 }
