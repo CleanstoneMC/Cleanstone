@@ -57,6 +57,9 @@ public class SingleRegionManager implements RegionManager {
 
     @Override
     public void unloadRegion(Region region) {
+        if (region != null) {
+            region.unloadAllChunks();
+        }
         this.region = null;
     }
 
