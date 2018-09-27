@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.minecraft.packet.inbound;
 
+import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
@@ -23,6 +24,6 @@ public class PluginMessagePacket implements Packet {
 
     @Override
     public PacketType getType() {
-        return null;
+        return MinecraftInboundPacketType.PLUGIN_MESSAGE;
     }
 }

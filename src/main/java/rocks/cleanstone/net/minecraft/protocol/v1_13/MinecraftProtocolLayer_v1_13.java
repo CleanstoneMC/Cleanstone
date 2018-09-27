@@ -40,6 +40,7 @@ public class MinecraftProtocolLayer_v1_13 extends AutowiredServerProtocolLayer {
         registerPacketCodec(HeldItemChangeCodec.class, PLAY, 0x21);
         registerPacketCodec(InPlayerAbilitiesCodec.class, PLAY, 0x17);
         registerPacketCodec(InAnimationCodec.class, PLAY, 0x27);
+        registerPacketCodec(InTabCompleteCodec.class, PLAY, 0x05);
 
         // outbound
         registerPacketCodec(DisconnectCodec.class, PLAY, 0x1B);
@@ -73,6 +74,7 @@ public class MinecraftProtocolLayer_v1_13 extends AutowiredServerProtocolLayer {
         registerPacketCodec(EntityHeadLookCodec.class, PLAY, 0x39);
         registerPacketCodec(OutAnimationCodec.class, PLAY, 0x06);
         registerPacketCodec(SpawnObjectCodec.class, PLAY, 0x00);
+        registerPacketCodec(OutPluginMessageCodec.class, PLAY, 0x19);
     }
 
     @Override
