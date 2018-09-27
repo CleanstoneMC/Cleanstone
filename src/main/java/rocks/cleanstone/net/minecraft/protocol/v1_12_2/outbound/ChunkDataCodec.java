@@ -9,11 +9,11 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCode
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 @Component
-public class ChunkDataCodec implements PacketCodec<ChunkDataPacket> {
+public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
 
     private final BlockStateMapping<Integer> blockStateMapping;
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
@@ -26,11 +26,6 @@ public class ChunkDataCodec implements PacketCodec<ChunkDataPacket> {
     }
 
     @Override
-    public ChunkDataPacket decode(ByteBuf byteBuf) {
-        throw new UnsupportedOperationException("ChunkData is outbound and cannot be decoded");
-    }
-
-    @Override
     public ByteBuf encode(ByteBuf byteBuf, ChunkDataPacket packet) {
         byteBuf.writeInt(packet.getChunkX());
         byteBuf.writeInt(packet.getChunkZ());
@@ -40,7 +35,7 @@ public class ChunkDataCodec implements PacketCodec<ChunkDataPacket> {
         VanillaBlockDataStorage storage = vanillaBlockDataStorageFactory.get(packet.getBlockDataTable(),
                 directPalette, false);
 
-        ByteBuf blockData = vanillaBlockDataCodecFactory.get(directPalette, false).serialize(storage);
+        ByteBuf blockData = vanillaBlockDataCodecFactory.get(directPalette, false).encode(storage);
         byteBuf.writeBytes(blockData);
         blockData.release();
 

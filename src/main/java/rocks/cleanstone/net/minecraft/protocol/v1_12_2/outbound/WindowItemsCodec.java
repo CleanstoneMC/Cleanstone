@@ -3,15 +3,10 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.WindowItemsPacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 
 @Component
-public class WindowItemsCodec implements PacketCodec<WindowItemsPacket> {
-
-    @Override
-    public WindowItemsPacket decode(ByteBuf byteBuf) {
-        throw new UnsupportedOperationException("WindowItems is outbound and cannot be decoded");
-    }
+public class WindowItemsCodec implements OutboundPacketCodec<WindowItemsPacket> {
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, WindowItemsPacket packet) {

@@ -3,13 +3,13 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.HandshakePacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 
 @Component
-public class HandshakeCodec implements PacketCodec<HandshakePacket> {
+public class HandshakeCodec implements InboundPacketCodec<HandshakePacket> {
 
     @Override
     public HandshakePacket decode(ByteBuf byteBuf) throws IOException {
@@ -19,10 +19,5 @@ public class HandshakeCodec implements PacketCodec<HandshakePacket> {
         final int state = ByteBufUtils.readVarInt(byteBuf);
 
         return new HandshakePacket(version, address, port, state);
-    }
-
-    @Override
-    public ByteBuf encode(ByteBuf byteBuf, HandshakePacket packet) {
-        throw new UnsupportedOperationException("Handshake is inbound and cannot be encoded");
     }
 }

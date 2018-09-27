@@ -4,13 +4,13 @@ import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 
 @Component
-public class EncryptionResponseCodec implements PacketCodec<EncryptionResponsePacket> {
+public class EncryptionResponseCodec implements InboundPacketCodec<EncryptionResponsePacket> {
 
     @Override
     public EncryptionResponsePacket decode(ByteBuf byteBuf) throws IOException {
@@ -29,10 +29,5 @@ public class EncryptionResponseCodec implements PacketCodec<EncryptionResponsePa
         byteBuf.readBytes(verifyTokenArray);
 
         return new EncryptionResponsePacket(publicKeyArray, verifyTokenArray);
-    }
-
-    @Override
-    public ByteBuf encode(ByteBuf byteBuf, EncryptionResponsePacket packet) {
-        throw new UnsupportedOperationException("EncryptionResponse is inbound and cannot be encoded");
     }
 }

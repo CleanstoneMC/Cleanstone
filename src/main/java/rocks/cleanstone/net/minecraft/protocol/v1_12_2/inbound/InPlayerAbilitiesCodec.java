@@ -4,10 +4,10 @@ import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbility;
 import rocks.cleanstone.net.minecraft.packet.inbound.InPlayerAbilitiesPacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
 
 @Component
-public class InPlayerAbilitiesCodec implements PacketCodec<InPlayerAbilitiesPacket> {
+public class InPlayerAbilitiesCodec implements InboundPacketCodec<InPlayerAbilitiesPacket> {
 
     @Override
     public InPlayerAbilitiesPacket decode(ByteBuf byteBuf) {
@@ -15,10 +15,5 @@ public class InPlayerAbilitiesCodec implements PacketCodec<InPlayerAbilitiesPack
         float flyingSpeed = byteBuf.readFloat(), walkingSpeed = byteBuf.readFloat();
 
         return new InPlayerAbilitiesPacket(playerAbilities, flyingSpeed, walkingSpeed);
-    }
-
-    @Override
-    public ByteBuf encode(ByteBuf byteBuf, InPlayerAbilitiesPacket packet) {
-        throw new UnsupportedOperationException("InPlayerAbilities is inbound and cannot be encoded");
     }
 }

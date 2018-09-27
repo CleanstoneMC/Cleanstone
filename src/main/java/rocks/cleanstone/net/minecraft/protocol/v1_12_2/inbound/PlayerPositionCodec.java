@@ -5,10 +5,10 @@ import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerPositionPacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
 
 @Component
-public class PlayerPositionCodec implements PacketCodec<PlayerPositionPacket> {
+public class PlayerPositionCodec implements InboundPacketCodec<PlayerPositionPacket> {
 
     @Override
     public PlayerPositionPacket decode(ByteBuf byteBuf) {
@@ -23,10 +23,5 @@ public class PlayerPositionCodec implements PacketCodec<PlayerPositionPacket> {
                 "Too big position " + x + ":" + feetY + ":" + z + " (>3.2e7)");
 
         return new PlayerPositionPacket(x, feetY, z, onGround);
-    }
-
-    @Override
-    public ByteBuf encode(ByteBuf byteBuf, PlayerPositionPacket packet) {
-        throw new UnsupportedOperationException("PlayerPosition is inbound and cannot be encoded");
     }
 }

@@ -6,7 +6,9 @@ import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 
 public interface Protocol {
-    PacketCodec getPacketCodec(Class<? extends Packet> packet, ClientProtocolLayer layer);
+    <T extends Packet> OutboundPacketCodec<T> getOutboundPacketCodec(Class<T> packet, ClientProtocolLayer layer);
+
+    <T extends Packet> InboundPacketCodec<T> getInboundPacketCodec(Class<T> packet, ClientProtocolLayer layer);
 
     PacketTypeRegistry getPacketTypeRegistry();
 

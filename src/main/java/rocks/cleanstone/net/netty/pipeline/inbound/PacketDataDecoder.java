@@ -11,6 +11,7 @@ import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.net.utils.ByteBufUtils;
@@ -33,7 +34,7 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
         PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
         PacketType packetType = protocol.translateInboundPacketID(packetID, connection);
-        PacketCodec codec = protocol.getPacketCodec(packetType.getPacketClass(),
+        InboundPacketCodec codec = protocol.getInboundPacketCodec(packetType.getPacketClass(),
                 connection.getClientProtocolLayer());
         Preconditions.checkNotNull(codec, "Cannot find codec for packetType " + packetType
                 + " and clientLayer " + connection.getClientProtocolLayer());

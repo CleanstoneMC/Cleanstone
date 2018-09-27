@@ -2,6 +2,9 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -9,15 +12,11 @@ import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
 import rocks.cleanstone.net.minecraft.packet.enums.DisplayedSkinPart;
 import rocks.cleanstone.net.minecraft.packet.inbound.ClientSettingsPacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Locale;
-
 @Component
-public class ClientSettingsCodec implements PacketCodec<ClientSettingsPacket> {
+public class ClientSettingsCodec implements InboundPacketCodec<ClientSettingsPacket> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -42,10 +41,5 @@ public class ClientSettingsCodec implements PacketCodec<ClientSettingsPacket> {
         Preconditions.checkNotNull(mainHandSide, "Invalid mainHandID " + handID);
 
         return new ClientSettingsPacket(locale, viewDistance, chatMode, chatColors, displayedSkinParts, mainHandSide);
-    }
-
-    @Override
-    public ByteBuf encode(ByteBuf byteBuf, ClientSettingsPacket packet) {
-        throw new UnsupportedOperationException("ClientSettings is inbound and cannot be encoded");
     }
 }

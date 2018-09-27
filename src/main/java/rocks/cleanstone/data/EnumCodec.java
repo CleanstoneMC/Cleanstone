@@ -6,7 +6,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class EnumCodec<E extends Enum<E>> implements Codec<E, ByteBuf> {
+public class EnumCodec<E extends Enum<E>> implements InOutCodec<E, ByteBuf> {
 
     private final Class<E> enumClass;
 
@@ -15,13 +15,13 @@ public class EnumCodec<E extends Enum<E>> implements Codec<E, ByteBuf> {
     }
 
     @Override
-    public E deserialize(ByteBuf data) throws IOException {
+    public E decode(ByteBuf data) throws IOException {
         int index = ByteBufUtils.readVarInt(data);
         return enumClass.getEnumConstants()[index];
     }
 
     @Override
-    public ByteBuf serialize(E value) {
+    public ByteBuf encode(E value) {
         ByteBuf buf = Unpooled.buffer();
         ByteBufUtils.writeVarInt(buf, value.ordinal());
         return buf;
