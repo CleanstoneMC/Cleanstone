@@ -3,7 +3,8 @@ package rocks.cleanstone.game.entity.vanilla;
 import rocks.cleanstone.game.entity.EntityType;
 
 public enum VanillaEntityType implements EntityType {
-    HUMAN(0);
+    HUMAN(0),
+    CHICKEN(1);
 
     private final int typeID;
 
