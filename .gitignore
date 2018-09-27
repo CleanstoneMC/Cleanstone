@@ -33,3 +33,4 @@ data/*
 /node_modules/
 
 /cleanstone.log*
+application.yml
