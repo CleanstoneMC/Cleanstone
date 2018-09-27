@@ -32,5 +32,4 @@ data/*
 /scripts/php-converter/bedrock_edition/MiNet/packet/
 /node_modules/
 
-/cleanstone.log*
-application.yml
+/application.yml
