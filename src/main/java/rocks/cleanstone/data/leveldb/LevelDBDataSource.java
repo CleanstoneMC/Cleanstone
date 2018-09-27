@@ -4,10 +4,15 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.StreamSupport;
 import javax.annotation.Nullable;
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DB;
+import org.iq80.leveldb.DBIterator;
 import org.iq80.leveldb.Options;
+import org.iq80.leveldb.WriteBatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.data.KeyValueDataRepository;
@@ -20,7 +25,9 @@ public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBu
 
     public LevelDBDataSource(Path path, Options options) throws IOException {
         this.path = path;
-        if (options == null) options = new Options();
+        if (options == null) {
+            options = new Options();
+        }
         options.createIfMissing(true);
         database = JniDBFactory.factory.open(path.toFile(), options);
     }
@@ -59,5 +66,17 @@ public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBu
         byte[] valueBytes = new byte[value.readableBytes()];
         value.readBytes(valueBytes);
         database.put(keyBytes, valueBytes);
+    }
+
+    @Override
+    public void drop() {
+        WriteBatch batch = database.createWriteBatch();
+
+        DBIterator iterator = database.iterator();
+        iterator.seekToFirst();
+        iterator.forEachRemaining(entry -> batch.delete(entry.getKey()));
+
+        database.write(batch);
+        logger.info("dropped leveldb at {}", path);
     }
 }

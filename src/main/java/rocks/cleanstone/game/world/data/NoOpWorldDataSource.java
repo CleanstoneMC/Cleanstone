@@ -21,4 +21,9 @@ public class NoOpWorldDataSource implements WorldDataSource {
     @Override
     public void close() {
     }
+
+    @Override
+    public void drop() {
+
+    }
 }

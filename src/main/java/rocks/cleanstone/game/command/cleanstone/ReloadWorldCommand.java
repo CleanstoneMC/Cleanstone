@@ -28,7 +28,10 @@ public class ReloadWorldCommand extends SimpleCommand {
     @Override
     public void execute(CommandMessage commandMessage) {
         worldManager.getLoadedWorlds()
-                .forEach(World::unloadRegions);
+                .forEach(world -> {
+                    world.unloadRegions();
+                    world.delete();
+                });
 
         playerManager.getOnlinePlayers().forEach(player -> {
             playerChunkLoadService.unloadAllChunks(player);

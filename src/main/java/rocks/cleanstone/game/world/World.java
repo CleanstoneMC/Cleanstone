@@ -46,5 +46,7 @@ public interface World {
 
     void unloadRegions();
 
+    void delete();
+
     void close();
 }

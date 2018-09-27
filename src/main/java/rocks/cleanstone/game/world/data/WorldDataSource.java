@@ -12,4 +12,6 @@ public interface WorldDataSource {
     Chunk loadExistingChunk(int x, int y);
 
     void saveChunk(Chunk chunk);
+
+    void drop();
 }

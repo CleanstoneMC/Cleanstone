@@ -182,6 +182,11 @@ public class SimpleGeneratedWorld implements World {
         regionManager.getLoadedRegions().forEach(regionManager::unloadRegion);
     }
 
+    @Override
+    public void delete() {
+        dataSource.drop();
+    }
+
     private ListenableFuture<Region> getRegion(int chunkX, int chunkZ) {
         return regionManager.getRegion(chunkX, chunkZ);
     }

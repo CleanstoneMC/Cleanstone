@@ -31,4 +31,6 @@ public interface KeyValueDataRepository<K, V> {
             ReferenceCountUtil.release(serialized);
         }
     }
+
+    void drop();
 }
