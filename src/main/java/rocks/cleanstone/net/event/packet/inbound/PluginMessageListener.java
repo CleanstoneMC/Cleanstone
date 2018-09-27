@@ -36,6 +36,7 @@ public class PluginMessageListener extends PlayerInboundPacketEventListener<Plug
 
         if (pluginChannel == null) {
             logger.warn("Cant find PluginChannel for Channel with name \"" + packet.getChannel() + "\"");
+            return;
         }
 
         ByteBuf buffer = Unpooled.buffer();
