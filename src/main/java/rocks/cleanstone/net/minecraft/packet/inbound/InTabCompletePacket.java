@@ -1,10 +1,11 @@
-package rocks.cleanstone.net.packet.inbound;
+package rocks.cleanstone.net.minecraft.packet.inbound;
 
-import javax.annotation.Nullable;
-import rocks.cleanstone.net.packet.MinecraftInboundPacketType;
+import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.utils.Vector;
+
+import javax.annotation.Nullable;
 
 public class InTabCompletePacket implements Packet {
     private final int transactionId;

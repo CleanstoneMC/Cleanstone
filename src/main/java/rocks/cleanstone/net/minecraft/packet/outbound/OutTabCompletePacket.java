@@ -1,11 +1,11 @@
-package rocks.cleanstone.net.packet.outbound;
-
-import java.util.List;
+package rocks.cleanstone.net.minecraft.packet.outbound;
 
 import rocks.cleanstone.game.command.completion.CompletionMatch;
-import rocks.cleanstone.net.packet.MinecraftOutboundPacketType;
+import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
+
+import java.util.List;
 
 public class OutTabCompletePacket implements Packet {
 

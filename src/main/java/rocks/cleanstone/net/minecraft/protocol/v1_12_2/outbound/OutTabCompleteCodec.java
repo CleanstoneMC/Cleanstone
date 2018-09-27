@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.game.command.completion.CompletionMatch;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
@@ -21,11 +22,11 @@ public class OutTabCompleteCodec implements OutboundPacketCodec<OutTabCompletePa
 
         ByteBufUtils.writeVarInt(byteBuf, packet.getMatches().size());
 
-        List<String> matches = packet.getMatches();
+        List<CompletionMatch> matches = packet.getMatches();
 
-        for (String match : matches) {
+        for (CompletionMatch match : matches) {
             try {
-                ByteBufUtils.writeUTF8(byteBuf, match);
+                ByteBufUtils.writeUTF8(byteBuf, match.getMatch());
             } catch (IOException e) {
                 logger.error("Error while writing TabCompletePacket", e);
             }

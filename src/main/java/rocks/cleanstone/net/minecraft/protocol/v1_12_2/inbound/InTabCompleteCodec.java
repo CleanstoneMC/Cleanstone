@@ -27,6 +27,6 @@ public class InTabCompleteCodec implements InboundPacketCodec<InTabCompletePacke
         }
 
 
-        return new InTabCompletePacket(text, assumeCommand, hasPosition, lookedAtBlock);
+        return new InTabCompletePacket(0, text, assumeCommand, lookedAtBlock);
     }
 }
