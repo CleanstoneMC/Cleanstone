@@ -9,12 +9,12 @@ import rocks.cleanstone.game.inventory.item.SimpleItemStack;
 import rocks.cleanstone.game.material.item.ItemType;
 import rocks.cleanstone.net.minecraft.packet.inbound.CreativeInventoryActionPacket;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.ProtocolItemTypeMapping;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
 
 import javax.annotation.Nullable;
 
 @Component
-public class CreativeInventoryActionCodec implements PacketCodec<CreativeInventoryActionPacket> {
+public class CreativeInventoryActionCodec implements InboundPacketCodec<CreativeInventoryActionPacket> {
 
     private final LegacyMaterialMapping itemTypeMapping;
 
@@ -28,11 +28,6 @@ public class CreativeInventoryActionCodec implements PacketCodec<CreativeInvento
         ItemStack clickedItem = readItemStack(byteBuf);
 
         return new CreativeInventoryActionPacket(slot, clickedItem);
-    }
-
-    @Override
-    public ByteBuf encode(ByteBuf byteBuf, CreativeInventoryActionPacket packet) {
-        throw new UnsupportedOperationException("CreativeInventoryAction is inbound and cannot be encoded");
     }
 
     @Nullable

@@ -4,11 +4,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
 import java.io.IOException;
-import rocks.cleanstone.data.Codec;
+import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class VanillaBlockDataCodec implements Codec<VanillaBlockDataStorage, ByteBuf> {
+public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage, ByteBuf> {
 
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
     private final DirectPalette directPalette;
@@ -21,7 +21,7 @@ public class VanillaBlockDataCodec implements Codec<VanillaBlockDataStorage, Byt
     }
 
     @Override
-    public VanillaBlockDataStorage deserialize(ByteBuf data) throws IOException {
+    public VanillaBlockDataStorage decode(ByteBuf data) throws IOException {
         BlockDataSection[] sections = new BlockDataSection[Chunk.HEIGHT / BlockDataSection.HEIGHT];
         int primaryBitMask = ByteBufUtils.readVarInt(data);
         int dataSize = ByteBufUtils.readVarInt(data);
@@ -36,7 +36,7 @@ public class VanillaBlockDataCodec implements Codec<VanillaBlockDataStorage, Byt
     }
 
     @Override
-    public ByteBuf serialize(VanillaBlockDataStorage storage) {
+    public ByteBuf encode(VanillaBlockDataStorage storage) {
         ByteBuf data = Unpooled.buffer();
         int primaryBitMask = 0;
 

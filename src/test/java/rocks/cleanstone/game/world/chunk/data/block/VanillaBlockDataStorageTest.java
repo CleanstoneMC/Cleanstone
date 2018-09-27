@@ -49,10 +49,10 @@ class VanillaBlockDataStorageTest {
     void testSerializationAndTable() {
         VanillaBlockDataCodec codec = new SimpleVanillaBlockDataCodecFactory(simpleVanillaBlockDataStorageFactory)
                 .get(directPalette, true);
-        ByteBuf serialized = codec.serialize(storage);
+        ByteBuf serialized = codec.encode(storage);
         VanillaBlockDataStorage deserialized;
         try {
-            deserialized = codec.deserialize(serialized);
+            deserialized = codec.decode(serialized);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

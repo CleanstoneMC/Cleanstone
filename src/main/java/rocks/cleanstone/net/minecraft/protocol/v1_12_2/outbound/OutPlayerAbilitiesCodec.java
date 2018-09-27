@@ -4,15 +4,10 @@ import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbility;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerAbilitiesPacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 
 @Component
-public class OutPlayerAbilitiesCodec implements PacketCodec<OutPlayerAbilitiesPacket> {
-
-    @Override
-    public OutPlayerAbilitiesPacket decode(ByteBuf byteBuf) {
-        throw new UnsupportedOperationException("PlayerAbilities is outbound and cannot be decoded");
-    }
+public class OutPlayerAbilitiesCodec implements OutboundPacketCodec<OutPlayerAbilitiesPacket> {
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, OutPlayerAbilitiesPacket packet) {

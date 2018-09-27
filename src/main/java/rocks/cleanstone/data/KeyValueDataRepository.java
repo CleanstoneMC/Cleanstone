@@ -12,10 +12,10 @@ public interface KeyValueDataRepository<K, V> {
     V get(K key);
 
     @Nullable
-    default <T> T get(K key, Codec<T, V> codec) throws IOException {
+    default <T> T get(K key, InboundCodec<T, V> codec) throws IOException {
         V value = get(key);
         try {
-            return value != null ? codec.deserialize(value) : null;
+            return value != null ? codec.decode(value) : null;
         } finally {
             ReferenceCountUtil.release(value);
         }
@@ -23,8 +23,8 @@ public interface KeyValueDataRepository<K, V> {
 
     void set(K key, V value);
 
-    default <T> void set(K key, T value, Codec<T, V> codec) throws IOException {
-        V serialized = codec.serialize(value);
+    default <T> void set(K key, T value, OutboundCodec<T, V> codec) throws IOException {
+        V serialized = codec.encode(value);
         try {
             set(key, serialized);
         } finally {

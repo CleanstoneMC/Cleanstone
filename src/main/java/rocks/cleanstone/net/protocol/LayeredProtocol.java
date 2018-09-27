@@ -33,30 +33,35 @@ public abstract class LayeredProtocol implements Protocol {
     }
 
     @Override
-    public PacketCodec getPacketCodec(Class<? extends Packet> packetClass, ClientProtocolLayer clientLayer) {
-        return new LayeredPacketCodec(packetClass, clientLayer);
+    public <T extends Packet> InboundPacketCodec<T> getInboundPacketCodec(Class<T> packetClass, ClientProtocolLayer clientLayer) {
+        return new LayeredPacketCodec<>(packetClass, clientLayer);
     }
 
-    private class LayeredPacketCodec implements PacketCodec {
+    @Override
+    public <T extends Packet> OutboundPacketCodec<T> getOutboundPacketCodec(Class<T> packetClass, ClientProtocolLayer clientLayer) {
+        return new LayeredPacketCodec<>(packetClass, clientLayer);
+    }
 
-        private final Class<? extends Packet> packetClass;
+    private class LayeredPacketCodec<T extends Packet> implements InOutPacketCodec<T> {
+
+        private final Class<T> packetClass;
         private final ClientProtocolLayer clientLayer;
 
-        LayeredPacketCodec(Class<? extends Packet> packetClass, ClientProtocolLayer clientLayer) {
+        LayeredPacketCodec(Class<T> packetClass, ClientProtocolLayer clientLayer) {
             this.packetClass = packetClass;
             this.clientLayer = clientLayer;
         }
 
         @Override
-        public Packet decode(ByteBuf byteBuf) throws IOException {
+        public T decode(ByteBuf byteBuf) throws IOException {
             return getServerLayerFromClientLayer(clientLayer)
-                    .getPacketCodec(packetClass).decode(byteBuf);
+                    .getInboundPacketCodec(packetClass).decode(byteBuf);
         }
 
         @Override
-        public ByteBuf encode(ByteBuf byteBuf, Packet packet) throws IOException {
+        public ByteBuf encode(ByteBuf byteBuf, T packet) throws IOException {
             return getServerLayerFromClientLayer(clientLayer)
-                    .getPacketCodec(packetClass).encode(byteBuf, packet);
+                    .getOutboundPacketCodec(packetClass).encode(byteBuf, packet);
         }
     }
 }

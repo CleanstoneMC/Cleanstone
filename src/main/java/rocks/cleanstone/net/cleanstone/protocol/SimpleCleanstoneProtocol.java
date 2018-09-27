@@ -9,6 +9,8 @@ import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.SimplePacketTypeRegistry;
 import rocks.cleanstone.net.protocol.ClientProtocolLayer;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
+import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.net.protocol.ProtocolState;
@@ -28,7 +30,12 @@ public class SimpleCleanstoneProtocol implements Protocol {
     }
 
     @Override
-    public PacketCodec getPacketCodec(Class<? extends Packet> packet, ClientProtocolLayer clientLayer) {
+    public <T extends Packet> OutboundPacketCodec<T> getOutboundPacketCodec(Class<T> packet, ClientProtocolLayer clientLayer) {
+        return null;
+    }
+
+    @Override
+    public <T extends Packet> InboundPacketCodec<T> getInboundPacketCodec(Class<T> packet, ClientProtocolLayer clientLayer) {
         return null;
     }
 

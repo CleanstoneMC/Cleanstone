@@ -3,15 +3,10 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.UnloadChunkPacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 
 @Component
-public class UnloadChunkCodec implements PacketCodec<UnloadChunkPacket> {
-
-    @Override
-    public UnloadChunkPacket decode(ByteBuf byteBuf) {
-        throw new UnsupportedOperationException("UnloadChunk is outbound and cannot be decoded");
-    }
+public class UnloadChunkCodec implements OutboundPacketCodec<UnloadChunkPacket> {
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, UnloadChunkPacket packet) {

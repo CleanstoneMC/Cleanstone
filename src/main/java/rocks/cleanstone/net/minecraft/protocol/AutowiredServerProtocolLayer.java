@@ -18,8 +18,8 @@ public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtoc
         this.packetCodecs = packetCodecs;
     }
 
-    public <T extends Packet> void registerPacketCodec(Class<? extends PacketCodec<T>> codecClass, ProtocolState state,
-                                                       int protocolPacketID) {
+    public void registerPacketCodec(Class<? extends PacketCodec> codecClass, ProtocolState state,
+                                    int protocolPacketID) {
 
         PacketCodec codec = getCodecInstance(codecClass);
 
@@ -45,7 +45,7 @@ public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtoc
     }
 
 
-    private <T extends Packet> PacketCodec getCodecInstance(Class<? extends PacketCodec<T>> codecClass) {
-        return packetCodecs.stream().filter(o -> o.getClass() == codecClass).findAny().orElse(null);
+    private PacketCodec getCodecInstance(Class<? extends PacketCodec> codecClass) {
+        return packetCodecs.stream().filter(o -> codecClass.isAssignableFrom(o.getClass())).findAny().orElse(null);
     }
 }

@@ -7,7 +7,7 @@ import java.util.HashSet;
 import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rocks.cleanstone.data.Codec;
+import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.data.VersionedCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
 import rocks.cleanstone.game.entity.EntityTypeRegistry;
@@ -31,8 +31,8 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     private final DirectPalette directPalette;
     private final EntityTypeRegistry entityTypeRegistry;
 
-    private final Codec<EntityData, ByteBuf> entityDataCodec;
-    private final Codec<VanillaBlockDataStorage, ByteBuf> blockDataCodec;
+    private final InOutCodec<EntityData, ByteBuf> entityDataCodec;
+    private final InOutCodec<VanillaBlockDataStorage, ByteBuf> blockDataCodec;
 
     /**
      * @deprecated Use the {@link WorldDataSourceFactory}

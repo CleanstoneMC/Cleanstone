@@ -3,21 +3,22 @@ package rocks.cleanstone.game.world.chunk.data.entity;
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import rocks.cleanstone.data.Codec;
-import rocks.cleanstone.game.entity.Entity;
-import rocks.cleanstone.game.entity.EntityType;
-import rocks.cleanstone.game.entity.EntityTypeRegistry;
-import rocks.cleanstone.net.utils.ByteBufUtils;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import rocks.cleanstone.data.InOutCodec;
+import rocks.cleanstone.data.InboundCodec;
+import rocks.cleanstone.data.OutboundCodec;
+import rocks.cleanstone.game.entity.Entity;
+import rocks.cleanstone.game.entity.EntityType;
+import rocks.cleanstone.game.entity.EntityTypeRegistry;
+import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class EntityDataCodec implements Codec<EntityData, ByteBuf> {
+public class EntityDataCodec implements InOutCodec<EntityData, ByteBuf> {
 
     private final EntityTypeRegistry entityTypeRegistry;
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -27,7 +28,7 @@ public class EntityDataCodec implements Codec<EntityData, ByteBuf> {
     }
 
     @Override
-    public EntityData deserialize(ByteBuf data) throws IOException {
+    public EntityData decode(ByteBuf data) throws IOException {
         Set<Entity> entities = new HashSet<>();
         int entityAmount = ByteBufUtils.readVarInt(data);
         while (entityAmount-- != 0) {
@@ -38,24 +39,24 @@ public class EntityDataCodec implements Codec<EntityData, ByteBuf> {
                 logger.error("Cannot find entityType with ID " + entityTypeID);
                 continue;
             }
-            Codec<? extends Entity, ByteBuf> entityCodec = entityTypeRegistry.getEntityCodec(entityType);
+            InboundCodec<? extends Entity, ByteBuf> entityCodec = entityTypeRegistry.getEntityCodec(entityType);
             Preconditions.checkNotNull(entityCodec);
-            entities.add(entityCodec.deserialize(data));
+            entities.add(entityCodec.decode(data));
         }
         return new EntityData(entities);
     }
 
     @Override
-    public ByteBuf serialize(EntityData entityData) throws IOException {
+    public ByteBuf encode(EntityData entityData) throws IOException {
         ByteBuf data = Unpooled.buffer();
         Collection<Entity> entities = entityData.getEntities().stream()
                 .filter(Entity::isPersistent).collect(Collectors.toSet());
         ByteBufUtils.writeVarInt(data, entities.size());
         for (Entity entity : entities) {
             ByteBufUtils.writeVarInt(data, entity.getType().getTypeID());
-            Codec<Entity, ByteBuf> entityCodec = entityTypeRegistry.getEntityCodec(entity.getType());
-            Preconditions.checkNotNull(entityCodec, "Cannot serialize unregistered entityType " + entity.getType());
-            data.writeBytes(entityCodec.serialize(entity));
+            OutboundCodec<Entity, ByteBuf> entityCodec = entityTypeRegistry.getEntityCodec(entity.getType());
+            Preconditions.checkNotNull(entityCodec, "Cannot encode unregistered entityType " + entity.getType());
+            data.writeBytes(entityCodec.encode(entity));
         }
         return data;
     }

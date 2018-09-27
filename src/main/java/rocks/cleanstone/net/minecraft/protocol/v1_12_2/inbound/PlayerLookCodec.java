@@ -4,10 +4,10 @@ import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerLookPacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
 
 @Component
-public class PlayerLookCodec implements PacketCodec<PlayerLookPacket> {
+public class PlayerLookCodec implements InboundPacketCodec<PlayerLookPacket> {
 
     @Override
     public PlayerLookPacket decode(ByteBuf byteBuf) {
@@ -19,10 +19,5 @@ public class PlayerLookCodec implements PacketCodec<PlayerLookPacket> {
                 "Non-finite rotation " + yaw + ":" + pitch);
 
         return new PlayerLookPacket(yaw, pitch, onGround);
-    }
-
-    @Override
-    public ByteBuf encode(ByteBuf byteBuf, PlayerLookPacket packet) {
-        throw new UnsupportedOperationException("PlayerLook is inbound and cannot be encoded");
     }
 }

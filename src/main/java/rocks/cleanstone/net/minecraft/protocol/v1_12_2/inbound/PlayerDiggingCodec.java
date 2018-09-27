@@ -7,14 +7,14 @@ import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Face;
 import rocks.cleanstone.net.minecraft.packet.enums.DiggingStatus;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerDiggingPacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.utils.Vector;
 
 import java.io.IOException;
 
 @Component
-public class PlayerDiggingCodec implements PacketCodec<PlayerDiggingPacket> {
+public class PlayerDiggingCodec implements InboundPacketCodec<PlayerDiggingPacket> {
 
     @Override
     public PlayerDiggingPacket decode(ByteBuf byteBuf) throws IOException {
@@ -30,10 +30,5 @@ public class PlayerDiggingCodec implements PacketCodec<PlayerDiggingPacket> {
         Preconditions.checkNotNull(face, "Invalid faceID " + faceID);
 
         return new PlayerDiggingPacket(diggingStatus, position, face);
-    }
-
-    @Override
-    public ByteBuf encode(ByteBuf byteBuf, PlayerDiggingPacket packet) {
-        throw new UnsupportedOperationException("PlayerDigging is inbound and cannot be encoded");
     }
 }
