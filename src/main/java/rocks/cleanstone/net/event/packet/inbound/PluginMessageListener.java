@@ -50,6 +50,7 @@ public class PluginMessageListener extends PlayerInboundPacketEventListener<Plug
             logger.error("Error while decoding PluginChannelMessage", e);
             return;
         }
+        buffer.release();
 
         CleanstoneServer.publishEvent(pluginChannelMessageEvent);
     }
