@@ -5,7 +5,7 @@ import rocks.cleanstone.net.minecraft.pluginchannel.PluginChannel;
 public class BrandMessage implements PluginChannel.PluginMessage {
     private final String brand;
 
-    BrandMessage(String brand) {
+    public BrandMessage(String brand) {
         this.brand = brand;
     }
 

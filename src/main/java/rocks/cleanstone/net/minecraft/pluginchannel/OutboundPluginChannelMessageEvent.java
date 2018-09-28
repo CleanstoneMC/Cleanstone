@@ -3,19 +3,20 @@ package rocks.cleanstone.net.minecraft.pluginchannel;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.ResolvableTypeProvider;
 import rocks.cleanstone.core.event.CancellableEvent;
+import rocks.cleanstone.player.Player;
 
-public class PluginChannelMessageEvent<T extends PluginChannel.PluginMessage> extends CancellableEvent implements ResolvableTypeProvider {
+public class OutboundPluginChannelMessageEvent<T extends PluginChannel.PluginMessage> extends CancellableEvent implements ResolvableTypeProvider {
 
-    private final String channel;
+    private final Player player;
     private final T message;
 
-    public PluginChannelMessageEvent(String channel, T message) {
-        this.channel = channel;
+    public OutboundPluginChannelMessageEvent(Player player, T message) {
+        this.player = player;
         this.message = message;
     }
 
-    public String getChannel() {
-        return channel;
+    public Player getPlayer() {
+        return player;
     }
 
     public T getMessage() {

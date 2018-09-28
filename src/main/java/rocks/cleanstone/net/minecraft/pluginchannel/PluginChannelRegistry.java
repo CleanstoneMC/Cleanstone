@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.minecraft.pluginchannel;
 
+import org.springframework.core.GenericTypeResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,6 +22,14 @@ public class PluginChannelRegistry {
         }
 
         pluginChannels.put(pluginChannel.getName(), pluginChannel);
+    }
+
+    public PluginChannel getPluginChannel(PluginChannel.PluginMessage pluginMessage) {
+        return pluginChannels.values().stream().filter(pluginChannel -> {
+            Class<?> messageClass = GenericTypeResolver.resolveTypeArgument(pluginChannel.getClass(), PluginChannel.class);
+
+            return pluginMessage.getClass().equals(messageClass);
+        }).findAny().orElse(null);
     }
 
     public PluginChannel getPluginChannel(String name) {
