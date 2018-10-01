@@ -1,5 +1,3 @@
-import com.moowork.gradle.node.yarn.YarnInstallTask
-import com.moowork.gradle.node.yarn.YarnTask
 import org.gradle.api.JavaVersion.VERSION_1_8
 import org.springframework.boot.gradle.tasks.run.BootRun
 
@@ -62,14 +60,18 @@ node {
     download = true
 }
 
-fun JavaExec.fixupStdIo() {
-    standardInput = System.`in`
-    if (System.console() != null || System.getenv()["TERM"]?.startsWith("xterm") == true)
-        systemProperty("spring.output.ansi.enabled", "always")
+jacoco {
+    toolVersion = "0.8.2"
 }
 
 tasks {
     named<Test>("test") { useJUnitPlatform() }
+
+    fun JavaExec.fixupStdIo() {
+        standardInput = System.`in`
+        if (System.console() != null || System.getenv()["TERM"]?.startsWith("xterm") == true)
+            systemProperty("spring.output.ansi.enabled", "always")
+    }
 
     named<JavaExec>("run") { fixupStdIo() }
     named<BootRun>("bootRun") { fixupStdIo() }
