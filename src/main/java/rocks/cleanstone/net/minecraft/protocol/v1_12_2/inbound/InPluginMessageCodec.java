@@ -4,13 +4,13 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.PluginMessagePacket;
-import rocks.cleanstone.net.protocol.PacketCodec;
+import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 
 @Component
-public class InPluginMessageCodec implements PacketCodec<PluginMessagePacket> {
+public class InPluginMessageCodec implements InboundPacketCodec<PluginMessagePacket> {
 
     @Override
     public PluginMessagePacket decode(ByteBuf byteBuf) throws IOException {
@@ -22,10 +22,5 @@ public class InPluginMessageCodec implements PacketCodec<PluginMessagePacket> {
         }
 
         return new PluginMessagePacket(channel, bytes);
-    }
-
-    @Override
-    public ByteBuf encode(ByteBuf byteBuf, PluginMessagePacket packet) {
-        throw new UnsupportedOperationException("PluginMessage is inbound and cannot be encoded");
     }
 }
