@@ -1,5 +1,6 @@
 package rocks.cleanstone.game.command.parameter;
 
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.command.completion.CompletableParameter;
 import rocks.cleanstone.game.command.completion.CompletionContext;
 import rocks.cleanstone.game.command.completion.CompletionMatch;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
 
+@Component
 public class EnumParameter<T extends Enum<T>> implements CompletableParameter<T> {
 
     @Override

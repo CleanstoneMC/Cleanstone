@@ -1,6 +1,9 @@
 package rocks.cleanstone.game.command.completion;
 
 import com.google.common.base.Preconditions;
+import java.util.Collections;
+import java.util.List;
+import static java.util.stream.Collectors.toList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +17,6 @@ import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.utils.Vector;
 
-import java.util.List;
-
 @Component
 public class SimpleCommandCompletion implements CommandCompletion {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -24,9 +25,10 @@ public class SimpleCommandCompletion implements CommandCompletion {
     private final MainCommandCompletion mainCommandCompletion;
 
     @Autowired
-    public SimpleCommandCompletion(CommandRegistry commandRegistry,
-                                   CommandArgumentsCompletion commandArgumentsCompletion,
-                                   MainCommandCompletion mainCommandCompletion
+    public SimpleCommandCompletion(
+            CommandRegistry commandRegistry,
+            CommandArgumentsCompletion commandArgumentsCompletion,
+            MainCommandCompletion mainCommandCompletion
     ) {
         this.commandRegistry = commandRegistry;
         this.commandArgumentsCompletion = commandArgumentsCompletion;
@@ -42,28 +44,34 @@ public class SimpleCommandCompletion implements CommandCompletion {
         CommandMessage commandMessage = CommandMessageFactory.construct(sender, commandLine, commandRegistry);
         Command command = commandRegistry.getCommand(commandMessage.getCommandName());
 
-        if (command == null || usedByAlias(command, commandMessage)) {
-            // completion of parameter without knowing command is not possible
-            if (commandMessage.getFullMessage().contains(" ")) {
-                return;
-            }
+        List<CompletionMatch> matches;
+        int start;
+        int length;
 
-            List<CompletionMatch> matches = mainCommandCompletion.completeCommand(commandLine, commandRegistry.getAllCommands());
-            sender.sendPacket(new OutTabCompletePacket(transactionId, 0, commandLine.length(), matches));
-            return;
+        if (command == null || shouldCompleteEndingSpace(commandLine, commandMessage)) {
+            matches = mainCommandCompletion.completeCommand(commandMessage.getCommandName(), commandRegistry.getAllCommands()) .stream()
+                    .map(cm -> cm.withMatch("/" + cm.getMatch())) // prepend slash
+                    .collect(toList());
+            start = 0;
+            length = commandLine.length();
         } else {
             command = resolveSubCommands(command, commandMessage);
+
+            matches = commandArgumentsCompletion.completeArguments(command, commandMessage);
+            start = commandLine.endsWith(" ") ? commandLine.length() : commandLine.lastIndexOf(" ") + 1;
+            length = commandLine.endsWith(" ") ? 0 : commandLine.length() - start;
         }
 
-        int start = commandLine.endsWith(" ") ? commandLine.length() : commandLine.lastIndexOf(" ") + 1;
-        int length = commandLine.endsWith(" ") ? 0 : commandLine.length() - start;
-        List<CompletionMatch> matches = commandArgumentsCompletion.completeArguments(command, commandMessage);
+        if (matches.size() == 1) {
+            CompletionMatch cm = matches.get(0);
+            matches = Collections.singletonList(cm.withMatch(cm.getMatch() + " ")); // append space
+        }
+
         sender.sendPacket(new OutTabCompletePacket(transactionId, start, length, matches));
     }
 
-    private boolean usedByAlias(Command command, CommandMessage commandMessage) {
-        return !command.getName().equals(commandMessage.getCommandName()) // real command name does not match input
-                && !commandMessage.getFullMessage().contains(" "); // still completing command name not a parameter
+    private boolean shouldCompleteEndingSpace(String commandLine, CommandMessage commandMessage) {
+        return commandMessage.getParameters().size() == 0 && !commandLine.endsWith(" ");
     }
 
     private Command resolveSubCommands(Command command, CommandMessage commandMessage) {

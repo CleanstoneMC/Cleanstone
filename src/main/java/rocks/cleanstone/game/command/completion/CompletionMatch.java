@@ -24,4 +24,12 @@ public class CompletionMatch {
     public ChatMessage getTooltip() {
         return tooltip;
     }
+
+    public CompletionMatch withMatch(String newMatch) {
+        return new CompletionMatch(newMatch, tooltip);
+    }
+
+    public CompletionMatch withTooltip(ChatMessage newTooltip) {
+        return new CompletionMatch(match, newTooltip);
+    }
 }
