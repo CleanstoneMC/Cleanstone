@@ -1,6 +1,5 @@
 package rocks.cleanstone.game.command.completion;
 
-import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -8,6 +7,11 @@ import rocks.cleanstone.game.command.Command;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.CommandRegistry;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommandArgumentsCompletion {
@@ -20,8 +24,8 @@ public class CommandArgumentsCompletion {
         this.mainCommandCompletion = mainCommandCompletion;
     }
 
-    public List<String> completeArguments(Command command, CommandMessage commandMessage) {
-        List<String> matches = new LinkedList<>();
+    public List<CompletionMatch> completeArguments(Command command, CommandMessage commandMessage) {
+        List<CompletionMatch> matches = new LinkedList<>();
 
         getParameterValue(commandMessage).ifPresent(parameterValue -> {
             logger.debug("found paramter value: {}", parameterValue);
@@ -72,7 +76,7 @@ public class CommandArgumentsCompletion {
         return Optional.of(expectedTypes[subCommandIndex]);
     }
 
-    private <T> List<String> completeParameter(String parameterValue, Class<T> parameterType) {
+    private <T> List<CompletionMatch> completeParameter(String parameterValue, Class<T> parameterType) {
         CommandParameter<T> commandParameter = commandRegistry.getCommandParameter(parameterType);
 
         // check if parameter is completable

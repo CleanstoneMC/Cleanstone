@@ -50,6 +50,9 @@ public class SimpleCommandCompletion implements CommandCompletion {
             List<CompletionMatch> matches = completeCommand(commandMessage.getCommandName());
             sender.sendPacket(new OutTabCompletePacket(transactionId, 0, commandLine.length(), matches));
             return;
+        } else {
+            command = resolveSubCommands(command, commandMessage);
+            logger.debug("command is " + command.getName());
         }
 
         int start = commandLine.endsWith(" ") ? commandLine.length() : commandLine.lastIndexOf(" ") + 1;
@@ -61,6 +64,21 @@ public class SimpleCommandCompletion implements CommandCompletion {
     private boolean usedByAlias(Command command, CommandMessage commandMessage) {
         return !command.getName().equals(commandMessage.getCommandName()) // real command name does not match input
                 && !commandMessage.getFullMessage().contains(" "); // still completing command name not a parameter
+    }
+
+    private Command resolveSubCommands(Command command, CommandMessage commandMessage) {
+        while (commandMessage.nextParameterIs(String.class)) {
+            String parameter = commandMessage.requireParameter(String.class);
+            Command subCommand = command.getSubCommands().get(parameter);
+            if (subCommand != null) {
+                command = subCommand;
+            } else {
+                commandMessage.setParameterIndex(commandMessage.getParameterIndex() - 1);
+                break;
+            }
+        }
+
+        return command;
     }
 
     private List<CompletionMatch> completeCommand(String input) {
