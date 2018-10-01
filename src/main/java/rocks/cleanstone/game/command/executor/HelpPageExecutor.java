@@ -2,6 +2,8 @@ package rocks.cleanstone.game.command.executor;
 
 import rocks.cleanstone.game.command.Command;
 import rocks.cleanstone.game.command.CommandMessage;
+import rocks.cleanstone.game.command.CommandRegistry;
+import rocks.cleanstone.game.command.SimpleCommandMessage;
 
 public class HelpPageExecutor implements CommandExecutor {
 
@@ -13,6 +15,14 @@ public class HelpPageExecutor implements CommandExecutor {
 
     @Override
     public void execute(CommandMessage message) {
-        // TODO
+        if (!(message instanceof SimpleCommandMessage)) {
+            return;
+        }
+
+        final CommandRegistry commandRegistry = ((SimpleCommandMessage) message).getCommandRegistry();
+
+        commandRegistry.getAllCommands().stream().filter(Command::showInHelp).forEach(command -> {
+            message.getCommandSender().sendRawMessage(command.getUsage());
+        });
     }
 }
