@@ -111,7 +111,8 @@ public class WorldCommand extends SimpleCommand {
         class SetWorldGenerationParamCommand extends SimpleCommand {
 
             SetWorldGenerationParamCommand() {
-                super("set");
+                super("set", WorldGenerationParameter.class, Double.class);
+
             }
 
             @Override
