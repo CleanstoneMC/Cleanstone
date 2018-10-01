@@ -10,26 +10,27 @@ import rocks.cleanstone.game.command.Command;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.CommandMessageFactory;
 import rocks.cleanstone.game.command.CommandRegistry;
-import rocks.cleanstone.game.command.parameter.CommandParameter;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.utils.Vector;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class SimpleCommandCompletion implements CommandCompletion {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private CommandRegistry commandRegistry;
+    private final CommandArgumentsCompletion commandArgumentsCompletion;
+    private final MainCommandCompletion mainCommandCompletion;
 
     @Autowired
-    public SimpleCommandCompletion(CommandRegistry commandRegistry) {
+    public SimpleCommandCompletion(CommandRegistry commandRegistry,
+                                   CommandArgumentsCompletion commandArgumentsCompletion,
+                                   MainCommandCompletion mainCommandCompletion
+    ) {
         this.commandRegistry = commandRegistry;
+        this.commandArgumentsCompletion = commandArgumentsCompletion;
+        this.mainCommandCompletion = mainCommandCompletion;
     }
 
     @Async
@@ -47,17 +48,16 @@ public class SimpleCommandCompletion implements CommandCompletion {
                 return;
             }
 
-            List<CompletionMatch> matches = completeCommand(commandMessage.getCommandName());
+            List<CompletionMatch> matches = mainCommandCompletion.completeCommand(commandLine, commandRegistry.getAllCommands());
             sender.sendPacket(new OutTabCompletePacket(transactionId, 0, commandLine.length(), matches));
             return;
         } else {
             command = resolveSubCommands(command, commandMessage);
-            logger.debug("command is " + command.getName());
         }
 
         int start = commandLine.endsWith(" ") ? commandLine.length() : commandLine.lastIndexOf(" ") + 1;
         int length = commandLine.endsWith(" ") ? 0 : commandLine.length() - start;
-        List<CompletionMatch> matches = completeParameter(commandMessage, command);
+        List<CompletionMatch> matches = commandArgumentsCompletion.completeArguments(command, commandMessage);
         sender.sendPacket(new OutTabCompletePacket(transactionId, start, length, matches));
     }
 
@@ -79,66 +79,5 @@ public class SimpleCommandCompletion implements CommandCompletion {
         }
 
         return command;
-    }
-
-    private List<CompletionMatch> completeCommand(String input) {
-        String lowerCaseInput = input.toLowerCase(Locale.ENGLISH);
-        List<Command> matchingCommands = commandRegistry.getAllCommands().stream()
-                .filter(command -> filteredCommandNames(command, lowerCaseInput).findAny().isPresent()) // command has matching name or alias
-                .collect(Collectors.toList());
-
-        boolean multipleMatches = matchingCommands.size() > 1;
-
-        return matchingCommands.stream()
-                .map(command -> getCommandCompletionString(command, multipleMatches, lowerCaseInput))
-                .map(CompletionMatch::new)
-                .collect(Collectors.toList());
-    }
-
-    private String getCommandCompletionString(Command command, boolean multipleMatches, String commandPart) {
-        String commandName = filteredCommandNames(command, commandPart)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("command has no matching name"));
-        // add trailing space if there is only one match and parameters are expected^
-        String suffix = !multipleMatches && command.getExpectedParameterTypes().length > 0 ? " " : "";
-        return "/" + commandName + suffix;
-    }
-
-    private Stream<String> filteredCommandNames(Command command, String filter) {
-        return Stream.concat(Stream.of(command.getName()), command.getAliases().stream())
-                .map(name -> name.toLowerCase(Locale.ENGLISH))
-                .filter(name -> name.startsWith(filter));
-    }
-
-    private <T> List<CompletionMatch> completeParameter(CommandMessage commandMessage, Command command) {
-        List<String> parameterValues = new LinkedList<>(commandMessage.getParameters());
-        int lastParameterIndex = parameterValues.size() - 1;
-
-        // complete next parameter when command ends in space
-        if (commandMessage.getFullMessage().endsWith(" ")) {
-            parameterValues.add("");
-            lastParameterIndex++;
-        }
-
-        Class<?>[] expectedParameterTypes = command.getExpectedParameterTypes();
-
-        // not completing any parameter or completing too many parameters
-        if (lastParameterIndex < 0 || lastParameterIndex >= expectedParameterTypes.length) {
-            return Collections.emptyList();
-        }
-
-        //noinspection unchecked
-        Class<T> parameterType = (Class<T>) expectedParameterTypes[lastParameterIndex];
-        String lastParameterValue = parameterValues.get(lastParameterIndex);
-
-        CommandParameter<T> commandParameter = commandRegistry.getCommandParameter(parameterType);
-
-        // check if parameter is completable
-        if (!(commandParameter instanceof CompletableParameter)) {
-            return Collections.emptyList();
-        }
-
-        CompletionContext<T> context = new SimpleCompletionContext<>(lastParameterValue, parameterType);
-        return ((CompletableParameter<T>) commandParameter).getCompletion(context);
     }
 }
