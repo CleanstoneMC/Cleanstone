@@ -84,7 +84,7 @@ tasks {
             "vue.config.js",
             "package.json"
         )
-        outputs.dir("target/dist")
+        outputs.dir("build/admin-ui")
     }
 
     val yarn_build by existing { configureYarnTask() }

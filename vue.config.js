@@ -1,5 +1,5 @@
 module.exports = {
-    outputDir: 'target/dist',
+    outputDir: 'build/admin-ui',
     filenameHashing: false,
     chainWebpack: config => {
         config.entryPoints.delete('app');
