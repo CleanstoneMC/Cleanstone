@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.event.EventAction;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerChunkLoadService;
@@ -53,7 +54,7 @@ public class PlayerMoveListener {
         final int chunkX = newPosition.getXAsInt() >> 4;
         final int chunkZ = newPosition.getZAsInt() >> 4;
 
-        if (!playerChunkLoadService.hasPlayerLoaded(movingPlayer.getID().getUUID(), chunkX, chunkZ)) {
+        if (!playerChunkLoadService.hasPlayerLoaded(movingPlayer.getID().getUUID(), ChunkCoords.of(chunkX, chunkZ))) {
             EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, oldPosition.getX(),
                     oldPosition.getY(), oldPosition.getZ(), yaw, pitch, movingPlayer.isFlying());
             movingPlayer.sendPacket(entityTeleportPacket);

@@ -5,6 +5,7 @@ import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.game.world.SimpleWorldManager;
 import rocks.cleanstone.game.world.World;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.generation.WorldGenerationParameter;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.player.PlayerChunkLoadService;
@@ -42,7 +43,7 @@ public class WorldCommand extends SimpleCommand {
 
             int x = player.getEntity().getPosition().getXAsInt() << 4;
             int z = player.getEntity().getPosition().getYAsInt() << 4;
-            playerChunkLoadService.loadChunk(player, x, z);
+            playerChunkLoadService.loadChunk(player, ChunkCoords.of(x, z));
         });
     }
 
