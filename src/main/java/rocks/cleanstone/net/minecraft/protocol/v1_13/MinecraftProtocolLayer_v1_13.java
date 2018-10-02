@@ -8,6 +8,7 @@ import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.inbound.CreativeInventoryActionCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.outbound.ChunkDataCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_13.outbound.BlockChangeCodec;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
 import java.util.List;
