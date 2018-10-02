@@ -9,6 +9,7 @@ import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.inbound.CreativeInventoryActionCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.inbound.InTabCompleteCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.outbound.ChunkDataCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_13.outbound.DeclareCommandsCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.outbound.OutTabCompleteCodec;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
@@ -78,6 +79,7 @@ public class MinecraftProtocolLayer_v1_13 extends AutowiredServerProtocolLayer {
         registerPacketCodec(OutAnimationCodec.class, PLAY, 0x06);
         registerPacketCodec(SpawnObjectCodec.class, PLAY, 0x00);
         registerPacketCodec(OutPluginMessageCodec.class, PLAY, 0x19);
+        registerPacketCodec(DeclareCommandsCodec.class, PLAY, 0x11);
     }
 
     @Override

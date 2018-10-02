@@ -16,9 +16,10 @@ public class DeclareCommandsCodec implements OutboundPacketCodec<DeclareCommands
     @Override
     public ByteBuf encode(ByteBuf byteBuf, DeclareCommandsPacket packet) throws IOException {
 
-        ByteBufUtils.writeVarInt(byteBuf, packet.getCommandNodes().size());
+        int amount = packet.getCommandNodes().getChildren().size();
+        ByteBufUtils.writeVarInt(byteBuf, amount);
 
-        for (CommandNode commandNode : packet.getCommandNodes()) {
+        for (CommandNode commandNode : packet.getCommandNodes().getChildren()) {
             byteBuf.writeBytes(encodeCommandNode(byteBuf, commandNode));
         }
 
@@ -31,6 +32,11 @@ public class DeclareCommandsCodec implements OutboundPacketCodec<DeclareCommands
 
         byteBuf.writeByte(commandNode.getCommandNodeFlags().getBitMask());
         ByteBufUtils.writeVarInt(byteBuf, commandNode.getChildren().size());
+
+        for (int i = 0; i < commandNode.getChildren().size(); i++) {
+            ByteBufUtils.writeVarInt(byteBuf, i + 1);
+        }
+
         //TODO: Write Childs?
         if (commandNode.getCommandNodeFlags().isHasRedirect()) {
             ByteBufUtils.writeVarInt(byteBuf, commandNode.getRedirectNodeIndex());

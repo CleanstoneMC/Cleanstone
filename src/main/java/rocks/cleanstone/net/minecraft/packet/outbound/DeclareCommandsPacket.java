@@ -5,18 +5,16 @@ import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-import java.util.List;
-
 public class DeclareCommandsPacket implements Packet {
 
-    private final List<CommandNode> commandNodes;
+    private final CommandNode rootCommandNode;
 
-    public DeclareCommandsPacket(List<CommandNode> commandNodes) {
-        this.commandNodes = commandNodes;
+    public DeclareCommandsPacket(CommandNode rootCommandNode) {
+        this.rootCommandNode = rootCommandNode;
     }
 
-    public List<CommandNode> getCommandNodes() {
-        return commandNodes;
+    public CommandNode getCommandNodes() {
+        return rootCommandNode;
     }
 
     @Override
