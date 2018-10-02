@@ -7,9 +7,9 @@ import rocks.cleanstone.game.material.item.vanilla.VanillaItemType;
 import static rocks.cleanstone.game.material.item.vanilla.VanillaItemType.*;
 
 @Component("protocolItemTypeMapping_v1_13")
-public class ProtocolItemTypeMapping extends SimpleItemTypeMapping<Integer> {
+public class ProtocolItemTypeMapping_v1_13 extends SimpleItemTypeMapping<Integer> {
 
-    public ProtocolItemTypeMapping() {
+    public ProtocolItemTypeMapping_v1_13() {
         super(VanillaItemType.STONE);
         setID(AIR, 0);
         setID(STONE, 1);
