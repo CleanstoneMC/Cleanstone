@@ -17,7 +17,7 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStor
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
-import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping_v1_13;
+import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
 
 @Component("flatWorldGenerator")
 public class FlatWorldGenerator extends AbstractWorldGenerator {
@@ -48,7 +48,7 @@ public class FlatWorldGenerator extends AbstractWorldGenerator {
             }
         }
 
-        DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping_v1_13(), 14);
+        DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping_v1_13_1(), 14);
         blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable, directPalette, true);
     }
 

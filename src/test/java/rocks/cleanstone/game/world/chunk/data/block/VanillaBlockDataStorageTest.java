@@ -11,7 +11,7 @@ import rocks.cleanstone.game.material.SimpleMaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.*;
-import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping_v1_13;
+import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ class VanillaBlockDataStorageTest {
         simpleVanillaBlockDataStorageFactory = new SimpleVanillaBlockDataStorageFactory();
 
         random = new Random(1);
-        directPalette = new DirectPalette(new ProtocolBlockStateMapping_v1_13(), 14);
+        directPalette = new DirectPalette(new ProtocolBlockStateMapping_v1_13_1(), 14);
         MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
 
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);

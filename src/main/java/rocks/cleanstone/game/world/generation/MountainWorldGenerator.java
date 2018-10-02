@@ -15,7 +15,7 @@ import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.generation.utils.NoiseGenerator;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
-import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping_v1_13;
+import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
 
 import java.util.HashSet;
 
@@ -30,11 +30,11 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     private Block BEDROCK;
     private NoiseGenerator noiseGenerator;
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
-    private final ProtocolBlockStateMapping_v1_13 blockStateMapping;
+    private final ProtocolBlockStateMapping_v1_13_1 blockStateMapping;
 
     public MountainWorldGenerator(
             VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
-            ProtocolBlockStateMapping_v1_13 blockStateMapping
+            ProtocolBlockStateMapping_v1_13_1 blockStateMapping
 
     ) {
         super(Dimension.OVERWORLD, LevelType.DEFAULT);

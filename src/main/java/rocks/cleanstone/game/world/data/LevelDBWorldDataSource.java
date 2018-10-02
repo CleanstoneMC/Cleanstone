@@ -23,7 +23,7 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCode
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityDataCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping_v1_13;
+import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
 
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
 
@@ -43,7 +43,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     public LevelDBWorldDataSource(
             VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,
             EntityTypeRegistry entityTypeRegistry,
-            ProtocolBlockStateMapping_v1_13 protocolBlockStateMapping,
+            ProtocolBlockStateMapping_v1_13_1 protocolBlockStateMapping,
             Path worldDataFolder,
             String worldID
     ) throws IOException {
