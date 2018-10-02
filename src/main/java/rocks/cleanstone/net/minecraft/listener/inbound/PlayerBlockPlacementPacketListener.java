@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.event.packet.inbound;
+package rocks.cleanstone.net.minecraft.listener.inbound;
 
 import java.util.Arrays;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft;
+package rocks.cleanstone.net.minecraft.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

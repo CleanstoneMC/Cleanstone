@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.event.packet.inbound;
+package rocks.cleanstone.net.minecraft.listener.inbound;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
