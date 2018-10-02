@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.event.packet;
+package rocks.cleanstone.player.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;

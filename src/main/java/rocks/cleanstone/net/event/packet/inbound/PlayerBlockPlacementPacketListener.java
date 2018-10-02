@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
@@ -19,7 +20,7 @@ import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
 @Component
-public class PlayerBlockPlacementPacketListener extends PlayerInboundPacketEventListener<PlayerBlockPlacementPacket> {
+public class PlayerBlockPlacementPacketListener {
 
     private final PlayerManager playerManager;
     private final MaterialRegistry materialRegistry;
@@ -32,7 +33,6 @@ public class PlayerBlockPlacementPacketListener extends PlayerInboundPacketEvent
 
     @Async(value = "playerExec")
     @EventListener
-    @Override
     public void onPacket(PlayerInboundPacketEvent<PlayerBlockPlacementPacket> playerInboundPacketEvent) {
 
         PlayerBlockPlacementPacket packet = playerInboundPacketEvent.getPacket();
