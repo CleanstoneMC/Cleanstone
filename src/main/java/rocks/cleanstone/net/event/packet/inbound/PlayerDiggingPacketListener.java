@@ -1,8 +1,13 @@
 package rocks.cleanstone.net.event.packet.inbound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.event.BlockBreakEvent;
@@ -12,14 +17,13 @@ import rocks.cleanstone.net.minecraft.packet.enums.DiggingStatus;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerDiggingPacket;
 import rocks.cleanstone.player.Player;
 
-import java.util.Collections;
-
 @Component
-public class PlayerDiggingPacketListener extends PlayerInboundPacketEventListener<PlayerDiggingPacket> {
+public class PlayerDiggingPacketListener {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Async(value = "playerExec")
     @EventListener
-    @Override
     public void onPacket(PlayerInboundPacketEvent<PlayerDiggingPacket> playerInboundPacketEvent) {
         PlayerDiggingPacket packet = playerInboundPacketEvent.getPacket();
         Player player = playerInboundPacketEvent.getPlayer();

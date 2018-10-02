@@ -1,16 +1,17 @@
-package rocks.cleanstone.net.event.packet;
+package rocks.cleanstone.player.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+
 import rocks.cleanstone.game.entity.SimpleEntityRegistry;
 import rocks.cleanstone.net.event.ConnectionClosedEvent;
 import rocks.cleanstone.player.OnlinePlayer;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
-
-import java.util.Optional;
 
 @Component
 public class PlayerTerminationCauseListener {

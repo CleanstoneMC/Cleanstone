@@ -1,9 +1,10 @@
-package rocks.cleanstone.net.event.packet.inbound;
+package rocks.cleanstone.player.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.event.EventAction;
 import rocks.cleanstone.net.event.InboundPacketEvent;
@@ -12,7 +13,7 @@ import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
 @Component
-public class InboundPlayerPacketListener extends InboundPacketEventListener {
+public class InboundPlayerPacketListener {
 
     private final PlayerManager playerManager;
 
@@ -23,7 +24,6 @@ public class InboundPlayerPacketListener extends InboundPacketEventListener {
 
     @Order(value = EventAction.MODIFY + 50)
     @EventListener
-    @Override
     public void onPacket(InboundPacketEvent inboundPacketEvent) {
         Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
 

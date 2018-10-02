@@ -1,25 +1,25 @@
 package rocks.cleanstone.net.event.packet;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
-import rocks.cleanstone.net.event.packet.inbound.PlayerInboundPacketEventListener;
 import rocks.cleanstone.net.minecraft.packet.inbound.PluginMessagePacket;
 import rocks.cleanstone.net.minecraft.pluginchannel.InboundPluginChannelMessageEvent;
 import rocks.cleanstone.net.minecraft.pluginchannel.OutboundPluginChannelMessageEvent;
 import rocks.cleanstone.net.minecraft.pluginchannel.PluginChannel;
 import rocks.cleanstone.net.minecraft.pluginchannel.PluginChannelRegistry;
 
-import java.io.IOException;
-
 @Component
-public class PluginMessageListener extends PlayerInboundPacketEventListener<PluginMessagePacket> {
+public class PluginMessageListener {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final PluginChannelRegistry pluginChannelRegistry;
@@ -30,7 +30,6 @@ public class PluginMessageListener extends PlayerInboundPacketEventListener<Plug
 
     @Async(value = "playerExec")
     @EventListener
-    @Override
     public void onPacket(PlayerInboundPacketEvent<PluginMessagePacket> pluginMessagePacketPlayerInboundPacketEvent) {
         PluginMessagePacket packet = pluginMessagePacketPlayerInboundPacketEvent.getPacket();
 
@@ -89,7 +88,7 @@ public class PluginMessageListener extends PlayerInboundPacketEventListener<Plug
             bytes[i] = buffer.readByte();
         }
 
-        rocks.cleanstone.net.minecraft.packet.outbound.PluginMessagePacket pluginMessagePacket = new rocks.cleanstone.net.minecraft.packet.outbound.PluginMessagePacket(pluginChannel.getName(), bytes);
+        PluginMessagePacket pluginMessagePacket = new PluginMessagePacket(pluginChannel.getName(), bytes);
 
         outboundPluginChannelMessageEvent.getPlayer().sendPacket(pluginMessagePacket);
     }
