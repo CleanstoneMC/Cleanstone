@@ -91,6 +91,7 @@ public enum MinecraftOutboundPacketType implements PacketType {
     SET_COMPRESSION(SetCompressionPacket.class),
     LOGIN_SUCCESS(LoginSuccessPacket.class),
     RESPONSE(ResponsePacket.class),
+    DECLARE_COMMANDS(DeclareCommandsPacket.class),
     PONG(PongPacket.class);
 
     private final Class<? extends Packet> packetClass;
