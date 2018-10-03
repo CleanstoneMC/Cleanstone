@@ -6,6 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.NearbyChunkRetriever;
@@ -13,12 +20,6 @@ import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class PlayerMoveChunkLoadListener {
@@ -37,9 +38,7 @@ public class PlayerMoveChunkLoadListener {
     @Async("playerExec")
     @EventListener
     public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
-        final int chunkX = playerMoveEvent.getNewPosition().getXAsInt() >> 4;
-        final int chunkZ = playerMoveEvent.getNewPosition().getZAsInt() >> 4;
-        ChunkCoords coords = ChunkCoords.of(chunkX, chunkZ);
+        ChunkCoords coords = ChunkCoords.of(playerMoveEvent.getNewPosition());
 
         final Player player = playerMoveEvent.getPlayer();
         UUID uuid = player.getID().getUUID();
@@ -82,8 +81,7 @@ public class PlayerMoveChunkLoadListener {
         final int sendDistance = player.getViewDistance() + 1;
         UUID uuid = player.getID().getUUID();
 
-        Collection<ChunkCoords> nearbyCoords = nearbyChunkRetriever.getChunkCoordsAround(
-                playerCoords.getX(), playerCoords.getZ(), sendDistance);
+        Collection<ChunkCoords> nearbyCoords = nearbyChunkRetriever.getChunkCoordsAround(playerCoords, sendDistance);
 
         for (ChunkCoords coords : nearbyCoords) {
             if (shouldAbortLoading(uuid, loadingToken)) {
@@ -116,13 +114,7 @@ public class PlayerMoveChunkLoadListener {
     }
 
     private boolean isSameChunk(Position oldPosition, Position newPosition) {
-        final int oldChunkX = oldPosition.getXAsInt() >> 4;
-        final int oldchunkZ = oldPosition.getZAsInt() >> 4;
-
-        final int newChunkX = newPosition.getXAsInt() >> 4;
-        final int newchunkZ = newPosition.getZAsInt() >> 4;
-
-        return oldChunkX == newChunkX && oldchunkZ == newchunkZ;
+        return ChunkCoords.of(oldPosition).equals(ChunkCoords.of(newPosition));
     }
 
     protected int acquireLoadingToken(UUID uuid) {

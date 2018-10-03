@@ -4,17 +4,18 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.NearbyChunkRetriever;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 @Service
 public class NearbyEntityRetriever {
@@ -33,10 +34,8 @@ public class NearbyEntityRetriever {
         World world = entity.getWorld();
 
         Chunk baseChunk = world.getChunkAt(entity.getPosition()).get();
-        int baseChunkX = baseChunk.getX();
-        int basechunkZ = baseChunk.getZ();
 
-        Set<Entity> entities = nearbyChunkRetriever.getChunksAround(baseChunkX, basechunkZ, chunkRadius, world)
+        Set<Entity> entities = nearbyChunkRetriever.getChunksAround(baseChunk.getCoordinates(), chunkRadius, world)
                 .get().stream().flatMap(c -> c.getEntities().stream())
                 .collect(Collectors.toSet());
 

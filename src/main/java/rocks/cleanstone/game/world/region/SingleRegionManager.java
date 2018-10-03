@@ -6,11 +6,14 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.chunk.ChunkProvider;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
+import rocks.cleanstone.game.world.chunk.ChunkProvider;
 
 /**
  * Manages a single region in the world to rule them all
@@ -34,25 +37,25 @@ public class SingleRegionManager implements RegionManager {
 
     @Nullable
     @Override
-    public Region getLoadedRegion(int chunkX, int chunkZ) {
+    public Region getLoadedRegion(ChunkCoords coords) {
         return region;
     }
 
     @Async(value = "worldExec")
     @Override
-    public ListenableFuture<Region> loadRegion(int chunkX, int chunkZ) {
+    public ListenableFuture<Region> loadRegion(ChunkCoords coords) {
         region = new SimpleRegion("SingleR", new LocalRegionWorker(), chunkProvider);
         return new AsyncResult<>(region);
     }
 
     @Async(value = "worldExec")
     @Override
-    public ListenableFuture<Region> getRegion(int chunkX, int chunkZ) {
-        Region region = getLoadedRegion(chunkX, chunkZ);
+    public ListenableFuture<Region> getRegion(ChunkCoords coords) {
+        Region region = getLoadedRegion(coords);
         if (region != null) {
             return new AsyncResult<>(region);
         }
-        return loadRegion(chunkX, chunkZ);
+        return loadRegion(coords);
     }
 
     @Override

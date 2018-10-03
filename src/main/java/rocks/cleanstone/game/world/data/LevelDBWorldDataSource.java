@@ -1,17 +1,21 @@
 package rocks.cleanstone.game.world.data;
 
-import io.netty.buffer.ByteBuf;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashSet;
+
 import javax.annotation.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.data.VersionedCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
 import rocks.cleanstone.game.entity.EntityTypeRegistry;
 import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.ChunkDataKeyFactory;
 import rocks.cleanstone.game.world.chunk.data.StandardChunkDataType;
@@ -59,9 +63,9 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
 
     @Nullable
     @Override
-    public Chunk loadExistingChunk(int x, int y) {
-        ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
-        ByteBuf entitiesKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.ENTITIES);
+    public Chunk loadExistingChunk(ChunkCoords coords) {
+        ByteBuf blocksKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.BLOCKS);
+        ByteBuf entitiesKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.ENTITIES);
         VanillaBlockDataStorage blockDataStorage;
         try {
             blockDataStorage = get(blocksKey, blockDataCodec);
@@ -69,7 +73,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
                 return null;
             }
         } catch (IOException e) {
-            logger.error("Failed to load corrupted chunk block data at " + x + ":" + y + " in LevelDB '"
+            logger.error("Failed to load corrupted chunk block data at " + coords + " in LevelDB '"
                     + worldID + "'", e);
             return null;
         }
@@ -80,28 +84,28 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
                 entityData = new EntityData(new HashSet<>());
             }
         } catch (IOException e) {
-            logger.error("Failed to load corrupted chunk entity data at " + x + ":" + y + " in LevelDB '"
+            logger.error("Failed to load corrupted chunk entity data at " + coords + " in LevelDB '"
                     + worldID + "'", e);
             entityData = new EntityData(new HashSet<>());
         }
         blocksKey.release();
         entitiesKey.release();
         // TODO load blockEntities, biome state
-        return new SimpleChunk(blockDataStorage.constructTable(), blockDataStorage, entityData, x, y);
+        return new SimpleChunk(blockDataStorage.constructTable(), blockDataStorage, entityData, coords);
     }
 
     @Override
     public void saveChunk(Chunk chunk) {
-        logger.trace("persisting chunk {}, {}", chunk.getX(), chunk.getZ());
-        int x = chunk.getX(), y = chunk.getZ();
-        ByteBuf blocksKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.BLOCKS);
-        ByteBuf entitiesKey = ChunkDataKeyFactory.create(x, y, StandardChunkDataType.ENTITIES);
+        ChunkCoords coords = chunk.getCoordinates();
+        logger.trace("persisting chunk {}, {}", coords);
+        ByteBuf blocksKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.BLOCKS);
+        ByteBuf entitiesKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.ENTITIES);
         try {
             // TODO Rewrite Chunk to be a bean and add ChunkCodec
             set(blocksKey, (VanillaBlockDataStorage) chunk.getBlockDataStorage(), blockDataCodec);
             set(entitiesKey, chunk.getEntityData(), entityDataCodec);
         } catch (IOException e) {
-            logger.error("Failed to save corrupted chunk block data at " + x + ":" + y + " in LevelDB '"
+            logger.error("Failed to save corrupted chunk block data at " + coords + " in LevelDB '"
                     + worldID + "'", e);
         }
         blocksKey.release();

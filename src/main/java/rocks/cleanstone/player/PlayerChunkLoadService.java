@@ -2,18 +2,20 @@ package rocks.cleanstone.player;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.UUID;
+
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.UnloadChunkPacket;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.UUID;
 
 @Component
 public class PlayerChunkLoadService {
@@ -54,7 +56,7 @@ public class PlayerChunkLoadService {
     public void sendChunkLoadPacket(Player player, ChunkCoords coords) {
         World world = player.getEntity().getWorld();
 
-        world.getChunk(coords.getX(), coords.getZ()).addCallback(chunk -> {
+        world.getChunk(coords).addCallback(chunk -> {
             if (chunk == null) {
                 logger.error("Chunk {} is null", coords);
                 return;

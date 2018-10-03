@@ -1,15 +1,19 @@
 package rocks.cleanstone.game.world.region;
 
 import com.google.common.collect.ImmutableSet;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.chunk.ChunkProvider;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
+import rocks.cleanstone.game.world.chunk.ChunkProvider;
 
 /**
  * Divides the world into equal quadratic regions
@@ -32,28 +36,28 @@ public class QuadraticRegionManager implements RegionManager {
 
     @Nullable
     @Override
-    public Region getLoadedRegion(int chunkX, int chunkZ) {
-        return regions.get(getRegionCoordinates(chunkX, chunkZ));
+    public Region getLoadedRegion(ChunkCoords chunkCoords) {
+        return regions.get(getRegionCoordinates(chunkCoords));
     }
 
     @Override
-    public ListenableFuture<Region> loadRegion(int chunkX, int chunkZ) {
-        Pair<Integer, Integer> coordPair = getRegionCoordinates(chunkX, chunkZ);
+    public ListenableFuture<Region> loadRegion(ChunkCoords chunkCoords) {
+        Pair<Integer, Integer> regionCoords = getRegionCoordinates(chunkCoords);
 
-        Region region = new SimpleRegion("QuR[" + coordPair.getLeft() + ":" + coordPair.getRight() + "]",
+        Region region = new SimpleRegion("QuR[" + regionCoords.getLeft() + ":" + regionCoords.getRight() + "]",
                 new LocalRegionWorker(), chunkProvider);
-        regions.put(coordPair, region);
+        regions.put(regionCoords, region);
         return new AsyncResult<>(region);
     }
 
     @Override
-    public ListenableFuture<Region> getRegion(int chunkX, int chunkZ) {
-        Pair<Integer, Integer> coordPair = getRegionCoordinates(chunkX, chunkZ);
-        if (regions.containsKey(coordPair)) {
-            return new AsyncResult<>(regions.get(coordPair));
+    public ListenableFuture<Region> getRegion(ChunkCoords chunkCoords) {
+        Pair<Integer, Integer> regionCoords = getRegionCoordinates(chunkCoords);
+        if (regions.containsKey(regionCoords)) {
+            return new AsyncResult<>(regions.get(regionCoords));
         }
 
-        return loadRegion(coordPair.getLeft(), coordPair.getRight());
+        return loadRegion(chunkCoords);
     }
 
     @Override
@@ -61,10 +65,10 @@ public class QuadraticRegionManager implements RegionManager {
         regions.values().remove(region);
     }
 
-    private Pair<Integer, Integer> getRegionCoordinates(int chunkX, int chunkZ) {
-        int x = chunkX >> 4;
-        int y = chunkZ >> 4;
-        return Pair.of(x, y);
+    private Pair<Integer, Integer> getRegionCoordinates(ChunkCoords coords) {
+        int x = coords.getX() >> 4;
+        int z = coords.getZ() >> 4;
+        return Pair.of(x, z);
     }
 
     @Override

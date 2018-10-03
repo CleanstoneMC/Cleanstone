@@ -6,46 +6,46 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.World;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import rocks.cleanstone.game.world.World;
+
 @Service
 public class ProximityNearbyChunkRetriever implements NearbyChunkRetriever {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public Collection<ChunkCoords> getChunkCoordsAround(int chunkX, int chunkZ, int radius) {
-        Collection<ChunkCoords> coords = new ArrayList<>();
-        coords.add(ChunkCoords.of(chunkX, chunkZ));
-
+    public Collection<ChunkCoords> getChunkCoordsAround(ChunkCoords coords, int radius) {
+        Collection<ChunkCoords> nearbyCoords = new ArrayList<>();
+        int chunkX = coords.getX(), chunkZ = coords.getZ();
+        nearbyCoords.add(coords);
         // generate positions around chunk in order of proximity
         for (int distance = 1; distance <= radius * 1.5; distance++) {
             for (int relZ = Math.max(0, distance - radius); relZ < Math.min(distance, radius + 1); relZ++) {
                 int relX = distance - relZ;
-                coords.add(ChunkCoords.of(chunkX + relX, chunkZ + relZ));
-                coords.add(ChunkCoords.of(chunkX + relZ, chunkZ - relX));
-                coords.add(ChunkCoords.of(chunkX - relX, chunkZ - relZ));
-                coords.add(ChunkCoords.of(chunkX - relZ, chunkZ + relX));
+                nearbyCoords.add(ChunkCoords.of(chunkX + relX, chunkZ + relZ));
+                nearbyCoords.add(ChunkCoords.of(chunkX + relZ, chunkZ - relX));
+                nearbyCoords.add(ChunkCoords.of(chunkX - relX, chunkZ - relZ));
+                nearbyCoords.add(ChunkCoords.of(chunkX - relZ, chunkZ + relX));
             }
         }
-        return coords;
+        return nearbyCoords;
     }
 
     @Async
     @Override
-    public ListenableFuture<Collection<Chunk>> getChunksAround(int chunkX, int chunkZ, int radius, World world) {
+    public ListenableFuture<Collection<Chunk>> getChunksAround(ChunkCoords startCoords, int radius, World world) {
         try {
-            return new AsyncResult<>(getChunkCoordsAround(chunkX, chunkZ, radius).stream()
-                    .map(coord -> world.getChunk(coord.getX(), coord.getZ()))
-                    .map(chunkFuture -> {
+            return new AsyncResult<>(getChunkCoordsAround(startCoords, radius).stream()
+                    .map(coords -> {
                         try {
-                            return chunkFuture.get();
+                            return world.getChunk(coords).get();
                         } catch (InterruptedException | ExecutionException e) {
-                            logger.error("Failed to get chunk " + chunkX + ":" + chunkZ + " in world "
+                            logger.error("Failed to get chunk " + coords + " in world "
                                     + world.getWorldConfig().getName(), e);
                             throw new RuntimeException(e);
                         }

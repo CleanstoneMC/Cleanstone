@@ -2,6 +2,8 @@ package rocks.cleanstone.game.world.chunk;
 
 import java.util.Objects;
 
+import rocks.cleanstone.game.Position;
+
 public class ChunkCoords {
 
     private final int x, z;
@@ -11,12 +13,16 @@ public class ChunkCoords {
         this.z = z;
     }
 
-    public static ChunkCoords of(Chunk chunk) {
-        return of(chunk.getX(), chunk.getZ());
+    public static ChunkCoords of(Position blockPosition) {
+        return of(blockPosition.getXAsInt() >> 4, blockPosition.getZAsInt() >> 4);
     }
 
     public static ChunkCoords of(int x, int z) {
         return new ChunkCoords(x, z);
+    }
+
+    public static ChunkCoords ofBlockCoords(int blockX, int blockZ) {
+        return of(blockX >> 4, blockZ >> 4);
     }
 
     public int getX() {
