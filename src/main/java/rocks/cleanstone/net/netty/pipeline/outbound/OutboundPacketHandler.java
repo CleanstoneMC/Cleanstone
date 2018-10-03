@@ -30,7 +30,7 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
             Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
             if (packet.getType().getDirection() == PacketDirection.INBOUND) {
-                throw new DecoderException("Sent packet has invalid direction");
+                throw new DecoderException("Outbound packet has invalid direction: " + packet.getType());
             }
             if (CleanstoneServer.publishEvent(
                     new OutboundPacketEvent<>(packet, connection, networking)).isCancelled()) return;

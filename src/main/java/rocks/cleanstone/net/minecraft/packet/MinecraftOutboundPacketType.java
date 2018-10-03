@@ -30,7 +30,7 @@ public enum MinecraftOutboundPacketType implements PacketType {
     WINDOW_PROPERTY(WindowPropertyPacket.class),
     SET_SLOT(SetSlotPacket.class),
     SET_COOLDOWN(SetCooldownPacket.class),
-    PLUGIN_MESSAGE(PluginMessagePacket.class),
+    PLUGIN_MESSAGE(OutPluginMessagePacket.class),
     NAMED_SOUND_EFFECT(NamedSoundEffectPacket.class),
     DISCONNECT(DisconnectPacket.class),
     ENTITY_STATUS(EntityStatusPacket.class),

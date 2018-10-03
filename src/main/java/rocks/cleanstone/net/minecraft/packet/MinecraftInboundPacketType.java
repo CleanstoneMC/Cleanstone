@@ -19,7 +19,7 @@ public enum MinecraftInboundPacketType implements PacketType {
     KEEP_ALIVE(InKeepAlivePacket.class),
     TAB_COMPLETE(InTabCompletePacket.class),
     TELEPORT_CONFIRM(TeleportConfirmPacket.class),
-    PLUGIN_MESSAGE(PluginMessagePacket.class),
+    PLUGIN_MESSAGE(InPluginMessagePacket.class),
     USE_ENTITY(UseEntityPacket.class),
     PLAYER(PlayerPacket.class),
     PLAYER_POSITION(PlayerPositionPacket.class),

@@ -1,15 +1,15 @@
-package rocks.cleanstone.net.minecraft.packet.inbound;
+package rocks.cleanstone.net.minecraft.packet.outbound;
 
-import rocks.cleanstone.net.minecraft.packet.MinecraftInboundPacketType;
+import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class PluginMessagePacket implements Packet {
+public class OutPluginMessagePacket implements Packet {
 
     private final String channel;
     private final byte[] data;
 
-    public PluginMessagePacket(String channel, byte[] data) {
+    public OutPluginMessagePacket(String channel, byte[] data) {
         this.channel = channel;
         this.data = data;
     }
@@ -24,6 +24,6 @@ public class PluginMessagePacket implements Packet {
 
     @Override
     public PacketType getType() {
-        return MinecraftInboundPacketType.PLUGIN_MESSAGE;
+        return MinecraftOutboundPacketType.PLUGIN_MESSAGE;
     }
 }

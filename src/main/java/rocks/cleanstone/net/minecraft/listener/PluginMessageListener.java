@@ -12,7 +12,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
-import rocks.cleanstone.net.minecraft.packet.inbound.PluginMessagePacket;
+import rocks.cleanstone.net.minecraft.packet.inbound.InPluginMessagePacket;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutPluginMessagePacket;
 import rocks.cleanstone.net.minecraft.pluginchannel.InboundPluginChannelMessageEvent;
 import rocks.cleanstone.net.minecraft.pluginchannel.OutboundPluginChannelMessageEvent;
 import rocks.cleanstone.net.minecraft.pluginchannel.PluginChannel;
@@ -30,8 +31,8 @@ public class PluginMessageListener {
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPacket(PlayerInboundPacketEvent<PluginMessagePacket> pluginMessagePacketPlayerInboundPacketEvent) {
-        PluginMessagePacket packet = pluginMessagePacketPlayerInboundPacketEvent.getPacket();
+    public void onPacket(PlayerInboundPacketEvent<InPluginMessagePacket> pluginMessagePacketPlayerInboundPacketEvent) {
+        InPluginMessagePacket packet = pluginMessagePacketPlayerInboundPacketEvent.getPacket();
 
         PluginChannel pluginChannel = pluginChannelRegistry.getPluginChannel(packet.getChannel());
 
@@ -88,7 +89,7 @@ public class PluginMessageListener {
             bytes[i] = buffer.readByte();
         }
 
-        PluginMessagePacket pluginMessagePacket = new PluginMessagePacket(pluginChannel.getName(), bytes);
+        OutPluginMessagePacket pluginMessagePacket = new OutPluginMessagePacket(pluginChannel.getName(), bytes);
 
         outboundPluginChannelMessageEvent.getPlayer().sendPacket(pluginMessagePacket);
     }
