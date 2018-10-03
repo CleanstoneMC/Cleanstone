@@ -4,7 +4,8 @@
   "scripts": {
     "build": "vue-cli-service build",
     "watch": "vue-cli-service build --watch",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "clean": "rimraf dist"
   },
   "peerDependencies": {
     "vue": "^2.5.16"
@@ -17,6 +18,7 @@
     "@vue/cli-plugin-eslint": "^3.0.1",
     "@vue/cli-service": "^3.0.1",
     "@vue/eslint-config-standard": "^3.0.1",
+    "rimraf": "^2.6.2",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {

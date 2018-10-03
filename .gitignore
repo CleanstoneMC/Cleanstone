@@ -26,13 +26,11 @@
 hs_err_pid*
 
 # build files
-target/*
 build/
 .gradle/
 
 data/*
 /scripts/php-converter/bedrock_edition/MiNet/packets.md
 /scripts/php-converter/bedrock_edition/MiNet/packet/
-/node_modules/
 
 /application.yml

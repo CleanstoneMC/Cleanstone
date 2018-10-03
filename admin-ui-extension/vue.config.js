@@ -1,9 +1,9 @@
 module.exports = {
-    outputDir: 'build/admin-ui',
+    outputDir: 'dist',
     filenameHashing: false,
     chainWebpack: config => {
         config.entryPoints.delete('app');
-        config.entry('cleanstone').add('./src/main/resources/web/spring-boot-admin-server-ui-extension/index.js');
+        config.entry('cleanstone').add('./src/index.js');
         config.externals({
             vue: {
                 commonjs: 'vue',

@@ -7,7 +7,6 @@ plugins {
     jacoco
     id("org.springframework.boot") version "2.0.5.RELEASE"
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
-    id("com.moowork.node") version "1.2.0"
 }
 
 group = "rocks.cleanstone"
@@ -55,11 +54,6 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
-node {
-    version = "10.11.0"
-    download = true
-}
-
 jacoco {
     toolVersion = "0.8.2"
 }
@@ -76,28 +70,10 @@ tasks {
     named<JavaExec>("run") { fixupStdIo() }
     named<BootRun>("bootRun") { fixupStdIo() }
 
-    val yarn by existing
-
-    fun Task.configureYarnTask() {
-        dependsOn(yarn)
-        inputs.files(
-            "src/main/resources/web/spring-boot-admin-server-ui-extension",
-            "babel.config.js",
-            "vue.config.js",
-            "package.json"
-        )
-        outputs.dir("build/admin-ui")
-    }
-
-    val yarn_build by existing { configureYarnTask() }
-    val yarn_lint by existing { configureYarnTask() }
-    val yarn_watch by existing { configureYarnTask() }
-
     val adminConsoleUi by registering(Copy::class) {
-        from(yarn_build)
+        from(project("admin-ui-extension").tasks.getByName("yarn_build"))
         into("build/resources/main/META-INF/spring-boot-admin-server-ui/extensions/cleanstone")
     }
 
     "processResources" { dependsOn(adminConsoleUi) }
-    "check" { dependsOn(yarn_lint) }
 }
