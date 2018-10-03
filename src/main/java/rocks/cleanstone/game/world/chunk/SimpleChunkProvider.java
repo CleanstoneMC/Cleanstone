@@ -1,11 +1,13 @@
 package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Preconditions;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
+
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 
@@ -27,10 +29,10 @@ public class SimpleChunkProvider implements ChunkProvider {
 
     @Async(value = "worldExec")
     @Override
-    public ListenableFuture<Chunk> getChunk(int x, int y) {
-        Chunk chunk = dataSource.loadExistingChunk(x, y);
+    public ListenableFuture<Chunk> getChunk(ChunkCoords coords) {
+        Chunk chunk = dataSource.loadExistingChunk(coords);
         if (chunk == null) {
-            chunk = generator.generateChunk(seed, x, y);
+            chunk = generator.generateChunk(seed, coords);
             chunk.setHasUnsavedChanges(true);
             Preconditions.checkNotNull(chunk, "generated chunk cannot be null");
         }

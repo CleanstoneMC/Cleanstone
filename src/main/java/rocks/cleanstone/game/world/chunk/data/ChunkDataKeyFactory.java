@@ -2,16 +2,17 @@ package rocks.cleanstone.game.world.chunk.data;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 public class ChunkDataKeyFactory {
     private ChunkDataKeyFactory() {
     }
 
-    public static ByteBuf create(int x, int y, ChunkDataType type) {
+    public static ByteBuf create(ChunkCoords coords, ChunkDataType type) {
         ByteBuf buf = Unpooled.buffer();
-        ByteBufUtils.writeVarInt(buf, x);
-        ByteBufUtils.writeVarInt(buf, y);
+        ByteBufUtils.writeVarInt(buf, coords.getX());
+        ByteBufUtils.writeVarInt(buf, coords.getZ());
         ByteBufUtils.writeVarInt(buf, type.getTypeID());
         return buf;
     }

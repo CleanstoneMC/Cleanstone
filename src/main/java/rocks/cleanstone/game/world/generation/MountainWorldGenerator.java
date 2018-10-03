@@ -1,12 +1,19 @@
 package rocks.cleanstone.game.world.generation;
 
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+
+import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
+import rocks.cleanstone.game.entity.RotatablePosition;
+import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
@@ -17,20 +24,18 @@ import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
-import java.util.HashSet;
-
 import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.*;
 
 @Component
 public class MountainWorldGenerator extends AbstractWorldGenerator {
 
+    private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
+    private final ProtocolBlockStateMapping blockStateMapping;
     private Block GRASS_BLOCK;
     private Block DIRT;
     private Block STONE;
     private Block BEDROCK;
     private NoiseGenerator noiseGenerator;
-    private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
-    private final ProtocolBlockStateMapping blockStateMapping;
 
     public MountainWorldGenerator(
             VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
@@ -77,12 +82,12 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     }
 
     @Override
-    public Chunk generateChunk(int seed, int chunkX, int chunkZ) {
+    public Chunk generateChunk(int seed, ChunkCoords coords) {
         noiseGenerator.SetSeed(seed);
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                int height = getHeightAt(seed, (chunkX << 4) + x, (chunkZ << 4) + z);
+                int height = getHeightAt(seed, (coords.getX() << 4) + x, (coords.getZ() << 4) + z);
                 blockDataTable.setBlock(x, height, z, GRASS_BLOCK);
                 blockDataTable.setBlock(x, height - 1, z, DIRT);
                 blockDataTable.setBlock(x, height - 2, z, DIRT);
@@ -101,12 +106,17 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
         VanillaBlockDataStorage blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable,
                 directPalette, true);
 
-        return new SimpleChunk(blockDataTable, blockDataStorage, new EntityData(new HashSet<>()), chunkX, chunkZ);
+        return new SimpleChunk(blockDataTable, blockDataStorage, new EntityData(new HashSet<>()), coords);
     }
 
-    public int getHeightAt(int seed, int x, int z) {
+    @Override
+    public RotatablePosition getFirstSpawnPosition(int seed) {
+        return new RotatablePosition(new Position(0, getHeightAt(seed, 0, 0) + 1, 0), new Rotation(0, 0));
+    }
+
+    private int getHeightAt(int seed, int blockX, int blockZ) {
         noiseGenerator.SetSeed(seed);
-        return (int) Math.pow(((noiseGenerator.GetNoise(x, z) + 1.0) / 2.0) * 128.0, 1.0);
+        return (int) Math.pow(((noiseGenerator.GetNoise(blockX, blockZ) + 1.0) / 2.0) * 128.0, 1.0);
     }
 
     @Override

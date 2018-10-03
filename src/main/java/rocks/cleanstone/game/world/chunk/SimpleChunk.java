@@ -1,29 +1,29 @@
 package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Preconditions;
+
+import java.util.Collection;
+
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
-
-import java.util.Collection;
 
 public class SimpleChunk implements Chunk {
 
     private final BlockDataTable blockDataTable;
     private final BlockDataStorage blockDataStorage;
     private final EntityData entityData;
-    private final int x, z;
+    private final ChunkCoords coords;
     private boolean hasUnsavedChanges = false;
     // TODO biome state
 
     public SimpleChunk(BlockDataTable blockDataTable, BlockDataStorage blockDataStorage,
-                       EntityData entityData, int x, int z) {
+                       EntityData entityData, ChunkCoords coords) {
         this.blockDataTable = blockDataTable;
         this.blockDataStorage = blockDataStorage;
         this.entityData = entityData;
-        this.x = x;
-        this.z = z;
+        this.coords = coords;
     }
 
     @Override
@@ -42,14 +42,10 @@ public class SimpleChunk implements Chunk {
     }
 
     @Override
-    public int getX() {
-        return x;
+    public ChunkCoords getCoordinates() {
+        return coords;
     }
 
-    @Override
-    public int getZ() {
-        return z;
-    }
 
     @Override
     public Block getBlock(int x, int y, int z) {

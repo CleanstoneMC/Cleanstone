@@ -1,13 +1,16 @@
 package rocks.cleanstone.game.world.generation;
 
 import java.util.Map;
+
+import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
 
 public interface WorldGenerator {
 
-    Chunk generateChunk(int seed, int x, int y);
+    Chunk generateChunk(int seed, ChunkCoords coords);
 
-    int getHeightAt(int seed, int x, int y);
+    RotatablePosition getFirstSpawnPosition(int seed);
 
     void setGenerationParameter(WorldGenerationParameter parameter, double value);
 

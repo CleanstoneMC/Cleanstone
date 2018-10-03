@@ -4,46 +4,47 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.entity.vanilla.Human;
-import rocks.cleanstone.game.world.World;
-import rocks.cleanstone.game.world.chunk.Chunk;
-import rocks.cleanstone.game.world.chunk.ChunkService;
-import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.PlayerManager;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import rocks.cleanstone.game.entity.vanilla.Human;
+import rocks.cleanstone.game.world.World;
+import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.NearbyChunkRetriever;
+import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.PlayerManager;
+
 @Service
-public class EntityTrackingService {
+public class NearbyEntityRetriever {
 
     private final PlayerManager playerManager;
-    private final ChunkService chunkService;
+    private final NearbyChunkRetriever nearbyChunkRetriever;
 
-    public EntityTrackingService(PlayerManager playerManager, ChunkService chunkService) {
+    public NearbyEntityRetriever(PlayerManager playerManager, NearbyChunkRetriever nearbyChunkRetriever) {
         this.playerManager = playerManager;
-        this.chunkService = chunkService;
+        this.nearbyChunkRetriever = nearbyChunkRetriever;
     }
 
     @Async
-    public ListenableFuture<Set<Entity>> getEntitiesInRadius(Entity entity, int chunkRadius) throws ExecutionException, InterruptedException {
+    public ListenableFuture<Set<Entity>> getEntitiesInRadius(Entity entity, int chunkRadius)
+            throws ExecutionException, InterruptedException {
         World world = entity.getWorld();
 
         Chunk baseChunk = world.getChunkAt(entity.getPosition()).get();
-        int baseChunkX = baseChunk.getX();
-        int basechunkZ = baseChunk.getZ();
 
-        Set<Entity> entities = chunkService.getChunksAround(baseChunkX, basechunkZ, chunkRadius, world)
-                .flatMap(c -> c.getEntities().stream())
+        Set<Entity> entities = nearbyChunkRetriever.getChunksAround(baseChunk.getCoordinates(), chunkRadius, world)
+                .get().stream().flatMap(c -> c.getEntities().stream())
                 .collect(Collectors.toSet());
 
         return new AsyncResult<>(entities);
     }
 
     @Async
-    public ListenableFuture<Set<Player>> getPlayersInRadius(Entity baseEntity, int chunkRadius) throws ExecutionException, InterruptedException {
+    public ListenableFuture<Set<Player>> getPlayersInRadius(Entity baseEntity, int chunkRadius)
+            throws ExecutionException, InterruptedException {
         Set<Entity> entities = getEntitiesInRadius(baseEntity, chunkRadius).get();
 
         Set<Player> players = new HashSet<>();

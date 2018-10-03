@@ -7,7 +7,7 @@ import rocks.cleanstone.game.world.generation.WorldGenerator;
 
 public interface ChunkProvider {
 
-    ListenableFuture<Chunk> getChunk(int x, int y);
+    ListenableFuture<Chunk> getChunk(ChunkCoords coords);
 
     WorldGenerator getGenerator();
 
