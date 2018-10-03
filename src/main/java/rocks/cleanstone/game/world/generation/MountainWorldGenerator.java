@@ -116,7 +116,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     private int getHeightAt(int seed, int blockX, int blockZ) {
         noiseGenerator.SetSeed(seed);
-        return (int) Math.pow(((noiseGenerator.GetNoise(blockX, blockZ) + 1.0) / 2.0) * 128.0, 1.0);
+        return (int) Math.pow(((noiseGenerator.GetNoise(blockX, blockZ) + 1.0) / 2.0) * 128.0, 1.0) + 16;
     }
 
     @Override
