@@ -70,10 +70,9 @@ tasks {
     named<JavaExec>("run") { fixupStdIo() }
     named<BootRun>("bootRun") { fixupStdIo() }
 
-    val adminConsoleUi by registering(Copy::class) {
-        from(project("admin-ui-extension").tasks.getByName("yarn_build"))
-        into("build/resources/main/META-INF/spring-boot-admin-server-ui/extensions/cleanstone")
+    named<ProcessResources>("processResources") {
+        from(project("admin-ui-extension").tasks.named("yarn_build")) {
+            into("META-INF/spring-boot-admin-server-ui/extensions/cleanstone")
+        }
     }
-
-    "processResources" { dependsOn(adminConsoleUi) }
 }
