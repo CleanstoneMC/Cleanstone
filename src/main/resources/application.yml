@@ -48,6 +48,8 @@ spring:
         title: "Cleanstone Admin"
   profiles:
     active: mainServer
+  thymeleaf:
+    check-template-location: false
 
 logging:
   level:
