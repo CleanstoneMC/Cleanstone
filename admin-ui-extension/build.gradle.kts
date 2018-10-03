@@ -14,7 +14,7 @@ tasks {
   fun Task.configureYarnTask() {
     dependsOn(yarn)
     inputs.files(
-      "src/main/resources/web/spring-boot-admin-server-ui-extension",
+      "src/",
       "babel.config.js",
       "vue.config.js",
       "package.json"
@@ -23,7 +23,10 @@ tasks {
   }
 
   val yarn_lint by existing { configureYarnTask() }
-  val yarn_build by existing { configureYarnTask() }
+  val yarn_build by existing {
+    configureYarnTask()
+    dependsOn(yarn_lint)
+  }
   named<Task>("yarn_watch") { configureYarnTask() }
   val yarn_clean by existing
 
