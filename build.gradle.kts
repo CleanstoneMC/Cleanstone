@@ -31,7 +31,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-cache")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-devtools")
-    compile("org.springframework.data:spring-data-jpa")
     compile("de.codecentric:spring-boot-admin-starter-client:2.0.3-SNAPSHOT")
     compile("de.codecentric:spring-boot-admin-server-ui:2.0.3-SNAPSHOT")
 
@@ -46,7 +45,6 @@ dependencies {
     compile("com.github.ben-manes.caffeine:caffeine:2.6.2")
     compile("commons-io:commons-io:2.5")
 
-    compile("javax.persistence:persistence-api:1.0.2")
     compile("org.fusesource.leveldbjni:leveldbjni-all:1.8")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
