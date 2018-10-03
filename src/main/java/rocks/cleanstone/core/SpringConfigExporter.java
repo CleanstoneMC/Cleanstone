@@ -1,7 +1,9 @@
 package rocks.cleanstone.core;
 
+import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,11 +20,12 @@ public class SpringConfigExporter {
 
     @PostConstruct
     public void afterStart() throws IOException, URISyntaxException {
-        Path classPathConfig = Paths.get(ClassLoader.getSystemResource("application.yml").toURI());
         Path fileSystemConfig = Paths.get("application.yml");
 
         boolean exists = Files.exists(fileSystemConfig);
         if (!exists) {
+            InputStream classPathConfig = new ClassPathResource("application.yml").getInputStream();
+
             Files.copy(classPathConfig, fileSystemConfig);
             logger.info("Exported Application Config");
         }
