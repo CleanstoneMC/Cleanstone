@@ -33,10 +33,6 @@ public class PlayerMovePacketListener {
         boolean adjustBodyRotation = Math.abs(Math.abs(oldPosition.getRotation().getIntYaw())
                 - Math.abs(newPosition.getHeadRotation().getIntYaw())) > 35;
 
-        // coerce yaw into 0..360
-        float yaw = ((newPosition.getHeadRotation().getYaw() % 360) + 360) % 360;
-        newPosition.getHeadRotation().setYaw(yaw);
-
         if (adjustBodyRotation) {
             newPosition.setRotation(new Rotation(newPosition.getHeadRotation()));
         }

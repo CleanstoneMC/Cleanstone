@@ -13,8 +13,8 @@ public class Rotation implements Serializable {
     protected float yaw, pitch;
 
     public Rotation(float yaw, float pitch) {
-        this.yaw = yaw;
-        this.pitch = pitch;
+        setYaw(yaw);
+        setPitch(pitch);
     }
 
     public Rotation(Rotation rotation) {
@@ -27,7 +27,7 @@ public class Rotation implements Serializable {
     }
 
     public void setYaw(float yaw) {
-        this.yaw = yaw;
+        this.yaw = (yaw % 360 + 360) % 360;
     }
 
     public float getPitch() {
@@ -39,7 +39,7 @@ public class Rotation implements Serializable {
     }
 
     public int getIntYaw() {
-        return (int) (yaw % 360 / 360 * 256);
+        return (int) (yaw / 360 * 256);
     }
 
     public int getIntPitch() {

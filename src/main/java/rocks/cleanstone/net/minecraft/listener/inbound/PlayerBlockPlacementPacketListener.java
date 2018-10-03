@@ -65,7 +65,7 @@ public class PlayerBlockPlacementPacketListener {
             computeHalf(properties, blockType, packet.getFace());
 
             Block placedBlock = ImmutableBlock.of(blockType, properties.create());
-            logger.debug("{} places block of {}", player.getName(), placedBlock);
+            logger.debug("{} places {}", player.getName(), placedBlock);
             //noinspection unchecked
 
             player.getEntity().getWorld().setBlockAt(newBlockPosition, placedBlock);

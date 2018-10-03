@@ -53,6 +53,6 @@ public class ImmutableBlock implements Block {
 
     @Override
     public String toString() {
-        return "ImmutableBlock{" + state.getBlockType().getID() + "|" + state.getProperties() + "}";
+        return "ImmutableBlock{" + state.getBlockType().getMinecraftID() + "|" + state.getProperties() + "}";
     }
 }
