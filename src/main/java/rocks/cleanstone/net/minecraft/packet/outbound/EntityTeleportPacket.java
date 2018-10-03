@@ -10,11 +10,11 @@ public class EntityTeleportPacket implements Packet {
     private final double x;
     private final double y;
     private final double z;
-    private final int yaw;
-    private final int pitch;
+    private final float yaw;
+    private final float pitch;
     private final boolean onGround;
 
-    public EntityTeleportPacket(int entityID, double x, double y, double z, int yaw, int pitch, boolean onGround) {
+    public EntityTeleportPacket(int entityID, double x, double y, double z, float yaw, float pitch, boolean onGround) {
         this.entityID = entityID;
         this.x = x;
         this.y = y;
@@ -40,11 +40,11 @@ public class EntityTeleportPacket implements Packet {
         return z;
     }
 
-    public int getYaw() {
+    public float getYaw() {
         return yaw;
     }
 
-    public int getPitch() {
+    public float getPitch() {
         return pitch;
     }
 

@@ -48,8 +48,8 @@ public class PlayerMoveListener {
 
         final Player movingPlayer = playerMoveEvent.getPlayer();
         final int entityID = movingPlayer.getEntity().getEntityID();
-        final int yaw = newPosition.getRotation().getIntYaw();
-        final int pitch = newPosition.getRotation().getIntPitch();
+        final float yaw = newPosition.getRotation().getYaw();
+        final float pitch = newPosition.getRotation().getPitch();
 
         final int chunkX = newPosition.getXAsInt() >> 4;
         final int chunkZ = newPosition.getZAsInt() >> 4;
@@ -71,12 +71,12 @@ public class PlayerMoveListener {
         final Player movingPlayer = playerMoveEvent.getPlayer();
         final int entityID = movingPlayer.getEntity().getEntityID();
 
-        final int pitch = newPosition.getRotation().getIntPitch();
-        final int yaw = newPosition.getRotation().getIntYaw();
+        final float pitch = newPosition.getRotation().getPitch();
+        final float yaw = newPosition.getRotation().getYaw();
 
         if (!oldPosition.getHeadRotation().equals(newPosition.getHeadRotation())) {
             EntityHeadLookPacket entityHeadLookPacket = new EntityHeadLookPacket(
-                    entityID, newPosition.getHeadRotation().getIntYaw());
+                    entityID, newPosition.getHeadRotation().getYaw());
             playerManager.broadcastPacket(entityHeadLookPacket, movingPlayer);
         }
 

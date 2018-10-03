@@ -7,11 +7,11 @@ import rocks.cleanstone.net.packet.PacketType;
 public class EntityLookPacket implements Packet {
 
     private final int entityID;
-    private final int yaw;
-    private final int pitch;
+    private final float yaw;
+    private final float pitch;
     private final boolean onGround;
 
-    public EntityLookPacket(int entityID, int yaw, int pitch, boolean onGround) {
+    public EntityLookPacket(int entityID, float yaw, float pitch, boolean onGround) {
         this.entityID = entityID;
         this.yaw = yaw;
         this.pitch = pitch;
@@ -22,11 +22,11 @@ public class EntityLookPacket implements Packet {
         return entityID;
     }
 
-    public int getYaw() {
+    public float getYaw() {
         return yaw;
     }
 
-    public int getPitch() {
+    public float getPitch() {
         return pitch;
     }
 

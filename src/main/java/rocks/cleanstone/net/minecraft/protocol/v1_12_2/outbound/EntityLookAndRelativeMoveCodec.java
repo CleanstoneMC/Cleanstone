@@ -16,8 +16,8 @@ public class EntityLookAndRelativeMoveCodec implements OutboundPacketCodec<Entit
         byteBuf.writeShort(packet.getDeltaX());
         byteBuf.writeShort(packet.getDeltaY());
         byteBuf.writeShort(packet.getDeltaZ());
-        byteBuf.writeByte(packet.getYaw());
-        byteBuf.writeByte(packet.getPitch());
+        byteBuf.writeByte((int) (packet.getYaw() / 360.0 * 256));
+        byteBuf.writeByte((int) (packet.getPitch() / 360.0 * 256));
         byteBuf.writeBoolean(packet.isOnGround());
 
         return byteBuf;

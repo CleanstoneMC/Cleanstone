@@ -7,9 +7,9 @@ import rocks.cleanstone.net.packet.PacketType;
 public class EntityHeadLookPacket implements Packet {
 
     private final int entityID;
-    private final int yaw;
+    private final float yaw;
 
-    public EntityHeadLookPacket(int entityID, int yaw) {
+    public EntityHeadLookPacket(int entityID, float yaw) {
         this.entityID = entityID;
         this.yaw = yaw;
     }
@@ -18,7 +18,7 @@ public class EntityHeadLookPacket implements Packet {
         return entityID;
     }
 
-    public int getYaw() {
+    public float getYaw() {
         return yaw;
     }
 

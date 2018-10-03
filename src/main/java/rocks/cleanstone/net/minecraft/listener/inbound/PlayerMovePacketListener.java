@@ -30,8 +30,9 @@ public class PlayerMovePacketListener {
         newPosition.getHeadRotation().setPitch(packet.getPitch());
         newPosition.getHeadRotation().setYaw(packet.getYaw());
 
-        boolean adjustBodyRotation = Math.abs(Math.abs(oldPosition.getRotation().getIntYaw())
-                - Math.abs(newPosition.getHeadRotation().getIntYaw())) > 35;
+        float rotationDiff = oldPosition.getHeadRotation().getYaw() - newPosition.getHeadRotation().getYaw();
+        rotationDiff = (Math.abs(rotationDiff) + 180) % 360 - 180;
+        boolean adjustBodyRotation = Math.abs(rotationDiff) > 35;
 
         if (adjustBodyRotation) {
             newPosition.setRotation(new Rotation(newPosition.getHeadRotation()));

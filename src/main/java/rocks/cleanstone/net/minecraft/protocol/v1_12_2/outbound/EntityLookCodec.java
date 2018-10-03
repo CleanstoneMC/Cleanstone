@@ -13,8 +13,8 @@ public class EntityLookCodec implements OutboundPacketCodec<EntityLookPacket> {
     public ByteBuf encode(ByteBuf byteBuf, EntityLookPacket packet) {
 
         ByteBufUtils.writeVarInt(byteBuf, packet.getEntityID());
-        byteBuf.writeByte(packet.getYaw());
-        byteBuf.writeByte(packet.getPitch());
+        byteBuf.writeByte((int) (packet.getYaw() / 360.0 * 256));
+        byteBuf.writeByte((int) (packet.getPitch() / 360.0 * 256));
         byteBuf.writeBoolean(packet.isOnGround());
 
         return byteBuf;

@@ -13,7 +13,7 @@ public class EntityHeadLookCodec implements OutboundPacketCodec<EntityHeadLookPa
     public ByteBuf encode(ByteBuf byteBuf, EntityHeadLookPacket packet) {
 
         ByteBufUtils.writeVarInt(byteBuf, packet.getEntityID());
-        byteBuf.writeByte(packet.getYaw());
+        byteBuf.writeByte((int) (packet.getYaw() / 360.0 * 256));
 
         return byteBuf;
     }
