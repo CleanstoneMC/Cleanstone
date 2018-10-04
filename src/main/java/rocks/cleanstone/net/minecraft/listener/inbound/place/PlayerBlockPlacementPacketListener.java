@@ -1,6 +1,11 @@
-package rocks.cleanstone.net.minecraft.listener.inbound;
+package rocks.cleanstone.net.minecraft.listener.inbound.place;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,38 +15,42 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
-import rocks.cleanstone.game.block.Face;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.event.BlockPlaceEvent;
 import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
-import rocks.cleanstone.game.block.state.property.vanilla.BlockHalf;
-import rocks.cleanstone.game.block.state.property.vanilla.Facing;
-import rocks.cleanstone.game.block.state.property.vanilla.StairHalf;
-import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.BlockType;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerBlockPlacementPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
-
-import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties.FACING;
-import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties.HALF;
-import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties.STAIR_HALF;
-
 @Component
 public class PlayerBlockPlacementPacketListener {
     private final Logger logger = LoggerFactory.getLogger(PlayerBlockPlacementPacketListener.class);
     private final PlayerManager playerManager;
     private final MaterialRegistry materialRegistry;
+    private final Map<Property<?>, List<BlockPlacePropertyProvider<?>>> propProviders;
 
     @Autowired
-    public PlayerBlockPlacementPacketListener(PlayerManager playerManager, MaterialRegistry materialRegistry) {
+    public PlayerBlockPlacementPacketListener(
+            PlayerManager playerManager,
+            MaterialRegistry materialRegistry,
+            List<BlockPlacePropertyProvider> propProviders) {
         this.playerManager = playerManager;
         this.materialRegistry = materialRegistry;
+
+        this.propProviders = new HashMap<>();
+        propProviders.forEach(prov ->
+                this.propProviders.computeIfAbsent(
+                        prov.getSupported(),
+                        prop -> new LinkedList<>()
+                ).add(prov)
+        );
     }
 
     @Async(value = "playerExec")
@@ -53,7 +62,6 @@ public class PlayerBlockPlacementPacketListener {
                 .addVector(packet.getFace().toUnitVector()));
 
         Player player = playerInboundPacketEvent.getPlayer();
-
         ItemStack itemStack = player.getEntity().getItemByHand(packet.getHand());
 
         if (itemStack == null) {
@@ -63,12 +71,20 @@ public class PlayerBlockPlacementPacketListener {
         BlockType blockType = materialRegistry.getBlockTypeByItemType(itemStack.getType());
         if (blockType != null) {
             PropertiesBuilder properties = new PropertiesBuilder(blockType);
-            computeFacing(properties, blockType, player);
-            computeHalf(properties, blockType, packet.getFace());
+
+            if (blockType == VanillaBlockType.REDSTONE_TORCH && !(packet.getFace().getOffset().endsWith("Y"))) {
+                blockType = VanillaBlockType.REDSTONE_WALL_TORCH;
+            } else if (blockType == VanillaBlockType.TORCH && !(packet.getFace().getOffset().endsWith("Y"))) {
+                blockType = VanillaBlockType.WALL_TORCH;
+            }
+
+            BlockType finalBlockType = blockType;
+            Arrays.stream(blockType.getProperties())
+                    .flatMap(prop -> propProviders.getOrDefault(prop.getProperty(), Collections.emptyList()).stream())
+                    .forEach(provider -> applyProperty(finalBlockType, player, packet, properties, provider));
 
             Block placedBlock = ImmutableBlock.of(blockType, properties.create());
-            logger.debug("{} places {}", player.getName(), placedBlock);
-            //noinspection unchecked
+            logger.debug("{} places {} at {}", player.getName(), placedBlock, newBlockPosition);
 
             player.getEntity().getWorld().setBlockAt(newBlockPosition, placedBlock);
             CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, packet.getFace()));
@@ -79,37 +95,13 @@ public class PlayerBlockPlacementPacketListener {
         }
     }
 
-    private void computeFacing(PropertiesBuilder builder, BlockType type, Player player) {
-        if (!Arrays.stream(type.getProperties()).anyMatch(def -> def.getProperty() == FACING)) {
-            return;
-        }
+//    private boolean providerSupportedFor(BlockType finalBlockType, BlockPlacePropertyProvider<?> provider) {
+//        return Arrays.stream(finalBlockType.getProperties()).anyMatch(def -> def.getProperty() == provider.getSupported());
+//    }
 
-        Rotation headRotation = player.getEntity().getPosition().getHeadRotation();
-        builder.withProperty(FACING, getFacing(headRotation));
+    private <T> void applyProperty(BlockType finalBlockType, Player player, PlayerBlockPlacementPacket packet, PropertiesBuilder properties, BlockPlacePropertyProvider<T> provider) {
+        T value = provider.computeProperty(finalBlockType, player, packet);
+        properties.withProperty(provider.getSupported(), value);
     }
 
-    private void computeHalf(PropertiesBuilder builder, BlockType type, Face face) {
-        if (!Arrays.stream(type.getProperties()).anyMatch(def -> def.getProperty() == STAIR_HALF)) {
-            return;
-        }
-
-        builder.withProperty(STAIR_HALF, face == Face.BOTTOM ? StairHalf.TOP : StairHalf.BOTTOM);
-    }
-
-    private Facing getFacing(Rotation headRotation) {
-        float yaw = headRotation.getYaw();
-
-        logger.debug("yaw at block place is {}", yaw);
-        if (yaw < 45 || yaw >= 315) {
-            return Facing.NORTH;
-        } else if (yaw >= 45 && yaw < 135) {
-            return Facing.EAST;
-        } else if (yaw >= 135 && yaw < 225) {
-            return Facing.SOUTH;
-        } else if (yaw >= 225 && yaw < 315) {
-            return Facing.WEST;
-        } else {
-            throw new IllegalStateException("a circle only has 360 degrees");
-        }
-    }
 }
