@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class Properties {
 
@@ -63,6 +64,9 @@ public class Properties {
 
     @Override
     public String toString() {
-        return propertyValuePairs.toString();
+        String props = propertyValuePairs.stream()
+                .map(pair -> pair.getProperty().getName() + ": " + pair.getValue())
+                .collect(Collectors.joining(", "));
+        return "Props{" + props + "}";
     }
 }

@@ -639,6 +639,11 @@ public enum VanillaBlockType implements BlockType {
     }
 
     @Override
+    public String toString() {
+        return minecraftID;
+    }
+
+    @Override
     public PropertyDefinition[] getProperties() {
         return properties;
     }

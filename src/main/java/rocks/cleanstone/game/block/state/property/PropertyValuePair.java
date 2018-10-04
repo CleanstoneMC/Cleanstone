@@ -36,6 +36,6 @@ public class PropertyValuePair<T> {
 
     @Override
     public String toString() {
-        return "Property{" + property.getName() + "->" + value + "}";
+        return "Prop{" + property.getName() + "->" + value + "}";
     }
 }

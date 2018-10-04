@@ -64,7 +64,11 @@ public class BlockState {
 
     @Override
     public String toString() {
-        return "BlockState{type=" + blockType + ";properties=" + properties + "}";
+        if (properties.getPropertyValuePairs().isEmpty()) {
+            return "BlockState{" + blockType + "}";
+        } else {
+            return "BlockState{" + blockType + "; " + properties + "}";
+        }
     }
 
     @Override

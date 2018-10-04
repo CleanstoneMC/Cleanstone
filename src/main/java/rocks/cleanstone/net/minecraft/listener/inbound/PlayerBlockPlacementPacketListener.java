@@ -16,6 +16,7 @@ import rocks.cleanstone.game.block.event.BlockPlaceEvent;
 import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
 import rocks.cleanstone.game.block.state.property.vanilla.BlockHalf;
 import rocks.cleanstone.game.block.state.property.vanilla.Facing;
+import rocks.cleanstone.game.block.state.property.vanilla.StairHalf;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.material.MaterialRegistry;
@@ -29,6 +30,7 @@ import rocks.cleanstone.player.PlayerManager;
 
 import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties.FACING;
 import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties.HALF;
+import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties.STAIR_HALF;
 
 @Component
 public class PlayerBlockPlacementPacketListener {
@@ -87,11 +89,11 @@ public class PlayerBlockPlacementPacketListener {
     }
 
     private void computeHalf(PropertiesBuilder builder, BlockType type, Face face) {
-        if (!Arrays.stream(type.getProperties()).anyMatch(def -> def.getProperty() == HALF)) {
+        if (!Arrays.stream(type.getProperties()).anyMatch(def -> def.getProperty() == STAIR_HALF)) {
             return;
         }
 
-        builder.withProperty(HALF, face == Face.BOTTOM ? BlockHalf.UPPER : BlockHalf.LOWER);
+        builder.withProperty(STAIR_HALF, face == Face.BOTTOM ? StairHalf.TOP : StairHalf.BOTTOM);
     }
 
     private Facing getFacing(Rotation headRotation) {

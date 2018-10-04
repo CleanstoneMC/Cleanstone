@@ -1,9 +1,9 @@
 package rocks.cleanstone.game.block.state.property.vanilla;
 
 public enum Facing {
+    SOUTH,
     NORTH,
     EAST,
-    SOUTH,
     WEST,
     DOWN,
     UP
