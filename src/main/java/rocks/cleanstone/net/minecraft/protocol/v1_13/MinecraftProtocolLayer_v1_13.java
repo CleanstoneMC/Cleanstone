@@ -43,6 +43,7 @@ public class MinecraftProtocolLayer_v1_13 extends AutowiredServerProtocolLayer {
         registerPacketCodec(InAnimationCodec.class, PLAY, 0x27);
         registerPacketCodec(InTabCompleteCodec.class, PLAY, 0x05);
         registerPacketCodec(InPluginMessageCodec.class, PLAY, 0x0A);
+        registerPacketCodec(PlayerCodec.class, PLAY, 0x0F);
 
         // outbound
         registerPacketCodec(DisconnectCodec.class, PLAY, 0x1B);
