@@ -54,4 +54,10 @@ public class ProximityNearbyChunkRetriever implements NearbyChunkRetriever {
             return AsyncResult.forExecutionException(e);
         }
     }
+
+    @Override
+    public Collection<Chunk> getLoadedChunksAround(ChunkCoords startCoords, int radius, World world) {
+        return getChunkCoordsAround(startCoords, radius).stream()
+                .map(world::getLoadedChunk).collect(Collectors.toSet());
+    }
 }

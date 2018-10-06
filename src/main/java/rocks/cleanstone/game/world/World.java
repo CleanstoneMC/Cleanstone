@@ -2,6 +2,8 @@ package rocks.cleanstone.game.world;
 
 import org.springframework.util.concurrent.ListenableFuture;
 
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
@@ -44,7 +46,13 @@ public interface World {
 
     ListenableFuture<Chunk> getChunk(ChunkCoords coords);
 
+    @Nullable
+    Chunk getLoadedChunk(ChunkCoords coords);
+
     ListenableFuture<Chunk> getChunkAt(Position position);
+
+    @Nullable
+    Chunk getLoadedChunkAt(Position position);
 
     void unloadRegions();
 

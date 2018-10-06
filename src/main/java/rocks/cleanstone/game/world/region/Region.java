@@ -4,6 +4,8 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.Collection;
 
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 
@@ -17,6 +19,7 @@ public interface Region {
 
     boolean isChunkLoaded(ChunkCoords coords);
 
+    @Nullable
     Chunk getLoadedChunk(ChunkCoords coords);
 
     ListenableFuture<Chunk> getChunk(ChunkCoords coords);
