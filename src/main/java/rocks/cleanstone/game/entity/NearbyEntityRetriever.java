@@ -5,7 +5,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -32,34 +32,40 @@ public class NearbyEntityRetriever {
     public ListenableFuture<Set<Entity>> getEntitiesInRadius(Entity entity, int chunkRadius)
             throws ExecutionException, InterruptedException {
         World world = entity.getWorld();
-
         Chunk baseChunk = world.getChunkAt(entity.getPosition()).get();
 
-        Set<Entity> entities = nearbyChunkRetriever.getChunksAround(baseChunk.getCoordinates(), chunkRadius, world)
-                .get().stream().flatMap(c -> c.getEntities().stream())
-                .collect(Collectors.toSet());
+        return new AsyncResult<>(nearbyChunkRetriever.getChunksAround(
+                baseChunk.getCoordinates(), chunkRadius, world).get().stream()
+                .flatMap(c -> c.getEntities().stream())
+                .collect(Collectors.toSet()));
+    }
 
-        return new AsyncResult<>(entities);
+    public Set<Entity> getLoadedEntitiesInRadius(Entity entity, int chunkRadius) {
+        World world = entity.getWorld();
+        Chunk baseChunk = world.getLoadedChunkAt(entity.getPosition());
+
+        return nearbyChunkRetriever.getLoadedChunksAround(baseChunk.getCoordinates(), chunkRadius, world)
+                .stream().flatMap(c -> c.getEntities().stream())
+                .collect(Collectors.toSet());
     }
 
     @Async
     public ListenableFuture<Set<Player>> getPlayersInRadius(Entity baseEntity, int chunkRadius)
             throws ExecutionException, InterruptedException {
-        Set<Entity> entities = getEntitiesInRadius(baseEntity, chunkRadius).get();
+        return new AsyncResult<>(getEntitiesInRadius(baseEntity, chunkRadius).get().stream()
+                .filter(e -> e instanceof Human)
+                .map(e -> (Human) e)
+                .map(playerManager::getOnlinePlayer)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet()));
+    }
 
-        Set<Player> players = new HashSet<>();
-        for (Entity entity : entities) {
-            if (!(entity instanceof Human)) {
-                continue;
-            }
-
-            Player onlinePlayer = playerManager.getOnlinePlayer(entity);
-
-            if (onlinePlayer != null) {
-                players.add(onlinePlayer);
-            }
-        }
-
-        return new AsyncResult<>(players);
+    public Set<Player> getLoadedPlayersInRadius(Entity baseEntity, int chunkRadius) {
+        return getLoadedEntitiesInRadius(baseEntity, chunkRadius).stream()
+                .filter(e -> e instanceof Human)
+                .map(e -> (Human) e)
+                .map(playerManager::getOnlinePlayer)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 }
