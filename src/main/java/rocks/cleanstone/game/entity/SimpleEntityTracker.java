@@ -9,6 +9,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -37,12 +38,21 @@ public class SimpleEntityTracker implements EntityTracker {
 
     @Override
     public void addObserver(Entity observer) {
-        observerTrackedEntitiesMap.putAll(observer, getInRangeEntities(observer));
+        Collection<Entity> inRangeEntities = getInRangeEntities(observer);
+        observerTrackedEntitiesMap.putAll(observer, inRangeEntities);
+        inRangeEntities.forEach(addedEntity -> trackEntity(observer, addedEntity));
     }
 
     @Override
     public void removeObserver(Entity observer) {
-        observerTrackedEntitiesMap.removeAll(observer);
+        synchronized (observerTrackedEntitiesMap) {
+            Iterator<Entity> iterator = observerTrackedEntitiesMap.get(observer).iterator();
+            while (iterator.hasNext()) {
+                Entity entity = iterator.next();
+                untrackEntity(observer, entity);
+                iterator.remove();
+            }
+        }
     }
 
     @Override
@@ -76,12 +86,10 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     private void untrackEntity(Entity observer, Entity entity) {
-        observerTrackedEntitiesMap.remove(observer, entity);
         CleanstoneServer.publishEvent(new EntityUntrackEvent(observer, entity));
     }
 
     private void trackEntity(Entity observer, Entity entity) {
-        observerTrackedEntitiesMap.put(observer, entity);
         CleanstoneServer.publishEvent(new EntityTrackEvent(observer, entity));
     }
 
@@ -111,8 +119,10 @@ public class SimpleEntityTracker implements EntityTracker {
             int distance = entityChunkCoords.distance(ChunkCoords.of(inRangeEntity.getPosition()));
 
             if (distance > maxTrackingDistance && isTracking(inRangeEntity, movingEntity)) {
+                observerTrackedEntitiesMap.remove(inRangeEntity, movingEntity);
                 untrackEntity(inRangeEntity, movingEntity);
             } else if (distance <= maxTrackingDistance && !isTracking(inRangeEntity, movingEntity)) {
+                observerTrackedEntitiesMap.put(inRangeEntity, movingEntity);
                 trackEntity(inRangeEntity, movingEntity);
             }
         });
