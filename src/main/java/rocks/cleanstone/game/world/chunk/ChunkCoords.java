@@ -33,6 +33,12 @@ public class ChunkCoords {
         return z;
     }
 
+    public int distance(ChunkCoords other) {
+        double xP = Math.pow((getX() - other.getX()), 2);
+        double zP = Math.pow((getZ() - other.getZ()), 2);
+        return (int) Math.ceil(Math.sqrt(xP + zP));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
