@@ -5,12 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
 import rocks.cleanstone.core.event.EventAction;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
-import rocks.cleanstone.net.minecraft.packet.outbound.*;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.PlayerManager;
@@ -31,90 +30,32 @@ public class PlayerMoveListener {
     @Order(EventAction.PREVENT)
     @EventListener
     public void playerMoveCancellation(PlayerMoveEvent playerMoveEvent) {
-        final HeadRotatablePosition oldPosition = playerMoveEvent.getOldPosition();
-        final HeadRotatablePosition newPosition = playerMoveEvent.getNewPosition();
+        HeadRotatablePosition oldPosition = playerMoveEvent.getOldPosition();
+        HeadRotatablePosition newPosition = playerMoveEvent.getNewPosition();
 
         if (oldPosition.equalCoordinates(newPosition)) {
             return;
         }
 
-        final double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
-        final double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
-        final double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
+        double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
+        double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
+        double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
 
         if (isTeleport(deltaX, deltaY, deltaZ)) {
             return;
         }
 
-        final Player movingPlayer = playerMoveEvent.getPlayer();
-        final int entityID = movingPlayer.getEntity().getEntityID();
-        final float yaw = newPosition.getRotation().getYaw();
-        final float pitch = newPosition.getRotation().getPitch();
+        Player movingPlayer = playerMoveEvent.getPlayer();
+        int entityID = movingPlayer.getEntity().getEntityID();
+        float yaw = newPosition.getRotation().getYaw();
+        float pitch = newPosition.getRotation().getPitch();
 
-        final int chunkX = newPosition.getXAsInt() >> 4;
-        final int chunkZ = newPosition.getZAsInt() >> 4;
+        int chunkX = newPosition.getXAsInt() >> 4;
+        int chunkZ = newPosition.getZAsInt() >> 4;
 
         if (!playerChunkLoadService.hasPlayerLoaded(movingPlayer.getID().getUUID(), ChunkCoords.of(chunkX, chunkZ))) {
-            EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, oldPosition.getX(),
-                    oldPosition.getY(), oldPosition.getZ(), yaw, pitch, movingPlayer.isFlying());
-            movingPlayer.sendPacket(entityTeleportPacket);
             playerMoveEvent.cancel();
         }
-    }
-
-    @Async(value = "playerExec")
-    @EventListener
-    public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
-        final HeadRotatablePosition oldPosition = playerMoveEvent.getOldPosition();
-        final HeadRotatablePosition newPosition = playerMoveEvent.getNewPosition();
-
-        final Player movingPlayer = playerMoveEvent.getPlayer();
-        final int entityID = movingPlayer.getEntity().getEntityID();
-
-        final float pitch = newPosition.getRotation().getPitch();
-        final float yaw = newPosition.getRotation().getYaw();
-
-        if (!oldPosition.getHeadRotation().equals(newPosition.getHeadRotation())) {
-            EntityHeadLookPacket entityHeadLookPacket = new EntityHeadLookPacket(
-                    entityID, newPosition.getHeadRotation().getYaw());
-            playerManager.broadcastPacket(entityHeadLookPacket, movingPlayer);
-        }
-
-        if (oldPosition.equalCoordinates(newPosition)) {
-            if (oldPosition.getRotation().equals(newPosition.getRotation())) {
-                return;
-            }
-
-            EntityLookPacket entityLookPacket = new EntityLookPacket(entityID, yaw, pitch, movingPlayer.isFlying());
-
-            playerManager.broadcastPacket(entityLookPacket, movingPlayer);
-            return;
-        }
-
-        final double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
-        final double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
-        final double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
-
-        if (isTeleport(deltaX, deltaY, deltaZ)) {
-            EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, newPosition.getX(),
-                    newPosition.getY(), newPosition.getZ(), yaw, pitch, movingPlayer.isFlying());
-            // TODO viewers show teleported entity in wrong location
-            playerManager.broadcastPacket(entityTeleportPacket, movingPlayer);
-            return;
-        }
-
-        if (oldPosition.getRotation().equals(newPosition.getRotation())) {
-            EntityRelativeMovePacket entityRelativeMovePacket = new EntityRelativeMovePacket(entityID,
-                    ((short) deltaX), ((short) deltaY), ((short) deltaZ), movingPlayer.isFlying());
-
-            playerManager.broadcastPacket(entityRelativeMovePacket, movingPlayer);
-            return;
-        }
-
-        EntityLookAndRelativeMovePacket entityLookAndRelativeMovePacket = new EntityLookAndRelativeMovePacket(
-                entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), yaw, pitch, movingPlayer.isFlying());
-
-        playerManager.broadcastPacket(entityLookAndRelativeMovePacket, movingPlayer);
     }
 
     private boolean isTeleport(double deltaX, double deltaY, double deltaZ) {
