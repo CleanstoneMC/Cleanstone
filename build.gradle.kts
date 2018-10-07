@@ -1,13 +1,24 @@
 import org.gradle.api.JavaVersion.VERSION_1_8
 import org.springframework.boot.gradle.tasks.run.BootRun
 
+buildscript {
+	repositories {
+		maven(url = "https://repo.spring.io/snapshot")
+		maven(url = "https://repo.spring.io/milestone")
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.0.M4")
+	}
+}
+
 plugins {
     java
     application
     jacoco
-    id("org.springframework.boot") version "2.0.5.RELEASE"
-    id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
+
+apply(plugin = "org.springframework.boot")
+apply(plugin = "io.spring.dependency-management")
 
 group = "rocks.cleanstone"
 version = "0.2.0"
@@ -24,6 +35,8 @@ java {
 repositories {
     jcenter()
     maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
+    maven(url = "https://repo.spring.io/snapshot")
+    maven(url = "https://repo.spring.io/milestone")
 }
 
 dependencies {
