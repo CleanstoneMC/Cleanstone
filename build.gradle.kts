@@ -2,13 +2,13 @@ import org.gradle.api.JavaVersion.VERSION_1_8
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 buildscript {
-	repositories {
-		maven(url = "https://repo.spring.io/snapshot")
-		maven(url = "https://repo.spring.io/milestone")
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.0.M4")
-	}
+    repositories {
+        maven(url = "https://repo.spring.io/snapshot")
+        maven(url = "https://repo.spring.io/milestone")
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.0.M4")
+    }
 }
 
 plugins {
@@ -74,8 +74,9 @@ tasks {
 
     fun JavaExec.fixupStdIo() {
         standardInput = System.`in`
-        if (System.console() != null || System.getenv()["TERM"]?.startsWith("xterm") == true)
+        if (System.console() != null || System.getenv()["TERM"]?.startsWith("xterm") == true) {
             systemProperty("spring.output.ansi.enabled", "always")
+        }
     }
 
     named<JavaExec>("run") { fixupStdIo() }
