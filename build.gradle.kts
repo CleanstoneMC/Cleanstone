@@ -44,8 +44,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-cache")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-devtools")
-    compile("de.codecentric:spring-boot-admin-starter-client:2.0.3-SNAPSHOT")
-    compile("de.codecentric:spring-boot-admin-server-ui:2.0.3-SNAPSHOT")
+    compile("de.codecentric:spring-boot-admin-starter-client:2.1.0-SNAPSHOT")
+    compile("de.codecentric:spring-boot-admin-server-ui:2.1.0-SNAPSHOT")
 
     compile("io.netty:netty-all:4.1.22.Final")
     compile("com.whirvis:jraknet:2.9.8")
