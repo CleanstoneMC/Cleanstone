@@ -35,6 +35,7 @@ public class EntityTrackingListener {
     @Async
     @EventListener
     public void onEntityTrack(EntityTrackEvent event) {
+        // TODO check if the observer uses the current protocol layer
         Player observer = playerManager.getOnlinePlayer(event.getObserver());
         if (observer == null) return;
         Entity entity = event.getEntity();
@@ -61,6 +62,7 @@ public class EntityTrackingListener {
     @Async
     @EventListener
     public void onEntityUntrack(EntityUntrackEvent event) {
+        // TODO check if the observer uses the current protocol layer
         Player observer = playerManager.getOnlinePlayer(event.getObserver());
         if (observer == null) return;
         Entity entity = event.getEntity();

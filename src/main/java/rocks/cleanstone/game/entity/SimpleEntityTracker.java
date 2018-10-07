@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -67,13 +68,31 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     @Override
-    public Collection<Player> getTrackedPlayers(Entity observer) {
+    public <T extends Entity> Collection<T> getObservers(Entity trackedEntity, Class<T> observerClass) {
         synchronized (observerTrackedEntitiesMap) {
-            return getTrackedEntities(observer, Human.class).stream()
-                    .map(playerManager::getOnlinePlayer)
-                    .filter(Objects::nonNull)
+            //noinspection unchecked
+            return (Collection<T>) observerTrackedEntitiesMap.entries().stream()
+                    .filter(entry -> entry.getKey().getClass() == observerClass)
+                    .filter(entry -> entry.getValue() == trackedEntity)
+                    .map(Map.Entry::getKey)
                     .collect(Collectors.toSet());
         }
+    }
+
+    @Override
+    public Collection<Player> getPlayerObservers(Entity trackedEntity) {
+        return getObservers(trackedEntity, Human.class).stream()
+                .map(playerManager::getOnlinePlayer)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Collection<Player> getTrackedPlayers(Entity observer) {
+        return getTrackedEntities(observer, Human.class).stream()
+                .map(playerManager::getOnlinePlayer)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
     @Override
