@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.NearbyChunkRetriever;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
@@ -42,9 +43,7 @@ public class NearbyEntityRetriever {
 
     public Set<Entity> getLoadedEntitiesInRadius(Entity entity, int chunkRadius) {
         World world = entity.getWorld();
-        Chunk baseChunk = world.getLoadedChunkAt(entity.getPosition());
-
-        return nearbyChunkRetriever.getLoadedChunksAround(baseChunk.getCoordinates(), chunkRadius, world)
+        return nearbyChunkRetriever.getLoadedChunksAround(ChunkCoords.of(entity.getPosition()), chunkRadius, world)
                 .stream().flatMap(c -> c.getEntities().stream())
                 .collect(Collectors.toSet());
     }
