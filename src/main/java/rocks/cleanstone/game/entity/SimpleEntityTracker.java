@@ -1,11 +1,13 @@
 package rocks.cleanstone.game.entity;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -15,7 +17,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.entity.event.EntityAddEvent;
 import rocks.cleanstone.game.entity.event.EntityMoveEvent;
+import rocks.cleanstone.game.entity.event.EntityRemoveEvent;
 import rocks.cleanstone.game.entity.event.EntityTrackEvent;
 import rocks.cleanstone.game.entity.event.EntityUntrackEvent;
 import rocks.cleanstone.game.entity.vanilla.Human;
@@ -112,6 +116,7 @@ public class SimpleEntityTracker implements EntityTracker {
         CleanstoneServer.publishEvent(new EntityTrackEvent(observer, entity));
     }
 
+    @Async
     @EventListener
     public void onEntityMove(EntityMoveEvent e) {
         Entity movingEntity = e.getEntity();
@@ -132,18 +137,42 @@ public class SimpleEntityTracker implements EntityTracker {
                         .forEach(removedEntity -> untrackEntity(movingEntity, removedEntity));
             }
         }
-        // movingEntity as an entity that can be tracked
+        // movingEntity moves into tracking range
+        inRangeEntities.stream()
+                .filter(inRangeEntity -> !isTracking(inRangeEntity, movingEntity))
+                .forEach(inRangeEntity -> {
+                    observerTrackedEntitiesMap.put(inRangeEntity, movingEntity);
+                    trackEntity(inRangeEntity, movingEntity);
+                });
+        // movingEntity moves out of tracking range
         ChunkCoords entityChunkCoords = ChunkCoords.of(movingEntity.getPosition());
-        inRangeEntities.forEach(inRangeEntity -> {
-            int distance = entityChunkCoords.distance(ChunkCoords.of(inRangeEntity.getPosition()));
+        synchronized (observerTrackedEntitiesMap) {
+            ImmutableSet.copyOf(observerTrackedEntitiesMap.entries()).stream()
+                    .filter(entry -> entry.getValue() == movingEntity)
+                    .forEach(entry -> {
+                        Entity observer = entry.getKey();
+                        int distance = entityChunkCoords.distance(ChunkCoords.of(observer.getPosition()));
+                        if (distance > maxTrackingDistance) {
+                            observerTrackedEntitiesMap.remove(observer, movingEntity);
+                            untrackEntity(observer, movingEntity);
+                        }
+                    });
+        }
+    }
 
-            if (distance > maxTrackingDistance && isTracking(inRangeEntity, movingEntity)) {
-                observerTrackedEntitiesMap.remove(inRangeEntity, movingEntity);
-                untrackEntity(inRangeEntity, movingEntity);
-            } else if (distance <= maxTrackingDistance && !isTracking(inRangeEntity, movingEntity)) {
-                observerTrackedEntitiesMap.put(inRangeEntity, movingEntity);
-                trackEntity(inRangeEntity, movingEntity);
-            }
-        });
+    @Async
+    @EventListener
+    public void onEntityAdd(EntityAddEvent event) {
+        Collection<Entity> inRangeEntities = getInRangeEntities(event.getEntity());
+        // TODO update in-range observers
+
+    }
+
+    @Async
+    @EventListener
+    public void onEntityRemove(EntityRemoveEvent event) {
+        Collection<Entity> inRangeEntities = getInRangeEntities(event.getEntity());
+        // TODO update in-range observers
+
     }
 }
