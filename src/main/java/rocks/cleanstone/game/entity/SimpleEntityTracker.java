@@ -20,10 +20,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class SimpleEntityTracker implements EntityTracker {
-
+    private final Logger logger = LoggerFactory.getLogger(SimpleEntityTracker.class);
     private final NearbyEntityRetriever nearbyEntityRetriever;
     private final Multimap<Entity, Entity> observerTrackedEntitiesMap = Multimaps.synchronizedMultimap(HashMultimap.create());
     private final PlayerManager playerManager;
@@ -103,10 +105,12 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     private void untrackEntity(Entity observer, Entity entity) {
+        logger.debug("observer {} now does not track {}", observer, entity);
         CleanstoneServer.publishEvent(new EntityUntrackEvent(observer, entity));
     }
 
     private void trackEntity(Entity observer, Entity entity) {
+        logger.debug("observer {} now tracks {}", observer, entity);
         CleanstoneServer.publishEvent(new EntityTrackEvent(observer, entity));
     }
 
