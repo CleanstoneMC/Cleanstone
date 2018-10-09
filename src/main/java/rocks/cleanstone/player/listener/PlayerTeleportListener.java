@@ -1,5 +1,7 @@
 package rocks.cleanstone.player.listener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -19,7 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Component
 public class PlayerTeleportListener {
-
+    private final Logger logger = LoggerFactory.getLogger(PlayerTeleportListener.class);
     private final PlayerManager playerManager;
 
     @Autowired
@@ -36,6 +38,7 @@ public class PlayerTeleportListener {
         Human newHuman = new SimpleHuman(world, playerTeleportEvent.getNewPosition());
 
         // TODO consider thread-safety with getting/changing player entities
+        logger.debug("{} now has entity id {}", player.getName(), newHuman.getEntityID());
         player.setEntity(newHuman);
         world.getEntityRegistry().removeEntity(oldHuman);
         world.getEntityRegistry().addEntity(newHuman);

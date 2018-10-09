@@ -53,4 +53,9 @@ public abstract class AbstractEntity implements Entity {
     public void setPersistent(boolean persistent) {
         this.persistent = persistent;
     }
+
+    @Override
+    public String toString() {
+        return "AbstractEntity{" + "entityID=" + entityID + '}';
+    }
 }

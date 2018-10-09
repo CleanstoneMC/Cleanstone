@@ -55,6 +55,7 @@ public class AddEntity {
             HeadRotatablePosition position = getPosition(entityData, world);
 
             Human human = new SimpleHuman(world, position);
+            logger.debug("{} now has entity id {}", player.getName(), human.getEntityID());
             player.setEntity(human);
             world.getEntityRegistry().addEntity(human);
             player.setGameMode(getGameMode(entityData));
