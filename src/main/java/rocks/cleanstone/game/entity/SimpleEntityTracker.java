@@ -4,6 +4,8 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -20,8 +22,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Component
 public class SimpleEntityTracker implements EntityTracker {
@@ -95,6 +95,13 @@ public class SimpleEntityTracker implements EntityTracker {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Is the given Observer Tracking the given Entity
+     *
+     * @param observer The Entity who observes
+     * @param entity   The entity which is checked
+     * @return does the Observer track the given Entity
+     */
     @Override
     public boolean isTracking(Entity observer, Entity entity) {
         return observerTrackedEntitiesMap.containsEntry(observer, entity);
@@ -106,11 +113,13 @@ public class SimpleEntityTracker implements EntityTracker {
 
     private void untrackEntity(Entity observer, Entity entity) {
         logger.debug("observer {} now does not track {}", observer, entity);
+        observerTrackedEntitiesMap.remove(observer, entity);
         CleanstoneServer.publishEvent(new EntityUntrackEvent(observer, entity));
     }
 
     private void trackEntity(Entity observer, Entity entity) {
         logger.debug("observer {} now tracks {}", observer, entity);
+        observerTrackedEntitiesMap.put(observer, entity);
         CleanstoneServer.publishEvent(new EntityTrackEvent(observer, entity));
     }
 
@@ -119,41 +128,78 @@ public class SimpleEntityTracker implements EntityTracker {
     @EventListener
     public void onEntityMove(EntityMoveEvent e) {
         Entity movingEntity = e.getEntity();
+
+        // When the entity is in the same Chunk, just return
         if (ChunkCoords.of(e.getOldPosition()).equals(ChunkCoords.of(e.getNewPosition()))) {
             return;
         }
+
         Collection<Entity> inRangeEntities = getInRangeEntities(movingEntity);
 
+        // If the movingEntity is registered as an Observer
         if (observerTrackedEntitiesMap.containsKey(movingEntity)) {
-            // movingEntity as an observer
-            Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(movingEntity);
-            synchronized (observerTrackedEntitiesMap) {
-                inRangeEntities.stream()
-                        .filter(updatedEntity -> !currentEntities.contains(updatedEntity))
-                        .forEach(addedEntity -> trackEntity(movingEntity, addedEntity));
-                currentEntities.stream()
-                        .filter(currentEntity -> !inRangeEntities.contains(currentEntity))
-                        .forEach(removedEntity -> untrackEntity(movingEntity, removedEntity));
-            }
+            removeTrackEntriesForEntitiesOutOfRange(movingEntity, inRangeEntities);
         }
-        // movingEntity moves into tracking range
+
+        addTrackEntriesForEachInRangeEntity(movingEntity, inRangeEntities);
+
+        removeTrackEntriesForObservedEntitiesOutOfRange(movingEntity);
+    }
+
+    /**
+     * Iterate over the Entities in Range and untrack the entities out of range
+     * @param trackingEntity The Entity that is currently tracking other Entities
+     * @param inRangeEntities The Entities to iterate over and check
+     */
+    private void removeTrackEntriesForEntitiesOutOfRange(Entity trackingEntity, Collection<Entity> inRangeEntities) {
+        // All Entities that the moving Entity is tracking
+        Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(trackingEntity);
+        synchronized (observerTrackedEntitiesMap) {
+            // All Entities that are currently tracked
+            currentEntities.stream()
+                    // Filter for Entities that are currently not in Range
+                    .filter(currentlyTrackedEntity -> !inRangeEntities.contains(currentlyTrackedEntity))
+                    // For each tracked entity that is now not in range, untrack it
+                    .forEach(outOfRangeEntity -> untrackEntity(trackingEntity, outOfRangeEntity));
+        }
+    }
+
+    /**
+     * Iterate over the Entities in range and register them to track the moving Entity when they currently don't do that
+     *
+     * @param movingEntity    The Moving Entity
+     * @param inRangeEntities The Entities to iterate over and check
+     */
+    private void addTrackEntriesForEachInRangeEntity(Entity movingEntity, Collection<Entity> inRangeEntities) {
         inRangeEntities.stream()
+                // Filter for entities in range that are not tracking the moving Entity
                 .filter(inRangeEntity -> !isTracking(inRangeEntity, movingEntity))
+                // For each Entity which does not track the moving Entity
                 .forEach(inRangeEntity -> {
-                    observerTrackedEntitiesMap.put(inRangeEntity, movingEntity);
+                    // The Entity which currently does not track the moving Entity but should because its in range, now tracks it
                     trackEntity(inRangeEntity, movingEntity);
                 });
-        // movingEntity moves out of tracking range
-        ChunkCoords entityChunkCoords = ChunkCoords.of(movingEntity.getPosition());
+    }
+
+    /**
+     * Iterate over all Entities to check if they have a registered Tracker on the given Entity and when its out of range remove it from the tracking list
+     *
+     * @param entity The Moving Entity
+     */
+    private void removeTrackEntriesForObservedEntitiesOutOfRange(Entity entity) {
+        ChunkCoords entityChunkCoords = ChunkCoords.of(entity.getPosition());
+
         synchronized (observerTrackedEntitiesMap) {
+            // Get a Immutable Copy of all Entities that are observed
             ImmutableSet.copyOf(observerTrackedEntitiesMap.entries()).stream()
-                    .filter(entry -> entry.getValue() == movingEntity)
+                    // Filter for the given Entity
+                    .filter(entry -> entry.getValue() == entity)
+                    // For each of those Entries check if its out of range and remove it then
                     .forEach(entry -> {
                         Entity observer = entry.getKey();
                         int distance = entityChunkCoords.distance(ChunkCoords.of(observer.getPosition()));
                         if (distance > maxTrackingDistance) {
-                            observerTrackedEntitiesMap.remove(observer, movingEntity);
-                            untrackEntity(observer, movingEntity);
+                            untrackEntity(observer, entity);
                         }
                     });
         }
