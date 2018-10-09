@@ -9,6 +9,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -53,5 +54,13 @@ public class ProximityNearbyChunkRetriever implements NearbyChunkRetriever {
         } catch (Exception e) {
             return AsyncResult.forExecutionException(e);
         }
+    }
+
+    @Override
+    public Collection<Chunk> getLoadedChunksAround(ChunkCoords startCoords, int radius, World world) {
+        return getChunkCoordsAround(startCoords, radius).stream()
+                .map(world::getLoadedChunk)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 }

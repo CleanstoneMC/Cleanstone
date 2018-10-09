@@ -1,7 +1,8 @@
 package rocks.cleanstone.player.event;
 
-import rocks.cleanstone.game.entity.event.EntityMoveEvent;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
+import rocks.cleanstone.game.entity.event.EntityMoveEvent;
+import rocks.cleanstone.net.minecraft.packet.outbound.EntityTeleportPacket;
 import rocks.cleanstone.player.Player;
 
 public class PlayerMoveEvent extends EntityMoveEvent {
@@ -23,4 +24,17 @@ public class PlayerMoveEvent extends EntityMoveEvent {
         return moveReason;
     }
 
+    @Override
+    public void cancel() {
+        HeadRotatablePosition oldPosition = getOldPosition();
+        HeadRotatablePosition newPosition = getNewPosition();
+        int entityID = player.getEntity().getEntityID();
+        float yaw = newPosition.getRotation().getYaw();
+        float pitch = newPosition.getRotation().getPitch();
+        EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, oldPosition.getX(),
+                oldPosition.getY(), oldPosition.getZ(), yaw, pitch, player.isFlying());
+
+        player.sendPacket(entityTeleportPacket);
+        super.cancel();
+    }
 }

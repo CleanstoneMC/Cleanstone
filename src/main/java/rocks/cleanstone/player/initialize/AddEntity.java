@@ -1,13 +1,16 @@
 package rocks.cleanstone.player.initialize;
 
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+
 import rocks.cleanstone.game.OpenWorldGame;
+import rocks.cleanstone.game.entity.EntityTracker;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.vanilla.Human;
 import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
@@ -27,13 +30,16 @@ public class AddEntity {
     private final OpenWorldGame openWorldGame;
     private final WorldManager worldManager;
     private final PlayerManager playerManager;
+    private final EntityTracker entityTracker;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public AddEntity(OpenWorldGame openWorldGame, WorldManager worldManager, PlayerManager playerManager) {
+    public AddEntity(OpenWorldGame openWorldGame, WorldManager worldManager, PlayerManager playerManager,
+                     EntityTracker entityTracker) {
         this.openWorldGame = openWorldGame;
         this.worldManager = worldManager;
         this.playerManager = playerManager;
+        this.entityTracker = entityTracker;
     }
 
     @Order(value = 5)
@@ -53,6 +59,7 @@ public class AddEntity {
             world.getEntityRegistry().addEntity(human);
             player.setGameMode(getGameMode(entityData));
             player.setFlying(isFlying(entityData));
+            entityTracker.addObserver(human);
         } catch (IOException e1) {
             logger.error("Player data of " + player.getName() + " is corrupted", e1);
         }

@@ -12,6 +12,8 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.ExecutionException;
 
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
@@ -166,9 +168,21 @@ public class SimpleGeneratedWorld implements World {
         }
     }
 
+    @Nullable
+    @Override
+    public Chunk getLoadedChunk(ChunkCoords coords) {
+        return regionManager.getLoadedRegion(coords).getLoadedChunk(coords);
+    }
+
     @Override
     public ListenableFuture<Chunk> getChunkAt(Position position) {
         return getChunk(ChunkCoords.of(position));
+    }
+
+    @Nullable
+    @Override
+    public Chunk getLoadedChunkAt(Position position) {
+        return getLoadedChunk(ChunkCoords.of(position));
     }
 
     @Override
