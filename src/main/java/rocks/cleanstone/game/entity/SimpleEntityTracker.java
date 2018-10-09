@@ -4,28 +4,22 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.entity.event.*;
+import rocks.cleanstone.game.entity.vanilla.Human;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
+import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.PlayerManager;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.entity.event.EntityAddEvent;
-import rocks.cleanstone.game.entity.event.EntityMoveEvent;
-import rocks.cleanstone.game.entity.event.EntityRemoveEvent;
-import rocks.cleanstone.game.entity.event.EntityTrackEvent;
-import rocks.cleanstone.game.entity.event.EntityUntrackEvent;
-import rocks.cleanstone.game.entity.vanilla.Human;
-import rocks.cleanstone.game.world.chunk.ChunkCoords;
-import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.PlayerManager;
 
 @Component
 public class SimpleEntityTracker implements EntityTracker {
@@ -116,6 +110,7 @@ public class SimpleEntityTracker implements EntityTracker {
         CleanstoneServer.publishEvent(new EntityTrackEvent(observer, entity));
     }
 
+    @Override
     @Async
     @EventListener
     public void onEntityMove(EntityMoveEvent e) {
@@ -160,6 +155,7 @@ public class SimpleEntityTracker implements EntityTracker {
         }
     }
 
+    @Override
     @Async
     @EventListener
     public void onEntityAdd(EntityAddEvent event) {
@@ -168,6 +164,7 @@ public class SimpleEntityTracker implements EntityTracker {
 
     }
 
+    @Override
     @Async
     @EventListener
     public void onEntityRemove(EntityRemoveEvent event) {
