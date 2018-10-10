@@ -210,8 +210,8 @@ public class SimpleEntityTracker implements EntityTracker {
     @EventListener
     public void onEntityAdd(EntityAddEvent event) {
         Collection<Entity> inRangeEntities = getInRangeEntities(event.getEntity());
-        // TODO update in-range observers
 
+        addTrackEntriesForEachInRangeEntity(event.getEntity(), inRangeEntities);
     }
 
     @Override
@@ -219,7 +219,12 @@ public class SimpleEntityTracker implements EntityTracker {
     @EventListener
     public void onEntityRemove(EntityRemoveEvent event) {
         Collection<Entity> inRangeEntities = getInRangeEntities(event.getEntity());
-        // TODO update in-range observers
 
+        // If the movingEntity is registered as an Observer
+        if (observerTrackedEntitiesMap.containsKey(event.getEntity())) {
+            removeTrackEntriesForEntitiesOutOfRange(event.getEntity(), inRangeEntities);
+        }
+
+        removeTrackEntriesForObservedEntitiesOutOfRange(event.getEntity());
     }
 }
