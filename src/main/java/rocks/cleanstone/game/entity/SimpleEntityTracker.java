@@ -18,7 +18,6 @@ import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,7 +28,7 @@ public class SimpleEntityTracker implements EntityTracker {
     private final NearbyEntityRetriever nearbyEntityRetriever;
     private final Multimap<Entity, Entity> observerTrackedEntitiesMap = Multimaps.synchronizedMultimap(HashMultimap.create());
     private final PlayerManager playerManager;
-    private final int maxTrackingDistance = 1;
+    private final int maxTrackingDistance = 10;
 
     @Autowired
     public SimpleEntityTracker(NearbyEntityRetriever nearbyEntityRetriever, PlayerManager playerManager) {
