@@ -153,10 +153,10 @@ public class SimpleEntityTracker implements EntityTracker {
      */
     private void removeTrackEntriesForEntitiesOutOfRange(Entity trackingEntity, Collection<Entity> inRangeEntities) {
         // All Entities that the moving Entity is tracking
-        Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(trackingEntity);
         synchronized (observerTrackedEntitiesMap) {
             // All Entities that are currently tracked
-            currentEntities.stream()
+            Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(trackingEntity);
+            ImmutableSet.copyOf(currentEntities).stream()
                     // Filter for Entities that are currently not in Range
                     .filter(currentlyTrackedEntity -> !inRangeEntities.contains(currentlyTrackedEntity))
                     // For each tracked entity that is now not in range, untrack it
