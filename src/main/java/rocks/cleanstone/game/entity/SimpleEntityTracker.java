@@ -47,12 +47,8 @@ public class SimpleEntityTracker implements EntityTracker {
     @Override
     public void removeObserver(Entity observer) {
         synchronized (observerTrackedEntitiesMap) {
-            Iterator<Entity> iterator = observerTrackedEntitiesMap.get(observer).iterator();
-            while (iterator.hasNext()) {
-                Entity entity = iterator.next();
-                untrackEntity(observer, entity);
-                iterator.remove();
-            }
+            ImmutableSet.copyOf(observerTrackedEntitiesMap.get(observer)).parallelStream()
+                .forEach(entity -> untrackEntity(observer, entity));
         }
     }
 
