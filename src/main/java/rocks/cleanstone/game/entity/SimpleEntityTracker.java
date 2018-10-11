@@ -29,7 +29,7 @@ public class SimpleEntityTracker implements EntityTracker {
     private final NearbyEntityRetriever nearbyEntityRetriever;
     private final Multimap<Entity, Entity> observerTrackedEntitiesMap = Multimaps.synchronizedMultimap(HashMultimap.create());
     private final PlayerManager playerManager;
-    private final int maxTrackingDistance = 10;
+    private final int maxTrackingDistance = 1;
 
     @Autowired
     public SimpleEntityTracker(NearbyEntityRetriever nearbyEntityRetriever, PlayerManager playerManager) {
@@ -178,6 +178,9 @@ public class SimpleEntityTracker implements EntityTracker {
                 .forEach(inRangeEntity -> {
                     // The Entity which currently does not track the moving Entity but should because its in range, now tracks it
                     trackEntity(inRangeEntity, movingEntity);
+
+                    // The Moving Entity should also track the other Entity
+                    trackEntity(movingEntity, inRangeEntity);
                 });
     }
 
