@@ -72,7 +72,7 @@ public class SimpleEntityTracker implements EntityTracker {
         synchronized (observerTrackedEntitiesMap) {
             //noinspection unchecked
             return (Collection<T>) observerTrackedEntitiesMap.entries().stream()
-                    .filter(entry -> entry.getKey().getClass() == observerClass)
+                    .filter(entry -> observerClass.isAssignableFrom(entry.getKey().getClass()) || entry.getKey().getClass() == observerClass)
                     .filter(entry -> entry.getValue() == trackedEntity)
                     .map(Map.Entry::getKey)
                     .collect(Collectors.toSet());
