@@ -3,8 +3,8 @@ package rocks.cleanstone.game.entity;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
 
@@ -15,7 +15,8 @@ import rocks.cleanstone.game.entity.event.EntityRemoveEvent;
 @Component
 @Scope("prototype")
 public class SimpleEntityRegistry implements EntityRegistry {
-    private final Map<Integer, Entity> entityMap = new HashMap<>();
+
+    private final Map<Integer, Entity> entityMap = new ConcurrentHashMap<>();
     private int nextEntityID = 0;
 
     public SimpleEntityRegistry(Map<Integer, Entity> entityMap) {
@@ -44,7 +45,7 @@ public class SimpleEntityRegistry implements EntityRegistry {
     }
 
     @Override
-    public int acquireEntityID() {
+    public synchronized int acquireEntityID() {
         return nextEntityID++;
     }
 }
