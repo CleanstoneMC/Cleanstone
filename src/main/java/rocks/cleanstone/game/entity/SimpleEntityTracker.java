@@ -48,14 +48,14 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     @Override
-    public void addObserver(Entity entity) {
+    public synchronized void addObserver(Entity entity) {
         Preconditions.checkState(observers.add(entity), "given entity is already an observer");
         Collection<Entity> inRangeEntities = getInRangeEntities(entity);
         makeTheObserverTrackInRangeEntities(entity, inRangeEntities);
     }
 
     @Override
-    public void removeObserver(Entity observer) {
+    public synchronized void removeObserver(Entity observer) {
         Preconditions.checkState(observers.remove(observer), "given entity is not an observer");
         makeTheObserverUntrackAllEntities(observer);
     }
@@ -147,6 +147,28 @@ public class SimpleEntityTracker implements EntityTracker {
         makeOutOfRangeObserversUntrackTheEntity(movingEntity, inRangeEntities);
     }
 
+    @Override
+    @Async
+    @EventListener
+    public synchronized void onEntityAdd(EntityAddEvent event) {
+        Collection<Entity> inRangeEntities = getInRangeEntities(event.getEntity());
+
+        makeInRangeObserversTrackTheEntity(event.getEntity(), inRangeEntities);
+    }
+
+    @Override
+    @Async
+    @EventListener
+    public synchronized void onEntityRemove(EntityRemoveEvent event) {
+        Entity entity = event.getEntity();
+
+        if (isObserver(entity)) {
+            makeTheObserverUntrackAllEntities(entity);
+        }
+
+        makeAllObserversUntrackTheEntity(entity);
+    }
+
     private void makeTheObserverUntrackOutOfRangeEntities(Entity observer, Collection<Entity> inRangeEntities) {
         // All entities that the observer is currently tracking
         Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(observer);
@@ -209,27 +231,5 @@ public class SimpleEntityTracker implements EntityTracker {
                 .filter(observer -> isTracking(observer, entity))
                 // should untrack the entity
                 .forEach(observer -> untrackEntity(observer, entity));
-    }
-
-    @Override
-    @Async
-    @EventListener
-    public synchronized void onEntityAdd(EntityAddEvent event) {
-        Collection<Entity> inRangeEntities = getInRangeEntities(event.getEntity());
-
-        makeInRangeObserversTrackTheEntity(event.getEntity(), inRangeEntities);
-    }
-
-    @Override
-    @Async
-    @EventListener
-    public synchronized void onEntityRemove(EntityRemoveEvent event) {
-        Entity entity = event.getEntity();
-
-        if (isObserver(entity)) {
-            makeTheObserverUntrackAllEntities(entity);
-        }
-
-        makeAllObserversUntrackTheEntity(entity);
     }
 }
