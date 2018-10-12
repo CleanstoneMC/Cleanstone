@@ -38,7 +38,7 @@ public class SimpleEntityTracker implements EntityTracker {
     private final Multimap<Entity, Entity> observerTrackedEntitiesMap = Multimaps.synchronizedMultimap(HashMultimap.create());
     private final Set<Entity> observers = Sets.newConcurrentHashSet();
     private final PlayerManager playerManager;
-    private final int maxTrackingDistance = 1;
+    private final int maxTrackingDistance = 4;
     private final Logger logger = LoggerFactory.getLogger(SimpleEntityTracker.class);
 
     @Autowired
@@ -48,14 +48,14 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     @Override
-    public synchronized void addObserver(Entity entity) {
+    public void addObserver(Entity entity) {
         Preconditions.checkState(observers.add(entity), "given entity is already an observer");
         Collection<Entity> inRangeEntities = getInRangeEntities(entity);
         makeTheObserverTrackInRangeEntities(entity, inRangeEntities);
     }
 
     @Override
-    public synchronized void removeObserver(Entity observer) {
+    public void removeObserver(Entity observer) {
         Preconditions.checkState(observers.remove(observer), "given entity is not an observer");
         makeTheObserverUntrackAllEntities(observer);
     }
