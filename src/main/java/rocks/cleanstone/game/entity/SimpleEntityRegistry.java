@@ -1,15 +1,16 @@
 package rocks.cleanstone.game.entity;
 
-import com.google.common.base.Preconditions;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.entity.event.EntityAddEvent;
 import rocks.cleanstone.game.entity.event.EntityRemoveEvent;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 @Scope("prototype")
@@ -38,8 +39,8 @@ public class SimpleEntityRegistry implements EntityRegistry {
 
     @Override
     public void removeEntity(Entity entity) {
-        entityMap.remove(entity.getEntityID());
         CleanstoneServer.publishEvent(new EntityRemoveEvent(entity));
+        entityMap.remove(entity.getEntityID());
     }
 
     @Override
