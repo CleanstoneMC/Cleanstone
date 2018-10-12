@@ -1,5 +1,7 @@
 package rocks.cleanstone.net.minecraft.listener.outbound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -26,6 +28,7 @@ import rocks.cleanstone.player.PlayerManager;
 public class EntityTrackingListener {
 
     private final PlayerManager playerManager;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public EntityTrackingListener(PlayerManager playerManager) {

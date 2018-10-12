@@ -1,11 +1,11 @@
 package rocks.cleanstone.game.entity;
 
+import java.util.Collection;
+
 import rocks.cleanstone.game.entity.event.EntityAddEvent;
 import rocks.cleanstone.game.entity.event.EntityMoveEvent;
 import rocks.cleanstone.game.entity.event.EntityRemoveEvent;
 import rocks.cleanstone.player.Player;
-
-import java.util.Collection;
 
 public interface EntityTracker {
     void addObserver(Entity observer);
@@ -21,6 +21,8 @@ public interface EntityTracker {
     Collection<Player> getTrackedPlayers(Entity observer);
 
     boolean isTracking(Entity observer, Entity entity);
+
+    boolean isObserver(Entity entity);
 
     void onEntityMove(EntityMoveEvent e);
 

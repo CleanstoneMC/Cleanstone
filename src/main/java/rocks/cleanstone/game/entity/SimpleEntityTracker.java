@@ -1,9 +1,11 @@
 package rocks.cleanstone.game.entity;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.google.common.collect.Sets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import rocks.cleanstone.core.CleanstoneServer;
@@ -30,11 +33,13 @@ import rocks.cleanstone.player.PlayerManager;
 
 @Component
 public class SimpleEntityTracker implements EntityTracker {
-    private final Logger logger = LoggerFactory.getLogger(SimpleEntityTracker.class);
+
     private final NearbyEntityRetriever nearbyEntityRetriever;
     private final Multimap<Entity, Entity> observerTrackedEntitiesMap = Multimaps.synchronizedMultimap(HashMultimap.create());
+    private final Set<Entity> observers = Sets.newConcurrentHashSet();
     private final PlayerManager playerManager;
-    private final int maxTrackingDistance = 10;
+    private final int maxTrackingDistance = 1;
+    private final Logger logger = LoggerFactory.getLogger(SimpleEntityTracker.class);
 
     @Autowired
     public SimpleEntityTracker(NearbyEntityRetriever nearbyEntityRetriever, PlayerManager playerManager) {
@@ -43,16 +48,16 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     @Override
-    public void addObserver(Entity observer) {
-        Collection<Entity> inRangeEntities = getInRangeEntities(observer);
-        observerTrackedEntitiesMap.putAll(observer, inRangeEntities);
-        inRangeEntities.forEach(addedEntity -> trackEntity(observer, addedEntity));
+    public void addObserver(Entity entity) {
+        Preconditions.checkState(observers.add(entity), "given entity is already an observer");
+        Collection<Entity> inRangeEntities = getInRangeEntities(entity);
+        makeTheObserverTrackInRangeEntities(entity, inRangeEntities);
     }
 
     @Override
     public void removeObserver(Entity observer) {
-        ImmutableSet.copyOf(observerTrackedEntitiesMap.get(observer)).parallelStream()
-                .forEach(entity -> untrackEntity(observer, entity));
+        Preconditions.checkState(observers.remove(observer), "given entity is not an observer");
+        makeTheObserverUntrackAllEntities(observer);
     }
 
     @Override
@@ -94,16 +99,14 @@ public class SimpleEntityTracker implements EntityTracker {
                 .collect(Collectors.toSet());
     }
 
-    /**
-     * Is the given Observer Tracking the given Entity
-     *
-     * @param observer The Entity who observes
-     * @param entity   The entity which is checked
-     * @return does the Observer track the given Entity
-     */
     @Override
     public boolean isTracking(Entity observer, Entity entity) {
         return observerTrackedEntitiesMap.containsEntry(observer, entity);
+    }
+
+    @Override
+    public boolean isObserver(Entity entity) {
+        return observers.contains(entity);
     }
 
     private Collection<Entity> getInRangeEntities(Entity observer) {
@@ -112,119 +115,121 @@ public class SimpleEntityTracker implements EntityTracker {
 
     private void untrackEntity(Entity observer, Entity entity) {
         logger.debug("observer {} now does not track {}", observer, entity);
-        observerTrackedEntitiesMap.remove(observer, entity);
+        Preconditions.checkState(observerTrackedEntitiesMap.remove(observer, entity),
+                "given observer is not tracking given entity");
         CleanstoneServer.publishEvent(new EntityUntrackEvent(observer, entity));
     }
 
     private void trackEntity(Entity observer, Entity entity) {
         logger.debug("observer {} now tracks {}", observer, entity);
-        observerTrackedEntitiesMap.put(observer, entity);
+        Preconditions.checkState(observerTrackedEntitiesMap.put(observer, entity),
+                "given observer is already tracking given entity");
         CleanstoneServer.publishEvent(new EntityTrackEvent(observer, entity));
     }
 
     @Override
     @Async
     @EventListener
-    public void onEntityMove(EntityMoveEvent e) {
+    public synchronized void onEntityMove(EntityMoveEvent e) {
         Entity movingEntity = e.getEntity();
-
         // When the entity is in the same Chunk, just return
         if (ChunkCoords.of(e.getOldPosition()).equals(ChunkCoords.of(e.getNewPosition()))) {
             return;
         }
-
         Collection<Entity> inRangeEntities = getInRangeEntities(movingEntity);
 
-        // If the movingEntity is registered as an Observer
-        if (observerTrackedEntitiesMap.containsKey(movingEntity)) {
-            removeTrackEntriesForEntitiesOutOfRange(movingEntity, inRangeEntities);
+        if (isObserver(movingEntity)) {
+            makeTheObserverUntrackOutOfRangeEntities(movingEntity, inRangeEntities);
+            makeTheObserverTrackInRangeEntities(movingEntity, inRangeEntities);
         }
 
-        addTrackEntriesForEachInRangeEntity(movingEntity, inRangeEntities);
-
-        removeTrackEntriesForObservedEntitiesOutOfRange(movingEntity);
+        makeInRangeObserversTrackTheEntity(movingEntity, inRangeEntities);
+        makeOutOfRangeObserversUntrackTheEntity(movingEntity, inRangeEntities);
     }
 
-    /**
-     * Iterate over the Entities in Range and untrack the entities out of range
-     *
-     * @param trackingEntity  The Entity that is currently tracking other Entities
-     * @param inRangeEntities The Entities to iterate over and check
-     */
-    private void removeTrackEntriesForEntitiesOutOfRange(Entity trackingEntity, Collection<Entity> inRangeEntities) {
-        // All Entities that are currently tracked
-        Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(trackingEntity);
+    private void makeTheObserverUntrackOutOfRangeEntities(Entity observer, Collection<Entity> inRangeEntities) {
+        // All entities that the observer is currently tracking
+        Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(observer);
         ImmutableSet.copyOf(currentEntities).stream()
-                // Filter for Entities that are currently not in Range
+                // that are now out of range
                 .filter(currentlyTrackedEntity -> !inRangeEntities.contains(currentlyTrackedEntity))
-                // For each tracked entity that is now not in range, untrack it
-                .forEach(outOfRangeEntity -> untrackEntity(trackingEntity, outOfRangeEntity));
+                // should be untracked by the observer
+                .forEach(outOfRangeEntity -> untrackEntity(observer, outOfRangeEntity));
     }
 
-    /**
-     * Iterate over the Entities in range and register them to track the moving Entity when they currently
-     * don't do that
-     *
-     * @param movingEntity    The Moving Entity
-     * @param inRangeEntities The Entities to iterate over and check
-     */
-    private void addTrackEntriesForEachInRangeEntity(Entity movingEntity, Collection<Entity> inRangeEntities) {
+    private void makeTheObserverTrackInRangeEntities(Entity observer, Collection<Entity> inRangeEntities) {
+        // All entities that are in range of the observer
         inRangeEntities.stream()
-                // Filter for entities in range that are not tracking the moving Entity
-                .filter(inRangeEntity -> !isTracking(inRangeEntity, movingEntity))
-                // For each Entity which does not track the moving Entity
-                .forEach(inRangeEntity -> {
-                    // The Entity which currently does not track the moving Entity but should because its in range, now tracks it
-                    trackEntity(inRangeEntity, movingEntity);
-
-                    // The Moving Entity should also track the other Entity
-                    trackEntity(movingEntity, inRangeEntity);
-                });
+                // that are not already tracked by the observer
+                .filter(inRangeEntity -> !isTracking(observer, inRangeEntity))
+                // should be tracked by the observer
+                .forEach(inRangeEntity -> trackEntity(observer, inRangeEntity));
     }
 
-    /**
-     * Iterate over all Entities to check if they have a registered Tracker on the given Entity and when its
-     * out of range remove it from the tracking list
-     *
-     * @param entity The Moving Entity
-     */
-    private void removeTrackEntriesForObservedEntitiesOutOfRange(Entity entity) {
+    private void makeInRangeObserversTrackTheEntity(Entity entity, Collection<Entity> inRangeEntities) {
+        // All entities that are in range of the entity
+        inRangeEntities.stream()
+                // that are observers
+                .filter(this::isObserver)
+                // that are not already tracking the entity
+                .filter(observer -> !isTracking(observer, entity))
+                // should track the entity
+                .forEach(observer -> trackEntity(observer, entity));
+    }
+
+    private void makeOutOfRangeObserversUntrackTheEntity(Entity entity, Collection<Entity> inRangeEntities) {
         ChunkCoords entityChunkCoords = ChunkCoords.of(entity.getPosition());
 
-        // Get a Immutable Copy of all Entities that are observed
+        // In all observer-trackedEntity pairs
         ImmutableSet.copyOf(observerTrackedEntitiesMap.entries()).stream()
-                // Filter for the given Entity
+                // where the tracked entity is the entity
                 .filter(entry -> entry.getValue() == entity)
-                // For each of those Entries check if its out of range and remove it then
+                // where the observer is out of range of the entity
+                .filter(entry -> !inRangeEntities.contains(entry.getKey()))
+                // the observer should untrack the entity
                 .forEach(entry -> {
                     Entity observer = entry.getKey();
-                    int distance = entityChunkCoords.distance(ChunkCoords.of(observer.getPosition()));
-                    if (distance > maxTrackingDistance) {
-                        untrackEntity(observer, entity);
-                    }
+                    untrackEntity(observer, entity);
                 });
     }
 
-    @Override
-    @Async
-    @EventListener
-    public void onEntityAdd(EntityAddEvent event) {
-        Collection<Entity> inRangeEntities = getInRangeEntities(event.getEntity());
+    private void makeTheObserverUntrackAllEntities(Entity observer) {
+        // All entities that the observer is currently tracking
+        Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(observer);
+        ImmutableSet.copyOf(currentEntities)
+                // should be untracked by the observer
+                .forEach(entity -> untrackEntity(observer, entity));
+    }
 
-        addTrackEntriesForEachInRangeEntity(event.getEntity(), inRangeEntities);
+    private void makeAllObserversUntrackTheEntity(Entity entity) {
+        // All observers
+        Collection<Entity> currentEntities = observerTrackedEntitiesMap.keySet();
+        ImmutableSet.copyOf(currentEntities).stream()
+                // that are tracking the entity
+                .filter(observer -> isTracking(observer, entity))
+                // should untrack the entity
+                .forEach(observer -> untrackEntity(observer, entity));
     }
 
     @Override
     @Async
     @EventListener
-    public void onEntityRemove(EntityRemoveEvent event) {
+    public synchronized void onEntityAdd(EntityAddEvent event) {
         Collection<Entity> inRangeEntities = getInRangeEntities(event.getEntity());
 
-        // If the movingEntity is registered as an Observer
-        if (observerTrackedEntitiesMap.containsKey(event.getEntity())) {
-            removeTrackEntriesForEntitiesOutOfRange(event.getEntity(), inRangeEntities);
+        makeInRangeObserversTrackTheEntity(event.getEntity(), inRangeEntities);
+    }
+
+    @Override
+    @Async
+    @EventListener
+    public synchronized void onEntityRemove(EntityRemoveEvent event) {
+        Entity entity = event.getEntity();
+
+        if (isObserver(entity)) {
+            makeTheObserverUntrackAllEntities(entity);
         }
 
-        removeTrackEntriesForObservedEntitiesOutOfRange(event.getEntity());
+        makeAllObserversUntrackTheEntity(entity);
     }
 }
