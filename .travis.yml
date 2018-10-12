@@ -1,23 +1,8 @@
 language: java
 
 jdk:
-- oraclejdk8
-- oraclejdk9
-- oraclejdk10
 - oraclejdk11
-- openjdk8
-- openjdk9
-- openjdk10
 - openjdk11
-
-matrix:
-  allow_failures:
-  - jdk: oraclejdk9
-  - jdk: oraclejdk10
-  - jdk: oraclejdk11
-  - jdk: openjdk9
-  - jdk: openjdk10
-  - jdk: openjdk11
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
