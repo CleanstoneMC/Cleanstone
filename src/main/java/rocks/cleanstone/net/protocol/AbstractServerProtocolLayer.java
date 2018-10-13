@@ -6,8 +6,8 @@ import javax.annotation.Nonnull;
 import rocks.cleanstone.net.packet.Packet;
 
 public abstract class AbstractServerProtocolLayer implements ServerProtocolLayer {
-    private final Map<Class<? extends Packet>, InboundPacketCodec> inboundPacketClassCodecMap = Maps.newConcurrentMap();
-    private final Map<Class<? extends Packet>, OutboundPacketCodec> outboundPacketClassCodecMap = Maps.newConcurrentMap();
+    private final Map<Class<? extends Packet>, InboundPacketCodec<?>> inboundPacketClassCodecMap = Maps.newConcurrentMap();
+    private final Map<Class<? extends Packet>, OutboundPacketCodec<?>> outboundPacketClassCodecMap = Maps.newConcurrentMap();
 
     @Override
     public <T extends Packet> void registerPacketCodec(PacketCodec codec, Class<T> packetClass) {
@@ -21,17 +21,19 @@ public abstract class AbstractServerProtocolLayer implements ServerProtocolLayer
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends Packet> InboundPacketCodec<T> getInboundPacketCodec(Class<T> packetClass) {
         return (InboundPacketCodec<T>) inboundPacketClassCodecMap.get(packetClass);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends Packet> OutboundPacketCodec<T> getOutboundPacketCodec(Class<T> packetClass) {
         return (OutboundPacketCodec<T>) outboundPacketClassCodecMap.get(packetClass);
     }
 
     @Override
-    public Map<Class<? extends Packet>, InboundPacketCodec> getInboundPacketClassCodecMap() {
+    public Map<Class<? extends Packet>, InboundPacketCodec<?>> getInboundPacketClassCodecMap() {
         return inboundPacketClassCodecMap;
     }
 

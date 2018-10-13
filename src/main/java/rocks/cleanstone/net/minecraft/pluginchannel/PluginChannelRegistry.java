@@ -24,12 +24,17 @@ public class PluginChannelRegistry {
         pluginChannels.put(pluginChannel.getName(), pluginChannel);
     }
 
-    public PluginChannel getPluginChannel(PluginChannel.PluginMessage pluginMessage) {
-        return pluginChannels.values().stream().filter(pluginChannel -> {
-            Class<?> messageClass = GenericTypeResolver.resolveTypeArgument(pluginChannel.getClass(), PluginChannel.class);
+    @SuppressWarnings("unchecked")
+    public <T extends PluginChannel.PluginMessage> PluginChannel<T> getPluginChannel(T pluginMessage) {
+        return pluginChannels.values().stream()
+                .filter(pluginChannel -> messageTypeMatches(pluginMessage, pluginChannel))
+                .findAny().orElse(null);
+    }
 
-            return pluginMessage.getClass().equals(messageClass);
-        }).findAny().orElse(null);
+    private <T extends PluginChannel.PluginMessage> boolean messageTypeMatches(T pluginMessage, PluginChannel<?> pluginChannel) {
+        Class<?> messageClass = GenericTypeResolver.resolveTypeArgument(pluginChannel.getClass(), PluginChannel.class);
+
+        return pluginMessage.getClass().equals(messageClass);
     }
 
     public PluginChannel getPluginChannel(String name) {

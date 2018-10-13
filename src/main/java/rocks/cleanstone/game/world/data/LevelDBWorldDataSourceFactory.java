@@ -31,6 +31,7 @@ public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public WorldDataSource get(String worldID) throws WorldDataSourceCreationException {
         try {
             return new LevelDBWorldDataSource(vanillaBlockDataCodecFactory, entityTypeRegistry, blockStateMapping,

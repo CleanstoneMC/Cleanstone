@@ -101,10 +101,11 @@ public class SimpleCommandRegistry implements CommandRegistry {
 
     @Override
     @Nullable
+    @SuppressWarnings("unchecked")
     public <T> CommandParameter<T> getCommandParameter(Class<? super T> parameterClass) {
-        //noinspection unchecked
-        return (CommandParameter<T>) commandParameters.stream().filter(
-                parameter -> parameter.getParameterClass().isAssignableFrom(parameterClass)).findFirst().orElse(null);
+        return (CommandParameter<T>) commandParameters.stream()
+                .filter(parameter -> parameter.getParameterClass().isAssignableFrom(parameterClass))
+                .findFirst().orElse(null);
     }
 
     @Override

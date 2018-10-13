@@ -82,6 +82,10 @@ tasks {
     named<JavaExec>("run") { fixupStdIo() }
     named<BootRun>("bootRun") { fixupStdIo() }
 
+    withType(JavaCompile::class) {
+        options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
+    }
+
     named<ProcessResources>("processResources") {
         from(project("admin-ui-extension").tasks.named("yarn_build")) {
             into("META-INF/spring-boot-admin-server-ui/extensions/cleanstone")

@@ -15,7 +15,7 @@ public interface ServerProtocolLayer extends Comparable<ServerProtocolLayer> {
 
     <T extends Packet> OutboundPacketCodec<T> getOutboundPacketCodec(Class<T> packetClass);
 
-    Map<Class<? extends Packet>, InboundPacketCodec> getInboundPacketClassCodecMap();
+    Map<Class<? extends Packet>, InboundPacketCodec<?>> getInboundPacketClassCodecMap();
 
     int getOrderedID();
 

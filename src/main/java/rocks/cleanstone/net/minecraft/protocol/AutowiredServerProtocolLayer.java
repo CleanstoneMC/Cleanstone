@@ -18,17 +18,18 @@ public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtoc
         this.packetCodecs = packetCodecs;
     }
 
-    public void registerPacketCodec(Class<? extends PacketCodec> codecClass, ProtocolState state,
-                                    int protocolPacketID) {
+    @SuppressWarnings("unchecked")
+    public <T extends Packet> void registerPacketCodec(Class<? extends PacketCodec<T>> codecClass, ProtocolState state,
+                                                       int protocolPacketID) {
 
-        PacketCodec codec = getCodecInstance(codecClass);
+        PacketCodec<T> codec = getCodecInstance(codecClass);
 
         if (codec == null) {
             logger.info("Cant find PacketCodec for codecClass: " + codecClass.getName());
             return;
         }
 
-        Class<?> packetClass = GenericTypeResolver.resolveTypeArgument(codec.getClass(), PacketCodec.class);
+        Class<T> packetClass = (Class<T>) GenericTypeResolver.resolveTypeArgument(codec.getClass(), PacketCodec.class);
 
         if (packetClass == null) {
             logger.info("Cant find PacketClass for Codec: " + codecClass.getName());
@@ -40,12 +41,12 @@ public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtoc
             return;
         }
 
-        //noinspection unchecked
-        super.registerPacketCodec(codec, (Class<? extends Packet>) packetClass, state, protocolPacketID);
+        super.registerPacketCodec(codec, packetClass, state, protocolPacketID);
     }
 
 
-    private PacketCodec getCodecInstance(Class<? extends PacketCodec> codecClass) {
+    @SuppressWarnings("unchecked")
+    private <T> PacketCodec<T> getCodecInstance(Class<? extends PacketCodec<T>> codecClass) {
         return packetCodecs.stream().filter(o -> codecClass.isAssignableFrom(o.getClass())).findAny().orElse(null);
     }
 }

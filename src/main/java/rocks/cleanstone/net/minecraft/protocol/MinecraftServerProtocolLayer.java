@@ -20,7 +20,7 @@ public abstract class MinecraftServerProtocolLayer extends AbstractServerProtoco
         return packetClassProtocolPacketIDMap.get(type.getPacketClass());
     }
 
-    public <T extends Packet> void registerPacketCodec(PacketCodec codec, Class<T> packetClass, ProtocolState state,
+    public <T extends Packet> void registerPacketCodec(PacketCodec<T> codec, Class<T> packetClass, ProtocolState state,
                                                        int protocolPacketID) {
         super.registerPacketCodec(codec, packetClass);
         packetClassProtocolPacketIDMap.put(packetClass, protocolPacketID);

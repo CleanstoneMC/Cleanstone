@@ -104,12 +104,15 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
     private int serializeState(BlockState state, PropertyDefinition[] propertyDefinitions, int baseID) {
         BlockType blockType = state.getBlockType();
         int temp = 0;
-        for (PropertyDefinition propertyDefinition : propertyDefinitions) {
-            //noinspection unchecked
-            int serializedProperty = propertyDefinition.getProperty().serialize(state.getProperty(propertyDefinition.getProperty()));
+        for (PropertyDefinition<?> propertyDefinition : propertyDefinitions) {
+            int serializedProperty = serializeProperty(state, propertyDefinition);
             temp = serializedProperty + propertyDefinition.getProperty().getTotalValuesAmount() * temp;
         }
         return baseID + temp;
+    }
+
+    private <T> int serializeProperty(BlockState state, PropertyDefinition<T> propertyDefinition) {
+        return propertyDefinition.getProperty().serialize(state.getProperty(propertyDefinition.getProperty()));
     }
 
     private BlockState deserializeState(int id, BlockType blockType, PropertyDefinition[] propertyDefinitions, int baseID) {
@@ -119,15 +122,18 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
         id -= baseID;
         Preconditions.checkArgument(id <= propertyIDAmount);
         int base = 0;
-        for (PropertyDefinition propertyDefinition : propertyDefinitions) {
+        for (PropertyDefinition<?> propertyDefinition : propertyDefinitions) {
             propertyIDAmount /= propertyDefinition.getProperty().getTotalValuesAmount();
             int minPropertyID = id - id % propertyIDAmount;
             int valueIndex = (minPropertyID - base) / propertyIDAmount;
-            Object propertyValue = propertyDefinition.getProperty().deserialize(valueIndex);
-            // noinspection unchecked
-            builder.withProperty(propertyDefinition.getProperty(), propertyValue);
+            deserializeProperty(builder, propertyDefinition, valueIndex);
             base = minPropertyID;
         }
         return BlockState.of(blockType, builder.create());
+    }
+
+    private <T> void deserializeProperty(PropertiesBuilder builder, PropertyDefinition<T> propertyDefinition, int valueIndex) {
+        T propertyValue = propertyDefinition.getProperty().deserialize(valueIndex);
+        builder.withProperty(propertyDefinition.getProperty(), propertyValue);
     }
 }

@@ -61,10 +61,10 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends Entity> Collection<T> getTrackedEntities(Entity observer, Class<T> entityClass) {
         // access to a view of the multimap must be synchronized and we need to return a copy of that view
         synchronized (observerTrackedEntitiesMap) {
-            //noinspection unchecked
             return (Collection<T>) observerTrackedEntitiesMap.get(observer).stream()
                     .filter(e -> e.getClass() == entityClass)
                     .collect(Collectors.toSet());
@@ -72,9 +72,9 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends Entity> Collection<T> getObservers(Entity trackedEntity, Class<T> observerClass) {
         synchronized (observerTrackedEntitiesMap) {
-            //noinspection unchecked
             return (Collection<T>) observerTrackedEntitiesMap.entries().stream()
                     .filter(entry -> observerClass.isAssignableFrom(entry.getKey().getClass()) || entry.getKey().getClass() == observerClass)
                     .filter(entry -> entry.getValue() == trackedEntity)

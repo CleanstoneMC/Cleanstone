@@ -12,9 +12,9 @@ import io.netty.buffer.Unpooled;
 
 public class JavaSerializableCodec<T extends Serializable> implements InOutCodec<T, ByteBuf> {
     @Override
+    @SuppressWarnings("unchecked")
     public T decode(ByteBuf data) throws IOException {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new ByteBufInputStream(data))) {
-            //noinspection unchecked
             return (T) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
             throw new IOException(e);

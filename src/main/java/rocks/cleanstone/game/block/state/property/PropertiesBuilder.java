@@ -3,18 +3,20 @@ package rocks.cleanstone.game.block.state.property;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class PropertiesBuilder {
 
     protected final Collection<PropertyValuePair<?>> propertyValuePairs;
 
     public PropertiesBuilder(PropertyHolder propertyHolder) {
-        propertyValuePairs = new ArrayList<>();
-        Arrays.stream(propertyHolder.getProperties()).forEach(propertyDefinition -> {
-            //noinspection unchecked
-            propertyValuePairs.add(new PropertyValuePair(propertyDefinition.getProperty(),
-                    propertyDefinition.getDefaultValue()));
-        });
+        propertyValuePairs = Arrays.stream(propertyHolder.getProperties())
+                .map(this::convert)
+                .collect(Collectors.toList());
+    }
+
+    private <T> PropertyValuePair<T> convert(PropertyDefinition<T> propertyDefinition) {
+        return new PropertyValuePair<>(propertyDefinition.getProperty(), propertyDefinition.getDefaultValue());
     }
 
     public PropertiesBuilder(Properties properties) {

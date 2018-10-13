@@ -44,10 +44,9 @@ public class PluginMessageListener {
         ByteBuf buffer = Unpooled.buffer();
         buffer.writeBytes(packet.getData());
 
-        InboundPluginChannelMessageEvent inboundPluginChannelMessageEvent;
+        InboundPluginChannelMessageEvent<?> inboundPluginChannelMessageEvent;
         try {
-            //noinspection unchecked
-            inboundPluginChannelMessageEvent = new InboundPluginChannelMessageEvent(
+            inboundPluginChannelMessageEvent = new InboundPluginChannelMessageEvent<>(
                     pluginMessagePacketPlayerInboundPacketEvent.getNetworking(),
                     pluginMessagePacketPlayerInboundPacketEvent.getConnection(),
                     pluginMessagePacketPlayerInboundPacketEvent.getPlayer(),
@@ -67,7 +66,7 @@ public class PluginMessageListener {
     @EventListener
     public void onPluginMessage(OutboundPluginChannelMessageEvent outboundPluginChannelMessageEvent) {
         PluginChannel.PluginMessage message = outboundPluginChannelMessageEvent.getMessage();
-        PluginChannel pluginChannel = pluginChannelRegistry.getPluginChannel(message);
+        PluginChannel<PluginChannel.PluginMessage> pluginChannel = pluginChannelRegistry.getPluginChannel(message);
 
         if (pluginChannel == null) {
             logger.error("PluginChannel does not exist");
@@ -76,7 +75,6 @@ public class PluginMessageListener {
 
         ByteBuf buffer = Unpooled.buffer();
         try {
-            //noinspection unchecked
             buffer = pluginChannel.encode(buffer, message);
         } catch (IOException e) {
             logger.error("Error while encoding PluginChannelMessage", e);
