@@ -2,21 +2,18 @@ package rocks.cleanstone.net.raknet;
 
 import com.whirvis.jraknet.identifier.Identifier;
 import com.whirvis.jraknet.server.RakNetServer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.net.InetAddress;
+import javax.annotation.Nonnull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.SmartLifecycle;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.protocol.Protocol;
 
-import javax.annotation.Nonnull;
-import java.net.InetAddress;
-
+@Slf4j
 public class RakNetNetworking extends AbstractNetworking implements SmartLifecycle {
-
     private static int currentServerID = 1;
 
     protected final Identifier identifier;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private RakNetServer server;
     private boolean running = false;
 
@@ -35,7 +32,7 @@ public class RakNetNetworking extends AbstractNetworking implements SmartLifecyc
 
     @Override
     public void stop() {
-        logger.info("Closing " + protocol.getClass().getSimpleName());
+        log.info("Closing " + protocol.getClass().getSimpleName());
         server.shutdown();
         running = false;
     }

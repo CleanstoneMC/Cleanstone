@@ -3,8 +3,17 @@ package rocks.cleanstone.player;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.Nullable;
+import javax.annotation.PreDestroy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Identity;
@@ -19,24 +28,13 @@ import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
 
-import javax.annotation.Nullable;
-import javax.annotation.PreDestroy;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
+@Slf4j
 @Component
 public class SimplePlayerManager implements PlayerManager {
 
     private final Collection<Player> onlinePlayers = Sets.newConcurrentHashSet();
     private final Collection<Player> terminatingPlayers = Sets.newConcurrentHashSet();
     private final Collection<Identity> playerIDs = Sets.newConcurrentHashSet();
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final PlayerDataSource playerDataSource;
 
     public SimplePlayerManager() throws IOException {
@@ -118,13 +116,13 @@ public class SimplePlayerManager implements PlayerManager {
 
     @Override
     public void initializePlayer(Player player) {
-        logger.info("Initializing player");
+        log.info("Initializing player");
         Preconditions.checkState(onlinePlayers.add(player),
                 "Cannot initialize already initialized player " + player);
         try {
             CleanstoneServer.publishEvent(new AsyncPlayerInitializationEvent(player), true);
         } catch (Exception e) {
-            logger.error("Error occurred during player initialization for " + player, e);
+            log.error("Error occurred during player initialization for " + player, e);
             player.kick(Text.of("Error occurred during player initialization"));
             return;
         }
@@ -133,7 +131,7 @@ public class SimplePlayerManager implements PlayerManager {
 
     @Override
     public void terminatePlayer(Player player) {
-        logger.info("Terminating player");
+        log.info("Terminating player");
         Preconditions.checkState(terminatingPlayers.add(player),
                 "Cannot terminate already terminated / non-initialized player " + player);
         CleanstoneServer.publishEvent(new PlayerQuitEvent(player));
@@ -152,7 +150,7 @@ public class SimplePlayerManager implements PlayerManager {
         try {
             Files.createDirectories(dataFolder);
         } catch (IOException e) {
-            logger.error("Cannot create data folder (no permission?)", e);
+            log.error("Cannot create data folder (no permission?)", e);
         }
         return dataFolder;
     }

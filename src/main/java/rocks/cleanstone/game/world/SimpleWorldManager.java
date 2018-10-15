@@ -1,24 +1,21 @@
 package rocks.cleanstone.game.world;
 
 import com.google.common.base.Preconditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.config.WorldConfig;
 
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+@Slf4j
 @Component
 public class SimpleWorldManager implements WorldManager {
-
     private final WorldLoader worldLoader;
     private final Map<WorldConfig, World> worldMap = new ConcurrentHashMap<>();
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public SimpleWorldManager(WorldLoader worldLoader) {
@@ -48,7 +45,7 @@ public class SimpleWorldManager implements WorldManager {
         worldListenableFuture.addCallback(world -> {
             Preconditions.checkNotNull(world, "Loaded world " + worldConfig.getName() + " cannot be null");
             worldMap.put(world.getWorldConfig(), world);
-        }, throwable -> logger.error("Error while loading world " + worldConfig.getName(), throwable));
+        }, throwable -> log.error("Error while loading world " + worldConfig.getName(), throwable));
 
         return worldListenableFuture;
     }
@@ -66,7 +63,7 @@ public class SimpleWorldManager implements WorldManager {
 
             worldMap.remove(worldConfig);
         } catch (Exception e) {
-            logger.error("Error occurred while unloading World", e);
+            log.error("Error occurred while unloading World", e);
         }
     }
 

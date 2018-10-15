@@ -1,16 +1,13 @@
 package rocks.cleanstone.core.event;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ErrorHandler;
 
+@Slf4j
 @Component
 public class EventListenerErrorHandler implements ErrorHandler {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     protected boolean rethrowExceptions = false;
 
     @Override
@@ -21,7 +18,7 @@ public class EventListenerErrorHandler implements ErrorHandler {
             if (rethrowExceptions) {
                 throw new EventExecutionException("Error occurred while executing event listener", throwable);
             } else {
-                logger.error("Error occurred while executing event listener", throwable);
+                log.error("Error occurred while executing event listener", throwable);
             }
         }
     }

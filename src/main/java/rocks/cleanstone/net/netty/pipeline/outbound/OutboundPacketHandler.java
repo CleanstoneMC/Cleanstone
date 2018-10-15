@@ -5,8 +5,7 @@ import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.DecoderException;
 import io.netty.util.AttributeKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
@@ -14,9 +13,8 @@ import rocks.cleanstone.net.event.OutboundPacketEvent;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 
+@Slf4j
 public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Networking networking;
 
     public OutboundPacketHandler(Networking networking) {
@@ -33,11 +31,13 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
                 throw new DecoderException("Outbound packet has invalid direction: " + packet.getType());
             }
             if (CleanstoneServer.publishEvent(
-                    new OutboundPacketEvent<>(packet, connection, networking)).isCancelled()) return;
-            logger.trace("Sending " + packet.getType() + " packet to " + connection.getAddress().getHostAddress());
+                    new OutboundPacketEvent<>(packet, connection, networking)).isCancelled()) {
+                return;
+            }
+            log.trace("Sending " + packet.getType() + " packet to " + connection.getAddress().getHostAddress());
             ctx.write(packet, promise);
         } catch (Exception e) {
-            logger.error("Error occurred while handling outbound packet", e);
+            log.error("Error occurred while handling outbound packet", e);
         }
     }
 }

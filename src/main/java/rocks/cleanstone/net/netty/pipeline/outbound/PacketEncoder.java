@@ -4,20 +4,17 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.util.AttributeKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.util.List;
-
+@Slf4j
 public class PacketEncoder extends MessageToMessageEncoder<Packet> {
-
     private final Protocol protocol;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public PacketEncoder(Protocol protocol) {
         this.protocol = protocol;
@@ -34,12 +31,13 @@ public class PacketEncoder extends MessageToMessageEncoder<Packet> {
             ByteBuf data = ctx.alloc().buffer();
             ByteBufUtils.writeVarInt(data, packetID);
             data = outboundPacketCodec.encode(data, in);
-            if (connection.isCompressionEnabled())
+            if (connection.isCompressionEnabled()) {
                 ctx.channel().attr(AttributeKey.<Integer>valueOf("uncompressedPacketLength"))
                         .set(data.readableBytes());
+            }
             out.add(data);
         } catch (Exception e) {
-            logger.error("Error occurred while encoding packet data", e);
+            log.error("Error occurred while encoding packet data", e);
         }
     }
 }

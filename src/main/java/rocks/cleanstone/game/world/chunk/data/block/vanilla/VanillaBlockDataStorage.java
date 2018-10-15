@@ -1,8 +1,10 @@
 package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import com.google.common.base.Objects;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
+import javax.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
@@ -11,18 +13,13 @@ import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
-
+@Slf4j
 public class VanillaBlockDataStorage implements BlockDataStorage {
-
     private static final int SEC_HEIGHT = BlockDataSection.HEIGHT, SEC_WIDTH = BlockDataSection.WIDTH,
             SEC_AMNT = Chunk.HEIGHT / SEC_HEIGHT;
 
     private BlockDataSection[] sections = new BlockDataSection[SEC_AMNT];
     private final boolean hasSkyLight;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final DirectPalette directPalette;
     private final boolean omitDirectPaletteLength;
 
@@ -49,7 +46,9 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
 
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             final AtomicBoolean isEmptyFlag = new AtomicBoolean();
-            if (isEmptyFlag.get()) continue;
+            if (isEmptyFlag.get()) {
+                continue;
+            }
             final byte[][][] blockLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT];
             final byte[][][] skyLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT];
 
@@ -104,7 +103,9 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
     }
 
     public void setSkyLight(int x, int chunkY, int z, byte skyLight) {
-        if (!hasSkyLight) return;
+        if (!hasSkyLight) {
+            return;
+        }
         final int sectionY = chunkY / SEC_AMNT;
         final int y = chunkY - sectionY * SEC_HEIGHT;
         final BlockDataSection section = getOrCreateSection(sectionY);
@@ -115,7 +116,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
         final ArrayBlockDataTable table = new ArrayBlockDataTable(hasSkyLight);
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             final BlockDataSection section = sections[sectionY];
-            if (section != null)
+            if (section != null) {
                 for (int y = 0; y < SEC_HEIGHT; y++) {
                     for (int z = 0; z < SEC_WIDTH; z++) {
                         for (int x = 0; x < SEC_WIDTH; x++) {
@@ -125,11 +126,13 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
                                 table.setBlock(x, chunkRelativeY, z, ImmutableBlock.of(state));
                             }
                             table.setBlockLight(x, chunkRelativeY, z, section.getBlockLight()[x][z][y]);
-                            if (hasSkyLight)
+                            if (hasSkyLight) {
                                 table.setSkyLight(x, chunkRelativeY, z, section.getSkyLight()[x][z][y]);
+                            }
                         }
                     }
                 }
+            }
         }
         return table;
     }
@@ -140,8 +143,12 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof VanillaBlockDataStorage)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof VanillaBlockDataStorage)) {
+            return false;
+        }
         final VanillaBlockDataStorage that = (VanillaBlockDataStorage) o;
         return hasSkyLight == that.hasSkyLight &&
                 omitDirectPaletteLength == that.omitDirectPaletteLength &&

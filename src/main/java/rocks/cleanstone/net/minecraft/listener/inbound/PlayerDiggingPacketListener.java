@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.minecraft.listener.inbound;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Collections;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -14,13 +14,9 @@ import rocks.cleanstone.net.minecraft.packet.enums.DiggingStatus;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerDiggingPacket;
 import rocks.cleanstone.player.Player;
 
-import java.util.Collections;
-
+@Slf4j
 @Component
 public class PlayerDiggingPacketListener {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     @Async(value = "playerExec")
     @EventListener
     public void onPacket(PlayerInboundPacketEvent<PlayerDiggingPacket> playerInboundPacketEvent) {
@@ -45,8 +41,7 @@ public class PlayerDiggingPacketListener {
 
                     CleanstoneServer.publishEvent(blockBreakEvent);
                 }
-            }, e -> logger.error("Could not get Block", e));
+            }, e -> log.error("Could not get Block", e));
         }
     }
-
 }

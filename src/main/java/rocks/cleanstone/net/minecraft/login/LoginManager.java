@@ -2,8 +2,15 @@ package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
+import javax.crypto.SecretKey;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -22,17 +29,12 @@ import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;
 import rocks.cleanstone.player.UserProperty;
 
-import javax.crypto.SecretKey;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.util.*;
-
+@Slf4j
 @Component
 public class LoginManager {
 
     private final Map<Connection, LoginData> connectionLoginDataMap = Maps.newConcurrentMap();
     private final SessionServerRequester sessionServerRequester;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final MinecraftNetworking networking;
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
@@ -61,7 +63,9 @@ public class LoginManager {
     }
 
     public void finishLogin(Connection connection, UUID uuid, String accountName, UserProperty[] properties) {
-        if (connectionLoginDataMap.remove(connection) == null || connection.isClosed()) return;
+        if (connectionLoginDataMap.remove(connection) == null || connection.isClosed()) {
+            return;
+        }
 
         if (properties == null) {
             properties = new UserProperty[0];//Fix for Offline mode nullpointer Exception
@@ -81,7 +85,7 @@ public class LoginManager {
         //connection.setCompressionEnabled(true); TODO Fix compression handler
         connection.sendPacket(loginSuccessPacket);
 
-        logger.info("Player " + accountName + " (" + uuid.toString() + ") logged in");
+        log.info("Player " + accountName + " (" + uuid.toString() + ") logged in");
         connection.setProtocolState(VanillaProtocolState.PLAY);
         CleanstoneServer.publishEvent(
                 new AsyncLoginSuccessEvent(connection, uuid, accountName, userProperties));
@@ -95,7 +99,9 @@ public class LoginManager {
     void onEncryptionResponse(Connection connection,
                               EncryptionResponsePacket encryptionResponsePacket) {
         final LoginData loginData = connectionLoginDataMap.get(connection);
-        if (loginData == null || connection.isClosed()) return;
+        if (loginData == null || connection.isClosed()) {
+            return;
+        }
         final SecretKey key = LoginCrypto.validateEncryptionResponse(loginData, privateKey, encryptionResponsePacket);
         connection.setSharedSecret(key);
         connection.setEncryptionEnabled(true);
@@ -111,14 +117,14 @@ public class LoginManager {
                 final String name = response.getName();
                 finishLogin(connection, uuid, name, response.getProperties());
             } catch (Exception e) {
-                logger.error("Error occurred while finishing login", e);
+                log.error("Error occurred while finishing login", e);
             }
         }, e -> {
             try {
-                logger.error("Error occurred while requesting session servers", e);
+                log.error("Error occurred while requesting session servers", e);
                 stopLogin(connection, Text.of("Failed to validate session"));
             } catch (Exception e2) {
-                logger.error("Error occurred while stopping login", e2);
+                log.error("Error occurred while stopping login", e2);
             }
         });
     }

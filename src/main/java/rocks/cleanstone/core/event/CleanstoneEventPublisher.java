@@ -1,17 +1,15 @@
 package rocks.cleanstone.core.event;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class CleanstoneEventPublisher {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CleanstoneEventPublisher.class);
     @Autowired
     private ApplicationEventPublisher publisher;
     @Autowired
@@ -24,10 +22,10 @@ public class CleanstoneEventPublisher {
         try {
             publisher.publishEvent(event);
         } catch (EventCancellationException e) {
-            LOGGER.info("Event " + eventName + " was cancelled");
+            log.info("Event " + eventName + " was cancelled");
         }
         if (System.currentTimeMillis() - preEventTime > 50 && !eventName.startsWith("Async")) {
-            LOGGER.warn("Listeners for non-async event " + eventName + " needed "
+            log.warn("Listeners for non-async event " + eventName + " needed "
                     + (System.currentTimeMillis() - preEventTime)
                     + "ms to complete, this slows down the server");
         }

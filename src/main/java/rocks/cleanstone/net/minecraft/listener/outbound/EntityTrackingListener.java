@@ -1,7 +1,8 @@
 package rocks.cleanstone.net.minecraft.listener.outbound;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Collections;
+import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -20,14 +21,10 @@ import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
-import java.util.Collections;
-import java.util.UUID;
-
+@Slf4j
 @Component
 public class EntityTrackingListener {
-
     private final PlayerManager playerManager;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public EntityTrackingListener(PlayerManager playerManager) {
@@ -39,7 +36,9 @@ public class EntityTrackingListener {
     public void onEntityTrack(EntityTrackEvent event) {
         // TODO check if the observer uses the current protocol layer
         final Player observer = playerManager.getOnlinePlayer(event.getObserver());
-        if (observer == null) return;
+        if (observer == null) {
+            return;
+        }
         final Entity entity = event.getEntity();
         if (entity instanceof Human) {
             final Player player = playerManager.getOnlinePlayer(entity);
@@ -66,7 +65,9 @@ public class EntityTrackingListener {
     public void onEntityUntrack(EntityUntrackEvent event) {
         // TODO check if the observer uses the current protocol layer
         final Player observer = playerManager.getOnlinePlayer(event.getObserver());
-        if (observer == null) return;
+        if (observer == null) {
+            return;
+        }
         final Entity entity = event.getEntity();
 
         observer.sendPacket(new DestroyEntitiesPacket(Collections.singletonList(entity.getEntityID())));

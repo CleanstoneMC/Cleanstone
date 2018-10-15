@@ -1,7 +1,12 @@
 package rocks.cleanstone.net.minecraft.listener.inbound.place;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -23,11 +28,9 @@ import rocks.cleanstone.net.minecraft.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
-import java.util.*;
-
+@Slf4j
 @Component
 public class PlayerBlockPlacementPacketListener {
-    private final Logger logger = LoggerFactory.getLogger(PlayerBlockPlacementPacketListener.class);
     private final PlayerManager playerManager;
     private final MaterialRegistry materialRegistry;
     private final Map<Property<?>, List<BlockPlacePropertyProvider<?>>> propProviders;
@@ -80,7 +83,7 @@ public class PlayerBlockPlacementPacketListener {
                     .forEach(provider -> applyProperty(finalBlockType, player, packet, properties, provider));
 
             final Block placedBlock = ImmutableBlock.of(blockType, properties.create());
-            logger.debug("{} places {} at {}", player.getName(), placedBlock, newBlockPosition);
+            log.debug("{} places {} at {}", player.getName(), placedBlock, newBlockPosition);
 
             player.getEntity().getWorld().setBlockAt(newBlockPosition, placedBlock);
             CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, packet.getFace()));

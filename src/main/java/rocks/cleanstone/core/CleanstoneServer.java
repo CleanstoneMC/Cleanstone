@@ -1,7 +1,9 @@
 package rocks.cleanstone.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Locale;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -15,13 +17,8 @@ import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
 import rocks.cleanstone.core.event.EventExecutionException;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import java.util.Locale;
-
+@Slf4j
 public abstract class CleanstoneServer implements ApplicationRunner {
-
-    private static final Logger logger = LoggerFactory.getLogger(CleanstoneServer.class);
     private static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
     private static CleanstoneServer INSTANCE;
     private static Thread restartThread;
@@ -71,7 +68,7 @@ public abstract class CleanstoneServer implements ApplicationRunner {
 
     public static synchronized void restart() {
         if (restartThread != null) {
-            logger.warn("Server is already restarting");
+            log.warn("Server is already restarting");
             return;
         }
 
@@ -117,6 +114,6 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     @Order(value = Ordered.HIGHEST_PRECEDENCE)
     @EventListener
     public void onShutdown(ContextClosedEvent e) {
-        logger.info("Shutting down");
+        log.info("Shutting down");
     }
 }

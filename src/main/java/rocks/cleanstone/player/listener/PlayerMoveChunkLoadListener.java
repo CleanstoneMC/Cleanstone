@@ -1,7 +1,11 @@
 package rocks.cleanstone.player.listener;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -14,19 +18,13 @@ import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
+@Slf4j
 @Component
 public class PlayerMoveChunkLoadListener {
 
     private final Map<UUID, AtomicInteger> updateCounterMap = new ConcurrentHashMap<>();
     private final PlayerChunkLoadService playerChunkLoadService;
     private final NearbyChunkRetriever nearbyChunkRetriever;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public PlayerMoveChunkLoadListener(PlayerChunkLoadService playerChunkLoadService, NearbyChunkRetriever nearbyChunkRetriever) {
@@ -59,7 +57,7 @@ public class PlayerMoveChunkLoadListener {
                 return;
             }
 
-            logger.debug("loading chunks around {} for {}", coords, player.getID().getName());
+            log.debug("loading chunks around {} for {}", coords, player.getID().getName());
             sendNewNearbyChunks(player, coords, loadingToken);
             unloadRemoteChunks(player, coords);
         }
@@ -84,14 +82,14 @@ public class PlayerMoveChunkLoadListener {
 
         for (final ChunkCoords coords : nearbyCoords) {
             if (shouldAbortLoading(uuid, loadingToken)) {
-                logger.debug("aborted loading chunks for {}", player.getID().getName());
+                log.debug("aborted loading chunks for {}", player.getID().getName());
                 return;
             }
 
             playerChunkLoadService.loadChunk(player, coords);
         }
 
-        logger.debug("done loading chunks for {}", player.getID().getName());
+        log.debug("done loading chunks for {}", player.getID().getName());
     }
 
 

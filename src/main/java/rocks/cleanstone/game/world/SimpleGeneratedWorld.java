@@ -1,8 +1,9 @@
 package rocks.cleanstone.game.world;
 
 import com.google.common.base.Preconditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.concurrent.ExecutionException;
+import javax.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -23,11 +24,9 @@ import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 
-import javax.annotation.Nullable;
-import java.util.concurrent.ExecutionException;
-
 @Component
 @Scope("prototype")
+@Slf4j
 public class SimpleGeneratedWorld implements World {
 
     protected final WorldGenerator generator;
@@ -39,7 +38,6 @@ public class SimpleGeneratedWorld implements World {
     private final Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
     private final LevelType levelType = LevelType.FLAT; //TODO: Move
     private RotatablePosition spawnPosition;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public SimpleGeneratedWorld(WorldConfig worldConfig, WorldGenerator generator, WorldDataSource dataSource,
                                 RegionManager regionManager, EntityRegistry entityRegistry,
@@ -146,7 +144,7 @@ public class SimpleGeneratedWorld implements World {
         final int relX = getRelativeBlockCoordinate(x);
         final int relZ = getRelativeBlockCoordinate(z);
 
-        getChunk(chunkCoords).addCallback(chunk -> chunk.setBlock(relX, y, relZ, block), throwable -> logger.error("Failed to get chunk " + chunkCoords + " in world " + worldConfig.getName(), throwable));
+        getChunk(chunkCoords).addCallback(chunk -> chunk.setBlock(relX, y, relZ, block), throwable -> log.error("Failed to get chunk " + chunkCoords + " in world " + worldConfig.getName(), throwable));
     }
 
     @Override

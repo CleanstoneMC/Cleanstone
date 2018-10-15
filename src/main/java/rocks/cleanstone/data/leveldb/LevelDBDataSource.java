@@ -2,25 +2,22 @@ package rocks.cleanstone.data.leveldb;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import java.io.IOException;
+import java.nio.file.Path;
+import javax.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.DBIterator;
 import org.iq80.leveldb.Options;
 import org.iq80.leveldb.WriteBatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import rocks.cleanstone.data.KeyValueDataRepository;
 
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.nio.file.Path;
-
+@Slf4j
 public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBuf>, AutoCloseable {
-
     private final Path path;
     private final DB database;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public LevelDBDataSource(Path path, Options options) throws IOException {
         this.path = path;
@@ -40,7 +37,7 @@ public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBu
         try {
             database.close();
         } catch (IOException e) {
-            logger.error("Error occurred while closing LevelDB '" + path.getFileName() + "'", e);
+            log.error("Error occurred while closing LevelDB '" + path.getFileName() + "'", e);
         }
     }
 
@@ -76,6 +73,6 @@ public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBu
         iterator.forEachRemaining(entry -> batch.delete(entry.getKey()));
 
         database.write(batch);
-        logger.info("dropped leveldb at {}", path);
+        log.info("dropped leveldb at {}", path);
     }
 }

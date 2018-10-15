@@ -1,8 +1,11 @@
 package rocks.cleanstone.game.world.data;
 
 import io.netty.buffer.ByteBuf;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashSet;
+import javax.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.data.VersionedCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
@@ -19,14 +22,9 @@ import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityDataCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.HashSet;
-
+@Slf4j
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory;
     private final String worldID;
     private final boolean hasSkyLight;
@@ -71,7 +69,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
                 return null;
             }
         } catch (IOException e) {
-            logger.error("Failed to load corrupted chunk block data at " + coords + " in LevelDB '"
+            log.error("Failed to load corrupted chunk block data at " + coords + " in LevelDB '"
                     + worldID + "'", e);
             return null;
         }
@@ -82,7 +80,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
                 entityData = new EntityData(new HashSet<>());
             }
         } catch (IOException e) {
-            logger.error("Failed to load corrupted chunk entity data at " + coords + " in LevelDB '"
+            log.error("Failed to load corrupted chunk entity data at " + coords + " in LevelDB '"
                     + worldID + "'", e);
             entityData = new EntityData(new HashSet<>());
         }
@@ -95,7 +93,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     @Override
     public void saveChunk(Chunk chunk) {
         final ChunkCoords coords = chunk.getCoordinates();
-        logger.trace("persisting chunk {}, {}", coords);
+        log.trace("persisting chunk {}, {}", coords);
         final ByteBuf blocksKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.BLOCKS);
         final ByteBuf entitiesKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.ENTITIES);
         try {
@@ -103,7 +101,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
             set(blocksKey, (VanillaBlockDataStorage) chunk.getBlockDataStorage(), blockDataCodec);
             set(entitiesKey, chunk.getEntityData(), entityDataCodec);
         } catch (IOException e) {
-            logger.error("Failed to save corrupted chunk block data at " + coords + " in LevelDB '"
+            log.error("Failed to save corrupted chunk block data at " + coords + " in LevelDB '"
                     + worldID + "'", e);
         }
         blocksKey.release();

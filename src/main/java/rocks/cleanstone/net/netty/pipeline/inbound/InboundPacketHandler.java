@@ -4,8 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.DecoderException;
 import io.netty.util.AttributeKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.Networking;
@@ -13,10 +12,9 @@ import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketDirection;
 
+@Slf4j
 public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
-
     private final Networking networking;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public InboundPacketHandler(Networking networking) {
         this.networking = networking;
@@ -29,13 +27,13 @@ public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
         if (packet.getType().getDirection() == PacketDirection.OUTBOUND) {
             throw new DecoderException("Received packet has invalid direction");
         }
-        logger.trace("Received packet " + packet.getType() + " from " + connection.getAddress().getHostAddress());
+        log.trace("Received packet " + packet.getType() + " from " + connection.getAddress().getHostAddress());
         CleanstoneServer.publishEvent(new InboundPacketEvent<>(packet, connection, networking));
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        logger.error("Error occurred while handling inbound packet", cause);
+        log.error("Error occurred while handling inbound packet", cause);
         ctx.close();
     }
 }

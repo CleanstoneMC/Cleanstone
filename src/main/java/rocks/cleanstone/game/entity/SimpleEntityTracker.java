@@ -1,35 +1,40 @@
 package rocks.cleanstone.game.entity;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.entity.event.*;
-import rocks.cleanstone.game.entity.vanilla.Human;
-import rocks.cleanstone.game.world.chunk.ChunkCoords;
-import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.PlayerManager;
-
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
+import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.entity.event.EntityAddEvent;
+import rocks.cleanstone.game.entity.event.EntityMoveEvent;
+import rocks.cleanstone.game.entity.event.EntityRemoveEvent;
+import rocks.cleanstone.game.entity.event.EntityTrackEvent;
+import rocks.cleanstone.game.entity.event.EntityUntrackEvent;
+import rocks.cleanstone.game.entity.vanilla.Human;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
+import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.PlayerManager;
 
+@Slf4j
 @Component
 public class SimpleEntityTracker implements EntityTracker {
-
     private final NearbyEntityRetriever nearbyEntityRetriever;
     private final Multimap<Entity, Entity> observerTrackedEntitiesMap = Multimaps.synchronizedMultimap(HashMultimap.create());
     private final Set<Entity> observers = Sets.newConcurrentHashSet();
     private final PlayerManager playerManager;
     private final int maxTrackingDistance = 4;
-    private final Logger logger = LoggerFactory.getLogger(SimpleEntityTracker.class);
 
     @Autowired
     public SimpleEntityTracker(NearbyEntityRetriever nearbyEntityRetriever, PlayerManager playerManager) {
@@ -104,14 +109,14 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     private void untrackEntity(Entity observer, Entity entity) {
-        logger.debug("observer {} now does not track {}", observer, entity);
+        log.debug("observer {} now does not track {}", observer, entity);
         Preconditions.checkState(observerTrackedEntitiesMap.remove(observer, entity),
                 "given observer is not tracking given entity");
         CleanstoneServer.publishEvent(new EntityUntrackEvent(observer, entity));
     }
 
     private void trackEntity(Entity observer, Entity entity) {
-        logger.debug("observer {} now tracks {}", observer, entity);
+        log.debug("observer {} now tracks {}", observer, entity);
         Preconditions.checkState(observerTrackedEntitiesMap.put(observer, entity),
                 "given observer is already tracking given entity");
         CleanstoneServer.publishEvent(new EntityTrackEvent(observer, entity));

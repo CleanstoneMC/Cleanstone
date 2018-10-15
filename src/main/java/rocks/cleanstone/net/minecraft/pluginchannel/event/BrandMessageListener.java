@@ -1,7 +1,6 @@
 package rocks.cleanstone.net.minecraft.pluginchannel.event;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
@@ -10,13 +9,11 @@ import rocks.cleanstone.net.minecraft.pluginchannel.OutboundPluginChannelMessage
 import rocks.cleanstone.net.minecraft.pluginchannel.vanilla.BrandMessage;
 
 @Component
+@Slf4j
 public class BrandMessageListener {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     @EventListener
     public void onBrand(InboundPluginChannelMessageEvent<BrandMessage> brandMessageEvent) {
-        logger.info("Got Brand from " + brandMessageEvent.getPlayer().getName() + ":" + brandMessageEvent.getMessage().getBrand());
+        log.info("Got Brand from " + brandMessageEvent.getPlayer().getName() + ":" + brandMessageEvent.getMessage().getBrand());
 
         final BrandMessage brandMessage = new BrandMessage("cleanstone");
         final OutboundPluginChannelMessageEvent<BrandMessage> pluginChannelMessageEvent = new OutboundPluginChannelMessageEvent<>(brandMessageEvent.getPlayer(), brandMessage);

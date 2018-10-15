@@ -1,7 +1,8 @@
 package rocks.cleanstone.game;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.concurrent.ExecutionException;
+import javax.annotation.Nonnull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Lazy;
@@ -11,14 +12,11 @@ import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
 
-import javax.annotation.Nonnull;
-import java.util.concurrent.ExecutionException;
-
+@Lazy
+@Slf4j
 @Component("game")
-@Lazy()
 public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final WorldManager worldManager;
     private final MinecraftConfig minecraftConfig;
     private World firstSpawnWorld;
@@ -40,7 +38,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
         minecraftConfig.getWorlds().stream()
                 .filter(WorldConfig::isAutoload)
                 .forEach(this::loadWorld);
-        logger.info("Started OpenWorldGame");
+        log.info("Started OpenWorldGame");
         running = true;
     }
 
@@ -52,14 +50,14 @@ public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
                 firstSpawnWorld = world;
             }
         } catch (InterruptedException | ExecutionException e) {
-            logger.error("Failed to load auto-load world " + worldConfig.getName(), e);
+            log.error("Failed to load auto-load world " + worldConfig.getName(), e);
         }
     }
 
     @Override
     public void stop() {
         this.worldManager.getLoadedWorlds().forEach(world -> this.worldManager.unloadWorld(world.getWorldConfig()));
-        logger.info("Stopped OpenWorldGame");
+        log.info("Stopped OpenWorldGame");
         running = false;
     }
 

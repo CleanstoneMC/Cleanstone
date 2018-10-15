@@ -6,8 +6,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalNotification;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.CleanstoneServer;
@@ -20,10 +19,10 @@ import rocks.cleanstone.game.world.event.ChunkUnloadEvent;
 import javax.annotation.Nullable;
 import java.util.Collection;
 
+@Slf4j
 public class SimpleRegion implements Region {
 
     private final String id;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ChunkProvider chunkProvider;
     private final Cache<ChunkCoords, Chunk> loadedChunks = CacheBuilder.newBuilder()
             .maximumSize(4096)
@@ -81,7 +80,7 @@ public class SimpleRegion implements Region {
                     loadedChunks.put(coords, chunk);
                     CleanstoneServer.publishEvent(new ChunkLoadedEvent(chunk));
                 },
-                error -> logger.error("could not load chunk " + coords, error)
+                error -> log.error("could not load chunk " + coords, error)
         );
         return chunkFuture;
     }

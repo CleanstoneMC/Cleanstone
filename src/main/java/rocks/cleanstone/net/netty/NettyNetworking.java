@@ -7,8 +7,9 @@ import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.net.InetAddress;
+import javax.annotation.Nonnull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.SmartLifecycle;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.message.Text;
@@ -16,15 +17,11 @@ import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.player.PlayerManager;
 
-import javax.annotation.Nonnull;
-import java.net.InetAddress;
-
+@Slf4j
 public class NettyNetworking extends AbstractNetworking implements SmartLifecycle {
-
     private final boolean epoll = false;
     private final int socketBacklog = 128;
     private final boolean socketKeepAlive = true;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final PlayerManager playerManager;
     private EventLoopGroup bossGroup, workerGroup;
     private boolean running = false;
@@ -47,10 +44,10 @@ public class NettyNetworking extends AbstractNetworking implements SmartLifecycl
         bootstrap.localAddress(this.getAddress(), this.getPort());
         bootstrap.bind().addListener(future -> {
             if (future.isSuccess()) {
-                logger.info(CleanstoneServer.getMessage("net.netty.bind-successful",
+                log.info(CleanstoneServer.getMessage("net.netty.bind-successful",
                         protocol.getClass().getSimpleName(), getAddress(), getPort() + ""));
             } else {
-                logger.error(CleanstoneServer.getMessage("net.netty.bind-failure",
+                log.error(CleanstoneServer.getMessage("net.netty.bind-failure",
                         getAddress().getHostAddress(), getPort() + ""), future.cause());
             }
         });
@@ -61,7 +58,7 @@ public class NettyNetworking extends AbstractNetworking implements SmartLifecycl
     public void stop() {
         playerManager.getOnlinePlayers().forEach(player -> player.kick(
                 Text.ofLocalized("game.command.cleanstone.default-stop-reason", player.getLocale())));
-        logger.info("Closing " + protocol.getClass().getSimpleName());
+        log.info("Closing " + protocol.getClass().getSimpleName());
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
         running = false;

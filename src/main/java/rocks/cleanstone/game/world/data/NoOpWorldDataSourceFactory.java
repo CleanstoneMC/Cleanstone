@@ -1,14 +1,13 @@
 package rocks.cleanstone.game.world.data;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @ConditionalOnProperty(name = "world.datasource", havingValue = "noop")
 public class NoOpWorldDataSourceFactory implements WorldDataSourceFactory {
-    private final Logger logger = LoggerFactory.getLogger(NoOpWorldDataSourceFactory.class);
 
     @Override
     public WorldDataSource get(String worldID) {

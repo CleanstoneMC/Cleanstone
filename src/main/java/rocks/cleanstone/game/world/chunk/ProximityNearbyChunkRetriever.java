@@ -1,22 +1,20 @@
 package rocks.cleanstone.game.world.chunk;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.game.world.World;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 public class ProximityNearbyChunkRetriever implements NearbyChunkRetriever {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public Collection<ChunkCoords> getChunkCoordsAround(ChunkCoords coords, int radius) {
@@ -46,7 +44,7 @@ public class ProximityNearbyChunkRetriever implements NearbyChunkRetriever {
                         try {
                             return world.getChunk(coords).get();
                         } catch (InterruptedException | ExecutionException e) {
-                            logger.error("Failed to get chunk " + coords + " in world "
+                            log.error("Failed to get chunk " + coords + " in world "
                                     + world.getWorldConfig().getName(), e);
                             throw new RuntimeException(e);
                         }

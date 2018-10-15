@@ -4,15 +4,12 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.util.AttributeKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
+@Slf4j
 public class ByteStreamEncoder extends MessageToByteEncoder<ByteBuf> {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     @Override
     protected void encode(ChannelHandlerContext ctx, ByteBuf in, ByteBuf out) {
         try {
@@ -31,7 +28,7 @@ public class ByteStreamEncoder extends MessageToByteEncoder<ByteBuf> {
                 // TODO: Length appears to be incorrect or is in wrong format
             }
         } catch (Exception e) {
-            logger.error("Error occurred while framing outgoing data", e);
+            log.error("Error occurred while framing outgoing data", e);
         }
     }
 }

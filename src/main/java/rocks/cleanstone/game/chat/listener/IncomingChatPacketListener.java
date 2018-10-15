@@ -1,7 +1,6 @@
 package rocks.cleanstone.game.chat.listener;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -15,10 +14,9 @@ import rocks.cleanstone.net.minecraft.packet.inbound.InChatMessagePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
+@Slf4j
 @Component
 public class IncomingChatPacketListener {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final PlayerManager playerManager;
 
     @Autowired
@@ -34,21 +32,25 @@ public class IncomingChatPacketListener {
         }
 
         final Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
-        if (player == null) return;
+        if (player == null) {
+            return;
+        }
         final Identity playerID = player.getID();
         final String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
 
         final InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());
         final String chatMessage = chatMessagePacket.getMessage();
-        if (chatMessage.isEmpty()) return;
+        if (chatMessage.isEmpty()) {
+            return;
+        }
         if (chatMessage.charAt(0) == '/') {
             //Command
 
-            logger.info("Command from {}: {}", playerName, chatMessage);
+            log.info("Command from {}: {}", playerName, chatMessage);
 
             CleanstoneServer.publishEvent(new PlayerIssuedCommandEvent(player, chatMessage));
         } else {
-            logger.info("Message from {}: {}", playerName, chatMessage);
+            log.info("Message from {}: {}", playerName, chatMessage);
 
             CleanstoneServer.publishEvent(new PlayerChatMessageEvent(player, chatMessage));
         }

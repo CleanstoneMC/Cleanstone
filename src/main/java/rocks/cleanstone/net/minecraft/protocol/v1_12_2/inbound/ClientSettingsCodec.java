@@ -2,8 +2,10 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Locale;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
@@ -12,15 +14,9 @@ import rocks.cleanstone.net.minecraft.packet.inbound.ClientSettingsPacket;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Locale;
-
+@Slf4j
 @Component
 public class ClientSettingsCodec implements InboundPacketCodec<ClientSettingsPacket> {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     @Override
     public ClientSettingsPacket decode(ByteBuf byteBuf) throws IOException {
 

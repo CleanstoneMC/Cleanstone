@@ -2,8 +2,8 @@ package rocks.cleanstone.net.minecraft.listener;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -16,12 +16,9 @@ import rocks.cleanstone.net.minecraft.pluginchannel.OutboundPluginChannelMessage
 import rocks.cleanstone.net.minecraft.pluginchannel.PluginChannel;
 import rocks.cleanstone.net.minecraft.pluginchannel.PluginChannelRegistry;
 
-import java.io.IOException;
-
+@Slf4j
 @Component
 public class PluginMessageListener {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final PluginChannelRegistry pluginChannelRegistry;
 
     public PluginMessageListener(PluginChannelRegistry pluginChannelRegistry) {
@@ -36,7 +33,7 @@ public class PluginMessageListener {
         final PluginChannel pluginChannel = pluginChannelRegistry.getPluginChannel(packet.getChannel());
 
         if (pluginChannel == null) {
-            logger.warn("Cant find PluginChannel for Channel with name \"" + packet.getChannel() + "\"");
+            log.warn("Cant find PluginChannel for Channel with name \"" + packet.getChannel() + "\"");
             return;
         }
 
@@ -53,7 +50,7 @@ public class PluginMessageListener {
                     pluginChannel.decode(buffer)
             );
         } catch (IOException e) {
-            logger.error("Error while decoding PluginChannelMessage", e);
+            log.error("Error while decoding PluginChannelMessage", e);
             return;
         }
         buffer.release();
@@ -68,7 +65,7 @@ public class PluginMessageListener {
         final PluginChannel<PluginChannel.PluginMessage> pluginChannel = pluginChannelRegistry.getPluginChannel(message);
 
         if (pluginChannel == null) {
-            logger.error("PluginChannel does not exist");
+            log.error("PluginChannel does not exist");
             return;
         }
 
@@ -76,7 +73,7 @@ public class PluginMessageListener {
         try {
             buffer = pluginChannel.encode(buffer, message);
         } catch (IOException e) {
-            logger.error("Error while encoding PluginChannelMessage", e);
+            log.error("Error while encoding PluginChannelMessage", e);
             return;
         }
 

@@ -3,8 +3,12 @@ package rocks.cleanstone.game.world.chunk.data.entity;
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.data.InboundCodec;
 import rocks.cleanstone.data.OutboundCodec;
@@ -13,16 +17,9 @@ import rocks.cleanstone.game.entity.EntityType;
 import rocks.cleanstone.game.entity.EntityTypeRegistry;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+@Slf4j
 public class EntityDataCodec implements InOutCodec<EntityData, ByteBuf> {
-
     private final EntityTypeRegistry entityTypeRegistry;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public EntityDataCodec(EntityTypeRegistry entityTypeRegistry) {
         this.entityTypeRegistry = entityTypeRegistry;
@@ -37,7 +34,7 @@ public class EntityDataCodec implements InOutCodec<EntityData, ByteBuf> {
             final EntityType entityType = entityTypeRegistry.getAllEntityTypes().stream()
                     .filter(type -> type.getTypeID() == entityTypeID).findAny().orElse(null);
             if (entityType == null) {
-                logger.error("Cannot find entityType with ID " + entityTypeID);
+                log.error("Cannot find entityType with ID " + entityTypeID);
                 continue;
             }
             final InboundCodec<? extends Entity, ByteBuf> entityCodec = entityTypeRegistry.getEntityCodec(entityType);

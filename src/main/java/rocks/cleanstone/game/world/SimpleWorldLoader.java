@@ -1,7 +1,7 @@
 package rocks.cleanstone.game.world;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
@@ -17,12 +17,9 @@ import rocks.cleanstone.game.world.data.WorldDataSourceFactory;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.RegionManager;
 
-import java.io.IOException;
-
+@Slf4j
 @Component
 public class SimpleWorldLoader implements WorldLoader {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ApplicationContext context;
     private final WorldGeneratorManager worldGeneratorManager;
     private final WorldDataSourceFactory worldDataSourceFactory;
@@ -56,13 +53,13 @@ public class SimpleWorldLoader implements WorldLoader {
         final World world = context.getBean(World.class, worldConfig, worldGenerator, worldDataSource, regionManager, entityRegistry);
 
         // TODO: Loading spawn and other tasks(?)
-        logger.info("World '" + worldConfig.getName() + "' loaded");
+        log.info("World '" + worldConfig.getName() + "' loaded");
         return new AsyncResult<>(world);
     }
 
     @Override
     public void unloadWorld(World world) {
         world.close();
-        logger.info("World '" + world.getID() + "' unloaded");
+        log.info("World '" + world.getID() + "' unloaded");
     }
 }

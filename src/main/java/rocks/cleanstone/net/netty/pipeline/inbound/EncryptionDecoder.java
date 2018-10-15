@@ -6,20 +6,17 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.util.AttributeKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import rocks.cleanstone.net.Connection;
-
+import java.nio.ByteBuffer;
+import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.IvParameterSpec;
-import java.nio.ByteBuffer;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import rocks.cleanstone.net.Connection;
 
+@Slf4j
 public class EncryptionDecoder extends MessageToMessageDecoder<ByteBuf> {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private Cipher cipher;
 
     @Override
@@ -42,7 +39,7 @@ public class EncryptionDecoder extends MessageToMessageDecoder<ByteBuf> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        logger.error("Error occurred while decrypting incoming data", cause);
+        log.error("Error occurred while decrypting incoming data", cause);
         ctx.close();
     }
 }

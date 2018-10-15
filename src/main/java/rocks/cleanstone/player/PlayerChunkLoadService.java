@@ -2,8 +2,10 @@ package rocks.cleanstone.player;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.world.World;
@@ -11,14 +13,10 @@ import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.UnloadChunkPacket;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.UUID;
-
+@Slf4j
 @Component
 public class PlayerChunkLoadService {
     private final Multimap<UUID, ChunkCoords> playerHasLoaded = ArrayListMultimap.create();
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Load a chunk for a player if they have not already loaded it
@@ -28,8 +26,9 @@ public class PlayerChunkLoadService {
      */
     public void loadChunk(Player player, ChunkCoords coords) {
         final UUID uuid = player.getID().getUUID();
-        if (hasPlayerLoaded(uuid, coords))
+        if (hasPlayerLoaded(uuid, coords)) {
             return;
+        }
 
         registerLoadedChunk(uuid, coords);
         sendChunkLoadPacket(player, coords);
@@ -56,14 +55,14 @@ public class PlayerChunkLoadService {
 
         world.getChunk(coords).addCallback(chunk -> {
             if (chunk == null) {
-                logger.error("Chunk {} is null", coords);
+                log.error("Chunk {} is null", coords);
                 return;
             }
 
             final ChunkDataPacket chunkDataPacket = new ChunkDataPacket(coords.getX(), coords.getZ(), true,
                     chunk.getBlockDataTable(), new NamedBinaryTag[]{});
             player.sendPacket(chunkDataPacket);
-        }, throwable -> logger.error("Error getting Chunk " + coords, throwable));
+        }, throwable -> log.error("Error getting Chunk " + coords, throwable));
     }
 
     /**
@@ -74,8 +73,9 @@ public class PlayerChunkLoadService {
      */
     public void unloadChunk(Player player, ChunkCoords coords) {
         final UUID uuid = player.getID().getUUID();
-        if (!hasPlayerLoaded(uuid, coords))
+        if (!hasPlayerLoaded(uuid, coords)) {
             return;
+        }
 
         unregisterLoadedChunk(uuid, coords);
         sendChunkUnloadPacket(player, coords);

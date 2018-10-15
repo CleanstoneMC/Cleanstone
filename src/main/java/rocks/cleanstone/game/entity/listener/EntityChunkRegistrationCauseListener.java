@@ -1,8 +1,7 @@
 package rocks.cleanstone.game.entity.listener;
 
 import com.google.common.base.Preconditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -12,11 +11,9 @@ import rocks.cleanstone.game.entity.event.EntityMoveEvent;
 import rocks.cleanstone.game.entity.event.EntityRemoveEvent;
 import rocks.cleanstone.game.world.chunk.Chunk;
 
+@Slf4j
 @Component
 public class EntityChunkRegistrationCauseListener {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     @Async
     @EventListener
     public void onEntityMove(EntityMoveEvent e) throws Exception {

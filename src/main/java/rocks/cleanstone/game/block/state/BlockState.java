@@ -2,8 +2,7 @@ package rocks.cleanstone.game.block.state;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.block.state.property.Properties;
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
@@ -11,9 +10,9 @@ import rocks.cleanstone.game.material.block.BlockType;
 /**
  * An immutable state of a block containing its material and properties
  */
+@Slf4j
 public class BlockState {
     private static CachingBlockStateProvider loadingSource;
-    private static final Logger log = LoggerFactory.getLogger(BlockState.class);
 
     static void setLoadingSource(CachingBlockStateProvider loadingSource) {
         BlockState.loadingSource = loadingSource;
@@ -71,8 +70,12 @@ public class BlockState {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BlockState)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof BlockState)) {
+            return false;
+        }
         final BlockState that = (BlockState) o;
         return Objects.equal(blockType, that.blockType) &&
                 Objects.equal(properties, that.properties);

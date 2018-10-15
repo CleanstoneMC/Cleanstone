@@ -1,21 +1,19 @@
 package rocks.cleanstone.game.command.completion;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import rocks.cleanstone.game.command.Command;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.CommandRegistry;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-
+@Slf4j
 @Service
 public class CommandArgumentsCompletion {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final CommandRegistry commandRegistry;
     private final MainCommandCompletion mainCommandCompletion;
 
@@ -28,9 +26,9 @@ public class CommandArgumentsCompletion {
         final List<String> matches = new LinkedList<>();
 
         getParameterValue(commandMessage).ifPresent(parameterValue -> {
-            logger.debug("found paramter value: {}", parameterValue);
+            log.debug("found paramter value: {}", parameterValue);
             getParameterType(command, commandMessage).ifPresent(parameterType -> {
-                logger.debug("inferred parameter type: {}", parameterType);
+                log.debug("inferred parameter type: {}", parameterType);
                 matches.addAll(completeParameter(parameterValue, parameterType));
             });
 

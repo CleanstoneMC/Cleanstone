@@ -1,8 +1,9 @@
 package rocks.cleanstone.game.command.completion;
 
 import com.google.common.base.Preconditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Collections;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -14,14 +15,12 @@ import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.utils.Vector;
 
-import java.util.Collections;
-import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Component
 public class SimpleCommandCompletion implements CommandCompletion {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final CommandRegistry commandRegistry;
     private final MainCommandCompletion mainCommandCompletion;
     private final CommandArgumentsCompletion argumentsCompletion;
@@ -52,8 +51,8 @@ public class SimpleCommandCompletion implements CommandCompletion {
                     commandMessage.getCommandName(),
                     commandRegistry.getAllCommands()
             ).stream()
-            .map(completion -> "/" + completion)
-            .collect(toList());
+                    .map(completion -> "/" + completion)
+                    .collect(toList());
         } else {
             command = resolveSubCommands(command, commandMessage);
 

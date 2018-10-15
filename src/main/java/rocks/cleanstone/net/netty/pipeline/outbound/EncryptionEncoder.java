@@ -6,20 +6,17 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.util.AttributeKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import rocks.cleanstone.net.Connection;
-
+import java.nio.ByteBuffer;
+import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.IvParameterSpec;
-import java.nio.ByteBuffer;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import rocks.cleanstone.net.Connection;
 
+@Slf4j
 public class EncryptionEncoder extends MessageToMessageEncoder<ByteBuf> {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private Cipher cipher;
 
     @Override
@@ -40,7 +37,7 @@ public class EncryptionEncoder extends MessageToMessageEncoder<ByteBuf> {
             outNioBuf.flip();
             out.add(Unpooled.wrappedBuffer(outNioBuf));
         } catch (Exception e) {
-            logger.error("Error occurred while encrypting outgoing data", e);
+            log.error("Error occurred while encrypting outgoing data", e);
         }
     }
 }

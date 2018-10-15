@@ -1,7 +1,6 @@
 package rocks.cleanstone.game.block;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.property.Properties;
 import rocks.cleanstone.game.material.block.BlockType;
@@ -9,9 +8,9 @@ import rocks.cleanstone.game.material.block.BlockType;
 /**
  * A standard block in the world that cannot be changed without being replaced
  */
+@Slf4j
 public class ImmutableBlock implements Block {
     private static CachingImmutableBlockProvider loadingSource;
-    private static final Logger log = LoggerFactory.getLogger(ImmutableBlock.class);
 
     static void setLoadingSource(CachingImmutableBlockProvider loadingSource) {
         ImmutableBlock.loadingSource = loadingSource;

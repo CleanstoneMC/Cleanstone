@@ -1,7 +1,7 @@
 package rocks.cleanstone.player.terminate;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
@@ -14,15 +14,13 @@ import rocks.cleanstone.player.data.standard.EntityData;
 import rocks.cleanstone.player.data.standard.StandardPlayerDataType;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 
-import java.io.IOException;
-
+@Slf4j
 @Component
 public class SaveData {
 
     private final PlayerManager playerManager;
     private final OpenWorldGame openWorldGame;
     private final WorldManager worldManager;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public SaveData(PlayerManager playerManager, OpenWorldGame openWorldGame, WorldManager worldManager) {
@@ -35,14 +33,16 @@ public class SaveData {
     @EventListener
     public void onTerminate(AsyncPlayerTerminationEvent e) {
         final Player player = e.getPlayer();
-        if (player.getEntity() == null) return;
+        if (player.getEntity() == null) {
+            return;
+        }
         final EntityData entityData = new EntityData(player.getEntity().getPosition(),
                 player.getEntity().getWorld().getID(), player.getGameMode(), player.isFlying());
         try {
             playerManager.getPlayerDataSource().setPlayerData(player, StandardPlayerDataType.ENTITY_DATA,
                     entityData);
         } catch (IOException e1) {
-            logger.error("Failed to save player data for " + player, e1);
+            log.error("Failed to save player data for " + player, e1);
         }
     }
 }

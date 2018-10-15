@@ -1,9 +1,12 @@
 package rocks.cleanstone.web.actuator;
 
-
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.input.ReversedLinesFileReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
@@ -16,17 +19,11 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.ConsoleInputEvent;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-
+@Slf4j
 @Component
 @Endpoint(id = "console")
 public class ConsoleEndpoint {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final Environment environment;
 
@@ -44,7 +41,7 @@ public class ConsoleEndpoint {
 
     @WriteOperation
     public void sendCommand(String command) {
-        logger.info("Console: " + command + "");
+        log.info("Console: " + command + "");
         CleanstoneServer.publishEvent(new ConsoleInputEvent(command));
     }
 
@@ -87,7 +84,7 @@ public class ConsoleEndpoint {
         }
         final LogFile logFile = LogFile.get(this.environment);
         if (logFile == null) {
-            logger.debug("Missing 'logging.file' or 'logging.path' properties");
+            log.debug("Missing 'logging.file' or 'logging.path' properties");
             return null;
         }
         return new FileSystemResource(logFile.toString());
