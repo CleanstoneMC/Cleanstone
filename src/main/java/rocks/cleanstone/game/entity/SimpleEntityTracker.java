@@ -2,7 +2,6 @@ package rocks.cleanstone.game.entity;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
-import lombok.var;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class SimpleEntityTracker implements EntityTracker {
     @Override
     public void addObserver(Entity entity) {
         Preconditions.checkState(observers.add(entity), "given entity is already an observer");
-        final Collection<Entity> inRangeEntities = getInRangeEntities(entity);
+        Collection<Entity> inRangeEntities = getInRangeEntities(entity);
         makeTheObserverTrackInRangeEntities(entity, inRangeEntities);
     }
 
@@ -191,7 +190,7 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     private void makeOutOfRangeObserversUntrackTheEntity(Entity entity, Collection<Entity> inRangeEntities) {
-        final var entityChunkCoords = ChunkCoords.of(entity.getPosition());
+        ChunkCoords entityChunkCoords = ChunkCoords.of(entity.getPosition());
 
         // In all observer-trackedEntity pairs
         ImmutableSet.copyOf(observerTrackedEntitiesMap.entries()).stream()

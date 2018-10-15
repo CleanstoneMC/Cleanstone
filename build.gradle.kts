@@ -15,6 +15,7 @@ plugins {
     java
     application
     jacoco
+    id("io.franzbecker.gradle-lombok") version "1.14"
 
 }
 
@@ -33,6 +34,10 @@ java {
     targetCompatibility = VERSION_1_8
 }
 
+lombok {
+	version = "1.18.2"
+}
+
 repositories {
     jcenter()
     maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
@@ -41,7 +46,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.projectlombok:lombok:1.18.2")
     compile("org.springframework.boot:spring-boot-starter")
     compile("org.springframework.boot:spring-boot-starter-cache")
     compile("org.springframework.boot:spring-boot-starter-web")
