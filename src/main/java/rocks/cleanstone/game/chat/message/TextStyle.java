@@ -2,10 +2,9 @@ package rocks.cleanstone.game.chat.message;
 
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Locale;
-
-import javax.annotation.Nullable;
 
 public enum TextStyle {
 

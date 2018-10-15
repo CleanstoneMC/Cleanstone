@@ -1,13 +1,12 @@
 package rocks.cleanstone.game.chat.message;
 
 import com.google.gson.JsonObject;
+import rocks.cleanstone.core.CleanstoneServer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
-import rocks.cleanstone.core.CleanstoneServer;
 
 public class Text {
     private String plainText;
@@ -138,7 +137,7 @@ public class Text {
     @Override
     public String toString() {
 
-        JsonObject jsonObject = new JsonObject();
+        final JsonObject jsonObject = new JsonObject();
 
         jsonObject.addProperty("text", getPlainText());
         jsonObject.addProperty("bold", isBold());
@@ -151,7 +150,7 @@ public class Text {
             jsonObject.addProperty("color", reset ? "reset" : getColor().getID());
         }
 
-        String extraString = getExtraString();
+        final String extraString = getExtraString();
 
         if (extraString != null) {
             jsonObject.addProperty("extra", extraString);
@@ -166,9 +165,9 @@ public class Text {
             return null;
         }
 
-        StringBuilder stringBuilder = new StringBuilder("[");
-        for (Iterator<Text> iterator = siblings.iterator(); iterator.hasNext(); ) {
-            Text sibling = iterator.next();
+        final StringBuilder stringBuilder = new StringBuilder("[");
+        for (final Iterator<Text> iterator = siblings.iterator(); iterator.hasNext(); ) {
+            final Text sibling = iterator.next();
 
             stringBuilder.append(sibling.toString());
             if (iterator.hasNext()) {

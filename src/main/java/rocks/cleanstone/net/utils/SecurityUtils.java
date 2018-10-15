@@ -10,13 +10,13 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class SecurityUtils {
 
-    private static SecureRandom secureRandom = new SecureRandom();
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     private SecurityUtils() {
     }
 
     public static KeyPair generateKeyPair(int keySize) {
-        KeyPairGenerator keyGen;
+        final KeyPairGenerator keyGen;
         try {
             keyGen = KeyPairGenerator.getInstance("RSA");
         } catch (NoSuchAlgorithmException e) {
@@ -28,7 +28,7 @@ public class SecurityUtils {
 
     public static byte[] decryptRSA(byte[] data, PrivateKey privateKey) {
         try {
-            Cipher rsaCipher = Cipher.getInstance("RSA");
+            final Cipher rsaCipher = Cipher.getInstance("RSA");
             rsaCipher.init(Cipher.DECRYPT_MODE, privateKey);
             return rsaCipher.doFinal(data);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException
@@ -38,16 +38,16 @@ public class SecurityUtils {
     }
 
     public static byte[] generateRandomToken(int length) {
-        byte[] token = new byte[length];
+        final byte[] token = new byte[length];
         secureRandom.nextBytes(token);
         return token;
     }
 
     public static Key generateX509Key(Key baseKey) {
-        Key x509Key;
+        final Key x509Key;
         try {
-            X509EncodedKeySpec encodedKeySpec = new X509EncodedKeySpec(baseKey.getEncoded());
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            final X509EncodedKeySpec encodedKeySpec = new X509EncodedKeySpec(baseKey.getEncoded());
+            final KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             x509Key = keyFactory.generatePublic(encodedKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException("Cannot generate X509 Key", e);

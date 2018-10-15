@@ -1,8 +1,9 @@
 package rocks.cleanstone.data.vanilla.nbt;
 
+import rocks.cleanstone.data.vanilla.nbt.type.AbstractTag;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import rocks.cleanstone.data.vanilla.nbt.type.AbstractTag;
 
 public class NamedBinaryTag {
 

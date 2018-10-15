@@ -17,14 +17,14 @@ public class LegacyMaterialMapping implements BlockStateMapping<Integer>, ItemTy
     }
 
     public void setID(Material material, int typeID) {
-        byte metadata = (byte) 0;
-        int id = typeID << 4 | (metadata & 0xF);
+        final byte metadata = (byte) 0;
+        final int id = typeID << 4 | (metadata & 0xF);
         materialMapping.setID(material, id);
     }
 
     public void setID(Material material, int typeID, int metadata) {
         Preconditions.checkArgument(metadata < 16, "metadata out of range");
-        int id = typeID << 4 | (metadata & 0xF);
+        final int id = typeID << 4 | (metadata & 0xF);
         materialMapping.setID(material, id);
     }
 

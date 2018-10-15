@@ -4,10 +4,8 @@ import com.whirvis.jraknet.RakNetPacket;
 import com.whirvis.jraknet.server.RakNetServerListener;
 import com.whirvis.jraknet.session.RakNetClientSession;
 import com.whirvis.jraknet.util.RakNetUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import rocks.cleanstone.core.CleanstoneServer;
 
 public class ServerListener implements RakNetServerListener {

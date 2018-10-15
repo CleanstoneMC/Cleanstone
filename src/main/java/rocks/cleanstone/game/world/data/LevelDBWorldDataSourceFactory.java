@@ -1,9 +1,5 @@
 package rocks.cleanstone.game.world.data;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -11,6 +7,11 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.entity.EntityTypeRegistry;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Component
 @ConditionalOnProperty(name = "world.datasource", havingValue = "leveldb", matchIfMissing = true)
@@ -42,7 +43,7 @@ public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
     }
 
     private Path getDataFolder() throws WorldDataSourceCreationException {
-        Path directory = Paths.get("data");
+        final Path directory = Paths.get("data");
         try {
             return Files.createDirectories(directory);
         } catch (IOException e) {

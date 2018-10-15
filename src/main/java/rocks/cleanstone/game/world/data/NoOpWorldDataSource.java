@@ -1,9 +1,9 @@
 package rocks.cleanstone.game.world.data;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
+
+import javax.annotation.Nullable;
 
 public class NoOpWorldDataSource implements WorldDataSource {
     public NoOpWorldDataSource() {

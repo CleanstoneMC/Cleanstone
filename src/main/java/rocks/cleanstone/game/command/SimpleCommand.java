@@ -65,7 +65,7 @@ public class SimpleCommand implements Command {
 
     @Override
     public Command addSubCommand(Command subCommand, String... names) {
-        for (String name : names) {
+        for (final String name : names) {
             subCommandMap.put(name, subCommand);
         }
         subCommandMap.put(subCommand.getName(), subCommand); //Add the subcommand by the name of the Command itself
@@ -118,8 +118,8 @@ public class SimpleCommand implements Command {
 
     @Override
     public String getUsage() {
-        String text = CleanstoneServer.getMessage("game.command.invalid-usage.text"),
-                number = CleanstoneServer.getMessage("game.command.invalid-usage.number");
+        final String text = CleanstoneServer.getMessage("game.command.invalid-usage.text");
+        final String number = CleanstoneServer.getMessage("game.command.invalid-usage.number");
         return "/" + name + " " + Joiner.on(" ").join(
                 Arrays.stream(getExpectedParameterTypes())
                         .map(Class::getSimpleName)
@@ -147,8 +147,8 @@ public class SimpleCommand implements Command {
     @Override
     public void execute(CommandMessage message, boolean considerSubCommands) {
         if (considerSubCommands && message.nextParameterIs(String.class)) {
-            String parameter = message.requireParameter(String.class);
-            Command subCommand = getSubCommands().get(parameter.toLowerCase(Locale.ENGLISH));
+            final String parameter = message.requireParameter(String.class);
+            final Command subCommand = getSubCommands().get(parameter.toLowerCase(Locale.ENGLISH));
             if (subCommand != null) {
                 subCommand.execute(message, true);
                 return;

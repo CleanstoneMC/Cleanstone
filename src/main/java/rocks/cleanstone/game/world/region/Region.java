@@ -1,13 +1,11 @@
 package rocks.cleanstone.game.world.region;
 
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
 
 /**
  * An independent area in the world that contains workers to do all the computational work (gravity, path

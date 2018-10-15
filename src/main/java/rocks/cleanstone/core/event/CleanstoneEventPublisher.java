@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class CleanstoneEventPublisher {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(CleanstoneEventPublisher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CleanstoneEventPublisher.class);
     @Autowired
     private ApplicationEventPublisher publisher;
     @Autowired
     private CleanstoneEventMulticaster multicaster;
 
     public synchronized <T> T publishEvent(T event, boolean rethrowExceptions) throws EventExecutionException {
-        long preEventTime = System.currentTimeMillis();
-        String eventName = event.getClass().getSimpleName();
+        final long preEventTime = System.currentTimeMillis();
+        final String eventName = event.getClass().getSimpleName();
         multicaster.getErrorHandler().setRethrowExceptions(rethrowExceptions);
         try {
             publisher.publishEvent(event);

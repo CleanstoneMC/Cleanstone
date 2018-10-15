@@ -3,10 +3,11 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
-import java.io.IOException;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import java.io.IOException;
 
 public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage, ByteBuf> {
 
@@ -22,12 +23,12 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
 
     @Override
     public VanillaBlockDataStorage decode(ByteBuf data) throws IOException {
-        BlockDataSection[] sections = new BlockDataSection[Chunk.HEIGHT / BlockDataSection.HEIGHT];
-        int primaryBitMask = ByteBufUtils.readVarInt(data);
-        int dataSize = ByteBufUtils.readVarInt(data);
+        final BlockDataSection[] sections = new BlockDataSection[Chunk.HEIGHT / BlockDataSection.HEIGHT];
+        final int primaryBitMask = ByteBufUtils.readVarInt(data);
+        final int dataSize = ByteBufUtils.readVarInt(data);
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
             if ((primaryBitMask & (1 << sectionY)) != 0) {
-                BlockDataSection section = new BlockDataSection(data, true, directPalette,
+                final BlockDataSection section = new BlockDataSection(data, true, directPalette,
                         omitDirectPaletteLength);
                 sections[sectionY] = section;
             }
@@ -37,12 +38,12 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
 
     @Override
     public ByteBuf encode(VanillaBlockDataStorage storage) {
-        ByteBuf data = Unpooled.buffer();
+        final ByteBuf data = Unpooled.buffer();
         int primaryBitMask = 0;
 
-        ByteBuf dataBuf = Unpooled.buffer();
+        final ByteBuf dataBuf = Unpooled.buffer();
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
-            BlockDataSection section = storage.getSection(sectionY);
+            final BlockDataSection section = storage.getSection(sectionY);
             if (section != null) {
                 section.write(dataBuf);
                 primaryBitMask |= (1 << sectionY);

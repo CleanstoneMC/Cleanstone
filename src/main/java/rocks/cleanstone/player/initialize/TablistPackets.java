@@ -22,14 +22,14 @@ public class TablistPackets {
     @Order(value = 30)
     @EventListener
     public void onInitialize(AsyncPlayerInitializationEvent e) {
-        Player player = e.getPlayer();
+        final Player player = e.getPlayer();
 
         sendAllTo(player);
         broadcastAddition(player, player);
     }
 
     public void sendAllTo(Player player) {
-        PlayerListItemPacket packet = new PlayerListItemPacket(PlayerListItemPacket.Action.ADD_PLAYER);
+        final PlayerListItemPacket packet = new PlayerListItemPacket(PlayerListItemPacket.Action.ADD_PLAYER);
 
         playerManager.getOnlinePlayers().forEach(
                 onlinePlayer -> packet.getPlayers().add(new PlayerListItemPacket.PlayerItem(onlinePlayer)));
@@ -38,7 +38,7 @@ public class TablistPackets {
     }
 
     public void broadcastAddition(Player player, Player... broadcastExemptions) {
-        PlayerListItemPacket packet = new PlayerListItemPacket(PlayerListItemPacket.Action.ADD_PLAYER);
+        final PlayerListItemPacket packet = new PlayerListItemPacket(PlayerListItemPacket.Action.ADD_PLAYER);
         packet.getPlayers().add(new PlayerListItemPacket.PlayerItem(player));
 
         playerManager.broadcastPacket(packet, broadcastExemptions);

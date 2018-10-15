@@ -5,7 +5,6 @@ import com.google.common.collect.Table;
 import org.springframework.lang.Nullable;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 
 import java.util.Collection;
@@ -28,12 +27,12 @@ public class MapBlockDataTable implements BlockDataTable {
 
     @Nullable
     public Block getBlock(int x, int y, int z) {
-        Block block = getHeightMap(x, z).get(y);
+        final Block block = getHeightMap(x, z).get(y);
         return block != null ? block : AIR;
     }
 
     public Collection<Block> getBlocks() {
-        Collection<Block> blockCollection = new HashSet<>();
+        final Collection<Block> blockCollection = new HashSet<>();
 
         coordHeightMapTable.cellSet().forEach(integerIntegerHashMapCell ->
                 blockCollection.addAll(integerIntegerHashMapCell.getValue().values()));

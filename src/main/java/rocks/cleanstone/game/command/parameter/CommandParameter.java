@@ -1,7 +1,8 @@
 package rocks.cleanstone.game.command.parameter;
 
-import javax.annotation.Nullable;
 import rocks.cleanstone.game.command.completion.CompletionContext;
+
+import javax.annotation.Nullable;
 
 public interface CommandParameter<T> {
     @Nullable

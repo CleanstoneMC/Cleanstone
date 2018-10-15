@@ -1,10 +1,6 @@
 package rocks.cleanstone.net.netty;
 
 import com.google.common.util.concurrent.Futures;
-
-import java.net.InetAddress;
-import java.util.concurrent.Future;
-
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -17,6 +13,9 @@ import rocks.cleanstone.net.netty.pipeline.outbound.EncryptionEncoder;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.protocol.ProtocolState;
+
+import java.net.InetAddress;
+import java.util.concurrent.Future;
 
 public class NettyConnection extends AbstractConnection {
 

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.inbound.ClientSettingsPacket;
@@ -23,10 +22,10 @@ public class ClientSettingsListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPacket(PlayerInboundPacketEvent<ClientSettingsPacket> playerInboundPacketEvent) {
-        Player player = playerInboundPacketEvent.getPlayer();
-        ClientSettingsPacket packet = playerInboundPacketEvent.getPacket();
+        final Player player = playerInboundPacketEvent.getPlayer();
+        final ClientSettingsPacket packet = playerInboundPacketEvent.getPacket();
 
-        int viewDistance = Math.min(packet.getViewDistance(), minecraftConfig.getMaxViewDistance());
+        final int viewDistance = Math.min(packet.getViewDistance(), minecraftConfig.getMaxViewDistance());
         player.setViewDistance(viewDistance);
 
         player.setDisplayedSkinParts(packet.getDisplayedSkinParts());

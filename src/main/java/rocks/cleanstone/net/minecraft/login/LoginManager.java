@@ -48,8 +48,8 @@ public class LoginManager {
     }
 
     public void startLogin(Connection connection, String playerName) {
-        byte[] verifyToken = SecurityUtils.generateRandomToken(4);
-        LoginData loginData = new LoginData(verifyToken, playerName);
+        final byte[] verifyToken = SecurityUtils.generateRandomToken(4);
+        final LoginData loginData = new LoginData(verifyToken, playerName);
         connectionLoginDataMap.put(connection, loginData);
 
         if (!onlineMode) {
@@ -67,16 +67,16 @@ public class LoginManager {
             properties = new UserProperty[0];//Fix for Offline mode nullpointer Exception
         }
 
-        Collection<UserProperty> userProperties = new ArrayList<>(Arrays.asList(properties));
+        final Collection<UserProperty> userProperties = new ArrayList<>(Arrays.asList(properties));
 
-        AsyncLoginEvent event = CleanstoneServer.publishEvent(
+        final AsyncLoginEvent event = CleanstoneServer.publishEvent(
                 new AsyncLoginEvent(connection, uuid, accountName, userProperties));
         if (event.isCancelled()) {
             stopLogin(connection, event.getKickReason());
             return;
         }
-        SetCompressionPacket setCompressionPacket = new SetCompressionPacket(0);
-        LoginSuccessPacket loginSuccessPacket = new LoginSuccessPacket(uuid, accountName);
+        final SetCompressionPacket setCompressionPacket = new SetCompressionPacket(0);
+        final LoginSuccessPacket loginSuccessPacket = new LoginSuccessPacket(uuid, accountName);
         //connection.sendPacket(setCompressionPacket);
         //connection.setCompressionEnabled(true); TODO Fix compression handler
         connection.sendPacket(loginSuccessPacket);
@@ -94,21 +94,21 @@ public class LoginManager {
 
     void onEncryptionResponse(Connection connection,
                               EncryptionResponsePacket encryptionResponsePacket) {
-        LoginData loginData = connectionLoginDataMap.get(connection);
+        final LoginData loginData = connectionLoginDataMap.get(connection);
         if (loginData == null || connection.isClosed()) return;
-        SecretKey key = LoginCrypto.validateEncryptionResponse(loginData, privateKey, encryptionResponsePacket);
+        final SecretKey key = LoginCrypto.validateEncryptionResponse(loginData, privateKey, encryptionResponsePacket);
         connection.setSharedSecret(key);
         connection.setEncryptionEnabled(true);
         validateMinecraftSession(connection, loginData);
     }
 
     private void validateMinecraftSession(Connection connection, LoginData loginData) {
-        ListenableFuture<SessionServerResponse> responseResult =
+        final ListenableFuture<SessionServerResponse> responseResult =
                 sessionServerRequester.request(connection, loginData, publicKey);
         responseResult.addCallback((response) -> {
             try {
-                UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
-                String name = response.getName();
+                final UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
+                final String name = response.getName();
                 finishLogin(connection, uuid, name, response.getProperties());
             } catch (Exception e) {
                 logger.error("Error occurred while finishing login", e);

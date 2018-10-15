@@ -22,7 +22,7 @@ public enum SoundCategory {
 
     @SuppressWarnings("Duplicates")
     public static SoundCategory fromCategoryID(int categoryID) {
-        for (SoundCategory soundCategory : SoundCategory.values()) {
+        for (final SoundCategory soundCategory : SoundCategory.values()) {
             if (soundCategory.getCategoryID() == categoryID) {
                 return soundCategory;
             }
@@ -33,7 +33,7 @@ public enum SoundCategory {
 
     @SuppressWarnings("Duplicates")
     public static SoundCategory fromCategoryName(String categoryName) {
-        for (SoundCategory soundCategory : SoundCategory.values()) {
+        for (final SoundCategory soundCategory : SoundCategory.values()) {
             if (soundCategory.getCategoryName().equals(categoryName)) {
                 return soundCategory;
             }

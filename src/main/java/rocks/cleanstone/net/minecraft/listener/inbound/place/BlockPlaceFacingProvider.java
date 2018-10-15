@@ -1,7 +1,5 @@
 package rocks.cleanstone.net.minecraft.listener.inbound.place;
 
-import java.util.Arrays;
-import java.util.List;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.block.state.property.vanilla.Facing;
@@ -10,6 +8,9 @@ import rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerBlockPlacementPacket;
 import rocks.cleanstone.player.Player;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class BlockPlaceFacingProvider implements BlockPlacePropertyProvider<Facing> {
@@ -30,7 +31,7 @@ public class BlockPlaceFacingProvider implements BlockPlacePropertyProvider<Faci
             // todo: deny if not possible to place block
             return getBlockSiteFacing(packet);
         } else {
-            float yaw = player.getEntity().getPosition().getHeadRotation().getYaw();
+            final float yaw = player.getEntity().getPosition().getHeadRotation().getYaw();
             return getPlayerDirectionFacing(yaw);
         }
     }

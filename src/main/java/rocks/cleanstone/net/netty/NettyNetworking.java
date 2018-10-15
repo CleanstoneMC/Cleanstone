@@ -38,7 +38,7 @@ public class NettyNetworking extends AbstractNetworking implements SmartLifecycl
     public void start() {
         bossGroup = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
         workerGroup = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
-        ServerBootstrap bootstrap = new ServerBootstrap();
+        final ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workerGroup)
                 .channel(epoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                 .childHandler(new ServerChannelInitializer(this))

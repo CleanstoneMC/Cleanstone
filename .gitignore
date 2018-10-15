@@ -34,3 +34,4 @@ data/*
 /scripts/php-converter/bedrock_edition/MiNet/packet/
 
 /application.yml
+out/

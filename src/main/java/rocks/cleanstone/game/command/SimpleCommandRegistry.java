@@ -44,7 +44,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
     public boolean registerCommand(Command command, boolean force) {
         Preconditions.checkNotNull(command, "command cannot be null");
 
-        String commandName = command.getName().toLowerCase(Locale.ENGLISH);
+        final String commandName = command.getName().toLowerCase(Locale.ENGLISH);
         if (isRegisteredCommandName(commandName) && !force) {
             return false;
         }
@@ -68,7 +68,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
     }
 
     private boolean isRegisteredCommandName(String name) {
-        Command command = getCommand(name);
+        final Command command = getCommand(name);
         if (command == null) {
             return false;
         }
@@ -134,8 +134,8 @@ public class SimpleCommandRegistry implements CommandRegistry {
         Preconditions.checkNotNull(commandLine, "commandLine cannot be null");
         Preconditions.checkNotNull(sender, "sender cannot be null");
 
-        CommandMessage commandMessage = CommandMessageFactory.construct(sender, commandLine, this);
-        Command command = getCommand(commandMessage.getCommandName());
+        final CommandMessage commandMessage = CommandMessageFactory.construct(sender, commandLine, this);
+        final Command command = getCommand(commandMessage.getCommandName());
 
         if (command == null) {
             sender.sendRawMessage(CleanstoneServer.getMessage(

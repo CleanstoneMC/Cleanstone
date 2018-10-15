@@ -37,7 +37,7 @@ public enum ObjectType {
 
     @SuppressWarnings("Duplicates")
     public static ObjectType fromTypeID(int typeID) {
-        for (ObjectType objectType : ObjectType.values()) {
+        for (final ObjectType objectType : ObjectType.values()) {
             if (objectType.getTypeID() == typeID) {
                 return objectType;
             }

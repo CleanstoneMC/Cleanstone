@@ -1,15 +1,8 @@
 package rocks.cleanstone.game.world.data;
 
+import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.HashSet;
-
-import javax.annotation.Nullable;
-
-import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.data.VersionedCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
@@ -25,6 +18,11 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStor
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityDataCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashSet;
 
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
 
@@ -64,9 +62,9 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     @Nullable
     @Override
     public Chunk loadExistingChunk(ChunkCoords coords) {
-        ByteBuf blocksKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.BLOCKS);
-        ByteBuf entitiesKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.ENTITIES);
-        VanillaBlockDataStorage blockDataStorage;
+        final ByteBuf blocksKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.BLOCKS);
+        final ByteBuf entitiesKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.ENTITIES);
+        final VanillaBlockDataStorage blockDataStorage;
         try {
             blockDataStorage = get(blocksKey, blockDataCodec);
             if (blockDataStorage == null) {
@@ -96,10 +94,10 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
 
     @Override
     public void saveChunk(Chunk chunk) {
-        ChunkCoords coords = chunk.getCoordinates();
+        final ChunkCoords coords = chunk.getCoordinates();
         logger.trace("persisting chunk {}, {}", coords);
-        ByteBuf blocksKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.BLOCKS);
-        ByteBuf entitiesKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.ENTITIES);
+        final ByteBuf blocksKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.BLOCKS);
+        final ByteBuf entitiesKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.ENTITIES);
         try {
             // TODO Rewrite Chunk to be a bean and add ChunkCodec
             set(blocksKey, (VanillaBlockDataStorage) chunk.getBlockDataStorage(), blockDataCodec);

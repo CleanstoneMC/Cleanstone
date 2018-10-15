@@ -6,13 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.NearbyChunkRetriever;
@@ -20,6 +13,12 @@ import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class PlayerMoveChunkLoadListener {
@@ -38,17 +37,17 @@ public class PlayerMoveChunkLoadListener {
     @Async("playerExec")
     @EventListener
     public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
-        ChunkCoords coords = ChunkCoords.of(playerMoveEvent.getNewPosition());
+        final ChunkCoords coords = ChunkCoords.of(playerMoveEvent.getNewPosition());
 
         final Player player = playerMoveEvent.getPlayer();
-        UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getID().getUUID();
 
         // reject unneeded updates early
         if (chunkUpdateNotNeeded(playerMoveEvent, coords, uuid)) {
             return;
         }
 
-        int loadingToken = acquireLoadingToken(uuid);
+        final int loadingToken = acquireLoadingToken(uuid);
         //noinspection SynchronizationOnLocalVariableOrMethodParameter
         synchronized (uuid) {
             // return early
@@ -79,11 +78,11 @@ public class PlayerMoveChunkLoadListener {
 
     protected void sendNewNearbyChunks(Player player, ChunkCoords playerCoords, int loadingToken) {
         final int sendDistance = player.getViewDistance() + 1;
-        UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getID().getUUID();
 
-        Collection<ChunkCoords> nearbyCoords = nearbyChunkRetriever.getChunkCoordsAround(playerCoords, sendDistance);
+        final Collection<ChunkCoords> nearbyCoords = nearbyChunkRetriever.getChunkCoordsAround(playerCoords, sendDistance);
 
-        for (ChunkCoords coords : nearbyCoords) {
+        for (final ChunkCoords coords : nearbyCoords) {
             if (shouldAbortLoading(uuid, loadingToken)) {
                 logger.debug("aborted loading chunks for {}", player.getID().getName());
                 return;
@@ -98,7 +97,7 @@ public class PlayerMoveChunkLoadListener {
 
     protected void unloadRemoteChunks(Player player, ChunkCoords playerCoords) {
         final int sendDistance = player.getViewDistance() + 1;
-        UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getID().getUUID();
 
         playerChunkLoadService.getLoadedChunkCoords(uuid).stream()
                 .filter(chunk -> !isWithinRange(playerCoords.getX(), playerCoords.getZ(), chunk.getX(), chunk.getZ(), sendDistance))

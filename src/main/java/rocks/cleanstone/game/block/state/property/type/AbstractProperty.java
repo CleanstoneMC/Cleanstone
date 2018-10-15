@@ -20,7 +20,7 @@ public abstract class AbstractProperty<T> implements Property<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AbstractProperty)) return false;
-        AbstractProperty<?> that = (AbstractProperty<?>) o;
+        final AbstractProperty<?> that = (AbstractProperty<?>) o;
         return Objects.equal(name, that.name);
     }
 

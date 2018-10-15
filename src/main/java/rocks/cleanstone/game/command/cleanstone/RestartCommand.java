@@ -38,11 +38,11 @@ public class RestartCommand extends SimpleCommand {
             }
         }
 
-        Text reason = message.optionalTextMessage().orElse(
+        final Text reason = message.optionalTextMessage().orElse(
                 Text.ofLocalized("game.command.cleanstone.default-restart-reason",
                         CleanstoneServer.getDefaultLocale()));
 
-        List<ListenableFuture<Void>> listenableFutures = playerManager.getOnlinePlayers().stream()
+        final List<ListenableFuture<Void>> listenableFutures = playerManager.getOnlinePlayers().stream()
                 .map(player -> player.kick(reason))
                 .map(future -> JdkFutureAdapters.listenInPoolThread(future, executor))
                 .collect(Collectors.toList());

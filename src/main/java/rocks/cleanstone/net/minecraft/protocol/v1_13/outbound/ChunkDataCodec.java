@@ -32,11 +32,11 @@ public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
         byteBuf.writeInt(packet.getChunkZ());
         byteBuf.writeBoolean(packet.isGroundUpContinuous());
 
-        DirectPalette directPalette = new DirectPalette(blockStateMapping, 14);
-        VanillaBlockDataStorage storage = vanillaBlockDataStorageFactory.get(packet.getBlockDataTable(),
+        final DirectPalette directPalette = new DirectPalette(blockStateMapping, 14);
+        final VanillaBlockDataStorage storage = vanillaBlockDataStorageFactory.get(packet.getBlockDataTable(),
                 directPalette, true);
 
-        ByteBuf blockData = vanillaBlockDataCodecFactory.get(directPalette, true).encode(storage);
+        final ByteBuf blockData = vanillaBlockDataCodecFactory.get(directPalette, true).encode(storage);
         byteBuf.writeBytes(blockData);
         blockData.release();
 

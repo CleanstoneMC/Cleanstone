@@ -1,8 +1,9 @@
 package rocks.cleanstone.game;
 
 import com.google.common.base.Objects;
-import java.io.Serializable;
 import rocks.cleanstone.utils.Vector;
+
+import java.io.Serializable;
 
 /**
  * Mutable 3D position in the world
@@ -77,9 +78,9 @@ public class Position implements Serializable {
     }
 
     public double getDistance(Position position) {
-        double xP = Math.pow((this.getX() - position.getX()), 2);
-        double yP = Math.pow((this.getY() - position.getY()), 2);
-        double zP = Math.pow((this.getZ() - position.getZ()), 2);
+        final double xP = Math.pow((this.getX() - position.getX()), 2);
+        final double yP = Math.pow((this.getY() - position.getY()), 2);
+        final double zP = Math.pow((this.getZ() - position.getZ()), 2);
 
         return Math.sqrt(xP + yP + zP);
     }
@@ -98,7 +99,7 @@ public class Position implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Position)) return false;
-        Position position = (Position) o;
+        final Position position = (Position) o;
         return equalCoordinates(position);
     }
 

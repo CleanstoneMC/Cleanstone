@@ -1,11 +1,10 @@
 package rocks.cleanstone.game.command;
 
-import java.util.Collection;
-import java.util.Set;
+import rocks.cleanstone.game.command.parameter.CommandParameter;
 
 import javax.annotation.Nullable;
-
-import rocks.cleanstone.game.command.parameter.CommandParameter;
+import java.util.Collection;
+import java.util.Set;
 
 public interface CommandRegistry {
     boolean registerCommand(Command command, boolean force);

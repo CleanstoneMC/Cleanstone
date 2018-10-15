@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.world.World;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,21 +14,20 @@ import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import rocks.cleanstone.game.world.World;
-
 @Service
 public class ProximityNearbyChunkRetriever implements NearbyChunkRetriever {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public Collection<ChunkCoords> getChunkCoordsAround(ChunkCoords coords, int radius) {
-        Collection<ChunkCoords> nearbyCoords = new ArrayList<>();
-        int chunkX = coords.getX(), chunkZ = coords.getZ();
+        final Collection<ChunkCoords> nearbyCoords = new ArrayList<>();
+        final int chunkX = coords.getX();
+        final int chunkZ = coords.getZ();
         nearbyCoords.add(coords);
         // generate positions around chunk in order of proximity
         for (int distance = 1; distance <= radius * 1.5; distance++) {
             for (int relZ = Math.max(0, distance - radius); relZ < Math.min(distance, radius + 1); relZ++) {
-                int relX = distance - relZ;
+                final int relX = distance - relZ;
                 nearbyCoords.add(ChunkCoords.of(chunkX + relX, chunkZ + relZ));
                 nearbyCoords.add(ChunkCoords.of(chunkX + relZ, chunkZ - relX));
                 nearbyCoords.add(ChunkCoords.of(chunkX - relX, chunkZ - relZ));

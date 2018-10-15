@@ -61,7 +61,7 @@ public enum Effect {
 
     @SuppressWarnings("Duplicates")
     public static Effect fromEffectID(int effectID) {
-        for (Effect effect : Effect.values()) {
+        for (final Effect effect : Effect.values()) {
             if (effect.getEffectID() == effectID)
                 return effect;
         }

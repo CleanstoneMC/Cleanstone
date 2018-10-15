@@ -1,15 +1,15 @@
 package rocks.cleanstone.game.inventory;
 
+import rocks.cleanstone.game.inventory.item.ItemStack;
+import rocks.cleanstone.game.material.item.ItemType;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import rocks.cleanstone.game.inventory.item.ItemStack;
-import rocks.cleanstone.game.material.item.ItemType;
-
 public class SimpleInventory implements Inventory {
-    private int size;
+    private final int size;
     private ItemStack[] inventory;
 
     public SimpleInventory(int size) {
@@ -48,14 +48,14 @@ public class SimpleInventory implements Inventory {
 
     @Override
     public Map<ItemType, Integer> getAllItems() {
-        Map<ItemType, Integer> itemStacks = new HashMap<>();
+        final Map<ItemType, Integer> itemStacks = new HashMap<>();
 
-        for (ItemStack itemStack : inventory) {
+        for (final ItemStack itemStack : inventory) {
             if (itemStack == null) {
                 continue;
             }
 
-            int itemAmount = itemStacks.getOrDefault(itemStack.getType(), 0) + itemStack.getAmount();
+            final int itemAmount = itemStacks.getOrDefault(itemStack.getType(), 0) + itemStack.getAmount();
             itemStacks.put(itemStack.getType(), itemAmount);
         }
 
@@ -64,12 +64,12 @@ public class SimpleInventory implements Inventory {
 
     @Override
     public boolean addItem(ItemType item, int amount) {
-        ItemStack[] inventoryClone = inventory.clone();
+        final ItemStack[] inventoryClone = inventory.clone();
 
         int remaining = amount;
-        for (ItemStack itemStack : inventoryClone) {
+        for (final ItemStack itemStack : inventoryClone) {
             if (itemStack.getType() == item && itemStack.getAmount() < 64) {
-                int leftSpace = (itemStack.getAmount() - 64) * -1;
+                final int leftSpace = (itemStack.getAmount() - 64) * -1;
 
                 remaining = remaining - leftSpace;
 
@@ -82,8 +82,8 @@ public class SimpleInventory implements Inventory {
             }
         }
 
-        for (int i = 0; i < inventoryClone.length; i++) {
-            if (inventoryClone[i] == null) {
+        for (final ItemStack anInventoryClone : inventoryClone) {
+            if (anInventoryClone == null) {
                 //TODO: Add Itemstack of item
             }
         }

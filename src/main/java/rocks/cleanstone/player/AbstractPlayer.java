@@ -101,15 +101,15 @@ public abstract class AbstractPlayer implements Player {
 
     @Override
     public Collection<PlayerAbility> getAbilities() {
-        Collection<PlayerAbility> abilities = gameMode.getPlayerAbilities();
+        final Collection<PlayerAbility> abilities = gameMode.getPlayerAbilities();
         if (isFlying()) abilities.add(PlayerAbility.IS_FLYING);
         return abilities;
     }
 
     @Override
     public void teleport(RotatablePosition newPosition, MoveReason moveReason) {
-        HeadRotatablePosition oldPosition = getEntity().getPosition();
-        HeadRotatablePosition newHeadRotatablePosition = new HeadRotatablePosition(newPosition, oldPosition.getHeadRotation());
+        final HeadRotatablePosition oldPosition = getEntity().getPosition();
+        final HeadRotatablePosition newHeadRotatablePosition = new HeadRotatablePosition(newPosition, oldPosition.getHeadRotation());
 
         CleanstoneServer.publishEvent(new PlayerTeleportEvent(this, oldPosition, newHeadRotatablePosition, moveReason));
     }
@@ -163,7 +163,7 @@ public abstract class AbstractPlayer implements Player {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AbstractPlayer)) return false;
-        AbstractPlayer that = (AbstractPlayer) o;
+        final AbstractPlayer that = (AbstractPlayer) o;
         return Objects.equal(id, that.id);
     }
 

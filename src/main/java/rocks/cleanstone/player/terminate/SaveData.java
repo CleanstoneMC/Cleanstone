@@ -34,9 +34,9 @@ public class SaveData {
     @Order(value = 50)
     @EventListener
     public void onTerminate(AsyncPlayerTerminationEvent e) {
-        Player player = e.getPlayer();
+        final Player player = e.getPlayer();
         if (player.getEntity() == null) return;
-        EntityData entityData = new EntityData(player.getEntity().getPosition(),
+        final EntityData entityData = new EntityData(player.getEntity().getPosition(),
                 player.getEntity().getWorld().getID(), player.getGameMode(), player.isFlying());
         try {
             playerManager.getPlayerDataSource().setPlayerData(player, StandardPlayerDataType.ENTITY_DATA,

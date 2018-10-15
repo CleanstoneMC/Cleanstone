@@ -1,18 +1,17 @@
 package rocks.cleanstone.net.netty.pipeline.inbound;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.util.AttributeKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.net.utils.NotEnoughReadableBytesException;
+
+import java.io.IOException;
+import java.util.List;
 
 public class ByteStreamDecoder extends ByteToMessageDecoder {
 
@@ -20,9 +19,9 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws IOException {
-        Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
+        final Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
         in.markReaderIndex();
-        int remainingPacketLength;
+        final int remainingPacketLength;
         try {
             remainingPacketLength = ByteBufUtils.readVarInt(in);
             if (in.readableBytes() < remainingPacketLength) throw new NotEnoughReadableBytesException();
@@ -31,10 +30,10 @@ public class ByteStreamDecoder extends ByteToMessageDecoder {
             return;
         }
         if (connection.isCompressionEnabled()) {
-            int uncompressedDataLength = ByteBufUtils.readVarInt(in);
+            final int uncompressedDataLength = ByteBufUtils.readVarInt(in);
             ctx.channel().attr(AttributeKey.<Integer>valueOf("inUncompressedDataLength")).set(uncompressedDataLength);
         }
-        ByteBuf newBuffer = ctx.alloc().buffer(remainingPacketLength);
+        final ByteBuf newBuffer = ctx.alloc().buffer(remainingPacketLength);
         in.readBytes(newBuffer, remainingPacketLength);
         out.add(newBuffer);
     }

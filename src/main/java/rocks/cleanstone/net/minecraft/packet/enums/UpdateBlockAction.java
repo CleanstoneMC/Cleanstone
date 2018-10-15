@@ -21,7 +21,7 @@ public enum UpdateBlockAction {
 
     @SuppressWarnings("Duplicates")
     public static UpdateBlockAction fromActionID(int actionID) {
-        for (UpdateBlockAction updateBlockAction : UpdateBlockAction.values()) {
+        for (final UpdateBlockAction updateBlockAction : UpdateBlockAction.values()) {
             if (updateBlockAction.getActionID() == actionID) {
                 return updateBlockAction;
             }

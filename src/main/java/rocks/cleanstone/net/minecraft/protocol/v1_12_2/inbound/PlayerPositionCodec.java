@@ -12,10 +12,10 @@ public class PlayerPositionCodec implements InboundPacketCodec<PlayerPositionPac
 
     @Override
     public PlayerPositionPacket decode(ByteBuf byteBuf) {
-        double x = byteBuf.readDouble();
-        double feetY = byteBuf.readDouble();
-        double z = byteBuf.readDouble();
-        boolean onGround = byteBuf.readBoolean();
+        final double x = byteBuf.readDouble();
+        final double feetY = byteBuf.readDouble();
+        final double z = byteBuf.readDouble();
+        final boolean onGround = byteBuf.readBoolean();
 
         Preconditions.checkArgument(Double.isFinite(x) && Double.isFinite(feetY) && Double.isFinite(z),
                 "Non-finite position " + x + ":" + feetY + ":" + z);

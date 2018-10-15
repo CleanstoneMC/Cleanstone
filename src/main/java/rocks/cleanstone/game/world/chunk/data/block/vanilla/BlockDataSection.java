@@ -1,9 +1,9 @@
 package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.world.chunk.Chunk;
+
+import java.io.IOException;
 
 public class BlockDataSection {
 
@@ -82,9 +82,9 @@ public class BlockDataSection {
         for (int y = 0; y < HEIGHT; y++) {
             for (int z = 0; z < WIDTH; z++) {
                 for (int x = 0; x < WIDTH; x += 2) {
-                    byte light = isBlockLight ? blockLight[x][z][y] : skyLight[x][z][y];
-                    byte upperLight = isBlockLight ? blockLight[x + 1][z][y] : skyLight[x + 1][z][y];
-                    byte value = (byte) (light | (upperLight << 4));
+                    final byte light = isBlockLight ? blockLight[x][z][y] : skyLight[x][z][y];
+                    final byte upperLight = isBlockLight ? blockLight[x + 1][z][y] : skyLight[x + 1][z][y];
+                    final byte value = (byte) (light | (upperLight << 4));
                     buf.writeByte(value);
                 }
             }
@@ -95,9 +95,9 @@ public class BlockDataSection {
         for (int y = 0; y < HEIGHT; y++) {
             for (int z = 0; z < WIDTH; z++) {
                 for (int x = 0; x < WIDTH; x += 2) {
-                    byte value = buf.readByte();
-                    byte light = (byte) (value & 0xF);
-                    byte upperLight = (byte) ((value >> 4) & 0xF);
+                    final byte value = buf.readByte();
+                    final byte light = (byte) (value & 0xF);
+                    final byte upperLight = (byte) ((value >> 4) & 0xF);
                     if (isBlockLight) {
                         blockLight[x][z][y] = light;
                         blockLight[x + 1][z][y] = upperLight;

@@ -3,7 +3,6 @@ package rocks.cleanstone.game.world.chunk;
 import com.google.common.base.Objects;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
-import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 
 import java.util.Arrays;
@@ -40,7 +39,7 @@ public class ArrayBlockDataTable implements BlockDataTable {
 
     @Override
     public Block getBlock(int x, int y, int z) {
-        Block block = blocks[x][z][y];
+        final Block block = blocks[x][z][y];
         return block != null ? block : AIR;
     }
 
@@ -85,7 +84,7 @@ public class ArrayBlockDataTable implements BlockDataTable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ArrayBlockDataTable)) return false;
-        ArrayBlockDataTable that = (ArrayBlockDataTable) o;
+        final ArrayBlockDataTable that = (ArrayBlockDataTable) o;
         return hasSkylight == that.hasSkylight &&
                 Arrays.deepEquals(blocks, that.blocks) &&
                 Arrays.deepEquals(blockLight, that.blockLight) &&

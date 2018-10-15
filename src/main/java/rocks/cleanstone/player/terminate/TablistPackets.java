@@ -22,12 +22,12 @@ public class TablistPackets {
     @Order(value = 30)
     @EventListener
     public void onTerminate(AsyncPlayerTerminationEvent e) {
-        Player player = e.getPlayer();
+        final Player player = e.getPlayer();
         broadcastRemoval(player, player);
     }
 
     public void broadcastRemoval(Player player, Player... broadcastExemptions) {
-        PlayerListItemPacket packet = new PlayerListItemPacket(PlayerListItemPacket.Action.REMOVE_PLAYER);
+        final PlayerListItemPacket packet = new PlayerListItemPacket(PlayerListItemPacket.Action.REMOVE_PLAYER);
         packet.getPlayers().add(new PlayerListItemPacket.PlayerItem(player));
 
         playerManager.broadcastPacket(packet, broadcastExemptions);

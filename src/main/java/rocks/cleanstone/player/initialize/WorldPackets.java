@@ -25,14 +25,14 @@ public class WorldPackets {
     @Order(value = 20)
     @EventListener
     public void onInitialize(AsyncPlayerInitializationEvent e) {
-        Player player = e.getPlayer();
-        World world = player.getEntity().getWorld();
+        final Player player = e.getPlayer();
+        final World world = player.getEntity().getWorld();
 
-        Dimension dimension = world != null ? world.getDimension() : Dimension.OVERWORLD;
-        Difficulty difficulty = world != null ? world.getDifficulty() : Difficulty.EASY;
-        LevelType levelType = world != null ? world.getLevelType() : LevelType.DEFAULT;
+        final Dimension dimension = world != null ? world.getDimension() : Dimension.OVERWORLD;
+        final Difficulty difficulty = world != null ? world.getDifficulty() : Difficulty.EASY;
+        final LevelType levelType = world != null ? world.getLevelType() : LevelType.DEFAULT;
 
-        RotatablePosition playerPosition = player.getEntity().getPosition();
+        final RotatablePosition playerPosition = player.getEntity().getPosition();
 
         player.sendPacket(
                 new JoinGamePacket(player.getEntity().getEntityID(), (VanillaGameMode) player.getGameMode(),

@@ -1,10 +1,9 @@
 package rocks.cleanstone.game.world.chunk;
 
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.world.World;
 
 import java.util.Collection;
-
-import rocks.cleanstone.game.world.World;
 
 public interface NearbyChunkRetriever {
     Collection<ChunkCoords> getChunkCoordsAround(ChunkCoords coords, int radius);

@@ -55,9 +55,9 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     }
 
     public static String getMessageOfLocale(String id, Locale locale, Object... args) {
-        MessageSource source = getInstance().getMessageSource();
-        String defaultMessage = locale == DEFAULT_LOCALE ? null : source.getMessage(id, args, DEFAULT_LOCALE);
-        String message = source.getMessage(id, args, defaultMessage, locale);
+        final MessageSource source = getInstance().getMessageSource();
+        final String defaultMessage = locale == DEFAULT_LOCALE ? null : source.getMessage(id, args, DEFAULT_LOCALE);
+        final String message = source.getMessage(id, args, defaultMessage, locale);
         return message != null ? message : "Error: Cannot find message with id " + id;
     }
 

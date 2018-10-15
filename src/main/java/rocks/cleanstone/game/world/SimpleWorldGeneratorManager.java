@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.toMap;
 @Component
 public class SimpleWorldGeneratorManager implements WorldGeneratorManager {
 
-    private Map<String, WorldGenerator> worldGenerators;
+    private final Map<String, WorldGenerator> worldGenerators;
 
     @Autowired
     public SimpleWorldGeneratorManager(List<WorldGenerator> worldGenerators) {

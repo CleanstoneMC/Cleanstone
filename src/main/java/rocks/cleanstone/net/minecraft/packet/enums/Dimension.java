@@ -13,7 +13,7 @@ public enum Dimension {
 
     @SuppressWarnings("Duplicates")
     public static Dimension fromDimensionID(int dimensionID) {
-        for (Dimension dimension : Dimension.values()) {
+        for (final Dimension dimension : Dimension.values()) {
             if (dimension.getDimensionID() == dimensionID) {
                 return dimension;
             }

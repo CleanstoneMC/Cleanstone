@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.event.EventAction;
 import rocks.cleanstone.net.event.InboundPacketEvent;
@@ -25,13 +24,13 @@ public class InboundPlayerPacketListener {
     @Order(value = EventAction.MODIFY + 50)
     @EventListener
     public void onPacket(InboundPacketEvent inboundPacketEvent) {
-        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
+        final Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
 
         if (player == null || playerManager.isTerminating(player)) {
             return;
         }
 
-        PlayerInboundPacketEvent playerEvent = new PlayerInboundPacketEvent<>(
+        final PlayerInboundPacketEvent playerEvent = new PlayerInboundPacketEvent<>(
                 inboundPacketEvent.getPacket(), inboundPacketEvent.getConnection(),
                 player, inboundPacketEvent.getNetworking());
 

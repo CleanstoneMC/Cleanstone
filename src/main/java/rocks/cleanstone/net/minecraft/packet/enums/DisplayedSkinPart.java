@@ -21,10 +21,10 @@ public enum DisplayedSkinPart {
     }
 
     public static Collection<DisplayedSkinPart> fromBitMask(int bitmask) {
-        List<DisplayedSkinPart> displayedSkinPartList = new ArrayList<>();
+        final List<DisplayedSkinPart> displayedSkinPartList = new ArrayList<>();
 
-        for (DisplayedSkinPart displayedSkinPart : DisplayedSkinPart.values()) {
-            int bit = displayedSkinPart.getBit();
+        for (final DisplayedSkinPart displayedSkinPart : DisplayedSkinPart.values()) {
+            final int bit = displayedSkinPart.getBit();
             if ((bitmask & bit) == bit) {
                 displayedSkinPartList.add(displayedSkinPart);
             }

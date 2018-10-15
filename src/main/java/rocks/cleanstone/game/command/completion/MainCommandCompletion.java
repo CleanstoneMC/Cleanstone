@@ -1,11 +1,13 @@
 package rocks.cleanstone.game.command.completion;
 
+import org.springframework.stereotype.Service;
+import rocks.cleanstone.game.command.Command;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+
 import static java.util.stream.Collectors.toList;
-import org.springframework.stereotype.Service;
-import rocks.cleanstone.game.command.Command;
 
 @Service
 public class MainCommandCompletion {

@@ -1,7 +1,6 @@
 package rocks.cleanstone.game.inventory.item;
 
 import com.google.common.base.Preconditions;
-
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.material.item.ItemType;
 

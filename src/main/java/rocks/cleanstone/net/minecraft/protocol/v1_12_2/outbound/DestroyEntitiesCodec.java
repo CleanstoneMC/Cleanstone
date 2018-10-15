@@ -13,7 +13,7 @@ public class DestroyEntitiesCodec implements OutboundPacketCodec<DestroyEntities
     public ByteBuf encode(ByteBuf byteBuf, DestroyEntitiesPacket packet) {
 
         ByteBufUtils.writeVarInt(byteBuf, packet.getEntityIDs().size());
-        for (int entityID : packet.getEntityIDs()) {
+        for (final int entityID : packet.getEntityIDs()) {
             ByteBufUtils.writeVarInt(byteBuf, entityID);
         }
         return byteBuf;

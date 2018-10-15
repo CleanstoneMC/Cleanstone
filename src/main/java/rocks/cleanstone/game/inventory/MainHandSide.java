@@ -12,7 +12,7 @@ public enum MainHandSide {
 
     @SuppressWarnings("Duplicates")
     public static MainHandSide fromHandID(int handID) {
-        for (MainHandSide mainHandSide : MainHandSide.values()) {
+        for (final MainHandSide mainHandSide : MainHandSide.values()) {
             if (mainHandSide.getHandID() == handID) {
                 return mainHandSide;
             }

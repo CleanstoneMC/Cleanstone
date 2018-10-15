@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.PublicKey;
 
 @Component
@@ -28,17 +29,17 @@ public class SimpleSessionServerRequester implements SessionServerRequester {
     public ListenableFuture<SessionServerResponse> request(Connection connection, LoginData loginData,
                                                            PublicKey publicKey) {
         try {
-            String authHash = LoginCrypto.generateAuthHash(connection.getSharedSecret(), publicKey);
-            URL url = new URL(SESSION_SERVER_URL
+            final String authHash = LoginCrypto.generateAuthHash(connection.getSharedSecret(), publicKey);
+            final URL url = new URL(SESSION_SERVER_URL
                     + String.format("?username=%s&serverId=%s&ip=%s", loginData.getPlayerName(), authHash,
-                    URLEncoder.encode(connection.getAddress().getHostAddress(), "UTF-8")));
-            HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+                    URLEncoder.encode(connection.getAddress().getHostAddress(), String.valueOf(StandardCharsets.UTF_8))));
+            final HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Content-Type", "application/json");
             con.setConnectTimeout(5000);
             con.setReadTimeout(5000);
-            try (Reader reader = new InputStreamReader(con.getInputStream(), Charsets.UTF_8)) {
-                Gson gson = new Gson();
+            try (final Reader reader = new InputStreamReader(con.getInputStream(), Charsets.UTF_8)) {
+                final Gson gson = new Gson();
                 return new AsyncResult<>(gson.fromJson(reader, SessionServerResponse.class));
             }
         } catch (IOException e) {

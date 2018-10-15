@@ -16,7 +16,7 @@ public class InPluginMessageCodec implements InboundPacketCodec<InPluginMessageP
     public InPluginMessagePacket decode(ByteBuf byteBuf) throws IOException {
         final String channel = ByteBufUtils.readUTF8(byteBuf);
 
-        byte[] bytes = new byte[byteBuf.readableBytes()];
+        final byte[] bytes = new byte[byteBuf.readableBytes()];
         for (int i = 0; i < bytes.length; i++) {
             bytes[i] = byteBuf.readByte();
         }

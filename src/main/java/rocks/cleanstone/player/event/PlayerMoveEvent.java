@@ -26,12 +26,12 @@ public class PlayerMoveEvent extends EntityMoveEvent {
 
     @Override
     public void cancel() {
-        HeadRotatablePosition oldPosition = getOldPosition();
-        HeadRotatablePosition newPosition = getNewPosition();
-        int entityID = player.getEntity().getEntityID();
-        float yaw = newPosition.getRotation().getYaw();
-        float pitch = newPosition.getRotation().getPitch();
-        EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, oldPosition.getX(),
+        final HeadRotatablePosition oldPosition = getOldPosition();
+        final HeadRotatablePosition newPosition = getNewPosition();
+        final int entityID = player.getEntity().getEntityID();
+        final float yaw = newPosition.getRotation().getYaw();
+        final float pitch = newPosition.getRotation().getPitch();
+        final EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, oldPosition.getX(),
                 oldPosition.getY(), oldPosition.getZ(), yaw, pitch, player.isFlying());
 
         player.sendPacket(entityTeleportPacket);

@@ -1,12 +1,12 @@
 package rocks.cleanstone.net.minecraft.login.event;
 
-import java.util.Collection;
-import java.util.UUID;
-
 import rocks.cleanstone.core.event.CancellableEvent;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.player.UserProperty;
+
+import java.util.Collection;
+import java.util.UUID;
 
 public class AsyncLoginEvent extends CancellableEvent {
 

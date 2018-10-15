@@ -43,11 +43,11 @@ public class PaletteBlockStateStorage {
                                     DirectPalette directPalette, boolean omitDirectPaletteLength) {
         this(directPalette, omitDirectPaletteLength);
         isEmptyFlag.set(true);
-        int sectionHeight = BlockDataSection.HEIGHT;
+        final int sectionHeight = BlockDataSection.HEIGHT;
         for (int y = sectionY * sectionHeight; y < sectionY * sectionHeight + sectionHeight; y++) {
             for (int z = 0; z < BlockDataSection.WIDTH; z++) {
                 for (int x = 0; x < BlockDataSection.WIDTH; x++) {
-                    BlockState state = blockDataTable.getBlock(x, y, z).getState();
+                    final BlockState state = blockDataTable.getBlock(x, y, z).getState();
                     if (state.getBlockType() != VanillaBlockType.AIR) isEmptyFlag.set(false);
                     set(x, y, z, state);
                 }
@@ -69,16 +69,16 @@ public class PaletteBlockStateStorage {
         this.indirectPalette = new ArrayList<>();
 
         this.bitsPerEntry = in.readUnsignedByte();
-        int indirectPaletteLength = (isIndirectPalette(bitsPerEntry) || !omitDirectPaletteLength)
+        final int indirectPaletteLength = (isIndirectPalette(bitsPerEntry) || !omitDirectPaletteLength)
                 ? ByteBufUtils.readVarInt(in) : 0;
 
         for (int i = 0; i < indirectPaletteLength; i++) {
-            int stateID = ByteBufUtils.readVarInt(in);
-            BlockState blockState = directPalette.getBlockState(stateID);
+            final int stateID = ByteBufUtils.readVarInt(in);
+            final BlockState blockState = directPalette.getBlockState(stateID);
             indirectPalette.add(blockState);
         }
-        int dataLength = ByteBufUtils.readVarInt(in);
-        long[] data = new long[dataLength];
+        final int dataLength = ByteBufUtils.readVarInt(in);
+        final long[] data = new long[dataLength];
 
         for (int i = 0; i < dataLength; i++) {
             data[i] = in.readLong();
@@ -92,13 +92,13 @@ public class PaletteBlockStateStorage {
         if (isIndirectPalette(bitsPerEntry) || !omitDirectPaletteLength) {
             ByteBufUtils.writeVarInt(out, indirectPalette.size());
         }
-        for (BlockState state : indirectPalette) {
+        for (final BlockState state : indirectPalette) {
             ByteBufUtils.writeVarInt(out, directPalette.getIndex(state));
         }
 
-        long[] data = baseStorage.getData();
+        final long[] data = baseStorage.getData();
         ByteBufUtils.writeVarInt(out, data.length);
-        for (long dataItem : data) {
+        for (final long dataItem : data) {
             out.writeLong(dataItem);
         }
     }
@@ -110,7 +110,7 @@ public class PaletteBlockStateStorage {
             indirectPalette.add(state);
             // Are the bitsPerEntry too small to store all palette indexes?
             if (indirectPalette.size() > 1 << bitsPerEntry) {
-                int bitsPerEntry = isIndirectPalette(this.bitsPerEntry + 1) ?
+                final int bitsPerEntry = isIndirectPalette(this.bitsPerEntry + 1) ?
                         this.bitsPerEntry + 1 : directPalette.getBitsPerEntry();
                 resizeBaseStorage(bitsPerEntry);
             }
@@ -121,7 +121,7 @@ public class PaletteBlockStateStorage {
     }
 
     public BlockState get(int x, int y, int z) {
-        int paletteIndex = baseStorage.get(getPositionIndex(x, y, z));
+        final int paletteIndex = baseStorage.get(getPositionIndex(x, y, z));
         if (paletteIndex == 0) return AIR;
         return getBlockState(paletteIndex);
     }
@@ -129,7 +129,7 @@ public class PaletteBlockStateStorage {
     private void resizeBaseStorage(int bitsPerEntry) {
         this.bitsPerEntry = bitsPerEntry;
 
-        EntrySizeBasedStorage resizedStorage = new EntrySizeBasedStorage(bitsPerEntry, baseStorage.getSize());
+        final EntrySizeBasedStorage resizedStorage = new EntrySizeBasedStorage(bitsPerEntry, baseStorage.getSize());
         for (int i = 0; i < baseStorage.getSize(); i++) {
             resizedStorage.set(i, isIndirectPalette(bitsPerEntry) ? baseStorage.get(i)
                     : directPalette.getIndex(indirectPalette.get(i)));
@@ -163,7 +163,7 @@ public class PaletteBlockStateStorage {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PaletteBlockStateStorage)) return false;
-        PaletteBlockStateStorage that = (PaletteBlockStateStorage) o;
+        final PaletteBlockStateStorage that = (PaletteBlockStateStorage) o;
         return omitDirectPaletteLength == that.omitDirectPaletteLength &&
                 bitsPerEntry == that.bitsPerEntry &&
                 Objects.equal(directPalette, that.directPalette) &&

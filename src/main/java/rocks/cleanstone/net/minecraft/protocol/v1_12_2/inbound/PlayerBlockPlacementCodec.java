@@ -23,7 +23,7 @@ public class PlayerBlockPlacementCodec implements InboundPacketCodec<PlayerBlock
         final float cursorY = byteBuf.readFloat();
         final float cursorZ = byteBuf.readFloat();
 
-        Position position = new Position(positionVector);
+        final Position position = new Position(positionVector);
 
         return new PlayerBlockPlacementPacket(position, face, hand, cursorX, cursorY, cursorZ);
     }

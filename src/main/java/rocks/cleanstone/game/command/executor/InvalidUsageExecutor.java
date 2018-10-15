@@ -20,18 +20,18 @@ public class InvalidUsageExecutor implements CommandExecutor {
 
     @Override
     public void execute(CommandMessage message) {
-        CommandSender sender = message.getCommandSender();
+        final CommandSender sender = message.getCommandSender();
         if (exception instanceof NotEnoughParametersException) {
-            NotEnoughParametersException e = (NotEnoughParametersException) exception;
+            final NotEnoughParametersException e = (NotEnoughParametersException) exception;
             sender.sendMessage("game.command.invalid-usage.not-enough-parameters",
                     e.getRequiredAmount(), e.getGivenAmount());
         } else if (exception instanceof InvalidParameterException) {
-            InvalidParameterException e = (InvalidParameterException) exception;
-            String parameterName = getParameterDisplayName(e.getRequiredParameter());
+            final InvalidParameterException e = (InvalidParameterException) exception;
+            final String parameterName = getParameterDisplayName(e.getRequiredParameter());
             sender.sendMessage("game.command.invalid-usage.invalid-parameter",
                     parameterName, e.getIndex() + 1, e.getGivenString());
         } else if (exception instanceof NoValidTargetException) {
-            NoValidTargetException e = (NoValidTargetException) exception;
+            final NoValidTargetException e = (NoValidTargetException) exception;
             sender.sendMessage("game.command.invalid-usage.no-valid-target", e.getIndex() + 1);
         }
         sender.sendMessage("game.command.invalid-usage.usage", command.getUsage());

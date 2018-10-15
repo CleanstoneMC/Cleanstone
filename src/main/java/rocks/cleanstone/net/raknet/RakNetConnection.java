@@ -1,17 +1,15 @@
 package rocks.cleanstone.net.raknet;
 
 import com.google.common.util.concurrent.Futures;
-
 import com.whirvis.jraknet.session.RakNetClientSession;
 import com.whirvis.jraknet.session.RakNetState;
-
-import java.net.InetAddress;
-import java.util.concurrent.Future;
-
 import rocks.cleanstone.net.AbstractConnection;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 import rocks.cleanstone.net.protocol.ProtocolState;
+
+import java.net.InetAddress;
+import java.util.concurrent.Future;
 
 public class RakNetConnection extends AbstractConnection {
 

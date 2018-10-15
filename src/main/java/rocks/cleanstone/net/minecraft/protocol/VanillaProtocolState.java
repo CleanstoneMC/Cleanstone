@@ -15,7 +15,7 @@ public enum VanillaProtocolState implements ProtocolState {
 
     @Nullable
     public static VanillaProtocolState byStateID(int stateID) {
-        for (VanillaProtocolState state : values()) {
+        for (final VanillaProtocolState state : values()) {
             if (state.getStateID() == stateID) return state;
         }
         return null;

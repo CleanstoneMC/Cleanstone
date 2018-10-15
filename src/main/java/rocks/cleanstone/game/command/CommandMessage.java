@@ -1,11 +1,11 @@
 package rocks.cleanstone.game.command;
 
+import rocks.cleanstone.game.chat.message.Text;
+import rocks.cleanstone.player.Player;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
-import rocks.cleanstone.game.chat.message.Text;
-import rocks.cleanstone.player.Player;
 
 public interface CommandMessage {
     CommandSender getCommandSender();

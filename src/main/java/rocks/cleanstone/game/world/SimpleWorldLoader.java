@@ -38,22 +38,22 @@ public class SimpleWorldLoader implements WorldLoader {
     @Override
     public ListenableFuture<World> loadWorld(WorldConfig worldConfig) {
 
-        WorldGenerator worldGenerator = worldGeneratorManager.getWorldGenerator(worldConfig.getGenerator());
+        final WorldGenerator worldGenerator = worldGeneratorManager.getWorldGenerator(worldConfig.getGenerator());
         if (worldGenerator == null) {
             return AsyncResult.forExecutionException(
                     new IllegalArgumentException("Cannot find worldGenerator " + worldConfig.getGenerator()));
         }
 
-        WorldDataSource worldDataSource;
+        final WorldDataSource worldDataSource;
         try {
             worldDataSource = worldDataSourceFactory.get(worldConfig.getName());
         } catch (WorldDataSourceCreationException e) {
             return AsyncResult.forExecutionException(new IOException("Failed to create worldDataSource", e));
         }
-        ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);
-        RegionManager regionManager = context.getBean(RegionManager.class, chunkProvider);
-        EntityRegistry entityRegistry = context.getBean(EntityRegistry.class);
-        World world = context.getBean(World.class, worldConfig, worldGenerator, worldDataSource, regionManager, entityRegistry);
+        final ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);
+        final RegionManager regionManager = context.getBean(RegionManager.class, chunkProvider);
+        final EntityRegistry entityRegistry = context.getBean(EntityRegistry.class);
+        final World world = context.getBean(World.class, worldConfig, worldGenerator, worldDataSource, regionManager, entityRegistry);
 
         // TODO: Loading spawn and other tasks(?)
         logger.info("World '" + worldConfig.getName() + "' loaded");

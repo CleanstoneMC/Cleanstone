@@ -12,7 +12,6 @@ import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
-import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
@@ -30,15 +29,15 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        int packetID = ByteBufUtils.readVarInt(in);
-        PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
-        Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-        PacketType packetType = protocol.translateInboundPacketID(packetID, connection);
-        InboundPacketCodec codec = protocol.getInboundPacketCodec(packetType.getPacketClass(),
+        final int packetID = ByteBufUtils.readVarInt(in);
+        final PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
+        final Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
+        final PacketType packetType = protocol.translateInboundPacketID(packetID, connection);
+        final InboundPacketCodec codec = protocol.getInboundPacketCodec(packetType.getPacketClass(),
                 connection.getClientProtocolLayer());
         Preconditions.checkNotNull(codec, "Cannot find codec for packetType " + packetType
                 + " and clientLayer " + connection.getClientProtocolLayer());
-        Packet packet;
+        final Packet packet;
         try {
             packet = codec.decode(in);
         } catch (Exception e) {

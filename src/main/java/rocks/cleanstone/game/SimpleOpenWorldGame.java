@@ -46,7 +46,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
 
     private void loadWorld(WorldConfig worldConfig) {
         try {
-            World world = this.worldManager.loadWorld(worldConfig).get();
+            final World world = this.worldManager.loadWorld(worldConfig).get();
 
             if (worldConfig.isFirstSpawnWorld()) {
                 firstSpawnWorld = world;

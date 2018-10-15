@@ -1,12 +1,12 @@
 package rocks.cleanstone.player.data;
 
 import io.netty.buffer.ByteBuf;
-import java.io.IOException;
-import java.io.Serializable;
-
 import rocks.cleanstone.data.InboundCodec;
 import rocks.cleanstone.data.OutboundCodec;
 import rocks.cleanstone.player.Player;
+
+import java.io.IOException;
+import java.io.Serializable;
 
 public interface PlayerDataSource {
     <T> T getPlayerData(Player player, PlayerDataType type, InboundCodec<T, ByteBuf> codec) throws IOException;

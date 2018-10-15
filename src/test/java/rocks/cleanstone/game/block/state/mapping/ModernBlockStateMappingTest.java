@@ -7,7 +7,6 @@ import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.SimpleMaterialRegistry;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ModernBlockStateMappingTest {
@@ -24,8 +23,8 @@ class ModernBlockStateMappingTest {
     @Test
     void serializationShouldBeOneToOne() {
         materialRegistry.getBlockTypes().forEach(blockType -> {
-            BlockState state = BlockState.of(blockType);
-            BlockState deserialized = blockStateMapping.getState(blockStateMapping.getID(state));
+            final BlockState state = BlockState.of(blockType);
+            final BlockState deserialized = blockStateMapping.getState(blockStateMapping.getID(state));
             assertEquals(state, deserialized);
         });
     }

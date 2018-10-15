@@ -14,18 +14,18 @@ public class EncryptionResponseCodec implements InboundPacketCodec<EncryptionRes
 
     @Override
     public EncryptionResponsePacket decode(ByteBuf byteBuf) throws IOException {
-        int publicKeyLength = ByteBufUtils.readVarInt(byteBuf);
+        final int publicKeyLength = ByteBufUtils.readVarInt(byteBuf);
         Preconditions.checkArgument(publicKeyLength <= 256 && publicKeyLength > 0,
                 "publicKeyLength " + publicKeyLength + " is too big/small");
 
-        byte[] publicKeyArray = new byte[publicKeyLength];
+        final byte[] publicKeyArray = new byte[publicKeyLength];
         byteBuf.readBytes(publicKeyArray);
 
-        int verifyTokenLength = ByteBufUtils.readVarInt(byteBuf);
+        final int verifyTokenLength = ByteBufUtils.readVarInt(byteBuf);
         Preconditions.checkArgument(verifyTokenLength <= 256 && verifyTokenLength > 0,
                 "verifyTokenLength " + verifyTokenLength + " is too big/small");
 
-        byte[] verifyTokenArray = new byte[verifyTokenLength];
+        final byte[] verifyTokenArray = new byte[verifyTokenLength];
         byteBuf.readBytes(verifyTokenArray);
 
         return new EncryptionResponsePacket(publicKeyArray, verifyTokenArray);

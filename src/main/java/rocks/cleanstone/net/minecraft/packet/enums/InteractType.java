@@ -13,7 +13,7 @@ public enum InteractType {
 
     @SuppressWarnings("Duplicates")
     public static InteractType fromTypeID(int typeID) {
-        for (InteractType interactType : InteractType.values()) {
+        for (final InteractType interactType : InteractType.values()) {
             if (interactType.getTypeID() == typeID) {
                 return interactType;
             }

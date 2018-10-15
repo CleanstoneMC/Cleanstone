@@ -64,7 +64,7 @@ public class EntrySizeBasedStorage {
                 roundTo *= -1;
             }
 
-            int remainder = value % roundTo;
+            final int remainder = value % roundTo;
             return remainder != 0 ? value + roundTo - remainder : value;
         }
     }
@@ -86,14 +86,14 @@ public class EntrySizeBasedStorage {
             throw new IndexOutOfBoundsException();
         }
 
-        int bitIndex = index * this.bitsPerEntry;
-        int startIndex = bitIndex / 64;
-        int endIndex = ((index + 1) * this.bitsPerEntry - 1) / 64;
-        int startBitSubIndex = bitIndex % 64;
+        final int bitIndex = index * this.bitsPerEntry;
+        final int startIndex = bitIndex / 64;
+        final int endIndex = ((index + 1) * this.bitsPerEntry - 1) / 64;
+        final int startBitSubIndex = bitIndex % 64;
         if (startIndex == endIndex) {
             return (int) (this.data[startIndex] >>> startBitSubIndex & this.maxEntryValue);
         } else {
-            int endBitSubIndex = 64 - startBitSubIndex;
+            final int endBitSubIndex = 64 - startBitSubIndex;
             return (int) ((this.data[startIndex] >>> startBitSubIndex | this.data[endIndex] << endBitSubIndex) & this.maxEntryValue);
         }
     }
@@ -107,13 +107,13 @@ public class EntrySizeBasedStorage {
             throw new IllegalArgumentException("Value cannot be outside of accepted range.");
         }
 
-        int bitIndex = index * this.bitsPerEntry;
-        int startIndex = bitIndex / 64;
-        int endIndex = ((index + 1) * this.bitsPerEntry - 1) / 64;
-        int startBitSubIndex = bitIndex % 64;
+        final int bitIndex = index * this.bitsPerEntry;
+        final int startIndex = bitIndex / 64;
+        final int endIndex = ((index + 1) * this.bitsPerEntry - 1) / 64;
+        final int startBitSubIndex = bitIndex % 64;
         this.data[startIndex] = this.data[startIndex] & ~(this.maxEntryValue << startBitSubIndex) | ((long) value & this.maxEntryValue) << startBitSubIndex;
         if (startIndex != endIndex) {
-            int endBitSubIndex = 64 - startBitSubIndex;
+            final int endBitSubIndex = 64 - startBitSubIndex;
             this.data[endIndex] = this.data[endIndex] >>> endBitSubIndex << endBitSubIndex | ((long) value & this.maxEntryValue) >> endBitSubIndex;
         }
     }
@@ -123,7 +123,7 @@ public class EntrySizeBasedStorage {
         if (this == o) return true;
         if (!(o instanceof EntrySizeBasedStorage)) return false;
 
-        EntrySizeBasedStorage that = (EntrySizeBasedStorage) o;
+        final EntrySizeBasedStorage that = (EntrySizeBasedStorage) o;
         return Arrays.equals(this.data, that.data) &&
                 this.bitsPerEntry == that.bitsPerEntry &&
                 this.size == that.size &&

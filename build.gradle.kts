@@ -15,6 +15,7 @@ plugins {
     java
     application
     jacoco
+
 }
 
 apply(plugin = "org.springframework.boot")
@@ -40,6 +41,7 @@ repositories {
 }
 
 dependencies {
+    compileOnly("org.projectlombok:lombok:1.18.2")
     compile("org.springframework.boot:spring-boot-starter")
     compile("org.springframework.boot:spring-boot-starter-cache")
     compile("org.springframework.boot:spring-boot-starter-web")

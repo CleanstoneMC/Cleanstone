@@ -25,8 +25,8 @@ public class LoginStartListener {
     @EventListener
     public void onReceive(InboundPacketEvent event) {
         if (event.getPacket() instanceof LoginStartPacket) {
-            LoginStartPacket packet = (LoginStartPacket) event.getPacket();
-            String playerName = packet.getPlayerName();
+            final LoginStartPacket packet = (LoginStartPacket) event.getPacket();
+            final String playerName = packet.getPlayerName();
             loginManager.startLogin(event.getConnection(), playerName);
         }
     }

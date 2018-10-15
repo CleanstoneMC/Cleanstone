@@ -43,8 +43,8 @@ public class KeepAliveTask {
     @EventListener
     public void onKeepAliveReceive(InboundPacketEvent e) {
         if (e.getPacket() instanceof InKeepAlivePacket) {
-            InKeepAlivePacket packet = (InKeepAlivePacket) e.getPacket();
-            long keepAliveID = packet.getKeepAliveID();
+            final InKeepAlivePacket packet = (InKeepAlivePacket) e.getPacket();
+            final long keepAliveID = packet.getKeepAliveID();
 
             if (connectionLastKeepAliveIDMap.getOrDefault(e.getConnection(), -1L) == keepAliveID) {
                 connectionLastResponseMap.put(e.getConnection(), System.currentTimeMillis());
@@ -66,7 +66,7 @@ public class KeepAliveTask {
     }
 
     private void generateNewKeepAliveID(Connection connection) {
-        long id = ThreadLocalRandom.current().nextLong();
+        final long id = ThreadLocalRandom.current().nextLong();
         connectionLastKeepAliveIDMap.put(connection, id);
     }
 }

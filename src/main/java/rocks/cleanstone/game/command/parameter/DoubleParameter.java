@@ -11,7 +11,7 @@ public class DoubleParameter implements CommandParameter<Double> {
     @Override
     public Double get(CompletionContext<Double> context) {
         try {
-            double number = Double.parseDouble(context.getInput());
+            final double number = Double.parseDouble(context.getInput());
             if (!Double.isFinite(number) || Math.abs(number) >= 3.2e7) return null;
             return number;
         } catch (NumberFormatException e) {

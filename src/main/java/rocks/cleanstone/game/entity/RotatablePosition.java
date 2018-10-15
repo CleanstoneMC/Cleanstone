@@ -1,10 +1,9 @@
 package rocks.cleanstone.game.entity;
 
 import com.google.common.base.Objects;
+import rocks.cleanstone.game.Position;
 
 import java.io.Serializable;
-
-import rocks.cleanstone.game.Position;
 
 public class RotatablePosition extends Position implements Serializable {
 
@@ -35,7 +34,7 @@ public class RotatablePosition extends Position implements Serializable {
         if (this == o) return true;
         if (!(o instanceof RotatablePosition)) return false;
         if (!super.equals(o)) return false;
-        RotatablePosition that = (RotatablePosition) o;
+        final RotatablePosition that = (RotatablePosition) o;
         return Objects.equal(rotation, that.rotation);
     }
 

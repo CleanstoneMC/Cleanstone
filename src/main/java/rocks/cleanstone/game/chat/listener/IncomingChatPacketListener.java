@@ -33,13 +33,13 @@ public class IncomingChatPacketListener {
             return;
         }
 
-        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
+        final Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
         if (player == null) return;
-        Identity playerID = player.getID();
-        String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
+        final Identity playerID = player.getID();
+        final String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
 
-        InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());
-        String chatMessage = chatMessagePacket.getMessage();
+        final InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());
+        final String chatMessage = chatMessagePacket.getMessage();
         if (chatMessage.isEmpty()) return;
         if (chatMessage.charAt(0) == '/') {
             //Command

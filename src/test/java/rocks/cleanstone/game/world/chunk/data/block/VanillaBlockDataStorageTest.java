@@ -32,11 +32,11 @@ class VanillaBlockDataStorageTest {
 
         random = new Random(1);
         directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
-        MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
+        final MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
 
-        BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
+        final BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 20; i++) {
-            Block randomBlock = ImmutableBlock.of(
+            final Block randomBlock = ImmutableBlock.of(
                     new ArrayList<>(materialRegistry.getBlockTypes())
                             .get(random.nextInt(materialRegistry.getBlockTypes().size())));
             blockDataTable.setBlock(random.nextInt(16), random.nextInt(256), random.nextInt(16), randomBlock);
@@ -47,10 +47,10 @@ class VanillaBlockDataStorageTest {
     @Disabled
     @Test
     void testSerializationAndTable() {
-        VanillaBlockDataCodec codec = new SimpleVanillaBlockDataCodecFactory(simpleVanillaBlockDataStorageFactory)
+        final VanillaBlockDataCodec codec = new SimpleVanillaBlockDataCodecFactory(simpleVanillaBlockDataStorageFactory)
                 .get(directPalette, true);
-        ByteBuf serialized = codec.encode(storage);
-        VanillaBlockDataStorage deserialized;
+        final ByteBuf serialized = codec.encode(storage);
+        final VanillaBlockDataStorage deserialized;
         try {
             deserialized = codec.decode(serialized);
         } catch (IOException e) {

@@ -10,7 +10,7 @@ public class HeldItemChangeCodec implements InboundPacketCodec<HeldItemChangePac
 
     @Override
     public HeldItemChangePacket decode(ByteBuf byteBuf) {
-        short slot = byteBuf.readShort();
+        final short slot = byteBuf.readShort();
 
         return new HeldItemChangePacket(slot);
     }

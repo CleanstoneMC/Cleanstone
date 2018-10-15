@@ -28,10 +28,8 @@ public class AlertCommand extends SimpleCommand {
                 return;
             }
         }
-        String inputMessage = message.requireStringMessage();
+        final String inputMessage = message.requireStringMessage();
 
-        playerManager.getOnlinePlayers().forEach(player -> {
-            player.sendMessage("game.command.cleanstone.alert-format", inputMessage);
-        });
+        playerManager.getOnlinePlayers().forEach(player -> player.sendMessage("game.command.cleanstone.alert-format", inputMessage));
     }
 }

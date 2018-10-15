@@ -1,10 +1,9 @@
 package rocks.cleanstone.data;
 
-import java.io.IOException;
+import io.netty.util.ReferenceCountUtil;
 
 import javax.annotation.Nullable;
-
-import io.netty.util.ReferenceCountUtil;
+import java.io.IOException;
 
 public interface KeyValueDataRepository<K, V> {
 
@@ -13,7 +12,7 @@ public interface KeyValueDataRepository<K, V> {
 
     @Nullable
     default <T> T get(K key, InboundCodec<T, V> codec) throws IOException {
-        V value = get(key);
+        final V value = get(key);
         try {
             return value != null ? codec.decode(value) : null;
         } finally {
@@ -24,7 +23,7 @@ public interface KeyValueDataRepository<K, V> {
     void set(K key, V value);
 
     default <T> void set(K key, T value, OutboundCodec<T, V> codec) throws IOException {
-        V serialized = codec.encode(value);
+        final V serialized = codec.encode(value);
         try {
             set(key, serialized);
         } finally {

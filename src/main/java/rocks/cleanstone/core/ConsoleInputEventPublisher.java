@@ -18,12 +18,12 @@ public class ConsoleInputEventPublisher implements Lifecycle {
     public void start() {
         running = true;
 
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+        final BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
-        Thread inputReaderThread = new Thread(() -> {
+        final Thread inputReaderThread = new Thread(() -> {
             try {
                 while (!Thread.interrupted()) {
-                    String input = inputReader.readLine();
+                    final String input = inputReader.readLine();
                     if (input == null) {
                         throw new IOException("Console input reached EOS");
                     }

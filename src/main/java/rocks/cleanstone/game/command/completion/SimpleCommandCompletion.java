@@ -1,9 +1,6 @@
 package rocks.cleanstone.game.command.completion;
 
 import com.google.common.base.Preconditions;
-import java.util.Collections;
-import java.util.List;
-import static java.util.stream.Collectors.toList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +14,17 @@ import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.utils.Vector;
 
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+
 @Component
 public class SimpleCommandCompletion implements CommandCompletion {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private CommandRegistry commandRegistry;
-    private MainCommandCompletion mainCommandCompletion;
-    private CommandArgumentsCompletion argumentsCompletion;
+    private final CommandRegistry commandRegistry;
+    private final MainCommandCompletion mainCommandCompletion;
+    private final CommandArgumentsCompletion argumentsCompletion;
 
     @Autowired
     public SimpleCommandCompletion(
@@ -41,7 +43,7 @@ public class SimpleCommandCompletion implements CommandCompletion {
         Preconditions.checkNotNull(commandLine, "commandLine cannot be null");
         Preconditions.checkNotNull(sender, "sender cannot be null");
 
-        CommandMessage commandMessage = CommandMessageFactory.construct(sender, commandLine.toLowerCase(), commandRegistry);
+        final CommandMessage commandMessage = CommandMessageFactory.construct(sender, commandLine.toLowerCase(), commandRegistry);
         Command command = commandRegistry.getCommand(commandMessage.getCommandName());
         List<String> matches;
 
@@ -68,8 +70,8 @@ public class SimpleCommandCompletion implements CommandCompletion {
 
     private Command resolveSubCommands(Command command, CommandMessage commandMessage) {
         while (commandMessage.nextParameterIs(String.class)) {
-            String parameter = commandMessage.requireParameter(String.class);
-            Command subCommand = command.getSubCommands().get(parameter);
+            final String parameter = commandMessage.requireParameter(String.class);
+            final Command subCommand = command.getSubCommands().get(parameter);
             if (subCommand != null) {
                 command = subCommand;
             } else {

@@ -43,7 +43,7 @@ public class SimpleWorldManager implements WorldManager {
 
     @Override
     public ListenableFuture<World> loadWorld(WorldConfig worldConfig) {
-        ListenableFuture<World> worldListenableFuture = worldLoader.loadWorld(worldConfig);
+        final ListenableFuture<World> worldListenableFuture = worldLoader.loadWorld(worldConfig);
 
         worldListenableFuture.addCallback(world -> {
             Preconditions.checkNotNull(world, "Loaded world " + worldConfig.getName() + " cannot be null");
@@ -56,7 +56,7 @@ public class SimpleWorldManager implements WorldManager {
     @Override
     public void unloadWorld(WorldConfig worldConfig) {
         try {
-            World world = worldMap.get(worldConfig);
+            final World world = worldMap.get(worldConfig);
 
             if (world == null) {
                 throw new NullPointerException("World " + worldConfig + " not found");

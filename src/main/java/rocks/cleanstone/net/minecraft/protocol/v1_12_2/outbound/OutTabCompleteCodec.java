@@ -21,9 +21,9 @@ public class OutTabCompleteCodec implements OutboundPacketCodec<OutTabCompletePa
 
         ByteBufUtils.writeVarInt(byteBuf, packet.getMatches().size());
 
-        List<String> matches = packet.getMatches();
+        final List<String> matches = packet.getMatches();
 
-        for (String match : matches) {
+        for (final String match : matches) {
             try {
                 ByteBufUtils.writeUTF8(byteBuf, match);
             } catch (IOException e) {

@@ -18,7 +18,7 @@ public class ChatManager {
     }
 
     public void sendChatMessage(ChatMessage message, Player... excludedPlayers) {
-        OutChatMessagePacket chatMessagePacket = new OutChatMessagePacket(message, ChatPosition.CHAT);
+        final OutChatMessagePacket chatMessagePacket = new OutChatMessagePacket(message, ChatPosition.CHAT);
 
         playerManager.broadcastPacket(chatMessagePacket, excludedPlayers);
     }

@@ -1,7 +1,6 @@
 package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import com.google.common.base.Objects;
-
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 
@@ -34,7 +33,7 @@ public class DirectPalette {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof DirectPalette)) return false;
-        DirectPalette that = (DirectPalette) o;
+        final DirectPalette that = (DirectPalette) o;
         return bitsPerEntry == that.bitsPerEntry &&
                 Objects.equal(blockStateMapping, that.blockStateMapping);
     }

@@ -6,16 +6,10 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalNotification;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
@@ -23,12 +17,15 @@ import rocks.cleanstone.game.world.chunk.ChunkProvider;
 import rocks.cleanstone.game.world.event.ChunkLoadedEvent;
 import rocks.cleanstone.game.world.event.ChunkUnloadEvent;
 
+import javax.annotation.Nullable;
+import java.util.Collection;
+
 public class SimpleRegion implements Region {
 
     private final String id;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private ChunkProvider chunkProvider;
-    private Cache<ChunkCoords, Chunk> loadedChunks = CacheBuilder.newBuilder()
+    private final ChunkProvider chunkProvider;
+    private final Cache<ChunkCoords, Chunk> loadedChunks = CacheBuilder.newBuilder()
             .maximumSize(4096)
             .removalListener(this::removeChunkListener)
             .build();
@@ -45,7 +42,7 @@ public class SimpleRegion implements Region {
     }
 
     private void removeChunkListener(RemovalNotification removalNotification) {
-        Chunk chunk = (Chunk) removalNotification.getValue();
+        final Chunk chunk = (Chunk) removalNotification.getValue();
         if (chunk.hasUnsavedChanges()) {
             this.chunkProvider.getDataSource().saveChunk(chunk);
         }
@@ -77,7 +74,7 @@ public class SimpleRegion implements Region {
 
     @Override
     public ListenableFuture<Chunk> loadChunk(ChunkCoords coords) {
-        ListenableFuture<Chunk> chunkFuture = chunkProvider.getChunk(coords);
+        final ListenableFuture<Chunk> chunkFuture = chunkProvider.getChunk(coords);
         chunkFuture.addCallback(
                 chunk -> {
                     Preconditions.checkNotNull(chunk);
@@ -91,7 +88,7 @@ public class SimpleRegion implements Region {
 
     @Override
     public void unloadChunk(ChunkCoords coords) {
-        Chunk chunk = getLoadedChunk(coords);
+        final Chunk chunk = getLoadedChunk(coords);
         Preconditions.checkNotNull(chunk, "Cannot unload non-loaded chunk " + coords);
         CleanstoneServer.publishEvent(new ChunkUnloadEvent(chunk));
         loadedChunks.invalidate(coords);

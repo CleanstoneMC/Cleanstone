@@ -19,7 +19,7 @@ public enum SmokeDirection {
 
     @SuppressWarnings("Duplicates")
     public static SmokeDirection fromDirectionID(int directionID) {
-        for (SmokeDirection direction : SmokeDirection.values()) {
+        for (final SmokeDirection direction : SmokeDirection.values()) {
             if (direction.getDirectionID() == directionID) {
                 return direction;
             }

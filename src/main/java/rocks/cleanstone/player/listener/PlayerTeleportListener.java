@@ -32,10 +32,10 @@ public class PlayerTeleportListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPlayerTeleport(PlayerTeleportEvent playerTeleportEvent) {
-        Player player = playerTeleportEvent.getPlayer();
-        Human oldHuman = player.getEntity();
-        World world = oldHuman.getWorld();
-        Human newHuman = new SimpleHuman(world, playerTeleportEvent.getNewPosition());
+        final Player player = playerTeleportEvent.getPlayer();
+        final Human oldHuman = player.getEntity();
+        final World world = oldHuman.getWorld();
+        final Human newHuman = new SimpleHuman(world, playerTeleportEvent.getNewPosition());
 
         // TODO consider thread-safety with getting/changing player entities
         logger.debug("{} now has entity id {}", player.getName(), newHuman.getEntityID());
@@ -43,15 +43,15 @@ public class PlayerTeleportListener {
         world.getEntityRegistry().removeEntity(oldHuman);
         world.getEntityRegistry().addEntity(newHuman);
 
-        DestroyEntitiesPacket destroyEntitiesPacket = new DestroyEntitiesPacket(
+        final DestroyEntitiesPacket destroyEntitiesPacket = new DestroyEntitiesPacket(
                 Collections.singletonList(oldHuman.getEntityID()));
         playerManager.broadcastPacket(destroyEntitiesPacket);
 
-        OutPlayerPositionAndLookPacket playerPositionAndLookPacket = new OutPlayerPositionAndLookPacket(playerTeleportEvent.getNewPosition(), 0,
+        final OutPlayerPositionAndLookPacket playerPositionAndLookPacket = new OutPlayerPositionAndLookPacket(playerTeleportEvent.getNewPosition(), 0,
                 ThreadLocalRandom.current().nextInt());
         player.sendPacket(playerPositionAndLookPacket);
 
-        SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(newHuman.getEntityID(),
+        final SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(newHuman.getEntityID(),
                 player.getID().getUUID(), playerTeleportEvent.getNewPosition(), null); //TODO: Add Metadata
 
         playerManager.broadcastPacket(spawnPlayerPacket, player);

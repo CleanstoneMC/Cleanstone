@@ -1,9 +1,10 @@
 package rocks.cleanstone.net.protocol;
 
 import com.google.common.collect.Maps;
-import java.util.Map;
-import javax.annotation.Nonnull;
 import rocks.cleanstone.net.packet.Packet;
+
+import javax.annotation.Nonnull;
+import java.util.Map;
 
 public abstract class AbstractServerProtocolLayer implements ServerProtocolLayer {
     private final Map<Class<? extends Packet>, InboundPacketCodec<?>> inboundPacketClassCodecMap = Maps.newConcurrentMap();
@@ -23,12 +24,14 @@ public abstract class AbstractServerProtocolLayer implements ServerProtocolLayer
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Packet> InboundPacketCodec<T> getInboundPacketCodec(Class<T> packetClass) {
+        //noinspection unchecked
         return (InboundPacketCodec<T>) inboundPacketClassCodecMap.get(packetClass);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Packet> OutboundPacketCodec<T> getOutboundPacketCodec(Class<T> packetClass) {
+        //noinspection unchecked
         return (OutboundPacketCodec<T>) outboundPacketClassCodecMap.get(packetClass);
     }
 

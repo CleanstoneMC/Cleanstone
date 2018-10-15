@@ -6,14 +6,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
-import java.util.Collections;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Manages a single region in the world to rule them all
@@ -51,7 +49,7 @@ public class SingleRegionManager implements RegionManager {
     @Async(value = "worldExec")
     @Override
     public ListenableFuture<Region> getRegion(ChunkCoords coords) {
-        Region region = getLoadedRegion(coords);
+        final Region region = getLoadedRegion(coords);
         if (region != null) {
             return new AsyncResult<>(region);
         }

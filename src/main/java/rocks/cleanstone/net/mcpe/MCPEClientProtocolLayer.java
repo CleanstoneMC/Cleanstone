@@ -1,11 +1,10 @@
 package rocks.cleanstone.net.mcpe;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 
 import javax.annotation.Nullable;
-
-import rocks.cleanstone.net.protocol.ClientProtocolLayer;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public enum MCPEClientProtocolLayer implements ClientProtocolLayer {
     BEDROCK_V1_4_2("1.2", 137);
@@ -20,7 +19,7 @@ public enum MCPEClientProtocolLayer implements ClientProtocolLayer {
 
     @Nullable
     public static MCPEClientProtocolLayer byVersionNumber(int versionNumber) {
-        for (MCPEClientProtocolLayer layer : values()) {
+        for (final MCPEClientProtocolLayer layer : values()) {
             if (layer.getOrderedVersionNumber() == versionNumber) return layer;
         }
         return null;

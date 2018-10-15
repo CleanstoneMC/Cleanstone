@@ -2,10 +2,6 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rocks.cleanstone.game.block.Block;
@@ -18,6 +14,10 @@ import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,9 +36,9 @@ class PaletteBlockStateStorageTest {
         blockStateMapping = new ProtocolBlockStateMapping();
         materialRegistry = new SimpleMaterialRegistry();
 
-        BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
+        final BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 40; i++) {
-            Block randomBlock = ImmutableBlock.of(
+            final Block randomBlock = ImmutableBlock.of(
                     new ArrayList<>(materialRegistry.getBlockTypes())
                             .get(random.nextInt(materialRegistry.getBlockTypes().size())));
             blockDataTable.setBlock(random.nextInt(16), random.nextInt(256), random.nextInt(16), randomBlock);
@@ -49,9 +49,9 @@ class PaletteBlockStateStorageTest {
 
     @Test
     void testSerialization() {
-        ByteBuf buf = Unpooled.buffer();
+        final ByteBuf buf = Unpooled.buffer();
         storage.write(buf);
-        PaletteBlockStateStorage deserialized;
+        final PaletteBlockStateStorage deserialized;
         try {
             deserialized = new PaletteBlockStateStorage(buf, new DirectPalette(blockStateMapping, 14), true);
         } catch (IOException e) {

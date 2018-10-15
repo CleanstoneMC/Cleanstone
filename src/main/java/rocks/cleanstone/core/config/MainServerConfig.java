@@ -1,6 +1,5 @@
 package rocks.cleanstone.core.config;
 
-import java.util.concurrent.ThreadPoolExecutor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
@@ -13,6 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 @Configuration
 @EnableCaching
 @EnableAsync
@@ -22,7 +23,7 @@ public class MainServerConfig {
 
     @Bean
     public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("lang/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
@@ -30,14 +31,14 @@ public class MainServerConfig {
 
     @Bean
     public ThreadPoolTaskScheduler taskScheduler() {
-        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+        final ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
         threadPoolTaskScheduler.setPoolSize(10);
         return threadPoolTaskScheduler;
     }
 
     @Bean
     public TaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "taskExecutor");
+        final ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "taskExecutor");
         taskExecutor.initialize();
 
         return taskExecutor;
@@ -45,7 +46,7 @@ public class MainServerConfig {
 
     @Bean
     public TaskExecutor playerExec() {
-        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "playerExec");
+        final ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "playerExec");
         taskExecutor.initialize();
 
         return taskExecutor;
@@ -53,7 +54,7 @@ public class MainServerConfig {
 
     @Bean
     public TaskExecutor mcLoginExec() {
-        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "mcLoginExec");
+        final ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "mcLoginExec");
         taskExecutor.initialize();
 
         return taskExecutor;
@@ -61,7 +62,7 @@ public class MainServerConfig {
 
     @Bean
     public TaskExecutor chatExec() {
-        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "chatExec");
+        final ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "chatExec");
         taskExecutor.initialize();
 
         return taskExecutor;
@@ -69,7 +70,7 @@ public class MainServerConfig {
 
     @Bean
     public TaskExecutor commandExec() {
-        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "commandExec");
+        final ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "commandExec");
         taskExecutor.initialize();
 
         return taskExecutor;
@@ -77,7 +78,7 @@ public class MainServerConfig {
 
     @Bean
     public TaskExecutor worldExec() {
-        ThreadPoolTaskExecutor executor = createTaskExecutor(5000, "worldExec");
+        final ThreadPoolTaskExecutor executor = createTaskExecutor(5000, "worldExec");
         executor.setCorePoolSize(10);
         executor.setMaxPoolSize(128);
         executor.setQueueCapacity(50);
@@ -88,7 +89,7 @@ public class MainServerConfig {
     }
 
     private ThreadPoolTaskExecutor createTaskExecutor(int maxSize, String name) {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setMaxPoolSize(maxSize);
         executor.setThreadNamePrefix(name);
 

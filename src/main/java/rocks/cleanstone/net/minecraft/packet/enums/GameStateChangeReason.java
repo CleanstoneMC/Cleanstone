@@ -20,7 +20,7 @@ public enum GameStateChangeReason {
 
     @SuppressWarnings("Duplicates")
     public static GameStateChangeReason fromReasonID(int reasonID) {
-        for (GameStateChangeReason gameStateChangeReason : GameStateChangeReason.values()) {
+        for (final GameStateChangeReason gameStateChangeReason : GameStateChangeReason.values()) {
             if (gameStateChangeReason.getReasonID() == reasonID)
                 return gameStateChangeReason;
         }

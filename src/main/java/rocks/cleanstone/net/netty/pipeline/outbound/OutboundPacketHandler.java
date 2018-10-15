@@ -26,8 +26,8 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
         try {
-            Packet packet = (Packet) msg;
-            Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
+            final Packet packet = (Packet) msg;
+            final Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
             if (packet.getType().getDirection() == PacketDirection.INBOUND) {
                 throw new DecoderException("Outbound packet has invalid direction: " + packet.getType());

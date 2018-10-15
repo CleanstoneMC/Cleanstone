@@ -1,11 +1,11 @@
 package rocks.cleanstone.game.world.chunk;
 
-import java.util.Collection;
-
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
+
+import java.util.Collection;
 
 public interface Chunk {
 

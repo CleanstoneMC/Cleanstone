@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtocolLayer {
 
     private final List<? extends PacketCodec> packetCodecs;
-    Logger logger = LoggerFactory.getLogger(getClass());
+    final Logger logger = LoggerFactory.getLogger(getClass());
 
     public AutowiredServerProtocolLayer(List<? extends PacketCodec> packetCodecs) {
         this.packetCodecs = packetCodecs;
@@ -22,14 +22,14 @@ public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtoc
     public <T extends Packet> void registerPacketCodec(Class<? extends PacketCodec<T>> codecClass, ProtocolState state,
                                                        int protocolPacketID) {
 
-        PacketCodec<T> codec = getCodecInstance(codecClass);
+        final PacketCodec<T> codec = getCodecInstance(codecClass);
 
         if (codec == null) {
             logger.info("Cant find PacketCodec for codecClass: " + codecClass.getName());
             return;
         }
 
-        Class<T> packetClass = (Class<T>) GenericTypeResolver.resolveTypeArgument(codec.getClass(), PacketCodec.class);
+        final Class<T> packetClass = (Class<T>) GenericTypeResolver.resolveTypeArgument(codec.getClass(), PacketCodec.class);
 
         if (packetClass == null) {
             logger.info("Cant find PacketClass for Codec: " + codecClass.getName());

@@ -19,7 +19,7 @@ public enum EntityAction {
 
     @SuppressWarnings("Duplicates")
     public static EntityAction fromActionID(int actionID) {
-        for (EntityAction entityAction : EntityAction.values()) {
+        for (final EntityAction entityAction : EntityAction.values()) {
             if (entityAction.getActionID() == actionID) {
                 return entityAction;
             }

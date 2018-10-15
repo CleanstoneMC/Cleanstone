@@ -1,35 +1,26 @@
 package rocks.cleanstone.game.entity;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multimaps;
-import com.google.common.collect.Sets;
-
+import com.google.common.collect.*;
+import lombok.var;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.game.entity.event.*;
+import rocks.cleanstone.game.entity.vanilla.Human;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
+import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.PlayerManager;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.game.entity.event.EntityAddEvent;
-import rocks.cleanstone.game.entity.event.EntityMoveEvent;
-import rocks.cleanstone.game.entity.event.EntityRemoveEvent;
-import rocks.cleanstone.game.entity.event.EntityTrackEvent;
-import rocks.cleanstone.game.entity.event.EntityUntrackEvent;
-import rocks.cleanstone.game.entity.vanilla.Human;
-import rocks.cleanstone.game.world.chunk.ChunkCoords;
-import rocks.cleanstone.player.Player;
-import rocks.cleanstone.player.PlayerManager;
 
 @Component
 public class SimpleEntityTracker implements EntityTracker {
@@ -50,7 +41,7 @@ public class SimpleEntityTracker implements EntityTracker {
     @Override
     public void addObserver(Entity entity) {
         Preconditions.checkState(observers.add(entity), "given entity is already an observer");
-        Collection<Entity> inRangeEntities = getInRangeEntities(entity);
+        final Collection<Entity> inRangeEntities = getInRangeEntities(entity);
         makeTheObserverTrackInRangeEntities(entity, inRangeEntities);
     }
 
@@ -131,12 +122,12 @@ public class SimpleEntityTracker implements EntityTracker {
     @Async
     @EventListener
     public synchronized void onEntityMove(EntityMoveEvent e) {
-        Entity movingEntity = e.getEntity();
+        final Entity movingEntity = e.getEntity();
         // When the entity is in the same Chunk, just return
         if (ChunkCoords.of(e.getOldPosition()).equals(ChunkCoords.of(e.getNewPosition()))) {
             return;
         }
-        Collection<Entity> inRangeEntities = getInRangeEntities(movingEntity);
+        final Collection<Entity> inRangeEntities = getInRangeEntities(movingEntity);
 
         if (isObserver(movingEntity)) {
             makeTheObserverUntrackOutOfRangeEntities(movingEntity, inRangeEntities);
@@ -151,7 +142,7 @@ public class SimpleEntityTracker implements EntityTracker {
     @Async
     @EventListener
     public synchronized void onEntityAdd(EntityAddEvent event) {
-        Collection<Entity> inRangeEntities = getInRangeEntities(event.getEntity());
+        final Collection<Entity> inRangeEntities = getInRangeEntities(event.getEntity());
 
         makeInRangeObserversTrackTheEntity(event.getEntity(), inRangeEntities);
     }
@@ -160,7 +151,7 @@ public class SimpleEntityTracker implements EntityTracker {
     @Async
     @EventListener
     public synchronized void onEntityRemove(EntityRemoveEvent event) {
-        Entity entity = event.getEntity();
+        final Entity entity = event.getEntity();
 
         if (isObserver(entity)) {
             makeTheObserverUntrackAllEntities(entity);
@@ -171,7 +162,7 @@ public class SimpleEntityTracker implements EntityTracker {
 
     private void makeTheObserverUntrackOutOfRangeEntities(Entity observer, Collection<Entity> inRangeEntities) {
         // All entities that the observer is currently tracking
-        Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(observer);
+        final Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(observer);
         ImmutableSet.copyOf(currentEntities).stream()
                 // that are now out of range
                 .filter(currentlyTrackedEntity -> !inRangeEntities.contains(currentlyTrackedEntity))
@@ -200,7 +191,7 @@ public class SimpleEntityTracker implements EntityTracker {
     }
 
     private void makeOutOfRangeObserversUntrackTheEntity(Entity entity, Collection<Entity> inRangeEntities) {
-        ChunkCoords entityChunkCoords = ChunkCoords.of(entity.getPosition());
+        final var entityChunkCoords = ChunkCoords.of(entity.getPosition());
 
         // In all observer-trackedEntity pairs
         ImmutableSet.copyOf(observerTrackedEntitiesMap.entries()).stream()
@@ -210,14 +201,14 @@ public class SimpleEntityTracker implements EntityTracker {
                 .filter(entry -> !inRangeEntities.contains(entry.getKey()))
                 // the observer should untrack the entity
                 .forEach(entry -> {
-                    Entity observer = entry.getKey();
+                    final Entity observer = entry.getKey();
                     untrackEntity(observer, entity);
                 });
     }
 
     private void makeTheObserverUntrackAllEntities(Entity observer) {
         // All entities that the observer is currently tracking
-        Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(observer);
+        final Collection<Entity> currentEntities = observerTrackedEntitiesMap.get(observer);
         ImmutableSet.copyOf(currentEntities)
                 // should be untracked by the observer
                 .forEach(entity -> untrackEntity(observer, entity));
@@ -225,7 +216,7 @@ public class SimpleEntityTracker implements EntityTracker {
 
     private void makeAllObserversUntrackTheEntity(Entity entity) {
         // All observers
-        Collection<Entity> currentEntities = observerTrackedEntitiesMap.keySet();
+        final Collection<Entity> currentEntities = observerTrackedEntitiesMap.keySet();
         ImmutableSet.copyOf(currentEntities).stream()
                 // that are tracking the entity
                 .filter(observer -> isTracking(observer, entity))

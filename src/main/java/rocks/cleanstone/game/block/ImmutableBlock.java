@@ -11,7 +11,7 @@ import rocks.cleanstone.game.material.block.BlockType;
  */
 public class ImmutableBlock implements Block {
     private static CachingImmutableBlockProvider loadingSource;
-    private static Logger log = LoggerFactory.getLogger(ImmutableBlock.class);
+    private static final Logger log = LoggerFactory.getLogger(ImmutableBlock.class);
 
     static void setLoadingSource(CachingImmutableBlockProvider loadingSource) {
         ImmutableBlock.loadingSource = loadingSource;

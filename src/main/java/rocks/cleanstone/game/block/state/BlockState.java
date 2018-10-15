@@ -4,8 +4,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rocks.cleanstone.game.block.CachingImmutableBlockProvider;
-import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.property.Properties;
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
@@ -15,7 +13,7 @@ import rocks.cleanstone.game.material.block.BlockType;
  */
 public class BlockState {
     private static CachingBlockStateProvider loadingSource;
-    private static Logger log = LoggerFactory.getLogger(BlockState.class);
+    private static final Logger log = LoggerFactory.getLogger(BlockState.class);
 
     static void setLoadingSource(CachingBlockStateProvider loadingSource) {
         BlockState.loadingSource = loadingSource;
@@ -75,7 +73,7 @@ public class BlockState {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BlockState)) return false;
-        BlockState that = (BlockState) o;
+        final BlockState that = (BlockState) o;
         return Objects.equal(blockType, that.blockType) &&
                 Objects.equal(properties, that.properties);
     }

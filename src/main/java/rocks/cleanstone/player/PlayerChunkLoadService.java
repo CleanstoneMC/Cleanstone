@@ -2,20 +2,18 @@ package rocks.cleanstone.player;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.UUID;
-
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.UnloadChunkPacket;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.UUID;
 
 @Component
 public class PlayerChunkLoadService {
@@ -29,7 +27,7 @@ public class PlayerChunkLoadService {
      * @param coords chunk coordinates
      */
     public void loadChunk(Player player, ChunkCoords coords) {
-        UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getID().getUUID();
         if (hasPlayerLoaded(uuid, coords))
             return;
 
@@ -54,7 +52,7 @@ public class PlayerChunkLoadService {
      * @param coords chunk coordinates
      */
     public void sendChunkLoadPacket(Player player, ChunkCoords coords) {
-        World world = player.getEntity().getWorld();
+        final World world = player.getEntity().getWorld();
 
         world.getChunk(coords).addCallback(chunk -> {
             if (chunk == null) {
@@ -62,7 +60,7 @@ public class PlayerChunkLoadService {
                 return;
             }
 
-            ChunkDataPacket chunkDataPacket = new ChunkDataPacket(coords.getX(), coords.getZ(), true,
+            final ChunkDataPacket chunkDataPacket = new ChunkDataPacket(coords.getX(), coords.getZ(), true,
                     chunk.getBlockDataTable(), new NamedBinaryTag[]{});
             player.sendPacket(chunkDataPacket);
         }, throwable -> logger.error("Error getting Chunk " + coords, throwable));
@@ -75,7 +73,7 @@ public class PlayerChunkLoadService {
      * @param coords chunk coordinates
      */
     public void unloadChunk(Player player, ChunkCoords coords) {
-        UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getID().getUUID();
         if (!hasPlayerLoaded(uuid, coords))
             return;
 
@@ -99,7 +97,7 @@ public class PlayerChunkLoadService {
      * @param player The player to unload the chunks for
      */
     public void unloadAllChunks(Player player) {
-        UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getID().getUUID();
         getLoadedChunkCoords(uuid).forEach(coords -> {
             unregisterLoadedChunk(uuid, coords);
             sendChunkUnloadPacket(player, coords);

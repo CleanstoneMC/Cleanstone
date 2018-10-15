@@ -1,12 +1,10 @@
 package rocks.cleanstone.game.world.region;
 
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
 
 import javax.annotation.Nullable;
-
-import rocks.cleanstone.game.world.chunk.ChunkCoords;
+import java.util.Collection;
 
 /**
  * Manages the regions that divide the world into independent areas

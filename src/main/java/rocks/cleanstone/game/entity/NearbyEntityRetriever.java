@@ -31,8 +31,8 @@ public class NearbyEntityRetriever {
     @Async
     public ListenableFuture<Set<Entity>> getEntitiesInRadius(Entity entity, int chunkRadius)
             throws ExecutionException, InterruptedException {
-        World world = entity.getWorld();
-        Chunk baseChunk = world.getChunkAt(entity.getPosition()).get();
+        final World world = entity.getWorld();
+        final Chunk baseChunk = world.getChunkAt(entity.getPosition()).get();
 
         return new AsyncResult<>(nearbyChunkRetriever.getChunksAround(
                 baseChunk.getCoordinates(), chunkRadius, world).get().stream()
@@ -41,7 +41,7 @@ public class NearbyEntityRetriever {
     }
 
     public Set<Entity> getLoadedEntitiesInRadius(Entity entity, int chunkRadius) {
-        World world = entity.getWorld();
+        final World world = entity.getWorld();
         return nearbyChunkRetriever.getLoadedChunksAround(ChunkCoords.of(entity.getPosition()), chunkRadius, world)
                 .stream().flatMap(c -> c.getEntities().stream())
                 .filter(c -> !c.equals(entity))

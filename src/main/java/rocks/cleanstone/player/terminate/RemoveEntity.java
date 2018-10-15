@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.entity.EntityTracker;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
@@ -22,7 +21,7 @@ public class RemoveEntity {
     @Order(value = 100)
     @EventListener
     public void onTerminate(AsyncPlayerTerminationEvent e) {
-        Entity playerEntity = e.getPlayer().getEntity();
+        final Entity playerEntity = e.getPlayer().getEntity();
         if (playerEntity == null) return;
         entityTracker.removeObserver(playerEntity);
         playerEntity.getWorld().getEntityRegistry().removeEntity(playerEntity);

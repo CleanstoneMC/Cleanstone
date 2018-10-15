@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
 
-
 import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockType.*;
 
 @DependsOn("blockStateProvider")

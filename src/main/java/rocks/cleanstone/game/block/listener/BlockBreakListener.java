@@ -25,19 +25,19 @@ public class BlockBreakListener {
     @Async
     @EventListener(condition = "#blockBreakEvent.cancelled == false")
     public void onBlockBreak(BlockBreakEvent blockBreakEvent) {
-        GameModeRuleSet ruleSet = blockBreakEvent.getPlayer().getGameMode().getRuleSet();
+        final GameModeRuleSet ruleSet = blockBreakEvent.getPlayer().getGameMode().getRuleSet();
 
         if (!ruleSet.canModifyWorld()) {
-            BlockChangePacket blockChangePacket = new BlockChangePacket(blockBreakEvent.getPosition(), blockBreakEvent.getBlock().getState());
+            final BlockChangePacket blockChangePacket = new BlockChangePacket(blockBreakEvent.getPosition(), blockBreakEvent.getBlock().getState());
 
             playerManager.broadcastPacket(blockChangePacket);
             return;
         }
 
-        BlockState blockState = BlockState.of(VanillaBlockType.AIR);
+        final BlockState blockState = BlockState.of(VanillaBlockType.AIR);
 
         blockBreakEvent.getPlayer().getEntity().getWorld().setBlockAt(blockBreakEvent.getPosition(), ImmutableBlock.of(blockState));
-        BlockChangePacket blockChangePacket = new BlockChangePacket(blockBreakEvent.getPosition(), blockState);
+        final BlockChangePacket blockChangePacket = new BlockChangePacket(blockBreakEvent.getPosition(), blockState);
 
         playerManager.broadcastPacket(blockChangePacket);
     }

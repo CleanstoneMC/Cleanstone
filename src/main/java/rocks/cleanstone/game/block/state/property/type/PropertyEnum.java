@@ -2,6 +2,7 @@ package rocks.cleanstone.game.block.state.property.type;
 
 import com.google.common.base.Preconditions;
 import com.google.common.math.IntMath;
+
 import java.math.RoundingMode;
 
 public class PropertyEnum<E extends Enum<E>> extends AbstractProperty<E> {

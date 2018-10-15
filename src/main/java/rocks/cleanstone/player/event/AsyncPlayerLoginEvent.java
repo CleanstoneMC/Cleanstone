@@ -1,11 +1,11 @@
 package rocks.cleanstone.player.event;
 
-import java.util.Collection;
-
-import rocks.cleanstone.net.Connection;
-import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.Identity;
+import rocks.cleanstone.game.chat.message.Text;
+import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.player.UserProperty;
+
+import java.util.Collection;
 
 public class AsyncPlayerLoginEvent {
 

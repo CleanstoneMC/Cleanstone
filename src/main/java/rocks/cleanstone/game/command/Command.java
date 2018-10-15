@@ -1,9 +1,9 @@
 package rocks.cleanstone.game.command;
 
+import rocks.cleanstone.game.permission.SecuredAction;
+
 import java.util.Collection;
 import java.util.Map;
-
-import rocks.cleanstone.game.permission.SecuredAction;
 
 public interface Command extends SecuredAction {
     String getName();

@@ -2,6 +2,7 @@ package rocks.cleanstone.game.block.state.property;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,7 +51,7 @@ public class Properties {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Properties)) return false;
-        Properties that = (Properties) o;
+        final Properties that = (Properties) o;
         return Objects.equal(propertyValuePairs, that.propertyValuePairs);
     }
 
@@ -61,7 +62,7 @@ public class Properties {
 
     @Override
     public String toString() {
-        String props = propertyValuePairs.stream()
+        final String props = propertyValuePairs.stream()
                 .map(pair -> pair.getProperty().getName() + ": " + pair.getValue())
                 .collect(Collectors.joining(", "));
         return "Props{" + props + "}";

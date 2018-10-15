@@ -18,7 +18,7 @@ import java.util.UUID;
 public class SimpleConsole implements ConsoleSender {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private CommandRegistry commandRegistry;
+    private final CommandRegistry commandRegistry;
 
     public SimpleConsole(CommandRegistry commandRegistry) {
         this.commandRegistry = commandRegistry;

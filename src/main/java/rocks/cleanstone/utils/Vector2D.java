@@ -64,7 +64,7 @@ public class Vector2D {
         if (!(obj instanceof Vector2D)) {
             return false;
         }
-        Vector2D vector = (Vector2D) obj;
+        final Vector2D vector = (Vector2D) obj;
         return !(vector.x != x) && !(vector.y != y);
     }
 

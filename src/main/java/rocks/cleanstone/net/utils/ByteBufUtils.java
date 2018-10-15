@@ -23,12 +23,12 @@
  */
 package rocks.cleanstone.net.utils;
 
+import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.utils.Vector;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
-
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.utils.Vector;
 
 /**
  * A class containing various utility methods that act on byte buffers.
@@ -187,11 +187,11 @@ public class ByteBufUtils {
     }
 
     public static Vector readVector(ByteBuf byteBuf) {
-        long val = byteBuf.readLong();
+        final long val = byteBuf.readLong();
 
-        long x = val >> 38;
-        long y = (val >> 26) & 0xFFF;
-        long z = val << 38 >> 38;
+        final long x = val >> 38;
+        final long y = (val >> 26) & 0xFFF;
+        final long z = val << 38 >> 38;
 
         return new Vector(x, y, z);
     }

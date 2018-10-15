@@ -1,7 +1,5 @@
 package rocks.cleanstone.game.entity;
 
-import rocks.cleanstone.game.entity.Entity;
-
 import javax.annotation.Nullable;
 
 public interface EntityRegistry {

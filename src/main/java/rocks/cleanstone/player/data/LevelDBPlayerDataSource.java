@@ -1,14 +1,15 @@
 package rocks.cleanstone.player.data;
 
 import io.netty.buffer.ByteBuf;
-import java.io.IOException;
-import java.io.Serializable;
-import java.nio.file.Path;
 import rocks.cleanstone.data.InboundCodec;
 import rocks.cleanstone.data.JavaSerializableCodec;
 import rocks.cleanstone.data.OutboundCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
 import rocks.cleanstone.player.Player;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.nio.file.Path;
 
 public class LevelDBPlayerDataSource extends LevelDBDataSource implements PlayerDataSource {
 
@@ -18,7 +19,7 @@ public class LevelDBPlayerDataSource extends LevelDBDataSource implements Player
 
     public <T> T getPlayerData(Player player, PlayerDataType type, InboundCodec<T, ByteBuf> codec)
             throws IOException {
-        ByteBuf playerDataKey = PlayerDataKeyFactory.create(player, type);
+        final ByteBuf playerDataKey = PlayerDataKeyFactory.create(player, type);
         try {
             return get(playerDataKey, codec);
         } finally {
@@ -28,7 +29,7 @@ public class LevelDBPlayerDataSource extends LevelDBDataSource implements Player
 
     public <T> void setPlayerData(Player player, PlayerDataType type, T playerData, OutboundCodec<T, ByteBuf> codec)
             throws IOException {
-        ByteBuf playerDataKey = PlayerDataKeyFactory.create(player, type);
+        final ByteBuf playerDataKey = PlayerDataKeyFactory.create(player, type);
         try {
             set(playerDataKey, playerData, codec);
         } finally {

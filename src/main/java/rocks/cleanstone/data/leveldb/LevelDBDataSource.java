@@ -2,12 +2,7 @@ package rocks.cleanstone.data.leveldb;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.StreamSupport;
-import javax.annotation.Nullable;
+import lombok.val;
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.DBIterator;
@@ -16,6 +11,10 @@ import org.iq80.leveldb.WriteBatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rocks.cleanstone.data.KeyValueDataRepository;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.nio.file.Path;
 
 public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBuf>, AutoCloseable {
 
@@ -48,31 +47,31 @@ public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBu
     @Nullable
     @Override
     public ByteBuf get(ByteBuf key) {
-        byte[] keyBytes = new byte[key.readableBytes()];
+        final val keyBytes = new byte[key.readableBytes()];
         key.readBytes(keyBytes);
-        byte[] value = database.get(keyBytes);
+        final byte[] value = database.get(keyBytes);
         return value != null ? Unpooled.wrappedBuffer(value) : null;
     }
 
     @Override
     public void set(ByteBuf key, ByteBuf value) {
-        byte[] keyBytes = new byte[key.readableBytes()];
+        final byte[] keyBytes = new byte[key.readableBytes()];
         key.readBytes(keyBytes);
         if (value == null) {
             database.delete(keyBytes);
             return;
         }
 
-        byte[] valueBytes = new byte[value.readableBytes()];
+        final byte[] valueBytes = new byte[value.readableBytes()];
         value.readBytes(valueBytes);
         database.put(keyBytes, valueBytes);
     }
 
     @Override
     public void drop() {
-        WriteBatch batch = database.createWriteBatch();
+        final WriteBatch batch = database.createWriteBatch();
 
-        DBIterator iterator = database.iterator();
+        final DBIterator iterator = database.iterator();
         iterator.seekToFirst();
         iterator.forEachRemaining(entry -> batch.delete(entry.getKey()));
 

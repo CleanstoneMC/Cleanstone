@@ -8,12 +8,7 @@ import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.packet.SimplePacketTypeRegistry;
-import rocks.cleanstone.net.protocol.ClientProtocolLayer;
-import rocks.cleanstone.net.protocol.InboundPacketCodec;
-import rocks.cleanstone.net.protocol.OutboundPacketCodec;
-import rocks.cleanstone.net.protocol.PacketCodec;
-import rocks.cleanstone.net.protocol.Protocol;
-import rocks.cleanstone.net.protocol.ProtocolState;
+import rocks.cleanstone.net.protocol.*;
 
 import javax.annotation.PostConstruct;
 

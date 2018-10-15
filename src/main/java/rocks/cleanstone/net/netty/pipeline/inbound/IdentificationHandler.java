@@ -30,15 +30,15 @@ public class IdentificationHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
-        InetAddress inetaddress = socketAddress.getAddress();
-        String ipAddress = inetaddress.getHostAddress();
+        final InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
+        final InetAddress inetaddress = socketAddress.getAddress();
+        final String ipAddress = inetaddress.getHostAddress();
         if (addressBlacklist.contains(ipAddress)) ctx.close();
 
-        Attribute<Connection> connectionKey = ctx.channel().attr(AttributeKey.valueOf("connection"));
+        final Attribute<Connection> connectionKey = ctx.channel().attr(AttributeKey.valueOf("connection"));
         if (connectionKey.get() == null) {
             logger.info("New connection from " + ipAddress);
-            Connection connection = new NettyConnection(ctx.channel(), inetaddress, networking.getProtocol()
+            final Connection connection = new NettyConnection(ctx.channel(), inetaddress, networking.getProtocol()
                     .getDefaultClientLayer(), networking.getProtocol().getDefaultState());
             connectionKey.set(connection);
             if (CleanstoneServer.publishEvent(new ConnectionOpenEvent(connection, networking)).isCancelled()) {

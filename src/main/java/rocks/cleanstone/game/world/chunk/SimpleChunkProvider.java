@@ -1,13 +1,11 @@
 package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Preconditions;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
-
 import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 
@@ -20,7 +18,7 @@ public class SimpleChunkProvider implements ChunkProvider {
 
     private final WorldDataSource dataSource;
     private final WorldGenerator generator;
-    private int seed = 1234567890; //TODO: Move me
+    private final int seed = 1234567890; //TODO: Move me
 
     public SimpleChunkProvider(WorldDataSource dataSource, WorldGenerator generator) {
         this.dataSource = dataSource;

@@ -29,11 +29,11 @@ public abstract class MinecraftServerProtocolLayer extends AbstractServerProtoco
 
     @Nullable
     public PacketType getPacketType(int protocolPacketID, ProtocolState protocolState) {
-        for (Class<? extends Packet> packetClass : getInboundPacketClassCodecMap().keySet()) {
+        for (final Class<? extends Packet> packetClass : getInboundPacketClassCodecMap().keySet()) {
             if (packetClassProtocolPacketIDMap.get(packetClass) == protocolPacketID
                     && packetClassProtocolStateMap.get(packetClass) == protocolState) {
                 // matching codec might be outbound and therefore still incorrect
-                PacketType packetType = MinecraftInboundPacketType.byPacketClass(packetClass);
+                final PacketType packetType = MinecraftInboundPacketType.byPacketClass(packetClass);
                 if (packetType != null) return packetType;
             }
         }

@@ -1,15 +1,14 @@
 package rocks.cleanstone.player;
 
 import com.google.common.base.Objects;
+import rocks.cleanstone.game.Identity;
 
 import java.util.UUID;
-
-import rocks.cleanstone.game.Identity;
 
 public class SimplePlayerIdentity implements Identity {
 
     private final UUID uuid;
-    private String accountName;
+    private final String accountName;
     private String name;
 
     public SimplePlayerIdentity(UUID uuid, String accountName, String name) {
@@ -47,7 +46,7 @@ public class SimplePlayerIdentity implements Identity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SimplePlayerIdentity)) return false;
-        SimplePlayerIdentity that = (SimplePlayerIdentity) o;
+        final SimplePlayerIdentity that = (SimplePlayerIdentity) o;
         return Objects.equal(uuid, that.uuid);
     }
 

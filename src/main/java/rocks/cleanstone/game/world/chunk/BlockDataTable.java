@@ -1,8 +1,8 @@
 package rocks.cleanstone.game.world.chunk;
 
-import java.util.Collection;
-
 import rocks.cleanstone.game.block.Block;
+
+import java.util.Collection;
 
 /**
  * Contains the current blocks (and similar data) of a Chunk

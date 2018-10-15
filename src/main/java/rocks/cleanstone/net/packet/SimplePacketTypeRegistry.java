@@ -6,11 +6,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 public class SimplePacketTypeRegistry extends PacketTypeRegistry {
 
-    private Set<PacketType> packetTypes = Sets.newConcurrentHashSet();
+    private final Set<PacketType> packetTypes = Sets.newConcurrentHashSet();
 
     @Override
     public void registerPacketType(PacketType... packetTypes) {

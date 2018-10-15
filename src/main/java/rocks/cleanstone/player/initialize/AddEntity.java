@@ -6,9 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-
 import rocks.cleanstone.game.OpenWorldGame;
 import rocks.cleanstone.game.entity.EntityTracker;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
@@ -23,6 +20,8 @@ import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.data.standard.EntityData;
 import rocks.cleanstone.player.data.standard.StandardPlayerDataType;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
+
+import java.io.IOException;
 
 @Component
 public class AddEntity {
@@ -45,16 +44,16 @@ public class AddEntity {
     @Order(value = 5)
     @EventListener
     public void onInitialize(AsyncPlayerInitializationEvent e) {
-        Player player = e.getPlayer();
+        final Player player = e.getPlayer();
 
         try {
-            EntityData entityData = playerManager.getPlayerDataSource()
+            final EntityData entityData = playerManager.getPlayerDataSource()
                     .getPlayerData(player, StandardPlayerDataType.ENTITY_DATA);
 
-            World world = getWorld(entityData);
-            HeadRotatablePosition position = getPosition(entityData, world);
+            final World world = getWorld(entityData);
+            final HeadRotatablePosition position = getPosition(entityData, world);
 
-            Human human = new SimpleHuman(world, position);
+            final Human human = new SimpleHuman(world, position);
             logger.debug("{} now has entity id {}", player.getName(), human.getEntityID());
             player.setEntity(human);
             world.getEntityRegistry().addEntity(human);

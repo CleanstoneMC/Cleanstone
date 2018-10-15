@@ -96,7 +96,7 @@ public enum MobType {
 
     @SuppressWarnings("Duplicates")
     public static MobType fromTypeID(int typeID) {
-        for (MobType mobType : MobType.values()) {
+        for (final MobType mobType : MobType.values()) {
             if (mobType.getTypeID() == typeID) {
                 return mobType;
             }
@@ -107,7 +107,7 @@ public enum MobType {
 
     @SuppressWarnings("Duplicates")
     public static MobType fromMinecraftID(String minecraftID) {
-        for (MobType mobType : MobType.values()) {
+        for (final MobType mobType : MobType.values()) {
             if (mobType.getMinecraftID().equals(minecraftID)) {
                 return mobType;
             }

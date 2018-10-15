@@ -1,8 +1,9 @@
 package rocks.cleanstone.game.chat.event;
 
-import javax.annotation.Nullable;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.utils.Vector;
+
+import javax.annotation.Nullable;
 
 public class PlayerTabCompleteEvent {
     private final Player player;

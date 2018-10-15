@@ -1,9 +1,6 @@
 package rocks.cleanstone.game.world;
 
 import org.springframework.util.concurrent.ListenableFuture;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
@@ -16,6 +13,8 @@ import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
+
+import javax.annotation.Nullable;
 
 public interface World {
     String getID();

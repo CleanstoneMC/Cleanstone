@@ -16,7 +16,7 @@ public enum BossBarAction {
 
     @SuppressWarnings("Duplicates")
     public static BossBarAction fromActionID(int actionID) {
-        for (BossBarAction bossBarAction : BossBarAction.values()) {
+        for (final BossBarAction bossBarAction : BossBarAction.values()) {
             if (bossBarAction.getActionID() == actionID) {
                 return bossBarAction;
             }

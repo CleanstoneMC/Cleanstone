@@ -20,19 +20,19 @@ public class PlayerMovePacketListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPlayerLookPacket(PlayerInboundPacketEvent<PlayerLookPacket> event) {
-        PlayerLookPacket packet = event.getPacket();
-        LivingEntity entity = event.getPlayer().getEntity();
+        final PlayerLookPacket packet = event.getPacket();
+        final LivingEntity entity = event.getPlayer().getEntity();
         if (entity == null) return;
 
-        HeadRotatablePosition oldPosition = entity.getPosition();
-        HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
+        final HeadRotatablePosition oldPosition = entity.getPosition();
+        final HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
 
         newPosition.getHeadRotation().setPitch(packet.getPitch());
         newPosition.getHeadRotation().setYaw(packet.getYaw());
 
         float rotationDiff = oldPosition.getHeadRotation().getYaw() - newPosition.getHeadRotation().getYaw();
         rotationDiff = (Math.abs(rotationDiff) + 180) % 360 - 180;
-        boolean adjustBodyRotation = Math.abs(rotationDiff) > 35;
+        final boolean adjustBodyRotation = Math.abs(rotationDiff) > 35;
 
         if (adjustBodyRotation) {
             newPosition.setRotation(new Rotation(newPosition.getHeadRotation()));
@@ -48,13 +48,13 @@ public class PlayerMovePacketListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPlayerPositionPacket(PlayerInboundPacketEvent<PlayerPositionPacket> event) {
-        PlayerPositionPacket packet = event.getPacket();
+        final PlayerPositionPacket packet = event.getPacket();
 
-        LivingEntity entity = event.getPlayer().getEntity();
+        final LivingEntity entity = event.getPlayer().getEntity();
         if (entity == null) return;
 
-        HeadRotatablePosition oldPosition = entity.getPosition();
-        HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
+        final HeadRotatablePosition oldPosition = entity.getPosition();
+        final HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
 
         newPosition.setX(packet.getX());
         newPosition.setY(packet.getFeetY());
@@ -70,13 +70,13 @@ public class PlayerMovePacketListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPlayerPositionAndLookPacket(PlayerInboundPacketEvent<InPlayerPositionAndLookPacket> event) {
-        InPlayerPositionAndLookPacket packet = event.getPacket();
+        final InPlayerPositionAndLookPacket packet = event.getPacket();
 
-        LivingEntity entity = event.getPlayer().getEntity();
+        final LivingEntity entity = event.getPlayer().getEntity();
         if (entity == null) return;
 
-        HeadRotatablePosition oldPosition = entity.getPosition();
-        HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
+        final HeadRotatablePosition oldPosition = entity.getPosition();
+        final HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
 
         newPosition.setX(packet.getX());
         newPosition.setY(packet.getY());

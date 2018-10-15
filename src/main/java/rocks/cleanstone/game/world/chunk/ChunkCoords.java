@@ -1,8 +1,8 @@
 package rocks.cleanstone.game.world.chunk;
 
-import java.util.Objects;
-
 import rocks.cleanstone.game.Position;
+
+import java.util.Objects;
 
 public class ChunkCoords {
 
@@ -34,8 +34,8 @@ public class ChunkCoords {
     }
 
     public int distance(ChunkCoords other) {
-        double xP = Math.pow((getX() - other.getX()), 2);
-        double zP = Math.pow((getZ() - other.getZ()), 2);
+        final double xP = Math.pow((getX() - other.getX()), 2);
+        final double zP = Math.pow((getZ() - other.getZ()), 2);
         return (int) Math.ceil(Math.sqrt(xP + zP));
     }
 
@@ -43,7 +43,7 @@ public class ChunkCoords {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ChunkCoords that = (ChunkCoords) o;
+        final ChunkCoords that = (ChunkCoords) o;
         return x == that.x && z == that.z;
     }
 

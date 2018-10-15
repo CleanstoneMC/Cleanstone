@@ -13,7 +13,7 @@ public enum EntityStatus {
 
     @SuppressWarnings("Duplicates")
     public static EntityStatus fromStatusID(int statusID) {
-        for (EntityStatus entityStatus : EntityStatus.values()) {
+        for (final EntityStatus entityStatus : EntityStatus.values()) {
             if (entityStatus.getStatusID() == statusID)
                 return entityStatus;
         }

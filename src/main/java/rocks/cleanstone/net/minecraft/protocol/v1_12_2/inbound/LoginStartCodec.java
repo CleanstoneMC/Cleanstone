@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.LoginStartPacket;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
-import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;

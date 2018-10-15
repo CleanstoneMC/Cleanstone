@@ -1,10 +1,10 @@
 package rocks.cleanstone.net.minecraft.login.event;
 
-import java.util.Collection;
-import java.util.UUID;
-
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.player.UserProperty;
+
+import java.util.Collection;
+import java.util.UUID;
 
 public class AsyncLoginSuccessEvent {
 

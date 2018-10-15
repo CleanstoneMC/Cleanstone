@@ -1,8 +1,8 @@
 package rocks.cleanstone.game.command;
 
-import java.util.Locale;
-
 import rocks.cleanstone.game.chat.message.Text;
+
+import java.util.Locale;
 
 public interface MessageRecipient {
     void sendRawMessage(Text message);

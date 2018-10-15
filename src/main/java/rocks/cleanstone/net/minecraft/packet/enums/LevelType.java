@@ -15,7 +15,7 @@ public enum LevelType {
 
     @SuppressWarnings("Duplicates")
     public static LevelType fromLevelType(String levelType) {
-        for (LevelType type : LevelType.values()) {
+        for (final LevelType type : LevelType.values()) {
             if (type.getLevelType().equals(levelType)) {
                 return type;
             }

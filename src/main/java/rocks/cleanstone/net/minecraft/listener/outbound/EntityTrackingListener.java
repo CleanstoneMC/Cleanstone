@@ -6,10 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-import java.util.UUID;
-
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.entity.LivingEntity;
 import rocks.cleanstone.game.entity.RotatablePosition;
@@ -23,6 +19,9 @@ import rocks.cleanstone.net.minecraft.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
+
+import java.util.Collections;
+import java.util.UUID;
 
 @Component
 public class EntityTrackingListener {
@@ -39,17 +38,17 @@ public class EntityTrackingListener {
     @EventListener
     public void onEntityTrack(EntityTrackEvent event) {
         // TODO check if the observer uses the current protocol layer
-        Player observer = playerManager.getOnlinePlayer(event.getObserver());
+        final Player observer = playerManager.getOnlinePlayer(event.getObserver());
         if (observer == null) return;
-        Entity entity = event.getEntity();
+        final Entity entity = event.getEntity();
         if (entity instanceof Human) {
-            Player player = playerManager.getOnlinePlayer(entity);
-            UUID uuid = player != null ? player.getID().getUUID() : UUID.randomUUID();
+            final Player player = playerManager.getOnlinePlayer(entity);
+            final UUID uuid = player != null ? player.getID().getUUID() : UUID.randomUUID();
             // TODO Add EntityMetadata
             observer.sendPacket(new SpawnPlayerPacket(entity.getEntityID(), uuid, entity.getPosition(), null));
         } else {
-            RotatablePosition position = entity.getPosition();
-            float headPitch = entity instanceof LivingEntity ?
+            final RotatablePosition position = entity.getPosition();
+            final float headPitch = entity instanceof LivingEntity ?
                     ((LivingEntity) entity).getPosition().getHeadRotation().getPitch() : 0f;
             // TODO Is the mob UUID actually used?
             // TODO Add velocity
@@ -66,9 +65,9 @@ public class EntityTrackingListener {
     @EventListener
     public void onEntityUntrack(EntityUntrackEvent event) {
         // TODO check if the observer uses the current protocol layer
-        Player observer = playerManager.getOnlinePlayer(event.getObserver());
+        final Player observer = playerManager.getOnlinePlayer(event.getObserver());
         if (observer == null) return;
-        Entity entity = event.getEntity();
+        final Entity entity = event.getEntity();
 
         observer.sendPacket(new DestroyEntitiesPacket(Collections.singletonList(entity.getEntityID())));
     }
