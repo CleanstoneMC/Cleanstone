@@ -33,3 +33,13 @@ We have a Discord! Join us here: https://discord.gg/Jx5kk3u
 ## Livedemo
 Connect to "demo.cleanstone.rocks" with Minecraft 1.13.1 or 1.12.2. The Server restarts from time to time 
 with the latest changes.
+
+## Sponsors
+[![YourKit](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/)
+
+We are proudly using the YourKit Java Profiler to improve the performance and find high memory usage. Thank you for this amazing tool and we can fully recommend it to all Java developers! 
+
+YourKit supports open source projects with its full-featured Java Profiler.
+YourKit, LLC is the creator of <a href="https://www.yourkit.com/java/profiler/">YourKit Java Profiler</a>
+and <a href="https://www.yourkit.com/.net/profiler/">YourKit .NET Profiler</a>,
+innovative and intelligent tools for profiling Java and .NET applications.
