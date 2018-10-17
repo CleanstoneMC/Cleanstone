@@ -5,8 +5,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.util.AttributeKey;
-import java.io.IOException;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
@@ -15,6 +13,9 @@ import rocks.cleanstone.net.packet.PacketTypeRegistry;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
@@ -26,15 +27,15 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        final int packetID = ByteBufUtils.readVarInt(in);
-        final PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
-        final Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
-        final PacketType packetType = protocol.translateInboundPacketID(packetID, connection);
-        final InboundPacketCodec codec = protocol.getInboundPacketCodec(packetType.getPacketClass(),
+        int packetID = ByteBufUtils.readVarInt(in);
+        PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
+        Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
+        PacketType packetType = protocol.translateInboundPacketID(packetID, connection);
+        InboundPacketCodec codec = protocol.getInboundPacketCodec(packetType.getPacketClass(),
                 connection.getClientProtocolLayer());
         Preconditions.checkNotNull(codec, "Cannot find codec for packetType " + packetType
                 + " and clientLayer " + connection.getClientProtocolLayer());
-        final Packet packet;
+        Packet packet;
         try {
             packet = codec.decode(in);
         } catch (Exception e) {

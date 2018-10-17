@@ -27,12 +27,12 @@ public class MapBlockDataTable implements BlockDataTable {
 
     @Nullable
     public Block getBlock(int x, int y, int z) {
-        final Block block = getHeightMap(x, z).get(y);
+        Block block = getHeightMap(x, z).get(y);
         return block != null ? block : AIR;
     }
 
     public Collection<Block> getBlocks() {
-        final Collection<Block> blockCollection = new HashSet<>();
+        Collection<Block> blockCollection = new HashSet<>();
 
         coordHeightMapTable.cellSet().forEach(integerIntegerHashMapCell ->
                 blockCollection.addAll(integerIntegerHashMapCell.getValue().values()));

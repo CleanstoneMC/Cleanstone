@@ -33,7 +33,7 @@ public class DirectPalette {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof DirectPalette)) return false;
-        final DirectPalette that = (DirectPalette) o;
+        DirectPalette that = (DirectPalette) o;
         return bitsPerEntry == that.bitsPerEntry &&
                 Objects.equal(blockStateMapping, that.blockStateMapping);
     }

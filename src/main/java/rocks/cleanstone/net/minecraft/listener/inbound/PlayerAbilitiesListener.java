@@ -16,8 +16,8 @@ public class PlayerAbilitiesListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPacket(PlayerInboundPacketEvent<InPlayerAbilitiesPacket> playerInboundPacketEvent) {
-        final InPlayerAbilitiesPacket packet = playerInboundPacketEvent.getPacket();
-        final Player player = playerInboundPacketEvent.getPlayer();
+        InPlayerAbilitiesPacket packet = playerInboundPacketEvent.getPacket();
+        Player player = playerInboundPacketEvent.getPlayer();
 
         player.setFlying(Arrays.asList(packet.getPlayerAbilities()).contains(PlayerAbility.IS_FLYING));
     }

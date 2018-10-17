@@ -1,6 +1,5 @@
 package rocks.cleanstone.player.initialize;
 
-import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -20,6 +19,8 @@ import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.data.standard.EntityData;
 import rocks.cleanstone.player.data.standard.StandardPlayerDataType;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
+
+import java.io.IOException;
 
 @Slf4j
 @Component
@@ -42,16 +43,16 @@ public class AddEntity {
     @Order(value = 5)
     @EventListener
     public void onInitialize(AsyncPlayerInitializationEvent e) {
-        final Player player = e.getPlayer();
+        Player player = e.getPlayer();
 
         try {
-            final EntityData entityData = playerManager.getPlayerDataSource()
+            EntityData entityData = playerManager.getPlayerDataSource()
                     .getPlayerData(player, StandardPlayerDataType.ENTITY_DATA);
 
-            final World world = getWorld(entityData);
-            final HeadRotatablePosition position = getPosition(entityData, world);
+            World world = getWorld(entityData);
+            HeadRotatablePosition position = getPosition(entityData, world);
 
-            final Human human = new SimpleHuman(world, position);
+            Human human = new SimpleHuman(world, position);
             log.debug("{} now has entity id {}", player.getName(), human.getEntityID());
             player.setEntity(human);
             world.getEntityRegistry().addEntity(human);

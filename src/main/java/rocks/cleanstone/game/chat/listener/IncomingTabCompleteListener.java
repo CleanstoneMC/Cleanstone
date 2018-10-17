@@ -27,12 +27,12 @@ public class IncomingTabCompleteListener {
             return;
         }
 
-        final Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
+        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
         if (player == null) return;
 
-        final InTabCompletePacket tabCompletePacket = (InTabCompletePacket) inboundPacketEvent.getPacket();
+        InTabCompletePacket tabCompletePacket = (InTabCompletePacket) inboundPacketEvent.getPacket();
 
-        final String text = tabCompletePacket.getText();
+        String text = tabCompletePacket.getText();
         if (text.charAt(0) != '/' && !tabCompletePacket.isAssumeCommand()) return;
 
         CleanstoneServer.publishEvent(new PlayerTabCompleteEvent(

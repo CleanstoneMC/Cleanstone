@@ -22,8 +22,8 @@ import java.util.HashSet;
 public class FlatWorldGenerator extends AbstractWorldGenerator {
 
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
-    private final BlockDataTable blockDataTable;
-    private final VanillaBlockDataStorage blockDataStorage;
+    private BlockDataTable blockDataTable;
+    private VanillaBlockDataStorage blockDataStorage;
 
     @Autowired
     public FlatWorldGenerator(
@@ -47,7 +47,7 @@ public class FlatWorldGenerator extends AbstractWorldGenerator {
             }
         }
 
-        final DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
+        DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
         blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable, directPalette, true);
     }
 

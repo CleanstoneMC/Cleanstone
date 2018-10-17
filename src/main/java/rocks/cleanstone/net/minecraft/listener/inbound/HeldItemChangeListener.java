@@ -12,7 +12,7 @@ public class HeldItemChangeListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPacket(PlayerInboundPacketEvent<HeldItemChangePacket> playerInboundPacketEvent) {
-        final HeldItemChangePacket heldItemChangePacket = playerInboundPacketEvent.getPacket();
+        HeldItemChangePacket heldItemChangePacket = playerInboundPacketEvent.getPacket();
 
         playerInboundPacketEvent.getPlayer().getEntity().setSelectedSlot(heldItemChangePacket.getSlot());
     }

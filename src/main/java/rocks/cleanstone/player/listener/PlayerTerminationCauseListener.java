@@ -27,7 +27,7 @@ public class PlayerTerminationCauseListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPlayerConnectionClosed(ConnectionClosedEvent event) {
-        final Optional<Player> optionalPlayer = playerManager.getOnlinePlayers().stream()
+        Optional<Player> optionalPlayer = playerManager.getOnlinePlayers().stream()
                 .filter(player -> player instanceof OnlinePlayer)
                 .filter(player -> ((OnlinePlayer) player).getConnection().equals(event.getConnection()))
                 .findAny();

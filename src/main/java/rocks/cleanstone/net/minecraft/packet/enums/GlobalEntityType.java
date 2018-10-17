@@ -11,7 +11,7 @@ public enum GlobalEntityType {
 
     @SuppressWarnings("Duplicates")
     public static GlobalEntityType fromTypeID(int typeID) {
-        for (final GlobalEntityType globalEntityType : GlobalEntityType.values()) {
+        for (GlobalEntityType globalEntityType : GlobalEntityType.values()) {
             if (globalEntityType.getEntityID() == typeID) {
                 return globalEntityType;
             }

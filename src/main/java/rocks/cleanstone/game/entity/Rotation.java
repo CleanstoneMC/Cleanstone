@@ -38,9 +38,9 @@ public class Rotation implements Serializable {
     }
 
     public Vector toUnitVector() {
-        final double x = -Math.cos(pitch) * Math.sin(yaw);
-        final double y = -Math.sin(pitch);
-        final double z = Math.cos(pitch) * Math.cos(yaw);
+        double x = -Math.cos(pitch) * Math.sin(yaw);
+        double y = -Math.sin(pitch);
+        double z = Math.cos(pitch) * Math.cos(yaw);
         return new Vector(x, y, z);
     }
 
@@ -48,7 +48,7 @@ public class Rotation implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Rotation)) return false;
-        final Rotation rotation = (Rotation) o;
+        Rotation rotation = (Rotation) o;
         return Float.compare(rotation.yaw, yaw) == 0 &&
                 Float.compare(rotation.pitch, pitch) == 0;
     }

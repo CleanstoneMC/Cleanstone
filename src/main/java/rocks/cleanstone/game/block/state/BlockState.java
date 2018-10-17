@@ -76,7 +76,7 @@ public class BlockState {
         if (!(o instanceof BlockState)) {
             return false;
         }
-        final BlockState that = (BlockState) o;
+        BlockState that = (BlockState) o;
         return Objects.equal(blockType, that.blockType) &&
                 Objects.equal(properties, that.properties);
     }

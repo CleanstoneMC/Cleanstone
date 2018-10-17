@@ -23,12 +23,12 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
 
     @Override
     public VanillaBlockDataStorage decode(ByteBuf data) throws IOException {
-        final BlockDataSection[] sections = new BlockDataSection[Chunk.HEIGHT / BlockDataSection.HEIGHT];
-        final int primaryBitMask = ByteBufUtils.readVarInt(data);
-        final int dataSize = ByteBufUtils.readVarInt(data);
+        BlockDataSection[] sections = new BlockDataSection[Chunk.HEIGHT / BlockDataSection.HEIGHT];
+        int primaryBitMask = ByteBufUtils.readVarInt(data);
+        int dataSize = ByteBufUtils.readVarInt(data);
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
             if ((primaryBitMask & (1 << sectionY)) != 0) {
-                final BlockDataSection section = new BlockDataSection(data, true, directPalette,
+                BlockDataSection section = new BlockDataSection(data, true, directPalette,
                         omitDirectPaletteLength);
                 sections[sectionY] = section;
             }
@@ -38,12 +38,12 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
 
     @Override
     public ByteBuf encode(VanillaBlockDataStorage storage) {
-        final ByteBuf data = Unpooled.buffer();
+        ByteBuf data = Unpooled.buffer();
         int primaryBitMask = 0;
 
-        final ByteBuf dataBuf = Unpooled.buffer();
+        ByteBuf dataBuf = Unpooled.buffer();
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
-            final BlockDataSection section = storage.getSection(sectionY);
+            BlockDataSection section = storage.getSection(sectionY);
             if (section != null) {
                 section.write(dataBuf);
                 primaryBitMask |= (1 << sectionY);

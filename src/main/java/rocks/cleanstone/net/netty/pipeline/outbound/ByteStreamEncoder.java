@@ -13,15 +13,15 @@ public class ByteStreamEncoder extends MessageToByteEncoder<ByteBuf> {
     @Override
     protected void encode(ChannelHandlerContext ctx, ByteBuf in, ByteBuf out) {
         try {
-            final Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
+            Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
             if (!connection.isCompressionEnabled()) {
-                final int packetLength = in.readableBytes();
+                int packetLength = in.readableBytes();
                 ByteBufUtils.writeVarInt(out, packetLength);
                 out.writeBytes(in);
             } else {
-                final int uncompressedPacketLength = ctx.channel().attr(
+                int uncompressedPacketLength = ctx.channel().attr(
                         AttributeKey.<Integer>valueOf("uncompressedPacketLength")).get();
-                final int packetLength = in.readableBytes() + ByteBufUtils.getVarIntSize(uncompressedPacketLength);
+                int packetLength = in.readableBytes() + ByteBufUtils.getVarIntSize(uncompressedPacketLength);
                 ByteBufUtils.writeVarInt(out, packetLength);
                 ByteBufUtils.writeVarInt(out, uncompressedPacketLength);
                 out.writeBytes(in);

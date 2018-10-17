@@ -20,7 +20,7 @@ public enum Face {
 
     @SuppressWarnings("Duplicates")
     public static Face fromFaceID(int faceID) {
-        for (final Face face : Face.values()) {
+        for (Face face : Face.values()) {
             if (face.getFaceID() == faceID) {
                 return face;
             }
@@ -31,7 +31,7 @@ public enum Face {
 
     @SuppressWarnings("Duplicates")
     public static Face fromOffset(String offset) {
-        for (final Face face : Face.values()) {
+        for (Face face : Face.values()) {
             if (face.getOffset().equals(offset)) {
                 return face;
             }
@@ -42,7 +42,7 @@ public enum Face {
 
     public Face getOpposite() {
 
-        final String newOffset;
+        String newOffset;
         if (offset.charAt(0) == '-') {
             newOffset = offset.replace('-', '+');
         } else {
@@ -61,7 +61,7 @@ public enum Face {
     }
 
     public Vector toUnitVector() {
-        final Vector vector = new Vector();
+        Vector vector = new Vector();
         switch (this) {
             case TOP:
                 vector.addY(1);

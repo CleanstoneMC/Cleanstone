@@ -19,7 +19,7 @@ public enum MCPEClientProtocolLayer implements ClientProtocolLayer {
 
     @Nullable
     public static MCPEClientProtocolLayer byVersionNumber(int versionNumber) {
-        for (final MCPEClientProtocolLayer layer : values()) {
+        for (MCPEClientProtocolLayer layer : values()) {
             if (layer.getOrderedVersionNumber() == versionNumber) return layer;
         }
         return null;

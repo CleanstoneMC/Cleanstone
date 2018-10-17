@@ -16,10 +16,10 @@ public enum PlayerAbility {
     }
 
     public static PlayerAbility[] fromBitMask(int bitmask) {
-        final List<PlayerAbility> playerAbilities = new ArrayList<>();
+        List<PlayerAbility> playerAbilities = new ArrayList<>();
 
-        for (final PlayerAbility playerAbility : PlayerAbility.values()) {
-            final int bit = playerAbility.getBit();
+        for (PlayerAbility playerAbility : PlayerAbility.values()) {
+            int bit = playerAbility.getBit();
             if ((bitmask & bit) == bit) {
                 playerAbilities.add(playerAbility);
             }
@@ -30,8 +30,8 @@ public enum PlayerAbility {
 
     public static int toBitMask(PlayerAbility... abilities) {
         int bitmask = 0;
-        for (final PlayerAbility playerAbility : abilities) {
-            final int bit = playerAbility.getBit();
+        for (PlayerAbility playerAbility : abilities) {
+            int bit = playerAbility.getBit();
             bitmask |= bit;
         }
 

@@ -21,7 +21,7 @@ public class CleanstoneSubServer extends CleanstoneServer {
     }
 
     @Override
-    public void run(ApplicationArguments args) {
+    public void run(ApplicationArguments args) throws Exception {
 
     }
 }

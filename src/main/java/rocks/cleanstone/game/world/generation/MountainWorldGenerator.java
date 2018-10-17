@@ -26,11 +26,11 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
     private final ProtocolBlockStateMapping blockStateMapping;
-    private final Block GRASS_BLOCK;
-    private final Block DIRT;
-    private final Block STONE;
-    private final Block BEDROCK;
-    private final NoiseGenerator noiseGenerator;
+    private Block GRASS_BLOCK;
+    private Block DIRT;
+    private Block STONE;
+    private Block BEDROCK;
+    private NoiseGenerator noiseGenerator;
 
     public MountainWorldGenerator(
             VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
@@ -79,10 +79,10 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     @Override
     public Chunk generateChunk(int seed, ChunkCoords coords) {
         noiseGenerator.SetSeed(seed);
-        final BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
+        BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                final int height = getHeightAt(seed, (coords.getX() << 4) + x, (coords.getZ() << 4) + z);
+                int height = getHeightAt(seed, (coords.getX() << 4) + x, (coords.getZ() << 4) + z);
                 blockDataTable.setBlock(x, height, z, GRASS_BLOCK);
                 blockDataTable.setBlock(x, height - 1, z, DIRT);
                 blockDataTable.setBlock(x, height - 2, z, DIRT);
@@ -97,8 +97,8 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
                 }
             }
         }
-        final DirectPalette directPalette = new DirectPalette(blockStateMapping, 14);
-        final VanillaBlockDataStorage blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable,
+        DirectPalette directPalette = new DirectPalette(blockStateMapping, 14);
+        VanillaBlockDataStorage blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable,
                 directPalette, true);
 
         return new SimpleChunk(blockDataTable, blockDataStorage, new EntityData(new HashSet<>()), coords);

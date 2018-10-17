@@ -15,8 +15,8 @@ public class BrandMessageListener {
     public void onBrand(InboundPluginChannelMessageEvent<BrandMessage> brandMessageEvent) {
         log.info("Got Brand from " + brandMessageEvent.getPlayer().getName() + ":" + brandMessageEvent.getMessage().getBrand());
 
-        final BrandMessage brandMessage = new BrandMessage("cleanstone");
-        final OutboundPluginChannelMessageEvent<BrandMessage> pluginChannelMessageEvent = new OutboundPluginChannelMessageEvent<>(brandMessageEvent.getPlayer(), brandMessage);
+        BrandMessage brandMessage = new BrandMessage("cleanstone");
+        OutboundPluginChannelMessageEvent<BrandMessage> pluginChannelMessageEvent = new OutboundPluginChannelMessageEvent<>(brandMessageEvent.getPlayer(), brandMessage);
 
         CleanstoneServer.publishEvent(pluginChannelMessageEvent);
     }

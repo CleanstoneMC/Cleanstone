@@ -17,20 +17,20 @@ import java.util.Arrays;
 public class LoginCrypto {
 
     public static EncryptionRequestPacket constructEncryptionRequest(LoginData loginData, PublicKey publicKey) {
-        final String serverID = ""; // empty as of MC 1.7.X
-        final byte[] encodedPublicKey = SecurityUtils.generateX509Key(publicKey).getEncoded();
+        String serverID = ""; // empty as of MC 1.7.X
+        byte[] encodedPublicKey = SecurityUtils.generateX509Key(publicKey).getEncoded();
         return new EncryptionRequestPacket(serverID, encodedPublicKey, loginData.getVerifyToken());
     }
 
     public static SecretKey validateEncryptionResponse(LoginData loginData, PrivateKey privateKey,
                                                        EncryptionResponsePacket responsePacket) {
-        final byte[] sharedSecretData = responsePacket.getSharedSecret();
-        final byte[] verifyTokenData = responsePacket.getVerifyToken();
+        byte[] sharedSecretData = responsePacket.getSharedSecret();
+        byte[] verifyTokenData = responsePacket.getVerifyToken();
 
-        final SecretKey sharedSecret = new SecretKeySpec(
+        SecretKey sharedSecret = new SecretKeySpec(
                 SecurityUtils.decryptRSA(sharedSecretData, privateKey), "AES");
 
-        final byte[] verifyToken = SecurityUtils.decryptRSA(verifyTokenData, privateKey);
+        byte[] verifyToken = SecurityUtils.decryptRSA(verifyTokenData, privateKey);
         if (!Arrays.equals(verifyToken, loginData.getVerifyToken())) {
             throw new RuntimeException("Invalid verifyToken");
         }
@@ -38,9 +38,9 @@ public class LoginCrypto {
     }
 
     public static String generateAuthHash(SecretKey sharedSecret, PublicKey publicKey) {
-        final String hash;
+        String hash;
         try {
-            final MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
             digest.update("".getBytes(Charsets.US_ASCII)); // Server ID is empty
             digest.update(sharedSecret.getEncoded());
             digest.update(publicKey.getEncoded());

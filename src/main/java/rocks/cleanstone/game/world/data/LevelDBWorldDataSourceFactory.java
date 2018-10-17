@@ -1,15 +1,16 @@
 package rocks.cleanstone.game.world.data;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.entity.EntityTypeRegistry;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
 import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Slf4j
 @Component
@@ -41,7 +42,7 @@ public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
     }
 
     private Path getDataFolder() throws WorldDataSourceCreationException {
-        final Path directory = Paths.get("data");
+        Path directory = Paths.get("data");
         try {
             return Files.createDirectories(directory);
         } catch (IOException e) {

@@ -3,16 +3,6 @@ package rocks.cleanstone.player;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-import javax.annotation.Nullable;
-import javax.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
@@ -27,6 +17,17 @@ import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
+
+import javax.annotation.Nullable;
+import javax.annotation.PreDestroy;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -96,20 +97,20 @@ public class SimplePlayerManager implements PlayerManager {
     }
 
     private Identity registerNewPlayerID(UUID uuid, String accountName) {
-        final Identity id = new SimplePlayerIdentity(uuid, accountName);
+        Identity id = new SimplePlayerIdentity(uuid, accountName);
         playerIDs.add(id);
         return id;
     }
 
     @Override
     public boolean isPlayerOperator(Identity playerID) {
-        final List<String> ops = CleanstoneServer.getInstance().getMinecraftConfig().getOps();
+        List<String> ops = CleanstoneServer.getInstance().getMinecraftConfig().getOps();
         return ops.contains(playerID.getName()) || ops.contains(playerID.getUUID().toString()); //TODO: Make this beauty <3
     }
 
     @Override
     public void broadcastPacket(Packet packet, Player... broadcastExemptions) {
-        final Collection<Player> exemptions = Arrays.asList(broadcastExemptions);
+        Collection<Player> exemptions = Arrays.asList(broadcastExemptions);
         getOnlinePlayers().stream().filter(p -> !exemptions.contains(p))
                 .forEach(onlinePlayer -> onlinePlayer.sendPacket(packet));
     }
@@ -146,7 +147,7 @@ public class SimplePlayerManager implements PlayerManager {
     }
 
     private Path getPlayerDataFolder() {
-        final Path dataFolder = Paths.get("data", "players");
+        Path dataFolder = Paths.get("data", "players");
         try {
             Files.createDirectories(dataFolder);
         } catch (IOException e) {

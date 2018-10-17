@@ -10,7 +10,7 @@ public class ChunkDataKeyFactory {
     }
 
     public static ByteBuf create(ChunkCoords coords, ChunkDataType type) {
-        final ByteBuf buf = Unpooled.buffer();
+        ByteBuf buf = Unpooled.buffer();
         ByteBufUtils.writeVarInt(buf, coords.getX());
         ByteBufUtils.writeVarInt(buf, coords.getZ());
         ByteBufUtils.writeVarInt(buf, type.getTypeID());

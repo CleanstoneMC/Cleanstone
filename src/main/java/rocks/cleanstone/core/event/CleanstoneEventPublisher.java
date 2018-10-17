@@ -16,8 +16,8 @@ public class CleanstoneEventPublisher {
     private CleanstoneEventMulticaster multicaster;
 
     public synchronized <T> T publishEvent(T event, boolean rethrowExceptions) throws EventExecutionException {
-        final long preEventTime = System.currentTimeMillis();
-        final String eventName = event.getClass().getSimpleName();
+        long preEventTime = System.currentTimeMillis();
+        String eventName = event.getClass().getSimpleName();
         multicaster.getErrorHandler().setRethrowExceptions(rethrowExceptions);
         try {
             publisher.publishEvent(event);

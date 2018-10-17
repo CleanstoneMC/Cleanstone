@@ -21,31 +21,31 @@ public class TeleportCommand extends SimpleCommand {
     @Override
     public void execute(CommandMessage message) {
         Player p1 = message.requireTargetPlayer();
-        final RotatablePosition newPosition;
-        final String targetID;
+        RotatablePosition newPosition;
+        String targetID;
 
         if (!message.nextParameterIs(Player.class)
                 && !message.nextParameterIs(Double.class)
                 && p1 != message.getCommandSender()
                 && message.getCommandSender() instanceof Player) {
             // for /tp <destinationPlayer>
-            final Player p2 = p1;
+            Player p2 = p1;
             p1 = (Player) message.getCommandSender();
             newPosition = p2.getEntity().getPosition();
             targetID = p2.getName();
         } else if (message.nextParameterIs(Player.class)) {
             // for /tp <player> <destinationPlayer>
-            final Player p2 = message.requireParameter(Player.class);
+            Player p2 = message.requireParameter(Player.class);
             newPosition = p2.getEntity().getPosition();
             targetID = p2.getName();
         } else {
             // for /tp [player] <x> <y> <z> [yaw] [pitch]
-            final double x = message.requireParameter(Double.class);
-            final double y = message.requireParameter(Double.class);
-            final double z = message.requireParameter(Double.class);
-            final double yaw = message.optionalParameter(Double.class)
+            double x = message.requireParameter(Double.class);
+            double y = message.requireParameter(Double.class);
+            double z = message.requireParameter(Double.class);
+            double yaw = message.optionalParameter(Double.class)
                     .orElse((double) p1.getEntity().getPosition().getRotation().getYaw());
-            final double pitch = message.optionalParameter(Double.class)
+            double pitch = message.optionalParameter(Double.class)
                     .orElse((double) p1.getEntity().getPosition().getRotation().getPitch());
             newPosition = new RotatablePosition(
                     new Position(x, y, z), new Rotation((float) yaw, (float) pitch));

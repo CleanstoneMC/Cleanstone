@@ -17,7 +17,7 @@ public enum DiggingStatus {
 
     @SuppressWarnings("Duplicates")
     public static DiggingStatus fromStatusID(int statusID) {
-        for (final DiggingStatus diggingStatus : DiggingStatus.values()) {
+        for (DiggingStatus diggingStatus : DiggingStatus.values()) {
             if (diggingStatus.getStatusID() == statusID) {
                 return diggingStatus;
             }

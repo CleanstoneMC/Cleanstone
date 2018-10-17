@@ -16,7 +16,7 @@ public class UseItemCodec implements InboundPacketCodec<UseItemPacket> {
     @Override
     public UseItemPacket decode(ByteBuf byteBuf) throws IOException {
         final int handID = ByteBufUtils.readVarInt(byteBuf);
-        final Hand hand = Hand.fromHandID(handID);
+        Hand hand = Hand.fromHandID(handID);
         Preconditions.checkNotNull(hand, "Invalid handID " + handID);
 
         return new UseItemPacket(hand);

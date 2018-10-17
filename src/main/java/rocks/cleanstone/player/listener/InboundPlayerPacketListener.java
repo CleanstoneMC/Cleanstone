@@ -24,13 +24,13 @@ public class InboundPlayerPacketListener {
     @Order(value = EventAction.MODIFY + 50)
     @EventListener
     public void onPacket(InboundPacketEvent inboundPacketEvent) {
-        final Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
+        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
 
         if (player == null || playerManager.isTerminating(player)) {
             return;
         }
 
-        final PlayerInboundPacketEvent playerEvent = new PlayerInboundPacketEvent<>(
+        PlayerInboundPacketEvent playerEvent = new PlayerInboundPacketEvent<>(
                 inboundPacketEvent.getPacket(), inboundPacketEvent.getConnection(),
                 player, inboundPacketEvent.getNetworking());
 

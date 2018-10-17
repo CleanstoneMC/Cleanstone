@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class SimplePacketTypeRegistry extends PacketTypeRegistry {
 
-    private final Set<PacketType> packetTypes = Sets.newConcurrentHashSet();
+    private Set<PacketType> packetTypes = Sets.newConcurrentHashSet();
 
     @Override
     public void registerPacketType(PacketType... packetTypes) {

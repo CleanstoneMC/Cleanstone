@@ -2,16 +2,17 @@ package rocks.cleanstone.game.block.state.mapping;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.property.PropertiesBuilder;
 import rocks.cleanstone.game.block.state.property.PropertyDefinition;
 import rocks.cleanstone.game.material.block.BlockType;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 @Slf4j
 public abstract class ModernBlockStateMapping implements BlockStateMapping<Integer> {
@@ -63,7 +64,7 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
 
     @Override
     public Integer getID(BlockState state) {
-        final Integer baseID = blockTypeBaseStateIDMap.getOrDefault(state.getBlockType(), null);
+        Integer baseID = blockTypeBaseStateIDMap.getOrDefault(state.getBlockType(), null);
         if (baseID != null) {
             PropertyDefinition[] properties = blockTypeDefaultPropertiesMap.get(state.getBlockType());
             if (properties == null) {
@@ -81,10 +82,10 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
     @Override
     public BlockState getState(Integer id) {
         try {
-            final Map.Entry<Integer, BlockType> entry = baseStateIDBlockTypeMap.floorEntry(id);
+            Map.Entry<Integer, BlockType> entry = baseStateIDBlockTypeMap.floorEntry(id);
             Preconditions.checkNotNull(entry);
-            final int baseID = entry.getKey();
-            final BlockType blockType = entry.getValue();
+            int baseID = entry.getKey();
+            BlockType blockType = entry.getValue();
             PropertyDefinition[] properties = blockTypeDefaultPropertiesMap.get(blockType);
             if (properties == null) {
                 properties = blockType.getProperties();
@@ -101,10 +102,10 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
     }
 
     private int serializeState(BlockState state, PropertyDefinition[] propertyDefinitions, int baseID) {
-        final BlockType blockType = state.getBlockType();
+        BlockType blockType = state.getBlockType();
         int temp = 0;
-        for (final PropertyDefinition<?> propertyDefinition : propertyDefinitions) {
-            final int serializedProperty = serializeProperty(state, propertyDefinition);
+        for (PropertyDefinition<?> propertyDefinition : propertyDefinitions) {
+            int serializedProperty = serializeProperty(state, propertyDefinition);
             temp = serializedProperty + propertyDefinition.getProperty().getTotalValuesAmount() * temp;
         }
         return baseID + temp;
@@ -115,16 +116,16 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
     }
 
     private BlockState deserializeState(int id, BlockType blockType, PropertyDefinition[] propertyDefinitions, int baseID) {
-        final PropertiesBuilder builder = new PropertiesBuilder(blockType);
+        PropertiesBuilder builder = new PropertiesBuilder(blockType);
         int propertyIDAmount = Arrays.stream(propertyDefinitions).mapToInt(definition -> definition.getProperty().getTotalValuesAmount())
                 .reduce(1, (a, b) -> a * b);
         id -= baseID;
         Preconditions.checkArgument(id <= propertyIDAmount);
         int base = 0;
-        for (final PropertyDefinition<?> propertyDefinition : propertyDefinitions) {
+        for (PropertyDefinition<?> propertyDefinition : propertyDefinitions) {
             propertyIDAmount /= propertyDefinition.getProperty().getTotalValuesAmount();
-            final int minPropertyID = id - id % propertyIDAmount;
-            final int valueIndex = (minPropertyID - base) / propertyIDAmount;
+            int minPropertyID = id - id % propertyIDAmount;
+            int valueIndex = (minPropertyID - base) / propertyIDAmount;
             deserializeProperty(builder, propertyDefinition, valueIndex);
             base = minPropertyID;
         }
@@ -132,7 +133,7 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
     }
 
     private <T> void deserializeProperty(PropertiesBuilder builder, PropertyDefinition<T> propertyDefinition, int valueIndex) {
-        final T propertyValue = propertyDefinition.getProperty().deserialize(valueIndex);
+        T propertyValue = propertyDefinition.getProperty().deserialize(valueIndex);
         builder.withProperty(propertyDefinition.getProperty(), propertyValue);
     }
 }

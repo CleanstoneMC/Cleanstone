@@ -39,7 +39,7 @@ public class ArrayBlockDataTable implements BlockDataTable {
 
     @Override
     public Block getBlock(int x, int y, int z) {
-        final Block block = blocks[x][z][y];
+        Block block = blocks[x][z][y];
         return block != null ? block : AIR;
     }
 
@@ -84,7 +84,7 @@ public class ArrayBlockDataTable implements BlockDataTable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ArrayBlockDataTable)) return false;
-        final ArrayBlockDataTable that = (ArrayBlockDataTable) o;
+        ArrayBlockDataTable that = (ArrayBlockDataTable) o;
         return hasSkylight == that.hasSkylight &&
                 Arrays.deepEquals(blocks, that.blocks) &&
                 Arrays.deepEquals(blockLight, that.blockLight) &&

@@ -2,7 +2,6 @@ package rocks.cleanstone.net.minecraft.listener;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -16,6 +15,8 @@ import rocks.cleanstone.net.minecraft.pluginchannel.OutboundPluginChannelMessage
 import rocks.cleanstone.net.minecraft.pluginchannel.PluginChannel;
 import rocks.cleanstone.net.minecraft.pluginchannel.PluginChannelRegistry;
 
+import java.io.IOException;
+
 @Slf4j
 @Component
 public class PluginMessageListener {
@@ -28,19 +29,19 @@ public class PluginMessageListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPacket(PlayerInboundPacketEvent<InPluginMessagePacket> pluginMessagePacketPlayerInboundPacketEvent) {
-        final InPluginMessagePacket packet = pluginMessagePacketPlayerInboundPacketEvent.getPacket();
+        InPluginMessagePacket packet = pluginMessagePacketPlayerInboundPacketEvent.getPacket();
 
-        final PluginChannel pluginChannel = pluginChannelRegistry.getPluginChannel(packet.getChannel());
+        PluginChannel pluginChannel = pluginChannelRegistry.getPluginChannel(packet.getChannel());
 
         if (pluginChannel == null) {
             log.warn("Cant find PluginChannel for Channel with name \"" + packet.getChannel() + "\"");
             return;
         }
 
-        final ByteBuf buffer = Unpooled.buffer();
+        ByteBuf buffer = Unpooled.buffer();
         buffer.writeBytes(packet.getData());
 
-        final InboundPluginChannelMessageEvent<?> inboundPluginChannelMessageEvent;
+        InboundPluginChannelMessageEvent<?> inboundPluginChannelMessageEvent;
         try {
             inboundPluginChannelMessageEvent = new InboundPluginChannelMessageEvent<>(
                     pluginMessagePacketPlayerInboundPacketEvent.getNetworking(),
@@ -61,8 +62,8 @@ public class PluginMessageListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPluginMessage(OutboundPluginChannelMessageEvent outboundPluginChannelMessageEvent) {
-        final PluginChannel.PluginMessage message = outboundPluginChannelMessageEvent.getMessage();
-        final PluginChannel<PluginChannel.PluginMessage> pluginChannel = pluginChannelRegistry.getPluginChannel(message);
+        PluginChannel.PluginMessage message = outboundPluginChannelMessageEvent.getMessage();
+        PluginChannel<PluginChannel.PluginMessage> pluginChannel = pluginChannelRegistry.getPluginChannel(message);
 
         if (pluginChannel == null) {
             log.error("PluginChannel does not exist");
@@ -77,13 +78,13 @@ public class PluginMessageListener {
             return;
         }
 
-        final byte[] bytes = new byte[buffer.readableBytes()];
+        byte[] bytes = new byte[buffer.readableBytes()];
 
         for (int i = 0; i < bytes.length; i++) {
             bytes[i] = buffer.readByte();
         }
 
-        final OutPluginMessagePacket pluginMessagePacket = new OutPluginMessagePacket(pluginChannel.getName(), bytes);
+        OutPluginMessagePacket pluginMessagePacket = new OutPluginMessagePacket(pluginChannel.getName(), bytes);
 
         outboundPluginChannelMessageEvent.getPlayer().sendPacket(pluginMessagePacket);
     }

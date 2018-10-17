@@ -21,7 +21,7 @@ public class RemoveEntity {
     @Order(value = 100)
     @EventListener
     public void onTerminate(AsyncPlayerTerminationEvent e) {
-        final Entity playerEntity = e.getPlayer().getEntity();
+        Entity playerEntity = e.getPlayer().getEntity();
         if (playerEntity == null) return;
         entityTracker.removeObserver(playerEntity);
         playerEntity.getWorld().getEntityRegistry().removeEntity(playerEntity);

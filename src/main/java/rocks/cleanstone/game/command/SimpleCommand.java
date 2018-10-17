@@ -3,16 +3,6 @@ package rocks.cleanstone.game.command;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.ConsoleSender;
@@ -20,6 +10,9 @@ import rocks.cleanstone.game.command.executor.CommandExecutor;
 import rocks.cleanstone.game.command.executor.HelpPageExecutor;
 import rocks.cleanstone.game.permission.Permission;
 import rocks.cleanstone.player.Player;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class SimpleCommand implements Command {
@@ -70,7 +63,7 @@ public class SimpleCommand implements Command {
 
     @Override
     public Command addSubCommand(Command subCommand, String... names) {
-        for (final String name : names) {
+        for (String name : names) {
             subCommandMap.put(name, subCommand);
         }
         subCommandMap.put(subCommand.getName(), subCommand); //Add the subcommand by the name of the Command itself
@@ -123,8 +116,8 @@ public class SimpleCommand implements Command {
 
     @Override
     public String getUsage() {
-        final String text = CleanstoneServer.getMessage("game.command.invalid-usage.text");
-        final String number = CleanstoneServer.getMessage("game.command.invalid-usage.number");
+        String text = CleanstoneServer.getMessage("game.command.invalid-usage.text"),
+                number = CleanstoneServer.getMessage("game.command.invalid-usage.number");
         return "/" + name + " " + Joiner.on(" ").join(
                 Arrays.stream(getExpectedParameterTypes())
                         .map(Class::getSimpleName)
@@ -152,8 +145,8 @@ public class SimpleCommand implements Command {
     @Override
     public void execute(CommandMessage message, boolean considerSubCommands) {
         if (considerSubCommands && message.nextParameterIs(String.class)) {
-            final String parameter = message.requireParameter(String.class);
-            final Command subCommand = getSubCommands().get(parameter.toLowerCase(Locale.ENGLISH));
+            String parameter = message.requireParameter(String.class);
+            Command subCommand = getSubCommands().get(parameter.toLowerCase(Locale.ENGLISH));
             if (subCommand != null) {
                 subCommand.execute(message, true);
                 return;

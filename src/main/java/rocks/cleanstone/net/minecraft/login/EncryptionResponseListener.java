@@ -23,7 +23,7 @@ public class EncryptionResponseListener {
     @EventListener
     public void onReceive(InboundPacketEvent event) {
         if (event.getPacket() instanceof EncryptionResponsePacket) {
-            final EncryptionResponsePacket packet = (EncryptionResponsePacket) event.getPacket();
+            EncryptionResponsePacket packet = (EncryptionResponsePacket) event.getPacket();
             try {
                 loginManager.onEncryptionResponse(event.getConnection(), packet);
             } catch (Exception e) {

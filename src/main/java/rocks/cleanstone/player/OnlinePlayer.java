@@ -1,6 +1,5 @@
 package rocks.cleanstone.player;
 
-import lombok.Getter;
 import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.ChatPosition;
 import rocks.cleanstone.game.chat.message.Text;
@@ -15,15 +14,17 @@ import java.util.concurrent.Future;
 
 public class OnlinePlayer extends AbstractPlayer {
 
-    @Getter
     private final Connection connection;
-    @Getter
     private final Collection<UserProperty> userProperties;
 
     public OnlinePlayer(Identity id, Connection connection, Collection<UserProperty> userProperties) {
         super(id);
         this.connection = connection;
         this.userProperties = userProperties;
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 
     @Override
@@ -44,6 +45,11 @@ public class OnlinePlayer extends AbstractPlayer {
     @Override
     public Future<Void> kick(Text reason) {
         return connection.close(new DisconnectPacket(reason));
+    }
+
+    @Override
+    public Collection<UserProperty> getUserProperties() {
+        return userProperties;
     }
 
     @Override

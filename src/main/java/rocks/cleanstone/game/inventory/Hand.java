@@ -12,7 +12,7 @@ public enum Hand {
 
     @SuppressWarnings("Duplicates")
     public static Hand fromHandID(int handID) {
-        for (final Hand hand : Hand.values()) {
+        for (Hand hand : Hand.values()) {
             if (hand.getHandID() == handID) {
                 return hand;
             }

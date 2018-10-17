@@ -32,7 +32,7 @@ public class CachingBlockStateProvider {
 
     // @Cacheable(value = "blockStates", sync = true)
     public <T> BlockState withProperty(BlockType blockType, Property<T> property, T value) {
-        final Properties properties = new PropertiesBuilder(blockType).withProperty(property, value).create();
+        Properties properties = new PropertiesBuilder(blockType).withProperty(property, value).create();
 
         return BlockState.of(blockType, properties);
     }

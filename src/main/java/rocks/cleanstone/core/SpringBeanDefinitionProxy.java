@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SpringBeanDefinitionProxy {
-    private final DefaultListableBeanFactory beanDefinitionRegistry;
+    private DefaultListableBeanFactory beanDefinitionRegistry;
 
     public SpringBeanDefinitionProxy() {
         this.beanDefinitionRegistry = new DefaultListableBeanFactory();

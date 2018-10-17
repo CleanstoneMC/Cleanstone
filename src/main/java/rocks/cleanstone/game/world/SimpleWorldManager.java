@@ -1,15 +1,16 @@
 package rocks.cleanstone.game.world;
 
 import com.google.common.base.Preconditions;
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import javax.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.config.WorldConfig;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
@@ -40,7 +41,7 @@ public class SimpleWorldManager implements WorldManager {
 
     @Override
     public ListenableFuture<World> loadWorld(WorldConfig worldConfig) {
-        final ListenableFuture<World> worldListenableFuture = worldLoader.loadWorld(worldConfig);
+        ListenableFuture<World> worldListenableFuture = worldLoader.loadWorld(worldConfig);
 
         worldListenableFuture.addCallback(world -> {
             Preconditions.checkNotNull(world, "Loaded world " + worldConfig.getName() + " cannot be null");
@@ -53,7 +54,7 @@ public class SimpleWorldManager implements WorldManager {
     @Override
     public void unloadWorld(WorldConfig worldConfig) {
         try {
-            final World world = worldMap.get(worldConfig);
+            World world = worldMap.get(worldConfig);
 
             if (world == null) {
                 throw new NullPointerException("World " + worldConfig + " not found");

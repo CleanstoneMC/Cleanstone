@@ -54,7 +54,7 @@ public enum MinecraftInboundPacketType implements PacketType {
 
     @Nullable
     public static MinecraftInboundPacketType byPacketClass(Class<? extends Packet> packetClass) {
-        for (final MinecraftInboundPacketType type : values()) {
+        for (MinecraftInboundPacketType type : values()) {
             if (type.getPacketClass() == packetClass) return type;
         }
         return null;

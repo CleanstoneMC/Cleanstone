@@ -24,7 +24,7 @@ public class PropertyValuePair<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PropertyValuePair)) return false;
-        final PropertyValuePair<?> that = (PropertyValuePair<?>) o;
+        PropertyValuePair<?> that = (PropertyValuePair<?>) o;
         return Objects.equal(property, that.property) &&
                 Objects.equal(value, that.value);
     }

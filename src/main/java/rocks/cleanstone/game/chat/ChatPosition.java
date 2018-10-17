@@ -13,7 +13,7 @@ public enum ChatPosition {
 
     @SuppressWarnings("Duplicates")
     public static ChatPosition fromPositionID(int positionID) {
-        for (final ChatPosition chatPosition : ChatPosition.values()) {
+        for (ChatPosition chatPosition : ChatPosition.values()) {
             if (chatPosition.getPositionID() == positionID) {
                 return chatPosition;
             }

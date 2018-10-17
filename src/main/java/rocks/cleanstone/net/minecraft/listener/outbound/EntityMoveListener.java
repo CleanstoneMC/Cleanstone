@@ -26,18 +26,18 @@ public class EntityMoveListener {
     @Async
     @EventListener
     public void onEntityMove(EntityMoveEvent event) {
-        final HeadRotatablePosition oldPosition = event.getOldPosition();
-        final HeadRotatablePosition newPosition = event.getNewPosition();
-        final Entity movingEntity = event.getEntity();
+        HeadRotatablePosition oldPosition = event.getOldPosition();
+        HeadRotatablePosition newPosition = event.getNewPosition();
+        Entity movingEntity = event.getEntity();
         // TODO check if the observers use the current protocol layer
-        final Collection<Player> observers = entityTracker.getPlayerObservers(movingEntity);
-        final int entityID = movingEntity.getEntityID();
-        final boolean isFlying = movingEntity instanceof Player && ((Player) movingEntity).isFlying();
-        final float pitch = newPosition.getRotation().getPitch();
-        final float yaw = newPosition.getRotation().getYaw();
+        Collection<Player> observers = entityTracker.getPlayerObservers(movingEntity);
+        int entityID = movingEntity.getEntityID();
+        boolean isFlying = movingEntity instanceof Player && ((Player) movingEntity).isFlying();
+        float pitch = newPosition.getRotation().getPitch();
+        float yaw = newPosition.getRotation().getYaw();
 
         if (!oldPosition.getHeadRotation().equals(newPosition.getHeadRotation())) {
-            final EntityHeadLookPacket entityHeadLookPacket = new EntityHeadLookPacket(
+            EntityHeadLookPacket entityHeadLookPacket = new EntityHeadLookPacket(
                     entityID, newPosition.getHeadRotation().getYaw());
             observers.forEach(observer -> observer.sendPacket(entityHeadLookPacket));
         }
@@ -47,31 +47,31 @@ public class EntityMoveListener {
                 return;
             }
 
-            final EntityLookPacket entityLookPacket = new EntityLookPacket(entityID, yaw, pitch, isFlying);
+            EntityLookPacket entityLookPacket = new EntityLookPacket(entityID, yaw, pitch, isFlying);
             observers.forEach(observer -> observer.sendPacket(entityLookPacket));
             return;
         }
 
-        final double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
-        final double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
-        final double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
+        double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
+        double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
+        double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
 
         if (isTeleport(deltaX, deltaY, deltaZ)) {
-            final EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, newPosition.getX(),
+            EntityTeleportPacket entityTeleportPacket = new EntityTeleportPacket(entityID, newPosition.getX(),
                     newPosition.getY(), newPosition.getZ(), yaw, pitch, isFlying);
             observers.forEach(observer -> observer.sendPacket(entityTeleportPacket));
             return;
         }
 
         if (oldPosition.getRotation().equals(newPosition.getRotation())) {
-            final EntityRelativeMovePacket entityRelativeMovePacket = new EntityRelativeMovePacket(entityID,
+            EntityRelativeMovePacket entityRelativeMovePacket = new EntityRelativeMovePacket(entityID,
                     ((short) deltaX), ((short) deltaY), ((short) deltaZ), isFlying);
 
             observers.forEach(observer -> observer.sendPacket(entityRelativeMovePacket));
             return;
         }
 
-        final EntityLookAndRelativeMovePacket entityLookAndRelativeMovePacket = new EntityLookAndRelativeMovePacket(
+        EntityLookAndRelativeMovePacket entityLookAndRelativeMovePacket = new EntityLookAndRelativeMovePacket(
                 entityID, ((short) deltaX), ((short) deltaY), ((short) deltaZ), yaw, pitch, isFlying);
 
         observers.forEach(observer -> observer.sendPacket(entityLookAndRelativeMovePacket));

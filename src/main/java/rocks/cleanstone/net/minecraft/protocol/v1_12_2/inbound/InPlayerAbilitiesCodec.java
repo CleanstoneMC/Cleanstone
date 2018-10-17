@@ -11,9 +11,8 @@ public class InPlayerAbilitiesCodec implements InboundPacketCodec<InPlayerAbilit
 
     @Override
     public InPlayerAbilitiesPacket decode(ByteBuf byteBuf) {
-        final PlayerAbility[] playerAbilities = PlayerAbility.fromBitMask(byteBuf.readByte());
-        final float flyingSpeed = byteBuf.readFloat();
-        final float walkingSpeed = byteBuf.readFloat();
+        PlayerAbility[] playerAbilities = PlayerAbility.fromBitMask(byteBuf.readByte());
+        float flyingSpeed = byteBuf.readFloat(), walkingSpeed = byteBuf.readFloat();
 
         return new InPlayerAbilitiesPacket(playerAbilities, flyingSpeed, walkingSpeed);
     }

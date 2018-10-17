@@ -28,23 +28,23 @@ public class PlayerInitializationCauseListener {
     @Async(value = "playerExec")
     @EventListener
     public synchronized void onPlayerLoginSuccess(AsyncLoginSuccessEvent loginEvent) {
-        final Connection connection = loginEvent.getConnection();
-        final Identity playerID = playerManager.getPlayerID(loginEvent.getUUID(), loginEvent.getName());
+        Connection connection = loginEvent.getConnection();
+        Identity playerID = playerManager.getPlayerID(loginEvent.getUUID(), loginEvent.getName());
 
-        final Player alreadyOnlinePlayer = playerManager.getOnlinePlayer(playerID);
+        Player alreadyOnlinePlayer = playerManager.getOnlinePlayer(playerID);
         if (alreadyOnlinePlayer != null) {
             alreadyOnlinePlayer.kick(Text.of(CleanstoneServer.getMessage(
                     "player.logged-in-from-another-location")));
             playerManager.terminatePlayer(alreadyOnlinePlayer);
         }
 
-        final AsyncPlayerLoginEvent playerEvent = CleanstoneServer.publishEvent(
+        AsyncPlayerLoginEvent playerEvent = CleanstoneServer.publishEvent(
                 new AsyncPlayerLoginEvent(connection, playerID, loginEvent.getUserProperties()));
         if (playerEvent.isCancelled()) {
             connection.close(new DisconnectPacket(playerEvent.getKickReason()));
             return;
         }
-        final OnlinePlayer player = new OnlinePlayer(playerID, connection, loginEvent.getUserProperties());
+        OnlinePlayer player = new OnlinePlayer(playerID, connection, loginEvent.getUserProperties());
 
         if (playerManager.isPlayerOperator(playerID)) {
             player.setOp(true);

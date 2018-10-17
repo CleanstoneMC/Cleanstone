@@ -10,7 +10,7 @@ public class PlayerDataKeyFactory {
     }
 
     public static ByteBuf create(Player player, PlayerDataType type) {
-        final ByteBuf buf = Unpooled.buffer();
+        ByteBuf buf = Unpooled.buffer();
         ByteBufUtils.writeUUID(buf, player.getID().getUUID());
         ByteBufUtils.writeVarInt(buf, type.getTypeID());
         return buf;

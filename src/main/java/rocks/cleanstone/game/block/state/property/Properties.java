@@ -51,7 +51,7 @@ public class Properties {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Properties)) return false;
-        final Properties that = (Properties) o;
+        Properties that = (Properties) o;
         return Objects.equal(propertyValuePairs, that.propertyValuePairs);
     }
 
@@ -62,7 +62,7 @@ public class Properties {
 
     @Override
     public String toString() {
-        final String props = propertyValuePairs.stream()
+        String props = propertyValuePairs.stream()
                 .map(pair -> pair.getProperty().getName() + ": " + pair.getValue())
                 .collect(Collectors.joining(", "));
         return "Props{" + props + "}";

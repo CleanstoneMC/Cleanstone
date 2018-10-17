@@ -99,7 +99,7 @@ public class Vector {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Vector)) return false;
-        final Vector vector = (Vector) o;
+        Vector vector = (Vector) o;
         return Double.compare(vector.x, x) == 0 &&
                 Double.compare(vector.y, y) == 0 &&
                 Double.compare(vector.z, z) == 0;

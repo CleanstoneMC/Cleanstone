@@ -1,8 +1,6 @@
 package rocks.cleanstone.game;
 
 import com.google.common.base.Charsets;
-import java.util.Locale;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -12,10 +10,13 @@ import rocks.cleanstone.game.chat.ConsoleSender;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandRegistry;
 
+import java.util.Locale;
+import java.util.UUID;
+
 @Slf4j
 @Component("console")
 public class SimpleConsole implements ConsoleSender {
-    private final CommandRegistry commandRegistry;
+    private CommandRegistry commandRegistry;
 
     public SimpleConsole(CommandRegistry commandRegistry) {
         this.commandRegistry = commandRegistry;

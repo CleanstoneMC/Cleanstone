@@ -19,7 +19,7 @@ public class LevelDBPlayerDataSource extends LevelDBDataSource implements Player
 
     public <T> T getPlayerData(Player player, PlayerDataType type, InboundCodec<T, ByteBuf> codec)
             throws IOException {
-        final ByteBuf playerDataKey = PlayerDataKeyFactory.create(player, type);
+        ByteBuf playerDataKey = PlayerDataKeyFactory.create(player, type);
         try {
             return get(playerDataKey, codec);
         } finally {
@@ -29,7 +29,7 @@ public class LevelDBPlayerDataSource extends LevelDBDataSource implements Player
 
     public <T> void setPlayerData(Player player, PlayerDataType type, T playerData, OutboundCodec<T, ByteBuf> codec)
             throws IOException {
-        final ByteBuf playerDataKey = PlayerDataKeyFactory.create(player, type);
+        ByteBuf playerDataKey = PlayerDataKeyFactory.create(player, type);
         try {
             set(playerDataKey, playerData, codec);
         } finally {

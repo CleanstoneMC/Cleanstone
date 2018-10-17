@@ -30,15 +30,15 @@ public class StatusRequestListener {
     @EventListener
     public void onReceive(InboundPacketEvent event) {
         if (event.getPacket() instanceof RequestPacket) {
-            final ClientProtocolLayer latestSupportedClientVersion = event.getConnection().getClientProtocolLayer();
+            ClientProtocolLayer latestSupportedClientVersion = event.getConnection().getClientProtocolLayer();
 
-            final StatusResponse statusResponse = new StatusResponse(
+            StatusResponse statusResponse = new StatusResponse(
                     new StatusResponse.Version(latestSupportedClientVersion.getName(),
                             latestSupportedClientVersion.getOrderedVersionNumber()),
                     new StatusResponse.Players(maxPlayers, playerManager.getOnlinePlayers().size(),
                             new StatusResponse.Players.SampleItem[]{}),
                     new StatusResponse.Description(motd));
-            final String jsonResponse = new Gson().toJson(statusResponse);
+            String jsonResponse = new Gson().toJson(statusResponse);
 
             event.getConnection().sendPacket(new ResponsePacket(jsonResponse));
         }

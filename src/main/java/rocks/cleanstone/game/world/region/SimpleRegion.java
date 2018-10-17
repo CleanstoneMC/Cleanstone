@@ -23,8 +23,8 @@ import java.util.Collection;
 public class SimpleRegion implements Region {
 
     private final String id;
-    private final ChunkProvider chunkProvider;
-    private final Cache<ChunkCoords, Chunk> loadedChunks = CacheBuilder.newBuilder()
+    private ChunkProvider chunkProvider;
+    private Cache<ChunkCoords, Chunk> loadedChunks = CacheBuilder.newBuilder()
             .maximumSize(4096)
             .removalListener(this::removeChunkListener)
             .build();
@@ -41,7 +41,7 @@ public class SimpleRegion implements Region {
     }
 
     private void removeChunkListener(RemovalNotification removalNotification) {
-        final Chunk chunk = (Chunk) removalNotification.getValue();
+        Chunk chunk = (Chunk) removalNotification.getValue();
         if (chunk.hasUnsavedChanges()) {
             this.chunkProvider.getDataSource().saveChunk(chunk);
         }
@@ -73,7 +73,7 @@ public class SimpleRegion implements Region {
 
     @Override
     public ListenableFuture<Chunk> loadChunk(ChunkCoords coords) {
-        final ListenableFuture<Chunk> chunkFuture = chunkProvider.getChunk(coords);
+        ListenableFuture<Chunk> chunkFuture = chunkProvider.getChunk(coords);
         chunkFuture.addCallback(
                 chunk -> {
                     Preconditions.checkNotNull(chunk);
@@ -87,7 +87,7 @@ public class SimpleRegion implements Region {
 
     @Override
     public void unloadChunk(ChunkCoords coords) {
-        final Chunk chunk = getLoadedChunk(coords);
+        Chunk chunk = getLoadedChunk(coords);
         Preconditions.checkNotNull(chunk, "Cannot unload non-loaded chunk " + coords);
         CleanstoneServer.publishEvent(new ChunkUnloadEvent(chunk));
         loadedChunks.invalidate(coords);

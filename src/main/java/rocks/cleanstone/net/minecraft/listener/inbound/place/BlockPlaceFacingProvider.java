@@ -31,7 +31,7 @@ public class BlockPlaceFacingProvider implements BlockPlacePropertyProvider<Faci
             // todo: deny if not possible to place block
             return getBlockSiteFacing(packet);
         } else {
-            final float yaw = player.getEntity().getPosition().getHeadRotation().getYaw();
+            float yaw = player.getEntity().getPosition().getHeadRotation().getYaw();
             return getPlayerDirectionFacing(yaw);
         }
     }

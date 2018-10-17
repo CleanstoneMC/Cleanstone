@@ -18,7 +18,7 @@ public class SimpleChunkProvider implements ChunkProvider {
 
     private final WorldDataSource dataSource;
     private final WorldGenerator generator;
-    private final int seed = 1234567890; //TODO: Move me
+    private int seed = 1234567890; //TODO: Move me
 
     public SimpleChunkProvider(WorldDataSource dataSource, WorldGenerator generator) {
         this.dataSource = dataSource;

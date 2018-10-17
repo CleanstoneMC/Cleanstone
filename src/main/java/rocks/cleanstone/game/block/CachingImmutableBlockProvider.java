@@ -23,13 +23,13 @@ public class CachingImmutableBlockProvider {
 
     // @Cacheable(value = "immutableBlocks", sync = true)
     public ImmutableBlock of(BlockType blockType) {
-        final BlockState blockState = BlockState.of(blockType);
+        BlockState blockState = BlockState.of(blockType);
         return ImmutableBlock.of(blockState);
     }
 
     // @Cacheable(value = "immutableBlocks", sync = true)
     public ImmutableBlock of(BlockType blockType, Properties properties) {
-        final BlockState blockState = BlockState.of(blockType, properties);
+        BlockState blockState = BlockState.of(blockType, properties);
 
         return ImmutableBlock.of(blockState);
     }

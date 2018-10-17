@@ -1,15 +1,16 @@
 package rocks.cleanstone.game.command.completion;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import rocks.cleanstone.game.command.Command;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.CommandRegistry;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,7 +24,7 @@ public class CommandArgumentsCompletion {
     }
 
     public List<String> completeArguments(Command command, CommandMessage commandMessage) {
-        final List<String> matches = new LinkedList<>();
+        List<String> matches = new LinkedList<>();
 
         getParameterValue(commandMessage).ifPresent(parameterValue -> {
             log.debug("found paramter value: {}", parameterValue);
@@ -47,7 +48,7 @@ public class CommandArgumentsCompletion {
             // complete new parameter
             return Optional.of("");
         } else if (!commandMessage.getParameters().isEmpty()) {
-            final List<String> parameters = commandMessage.getParameters();
+            List<String> parameters = commandMessage.getParameters();
             return Optional.of(parameters.get(parameters.size() - 1));
         } else {
             return Optional.empty();
@@ -55,7 +56,7 @@ public class CommandArgumentsCompletion {
     }
 
     private Optional<Class<?>> getParameterType(Command command, CommandMessage commandMessage) {
-        final int currentIndex = commandMessage.getParameterIndex() + 1;
+        int currentIndex = commandMessage.getParameterIndex() + 1;
         int totalParameters = commandMessage.getParameters().size();
 
         // complete new parameter
@@ -64,8 +65,8 @@ public class CommandArgumentsCompletion {
         }
 
         // index of parameter as it is registered in a possible subcommand
-        final int subCommandIndex = totalParameters - currentIndex;
-        final Class<?>[] expectedTypes = command.getExpectedParameterTypes();
+        int subCommandIndex = totalParameters - currentIndex;
+        Class<?>[] expectedTypes = command.getExpectedParameterTypes();
 
         if (subCommandIndex < 0 || subCommandIndex >= expectedTypes.length) {
             return Optional.empty();
@@ -75,14 +76,14 @@ public class CommandArgumentsCompletion {
     }
 
     private <T> List<String> completeParameter(String parameterValue, Class<T> parameterType) {
-        final CommandParameter<T> commandParameter = commandRegistry.getCommandParameter(parameterType);
+        CommandParameter<T> commandParameter = commandRegistry.getCommandParameter(parameterType);
 
         // check if parameter is completable
         if (!(commandParameter instanceof CompletableParameter)) {
             return Collections.emptyList();
         }
 
-        final CompletionContext<T> context = new SimpleCompletionContext<>(parameterValue, parameterType);
+        CompletionContext<T> context = new SimpleCompletionContext<>(parameterValue, parameterType);
         return ((CompletableParameter<T>) commandParameter).getCompletion(context);
     }
 }

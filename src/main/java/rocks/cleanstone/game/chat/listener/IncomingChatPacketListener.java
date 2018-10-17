@@ -31,15 +31,15 @@ public class IncomingChatPacketListener {
             return;
         }
 
-        final Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
+        Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
         if (player == null) {
             return;
         }
-        final Identity playerID = player.getID();
-        final String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
+        Identity playerID = player.getID();
+        String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
 
-        final InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());
-        final String chatMessage = chatMessagePacket.getMessage();
+        InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());
+        String chatMessage = chatMessagePacket.getMessage();
         if (chatMessage.isEmpty()) {
             return;
         }

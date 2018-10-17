@@ -46,7 +46,7 @@ public enum VanillaGameMode implements GameMode {
 
     @Override
     public Collection<PlayerAbility> getPlayerAbilities() {
-        final Collection<PlayerAbility> abilities = new HashSet<>();
+        Collection<PlayerAbility> abilities = new HashSet<>();
         if (ruleSet.canFly()) abilities.add(PlayerAbility.CAN_FLY);
         if (ruleSet.hasCreativeInventory()) abilities.add(PlayerAbility.IS_CREATIVE);
         if (!ruleSet.canGetDamage()) abilities.add(PlayerAbility.IS_INVULNERABLE);

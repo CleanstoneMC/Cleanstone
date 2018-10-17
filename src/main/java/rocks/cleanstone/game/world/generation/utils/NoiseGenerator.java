@@ -284,7 +284,7 @@ public class NoiseGenerator {
 
 
     private static float CubicLerp(float a, float b, float c, float d, float t) {
-        final float p = (d - c) - (a - b);
+        float p = (d - c) - (a - b);
         return t * t * t * p + t * t * ((a - b) - p) + t * (c - a) + b;
     }
 
@@ -375,7 +375,7 @@ public class NoiseGenerator {
         hash = hash * hash * hash * 60493;
         hash = (hash >> 13) ^ hash;
 
-        final Float2 g = GRAD_2D[hash & 7];
+        Float2 g = GRAD_2D[hash & 7];
 
         return xd * g.x + yd * g.y;
     }
@@ -389,7 +389,7 @@ public class NoiseGenerator {
         hash = hash * hash * hash * 60493;
         hash = (hash >> 13) ^ hash;
 
-        final Float3 g = GRAD_3D[hash & 15];
+        Float3 g = GRAD_3D[hash & 15];
 
         return xd * g.x + yd * g.y + zd * g.z;
     }
@@ -576,31 +576,31 @@ public class NoiseGenerator {
     // White Noise
 
     private int FloatCast2Int(float f) {
-        final int i = Float.floatToRawIntBits(f);
+        int i = Float.floatToRawIntBits(f);
 
         return i ^ (i >> 16);
     }
 
     public float GetWhiteNoise(float x, float y, float z, float w) {
-        final int xi = FloatCast2Int(x);
-        final int yi = FloatCast2Int(y);
-        final int zi = FloatCast2Int(z);
-        final int wi = FloatCast2Int(w);
+        int xi = FloatCast2Int(x);
+        int yi = FloatCast2Int(y);
+        int zi = FloatCast2Int(z);
+        int wi = FloatCast2Int(w);
 
         return ValCoord4D(m_seed, xi, yi, zi, wi);
     }
 
     public float GetWhiteNoise(float x, float y, float z) {
-        final int xi = FloatCast2Int(x);
-        final int yi = FloatCast2Int(y);
-        final int zi = FloatCast2Int(z);
+        int xi = FloatCast2Int(x);
+        int yi = FloatCast2Int(y);
+        int zi = FloatCast2Int(z);
 
         return ValCoord3D(m_seed, xi, yi, zi);
     }
 
     public float GetWhiteNoise(float x, float y) {
-        final int xi = FloatCast2Int(x);
-        final int yi = FloatCast2Int(y);
+        int xi = FloatCast2Int(x);
+        int yi = FloatCast2Int(y);
 
         return ValCoord2D(m_seed, xi, yi);
     }
@@ -691,16 +691,14 @@ public class NoiseGenerator {
     }
 
     private float SingleValue(int seed, float x, float y, float z) {
-        final int x0 = FastFloor(x);
-        final int y0 = FastFloor(y);
-        final int z0 = FastFloor(z);
-        final int x1 = x0 + 1;
-        final int y1 = y0 + 1;
-        final int z1 = z0 + 1;
+        int x0 = FastFloor(x);
+        int y0 = FastFloor(y);
+        int z0 = FastFloor(z);
+        int x1 = x0 + 1;
+        int y1 = y0 + 1;
+        int z1 = z0 + 1;
 
-        final float xs;
-        final float ys;
-        final float zs;
+        float xs, ys, zs;
         switch (m_interp) {
             default:
             case Linear:
@@ -720,13 +718,13 @@ public class NoiseGenerator {
                 break;
         }
 
-        final float xf00 = Lerp(ValCoord3D(seed, x0, y0, z0), ValCoord3D(seed, x1, y0, z0), xs);
-        final float xf10 = Lerp(ValCoord3D(seed, x0, y1, z0), ValCoord3D(seed, x1, y1, z0), xs);
-        final float xf01 = Lerp(ValCoord3D(seed, x0, y0, z1), ValCoord3D(seed, x1, y0, z1), xs);
-        final float xf11 = Lerp(ValCoord3D(seed, x0, y1, z1), ValCoord3D(seed, x1, y1, z1), xs);
+        float xf00 = Lerp(ValCoord3D(seed, x0, y0, z0), ValCoord3D(seed, x1, y0, z0), xs);
+        float xf10 = Lerp(ValCoord3D(seed, x0, y1, z0), ValCoord3D(seed, x1, y1, z0), xs);
+        float xf01 = Lerp(ValCoord3D(seed, x0, y0, z1), ValCoord3D(seed, x1, y0, z1), xs);
+        float xf11 = Lerp(ValCoord3D(seed, x0, y1, z1), ValCoord3D(seed, x1, y1, z1), xs);
 
-        final float yf0 = Lerp(xf00, xf10, ys);
-        final float yf1 = Lerp(xf01, xf11, ys);
+        float yf0 = Lerp(xf00, xf10, ys);
+        float yf1 = Lerp(xf01, xf11, ys);
 
         return Lerp(yf0, yf1, zs);
     }
@@ -799,13 +797,12 @@ public class NoiseGenerator {
     }
 
     private float SingleValue(int seed, float x, float y) {
-        final int x0 = FastFloor(x);
-        final int y0 = FastFloor(y);
-        final int x1 = x0 + 1;
-        final int y1 = y0 + 1;
+        int x0 = FastFloor(x);
+        int y0 = FastFloor(y);
+        int x1 = x0 + 1;
+        int y1 = y0 + 1;
 
-        final float xs;
-        final float ys;
+        float xs, ys;
         switch (m_interp) {
             default:
             case Linear:
@@ -822,8 +819,8 @@ public class NoiseGenerator {
                 break;
         }
 
-        final float xf0 = Lerp(ValCoord2D(seed, x0, y0), ValCoord2D(seed, x1, y0), xs);
-        final float xf1 = Lerp(ValCoord2D(seed, x0, y1), ValCoord2D(seed, x1, y1), xs);
+        float xf0 = Lerp(ValCoord2D(seed, x0, y0), ValCoord2D(seed, x1, y0), xs);
+        float xf1 = Lerp(ValCoord2D(seed, x0, y1), ValCoord2D(seed, x1, y1), xs);
 
         return Lerp(xf0, xf1, ys);
     }
@@ -902,16 +899,14 @@ public class NoiseGenerator {
     }
 
     private float SinglePerlin(int seed, float x, float y, float z) {
-        final int x0 = FastFloor(x);
-        final int y0 = FastFloor(y);
-        final int z0 = FastFloor(z);
-        final int x1 = x0 + 1;
-        final int y1 = y0 + 1;
-        final int z1 = z0 + 1;
+        int x0 = FastFloor(x);
+        int y0 = FastFloor(y);
+        int z0 = FastFloor(z);
+        int x1 = x0 + 1;
+        int y1 = y0 + 1;
+        int z1 = z0 + 1;
 
-        final float xs;
-        final float ys;
-        final float zs;
+        float xs, ys, zs;
         switch (m_interp) {
             default:
             case Linear:
@@ -931,20 +926,20 @@ public class NoiseGenerator {
                 break;
         }
 
-        final float xd0 = x - x0;
-        final float yd0 = y - y0;
-        final float zd0 = z - z0;
-        final float xd1 = xd0 - 1;
-        final float yd1 = yd0 - 1;
-        final float zd1 = zd0 - 1;
+        float xd0 = x - x0;
+        float yd0 = y - y0;
+        float zd0 = z - z0;
+        float xd1 = xd0 - 1;
+        float yd1 = yd0 - 1;
+        float zd1 = zd0 - 1;
 
-        final float xf00 = Lerp(GradCoord3D(seed, x0, y0, z0, xd0, yd0, zd0), GradCoord3D(seed, x1, y0, z0, xd1, yd0, zd0), xs);
-        final float xf10 = Lerp(GradCoord3D(seed, x0, y1, z0, xd0, yd1, zd0), GradCoord3D(seed, x1, y1, z0, xd1, yd1, zd0), xs);
-        final float xf01 = Lerp(GradCoord3D(seed, x0, y0, z1, xd0, yd0, zd1), GradCoord3D(seed, x1, y0, z1, xd1, yd0, zd1), xs);
-        final float xf11 = Lerp(GradCoord3D(seed, x0, y1, z1, xd0, yd1, zd1), GradCoord3D(seed, x1, y1, z1, xd1, yd1, zd1), xs);
+        float xf00 = Lerp(GradCoord3D(seed, x0, y0, z0, xd0, yd0, zd0), GradCoord3D(seed, x1, y0, z0, xd1, yd0, zd0), xs);
+        float xf10 = Lerp(GradCoord3D(seed, x0, y1, z0, xd0, yd1, zd0), GradCoord3D(seed, x1, y1, z0, xd1, yd1, zd0), xs);
+        float xf01 = Lerp(GradCoord3D(seed, x0, y0, z1, xd0, yd0, zd1), GradCoord3D(seed, x1, y0, z1, xd1, yd0, zd1), xs);
+        float xf11 = Lerp(GradCoord3D(seed, x0, y1, z1, xd0, yd1, zd1), GradCoord3D(seed, x1, y1, z1, xd1, yd1, zd1), xs);
 
-        final float yf0 = Lerp(xf00, xf10, ys);
-        final float yf1 = Lerp(xf01, xf11, ys);
+        float yf0 = Lerp(xf00, xf10, ys);
+        float yf1 = Lerp(xf01, xf11, ys);
 
         return Lerp(yf0, yf1, zs);
     }
@@ -1018,13 +1013,12 @@ public class NoiseGenerator {
     }
 
     private float SinglePerlin(int seed, float x, float y) {
-        final int x0 = FastFloor(x);
-        final int y0 = FastFloor(y);
-        final int x1 = x0 + 1;
-        final int y1 = y0 + 1;
+        int x0 = FastFloor(x);
+        int y0 = FastFloor(y);
+        int x1 = x0 + 1;
+        int y1 = y0 + 1;
 
-        final float xs;
-        final float ys;
+        float xs, ys;
         switch (m_interp) {
             default:
             case Linear:
@@ -1041,13 +1035,13 @@ public class NoiseGenerator {
                 break;
         }
 
-        final float xd0 = x - x0;
-        final float yd0 = y - y0;
-        final float xd1 = xd0 - 1;
-        final float yd1 = yd0 - 1;
+        float xd0 = x - x0;
+        float yd0 = y - y0;
+        float xd1 = xd0 - 1;
+        float yd1 = yd0 - 1;
 
-        final float xf0 = Lerp(GradCoord2D(seed, x0, y0, xd0, yd0), GradCoord2D(seed, x1, y0, xd1, yd0), xs);
-        final float xf1 = Lerp(GradCoord2D(seed, x0, y1, xd0, yd1), GradCoord2D(seed, x1, y1, xd1, yd1), xs);
+        float xf0 = Lerp(GradCoord2D(seed, x0, y0, xd0, yd0), GradCoord2D(seed, x1, y0, xd1, yd0), xs);
+        float xf1 = Lerp(GradCoord2D(seed, x0, y1, xd0, yd1), GradCoord2D(seed, x1, y1, xd1, yd1), xs);
 
         return Lerp(xf0, xf1, ys);
     }
@@ -1131,21 +1125,17 @@ public class NoiseGenerator {
 
     private float SingleSimplex(int seed, float x, float y, float z) {
         float t = (x + y + z) * F3;
-        final int i = FastFloor(x + t);
-        final int j = FastFloor(y + t);
-        final int k = FastFloor(z + t);
+        int i = FastFloor(x + t);
+        int j = FastFloor(y + t);
+        int k = FastFloor(z + t);
 
         t = (i + j + k) * G3;
-        final float x0 = x - (i - t);
-        final float y0 = y - (j - t);
-        final float z0 = z - (k - t);
+        float x0 = x - (i - t);
+        float y0 = y - (j - t);
+        float z0 = z - (k - t);
 
-        final int i1;
-        final int j1;
-        final int k1;
-        final int i2;
-        final int j2;
-        final int k2;
+        int i1, j1, k1;
+        int i2, j2, k2;
 
         if (x0 >= y0) {
             if (y0 >= z0) {
@@ -1198,20 +1188,17 @@ public class NoiseGenerator {
             }
         }
 
-        final float x1 = x0 - i1 + G3;
-        final float y1 = y0 - j1 + G3;
-        final float z1 = z0 - k1 + G3;
-        final float x2 = x0 - i2 + F3;
-        final float y2 = y0 - j2 + F3;
-        final float z2 = z0 - k2 + F3;
-        final float x3 = x0 + G33;
-        final float y3 = y0 + G33;
-        final float z3 = z0 + G33;
+        float x1 = x0 - i1 + G3;
+        float y1 = y0 - j1 + G3;
+        float z1 = z0 - k1 + G3;
+        float x2 = x0 - i2 + F3;
+        float y2 = y0 - j2 + F3;
+        float z2 = z0 - k2 + F3;
+        float x3 = x0 + G33;
+        float y3 = y0 + G33;
+        float z3 = z0 + G33;
 
-        final float n0;
-        final float n1;
-        final float n2;
-        final float n3;
+        float n0, n1, n2, n3;
 
         t = (float) 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
         if (t < 0) n0 = 0;
@@ -1317,18 +1304,17 @@ public class NoiseGenerator {
 
     private float SingleSimplex(int seed, float x, float y) {
         float t = (x + y) * F2;
-        final int i = FastFloor(x + t);
-        final int j = FastFloor(y + t);
+        int i = FastFloor(x + t);
+        int j = FastFloor(y + t);
 
         t = (i + j) * G2;
-        final float X0 = i - t;
-        final float Y0 = j - t;
+        float X0 = i - t;
+        float Y0 = j - t;
 
-        final float x0 = x - X0;
-        final float y0 = y - Y0;
+        float x0 = x - X0;
+        float y0 = y - Y0;
 
-        final int i1;
-        final int j1;
+        int i1, j1;
         if (x0 > y0) {
             i1 = 1;
             j1 = 0;
@@ -1337,14 +1323,12 @@ public class NoiseGenerator {
             j1 = 1;
         }
 
-        final float x1 = x0 - i1 + G2;
-        final float y1 = y0 - j1 + G2;
-        final float x2 = x0 - 1 + F2;
-        final float y2 = y0 - 1 + F2;
+        float x1 = x0 - i1 + G2;
+        float y1 = y0 - j1 + G2;
+        float x2 = x0 - 1 + F2;
+        float y2 = y0 - 1 + F2;
 
-        final float n0;
-        final float n1;
-        final float n2;
+        float n0, n1, n2;
 
         t = (float) 0.5 - x0 * x0 - y0 * y0;
         if (t < 0) n0 = 0;
@@ -1390,25 +1374,21 @@ public class NoiseGenerator {
     private final static float G4 = (float) ((5.0 - 2.23606797) / 20.0);
 
     private float SingleSimplex(int seed, float x, float y, float z, float w) {
-        final float n0;
-        final float n1;
-        final float n2;
-        final float n3;
-        final float n4;
+        float n0, n1, n2, n3, n4;
         float t = (x + y + z + w) * F4;
-        final int i = FastFloor(x + t);
-        final int j = FastFloor(y + t);
-        final int k = FastFloor(z + t);
-        final int l = FastFloor(w + t);
+        int i = FastFloor(x + t);
+        int j = FastFloor(y + t);
+        int k = FastFloor(z + t);
+        int l = FastFloor(w + t);
         t = (i + j + k + l) * G4;
-        final float X0 = i - t;
-        final float Y0 = j - t;
-        final float Z0 = k - t;
-        final float W0 = l - t;
-        final float x0 = x - X0;
-        final float y0 = y - Y0;
-        final float z0 = z - Z0;
-        final float w0 = w - W0;
+        float X0 = i - t;
+        float Y0 = j - t;
+        float Z0 = k - t;
+        float W0 = l - t;
+        float x0 = x - X0;
+        float y0 = y - Y0;
+        float z0 = z - Z0;
+        float w0 = w - W0;
 
         int c = (x0 > y0) ? 32 : 0;
         c += (x0 > z0) ? 16 : 0;
@@ -1418,35 +1398,35 @@ public class NoiseGenerator {
         c += (z0 > w0) ? 1 : 0;
         c <<= 2;
 
-        final int i1 = SIMPLEX_4D[c] >= 3 ? 1 : 0;
-        final int i2 = SIMPLEX_4D[c] >= 2 ? 1 : 0;
-        final int i3 = SIMPLEX_4D[c++] >= 1 ? 1 : 0;
-        final int j1 = SIMPLEX_4D[c] >= 3 ? 1 : 0;
-        final int j2 = SIMPLEX_4D[c] >= 2 ? 1 : 0;
-        final int j3 = SIMPLEX_4D[c++] >= 1 ? 1 : 0;
-        final int k1 = SIMPLEX_4D[c] >= 3 ? 1 : 0;
-        final int k2 = SIMPLEX_4D[c] >= 2 ? 1 : 0;
-        final int k3 = SIMPLEX_4D[c++] >= 1 ? 1 : 0;
-        final int l1 = SIMPLEX_4D[c] >= 3 ? 1 : 0;
-        final int l2 = SIMPLEX_4D[c] >= 2 ? 1 : 0;
-        final int l3 = SIMPLEX_4D[c] >= 1 ? 1 : 0;
+        int i1 = SIMPLEX_4D[c] >= 3 ? 1 : 0;
+        int i2 = SIMPLEX_4D[c] >= 2 ? 1 : 0;
+        int i3 = SIMPLEX_4D[c++] >= 1 ? 1 : 0;
+        int j1 = SIMPLEX_4D[c] >= 3 ? 1 : 0;
+        int j2 = SIMPLEX_4D[c] >= 2 ? 1 : 0;
+        int j3 = SIMPLEX_4D[c++] >= 1 ? 1 : 0;
+        int k1 = SIMPLEX_4D[c] >= 3 ? 1 : 0;
+        int k2 = SIMPLEX_4D[c] >= 2 ? 1 : 0;
+        int k3 = SIMPLEX_4D[c++] >= 1 ? 1 : 0;
+        int l1 = SIMPLEX_4D[c] >= 3 ? 1 : 0;
+        int l2 = SIMPLEX_4D[c] >= 2 ? 1 : 0;
+        int l3 = SIMPLEX_4D[c] >= 1 ? 1 : 0;
 
-        final float x1 = x0 - i1 + G4;
-        final float y1 = y0 - j1 + G4;
-        final float z1 = z0 - k1 + G4;
-        final float w1 = w0 - l1 + G4;
-        final float x2 = x0 - i2 + 2 * G4;
-        final float y2 = y0 - j2 + 2 * G4;
-        final float z2 = z0 - k2 + 2 * G4;
-        final float w2 = w0 - l2 + 2 * G4;
-        final float x3 = x0 - i3 + 3 * G4;
-        final float y3 = y0 - j3 + 3 * G4;
-        final float z3 = z0 - k3 + 3 * G4;
-        final float w3 = w0 - l3 + 3 * G4;
-        final float x4 = x0 - 1 + 4 * G4;
-        final float y4 = y0 - 1 + 4 * G4;
-        final float z4 = z0 - 1 + 4 * G4;
-        final float w4 = w0 - 1 + 4 * G4;
+        float x1 = x0 - i1 + G4;
+        float y1 = y0 - j1 + G4;
+        float z1 = z0 - k1 + G4;
+        float w1 = w0 - l1 + G4;
+        float x2 = x0 - i2 + 2 * G4;
+        float y2 = y0 - j2 + 2 * G4;
+        float z2 = z0 - k2 + 2 * G4;
+        float w2 = w0 - l2 + 2 * G4;
+        float x3 = x0 - i3 + 3 * G4;
+        float y3 = y0 - j3 + 3 * G4;
+        float z3 = z0 - k3 + 3 * G4;
+        float w3 = w0 - l3 + 3 * G4;
+        float x4 = x0 - 1 + 4 * G4;
+        float y4 = y0 - 1 + 4 * G4;
+        float z4 = z0 - 1 + 4 * G4;
+        float w4 = w0 - 1 + 4 * G4;
 
         t = (float) 0.6 - x0 * x0 - y0 * y0 - z0 * z0 - w0 * w0;
         if (t < 0) n0 = 0;
@@ -1561,23 +1541,23 @@ public class NoiseGenerator {
     private final static float CUBIC_3D_BOUNDING = 1 / (float) (1.5 * 1.5 * 1.5);
 
     private float SingleCubic(int seed, float x, float y, float z) {
-        final int x1 = FastFloor(x);
-        final int y1 = FastFloor(y);
-        final int z1 = FastFloor(z);
+        int x1 = FastFloor(x);
+        int y1 = FastFloor(y);
+        int z1 = FastFloor(z);
 
-        final int x0 = x1 - 1;
-        final int y0 = y1 - 1;
-        final int z0 = z1 - 1;
-        final int x2 = x1 + 1;
-        final int y2 = y1 + 1;
-        final int z2 = z1 + 1;
-        final int x3 = x1 + 2;
-        final int y3 = y1 + 2;
-        final int z3 = z1 + 2;
+        int x0 = x1 - 1;
+        int y0 = y1 - 1;
+        int z0 = z1 - 1;
+        int x2 = x1 + 1;
+        int y2 = y1 + 1;
+        int z2 = z1 + 1;
+        int x3 = x1 + 2;
+        int y3 = y1 + 2;
+        int z3 = z1 + 2;
 
-        final float xs = x - (float) x1;
-        final float ys = y - (float) y1;
-        final float zs = z - (float) z1;
+        float xs = x - (float) x1;
+        float ys = y - (float) y1;
+        float zs = z - (float) z1;
 
         return CubicLerp(
                 CubicLerp(
@@ -1685,18 +1665,18 @@ public class NoiseGenerator {
     private final static float CUBIC_2D_BOUNDING = 1 / (float) (1.5 * 1.5);
 
     private float SingleCubic(int seed, float x, float y) {
-        final int x1 = FastFloor(x);
-        final int y1 = FastFloor(y);
+        int x1 = FastFloor(x);
+        int y1 = FastFloor(y);
 
-        final int x0 = x1 - 1;
-        final int y0 = y1 - 1;
-        final int x2 = x1 + 1;
-        final int y2 = y1 + 1;
-        final int x3 = x1 + 2;
-        final int y3 = y1 + 2;
+        int x0 = x1 - 1;
+        int y0 = y1 - 1;
+        int x2 = x1 + 1;
+        int y2 = y1 + 1;
+        int x3 = x1 + 2;
+        int y3 = y1 + 2;
 
-        final float xs = x - (float) x1;
-        final float ys = y - (float) y1;
+        float xs = x - (float) x1;
+        float ys = y - (float) y1;
 
         return CubicLerp(
                 CubicLerp(ValCoord2D(seed, x0, y0), ValCoord2D(seed, x1, y0), ValCoord2D(seed, x2, y0), ValCoord2D(seed, x3, y0),
@@ -1727,9 +1707,9 @@ public class NoiseGenerator {
     }
 
     private float SingleCellular(float x, float y, float z) {
-        final int xr = FastRound(x);
-        final int yr = FastRound(y);
-        final int zr = FastRound(z);
+        int xr = FastRound(x);
+        int yr = FastRound(y);
+        int zr = FastRound(z);
 
         float distance = 999999;
         int xc = 0, yc = 0, zc = 0;
@@ -1739,13 +1719,13 @@ public class NoiseGenerator {
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
                         for (int zi = zr - 1; zi <= zr + 1; zi++) {
-                            final Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
+                            Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
 
-                            final float vecX = xi - x + vec.x;
-                            final float vecY = yi - y + vec.y;
-                            final float vecZ = zi - z + vec.z;
+                            float vecX = xi - x + vec.x;
+                            float vecY = yi - y + vec.y;
+                            float vecZ = zi - z + vec.z;
 
-                            final float newDistance = vecX * vecX + vecY * vecY + vecZ * vecZ;
+                            float newDistance = vecX * vecX + vecY * vecY + vecZ * vecZ;
 
                             if (newDistance < distance) {
                                 distance = newDistance;
@@ -1761,13 +1741,13 @@ public class NoiseGenerator {
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
                         for (int zi = zr - 1; zi <= zr + 1; zi++) {
-                            final Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
+                            Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
 
-                            final float vecX = xi - x + vec.x;
-                            final float vecY = yi - y + vec.y;
-                            final float vecZ = zi - z + vec.z;
+                            float vecX = xi - x + vec.x;
+                            float vecY = yi - y + vec.y;
+                            float vecZ = zi - z + vec.z;
 
-                            final float newDistance = Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
+                            float newDistance = Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
 
                             if (newDistance < distance) {
                                 distance = newDistance;
@@ -1783,13 +1763,13 @@ public class NoiseGenerator {
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
                         for (int zi = zr - 1; zi <= zr + 1; zi++) {
-                            final Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
+                            Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
 
-                            final float vecX = xi - x + vec.x;
-                            final float vecY = yi - y + vec.y;
-                            final float vecZ = zi - z + vec.z;
+                            float vecX = xi - x + vec.x;
+                            float vecY = yi - y + vec.y;
+                            float vecZ = zi - z + vec.z;
 
-                            final float newDistance = (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
+                            float newDistance = (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
 
                             if (newDistance < distance) {
                                 distance = newDistance;
@@ -1808,7 +1788,7 @@ public class NoiseGenerator {
                 return ValCoord3D(0, xc, yc, zc);
 
             case NoiseLookup:
-                final Float3 vec = CELL_3D[Hash3D(m_seed, xc, yc, zc) & 255];
+                Float3 vec = CELL_3D[Hash3D(m_seed, xc, yc, zc) & 255];
                 return m_cellularNoiseLookup.GetNoise(xc + vec.x, yc + vec.y, zc + vec.z);
 
             case Distance:
@@ -1819,9 +1799,9 @@ public class NoiseGenerator {
     }
 
     private float SingleCellular2Edge(float x, float y, float z) {
-        final int xr = FastRound(x);
-        final int yr = FastRound(y);
-        final int zr = FastRound(z);
+        int xr = FastRound(x);
+        int yr = FastRound(y);
+        int zr = FastRound(z);
 
         float distance = 999999;
         float distance2 = 999999;
@@ -1831,13 +1811,13 @@ public class NoiseGenerator {
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
                         for (int zi = zr - 1; zi <= zr + 1; zi++) {
-                            final Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
+                            Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
 
-                            final float vecX = xi - x + vec.x;
-                            final float vecY = yi - y + vec.y;
-                            final float vecZ = zi - z + vec.z;
+                            float vecX = xi - x + vec.x;
+                            float vecY = yi - y + vec.y;
+                            float vecZ = zi - z + vec.z;
 
-                            final float newDistance = vecX * vecX + vecY * vecY + vecZ * vecZ;
+                            float newDistance = vecX * vecX + vecY * vecY + vecZ * vecZ;
 
                             distance2 = Math.max(Math.min(distance2, newDistance), distance);
                             distance = Math.min(distance, newDistance);
@@ -1849,13 +1829,13 @@ public class NoiseGenerator {
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
                         for (int zi = zr - 1; zi <= zr + 1; zi++) {
-                            final Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
+                            Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
 
-                            final float vecX = xi - x + vec.x;
-                            final float vecY = yi - y + vec.y;
-                            final float vecZ = zi - z + vec.z;
+                            float vecX = xi - x + vec.x;
+                            float vecY = yi - y + vec.y;
+                            float vecZ = zi - z + vec.z;
 
-                            final float newDistance = Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
+                            float newDistance = Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
 
                             distance2 = Math.max(Math.min(distance2, newDistance), distance);
                             distance = Math.min(distance, newDistance);
@@ -1867,13 +1847,13 @@ public class NoiseGenerator {
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
                         for (int zi = zr - 1; zi <= zr + 1; zi++) {
-                            final Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
+                            Float3 vec = CELL_3D[Hash3D(m_seed, xi, yi, zi) & 255];
 
-                            final float vecX = xi - x + vec.x;
-                            final float vecY = yi - y + vec.y;
-                            final float vecZ = zi - z + vec.z;
+                            float vecX = xi - x + vec.x;
+                            float vecY = yi - y + vec.y;
+                            float vecZ = zi - z + vec.z;
 
-                            final float newDistance = (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
+                            float newDistance = (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
 
                             distance2 = Math.max(Math.min(distance2, newDistance), distance);
                             distance = Math.min(distance, newDistance);
@@ -1916,8 +1896,8 @@ public class NoiseGenerator {
     }
 
     private float SingleCellular(float x, float y) {
-        final int xr = FastRound(x);
-        final int yr = FastRound(y);
+        int xr = FastRound(x);
+        int yr = FastRound(y);
 
         float distance = 999999;
         int xc = 0, yc = 0;
@@ -1927,12 +1907,12 @@ public class NoiseGenerator {
             case Euclidean:
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
-                        final Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
+                        Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
 
-                        final float vecX = xi - x + vec.x;
-                        final float vecY = yi - y + vec.y;
+                        float vecX = xi - x + vec.x;
+                        float vecY = yi - y + vec.y;
 
-                        final float newDistance = vecX * vecX + vecY * vecY;
+                        float newDistance = vecX * vecX + vecY * vecY;
 
                         if (newDistance < distance) {
                             distance = newDistance;
@@ -1945,12 +1925,12 @@ public class NoiseGenerator {
             case Manhattan:
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
-                        final Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
+                        Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
 
-                        final float vecX = xi - x + vec.x;
-                        final float vecY = yi - y + vec.y;
+                        float vecX = xi - x + vec.x;
+                        float vecY = yi - y + vec.y;
 
-                        final float newDistance = (Math.abs(vecX) + Math.abs(vecY));
+                        float newDistance = (Math.abs(vecX) + Math.abs(vecY));
 
                         if (newDistance < distance) {
                             distance = newDistance;
@@ -1963,12 +1943,12 @@ public class NoiseGenerator {
             case Natural:
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
-                        final Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
+                        Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
 
-                        final float vecX = xi - x + vec.x;
-                        final float vecY = yi - y + vec.y;
+                        float vecX = xi - x + vec.x;
+                        float vecY = yi - y + vec.y;
 
-                        final float newDistance = (Math.abs(vecX) + Math.abs(vecY)) + (vecX * vecX + vecY * vecY);
+                        float newDistance = (Math.abs(vecX) + Math.abs(vecY)) + (vecX * vecX + vecY * vecY);
 
                         if (newDistance < distance) {
                             distance = newDistance;
@@ -1985,7 +1965,7 @@ public class NoiseGenerator {
                 return ValCoord2D(0, xc, yc);
 
             case NoiseLookup:
-                final Float2 vec = CELL_2D[Hash2D(m_seed, xc, yc) & 255];
+                Float2 vec = CELL_2D[Hash2D(m_seed, xc, yc) & 255];
                 return m_cellularNoiseLookup.GetNoise(xc + vec.x, yc + vec.y);
 
             case Distance:
@@ -1996,8 +1976,8 @@ public class NoiseGenerator {
     }
 
     private float SingleCellular2Edge(float x, float y) {
-        final int xr = FastRound(x);
-        final int yr = FastRound(y);
+        int xr = FastRound(x);
+        int yr = FastRound(y);
 
         float distance = 999999;
         float distance2 = 999999;
@@ -2007,12 +1987,12 @@ public class NoiseGenerator {
             case Euclidean:
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
-                        final Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
+                        Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
 
-                        final float vecX = xi - x + vec.x;
-                        final float vecY = yi - y + vec.y;
+                        float vecX = xi - x + vec.x;
+                        float vecY = yi - y + vec.y;
 
-                        final float newDistance = vecX * vecX + vecY * vecY;
+                        float newDistance = vecX * vecX + vecY * vecY;
 
                         distance2 = Math.max(Math.min(distance2, newDistance), distance);
                         distance = Math.min(distance, newDistance);
@@ -2022,12 +2002,12 @@ public class NoiseGenerator {
             case Manhattan:
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
-                        final Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
+                        Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
 
-                        final float vecX = xi - x + vec.x;
-                        final float vecY = yi - y + vec.y;
+                        float vecX = xi - x + vec.x;
+                        float vecY = yi - y + vec.y;
 
-                        final float newDistance = Math.abs(vecX) + Math.abs(vecY);
+                        float newDistance = Math.abs(vecX) + Math.abs(vecY);
 
                         distance2 = Math.max(Math.min(distance2, newDistance), distance);
                         distance = Math.min(distance, newDistance);
@@ -2037,12 +2017,12 @@ public class NoiseGenerator {
             case Natural:
                 for (int xi = xr - 1; xi <= xr + 1; xi++) {
                     for (int yi = yr - 1; yi <= yr + 1; yi++) {
-                        final Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
+                        Float2 vec = CELL_2D[Hash2D(m_seed, xi, yi) & 255];
 
-                        final float vecX = xi - x + vec.x;
-                        final float vecY = yi - y + vec.y;
+                        float vecX = xi - x + vec.x;
+                        float vecY = yi - y + vec.y;
 
-                        final float newDistance = (Math.abs(vecX) + Math.abs(vecY)) + (vecX * vecX + vecY * vecY);
+                        float newDistance = (Math.abs(vecX) + Math.abs(vecY)) + (vecX * vecX + vecY * vecY);
 
                         distance2 = Math.max(Math.min(distance2, newDistance), distance);
                         distance = Math.min(distance, newDistance);
@@ -2086,20 +2066,18 @@ public class NoiseGenerator {
     }
 
     private void SingleGradientPerturb(int seed, float perturbAmp, float frequency, Vector3f v3) {
-        final float xf = v3.x * frequency;
-        final float yf = v3.y * frequency;
-        final float zf = v3.z * frequency;
+        float xf = v3.x * frequency;
+        float yf = v3.y * frequency;
+        float zf = v3.z * frequency;
 
-        final int x0 = FastFloor(xf);
-        final int y0 = FastFloor(yf);
-        final int z0 = FastFloor(zf);
-        final int x1 = x0 + 1;
-        final int y1 = y0 + 1;
-        final int z1 = z0 + 1;
+        int x0 = FastFloor(xf);
+        int y0 = FastFloor(yf);
+        int z0 = FastFloor(zf);
+        int x1 = x0 + 1;
+        int y1 = y0 + 1;
+        int z1 = z0 + 1;
 
-        final float xs;
-        final float ys;
-        final float zs;
+        float xs, ys, zs;
         switch (m_interp) {
             default:
             case Linear:
@@ -2133,9 +2111,9 @@ public class NoiseGenerator {
         float ly1x = Lerp(vec0.y, vec1.y, xs);
         float lz1x = Lerp(vec0.z, vec1.z, xs);
 
-        final float lx0y = Lerp(lx0x, lx1x, ys);
-        final float ly0y = Lerp(ly0x, ly1x, ys);
-        final float lz0y = Lerp(lz0x, lz1x, ys);
+        float lx0y = Lerp(lx0x, lx1x, ys);
+        float ly0y = Lerp(ly0x, ly1x, ys);
+        float lz0y = Lerp(lz0x, lz1x, ys);
 
         vec0 = CELL_3D[Hash3D(seed, x0, y0, z1) & 255];
         vec1 = CELL_3D[Hash3D(seed, x1, y0, z1) & 255];
@@ -2175,16 +2153,15 @@ public class NoiseGenerator {
     }
 
     private void SingleGradientPerturb(int seed, float perturbAmp, float frequency, Vector2f v2) {
-        final float xf = v2.x * frequency;
-        final float yf = v2.y * frequency;
+        float xf = v2.x * frequency;
+        float yf = v2.y * frequency;
 
-        final int x0 = FastFloor(xf);
-        final int y0 = FastFloor(yf);
-        final int x1 = x0 + 1;
-        final int y1 = y0 + 1;
+        int x0 = FastFloor(xf);
+        int y0 = FastFloor(yf);
+        int x1 = x0 + 1;
+        int y1 = y0 + 1;
 
-        final float xs;
-        final float ys;
+        float xs, ys;
         switch (m_interp) {
             default:
             case Linear:
@@ -2204,14 +2181,14 @@ public class NoiseGenerator {
         Float2 vec0 = CELL_2D[Hash2D(seed, x0, y0) & 255];
         Float2 vec1 = CELL_2D[Hash2D(seed, x1, y0) & 255];
 
-        final float lx0x = Lerp(vec0.x, vec1.x, xs);
-        final float ly0x = Lerp(vec0.y, vec1.y, xs);
+        float lx0x = Lerp(vec0.x, vec1.x, xs);
+        float ly0x = Lerp(vec0.y, vec1.y, xs);
 
         vec0 = CELL_2D[Hash2D(seed, x0, y1) & 255];
         vec1 = CELL_2D[Hash2D(seed, x1, y1) & 255];
 
-        final float lx1x = Lerp(vec0.x, vec1.x, xs);
-        final float ly1x = Lerp(vec0.y, vec1.y, xs);
+        float lx1x = Lerp(vec0.x, vec1.x, xs);
+        float ly1x = Lerp(vec0.y, vec1.y, xs);
 
         v2.x += Lerp(lx0x, lx1x, ys) * perturbAmp;
         v2.y += Lerp(ly0x, ly1x, ys) * perturbAmp;

@@ -17,10 +17,10 @@ public class EnumParameter<T extends Enum<T>> implements CompletableParameter<T>
     @Override
     public List<String> getCompletion(CompletionContext<T> context) {
         //noinspection unchecked
-        final T[] enumConstants = context.getExpectedType().getEnumConstants();
+        T[] enumConstants = context.getExpectedType().getEnumConstants();
 
         try {
-            final int ordinal = Integer.parseInt(context.getInput());
+            int ordinal = Integer.parseInt(context.getInput());
 
             if (ordinal >= 0 && ordinal < enumConstants.length) {
                 return Collections.singletonList(enumConstants[ordinal].toString().toLowerCase(Locale.ENGLISH));

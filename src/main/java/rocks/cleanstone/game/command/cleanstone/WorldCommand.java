@@ -41,8 +41,8 @@ public class WorldCommand extends SimpleCommand {
         playerManager.getOnlinePlayers().forEach(player -> {
             playerChunkLoadService.unloadAllChunks(player);
 
-            final int x = player.getEntity().getPosition().getXAsInt() << 4;
-            final int z = player.getEntity().getPosition().getYAsInt() << 4;
+            int x = player.getEntity().getPosition().getXAsInt() << 4;
+            int z = player.getEntity().getPosition().getYAsInt() << 4;
             playerChunkLoadService.loadChunk(player, ChunkCoords.of(x, z));
         });
     }
@@ -100,9 +100,11 @@ public class WorldCommand extends SimpleCommand {
             public void execute(CommandMessage commandMessage) {
                 worldGenerators.forEach(wg -> {
                     commandMessage.getCommandSender().sendRawMessage(wg.getName());
-                    wg.getGenerationParameters().forEach((key, value) -> commandMessage.getCommandSender().sendRawMessage(
-                            String.format("    %s: %s", key, value)
-                    ));
+                    wg.getGenerationParameters().forEach((key, value) -> {
+                        commandMessage.getCommandSender().sendRawMessage(
+                                String.format("    %s: %s", key, value)
+                        );
+                    });
                 });
             }
         }
@@ -116,8 +118,8 @@ public class WorldCommand extends SimpleCommand {
 
             @Override
             public void execute(CommandMessage commandMessage) {
-                final WorldGenerationParameter parameter = commandMessage.requireParameter(WorldGenerationParameter.class);
-                final double value = commandMessage.requireParameter(Double.class);
+                WorldGenerationParameter parameter = commandMessage.requireParameter(WorldGenerationParameter.class);
+                double value = commandMessage.requireParameter(Double.class);
 
                 worldGenerators.forEach(wg -> wg.setGenerationParameter(parameter, value));
             }

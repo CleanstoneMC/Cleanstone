@@ -12,7 +12,7 @@ public enum ClientStatus {
 
     @SuppressWarnings("Duplicates")
     public static ClientStatus fromStatusID(int statusID) {
-        for (final ClientStatus clientStatus : ClientStatus.values()) {
+        for (ClientStatus clientStatus : ClientStatus.values()) {
             if (clientStatus.getStatusID() == statusID) {
                 return clientStatus;
             }

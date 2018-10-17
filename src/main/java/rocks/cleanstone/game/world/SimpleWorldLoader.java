@@ -1,6 +1,5 @@
 package rocks.cleanstone.game.world;
 
-import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -16,6 +15,8 @@ import rocks.cleanstone.game.world.data.WorldDataSourceCreationException;
 import rocks.cleanstone.game.world.data.WorldDataSourceFactory;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.RegionManager;
+
+import java.io.IOException;
 
 @Slf4j
 @Component
@@ -35,22 +36,22 @@ public class SimpleWorldLoader implements WorldLoader {
     @Override
     public ListenableFuture<World> loadWorld(WorldConfig worldConfig) {
 
-        final WorldGenerator worldGenerator = worldGeneratorManager.getWorldGenerator(worldConfig.getGenerator());
+        WorldGenerator worldGenerator = worldGeneratorManager.getWorldGenerator(worldConfig.getGenerator());
         if (worldGenerator == null) {
             return AsyncResult.forExecutionException(
                     new IllegalArgumentException("Cannot find worldGenerator " + worldConfig.getGenerator()));
         }
 
-        final WorldDataSource worldDataSource;
+        WorldDataSource worldDataSource;
         try {
             worldDataSource = worldDataSourceFactory.get(worldConfig.getName());
         } catch (WorldDataSourceCreationException e) {
             return AsyncResult.forExecutionException(new IOException("Failed to create worldDataSource", e));
         }
-        final ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);
-        final RegionManager regionManager = context.getBean(RegionManager.class, chunkProvider);
-        final EntityRegistry entityRegistry = context.getBean(EntityRegistry.class);
-        final World world = context.getBean(World.class, worldConfig, worldGenerator, worldDataSource, regionManager, entityRegistry);
+        ChunkProvider chunkProvider = context.getBean(ChunkProvider.class, worldDataSource, worldGenerator);
+        RegionManager regionManager = context.getBean(RegionManager.class, chunkProvider);
+        EntityRegistry entityRegistry = context.getBean(EntityRegistry.class);
+        World world = context.getBean(World.class, worldConfig, worldGenerator, worldDataSource, regionManager, entityRegistry);
 
         // TODO: Loading spawn and other tasks(?)
         log.info("World '" + worldConfig.getName() + "' loaded");

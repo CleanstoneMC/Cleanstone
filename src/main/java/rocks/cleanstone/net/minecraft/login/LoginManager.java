@@ -2,14 +2,6 @@ package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
-import javax.crypto.SecretKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,6 +20,11 @@ import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;
 import rocks.cleanstone.player.UserProperty;
+
+import javax.crypto.SecretKey;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -50,8 +47,8 @@ public class LoginManager {
     }
 
     public void startLogin(Connection connection, String playerName) {
-        final byte[] verifyToken = SecurityUtils.generateRandomToken(4);
-        final LoginData loginData = new LoginData(verifyToken, playerName);
+        byte[] verifyToken = SecurityUtils.generateRandomToken(4);
+        LoginData loginData = new LoginData(verifyToken, playerName);
         connectionLoginDataMap.put(connection, loginData);
 
         if (!onlineMode) {
@@ -71,16 +68,16 @@ public class LoginManager {
             properties = new UserProperty[0];//Fix for Offline mode nullpointer Exception
         }
 
-        final Collection<UserProperty> userProperties = new ArrayList<>(Arrays.asList(properties));
+        Collection<UserProperty> userProperties = new ArrayList<>(Arrays.asList(properties));
 
-        final AsyncLoginEvent event = CleanstoneServer.publishEvent(
+        AsyncLoginEvent event = CleanstoneServer.publishEvent(
                 new AsyncLoginEvent(connection, uuid, accountName, userProperties));
         if (event.isCancelled()) {
             stopLogin(connection, event.getKickReason());
             return;
         }
-        final SetCompressionPacket setCompressionPacket = new SetCompressionPacket(0);
-        final LoginSuccessPacket loginSuccessPacket = new LoginSuccessPacket(uuid, accountName);
+        SetCompressionPacket setCompressionPacket = new SetCompressionPacket(0);
+        LoginSuccessPacket loginSuccessPacket = new LoginSuccessPacket(uuid, accountName);
         //connection.sendPacket(setCompressionPacket);
         //connection.setCompressionEnabled(true); TODO Fix compression handler
         connection.sendPacket(loginSuccessPacket);
@@ -98,23 +95,23 @@ public class LoginManager {
 
     void onEncryptionResponse(Connection connection,
                               EncryptionResponsePacket encryptionResponsePacket) {
-        final LoginData loginData = connectionLoginDataMap.get(connection);
+        LoginData loginData = connectionLoginDataMap.get(connection);
         if (loginData == null || connection.isClosed()) {
             return;
         }
-        final SecretKey key = LoginCrypto.validateEncryptionResponse(loginData, privateKey, encryptionResponsePacket);
+        SecretKey key = LoginCrypto.validateEncryptionResponse(loginData, privateKey, encryptionResponsePacket);
         connection.setSharedSecret(key);
         connection.setEncryptionEnabled(true);
         validateMinecraftSession(connection, loginData);
     }
 
     private void validateMinecraftSession(Connection connection, LoginData loginData) {
-        final ListenableFuture<SessionServerResponse> responseResult =
+        ListenableFuture<SessionServerResponse> responseResult =
                 sessionServerRequester.request(connection, loginData, publicKey);
         responseResult.addCallback((response) -> {
             try {
-                final UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
-                final String name = response.getName();
+                UUID uuid = UUIDUtils.fromStringWithoutHyphens(response.getId());
+                String name = response.getName();
                 finishLogin(connection, uuid, name, response.getProperties());
             } catch (Exception e) {
                 log.error("Error occurred while finishing login", e);

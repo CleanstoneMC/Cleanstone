@@ -1,7 +1,5 @@
 package rocks.cleanstone.net.minecraft.listener.outbound;
 
-import java.util.Collections;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -21,6 +19,9 @@ import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
+import java.util.Collections;
+import java.util.UUID;
+
 @Slf4j
 @Component
 public class EntityTrackingListener {
@@ -35,19 +36,19 @@ public class EntityTrackingListener {
     @EventListener
     public void onEntityTrack(EntityTrackEvent event) {
         // TODO check if the observer uses the current protocol layer
-        final Player observer = playerManager.getOnlinePlayer(event.getObserver());
+        Player observer = playerManager.getOnlinePlayer(event.getObserver());
         if (observer == null) {
             return;
         }
-        final Entity entity = event.getEntity();
+        Entity entity = event.getEntity();
         if (entity instanceof Human) {
-            final Player player = playerManager.getOnlinePlayer(entity);
-            final UUID uuid = player != null ? player.getID().getUUID() : UUID.randomUUID();
+            Player player = playerManager.getOnlinePlayer(entity);
+            UUID uuid = player != null ? player.getID().getUUID() : UUID.randomUUID();
             // TODO Add EntityMetadata
             observer.sendPacket(new SpawnPlayerPacket(entity.getEntityID(), uuid, entity.getPosition(), null));
         } else {
-            final RotatablePosition position = entity.getPosition();
-            final float headPitch = entity instanceof LivingEntity ?
+            RotatablePosition position = entity.getPosition();
+            float headPitch = entity instanceof LivingEntity ?
                     ((LivingEntity) entity).getPosition().getHeadRotation().getPitch() : 0f;
             // TODO Is the mob UUID actually used?
             // TODO Add velocity
@@ -64,11 +65,11 @@ public class EntityTrackingListener {
     @EventListener
     public void onEntityUntrack(EntityUntrackEvent event) {
         // TODO check if the observer uses the current protocol layer
-        final Player observer = playerManager.getOnlinePlayer(event.getObserver());
+        Player observer = playerManager.getOnlinePlayer(event.getObserver());
         if (observer == null) {
             return;
         }
-        final Entity entity = event.getEntity();
+        Entity entity = event.getEntity();
 
         observer.sendPacket(new DestroyEntitiesPacket(Collections.singletonList(entity.getEntityID())));
     }

@@ -1,8 +1,6 @@
 package rocks.cleanstone.game.world;
 
 import com.google.common.base.Preconditions;
-import java.util.concurrent.ExecutionException;
-import javax.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
@@ -24,6 +22,9 @@ import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 
+import javax.annotation.Nullable;
+import java.util.concurrent.ExecutionException;
+
 @Component
 @Scope("prototype")
 @Slf4j
@@ -34,9 +35,9 @@ public class SimpleGeneratedWorld implements World {
     protected final RegionManager regionManager;
     protected final EntityRegistry entityRegistry;
     protected final WorldConfig worldConfig;
-    private final Dimension dimension = Dimension.OVERWORLD; //TODO: Move
-    private final Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
-    private final LevelType levelType = LevelType.FLAT; //TODO: Move
+    private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
+    private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
+    private LevelType levelType = LevelType.FLAT; //TODO: Move
     private RotatablePosition spawnPosition;
 
     public SimpleGeneratedWorld(WorldConfig worldConfig, WorldGenerator generator, WorldDataSource dataSource,
@@ -120,8 +121,7 @@ public class SimpleGeneratedWorld implements World {
         Preconditions.checkArgument(y < Chunk.HEIGHT && y >= 0,
                 "Coordinate y (" + y + ") is not in allowed range (0<=y<" + Chunk.HEIGHT + ")");
 
-        final int relX = getRelativeBlockCoordinate(x);
-        final int relZ = getRelativeBlockCoordinate(z);
+        int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
         try {
             return new AsyncResult<>(getChunk(ChunkCoords.ofBlockCoords(x, z)).get().getBlock(relX, y, relZ));
         } catch (InterruptedException | ExecutionException e) {
@@ -140,9 +140,8 @@ public class SimpleGeneratedWorld implements World {
         Preconditions.checkArgument(y < Chunk.HEIGHT && y >= 0,
                 "Coordinate y (" + y + ") is not in allowed range (0<=y<" + Chunk.HEIGHT + ")");
         Preconditions.checkNotNull(block, "block cannot be null");
-        final ChunkCoords chunkCoords = ChunkCoords.ofBlockCoords(x, z);
-        final int relX = getRelativeBlockCoordinate(x);
-        final int relZ = getRelativeBlockCoordinate(z);
+        ChunkCoords chunkCoords = ChunkCoords.ofBlockCoords(x, z);
+        int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
 
         getChunk(chunkCoords).addCallback(chunk -> chunk.setBlock(relX, y, relZ, block), throwable -> log.error("Failed to get chunk " + chunkCoords + " in world " + worldConfig.getName(), throwable));
     }
@@ -164,7 +163,7 @@ public class SimpleGeneratedWorld implements World {
     @Nullable
     @Override
     public Chunk getLoadedChunk(ChunkCoords coords) {
-        final Region region = regionManager.getLoadedRegion(coords);
+        Region region = regionManager.getLoadedRegion(coords);
 
         if (region == null) {
             return null;

@@ -1,10 +1,5 @@
 package rocks.cleanstone.web.actuator;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +14,12 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.ConsoleInputEvent;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Component
 @Endpoint(id = "console")
@@ -27,7 +28,7 @@ public class ConsoleEndpoint {
 
     private final Environment environment;
 
-    private final Path externalFile;
+    private Path externalFile;
 
     public ConsoleEndpoint(Environment environment, Path externalFile) {
         this.environment = environment;
@@ -53,14 +54,14 @@ public class ConsoleEndpoint {
      */
     @ReadOperation
     public List<String> getLog() throws IOException {
-        final Resource logFileResource = getLogFileResource();
+        Resource logFileResource = getLogFileResource();
         if (logFileResource == null || !logFileResource.isReadable()) {
             return null;
         }
 
-        final ReversedLinesFileReader reversedLinesFileReader = new ReversedLinesFileReader(logFileResource.getFile(), Charset.forName("UTF-8"));
+        ReversedLinesFileReader reversedLinesFileReader = new ReversedLinesFileReader(logFileResource.getFile(), Charset.forName("UTF-8"));
 
-        final List<String> log = new ArrayList<>();
+        List<String> log = new ArrayList<>();
 
         for (int i = 0; i < 20; i++) {
             final String line = reversedLinesFileReader.readLine();
@@ -82,7 +83,7 @@ public class ConsoleEndpoint {
         if (this.externalFile != null) {
             return new FileSystemResource(this.externalFile.toFile());
         }
-        final LogFile logFile = LogFile.get(this.environment);
+        LogFile logFile = LogFile.get(this.environment);
         if (logFile == null) {
             log.debug("Missing 'logging.file' or 'logging.path' properties");
             return null;

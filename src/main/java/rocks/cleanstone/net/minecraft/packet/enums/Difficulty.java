@@ -13,7 +13,7 @@ public enum Difficulty {
 
     @SuppressWarnings("Duplicates")
     public static Difficulty fromDifficultID(int difficultyID) {
-        for (final Difficulty difficulty : Difficulty.values()) {
+        for (Difficulty difficulty : Difficulty.values()) {
             if (difficulty.getDifficultyID() == difficultyID) {
                 return difficulty;
             }

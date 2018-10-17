@@ -21,9 +21,9 @@ public class MemCommand extends SimpleCommand {
             }
         }
 
-        final int mb = 1024 * 1024;
+        int mb = 1024 * 1024;
 
-        final Runtime runtime = Runtime.getRuntime();
+        Runtime runtime = Runtime.getRuntime();
 
         message.getCommandSender().sendRawMessage("Used Memory: " + (runtime.totalMemory() - runtime.freeMemory()) / mb + " MB");
         message.getCommandSender().sendRawMessage("Free Memory: " + runtime.freeMemory() / mb + " MB");

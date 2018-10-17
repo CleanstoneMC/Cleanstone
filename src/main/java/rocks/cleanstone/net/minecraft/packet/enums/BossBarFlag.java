@@ -14,10 +14,10 @@ public enum BossBarFlag {
     }
 
     public static BossBarFlag[] fromBitMask(int bitmask) {
-        final List<BossBarFlag> bossBarFlagList = new ArrayList<>();
+        List<BossBarFlag> bossBarFlagList = new ArrayList<>();
 
-        for (final BossBarFlag bossBarFlag : BossBarFlag.values()) {
-            final int bit = bossBarFlag.getBit();
+        for (BossBarFlag bossBarFlag : BossBarFlag.values()) {
+            int bit = bossBarFlag.getBit();
             if ((bitmask & bit) == bit) {
                 bossBarFlagList.add(bossBarFlag);
             }

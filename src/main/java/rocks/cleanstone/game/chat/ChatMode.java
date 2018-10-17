@@ -13,7 +13,7 @@ public enum ChatMode {
 
     @SuppressWarnings("Duplicates")
     public static ChatMode fromModeID(int modeID) {
-        for (final ChatMode chatMode : ChatMode.values()) {
+        for (ChatMode chatMode : ChatMode.values()) {
             if (chatMode.getModeID() == modeID) {
                 return chatMode;
             }

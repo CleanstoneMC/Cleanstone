@@ -12,10 +12,10 @@ public class CommandMessageFactory {
 
     public static CommandMessage construct(CommandSender commandSender, String message,
                                            CommandRegistry commandRegistry) {
-        final String messageWithoutSlash = getMessageWithoutSlash(message);
+        String messageWithoutSlash = getMessageWithoutSlash(message);
 
-        final List<String> parameters = new ArrayList<>(Arrays.asList(messageWithoutSlash.split(" ")));
-        final String commandName = parameters.remove(0).toLowerCase(Locale.ENGLISH);
+        List<String> parameters = new ArrayList<>(Arrays.asList(messageWithoutSlash.split(" ")));
+        String commandName = parameters.remove(0).toLowerCase(Locale.ENGLISH);
 
         return new SimpleCommandMessage(commandSender, message, commandName, parameters, commandRegistry);
     }

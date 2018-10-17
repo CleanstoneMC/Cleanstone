@@ -32,7 +32,7 @@ public class PluginChannelRegistry {
     }
 
     private <T extends PluginChannel.PluginMessage> boolean messageTypeMatches(T pluginMessage, PluginChannel<?> pluginChannel) {
-        final Class<?> messageClass = GenericTypeResolver.resolveTypeArgument(pluginChannel.getClass(), PluginChannel.class);
+        Class<?> messageClass = GenericTypeResolver.resolveTypeArgument(pluginChannel.getClass(), PluginChannel.class);
 
         return pluginMessage.getClass().equals(messageClass);
     }

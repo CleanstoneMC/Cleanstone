@@ -23,8 +23,8 @@ class ModernBlockStateMappingTest {
     @Test
     void serializationShouldBeOneToOne() {
         materialRegistry.getBlockTypes().forEach(blockType -> {
-            final BlockState state = BlockState.of(blockType);
-            final BlockState deserialized = blockStateMapping.getState(blockStateMapping.getID(state));
+            BlockState state = BlockState.of(blockType);
+            BlockState deserialized = blockStateMapping.getState(blockStateMapping.getID(state));
             assertEquals(state, deserialized);
         });
     }

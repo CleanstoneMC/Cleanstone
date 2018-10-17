@@ -6,10 +6,9 @@ import rocks.cleanstone.net.packet.PacketType;
 
 public class EncryptionRequestPacket implements Packet {
 
-    private final String serverID;
+    private String serverID;
 
-    private final byte[] publicKey;
-    private final byte[] verifyToken;
+    private byte[] publicKey, verifyToken;
 
     public EncryptionRequestPacket(String serverID, byte[] publicKey, byte[] verifyToken) {
         this.serverID = serverID;

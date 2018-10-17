@@ -26,26 +26,26 @@ public class SummonCommand extends SimpleCommand {
 
     @Override
     public void execute(CommandMessage message) {
-        final Player player = message.requireTargetPlayer();
+        Player player = message.requireTargetPlayer();
 
-        final MobType mobType = message.requireParameter(MobType.class);
-        final double x = message.optionalParameter(Double.class)
+        MobType mobType = message.requireParameter(MobType.class);
+        double x = message.optionalParameter(Double.class)
                 .orElseGet(() -> player.getEntity().getPosition().getX());
-        final double y = message.optionalParameter(Double.class)
+        double y = message.optionalParameter(Double.class)
                 .orElseGet(() -> player.getEntity().getPosition().getY());
-        final double z = message.optionalParameter(Double.class)
+        double z = message.optionalParameter(Double.class)
                 .orElseGet(() -> player.getEntity().getPosition().getZ());
-        final float yaw = message.optionalParameter(Float.class)
+        float yaw = message.optionalParameter(Float.class)
                 .orElse(0.0f);
-        final float pitch = message.optionalParameter(Float.class)
+        float pitch = message.optionalParameter(Float.class)
                 .orElse(0.0f);
-        final float headPitch = message.optionalParameter(Float.class)
+        float headPitch = message.optionalParameter(Float.class)
                 .orElse(0.0f);
-        final short velocityX = (short) (int) message.optionalParameter(Integer.class)
+        short velocityX = (short) (int) message.optionalParameter(Integer.class)
                 .orElse(0);
-        final short velocityY = (short) (int) message.optionalParameter(Integer.class)
+        short velocityY = (short) (int) message.optionalParameter(Integer.class)
                 .orElse(0);
-        final short velocityZ = (short) (int) message.optionalParameter(Integer.class)
+        short velocityZ = (short) (int) message.optionalParameter(Integer.class)
                 .orElse(0);
 
         playerManager.broadcastPacket(

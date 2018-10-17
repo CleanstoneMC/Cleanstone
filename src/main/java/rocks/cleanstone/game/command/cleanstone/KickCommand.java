@@ -16,7 +16,7 @@ public class KickCommand extends SimpleCommand {
 
     @Override
     public void execute(CommandMessage message) {
-        final MessageRecipient sender = message.getCommandSender();
+        MessageRecipient sender = message.getCommandSender();
         if (sender instanceof Player) {
             if (!((Player) sender).isOp()) {
                 sender.sendRawMessage("No permission");
@@ -24,8 +24,8 @@ public class KickCommand extends SimpleCommand {
             }
         }
 
-        final Player target = message.requireParameter(Player.class);
-        final Text reason = message.optionalTextMessage().orElse(
+        Player target = message.requireParameter(Player.class);
+        Text reason = message.optionalTextMessage().orElse(
                 Text.ofLocalized("game.command.cleanstone.default-kick-reason", target.getLocale()));
         target.kick(reason);
         sender.sendMessage("game.command.cleanstone.kicked-player", target.getName(), reason);

@@ -1,7 +1,5 @@
 package rocks.cleanstone.game;
 
-import java.util.concurrent.ExecutionException;
-import javax.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
@@ -11,6 +9,9 @@ import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
+
+import javax.annotation.Nonnull;
+import java.util.concurrent.ExecutionException;
 
 @Lazy
 @Slf4j
@@ -44,7 +45,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
 
     private void loadWorld(WorldConfig worldConfig) {
         try {
-            final World world = this.worldManager.loadWorld(worldConfig).get();
+            World world = this.worldManager.loadWorld(worldConfig).get();
 
             if (worldConfig.isFirstSpawnWorld()) {
                 firstSpawnWorld = world;

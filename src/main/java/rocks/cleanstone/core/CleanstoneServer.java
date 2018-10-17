@@ -1,8 +1,5 @@
 package rocks.cleanstone.core;
 
-import java.util.Locale;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
@@ -16,6 +13,10 @@ import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
 import rocks.cleanstone.core.event.EventExecutionException;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.Locale;
 
 @Slf4j
 public abstract class CleanstoneServer implements ApplicationRunner {
@@ -52,9 +53,9 @@ public abstract class CleanstoneServer implements ApplicationRunner {
     }
 
     public static String getMessageOfLocale(String id, Locale locale, Object... args) {
-        final MessageSource source = getInstance().getMessageSource();
-        final String defaultMessage = locale == DEFAULT_LOCALE ? null : source.getMessage(id, args, DEFAULT_LOCALE);
-        final String message = source.getMessage(id, args, defaultMessage, locale);
+        MessageSource source = getInstance().getMessageSource();
+        String defaultMessage = locale == DEFAULT_LOCALE ? null : source.getMessage(id, args, DEFAULT_LOCALE);
+        String message = source.getMessage(id, args, defaultMessage, locale);
         return message != null ? message : "Error: Cannot find message with id " + id;
     }
 

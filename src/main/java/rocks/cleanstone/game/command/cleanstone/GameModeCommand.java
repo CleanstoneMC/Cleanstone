@@ -20,9 +20,9 @@ public class GameModeCommand extends SimpleCommand {
 
     @Override
     public void execute(CommandMessage message) {
-        final GameMode gameMode = message.requireParameter(VanillaGameMode.class);
-        final Player target = message.requireTargetPlayer();
-        final boolean gameModeChanged = target.getGameMode() != gameMode;
+        GameMode gameMode = message.requireParameter(VanillaGameMode.class);
+        Player target = message.requireTargetPlayer();
+        boolean gameModeChanged = target.getGameMode() != gameMode;
 
         if (gameModeChanged) {
             target.setGameMode(gameMode);

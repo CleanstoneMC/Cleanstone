@@ -14,7 +14,7 @@ public enum Direction {
 
     @SuppressWarnings("Duplicates")
     public static Direction fromDirectionID(int directionID) {
-        for (final Direction direction : Direction.values()) {
+        for (Direction direction : Direction.values()) {
             if (direction.getDirectionID() == directionID) {
                 return direction;
             }

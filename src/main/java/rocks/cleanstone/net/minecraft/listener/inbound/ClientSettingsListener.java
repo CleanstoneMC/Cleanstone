@@ -22,10 +22,10 @@ public class ClientSettingsListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPacket(PlayerInboundPacketEvent<ClientSettingsPacket> playerInboundPacketEvent) {
-        final Player player = playerInboundPacketEvent.getPlayer();
-        final ClientSettingsPacket packet = playerInboundPacketEvent.getPacket();
+        Player player = playerInboundPacketEvent.getPlayer();
+        ClientSettingsPacket packet = playerInboundPacketEvent.getPacket();
 
-        final int viewDistance = Math.min(packet.getViewDistance(), minecraftConfig.getMaxViewDistance());
+        int viewDistance = Math.min(packet.getViewDistance(), minecraftConfig.getMaxViewDistance());
         player.setViewDistance(viewDistance);
 
         player.setDisplayedSkinParts(packet.getDisplayedSkinParts());

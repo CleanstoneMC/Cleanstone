@@ -21,7 +21,7 @@ public enum MinecraftClientProtocolLayer implements ClientProtocolLayer {
 
     @Nullable
     public static MinecraftClientProtocolLayer byVersionNumber(int versionNumber) {
-        for (final MinecraftClientProtocolLayer layer : values()) {
+        for (MinecraftClientProtocolLayer layer : values()) {
             if (layer.getOrderedVersionNumber() == versionNumber) return layer;
         }
         return null;

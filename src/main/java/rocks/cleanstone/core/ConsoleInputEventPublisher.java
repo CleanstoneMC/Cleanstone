@@ -1,11 +1,12 @@
 package rocks.cleanstone.core;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.Lifecycle;
 import org.springframework.stereotype.Component;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @Slf4j
 @Component
@@ -16,12 +17,12 @@ public class ConsoleInputEventPublisher implements Lifecycle {
     public void start() {
         running = true;
 
-        final BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
-        final Thread inputReaderThread = new Thread(() -> {
+        Thread inputReaderThread = new Thread(() -> {
             try {
                 while (!Thread.interrupted()) {
-                    final String input = inputReader.readLine();
+                    String input = inputReader.readLine();
                     if (input == null) {
                         throw new IOException("Console input reached EOS");
                     }

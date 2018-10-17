@@ -187,11 +187,11 @@ public class ByteBufUtils {
     }
 
     public static Vector readVector(ByteBuf byteBuf) {
-        final long val = byteBuf.readLong();
+        long val = byteBuf.readLong();
 
-        final long x = val >> 38;
-        final long y = (val >> 26) & 0xFFF;
-        final long z = val << 38 >> 38;
+        long x = val >> 38;
+        long y = (val >> 26) & 0xFFF;
+        long z = val << 38 >> 38;
 
         return new Vector(x, y, z);
     }

@@ -15,7 +15,7 @@ public enum BossBarDivision {
 
     @SuppressWarnings("Duplicates")
     public static BossBarDivision fromDivisionID(int divisionID) {
-        for (final BossBarDivision bossBarDivision : BossBarDivision.values()) {
+        for (BossBarDivision bossBarDivision : BossBarDivision.values()) {
             if (bossBarDivision.getDivisionID() == divisionID) {
                 return bossBarDivision;
             }

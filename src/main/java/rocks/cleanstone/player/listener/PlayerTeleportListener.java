@@ -1,7 +1,5 @@
 package rocks.cleanstone.player.listener;
 
-import java.util.Collections;
-import java.util.concurrent.ThreadLocalRandom;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -17,6 +15,9 @@ import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.PlayerTeleportEvent;
 
+import java.util.Collections;
+import java.util.concurrent.ThreadLocalRandom;
+
 @Slf4j
 @Component
 public class PlayerTeleportListener {
@@ -30,10 +31,10 @@ public class PlayerTeleportListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPlayerTeleport(PlayerTeleportEvent playerTeleportEvent) {
-        final Player player = playerTeleportEvent.getPlayer();
-        final Human oldHuman = player.getEntity();
-        final World world = oldHuman.getWorld();
-        final Human newHuman = new SimpleHuman(world, playerTeleportEvent.getNewPosition());
+        Player player = playerTeleportEvent.getPlayer();
+        Human oldHuman = player.getEntity();
+        World world = oldHuman.getWorld();
+        Human newHuman = new SimpleHuman(world, playerTeleportEvent.getNewPosition());
 
         // TODO consider thread-safety with getting/changing player entities
         log.debug("{} now has entity id {}", player.getName(), newHuman.getEntityID());
@@ -41,15 +42,15 @@ public class PlayerTeleportListener {
         world.getEntityRegistry().removeEntity(oldHuman);
         world.getEntityRegistry().addEntity(newHuman);
 
-        final DestroyEntitiesPacket destroyEntitiesPacket = new DestroyEntitiesPacket(
+        DestroyEntitiesPacket destroyEntitiesPacket = new DestroyEntitiesPacket(
                 Collections.singletonList(oldHuman.getEntityID()));
         playerManager.broadcastPacket(destroyEntitiesPacket);
 
-        final OutPlayerPositionAndLookPacket playerPositionAndLookPacket = new OutPlayerPositionAndLookPacket(playerTeleportEvent.getNewPosition(), 0,
+        OutPlayerPositionAndLookPacket playerPositionAndLookPacket = new OutPlayerPositionAndLookPacket(playerTeleportEvent.getNewPosition(), 0,
                 ThreadLocalRandom.current().nextInt());
         player.sendPacket(playerPositionAndLookPacket);
 
-        final SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(newHuman.getEntityID(),
+        SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(newHuman.getEntityID(),
                 player.getID().getUUID(), playerTeleportEvent.getNewPosition(), null); //TODO: Add Metadata
 
         playerManager.broadcastPacket(spawnPlayerPacket, player);

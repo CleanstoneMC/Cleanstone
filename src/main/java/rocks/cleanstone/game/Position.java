@@ -78,9 +78,9 @@ public class Position implements Serializable {
     }
 
     public double getDistance(Position position) {
-        final double xP = Math.pow((this.getX() - position.getX()), 2);
-        final double yP = Math.pow((this.getY() - position.getY()), 2);
-        final double zP = Math.pow((this.getZ() - position.getZ()), 2);
+        double xP = Math.pow((this.getX() - position.getX()), 2);
+        double yP = Math.pow((this.getY() - position.getY()), 2);
+        double zP = Math.pow((this.getZ() - position.getZ()), 2);
 
         return Math.sqrt(xP + yP + zP);
     }
@@ -99,7 +99,7 @@ public class Position implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Position)) return false;
-        final Position position = (Position) o;
+        Position position = (Position) o;
         return equalCoordinates(position);
     }
 

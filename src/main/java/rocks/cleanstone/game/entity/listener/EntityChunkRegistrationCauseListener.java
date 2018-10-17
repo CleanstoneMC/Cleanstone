@@ -17,9 +17,9 @@ public class EntityChunkRegistrationCauseListener {
     @Async
     @EventListener
     public void onEntityMove(EntityMoveEvent e) throws Exception {
-        final Entity entity = e.getEntity();
-        final Chunk oldChunk = entity.getWorld().getChunkAt(e.getOldPosition()).get();
-        final Chunk newChunk = entity.getWorld().getChunkAt(e.getNewPosition()).get();
+        Entity entity = e.getEntity();
+        Chunk oldChunk = entity.getWorld().getChunkAt(e.getOldPosition()).get();
+        Chunk newChunk = entity.getWorld().getChunkAt(e.getNewPosition()).get();
         Preconditions.checkNotNull(oldChunk);
         Preconditions.checkNotNull(newChunk);
         if (oldChunk != newChunk) {
@@ -30,7 +30,7 @@ public class EntityChunkRegistrationCauseListener {
 
     @EventListener
     public void onEntityAdd(EntityAddEvent e) {
-        final Entity entity = e.getEntity();
+        Entity entity = e.getEntity();
         entity.getWorld().getChunkAt(entity.getPosition()).addCallback(chunk -> {
             Preconditions.checkNotNull(chunk);
             chunk.getEntities().add(entity);
@@ -39,7 +39,7 @@ public class EntityChunkRegistrationCauseListener {
 
     @EventListener
     public void onEntityRemove(EntityRemoveEvent e) {
-        final Entity entity = e.getEntity();
+        Entity entity = e.getEntity();
         entity.getWorld().getChunkAt(entity.getPosition()).addCallback(chunk -> {
             Preconditions.checkNotNull(chunk);
             chunk.getEntities().remove(entity);

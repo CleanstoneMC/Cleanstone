@@ -12,7 +12,7 @@ public enum AdvancementTabStatus {
 
     @SuppressWarnings("Duplicates")
     public static AdvancementTabStatus fromStatusID(int statusID) {
-        for (final AdvancementTabStatus advancementTabStatus : AdvancementTabStatus.values()) {
+        for (AdvancementTabStatus advancementTabStatus : AdvancementTabStatus.values()) {
             if (advancementTabStatus.getStatusID() == statusID)
                 return advancementTabStatus;
         }

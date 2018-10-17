@@ -39,9 +39,9 @@ public class QuadraticRegionManager implements RegionManager {
 
     @Override
     public ListenableFuture<Region> loadRegion(ChunkCoords chunkCoords) {
-        final Pair<Integer, Integer> regionCoords = getRegionCoordinates(chunkCoords);
+        Pair<Integer, Integer> regionCoords = getRegionCoordinates(chunkCoords);
 
-        final Region region = new SimpleRegion("QuR[" + regionCoords.getLeft() + ":" + regionCoords.getRight() + "]",
+        Region region = new SimpleRegion("QuR[" + regionCoords.getLeft() + ":" + regionCoords.getRight() + "]",
                 new LocalRegionWorker(), chunkProvider);
         regions.put(regionCoords, region);
         return new AsyncResult<>(region);
@@ -49,7 +49,7 @@ public class QuadraticRegionManager implements RegionManager {
 
     @Override
     public ListenableFuture<Region> getRegion(ChunkCoords chunkCoords) {
-        final Pair<Integer, Integer> regionCoords = getRegionCoordinates(chunkCoords);
+        Pair<Integer, Integer> regionCoords = getRegionCoordinates(chunkCoords);
         if (regions.containsKey(regionCoords)) {
             return new AsyncResult<>(regions.get(regionCoords));
         }
@@ -63,8 +63,8 @@ public class QuadraticRegionManager implements RegionManager {
     }
 
     private Pair<Integer, Integer> getRegionCoordinates(ChunkCoords coords) {
-        final int x = coords.getX() >> 4;
-        final int z = coords.getZ() >> 4;
+        int x = coords.getX() >> 4;
+        int z = coords.getZ() >> 4;
         return Pair.of(x, z);
     }
 

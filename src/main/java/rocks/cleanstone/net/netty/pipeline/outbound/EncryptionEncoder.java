@@ -6,29 +6,30 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.util.AttributeKey;
-import java.nio.ByteBuffer;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import rocks.cleanstone.net.Connection;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.IvParameterSpec;
-import lombok.extern.slf4j.Slf4j;
-import rocks.cleanstone.net.Connection;
+import java.nio.ByteBuffer;
+import java.util.List;
 
 @Slf4j
 public class EncryptionEncoder extends MessageToMessageEncoder<ByteBuf> {
     private Cipher cipher;
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
-        final Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
+    protected void encode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+        Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
         try {
-            final SecretKey sharedSecret = connection.getSharedSecret();
+            SecretKey sharedSecret = connection.getSharedSecret();
             if (cipher == null) {
                 cipher = Cipher.getInstance("AES/CFB8/NoPadding");
                 cipher.init(Cipher.ENCRYPT_MODE, sharedSecret, new IvParameterSpec(sharedSecret.getEncoded()));
             }
-            final ByteBuffer outNioBuf = ByteBuffer.allocate(in.readableBytes());
+            ByteBuffer outNioBuf = ByteBuffer.allocate(in.readableBytes());
             try {
                 cipher.update(in.nioBuffer(), outNioBuf);
             } catch (ShortBufferException e) {

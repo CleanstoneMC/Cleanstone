@@ -34,8 +34,8 @@ public class ChunkCoords {
     }
 
     public int distance(ChunkCoords other) {
-        final double xP = Math.pow((getX() - other.getX()), 2);
-        final double zP = Math.pow((getZ() - other.getZ()), 2);
+        double xP = Math.pow((getX() - other.getX()), 2);
+        double zP = Math.pow((getZ() - other.getZ()), 2);
         return (int) Math.ceil(Math.sqrt(xP + zP));
     }
 
@@ -43,7 +43,7 @@ public class ChunkCoords {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final ChunkCoords that = (ChunkCoords) o;
+        ChunkCoords that = (ChunkCoords) o;
         return x == that.x && z == that.z;
     }
 

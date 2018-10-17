@@ -14,7 +14,7 @@ public enum ResourcePackStatus {
 
     @SuppressWarnings("Duplicates")
     public static ResourcePackStatus fromStatusID(int statusID) {
-        for (final ResourcePackStatus resourcePackStatus : ResourcePackStatus.values()) {
+        for (ResourcePackStatus resourcePackStatus : ResourcePackStatus.values()) {
             if (resourcePackStatus.getStatus() == statusID) {
                 return resourcePackStatus;
             }

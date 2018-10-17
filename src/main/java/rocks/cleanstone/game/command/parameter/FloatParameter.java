@@ -11,7 +11,7 @@ public class FloatParameter implements CommandParameter<Float> {
     @Override
     public Float get(CompletionContext<Float> context) {
         try {
-            final float number = Float.parseFloat(context.getInput());
+            float number = Float.parseFloat(context.getInput());
             if (!Float.isFinite(number) || Math.abs(number) >= 3.2e7) return null;
             return number;
         } catch (NumberFormatException e) {

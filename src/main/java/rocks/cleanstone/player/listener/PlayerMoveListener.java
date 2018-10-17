@@ -28,28 +28,28 @@ public class PlayerMoveListener {
     @Order(EventAction.PREVENT)
     @EventListener
     public void playerMoveCancellation(PlayerMoveEvent playerMoveEvent) {
-        final HeadRotatablePosition oldPosition = playerMoveEvent.getOldPosition();
-        final HeadRotatablePosition newPosition = playerMoveEvent.getNewPosition();
+        HeadRotatablePosition oldPosition = playerMoveEvent.getOldPosition();
+        HeadRotatablePosition newPosition = playerMoveEvent.getNewPosition();
 
         if (oldPosition.equalCoordinates(newPosition)) {
             return;
         }
 
-        final double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
-        final double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
-        final double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
+        double deltaX = (newPosition.getX() * 32 - oldPosition.getX() * 32) * 128;
+        double deltaY = (newPosition.getY() * 32 - oldPosition.getY() * 32) * 128;
+        double deltaZ = (newPosition.getZ() * 32 - oldPosition.getZ() * 32) * 128;
 
         if (isTeleport(deltaX, deltaY, deltaZ)) {
             return;
         }
 
-        final Player movingPlayer = playerMoveEvent.getPlayer();
-        final int entityID = movingPlayer.getEntity().getEntityID();
-        final float yaw = newPosition.getRotation().getYaw();
-        final float pitch = newPosition.getRotation().getPitch();
+        Player movingPlayer = playerMoveEvent.getPlayer();
+        int entityID = movingPlayer.getEntity().getEntityID();
+        float yaw = newPosition.getRotation().getYaw();
+        float pitch = newPosition.getRotation().getPitch();
 
-        final int chunkX = newPosition.getXAsInt() >> 4;
-        final int chunkZ = newPosition.getZAsInt() >> 4;
+        int chunkX = newPosition.getXAsInt() >> 4;
+        int chunkZ = newPosition.getZAsInt() >> 4;
 
         if (!playerChunkLoadService.hasPlayerLoaded(movingPlayer.getID().getUUID(), ChunkCoords.of(chunkX, chunkZ))) {
             playerMoveEvent.cancel();

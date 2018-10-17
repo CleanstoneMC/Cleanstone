@@ -23,7 +23,7 @@ public class MainServerConfig {
 
     @Bean
     public MessageSource messageSource() {
-        final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("lang/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
@@ -31,14 +31,14 @@ public class MainServerConfig {
 
     @Bean
     public ThreadPoolTaskScheduler taskScheduler() {
-        final ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
         threadPoolTaskScheduler.setPoolSize(10);
         return threadPoolTaskScheduler;
     }
 
     @Bean
     public TaskExecutor taskExecutor() {
-        final ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "taskExecutor");
+        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "taskExecutor");
         taskExecutor.initialize();
 
         return taskExecutor;
@@ -46,7 +46,7 @@ public class MainServerConfig {
 
     @Bean
     public TaskExecutor playerExec() {
-        final ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "playerExec");
+        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "playerExec");
         taskExecutor.initialize();
 
         return taskExecutor;
@@ -54,7 +54,7 @@ public class MainServerConfig {
 
     @Bean
     public TaskExecutor mcLoginExec() {
-        final ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "mcLoginExec");
+        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "mcLoginExec");
         taskExecutor.initialize();
 
         return taskExecutor;
@@ -62,7 +62,7 @@ public class MainServerConfig {
 
     @Bean
     public TaskExecutor chatExec() {
-        final ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "chatExec");
+        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "chatExec");
         taskExecutor.initialize();
 
         return taskExecutor;
@@ -70,7 +70,7 @@ public class MainServerConfig {
 
     @Bean
     public TaskExecutor commandExec() {
-        final ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "commandExec");
+        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(10, "commandExec");
         taskExecutor.initialize();
 
         return taskExecutor;
@@ -78,7 +78,7 @@ public class MainServerConfig {
 
     @Bean
     public TaskExecutor worldExec() {
-        final ThreadPoolTaskExecutor executor = createTaskExecutor(5000, "worldExec");
+        ThreadPoolTaskExecutor executor = createTaskExecutor(5000, "worldExec");
         executor.setCorePoolSize(10);
         executor.setMaxPoolSize(128);
         executor.setQueueCapacity(50);
@@ -89,7 +89,7 @@ public class MainServerConfig {
     }
 
     private ThreadPoolTaskExecutor createTaskExecutor(int maxSize, String name) {
-        final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setMaxPoolSize(maxSize);
         executor.setThreadNamePrefix(name);
 

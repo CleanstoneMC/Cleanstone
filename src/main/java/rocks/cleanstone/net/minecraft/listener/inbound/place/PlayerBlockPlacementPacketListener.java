@@ -1,11 +1,5 @@
 package rocks.cleanstone.net.minecraft.listener.inbound.place;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -27,6 +21,8 @@ import rocks.cleanstone.net.minecraft.packet.inbound.PlayerBlockPlacementPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
+
+import java.util.*;
 
 @Slf4j
 @Component
@@ -55,13 +51,13 @@ public class PlayerBlockPlacementPacketListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPacket(PlayerInboundPacketEvent<PlayerBlockPlacementPacket> playerInboundPacketEvent) {
-        final PlayerBlockPlacementPacket packet = playerInboundPacketEvent.getPacket();
+        PlayerBlockPlacementPacket packet = playerInboundPacketEvent.getPacket();
 
-        final Position newBlockPosition = new Position(packet.getPosition().toVector()
+        Position newBlockPosition = new Position(packet.getPosition().toVector()
                 .addVector(packet.getFace().toUnitVector()));
 
-        final Player player = playerInboundPacketEvent.getPlayer();
-        final ItemStack itemStack = player.getEntity().getItemByHand(packet.getHand());
+        Player player = playerInboundPacketEvent.getPlayer();
+        ItemStack itemStack = player.getEntity().getItemByHand(packet.getHand());
 
         if (itemStack == null) {
             return;
@@ -69,7 +65,7 @@ public class PlayerBlockPlacementPacketListener {
 
         BlockType blockType = materialRegistry.getBlockTypeByItemType(itemStack.getType());
         if (blockType != null) {
-            final PropertiesBuilder properties = new PropertiesBuilder(blockType);
+            PropertiesBuilder properties = new PropertiesBuilder(blockType);
 
             if (blockType == VanillaBlockType.REDSTONE_TORCH && !(packet.getFace().getOffset().endsWith("Y"))) {
                 blockType = VanillaBlockType.REDSTONE_WALL_TORCH;
@@ -77,19 +73,19 @@ public class PlayerBlockPlacementPacketListener {
                 blockType = VanillaBlockType.WALL_TORCH;
             }
 
-            final BlockType finalBlockType = blockType;
+            BlockType finalBlockType = blockType;
             Arrays.stream(blockType.getProperties())
                     .flatMap(prop -> propProviders.getOrDefault(prop.getProperty(), Collections.emptyList()).stream())
                     .forEach(provider -> applyProperty(finalBlockType, player, packet, properties, provider));
 
-            final Block placedBlock = ImmutableBlock.of(blockType, properties.create());
+            Block placedBlock = ImmutableBlock.of(blockType, properties.create());
             log.debug("{} places {} at {}", player.getName(), placedBlock, newBlockPosition);
 
             player.getEntity().getWorld().setBlockAt(newBlockPosition, placedBlock);
             CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, packet.getFace()));
 
             //TODO: Move this to a BlockPlaceEvent Listener?
-            final BlockChangePacket blockChangePacket = new BlockChangePacket(newBlockPosition, placedBlock.getState());
+            BlockChangePacket blockChangePacket = new BlockChangePacket(newBlockPosition, placedBlock.getState());
             playerManager.broadcastPacket(blockChangePacket);
         }
     }
@@ -99,7 +95,7 @@ public class PlayerBlockPlacementPacketListener {
 //    }
 
     private <T> void applyProperty(BlockType finalBlockType, Player player, PlayerBlockPlacementPacket packet, PropertiesBuilder properties, BlockPlacePropertyProvider<T> provider) {
-        final T value = provider.computeProperty(finalBlockType, player, packet);
+        T value = provider.computeProperty(finalBlockType, player, packet);
         properties.withProperty(provider.getSupported(), value);
     }
 

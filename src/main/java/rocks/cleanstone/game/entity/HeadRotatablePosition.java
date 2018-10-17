@@ -44,7 +44,7 @@ public class HeadRotatablePosition extends RotatablePosition implements Serializ
         if (this == o) return true;
         if (!(o instanceof HeadRotatablePosition)) return false;
         if (!super.equals(o)) return false;
-        final HeadRotatablePosition that = (HeadRotatablePosition) o;
+        HeadRotatablePosition that = (HeadRotatablePosition) o;
         return Objects.equal(headRotation, that.headRotation);
     }
 

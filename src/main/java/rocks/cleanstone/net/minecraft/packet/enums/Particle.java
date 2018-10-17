@@ -59,7 +59,7 @@ public enum Particle {
 
     @SuppressWarnings("Duplicates")
     public static Particle fromParticleID(int particleID) {
-        for (final Particle particle : Particle.values()) {
+        for (Particle particle : Particle.values()) {
             if (particle.getParticleID() == particleID) {
                 return particle;
             }

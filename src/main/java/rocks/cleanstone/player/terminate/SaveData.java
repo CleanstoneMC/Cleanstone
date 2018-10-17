@@ -1,6 +1,5 @@
 package rocks.cleanstone.player.terminate;
 
-import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -13,6 +12,8 @@ import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.data.standard.EntityData;
 import rocks.cleanstone.player.data.standard.StandardPlayerDataType;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
+
+import java.io.IOException;
 
 @Slf4j
 @Component
@@ -32,11 +33,11 @@ public class SaveData {
     @Order(value = 50)
     @EventListener
     public void onTerminate(AsyncPlayerTerminationEvent e) {
-        final Player player = e.getPlayer();
+        Player player = e.getPlayer();
         if (player.getEntity() == null) {
             return;
         }
-        final EntityData entityData = new EntityData(player.getEntity().getPosition(),
+        EntityData entityData = new EntityData(player.getEntity().getPosition(),
                 player.getEntity().getWorld().getID(), player.getGameMode(), player.isFlying());
         try {
             playerManager.getPlayerDataSource().setPlayerData(player, StandardPlayerDataType.ENTITY_DATA,

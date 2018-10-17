@@ -137,7 +137,7 @@ public class Text {
     @Override
     public String toString() {
 
-        final JsonObject jsonObject = new JsonObject();
+        JsonObject jsonObject = new JsonObject();
 
         jsonObject.addProperty("text", getPlainText());
         jsonObject.addProperty("bold", isBold());
@@ -150,7 +150,7 @@ public class Text {
             jsonObject.addProperty("color", reset ? "reset" : getColor().getID());
         }
 
-        final String extraString = getExtraString();
+        String extraString = getExtraString();
 
         if (extraString != null) {
             jsonObject.addProperty("extra", extraString);
@@ -165,9 +165,9 @@ public class Text {
             return null;
         }
 
-        final StringBuilder stringBuilder = new StringBuilder("[");
-        for (final Iterator<Text> iterator = siblings.iterator(); iterator.hasNext(); ) {
-            final Text sibling = iterator.next();
+        StringBuilder stringBuilder = new StringBuilder("[");
+        for (Iterator<Text> iterator = siblings.iterator(); iterator.hasNext(); ) {
+            Text sibling = iterator.next();
 
             stringBuilder.append(sibling.toString());
             if (iterator.hasNext()) {

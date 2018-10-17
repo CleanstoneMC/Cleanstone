@@ -49,7 +49,7 @@ public class SingleRegionManager implements RegionManager {
     @Async(value = "worldExec")
     @Override
     public ListenableFuture<Region> getRegion(ChunkCoords coords) {
-        final Region region = getLoadedRegion(coords);
+        Region region = getLoadedRegion(coords);
         if (region != null) {
             return new AsyncResult<>(region);
         }

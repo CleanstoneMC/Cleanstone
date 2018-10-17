@@ -17,7 +17,7 @@ public enum BossBarColor {
 
     @SuppressWarnings("Duplicates")
     public static BossBarColor fromColorID(int colorID) {
-        for (final BossBarColor bossBarColor : BossBarColor.values()) {
+        for (BossBarColor bossBarColor : BossBarColor.values()) {
             if (bossBarColor.getColorID() == colorID) {
                 return bossBarColor;
             }

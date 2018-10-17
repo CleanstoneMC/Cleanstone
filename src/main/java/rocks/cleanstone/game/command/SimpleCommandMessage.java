@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SimpleCommandMessage implements CommandMessage {
 
@@ -62,11 +63,11 @@ public class SimpleCommandMessage implements CommandMessage {
 
     @Override
     public <T> T requireParameter(Class<T> parameterClass) {
-        final String nextParameter = getNextParameter();
+        String nextParameter = getNextParameter();
         if (nextParameter == null) {
             throw new NotEnoughParametersException(parameters.size(), parameters.size() + 1);
         }
-        final T result = getParameter(parameterClass);
+        T result = getParameter(parameterClass);
         if (result == null) {
             throw new InvalidParameterException(nextParameter, parameterClass, parameterIndex);
         }
@@ -76,11 +77,11 @@ public class SimpleCommandMessage implements CommandMessage {
 
     @Override
     public <T> Optional<T> optionalParameter(Class<T> parameterClass) {
-        final String nextParameter = getNextParameter();
+        String nextParameter = getNextParameter();
         if (nextParameter == null) {
             return Optional.empty();
         }
-        final T result = getParameter(parameterClass);
+        T result = getParameter(parameterClass);
         if (result == null) {
             return Optional.empty();
         }
@@ -90,7 +91,7 @@ public class SimpleCommandMessage implements CommandMessage {
 
     @Override
     public <T> Collection<T> requireVarargParameter(Class<T> parameterClass, boolean allowEmpty) {
-        final Collection<T> collection = new ArrayList<>();
+        Collection<T> collection = new ArrayList<>();
         while (nextParameterIs(parameterClass)) {
             collection.add(requireParameter(parameterClass));
         }
@@ -126,7 +127,8 @@ public class SimpleCommandMessage implements CommandMessage {
 
     @Override
     public Optional<String> optionalStringMessage() {
-        final String message = String.join(" ", requireVarargParameter(String.class, true));
+        String message = requireVarargParameter(String.class, true).stream()
+                .collect(Collectors.joining(" "));
         return message.equals("") ? Optional.empty() : Optional.of(message);
     }
 
@@ -148,11 +150,11 @@ public class SimpleCommandMessage implements CommandMessage {
         if (getNextParameter() == null) {
             return null;
         }
-        final CommandParameter<T> commandParameter = commandRegistry.getCommandParameter(parameterClass);
+        CommandParameter<T> commandParameter = commandRegistry.getCommandParameter(parameterClass);
         Preconditions.checkNotNull(commandParameter,
                 "Cannot resolve specified parameter class '" + parameterClass.getSimpleName()
                         + "'; you need to register it in the CommandRegistry first");
-        final CompletionContext<T> context = new SimpleCompletionContext<>(getNextParameter(), parameterClass);
+        CompletionContext<T> context = new SimpleCompletionContext<>(getNextParameter(), parameterClass);
         return commandParameter.get(context);
     }
 }

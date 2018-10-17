@@ -36,9 +36,9 @@ class PaletteBlockStateStorageTest {
         blockStateMapping = new ProtocolBlockStateMapping();
         materialRegistry = new SimpleMaterialRegistry();
 
-        final BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
+        BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
         for (int i = 0; i < 40; i++) {
-            final Block randomBlock = ImmutableBlock.of(
+            Block randomBlock = ImmutableBlock.of(
                     new ArrayList<>(materialRegistry.getBlockTypes())
                             .get(random.nextInt(materialRegistry.getBlockTypes().size())));
             blockDataTable.setBlock(random.nextInt(16), random.nextInt(256), random.nextInt(16), randomBlock);
@@ -49,9 +49,9 @@ class PaletteBlockStateStorageTest {
 
     @Test
     void testSerialization() {
-        final ByteBuf buf = Unpooled.buffer();
+        ByteBuf buf = Unpooled.buffer();
         storage.write(buf);
-        final PaletteBlockStateStorage deserialized;
+        PaletteBlockStateStorage deserialized;
         try {
             deserialized = new PaletteBlockStateStorage(buf, new DirectPalette(blockStateMapping, 14), true);
         } catch (IOException e) {

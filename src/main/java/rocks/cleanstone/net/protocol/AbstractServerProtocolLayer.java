@@ -24,14 +24,12 @@ public abstract class AbstractServerProtocolLayer implements ServerProtocolLayer
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Packet> InboundPacketCodec<T> getInboundPacketCodec(Class<T> packetClass) {
-        //noinspection unchecked
         return (InboundPacketCodec<T>) inboundPacketClassCodecMap.get(packetClass);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Packet> OutboundPacketCodec<T> getOutboundPacketCodec(Class<T> packetClass) {
-        //noinspection unchecked
         return (OutboundPacketCodec<T>) outboundPacketClassCodecMap.get(packetClass);
     }
 

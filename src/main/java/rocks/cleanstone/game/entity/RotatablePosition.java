@@ -34,7 +34,7 @@ public class RotatablePosition extends Position implements Serializable {
         if (this == o) return true;
         if (!(o instanceof RotatablePosition)) return false;
         if (!super.equals(o)) return false;
-        final RotatablePosition that = (RotatablePosition) o;
+        RotatablePosition that = (RotatablePosition) o;
         return Objects.equal(rotation, that.rotation);
     }
 

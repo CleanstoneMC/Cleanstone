@@ -7,8 +7,6 @@ import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import java.net.InetAddress;
-import javax.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.SmartLifecycle;
 import rocks.cleanstone.core.CleanstoneServer;
@@ -16,6 +14,9 @@ import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.AbstractNetworking;
 import rocks.cleanstone.net.protocol.Protocol;
 import rocks.cleanstone.player.PlayerManager;
+
+import javax.annotation.Nonnull;
+import java.net.InetAddress;
 
 @Slf4j
 public class NettyNetworking extends AbstractNetworking implements SmartLifecycle {
@@ -35,7 +36,7 @@ public class NettyNetworking extends AbstractNetworking implements SmartLifecycl
     public void start() {
         bossGroup = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
         workerGroup = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
-        final ServerBootstrap bootstrap = new ServerBootstrap();
+        ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workerGroup)
                 .channel(epoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                 .childHandler(new ServerChannelInitializer(this))

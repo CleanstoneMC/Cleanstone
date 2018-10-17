@@ -4,12 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import java.util.Collection;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import javax.annotation.Nullable;
-import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -17,6 +11,13 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.command.executor.InvalidUsageExecutor;
 import rocks.cleanstone.game.command.parameter.CommandParameter;
+
+import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
+import java.util.Collection;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @Component("commandRegistry")
@@ -42,7 +43,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
     public boolean registerCommand(Command command, boolean force) {
         Preconditions.checkNotNull(command, "command cannot be null");
 
-        final String commandName = command.getName().toLowerCase(Locale.ENGLISH);
+        String commandName = command.getName().toLowerCase(Locale.ENGLISH);
         if (isRegisteredCommandName(commandName) && !force) {
             return false;
         }
@@ -66,7 +67,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
     }
 
     private boolean isRegisteredCommandName(String name) {
-        final Command command = getCommand(name);
+        Command command = getCommand(name);
         if (command == null) {
             return false;
         }
@@ -132,8 +133,8 @@ public class SimpleCommandRegistry implements CommandRegistry {
         Preconditions.checkNotNull(commandLine, "commandLine cannot be null");
         Preconditions.checkNotNull(sender, "sender cannot be null");
 
-        final CommandMessage commandMessage = CommandMessageFactory.construct(sender, commandLine, this);
-        final Command command = getCommand(commandMessage.getCommandName());
+        CommandMessage commandMessage = CommandMessageFactory.construct(sender, commandLine, this);
+        Command command = getCommand(commandMessage.getCommandName());
 
         if (command == null) {
             sender.sendRawMessage(CleanstoneServer.getMessage(

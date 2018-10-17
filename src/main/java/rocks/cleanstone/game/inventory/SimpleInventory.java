@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SimpleInventory implements Inventory {
-    private final int size;
+    private int size;
     private ItemStack[] inventory;
 
     public SimpleInventory(int size) {
@@ -48,14 +48,14 @@ public class SimpleInventory implements Inventory {
 
     @Override
     public Map<ItemType, Integer> getAllItems() {
-        final Map<ItemType, Integer> itemStacks = new HashMap<>();
+        Map<ItemType, Integer> itemStacks = new HashMap<>();
 
-        for (final ItemStack itemStack : inventory) {
+        for (ItemStack itemStack : inventory) {
             if (itemStack == null) {
                 continue;
             }
 
-            final int itemAmount = itemStacks.getOrDefault(itemStack.getType(), 0) + itemStack.getAmount();
+            int itemAmount = itemStacks.getOrDefault(itemStack.getType(), 0) + itemStack.getAmount();
             itemStacks.put(itemStack.getType(), itemAmount);
         }
 
@@ -64,12 +64,12 @@ public class SimpleInventory implements Inventory {
 
     @Override
     public boolean addItem(ItemType item, int amount) {
-        final ItemStack[] inventoryClone = inventory.clone();
+        ItemStack[] inventoryClone = inventory.clone();
 
         int remaining = amount;
-        for (final ItemStack itemStack : inventoryClone) {
+        for (ItemStack itemStack : inventoryClone) {
             if (itemStack.getType() == item && itemStack.getAmount() < 64) {
-                final int leftSpace = (itemStack.getAmount() - 64) * -1;
+                int leftSpace = (itemStack.getAmount() - 64) * -1;
 
                 remaining = remaining - leftSpace;
 
@@ -82,8 +82,8 @@ public class SimpleInventory implements Inventory {
             }
         }
 
-        for (final ItemStack anInventoryClone : inventoryClone) {
-            if (anInventoryClone == null) {
+        for (int i = 0; i < inventoryClone.length; i++) {
+            if (inventoryClone[i] == null) {
                 //TODO: Add Itemstack of item
             }
         }

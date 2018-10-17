@@ -22,8 +22,8 @@ public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        final Packet packet = (Packet) msg;
-        final Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
+        Packet packet = (Packet) msg;
+        Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
         if (packet.getType().getDirection() == PacketDirection.OUTBOUND) {
             throw new DecoderException("Received packet has invalid direction");
         }

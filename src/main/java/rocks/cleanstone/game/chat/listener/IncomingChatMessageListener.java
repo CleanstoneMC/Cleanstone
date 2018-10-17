@@ -10,7 +10,7 @@ import rocks.cleanstone.game.chat.message.ChatMessage;
 
 @Component
 public class IncomingChatMessageListener {
-    private final ChatManager chatManager;
+    private ChatManager chatManager;
 
     @Autowired
     public IncomingChatMessageListener(ChatManager chatManager) {

@@ -14,7 +14,7 @@ public class PlayerAnimationPacketListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPacket(PlayerInboundPacketEvent<InAnimationPacket> playerInboundPacketEvent) {
-        final PlayerAnimationEvent playerAnimationEvent = new PlayerAnimationEvent(
+        PlayerAnimationEvent playerAnimationEvent = new PlayerAnimationEvent(
                 playerInboundPacketEvent.getPlayer(), playerInboundPacketEvent.getPacket().getHand());
 
         CleanstoneServer.publishEvent(playerAnimationEvent);

@@ -18,12 +18,12 @@ public class PlayerListItemCodec implements OutboundPacketCodec<PlayerListItemPa
 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, PlayerListItemPacket packet) throws IOException {
-        final PlayerListItemPacket.Action action = packet.getAction();
+        PlayerListItemPacket.Action action = packet.getAction();
         writeVarInt(byteBuf, action.getId());
-        final Collection<PlayerListItemPacket.PlayerItem> players = packet.getPlayers();
+        Collection<PlayerListItemPacket.PlayerItem> players = packet.getPlayers();
         writeVarInt(byteBuf, players.size());
 
-        for (final PlayerListItemPacket.PlayerItem playerItem : players) {
+        for (PlayerListItemPacket.PlayerItem playerItem : players) {
             writePlayerItem(byteBuf, playerItem, action);
         }
 
@@ -37,7 +37,7 @@ public class PlayerListItemCodec implements OutboundPacketCodec<PlayerListItemPa
             case ADD_PLAYER:
                 writeUTF8(byteBuf, playerItem.getName());
                 writeVarInt(byteBuf, playerItem.getUserProperties().size());
-                for (final UserProperty userProperty : playerItem.getUserProperties()) {
+                for (UserProperty userProperty : playerItem.getUserProperties()) {
                     writeUserProperty(byteBuf, userProperty);
                 }
                 writeVarInt(byteBuf, playerItem.getGameMode() != null

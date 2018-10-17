@@ -61,7 +61,7 @@ public enum MCPEInboundPacketType implements PacketType {
 
     @Nullable
     public static MCPEInboundPacketType byPacketClass(Class<? extends Packet> packetClass) {
-        for (final MCPEInboundPacketType type : values()) {
+        for (MCPEInboundPacketType type : values()) {
             if (type.getPacketClass() == packetClass) return type;
         }
         return null;

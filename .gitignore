@@ -28,10 +28,10 @@ hs_err_pid*
 # build files
 build/
 .gradle/
+out/
 
 data/*
 /scripts/php-converter/bedrock_edition/MiNet/packets.md
 /scripts/php-converter/bedrock_edition/MiNet/packet/
 
 /application.yml
-out/

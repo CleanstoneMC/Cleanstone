@@ -1,11 +1,12 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.GenericTypeResolver;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.protocol.ProtocolState;
+
+import java.util.List;
 
 @Slf4j
 public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtocolLayer {
@@ -20,14 +21,14 @@ public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtoc
     public <T extends Packet> void registerPacketCodec(Class<? extends PacketCodec<T>> codecClass, ProtocolState state,
                                                        int protocolPacketID) {
 
-        final PacketCodec<T> codec = getCodecInstance(codecClass);
+        PacketCodec<T> codec = getCodecInstance(codecClass);
 
         if (codec == null) {
             log.info("Cant find PacketCodec for codecClass: " + codecClass.getName());
             return;
         }
 
-        final Class<T> packetClass = (Class<T>) GenericTypeResolver.resolveTypeArgument(codec.getClass(), PacketCodec.class);
+        Class<T> packetClass = (Class<T>) GenericTypeResolver.resolveTypeArgument(codec.getClass(), PacketCodec.class);
 
         if (packetClass == null) {
             log.info("Cant find PacketClass for Codec: " + codecClass.getName());

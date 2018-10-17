@@ -1,9 +1,6 @@
 package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import com.google.common.base.Objects;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
-import javax.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
@@ -12,6 +9,10 @@ import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
+
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 public class VanillaBlockDataStorage implements BlockDataStorage {
@@ -45,26 +46,26 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
                                    boolean omitDirectPaletteLength) {
 
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
-            final AtomicBoolean isEmptyFlag = new AtomicBoolean();
+            AtomicBoolean isEmptyFlag = new AtomicBoolean();
             if (isEmptyFlag.get()) {
                 continue;
             }
-            final byte[][][] blockLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT];
-            final byte[][][] skyLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT];
+            byte[][][] blockLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT],
+                    skyLight = new byte[SEC_WIDTH][SEC_WIDTH][SEC_HEIGHT];
 
             for (int y = 0; y < SEC_HEIGHT; y++) {
                 for (int z = 0; z < SEC_WIDTH; z++) {
                     for (int x = 0; x < SEC_WIDTH; x++) {
-                        final int chunkRelativeY = y + sectionY * SEC_HEIGHT;
+                        int chunkRelativeY = y + sectionY * SEC_HEIGHT;
                         blockLight[x][z][y] = table.getBlockLight(x, chunkRelativeY, z);
                         skyLight[x][z][y] = table.getSkyLight(x, chunkRelativeY, z);
                     }
                 }
             }
-            final PaletteBlockStateStorage storage = new PaletteBlockStateStorage(table, sectionY, isEmptyFlag,
+            PaletteBlockStateStorage storage = new PaletteBlockStateStorage(table, sectionY, isEmptyFlag,
                     directPalette, omitDirectPaletteLength);
 
-            final BlockDataSection section = new BlockDataSection(storage, blockLight,
+            BlockDataSection section = new BlockDataSection(storage, blockLight,
                     skyLight, table.hasSkylight());
             sections[sectionY] = section;
 
@@ -89,16 +90,16 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
     }
 
     public void setBlockState(int x, int chunkY, int z, BlockState state) {
-        final int sectionY = chunkY / SEC_AMNT;
-        final int y = chunkY - sectionY * SEC_HEIGHT;
-        final BlockDataSection section = getOrCreateSection(sectionY);
+        int sectionY = chunkY / SEC_AMNT;
+        int y = chunkY - sectionY * SEC_HEIGHT;
+        BlockDataSection section = getOrCreateSection(sectionY);
         section.getBlockStateStorage().set(x, y, z, state);
     }
 
     public void setBlockLight(int x, int chunkY, int z, byte blockLight) {
-        final int sectionY = chunkY / SEC_AMNT;
-        final int y = chunkY - sectionY * SEC_HEIGHT;
-        final BlockDataSection section = getOrCreateSection(sectionY);
+        int sectionY = chunkY / SEC_AMNT;
+        int y = chunkY - sectionY * SEC_HEIGHT;
+        BlockDataSection section = getOrCreateSection(sectionY);
         section.getBlockLight()[x][z][y] = blockLight;
     }
 
@@ -106,22 +107,22 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
         if (!hasSkyLight) {
             return;
         }
-        final int sectionY = chunkY / SEC_AMNT;
-        final int y = chunkY - sectionY * SEC_HEIGHT;
-        final BlockDataSection section = getOrCreateSection(sectionY);
+        int sectionY = chunkY / SEC_AMNT;
+        int y = chunkY - sectionY * SEC_HEIGHT;
+        BlockDataSection section = getOrCreateSection(sectionY);
         section.getSkyLight()[x][z][y] = skyLight;
     }
 
     public BlockDataTable constructTable() {
-        final ArrayBlockDataTable table = new ArrayBlockDataTable(hasSkyLight);
+        ArrayBlockDataTable table = new ArrayBlockDataTable(hasSkyLight);
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
-            final BlockDataSection section = sections[sectionY];
+            BlockDataSection section = sections[sectionY];
             if (section != null) {
                 for (int y = 0; y < SEC_HEIGHT; y++) {
                     for (int z = 0; z < SEC_WIDTH; z++) {
                         for (int x = 0; x < SEC_WIDTH; x++) {
-                            final int chunkRelativeY = y + sectionY * SEC_HEIGHT;
-                            final BlockState state = section.getBlockStateStorage().get(x, y, z);
+                            int chunkRelativeY = y + sectionY * SEC_HEIGHT;
+                            BlockState state = section.getBlockStateStorage().get(x, y, z);
                             if (state.getBlockType() != VanillaBlockType.AIR) {
                                 table.setBlock(x, chunkRelativeY, z, ImmutableBlock.of(state));
                             }
@@ -149,7 +150,7 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
         if (!(o instanceof VanillaBlockDataStorage)) {
             return false;
         }
-        final VanillaBlockDataStorage that = (VanillaBlockDataStorage) o;
+        VanillaBlockDataStorage that = (VanillaBlockDataStorage) o;
         return hasSkyLight == that.hasSkyLight &&
                 omitDirectPaletteLength == that.omitDirectPaletteLength &&
                 Objects.equal(sections, that.sections) &&

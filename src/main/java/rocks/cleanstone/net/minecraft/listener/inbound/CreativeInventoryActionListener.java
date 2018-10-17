@@ -12,7 +12,7 @@ public class CreativeInventoryActionListener {
     @Async(value = "playerExec")
     @EventListener
     public void onPacket(PlayerInboundPacketEvent<CreativeInventoryActionPacket> playerInboundPacketEvent) {
-        final CreativeInventoryActionPacket packet = playerInboundPacketEvent.getPacket();
+        CreativeInventoryActionPacket packet = playerInboundPacketEvent.getPacket();
 
         playerInboundPacketEvent.getPlayer().getEntity().getInventory().setItemInSlot(packet.getSlot(), packet.getClickedItem());
     }

@@ -36,11 +36,11 @@ public class VersionedCodec<T> implements InOutCodec<T, ByteBuf> {
 
     @Override
     public T decode(ByteBuf data) throws IOException {
-        final int codecID = ByteBufUtils.readVarInt(data);
+        int codecID = ByteBufUtils.readVarInt(data);
         if (mainCodecID == codecID) {
             return mainCodec.decode(data);
         } else {
-            final InOutCodec<T, ByteBuf> legacyCodec = legacyCodecMap.get(codecID);
+            InOutCodec<T, ByteBuf> legacyCodec = legacyCodecMap.get(codecID);
             Preconditions.checkNotNull(legacyCodec, "There is no matching codec for ID " + codecID);
             return legacyCodec.decode(data);
         }
@@ -48,9 +48,9 @@ public class VersionedCodec<T> implements InOutCodec<T, ByteBuf> {
 
     @Override
     public ByteBuf encode(T value) throws IOException {
-        final ByteBuf data = Unpooled.buffer();
+        ByteBuf data = Unpooled.buffer();
         ByteBufUtils.writeVarInt(data, mainCodecID);
-        final ByteBuf serializedValue = mainCodec.encode(value);
+        ByteBuf serializedValue = mainCodec.encode(value);
         data.writeBytes(serializedValue);
         serializedValue.release();
         return data;

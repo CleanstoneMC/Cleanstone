@@ -25,21 +25,21 @@ public class CreativeInventoryActionCodec implements InboundPacketCodec<Creative
 
     @Override
     public CreativeInventoryActionPacket decode(ByteBuf byteBuf) {
-        final short slot = byteBuf.readShort();
-        final ItemStack clickedItem = readItemStack(byteBuf);
+        short slot = byteBuf.readShort();
+        ItemStack clickedItem = readItemStack(byteBuf);
 
         return new CreativeInventoryActionPacket(slot, clickedItem);
     }
 
     @Nullable
     private ItemStack readItemStack(ByteBuf byteBuf) {
-        final short itemID = byteBuf.readShort();
+        short itemID = byteBuf.readShort();
 
         if (itemID != -1) {
-            final byte itemCount = byteBuf.readByte();
-            final ItemType itemType = itemTypeMapping.getItemType((int) itemID);
+            byte itemCount = byteBuf.readByte();
+            ItemType itemType = itemTypeMapping.getItemType((int) itemID);
             Preconditions.checkNotNull(itemType, "Cannot find itemType with ID " + itemID);
-            final byte nbtStartByte = byteBuf.readByte(); // TODO Item NBT
+            byte nbtStartByte = byteBuf.readByte(); // TODO Item NBT
             return new SimpleItemStack(itemType, itemCount, null);
         }
         return null;

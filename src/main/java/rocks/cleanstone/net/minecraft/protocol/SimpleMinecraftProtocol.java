@@ -19,7 +19,7 @@ import java.util.Collection;
 @Component
 public class SimpleMinecraftProtocol extends LayeredProtocol {
 
-    private final PacketTypeRegistry registry;
+    private PacketTypeRegistry registry;
 
     @Autowired
     private Collection<MinecraftServerProtocolLayer> serverProtocolLayers;
@@ -42,12 +42,12 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
 
     @Override
     public PacketType translateInboundPacketID(int clientPacketID, Connection connection) {
-        final MinecraftServerProtocolLayer layer = (MinecraftServerProtocolLayer) getServerLayerFromClientLayer
+        MinecraftServerProtocolLayer layer = (MinecraftServerProtocolLayer) getServerLayerFromClientLayer
                 (connection.getClientProtocolLayer());
         Preconditions.checkNotNull(layer, "Cannot find ServerLayer by ClientLayer "
                 + connection.getClientProtocolLayer().getName());
 
-        final PacketType packetType = layer.getPacketType(clientPacketID, connection.getProtocolState());
+        PacketType packetType = layer.getPacketType(clientPacketID, connection.getProtocolState());
         Preconditions.checkNotNull(packetType, "Missing codec: Cannot find packetType by clientPacketID " +
                 String.format("0x%02X", clientPacketID) + " and protocolState " + connection
                 .getProtocolState() + " in " + layer.getClass().getSimpleName());
@@ -56,7 +56,7 @@ public class SimpleMinecraftProtocol extends LayeredProtocol {
 
     @Override
     public int translateOutboundPacketID(PacketType packetType, Connection connection) {
-        final MinecraftServerProtocolLayer layer = (MinecraftServerProtocolLayer) getServerLayerFromClientLayer
+        MinecraftServerProtocolLayer layer = (MinecraftServerProtocolLayer) getServerLayerFromClientLayer
                 (connection.getClientProtocolLayer());
         Preconditions.checkNotNull(layer, "Cannot find ServerLayer by ClientLayer "
                 + connection.getClientProtocolLayer().getName());

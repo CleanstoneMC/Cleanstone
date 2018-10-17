@@ -27,7 +27,7 @@ public class PlayerAnimationListener {
             return;
         }
 
-        final AnimationPacket animationPacket = new AnimationPacket(playerAnimationEvent.getPlayer().getEntity().getEntityID(), Animation.SWING_MAIN_ARM);
+        AnimationPacket animationPacket = new AnimationPacket(playerAnimationEvent.getPlayer().getEntity().getEntityID(), Animation.SWING_MAIN_ARM);
 
         playerManager.broadcastPacket(animationPacket, playerAnimationEvent.getPlayer());
     }
