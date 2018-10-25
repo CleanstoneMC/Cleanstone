@@ -22,20 +22,24 @@ public class PlayerMovePacketListener {
     public void onPlayerLookPacket(PlayerInboundPacketEvent<PlayerLookPacket> event) {
         final PlayerLookPacket packet = event.getPacket();
         final LivingEntity entity = event.getPlayer().getEntity();
-        if (entity == null) return;
+        if (entity == null) {
+            return;
+        }
 
         final HeadRotatablePosition oldPosition = entity.getPosition();
-        final HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
-
-        newPosition.getHeadRotation().setPitch(packet.getPitch());
-        newPosition.getHeadRotation().setYaw(packet.getYaw());
+        Rotation rotation = oldPosition.getRotation()
+                .withPitch(packet.getPitch())
+                .withYaw(packet.getYaw());
+        HeadRotatablePosition newPosition = oldPosition
+                .withHeadRotation(rotation);
 
         float rotationDiff = oldPosition.getHeadRotation().getYaw() - newPosition.getHeadRotation().getYaw();
         rotationDiff = (Math.abs(rotationDiff) + 180) % 360 - 180;
         final boolean adjustBodyRotation = Math.abs(rotationDiff) > 35;
 
         if (adjustBodyRotation) {
-            newPosition.setRotation(new Rotation(newPosition.getHeadRotation()));
+            newPosition = newPosition
+                    .withRotation(rotation);
         }
 
         if (!CleanstoneServer.publishEvent(
@@ -51,14 +55,15 @@ public class PlayerMovePacketListener {
         final PlayerPositionPacket packet = event.getPacket();
 
         final LivingEntity entity = event.getPlayer().getEntity();
-        if (entity == null) return;
+        if (entity == null) {
+            return;
+        }
 
         final HeadRotatablePosition oldPosition = entity.getPosition();
-        final HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
-
-        newPosition.setX(packet.getX());
-        newPosition.setY(packet.getFeetY());
-        newPosition.setZ(packet.getZ());
+        final HeadRotatablePosition newPosition = oldPosition
+                .withX(packet.getX())
+                .withY(packet.getFeetY())
+                .withZ(packet.getZ());
 
         if (!CleanstoneServer.publishEvent(
                 new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition,
@@ -73,19 +78,20 @@ public class PlayerMovePacketListener {
         final InPlayerPositionAndLookPacket packet = event.getPacket();
 
         final LivingEntity entity = event.getPlayer().getEntity();
-        if (entity == null) return;
+        if (entity == null) {
+            return;
+        }
 
         final HeadRotatablePosition oldPosition = entity.getPosition();
-        final HeadRotatablePosition newPosition = new HeadRotatablePosition(oldPosition);
-
-        newPosition.setX(packet.getX());
-        newPosition.setY(packet.getY());
-        newPosition.setZ(packet.getZ());
-
-        newPosition.getRotation().setPitch(packet.getPitch());
-        newPosition.getRotation().setYaw(packet.getYaw());
-
-        newPosition.setHeadRotation(newPosition.getRotation());
+        Rotation rotation = oldPosition.getRotation()
+                .withPitch(packet.getPitch())
+                .withYaw(packet.getYaw());
+        HeadRotatablePosition newPosition = oldPosition
+                .withX(packet.getX())
+                .withY(packet.getY())
+                .withZ(packet.getZ())
+                .withRotation(rotation)
+                .withHeadRotation(rotation);
 
         if (!CleanstoneServer.publishEvent(
                 new PlayerMoveEvent(event.getPlayer(), oldPosition, newPosition,

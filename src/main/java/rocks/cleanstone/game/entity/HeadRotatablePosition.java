@@ -1,15 +1,18 @@
 package rocks.cleanstone.game.entity;
 
-import com.google.common.base.Objects;
+import java.io.Serializable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.Wither;
 import rocks.cleanstone.game.Position;
 
-import java.io.Serializable;
-
+@Getter
+@EqualsAndHashCode(callSuper = true)
 public class HeadRotatablePosition extends RotatablePosition implements Serializable {
-
     private static final long serialVersionUID = -28351072972L;
 
-    protected Rotation headRotation;
+    protected final Rotation headRotation;
 
     public HeadRotatablePosition(Position position, Rotation rotation, Rotation headRotation) {
         super(position, rotation);
@@ -31,25 +34,23 @@ public class HeadRotatablePosition extends RotatablePosition implements Serializ
         this.headRotation = new Rotation(position.getHeadRotation());
     }
 
-    public Rotation getHeadRotation() {
-        return headRotation;
+    public HeadRotatablePosition withX(double x) {
+        return (HeadRotatablePosition) super.withX(x);
     }
 
-    public void setHeadRotation(Rotation headRotation) {
-        this.headRotation = headRotation;
+    public HeadRotatablePosition withY(double y) {
+        return (HeadRotatablePosition) super.withY(y);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof HeadRotatablePosition)) return false;
-        if (!super.equals(o)) return false;
-        final HeadRotatablePosition that = (HeadRotatablePosition) o;
-        return Objects.equal(headRotation, that.headRotation);
+    public HeadRotatablePosition withZ(double z) {
+        return (HeadRotatablePosition) super.withZ(z);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(super.hashCode(), headRotation);
+    public HeadRotatablePosition withRotation(Rotation rotation) {
+        return (HeadRotatablePosition) super.withRotation(rotation);
+    }
+
+    public HeadRotatablePosition withHeadRotation(Rotation headRotation) {
+        return new HeadRotatablePosition(this, headRotation);
     }
 }

@@ -35,7 +35,7 @@ public class IncomingChatPacketListener {
         if (player == null) {
             return;
         }
-        final Identity playerID = player.getID();
+        final Identity playerID = player.getId();
         final String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
 
         final InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());

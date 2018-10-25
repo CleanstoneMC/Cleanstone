@@ -67,8 +67,8 @@ public class PlayerListItemPacket implements Packet {
         }
 
         public PlayerItem(Player player) {
-            this(player.getID().getUUID(), player.getUserProperties(), player.getID().getName(), player.getGameMode(), player.getPing(),
-                    Text.of(player.getID().getName()));
+            this(player.getId().getUUID(), player.getUserProperties(), player.getId().getName(), player.getGameMode(), player.getPing(),
+                    Text.of(player.getId().getName()));
         }
 
         public UUID getUUID() {

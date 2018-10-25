@@ -1,16 +1,13 @@
 package rocks.cleanstone.player.event;
 
+import lombok.Value;
 import rocks.cleanstone.player.Player;
 
+@Value
 public class PlayerQuitEvent {
-
-    private final Player player;
+    Player player;
 
     public PlayerQuitEvent(Player player) {
         this.player = player;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 }

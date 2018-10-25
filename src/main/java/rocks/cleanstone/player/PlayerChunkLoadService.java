@@ -25,7 +25,7 @@ public class PlayerChunkLoadService {
      * @param coords chunk coordinates
      */
     public void loadChunk(Player player, ChunkCoords coords) {
-        final UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getId().getUUID();
         if (hasPlayerLoaded(uuid, coords)) {
             return;
         }
@@ -72,7 +72,7 @@ public class PlayerChunkLoadService {
      * @param coords chunk coordinates
      */
     public void unloadChunk(Player player, ChunkCoords coords) {
-        final UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getId().getUUID();
         if (!hasPlayerLoaded(uuid, coords)) {
             return;
         }
@@ -97,7 +97,7 @@ public class PlayerChunkLoadService {
      * @param player The player to unload the chunks for
      */
     public void unloadAllChunks(Player player) {
-        final UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getId().getUUID();
         getLoadedChunkCoords(uuid).forEach(coords -> {
             unregisterLoadedChunk(uuid, coords);
             sendChunkUnloadPacket(player, coords);

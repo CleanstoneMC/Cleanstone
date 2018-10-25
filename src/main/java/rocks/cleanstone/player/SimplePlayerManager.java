@@ -50,7 +50,7 @@ public class SimplePlayerManager implements PlayerManager {
     @Nullable
     public Player getOnlinePlayer(Identity id) {
         return onlinePlayers.stream()
-                .filter(player -> player.getID().equals(id))
+                .filter(player -> player.getId().equals(id))
                 .findFirst().orElse(null);
     }
 
@@ -67,7 +67,7 @@ public class SimplePlayerManager implements PlayerManager {
     @Nullable
     public Player getOnlinePlayer(String name) {
         return onlinePlayers.stream()
-                .filter(player -> player.getID().getName().equalsIgnoreCase(name))
+                .filter(player -> player.getId().getName().equalsIgnoreCase(name))
                 .findAny().orElse(null);
     }
 

@@ -1,6 +1,8 @@
 package rocks.cleanstone.net.minecraft.protocol;
 
 import com.google.common.base.Preconditions;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.Connection;
@@ -20,14 +22,14 @@ import java.util.Collection;
 public class SimpleMinecraftProtocol extends LayeredProtocol {
 
     private final PacketTypeRegistry registry;
+    private final Collection<MinecraftServerProtocolLayer> serverProtocolLayers;
 
     @Autowired
-    private Collection<MinecraftServerProtocolLayer> serverProtocolLayers;
-
-    public SimpleMinecraftProtocol() {
+    public SimpleMinecraftProtocol(Collection<MinecraftServerProtocolLayer> serverProtocolLayers) {
         registry = new SimplePacketTypeRegistry();
         registry.registerPacketType(MinecraftOutboundPacketType.values());
         registry.registerPacketType(MinecraftInboundPacketType.values());
+        this.serverProtocolLayers = serverProtocolLayers;
     }
 
     @PostConstruct

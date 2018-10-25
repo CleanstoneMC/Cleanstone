@@ -38,7 +38,7 @@ public class PlayerMoveChunkLoadListener {
         final ChunkCoords coords = ChunkCoords.of(playerMoveEvent.getNewPosition());
 
         final Player player = playerMoveEvent.getPlayer();
-        final UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getId().getUUID();
 
         // reject unneeded updates early
         if (chunkUpdateNotNeeded(playerMoveEvent, coords, uuid)) {
@@ -57,7 +57,7 @@ public class PlayerMoveChunkLoadListener {
                 return;
             }
 
-            log.debug("loading chunks around {} for {}", coords, player.getID().getName());
+            log.debug("loading chunks around {} for {}", coords, player.getId().getName());
             sendNewNearbyChunks(player, coords, loadingToken);
             unloadRemoteChunks(player, coords);
         }
@@ -66,7 +66,7 @@ public class PlayerMoveChunkLoadListener {
     @Async("playerExec")
     @EventListener
     public void onPlayerDisconnect(PlayerQuitEvent playerQuitEvent) {
-        playerUnloadAll(playerQuitEvent.getPlayer().getID().getUUID());
+        playerUnloadAll(playerQuitEvent.getPlayer().getId().getUUID());
     }
 
     protected boolean chunkUpdateNotNeeded(PlayerMoveEvent playerMoveEvent, ChunkCoords coords, UUID uuid) {
@@ -76,26 +76,26 @@ public class PlayerMoveChunkLoadListener {
 
     protected void sendNewNearbyChunks(Player player, ChunkCoords playerCoords, int loadingToken) {
         final int sendDistance = player.getViewDistance() + 1;
-        final UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getId().getUUID();
 
         final Collection<ChunkCoords> nearbyCoords = nearbyChunkRetriever.getChunkCoordsAround(playerCoords, sendDistance);
 
         for (final ChunkCoords coords : nearbyCoords) {
             if (shouldAbortLoading(uuid, loadingToken)) {
-                log.debug("aborted loading chunks for {}", player.getID().getName());
+                log.debug("aborted loading chunks for {}", player.getId().getName());
                 return;
             }
 
             playerChunkLoadService.loadChunk(player, coords);
         }
 
-        log.debug("done loading chunks for {}", player.getID().getName());
+        log.debug("done loading chunks for {}", player.getId().getName());
     }
 
 
     protected void unloadRemoteChunks(Player player, ChunkCoords playerCoords) {
         final int sendDistance = player.getViewDistance() + 1;
-        final UUID uuid = player.getID().getUUID();
+        final UUID uuid = player.getId().getUUID();
 
         playerChunkLoadService.getLoadedChunkCoords(uuid).stream()
                 .filter(chunk -> !isWithinRange(playerCoords.getX(), playerCoords.getZ(), chunk.getX(), chunk.getZ(), sendDistance))

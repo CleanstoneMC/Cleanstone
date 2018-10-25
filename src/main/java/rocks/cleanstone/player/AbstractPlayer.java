@@ -2,6 +2,7 @@ package rocks.cleanstone.player;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import lombok.Data;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.ChatMode;
@@ -21,8 +22,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Locale;
 
+@Data
 public abstract class AbstractPlayer implements Player {
-
     protected final Identity id;
     protected Human entity;
     private boolean op = false, flying = false;
@@ -39,64 +40,14 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    public Identity getID() {
-        return id;
-    }
-
-    @Override
     public String getName() {
         return id.getName();
-    }
-
-    @Override
-    public boolean isOp() {
-        return op;
-    }
-
-    @Override
-    public void setOp(boolean op) {
-        this.op = op;
-    }
-
-    @Nullable
-    @Override
-    public Human getEntity() {
-        return entity;
     }
 
     @Override
     public void setEntity(Human entity) {
         Preconditions.checkNotNull(entity, "Player entity cannot be null after player init");
         this.entity = entity;
-    }
-
-    @Override
-    public GameMode getGameMode() {
-        return gameMode;
-    }
-
-    @Override
-    public void setGameMode(GameMode gameMode) {
-        this.gameMode = gameMode;
-    }
-
-    @Override
-    public float getFlyingSpeed() {
-        return flyingSpeed;
-    }
-
-    public void setFlyingSpeed(float flyingSpeed) {
-        this.flyingSpeed = flyingSpeed;
-    }
-
-    @Override
-    public boolean isFlying() {
-        return flying;
-    }
-
-    @Override
-    public void setFlying(boolean flying) {
-        this.flying = flying;
     }
 
     @Override
@@ -112,46 +63,6 @@ public abstract class AbstractPlayer implements Player {
         final HeadRotatablePosition newHeadRotatablePosition = new HeadRotatablePosition(newPosition, oldPosition.getHeadRotation());
 
         CleanstoneServer.publishEvent(new PlayerTeleportEvent(this, oldPosition, newHeadRotatablePosition, moveReason));
-    }
-
-    public int getViewDistance() {
-        return viewDistance;
-    }
-
-    public void setViewDistance(int viewDistance) {
-        this.viewDistance = viewDistance;
-    }
-
-    public Locale getLocale() {
-        return locale;
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
-    public ChatMode getChatMode() {
-        return chatMode;
-    }
-
-    public void setChatMode(ChatMode chatMode) {
-        this.chatMode = chatMode;
-    }
-
-    public MainHandSide getMainHandSide() {
-        return mainHandSide;
-    }
-
-    public void setMainHandSide(MainHandSide mainHandSide) {
-        this.mainHandSide = mainHandSide;
-    }
-
-    public Collection<DisplayedSkinPart> getDisplayedSkinParts() {
-        return displayedSkinParts;
-    }
-
-    public void setDisplayedSkinParts(Collection<DisplayedSkinPart> displayedSkinParts) {
-        this.displayedSkinParts = displayedSkinParts;
     }
 
     @Override

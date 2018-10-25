@@ -42,13 +42,13 @@ public class SimpleConsole implements ConsoleSender {
     }
 
     @Override
-    public Identity getID() {
+    public Identity getId() {
         return new ConsoleIdentity(UUID.nameUUIDFromBytes("Console:0".getBytes(Charsets.UTF_8)));
     }
 
     @Override
     public String getName() {
-        return getID().getName();
+        return getId().getName();
     }
 
     @EventListener

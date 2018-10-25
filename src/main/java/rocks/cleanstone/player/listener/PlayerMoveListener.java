@@ -51,7 +51,7 @@ public class PlayerMoveListener {
         final int chunkX = newPosition.getXAsInt() >> 4;
         final int chunkZ = newPosition.getZAsInt() >> 4;
 
-        if (!playerChunkLoadService.hasPlayerLoaded(movingPlayer.getID().getUUID(), ChunkCoords.of(chunkX, chunkZ))) {
+        if (!playerChunkLoadService.hasPlayerLoaded(movingPlayer.getId().getUUID(), ChunkCoords.of(chunkX, chunkZ))) {
             playerMoveEvent.cancel();
         }
     }

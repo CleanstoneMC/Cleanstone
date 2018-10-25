@@ -1,15 +1,18 @@
 package rocks.cleanstone.game.entity;
 
-import com.google.common.base.Objects;
+import java.io.Serializable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.Wither;
 import rocks.cleanstone.game.Position;
 
-import java.io.Serializable;
-
+@Getter
+@EqualsAndHashCode(callSuper = true)
 public class RotatablePosition extends Position implements Serializable {
-
     private static final long serialVersionUID = -290302348L;
 
-    protected Rotation rotation;
+    private final Rotation rotation;
 
     public RotatablePosition(Position position, Rotation rotation) {
         super(position);
@@ -21,30 +24,19 @@ public class RotatablePosition extends Position implements Serializable {
         this.rotation = new Rotation(rotatablePosition.getRotation());
     }
 
-    public Rotation getRotation() {
-        return rotation;
+    public RotatablePosition withX(double x) {
+        return (RotatablePosition) super.withX(x);
     }
 
-    public void setRotation(Rotation rotation) {
-        this.rotation = rotation;
+    public RotatablePosition withY(double y) {
+        return (RotatablePosition) super.withY(y);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RotatablePosition)) return false;
-        if (!super.equals(o)) return false;
-        final RotatablePosition that = (RotatablePosition) o;
-        return Objects.equal(rotation, that.rotation);
+    public RotatablePosition withZ(double z) {
+        return (RotatablePosition) super.withZ(z);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(super.hashCode(), rotation);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + ";Rot=" + rotation;
+    public RotatablePosition withRotation(Rotation rotation) {
+        return new RotatablePosition(this, rotation);
     }
 }

@@ -50,7 +50,7 @@ public class PlayerTeleportListener {
         player.sendPacket(playerPositionAndLookPacket);
 
         final SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket(newHuman.getEntityID(),
-                player.getID().getUUID(), playerTeleportEvent.getNewPosition(), null); //TODO: Add Metadata
+                player.getId().getUUID(), playerTeleportEvent.getNewPosition(), null); //TODO: Add Metadata
 
         playerManager.broadcastPacket(spawnPlayerPacket, player);
     }

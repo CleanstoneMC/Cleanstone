@@ -1,19 +1,22 @@
 package rocks.cleanstone.game.entity;
 
-import com.google.common.base.Objects;
+import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.experimental.Wither;
 import rocks.cleanstone.utils.Vector;
 
-import java.io.Serializable;
-
+@Data
+@Getter
 public class Rotation implements Serializable {
 
     private static final long serialVersionUID = -6234637L;
 
-    protected float yaw, pitch;
+    protected final float yaw, pitch;
 
     public Rotation(float yaw, float pitch) {
-        setYaw(yaw);
-        setPitch(pitch);
+        this.yaw = (yaw % 360 + 360) % 360;
+        this.pitch = pitch;
     }
 
     public Rotation(Rotation rotation) {
@@ -25,16 +28,22 @@ public class Rotation implements Serializable {
         return yaw;
     }
 
-    public void setYaw(float yaw) {
-        this.yaw = (yaw % 360 + 360) % 360;
+    public Rotation withYaw(float yaw) {
+        return new Rotation(
+                (yaw % 360 + 360) % 360,
+                pitch
+        );
     }
 
     public float getPitch() {
         return pitch;
     }
 
-    public void setPitch(float pitch) {
-        this.pitch = pitch;
+    public Rotation withPitch(float pitch) {
+        return new Rotation(
+                yaw,
+                pitch
+        );
     }
 
     public Vector toUnitVector() {
@@ -42,24 +51,5 @@ public class Rotation implements Serializable {
         final double y = -Math.sin(pitch);
         final double z = Math.cos(pitch) * Math.cos(yaw);
         return new Vector(x, y, z);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Rotation)) return false;
-        final Rotation rotation = (Rotation) o;
-        return Float.compare(rotation.yaw, yaw) == 0 &&
-                Float.compare(rotation.pitch, pitch) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(yaw, pitch);
-    }
-
-    @Override
-    public String toString() {
-        return Math.round(yaw) + ":" + Math.round(pitch);
     }
 }

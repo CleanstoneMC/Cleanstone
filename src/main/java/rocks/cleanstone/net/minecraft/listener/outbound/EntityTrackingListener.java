@@ -42,7 +42,7 @@ public class EntityTrackingListener {
         final Entity entity = event.getEntity();
         if (entity instanceof Human) {
             final Player player = playerManager.getOnlinePlayer(entity);
-            final UUID uuid = player != null ? player.getID().getUUID() : UUID.randomUUID();
+            final UUID uuid = player != null ? player.getId().getUUID() : UUID.randomUUID();
             // TODO Add EntityMetadata
             observer.sendPacket(new SpawnPlayerPacket(entity.getEntityID(), uuid, entity.getPosition(), null));
         } else {

@@ -1,9 +1,12 @@
 package rocks.cleanstone.utils;
 
 import java.util.Objects;
+import lombok.Value;
+import lombok.experimental.Wither;
 
+@Value
+@Wither
 public class Vector2D {
-
     protected double x;
     protected double y;
 
@@ -17,46 +20,25 @@ public class Vector2D {
         this.y = other.y;
     }
 
-    public Vector2D() {
+    public Vector2D addVector(Vector2D vector) {
+        return new Vector2D(
+                x + vector.x,
+                y + vector.y
+        );
     }
 
-    public void addVector(Vector2D vector) {
-        this.x += vector.getX();
-        this.y += vector.getY();
+    public Vector2D subtractVector(Vector2D vector) {
+        return new Vector2D(
+                x - vector.x,
+                y - vector.y
+        );
     }
 
-    public void subtractVector(Vector2D vector) {
-        this.x -= vector.getX();
-        this.y -= vector.getY();
-    }
-
-    public void multiplyVector(Vector2D vector) {
-        this.x *= vector.getX();
-        this.y *= vector.getY();
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public void addX(double x) {
-        this.x += x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public void addY(double y) {
-        this.y += y;
+    public Vector2D multiplyVector(Vector2D vector) {
+        return new Vector2D(
+                x * vector.x,
+                y * vector.y
+        );
     }
 
     @Override

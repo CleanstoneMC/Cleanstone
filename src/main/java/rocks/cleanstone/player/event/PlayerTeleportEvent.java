@@ -1,24 +1,20 @@
 package rocks.cleanstone.player.event;
 
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.player.Player;
 
+@Value
+@EqualsAndHashCode(callSuper = true)
 public class PlayerTeleportEvent extends PlayerMoveEvent {
-    private final Player player;
-    private final MoveReason moveReason;
+    Player player;
+    MoveReason moveReason;
 
     public PlayerTeleportEvent(Player player, HeadRotatablePosition oldPosition,
                                HeadRotatablePosition newPosition, MoveReason moveReason) {
         super(player, oldPosition, newPosition, moveReason);
         this.player = player;
         this.moveReason = moveReason;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public MoveReason getMoveReason() {
-        return moveReason;
     }
 }
