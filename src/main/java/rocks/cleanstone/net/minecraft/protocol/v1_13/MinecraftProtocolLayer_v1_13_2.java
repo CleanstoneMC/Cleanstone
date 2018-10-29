@@ -8,7 +8,7 @@ import rocks.cleanstone.net.protocol.PacketCodec;
 import java.util.List;
 
 @Component("minecraftProtocolLayer_v1_13_2")
-public class MinecraftProtocolLayer_v1_13_2 extends MinecraftProtocolLayer_v1_13 {
+public class MinecraftProtocolLayer_v1_13_2 extends MinecraftProtocolLayer_v1_13_1 {
 
     @Autowired
     public MinecraftProtocolLayer_v1_13_2(List<? extends PacketCodec> packetCodecs) {
