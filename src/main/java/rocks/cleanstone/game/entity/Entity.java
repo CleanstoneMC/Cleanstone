@@ -1,5 +1,6 @@
 package rocks.cleanstone.game.entity;
 
+import rocks.cleanstone.game.entity.metadata.Metadata;
 import rocks.cleanstone.game.world.World;
 
 public interface Entity {
@@ -17,4 +18,6 @@ public interface Entity {
     boolean isPersistent();
 
     void setPersistent(boolean persistent);
+
+    Metadata getMetadata();
 }

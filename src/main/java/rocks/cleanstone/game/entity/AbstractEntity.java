@@ -1,5 +1,6 @@
 package rocks.cleanstone.game.entity;
 
+import rocks.cleanstone.game.entity.metadata.Metadata;
 import rocks.cleanstone.game.world.World;
 
 public abstract class AbstractEntity implements Entity {
@@ -9,12 +10,14 @@ public abstract class AbstractEntity implements Entity {
     private final int entityID;
     private boolean persistent;
     protected RotatablePosition position;
+    protected Metadata metadata;
 
     protected AbstractEntity(EntityType type, World world, RotatablePosition position, boolean persistent) {
         this.type = type;
         this.world = world;
         this.position = position;
         this.persistent = persistent;
+        this.metadata = new Metadata(); //TODO
 
         entityID = world.getEntityRegistry().acquireEntityID();
     }
@@ -52,6 +55,11 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public void setPersistent(boolean persistent) {
         this.persistent = persistent;
+    }
+
+    @Override
+    public Metadata getMetadata() {
+        return metadata;
     }
 
     @Override

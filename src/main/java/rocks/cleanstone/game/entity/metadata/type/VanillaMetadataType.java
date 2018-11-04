@@ -1,39 +1,32 @@
 package rocks.cleanstone.game.entity.metadata.type;
 
-import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
-import rocks.cleanstone.game.Position;
-import rocks.cleanstone.game.chat.message.ChatMessage;
-import rocks.cleanstone.game.entity.Rotation;
-import rocks.cleanstone.game.entity.metadata.type.types.VarInt;
-import rocks.cleanstone.net.minecraft.packet.enums.Direction;
-import rocks.cleanstone.net.minecraft.packet.enums.Particle;
-
-import java.util.Optional;
+import rocks.cleanstone.game.entity.metadata.codecs.ByteCodec;
+import rocks.cleanstone.game.entity.metadata.codecs.VarIntCodec;
 
 public enum VanillaMetadataType implements MetadataType {
-    BYTE(0, Byte.class),
-    VAR_INT(1, VarInt.class),
-    FLOAT(2, Float.class),
-    STRING(3, String.class),
-    CHAT(4, ChatMessage.class),
-    OPT_CHAT(5, Optional.class),
-    SLOT(6, Integer.class),
-    BOOLEAN(7, Boolean.class),
-    ROTATION(8, Rotation.class),
-    POSITION(9, Position.class),
-    OPT_POSITION(10, Optional.class),
-    DIRECTION(11, Direction.class),
-    OPT_UUID(12, Optional.class),
-    OPT_BLOCKID(13, Optional.class),
-    NBT_TAG(14, NamedBinaryTag.class),
-    PARTICLE(15, Particle.class);
+    BYTE(0, ByteCodec.class),
+    VAR_INT(1, VarIntCodec.class),
+    FLOAT(2, null),
+    STRING(3, null),
+    CHAT(4, null),
+    OPT_CHAT(5, null),
+    SLOT(6, null),
+    BOOLEAN(7, null),
+    ROTATION(8, null),
+    POSITION(9, null),
+    OPT_POSITION(10, null),
+    DIRECTION(11, null),
+    OPT_UUID(12, null),
+    OPT_BLOCKID(13, null),
+    NBT_TAG(14, null),
+    PARTICLE(15, null);
 
     private final int typeID;
-    private final Class typeClass;
+    private final Class codecClass;
 
-    VanillaMetadataType(int typeID, Class typeClass) {
+    VanillaMetadataType(int typeID, Class codecClass) {
         this.typeID = typeID;
-        this.typeClass = typeClass;
+        this.codecClass = codecClass;
     }
 
     @Override
@@ -42,7 +35,7 @@ public enum VanillaMetadataType implements MetadataType {
     }
 
     @Override
-    public Class getTypeClass() {
-        return typeClass;
+    public Class getCodecClass() {
+        return codecClass;
     }
 }
