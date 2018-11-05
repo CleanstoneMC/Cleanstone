@@ -4,7 +4,7 @@ plugins {
 }
 
 node {
-  version = "10.11.0"
+  version = "11.1.0"
   download = true
 }
 
@@ -17,7 +17,7 @@ tasks {
       "src/",
       "babel.config.js",
       "vue.config.js",
-      "package.json"
+      "yarn.lock"
     )
     outputs.dir("dist")
   }

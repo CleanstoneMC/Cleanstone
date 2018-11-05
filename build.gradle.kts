@@ -1,26 +1,14 @@
 import org.gradle.api.JavaVersion.VERSION_1_8
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-buildscript {
-    repositories {
-        maven(url = "https://repo.spring.io/snapshot")
-        maven(url = "https://repo.spring.io/milestone")
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.0.M4")
-    }
-}
-
 plugins {
     java
     application
     jacoco
     id("io.franzbecker.gradle-lombok") version "1.14"
-
+    id("org.springframework.boot") version "2.1.0.RELEASE"
+    id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
-
-apply(plugin = "org.springframework.boot")
-apply(plugin = "io.spring.dependency-management")
 
 group = "rocks.cleanstone"
 version = "0.2.0"
@@ -40,9 +28,6 @@ lombok {
 
 repositories {
     jcenter()
-    maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
-    maven(url = "https://repo.spring.io/snapshot")
-    maven(url = "https://repo.spring.io/milestone")
 }
 
 dependencies {
@@ -50,19 +35,19 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-cache")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-devtools")
-    compile("de.codecentric:spring-boot-admin-starter-client:2.1.0-SNAPSHOT")
-    compile("de.codecentric:spring-boot-admin-server-ui:2.1.0-SNAPSHOT")
+    compile("de.codecentric:spring-boot-admin-starter-client:2.1.0")
+    compile("de.codecentric:spring-boot-admin-starter-server:2.1.0")
 
-    compile("io.netty:netty-all:4.1.22.Final")
+    compile("io.netty:netty-all:4.1.31.Final")
     compile("com.whirvis:jraknet:2.9.8")
 
-    compile("com.google.guava:guava:24.1-jre")
-    compile("com.google.code.gson:gson:2.6.2")
-    compile("org.apache.commons:commons-lang3:3.7")
-    compile("org.apache.commons:commons-text:1.3")
+    compile("com.google.guava:guava:27.0-jre")
+    compile("com.google.code.gson:gson:2.8.5")
+    compile("org.apache.commons:commons-lang3:3.8.1")
+    compile("org.apache.commons:commons-text:1.6")
     compile("javax.vecmath:vecmath:1.5.2")
     compile("com.github.ben-manes.caffeine:caffeine:2.6.2")
-    compile("commons-io:commons-io:2.5")
+    compile("commons-io:commons-io:2.6")
 
     compile("org.fusesource.leveldbjni:leveldbjni-all:1.8")
 
