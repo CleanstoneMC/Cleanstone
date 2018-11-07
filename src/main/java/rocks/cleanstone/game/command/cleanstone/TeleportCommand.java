@@ -1,6 +1,9 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
@@ -8,8 +11,6 @@ import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.StandardMoveReason;
-
-import java.util.Collections;
 
 @Component
 public class TeleportCommand extends SimpleCommand {
@@ -32,12 +33,12 @@ public class TeleportCommand extends SimpleCommand {
             Player p2 = p1;
             p1 = (Player) message.getCommandSender();
             newPosition = p2.getEntity().getPosition();
-            targetID = p2.getName();
+            targetID = p2.getFormattedName();
         } else if (message.nextParameterIs(Player.class)) {
             // for /tp <player> <destinationPlayer>
             Player p2 = message.requireParameter(Player.class);
             newPosition = p2.getEntity().getPosition();
-            targetID = p2.getName();
+            targetID = p2.getFormattedName();
         } else {
             // for /tp [player] <x> <y> <z> [yaw] [pitch]
             double x = message.requireParameter(Double.class);
@@ -57,9 +58,9 @@ public class TeleportCommand extends SimpleCommand {
             p1.sendMessage("game.command.cleanstone.teleported-self", targetID);
         } else {
             p1.sendMessage("game.command.cleanstone.teleported-by-other",
-                    targetID, message.getCommandSender().getName());
+                    targetID, message.getCommandSender().getFormattedName());
             message.getCommandSender().sendMessage("game.command.cleanstone.teleported-other",
-                    p1.getName(), targetID);
+                    p1.getFormattedName(), targetID);
         }
     }
 }

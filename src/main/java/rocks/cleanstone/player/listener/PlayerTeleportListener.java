@@ -37,7 +37,7 @@ public class PlayerTeleportListener {
         Human newHuman = new SimpleHuman(world, playerTeleportEvent.getNewPosition());
 
         // TODO consider thread-safety with getting/changing player entities
-        log.debug("{} now has entity id {}", player.getName(), newHuman.getEntityID());
+        log.debug("{} now has entity id {}", player.getFormattedName(), newHuman.getEntityID());
         player.setEntity(newHuman);
         world.getEntityRegistry().removeEntity(oldHuman);
         world.getEntityRegistry().addEntity(newHuman);

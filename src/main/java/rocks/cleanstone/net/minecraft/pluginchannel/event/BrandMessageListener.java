@@ -13,7 +13,7 @@ import rocks.cleanstone.net.minecraft.pluginchannel.vanilla.BrandMessage;
 public class BrandMessageListener {
     @EventListener
     public void onBrand(InboundPluginChannelMessageEvent<BrandMessage> brandMessageEvent) {
-        log.info("Got Brand from " + brandMessageEvent.getPlayer().getName() + ":" + brandMessageEvent.getMessage().getBrand());
+        log.info("Got Brand from " + brandMessageEvent.getPlayer().getFormattedName() + ":" + brandMessageEvent.getMessage().getBrand());
 
         BrandMessage brandMessage = new BrandMessage("cleanstone");
         OutboundPluginChannelMessageEvent<BrandMessage> pluginChannelMessageEvent = new OutboundPluginChannelMessageEvent<>(brandMessageEvent.getPlayer(), brandMessage);

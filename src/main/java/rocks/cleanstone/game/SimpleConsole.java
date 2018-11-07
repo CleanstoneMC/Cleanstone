@@ -48,7 +48,7 @@ public class SimpleConsole implements ConsoleSender {
     }
 
     @Override
-    public String getName() {
+    public String getFormattedName() {
         return getID().getName();
     }
 

@@ -53,14 +53,14 @@ public class AddEntity {
             HeadRotatablePosition position = getPosition(entityData, world);
 
             Human human = new SimpleHuman(world, position);
-            log.debug("{} now has entity id {}", player.getName(), human.getEntityID());
+            log.debug("{} now has entity id {}", player.getFormattedName(), human.getEntityID());
             player.setEntity(human);
             world.getEntityRegistry().addEntity(human);
             player.setGameMode(getGameMode(entityData));
             player.setFlying(isFlying(entityData));
             entityTracker.addObserver(human);
         } catch (IOException e1) {
-            log.error("Player data of " + player.getName() + " is corrupted", e1);
+            log.error("Player data of " + player.getFormattedName() + " is corrupted", e1);
         }
     }
 

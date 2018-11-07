@@ -4,6 +4,6 @@ import rocks.cleanstone.game.command.CommandSender;
 
 public class ChatMessage extends Text {
     public ChatMessage(CommandSender sender, String message) {
-        super(sender.getName() + ": " + message);
+        super(sender.getFormattedName() + ": " + message);
     }
 }

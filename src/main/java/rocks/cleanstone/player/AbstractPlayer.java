@@ -44,7 +44,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    public String getName() {
+    public String getFormattedName() {
         return id.getName();
     }
 

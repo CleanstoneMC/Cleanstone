@@ -79,7 +79,7 @@ public class PlayerBlockPlacementPacketListener {
                     .forEach(provider -> applyProperty(finalBlockType, player, packet, properties, provider));
 
             Block placedBlock = ImmutableBlock.of(blockType, properties.create());
-            log.debug("{} places {} at {}", player.getName(), placedBlock, newBlockPosition);
+            log.debug("{} places {} at {}", player.getFormattedName(), placedBlock, newBlockPosition);
 
             player.getEntity().getWorld().setBlockAt(newBlockPosition, placedBlock);
             CleanstoneServer.publishEvent(new BlockPlaceEvent(placedBlock, newBlockPosition, player, packet.getFace()));
