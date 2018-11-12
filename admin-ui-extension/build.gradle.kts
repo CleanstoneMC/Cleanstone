@@ -28,7 +28,7 @@ tasks {
     dependsOn(yarn_lint)
   }
   named<Task>("yarn_watch") { configureYarnTask() }
-  val yarn_clean by existing
+  val yarn_clean by existing { dependsOn(yarn) }
 
   "assemble" { dependsOn(yarn_build) }
   "check" { dependsOn(yarn_lint) }
