@@ -11,8 +11,8 @@ public class UpdateAttributesPacket implements Packet {
     private final PlayerAttributes attributes;
 
     public UpdateAttributesPacket(long runtimeEntityID, PlayerAttributes attributes) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.attributes =  attributes;
+        this.runtimeEntityID = runtimeEntityID;
+        this.attributes = attributes;
     }
 
     public long getRuntimeEntityID() {

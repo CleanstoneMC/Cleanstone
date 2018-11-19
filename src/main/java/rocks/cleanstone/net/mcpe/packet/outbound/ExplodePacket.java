@@ -13,9 +13,9 @@ public class ExplodePacket implements Packet {
     private final Records records;
 
     public ExplodePacket(Vector position, int radius, Records records) {
-        this.position =  position;
-        this.radius =  radius;
-        this.records =  records;
+        this.position = position;
+        this.radius = radius;
+        this.records = records;
     }
 
     public Vector getPosition() {

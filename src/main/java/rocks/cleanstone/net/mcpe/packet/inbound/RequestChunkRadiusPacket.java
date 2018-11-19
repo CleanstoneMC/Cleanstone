@@ -9,7 +9,7 @@ public class RequestChunkRadiusPacket implements Packet {
     private final int chunkRadius;
 
     public RequestChunkRadiusPacket(int chunkRadius) {
-        this.chunkRadius =  chunkRadius;
+        this.chunkRadius = chunkRadius;
     }
 
     public int getChunkRadius() {

@@ -9,7 +9,7 @@ public class SetDifficultyPacket implements Packet {
     private final int difficulty;
 
     public SetDifficultyPacket(int difficulty) {
-        this.difficulty =  difficulty;
+        this.difficulty = difficulty;
     }
 
     public int getDifficulty() {

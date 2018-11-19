@@ -11,9 +11,9 @@ public class EntityEventPacket implements Packet {
     private final int data;
 
     public EntityEventPacket(long runtimeEntityID, byte eventID, int data) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.eventID =  eventID;
-        this.data =  data;
+        this.runtimeEntityID = runtimeEntityID;
+        this.eventID = eventID;
+        this.data = data;
     }
 
     public long getRuntimeEntityID() {

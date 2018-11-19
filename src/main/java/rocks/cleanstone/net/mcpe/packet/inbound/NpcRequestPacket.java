@@ -12,10 +12,10 @@ public class NpcRequestPacket implements Packet {
     private final byte unknown2;
 
     public NpcRequestPacket(long runtimeEntityID, byte unknown0, String unknown1, byte unknown2) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.unknown0 =  unknown0;
-        this.unknown1 =  unknown1;
-        this.unknown2 =  unknown2;
+        this.runtimeEntityID = runtimeEntityID;
+        this.unknown0 = unknown0;
+        this.unknown1 = unknown1;
+        this.unknown2 = unknown2;
     }
 
     public long getRuntimeEntityID() {

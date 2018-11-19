@@ -14,12 +14,12 @@ public class MobEffectPacket implements Packet {
     private final int duration;
 
     public MobEffectPacket(long runtimeEntityID, byte eventID, int effectID, int amplifier, boolean particles, int duration) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.eventID =  eventID;
-        this.effectID =  effectID;
-        this.amplifier =  amplifier;
-        this.particles =  particles;
-        this.duration =  duration;
+        this.runtimeEntityID = runtimeEntityID;
+        this.eventID = eventID;
+        this.effectID = effectID;
+        this.amplifier = amplifier;
+        this.particles = particles;
+        this.duration = duration;
     }
 
     public long getRuntimeEntityID() {

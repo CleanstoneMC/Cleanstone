@@ -16,11 +16,11 @@ public class CraftingEventPacket implements Packet {
     private final ItemStack result;
 
     public CraftingEventPacket(byte windowID, int recipeType, UUID recipeID, ItemStack input, ItemStack result) {
-        this.windowID =  windowID;
-        this.recipeType =  recipeType;
-        this.recipeID =  recipeID;
-        this.input =  input;
-        this.result =  result;
+        this.windowID = windowID;
+        this.recipeType = recipeType;
+        this.recipeID = recipeID;
+        this.input = input;
+        this.result = result;
     }
 
     public byte getWindowID() {

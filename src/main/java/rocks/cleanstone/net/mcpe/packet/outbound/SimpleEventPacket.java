@@ -9,7 +9,7 @@ public class SimpleEventPacket implements Packet {
     private final short eventType;
 
     public SimpleEventPacket(short eventType) {
-        this.eventType =  eventType;
+        this.eventType = eventType;
     }
 
     public short getEventType() {

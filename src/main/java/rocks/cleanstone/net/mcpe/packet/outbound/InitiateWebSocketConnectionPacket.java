@@ -9,7 +9,7 @@ public class InitiateWebSocketConnectionPacket implements Packet {
     private final String server;
 
     public InitiateWebSocketConnectionPacket(String server) {
-        this.server =  server;
+        this.server = server;
     }
 
     public String getServer() {

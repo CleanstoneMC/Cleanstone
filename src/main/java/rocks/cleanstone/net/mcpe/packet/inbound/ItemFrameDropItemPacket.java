@@ -10,7 +10,7 @@ public class ItemFrameDropItemPacket implements Packet {
     private final BlockCoordinates coordinates;
 
     public ItemFrameDropItemPacket(BlockCoordinates coordinates) {
-        this.coordinates =  coordinates;
+        this.coordinates = coordinates;
     }
 
     public BlockCoordinates getCoordinates() {

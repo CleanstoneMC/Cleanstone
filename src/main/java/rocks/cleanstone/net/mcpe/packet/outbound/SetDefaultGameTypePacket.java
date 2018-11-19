@@ -9,7 +9,7 @@ public class SetDefaultGameTypePacket implements Packet {
     private final int gamemode;
 
     public SetDefaultGameTypePacket(int gamemode) {
-        this.gamemode =  gamemode;
+        this.gamemode = gamemode;
     }
 
     public int getGamemode() {

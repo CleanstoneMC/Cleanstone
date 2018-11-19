@@ -9,7 +9,7 @@ public class PlayStatusPacket implements Packet {
     private final int status;
 
     public PlayStatusPacket(int status) {
-        this.status =  status;
+        this.status = status;
     }
 
     public int getStatus() {

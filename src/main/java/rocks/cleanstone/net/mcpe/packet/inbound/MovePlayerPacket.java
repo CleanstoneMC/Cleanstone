@@ -18,16 +18,16 @@ public class MovePlayerPacket implements Packet {
     private final long otherRuntimeEntityID;
 
     public MovePlayerPacket(long runtimeEntityID, float x, float y, float z, float pitch, float yaw, float headYaw, byte mode, boolean onGround, long otherRuntimeEntityID) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.x =  x;
-        this.y =  y;
-        this.z =  z;
-        this.pitch =  pitch;
-        this.yaw =  yaw;
-        this.headYaw =  headYaw;
-        this.mode =  mode;
-        this.onGround =  onGround;
-        this.otherRuntimeEntityID =  otherRuntimeEntityID;
+        this.runtimeEntityID = runtimeEntityID;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.headYaw = headYaw;
+        this.mode = mode;
+        this.onGround = onGround;
+        this.otherRuntimeEntityID = otherRuntimeEntityID;
     }
 
     public long getRuntimeEntityID() {

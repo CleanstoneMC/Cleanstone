@@ -13,10 +13,10 @@ public class PlayerActionPacket implements Packet {
     private final int face;
 
     public PlayerActionPacket(long runtimeEntityID, int actionID, BlockCoordinates coordinates, int face) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.actionID =  actionID;
-        this.coordinates =  coordinates;
-        this.face =  face;
+        this.runtimeEntityID = runtimeEntityID;
+        this.actionID = actionID;
+        this.coordinates = coordinates;
+        this.face = face;
     }
 
     public long getRuntimeEntityID() {

@@ -15,12 +15,12 @@ public class PropertiesBuilder {
                 .collect(Collectors.toList());
     }
 
-    private <T> PropertyValuePair<T> convert(PropertyDefinition<T> propertyDefinition) {
-        return new PropertyValuePair<>(propertyDefinition.getProperty(), propertyDefinition.getDefaultValue());
-    }
-
     public PropertiesBuilder(Properties properties) {
         propertyValuePairs = new ArrayList<>(properties.getPropertyValuePairs());
+    }
+
+    private <T> PropertyValuePair<T> convert(PropertyDefinition<T> propertyDefinition) {
+        return new PropertyValuePair<>(propertyDefinition.getProperty(), propertyDefinition.getDefaultValue());
     }
 
     public <T> PropertiesBuilder withProperty(Property<T> property, T value) {

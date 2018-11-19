@@ -11,9 +11,9 @@ public class PlayerHotbarPacket implements Packet {
     private final boolean selectSlot;
 
     public PlayerHotbarPacket(int selectedSlot, byte windowID, boolean selectSlot) {
-        this.selectedSlot =  selectedSlot;
-        this.windowID =  windowID;
-        this.selectSlot =  selectSlot;
+        this.selectedSlot = selectedSlot;
+        this.windowID = windowID;
+        this.selectSlot = selectSlot;
     }
 
     public int getSelectedSlot() {

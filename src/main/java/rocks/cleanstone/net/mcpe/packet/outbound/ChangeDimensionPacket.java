@@ -12,9 +12,9 @@ public class ChangeDimensionPacket implements Packet {
     private final boolean respawn;
 
     public ChangeDimensionPacket(int dimension, Vector position, boolean respawn) {
-        this.dimension =  dimension;
-        this.position =  position;
-        this.respawn =  respawn;
+        this.dimension = dimension;
+        this.position = position;
+        this.respawn = respawn;
     }
 
     public int getDimension() {

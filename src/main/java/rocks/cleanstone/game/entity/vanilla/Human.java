@@ -12,7 +12,7 @@ public interface Human extends InventoryHolder, LivingEntity {
     @Nullable
     ItemStack getItemByHand(Hand hand);
 
-    void setSelectedSlot(short slot);
-
     short getSelectedSlot();
+
+    void setSelectedSlot(short slot);
 }

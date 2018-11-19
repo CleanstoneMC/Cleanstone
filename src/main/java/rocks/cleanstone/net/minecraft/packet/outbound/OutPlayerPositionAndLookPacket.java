@@ -12,7 +12,7 @@ public class OutPlayerPositionAndLookPacket implements Packet {
     private final int teleportID;
 
     public OutPlayerPositionAndLookPacket(RotatablePosition position, int flags, int teleportID) {
-        this.position=position;
+        this.position = position;
         this.flags = flags;
         this.teleportID = teleportID;
     }

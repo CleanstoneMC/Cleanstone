@@ -10,8 +10,8 @@ public class LoginPacket implements Packet {
     private final byte[] payload;
 
     public LoginPacket(int protocolVersion, byte[] payload) {
-        this.protocolVersion =  protocolVersion;
-        this.payload =  payload;
+        this.protocolVersion = protocolVersion;
+        this.payload = payload;
     }
 
     public int getProtocolVersion() {

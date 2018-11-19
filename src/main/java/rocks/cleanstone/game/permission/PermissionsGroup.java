@@ -4,5 +4,6 @@ import java.util.Collection;
 
 public interface PermissionsGroup {
     Collection<PermissionNode> getPermissionNodes();
+
     int getLevel();
 }

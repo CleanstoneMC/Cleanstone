@@ -13,11 +13,11 @@ public class BlockPickRequestPacket implements Packet {
     private final byte selectedSlot;
 
     public BlockPickRequestPacket(int x, int y, int z, boolean addUserData, byte selectedSlot) {
-        this.x =  x;
-        this.y =  y;
-        this.z =  z;
-        this.addUserData =  addUserData;
-        this.selectedSlot =  selectedSlot;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.addUserData = addUserData;
+        this.selectedSlot = selectedSlot;
     }
 
     public int getX() {

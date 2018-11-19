@@ -52,10 +52,14 @@ public class BlockPlaceFacingProvider implements BlockPlacePropertyProvider<Faci
 
     private Facing getBlockSiteFacing(PlayerBlockPlacementPacket packet) {
         switch (packet.getFace()) {
-            case SOUTH: return Facing.NORTH;
-            case EAST: return Facing.WEST;
-            case NORTH: return Facing.SOUTH;
-            case WEST: return Facing.EAST;
+            case SOUTH:
+                return Facing.NORTH;
+            case EAST:
+                return Facing.WEST;
+            case NORTH:
+                return Facing.SOUTH;
+            case WEST:
+                return Facing.EAST;
             default:
                 throw new IllegalStateException("cant compute facing for " + packet.getFace());
         }

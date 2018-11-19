@@ -11,9 +11,9 @@ public class ContainerSetDataPacket implements Packet {
     private final int value;
 
     public ContainerSetDataPacket(byte windowID, int property, int value) {
-        this.windowID =  windowID;
-        this.property =  property;
-        this.value =  value;
+        this.windowID = windowID;
+        this.property = property;
+        this.value = value;
     }
 
     public byte getWindowID() {

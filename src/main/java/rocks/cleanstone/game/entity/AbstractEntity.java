@@ -7,8 +7,8 @@ public abstract class AbstractEntity implements Entity {
     private final EntityType type;
     private final World world;
     private final int entityID;
-    private boolean persistent;
     protected RotatablePosition position;
+    private boolean persistent;
 
     protected AbstractEntity(EntityType type, World world, RotatablePosition position, boolean persistent) {
         this.type = type;

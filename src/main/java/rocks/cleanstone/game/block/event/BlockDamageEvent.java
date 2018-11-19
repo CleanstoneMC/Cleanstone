@@ -6,14 +6,14 @@ import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.player.Player;
 
 public class BlockDamageEvent extends CancellableEvent {
-    private Block block;
     private final Position position;
     private final Player player;
+    private Block block;
 
     /**
-     * @param block The Block
+     * @param block    The Block
      * @param position The BlockPosition
-     * @param player The Player
+     * @param player   The Player
      */
     public BlockDamageEvent(Block block, Position position, Player player) {
         this.block = block;

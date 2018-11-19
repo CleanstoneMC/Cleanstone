@@ -14,12 +14,12 @@ public class AdventureSettingsPacket implements Packet {
     private final long userId;
 
     public AdventureSettingsPacket(int flags, int commandPermission, int actionPermissions, int permissionLevel, int customStoredPermissions, long userId) {
-        this.flags =  flags;
-        this.commandPermission =  commandPermission;
-        this.actionPermissions =  actionPermissions;
-        this.permissionLevel =  permissionLevel;
-        this.customStoredPermissions =  customStoredPermissions;
-        this.userId =  userId;
+        this.flags = flags;
+        this.commandPermission = commandPermission;
+        this.actionPermissions = actionPermissions;
+        this.permissionLevel = permissionLevel;
+        this.customStoredPermissions = customStoredPermissions;
+        this.userId = userId;
     }
 
     public int getFlags() {

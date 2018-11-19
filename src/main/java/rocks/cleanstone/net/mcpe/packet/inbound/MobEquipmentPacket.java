@@ -14,11 +14,11 @@ public class MobEquipmentPacket implements Packet {
     private final byte windowsId;
 
     public MobEquipmentPacket(long runtimeEntityID, Item item, byte slot, byte selectedSlot, byte windowsId) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.item =  item;
-        this.slot =  slot;
-        this.selectedSlot =  selectedSlot;
-        this.windowsId =  windowsId;
+        this.runtimeEntityID = runtimeEntityID;
+        this.item = item;
+        this.slot = slot;
+        this.selectedSlot = selectedSlot;
+        this.windowsId = windowsId;
     }
 
     public long getRuntimeEntityID() {

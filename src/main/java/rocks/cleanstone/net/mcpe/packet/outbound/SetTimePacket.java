@@ -9,7 +9,7 @@ public class SetTimePacket implements Packet {
     private final int time;
 
     public SetTimePacket(int time) {
-        this.time =  time;
+        this.time = time;
     }
 
     public int getTime() {

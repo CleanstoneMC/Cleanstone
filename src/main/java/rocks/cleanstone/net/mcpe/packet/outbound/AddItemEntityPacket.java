@@ -21,17 +21,17 @@ public class AddItemEntityPacket implements Packet {
     private final boolean isFromFishing;
 
     public AddItemEntityPacket(long entityIDSelf, long runtimeEntityID, Item item, float x, float y, float z, float speedX, float speedY, float speedZ, MetadataDictionary metadata, boolean isFromFishing) {
-        this.entityIDSelf =  entityIDSelf;
-        this.runtimeEntityID =  runtimeEntityID;
-        this.item =  item;
-        this.x =  x;
-        this.y =  y;
-        this.z =  z;
-        this.speedX =  speedX;
-        this.speedY =  speedY;
-        this.speedZ =  speedZ;
-        this.metadata =  metadata;
-        this.isFromFishing =  isFromFishing;
+        this.entityIDSelf = entityIDSelf;
+        this.runtimeEntityID = runtimeEntityID;
+        this.item = item;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.speedZ = speedZ;
+        this.metadata = metadata;
+        this.isFromFishing = isFromFishing;
     }
 
     public long getEntityIDSelf() {

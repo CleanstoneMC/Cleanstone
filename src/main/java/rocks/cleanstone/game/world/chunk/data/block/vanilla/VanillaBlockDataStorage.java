@@ -18,11 +18,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class VanillaBlockDataStorage implements BlockDataStorage {
     private static final int SEC_HEIGHT = BlockDataSection.HEIGHT, SEC_WIDTH = BlockDataSection.WIDTH,
             SEC_AMNT = Chunk.HEIGHT / SEC_HEIGHT;
-
-    private BlockDataSection[] sections = new BlockDataSection[SEC_AMNT];
     private final boolean hasSkyLight;
     private final DirectPalette directPalette;
     private final boolean omitDirectPaletteLength;
+    private BlockDataSection[] sections = new BlockDataSection[SEC_AMNT];
 
     VanillaBlockDataStorage(VanillaBlockDataStorage blockDataStorage) {
         this.hasSkyLight = blockDataStorage.hasSkyLight;

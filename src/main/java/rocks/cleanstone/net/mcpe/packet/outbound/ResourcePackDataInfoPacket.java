@@ -13,11 +13,11 @@ public class ResourcePackDataInfoPacket implements Packet {
     private final String hash;
 
     public ResourcePackDataInfoPacket(String packageID, int maxChunkSize, int chunkCount, long compressedPackageSize, String hash) {
-        this.packageID =  packageID;
-        this.maxChunkSize =  maxChunkSize;
-        this.chunkCount =  chunkCount;
-        this.compressedPackageSize =  compressedPackageSize;
-        this.hash =  hash;
+        this.packageID = packageID;
+        this.maxChunkSize = maxChunkSize;
+        this.chunkCount = chunkCount;
+        this.compressedPackageSize = compressedPackageSize;
+        this.hash = hash;
     }
 
     public String getPackageID() {

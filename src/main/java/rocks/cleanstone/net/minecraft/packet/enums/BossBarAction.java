@@ -6,7 +6,8 @@ public enum BossBarAction {
     UPDATE_HEALTH(2),
     UPDATE_TITLE(3),
     UPDATE_STYLE(4),
-    UPDATE_FLAGS(5),;
+    UPDATE_FLAGS(5),
+    ;
 
     private final int actionID;
 

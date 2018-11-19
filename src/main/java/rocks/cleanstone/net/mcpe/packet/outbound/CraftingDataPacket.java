@@ -10,7 +10,7 @@ public class CraftingDataPacket implements Packet {
     private final Recipes recipes;
 
     public CraftingDataPacket(Recipes recipes) {
-        this.recipes =  recipes;
+        this.recipes = recipes;
     }
 
     public Recipes getRecipes() {

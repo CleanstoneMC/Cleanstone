@@ -9,7 +9,7 @@ public class HurtArmorPacket implements Packet {
     private final int health;
 
     public HurtArmorPacket(int health) {
-        this.health =  health;
+        this.health = health;
     }
 
     public int getHealth() {

@@ -14,11 +14,11 @@ public class MobArmorEquipmentPacket implements Packet {
     private final Item boots;
 
     public MobArmorEquipmentPacket(long runtimeEntityID, Item helmet, Item chestplate, Item leggings, Item boots) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.helmet =  helmet;
-        this.chestplate =  chestplate;
-        this.leggings =  leggings;
-        this.boots =  boots;
+        this.runtimeEntityID = runtimeEntityID;
+        this.helmet = helmet;
+        this.chestplate = chestplate;
+        this.leggings = leggings;
+        this.boots = boots;
     }
 
     public long getRuntimeEntityID() {

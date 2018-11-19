@@ -9,16 +9,16 @@ import rocks.cleanstone.player.Player;
 import java.util.Collection;
 
 public class BlockBreakEvent extends CancellableEvent {
-    private Block block;
     private final Position position;
     private final Player player;
+    private Block block;
     private Collection<ItemStack> drops;
 
     /**
-     * @param block The Block
+     * @param block    The Block
      * @param position The BlockPosition
-     * @param player The Player
-     * @param drops The Drops
+     * @param player   The Player
+     * @param drops    The Drops
      */
     public BlockBreakEvent(Block block, Position position, Player player, Collection<ItemStack> drops) {
         this.block = block;

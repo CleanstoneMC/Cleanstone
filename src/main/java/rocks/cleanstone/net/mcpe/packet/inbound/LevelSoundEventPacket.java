@@ -15,12 +15,12 @@ public class LevelSoundEventPacket implements Packet {
     private final boolean isGlobal;
 
     public LevelSoundEventPacket(byte soundID, Vector position, int blockId, int entityType, boolean isBabyMob, boolean isGlobal) {
-        this.soundID =  soundID;
-        this.position =  position;
-        this.blockId =  blockId;
-        this.entityType =  entityType;
-        this.isBabyMob =  isBabyMob;
-        this.isGlobal =  isGlobal;
+        this.soundID = soundID;
+        this.position = position;
+        this.blockId = blockId;
+        this.entityType = entityType;
+        this.isBabyMob = isBabyMob;
+        this.isGlobal = isGlobal;
     }
 
     public byte getSoundID() {

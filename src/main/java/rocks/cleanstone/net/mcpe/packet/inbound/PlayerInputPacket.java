@@ -12,10 +12,10 @@ public class PlayerInputPacket implements Packet {
     private final boolean sneaking;
 
     public PlayerInputPacket(float motionX, float motionZ, boolean jumping, boolean sneaking) {
-        this.motionX =  motionX;
-        this.motionZ =  motionZ;
-        this.jumping =  jumping;
-        this.sneaking =  sneaking;
+        this.motionX = motionX;
+        this.motionZ = motionZ;
+        this.jumping = jumping;
+        this.sneaking = sneaking;
     }
 
     public float getMotionX() {

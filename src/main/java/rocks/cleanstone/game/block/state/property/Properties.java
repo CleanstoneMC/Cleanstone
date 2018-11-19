@@ -22,10 +22,6 @@ public class Properties {
                 .collect(Collectors.toList());
     }
 
-    private <T> PropertyValuePair<T> convert(PropertyDefinition<T> propertyDefinition) {
-        return new PropertyValuePair<>(propertyDefinition.getProperty(), propertyDefinition.getDefaultValue());
-    }
-
     public Properties(PropertyHolder propertyHolder) {
         this(propertyHolder.getProperties());
     }
@@ -34,6 +30,9 @@ public class Properties {
         this(Collections.emptyList());
     }
 
+    private <T> PropertyValuePair<T> convert(PropertyDefinition<T> propertyDefinition) {
+        return new PropertyValuePair<>(propertyDefinition.getProperty(), propertyDefinition.getDefaultValue());
+    }
 
     @SuppressWarnings("unchecked")
     public <T> T get(Property<T> property) {

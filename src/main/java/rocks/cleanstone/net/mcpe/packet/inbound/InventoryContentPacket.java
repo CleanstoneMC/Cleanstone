@@ -11,8 +11,8 @@ public class InventoryContentPacket implements Packet {
     private final ItemStack input;
 
     public InventoryContentPacket(int inventoryId, ItemStack input) {
-        this.inventoryId =  inventoryId;
-        this.input =  input;
+        this.inventoryId = inventoryId;
+        this.input = input;
     }
 
     public int getInventoryId() {

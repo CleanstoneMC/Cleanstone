@@ -15,12 +15,12 @@ public class UpdateBlockSyncedPacket implements Packet {
     private final long unknown1;
 
     public UpdateBlockSyncedPacket(BlockCoordinates coordinates, int blockRuntimeID, int blockPriority, int dataLayerID, long unknown0, long unknown1) {
-        this.coordinates =  coordinates;
-        this.blockRuntimeID =  blockRuntimeID;
-        this.blockPriority =  blockPriority;
-        this.dataLayerID =  dataLayerID;
-        this.unknown0 =  unknown0;
-        this.unknown1 =  unknown1;
+        this.coordinates = coordinates;
+        this.blockRuntimeID = blockRuntimeID;
+        this.blockPriority = blockPriority;
+        this.dataLayerID = dataLayerID;
+        this.unknown0 = unknown0;
+        this.unknown1 = unknown1;
     }
 
     public BlockCoordinates getCoordinates() {

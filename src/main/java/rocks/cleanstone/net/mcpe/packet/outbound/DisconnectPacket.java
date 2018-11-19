@@ -10,8 +10,8 @@ public class DisconnectPacket implements Packet {
     private final String message;
 
     public DisconnectPacket(boolean hideDisconnectReason, String message) {
-        this.hideDisconnectReason =  hideDisconnectReason;
-        this.message =  message;
+        this.hideDisconnectReason = hideDisconnectReason;
+        this.message = message;
     }
 
     public boolean getHideDisconnectReason() {

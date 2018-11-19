@@ -13,11 +13,11 @@ public class ResourcePackChunkDataPacket implements Packet {
     private final byte[] payload;
 
     public ResourcePackChunkDataPacket(String packageID, int chunkIndex, long progress, int length, byte[] payload) {
-        this.packageID =  packageID;
-        this.chunkIndex =  chunkIndex;
-        this.progress =  progress;
-        this.length =  length;
-        this.payload =  payload;
+        this.packageID = packageID;
+        this.chunkIndex = chunkIndex;
+        this.progress = progress;
+        this.length = length;
+        this.payload = payload;
     }
 
     public String getPackageID() {

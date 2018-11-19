@@ -14,11 +14,11 @@ public class AddPaintingPacket implements Packet {
     private final String title;
 
     public AddPaintingPacket(long entityIDSelf, long runtimeEntityID, BlockCoordinates coordinates, int direction, String title) {
-        this.entityIDSelf =  entityIDSelf;
-        this.runtimeEntityID =  runtimeEntityID;
-        this.coordinates =  coordinates;
-        this.direction =  direction;
-        this.title =  title;
+        this.entityIDSelf = entityIDSelf;
+        this.runtimeEntityID = runtimeEntityID;
+        this.coordinates = coordinates;
+        this.direction = direction;
+        this.title = title;
     }
 
     public long getEntityIDSelf() {

@@ -9,7 +9,7 @@ public class AddBehaviorTreePacket implements Packet {
     private final String behaviorTree;
 
     public AddBehaviorTreePacket(String behaviorTree) {
-        this.behaviorTree =  behaviorTree;
+        this.behaviorTree = behaviorTree;
     }
 
     public String getBehaviorTree() {

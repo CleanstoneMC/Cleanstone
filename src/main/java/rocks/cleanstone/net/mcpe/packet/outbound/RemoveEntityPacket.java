@@ -9,7 +9,7 @@ public class RemoveEntityPacket implements Packet {
     private final long entityIDSelf;
 
     public RemoveEntityPacket(long entityIDSelf) {
-        this.entityIDSelf =  entityIDSelf;
+        this.entityIDSelf = entityIDSelf;
     }
 
     public long getEntityIDSelf() {

@@ -9,7 +9,7 @@ public class SetLastHurtByPacket implements Packet {
     private final int unknown;
 
     public SetLastHurtByPacket(int unknown) {
-        this.unknown =  unknown;
+        this.unknown = unknown;
     }
 
     public int getUnknown() {

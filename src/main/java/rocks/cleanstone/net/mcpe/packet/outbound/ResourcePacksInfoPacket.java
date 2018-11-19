@@ -12,9 +12,9 @@ public class ResourcePacksInfoPacket implements Packet {
     private final ResourcePackInfos resourcePackInfos;
 
     public ResourcePacksInfoPacket(boolean mustAccept, ResourcePackInfos behahaviorPackInfos, ResourcePackInfos resourcePackInfos) {
-        this.mustAccept =  mustAccept;
-        this.behahaviorPackInfos =  behahaviorPackInfos;
-        this.resourcePackInfos =  resourcePackInfos;
+        this.mustAccept = mustAccept;
+        this.behahaviorPackInfos = behahaviorPackInfos;
+        this.resourcePackInfos = resourcePackInfos;
     }
 
     public boolean getMustAccept() {

@@ -10,8 +10,8 @@ public class ResourcePackChunkRequestPacket implements Packet {
     private final int chunkIndex;
 
     public ResourcePackChunkRequestPacket(String packageID, int chunkIndex) {
-        this.packageID =  packageID;
-        this.chunkIndex =  chunkIndex;
+        this.packageID = packageID;
+        this.chunkIndex = chunkIndex;
     }
 
     public String getPackageID() {

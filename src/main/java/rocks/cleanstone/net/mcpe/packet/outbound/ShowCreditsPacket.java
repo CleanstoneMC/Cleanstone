@@ -10,8 +10,8 @@ public class ShowCreditsPacket implements Packet {
     private final int status;
 
     public ShowCreditsPacket(long runtimeEntityID, int status) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.status =  status;
+        this.runtimeEntityID = runtimeEntityID;
+        this.status = status;
     }
 
     public long getRuntimeEntityID() {

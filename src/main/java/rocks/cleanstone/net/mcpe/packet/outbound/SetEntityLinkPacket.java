@@ -12,10 +12,10 @@ public class SetEntityLinkPacket implements Packet {
     private final byte unknown;
 
     public SetEntityLinkPacket(long riddenID, long riderID, byte linkType, byte unknown) {
-        this.riddenID =  riddenID;
-        this.riderID =  riderID;
-        this.linkType =  linkType;
-        this.unknown =  unknown;
+        this.riddenID = riddenID;
+        this.riderID = riderID;
+        this.linkType = linkType;
+        this.unknown = unknown;
     }
 
     public long getRiddenID() {

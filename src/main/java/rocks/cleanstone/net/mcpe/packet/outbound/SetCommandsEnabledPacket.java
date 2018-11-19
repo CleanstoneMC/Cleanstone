@@ -9,7 +9,7 @@ public class SetCommandsEnabledPacket implements Packet {
     private final boolean enabled;
 
     public SetCommandsEnabledPacket(boolean enabled) {
-        this.enabled =  enabled;
+        this.enabled = enabled;
     }
 
     public boolean getEnabled() {

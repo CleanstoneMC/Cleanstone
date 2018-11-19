@@ -9,7 +9,7 @@ public class RiderJumpPacket implements Packet {
     private final int unknown;
 
     public RiderJumpPacket(int unknown) {
-        this.unknown =  unknown;
+        this.unknown = unknown;
     }
 
     public int getUnknown() {

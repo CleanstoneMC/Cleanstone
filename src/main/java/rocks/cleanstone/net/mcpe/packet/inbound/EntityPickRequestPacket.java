@@ -10,8 +10,8 @@ public class EntityPickRequestPacket implements Packet {
     private final byte selectedSlot;
 
     public EntityPickRequestPacket(long runtimeEntityID, byte selectedSlot) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.selectedSlot =  selectedSlot;
+        this.runtimeEntityID = runtimeEntityID;
+        this.selectedSlot = selectedSlot;
     }
 
     public long getRuntimeEntityID() {

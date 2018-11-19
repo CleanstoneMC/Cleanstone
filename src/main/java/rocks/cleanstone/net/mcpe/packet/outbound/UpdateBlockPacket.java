@@ -13,10 +13,10 @@ public class UpdateBlockPacket implements Packet {
     private final int storage;
 
     public UpdateBlockPacket(BlockCoordinates coordinates, int blockRuntimeID, int blockPriority, int storage) {
-        this.coordinates =  coordinates;
-        this.blockRuntimeID =  blockRuntimeID;
-        this.blockPriority =  blockPriority;
-        this.storage =  storage;
+        this.coordinates = coordinates;
+        this.blockRuntimeID = blockRuntimeID;
+        this.blockPriority = blockPriority;
+        this.storage = storage;
     }
 
     public BlockCoordinates getCoordinates() {

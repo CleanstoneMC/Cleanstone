@@ -13,9 +13,13 @@ import rocks.cleanstone.game.material.block.BlockType;
 @Slf4j
 public class BlockState {
     private static CachingBlockStateProvider loadingSource;
+    private final BlockType blockType;
+    private final Properties properties;
 
-    static void setLoadingSource(CachingBlockStateProvider loadingSource) {
-        BlockState.loadingSource = loadingSource;
+    BlockState(BlockType blockType, Properties properties) {
+        Preconditions.checkNotNull(blockType, "blockType cannot be null");
+        this.blockType = blockType;
+        this.properties = properties;
     }
 
     private static CachingBlockStateProvider getLoadingSource() {
@@ -24,6 +28,10 @@ public class BlockState {
         } else {
             return loadingSource;
         }
+    }
+
+    static void setLoadingSource(CachingBlockStateProvider loadingSource) {
+        BlockState.loadingSource = loadingSource;
     }
 
     public static BlockState of(BlockType blockType, Properties properties) {
@@ -36,15 +44,6 @@ public class BlockState {
 
     public static <T> BlockState withProperty(BlockType blockType, Property<T> property, T value) {
         return getLoadingSource().withProperty(blockType, property, value);
-    }
-
-    private final BlockType blockType;
-    private final Properties properties;
-
-    BlockState(BlockType blockType, Properties properties) {
-        Preconditions.checkNotNull(blockType, "blockType cannot be null");
-        this.blockType = blockType;
-        this.properties = properties;
     }
 
     public BlockType getBlockType() {

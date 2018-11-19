@@ -14,11 +14,11 @@ public class UpdateEquipmentPacket implements Packet {
     private final NamedBinaryTag namedTag;
 
     public UpdateEquipmentPacket(byte windowID, byte windowType, byte unknown, long entityID, NamedBinaryTag namedTag) {
-        this.windowID =  windowID;
-        this.windowType =  windowType;
-        this.unknown =  unknown;
-        this.entityID =  entityID;
-        this.namedTag =  namedTag;
+        this.windowID = windowID;
+        this.windowType = windowType;
+        this.unknown = unknown;
+        this.entityID = entityID;
+        this.namedTag = namedTag;
     }
 
     public byte getWindowID() {

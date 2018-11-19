@@ -12,9 +12,9 @@ public class ResourcePackStackPacket implements Packet {
     private final ResourcePackIdVersions resourcePackIdVersions;
 
     public ResourcePackStackPacket(boolean mustAccept, ResourcePackIdVersions behaviorPackIdVersions, ResourcePackIdVersions resourcePackIdVersions) {
-        this.mustAccept =  mustAccept;
-        this.behaviorPackIdVersions =  behaviorPackIdVersions;
-        this.resourcePackIdVersions =  resourcePackIdVersions;
+        this.mustAccept = mustAccept;
+        this.behaviorPackIdVersions = behaviorPackIdVersions;
+        this.resourcePackIdVersions = resourcePackIdVersions;
     }
 
     public boolean getMustAccept() {

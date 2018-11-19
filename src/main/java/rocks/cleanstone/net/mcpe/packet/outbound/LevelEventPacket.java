@@ -12,9 +12,9 @@ public class LevelEventPacket implements Packet {
     private final int data;
 
     public LevelEventPacket(int eventID, Vector position, int data) {
-        this.eventID =  eventID;
-        this.position =  position;
-        this.data =  data;
+        this.eventID = eventID;
+        this.position = position;
+        this.data = data;
     }
 
     public int getEventID() {

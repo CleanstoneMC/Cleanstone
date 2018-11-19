@@ -18,15 +18,15 @@ public class UpdateTradePacket implements Packet {
     private final NamedBinaryTag namedTag;
 
     public UpdateTradePacket(byte windowID, byte windowType, int unknown0, int unknown1, boolean isWilling, long traderEntityID, long playerEntityID, String displayName, NamedBinaryTag namedTag) {
-        this.windowID =  windowID;
-        this.windowType =  windowType;
-        this.unknown0 =  unknown0;
-        this.unknown1 =  unknown1;
-        this.isWilling =  isWilling;
-        this.traderEntityID =  traderEntityID;
-        this.playerEntityID =  playerEntityID;
-        this.displayName =  displayName;
-        this.namedTag =  namedTag;
+        this.windowID = windowID;
+        this.windowType = windowType;
+        this.unknown0 = unknown0;
+        this.unknown1 = unknown1;
+        this.isWilling = isWilling;
+        this.traderEntityID = traderEntityID;
+        this.playerEntityID = playerEntityID;
+        this.displayName = displayName;
+        this.namedTag = namedTag;
     }
 
     public byte getWindowID() {

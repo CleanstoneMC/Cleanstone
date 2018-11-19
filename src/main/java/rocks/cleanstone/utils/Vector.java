@@ -51,12 +51,12 @@ public class Vector {
         return x;
     }
 
-    public long getXAsLong() {
-        return (long) Math.floor(getX());
-    }
-
     public void setX(double x) {
         this.x = x;
+    }
+
+    public long getXAsLong() {
+        return (long) Math.floor(getX());
     }
 
     public void addX(double x) {
@@ -67,12 +67,12 @@ public class Vector {
         return y;
     }
 
-    public long getYAsLong() {
-        return (long) Math.floor(getY());
-    }
-
     public void setY(double y) {
         this.y = y;
+    }
+
+    public long getYAsLong() {
+        return (long) Math.floor(getY());
     }
 
     public void addY(double y) {
@@ -83,12 +83,12 @@ public class Vector {
         return z;
     }
 
-    public long getZAsLong() {
-        return (long) Math.floor(getZ());
-    }
-
     public void setZ(double z) {
         this.z = z;
+    }
+
+    public long getZAsLong() {
+        return (long) Math.floor(getZ());
     }
 
     public void addZ(double z) {

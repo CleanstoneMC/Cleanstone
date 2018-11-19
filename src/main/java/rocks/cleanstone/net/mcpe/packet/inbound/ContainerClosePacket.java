@@ -9,7 +9,7 @@ public class ContainerClosePacket implements Packet {
     private final byte windowID;
 
     public ContainerClosePacket(byte windowID) {
-        this.windowID =  windowID;
+        this.windowID = windowID;
     }
 
     public byte getWindowID() {

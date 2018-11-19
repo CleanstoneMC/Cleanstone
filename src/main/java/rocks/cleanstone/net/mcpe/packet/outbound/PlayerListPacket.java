@@ -10,7 +10,7 @@ public class PlayerListPacket implements Packet {
     private final PlayerRecords records;
 
     public PlayerListPacket(PlayerRecords records) {
-        this.records =  records;
+        this.records = records;
     }
 
     public PlayerRecords getRecords() {

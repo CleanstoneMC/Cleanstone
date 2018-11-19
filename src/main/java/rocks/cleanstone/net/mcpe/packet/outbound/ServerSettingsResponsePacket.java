@@ -10,8 +10,8 @@ public class ServerSettingsResponsePacket implements Packet {
     private final String data;
 
     public ServerSettingsResponsePacket(long formId, String data) {
-        this.formId =  formId;
-        this.data =  data;
+        this.formId = formId;
+        this.data = data;
     }
 
     public long getFormId() {

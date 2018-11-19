@@ -9,7 +9,7 @@ public class MapInfoRequestPacket implements Packet {
     private final long mapID;
 
     public MapInfoRequestPacket(long mapID) {
-        this.mapID =  mapID;
+        this.mapID = mapID;
     }
 
     public long getMapID() {

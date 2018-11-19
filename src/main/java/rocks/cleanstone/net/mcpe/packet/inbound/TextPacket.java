@@ -9,7 +9,7 @@ public class TextPacket implements Packet {
     private final byte packetType;
 
     public TextPacket(byte packetType) {
-        this.packetType =  packetType;
+        this.packetType = packetType;
     }
 
     public byte getPacketType() {

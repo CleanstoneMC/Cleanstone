@@ -11,9 +11,9 @@ public class FullChunkDataPacket implements Packet {
     private final byte[] chunkData;
 
     public FullChunkDataPacket(int chunkX, int chunkZ, byte[] chunkData) {
-        this.chunkX =  chunkX;
-        this.chunkZ =  chunkZ;
-        this.chunkData =  chunkData;
+        this.chunkX = chunkX;
+        this.chunkZ = chunkZ;
+        this.chunkData = chunkData;
     }
 
     public int getChunkX() {

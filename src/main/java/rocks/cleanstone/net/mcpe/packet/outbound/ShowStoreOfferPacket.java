@@ -10,8 +10,8 @@ public class ShowStoreOfferPacket implements Packet {
     private final boolean unknown1;
 
     public ShowStoreOfferPacket(String unknown0, boolean unknown1) {
-        this.unknown0 =  unknown0;
-        this.unknown1 =  unknown1;
+        this.unknown0 = unknown0;
+        this.unknown1 = unknown1;
     }
 
     public String getUnknown0() {

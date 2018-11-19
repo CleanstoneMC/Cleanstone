@@ -13,10 +13,10 @@ public class ContainerOpenPacket implements Packet {
     private final long runtimeEntityID;
 
     public ContainerOpenPacket(byte windowID, byte packetType, BlockCoordinates coordinates, long runtimeEntityID) {
-        this.windowID =  windowID;
-        this.packetType =  packetType;
-        this.coordinates =  coordinates;
-        this.runtimeEntityID =  runtimeEntityID;
+        this.windowID = windowID;
+        this.packetType = packetType;
+        this.coordinates = coordinates;
+        this.runtimeEntityID = runtimeEntityID;
     }
 
     public byte getWindowID() {

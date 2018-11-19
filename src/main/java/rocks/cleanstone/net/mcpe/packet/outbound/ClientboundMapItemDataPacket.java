@@ -10,7 +10,7 @@ public class ClientboundMapItemDataPacket implements Packet {
     private final MapInfo mapInfo;
 
     public ClientboundMapItemDataPacket(MapInfo mapInfo) {
-        this.mapInfo =  mapInfo;
+        this.mapInfo = mapInfo;
     }
 
     public MapInfo getMapInfo() {

@@ -10,8 +10,8 @@ public class ModalFormRequestPacket implements Packet {
     private final String data;
 
     public ModalFormRequestPacket(int formId, String data) {
-        this.formId =  formId;
-        this.data =  data;
+        this.formId = formId;
+        this.data = data;
     }
 
     public int getFormId() {

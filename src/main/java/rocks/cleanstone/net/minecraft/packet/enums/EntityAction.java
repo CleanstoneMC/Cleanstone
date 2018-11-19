@@ -9,7 +9,8 @@ public enum EntityAction {
     START_JUMP_BOOST_WITH_HORSE(5),
     STOP_JUMP_BOOST_WITH_HORSE(6),
     OPEN_HORSE_INVENTORY(7),
-    START_FLYING_WITH_ELYTRA(8),;
+    START_FLYING_WITH_ELYTRA(8),
+    ;
 
     private final int actionID;
 

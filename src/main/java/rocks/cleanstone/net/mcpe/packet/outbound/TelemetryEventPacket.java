@@ -11,9 +11,9 @@ public class TelemetryEventPacket implements Packet {
     private final byte unk2;
 
     public TelemetryEventPacket(long entityIDSelf, int unk1, byte unk2) {
-        this.entityIDSelf =  entityIDSelf;
-        this.unk1 =  unk1;
-        this.unk2 =  unk2;
+        this.entityIDSelf = entityIDSelf;
+        this.unk1 = unk1;
+        this.unk2 = unk2;
     }
 
     public long getEntityIDSelf() {

@@ -26,21 +26,21 @@ public class AddEntityPacket implements Packet {
     private final Links links;
 
     public AddEntityPacket(long entityIDSelf, long runtimeEntityID, int entityType, float x, float y, float z, float speedX, float speedY, float speedZ, float pitch, float yaw, float headYaw, EntityAttributes attributes, MetadataDictionary metadata, Links links) {
-        this.entityIDSelf =  entityIDSelf;
-        this.runtimeEntityID =  runtimeEntityID;
-        this.entityType =  entityType;
-        this.x =  x;
-        this.y =  y;
-        this.z =  z;
-        this.speedX =  speedX;
-        this.speedY =  speedY;
-        this.speedZ =  speedZ;
-        this.pitch =  pitch;
-        this.yaw =  yaw;
-        this.headYaw =  headYaw;
-        this.attributes =  attributes;
-        this.metadata =  metadata;
-        this.links =  links;
+        this.entityIDSelf = entityIDSelf;
+        this.runtimeEntityID = runtimeEntityID;
+        this.entityType = entityType;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.speedZ = speedZ;
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.headYaw = headYaw;
+        this.attributes = attributes;
+        this.metadata = metadata;
+        this.links = links;
     }
 
     public long getEntityIDSelf() {

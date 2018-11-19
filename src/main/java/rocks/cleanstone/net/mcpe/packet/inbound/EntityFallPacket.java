@@ -11,9 +11,9 @@ public class EntityFallPacket implements Packet {
     private final boolean isInVoid;
 
     public EntityFallPacket(long runtimeEntityID, float fallDistance, boolean isInVoid) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.fallDistance =  fallDistance;
-        this.isInVoid =  isInVoid;
+        this.runtimeEntityID = runtimeEntityID;
+        this.fallDistance = fallDistance;
+        this.isInVoid = isInVoid;
     }
 
     public long getRuntimeEntityID() {

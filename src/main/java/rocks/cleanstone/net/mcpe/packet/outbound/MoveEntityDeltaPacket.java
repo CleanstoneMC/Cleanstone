@@ -10,8 +10,8 @@ public class MoveEntityDeltaPacket implements Packet {
     private final byte flags;
 
     public MoveEntityDeltaPacket(long runtimeEntityID, byte flags) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.flags =  flags;
+        this.runtimeEntityID = runtimeEntityID;
+        this.flags = flags;
     }
 
     public long getRuntimeEntityID() {

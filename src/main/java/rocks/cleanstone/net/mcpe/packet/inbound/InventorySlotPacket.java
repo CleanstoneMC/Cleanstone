@@ -12,9 +12,9 @@ public class InventorySlotPacket implements Packet {
     private final Item item;
 
     public InventorySlotPacket(int inventoryId, int slot, Item item) {
-        this.inventoryId =  inventoryId;
-        this.slot =  slot;
-        this.item =  item;
+        this.inventoryId = inventoryId;
+        this.slot = slot;
+        this.item = item;
     }
 
     public int getInventoryId() {

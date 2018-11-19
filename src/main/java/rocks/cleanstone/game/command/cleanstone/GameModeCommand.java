@@ -1,9 +1,6 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.game.gamemode.GameMode;
@@ -11,6 +8,8 @@ import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.net.minecraft.packet.enums.GameStateChangeReason;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChangeGameStatePacket;
 import rocks.cleanstone.player.Player;
+
+import java.util.Collections;
 
 @Component
 public class GameModeCommand extends SimpleCommand {

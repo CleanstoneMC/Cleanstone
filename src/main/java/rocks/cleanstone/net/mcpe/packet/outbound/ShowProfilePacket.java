@@ -9,7 +9,7 @@ public class ShowProfilePacket implements Packet {
     private final String xUID;
 
     public ShowProfilePacket(String xUID) {
-        this.xUID =  xUID;
+        this.xUID = xUID;
     }
 
     public String getXUID() {

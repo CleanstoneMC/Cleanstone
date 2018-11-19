@@ -10,8 +10,8 @@ public class TransferPacket implements Packet {
     private final short port;
 
     public TransferPacket(String serverAddress, short port) {
-        this.serverAddress =  serverAddress;
-        this.port =  port;
+        this.serverAddress = serverAddress;
+        this.port = port;
     }
 
     public String getServerAddress() {

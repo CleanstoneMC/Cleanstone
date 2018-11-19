@@ -10,8 +10,8 @@ public class CameraPacket implements Packet {
     private final long unknown2;
 
     public CameraPacket(long unknown1, long unknown2) {
-        this.unknown1 =  unknown1;
-        this.unknown2 =  unknown2;
+        this.unknown1 = unknown1;
+        this.unknown2 = unknown2;
     }
 
     public long getUnknown1() {

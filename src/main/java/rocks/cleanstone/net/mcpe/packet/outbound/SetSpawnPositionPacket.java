@@ -12,9 +12,9 @@ public class SetSpawnPositionPacket implements Packet {
     private final boolean forced;
 
     public SetSpawnPositionPacket(int spawnType, BlockCoordinates coordinates, boolean forced) {
-        this.spawnType =  spawnType;
-        this.coordinates =  coordinates;
-        this.forced =  forced;
+        this.spawnType = spawnType;
+        this.coordinates = coordinates;
+        this.forced = forced;
     }
 
     public int getSpawnType() {

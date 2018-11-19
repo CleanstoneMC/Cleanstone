@@ -10,7 +10,7 @@ public class GameRulesChangedPacket implements Packet {
     private final GameRules rules;
 
     public GameRulesChangedPacket(GameRules rules) {
-        this.rules =  rules;
+        this.rules = rules;
     }
 
     public GameRules getRules() {

@@ -11,8 +11,8 @@ public class SpawnExperienceOrbPacket implements Packet {
     private final int count;
 
     public SpawnExperienceOrbPacket(Vector position, int count) {
-        this.position =  position;
-        this.count =  count;
+        this.position = position;
+        this.count = count;
     }
 
     public Vector getPosition() {

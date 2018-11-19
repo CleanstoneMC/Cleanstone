@@ -10,8 +10,8 @@ public class StopSoundPacket implements Packet {
     private final boolean stopAll;
 
     public StopSoundPacket(String name, boolean stopAll) {
-        this.name =  name;
-        this.stopAll =  stopAll;
+        this.name = name;
+        this.stopAll = stopAll;
     }
 
     public String getName() {

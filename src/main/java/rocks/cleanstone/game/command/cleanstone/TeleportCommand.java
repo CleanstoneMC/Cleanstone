@@ -1,9 +1,6 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
@@ -11,6 +8,8 @@ import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.event.StandardMoveReason;
+
+import java.util.Collections;
 
 @Component
 public class TeleportCommand extends SimpleCommand {

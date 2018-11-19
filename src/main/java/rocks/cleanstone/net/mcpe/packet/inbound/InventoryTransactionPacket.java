@@ -10,7 +10,7 @@ public class InventoryTransactionPacket implements Packet {
     private final Transaction transaction;
 
     public InventoryTransactionPacket(Transaction transaction) {
-        this.transaction =  transaction;
+        this.transaction = transaction;
     }
 
     public Transaction getTransaction() {

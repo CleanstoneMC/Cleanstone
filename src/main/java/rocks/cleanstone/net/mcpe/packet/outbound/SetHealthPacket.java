@@ -9,7 +9,7 @@ public class SetHealthPacket implements Packet {
     private final int health;
 
     public SetHealthPacket(int health) {
-        this.health =  health;
+        this.health = health;
     }
 
     public int getHealth() {

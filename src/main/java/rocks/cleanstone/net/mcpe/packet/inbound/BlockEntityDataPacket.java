@@ -12,8 +12,8 @@ public class BlockEntityDataPacket implements Packet {
     private final NamedBinaryTag namedTag;
 
     public BlockEntityDataPacket(BlockCoordinates coordinates, NamedBinaryTag namedTag) {
-        this.coordinates =  coordinates;
-        this.namedTag =  namedTag;
+        this.coordinates = coordinates;
+        this.namedTag = namedTag;
     }
 
     public BlockCoordinates getCoordinates() {

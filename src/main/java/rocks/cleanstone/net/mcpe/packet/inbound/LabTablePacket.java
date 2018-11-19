@@ -13,11 +13,11 @@ public class LabTablePacket implements Packet {
     private final byte reactionType;
 
     public LabTablePacket(byte uselessByte, int labTableX, int labTableY, int labTableZ, byte reactionType) {
-        this.uselessByte =  uselessByte;
-        this.labTableX =  labTableX;
-        this.labTableY =  labTableY;
-        this.labTableZ =  labTableZ;
-        this.reactionType =  reactionType;
+        this.uselessByte = uselessByte;
+        this.labTableX = labTableX;
+        this.labTableY = labTableY;
+        this.labTableZ = labTableZ;
+        this.reactionType = reactionType;
     }
 
     public byte getUselessByte() {

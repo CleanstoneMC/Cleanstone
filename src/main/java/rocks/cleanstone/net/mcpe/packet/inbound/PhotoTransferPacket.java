@@ -11,9 +11,9 @@ public class PhotoTransferPacket implements Packet {
     private final String unknown2;
 
     public PhotoTransferPacket(String fileName, String imageData, String unknown2) {
-        this.fileName =  fileName;
-        this.imageData =  imageData;
-        this.unknown2 =  unknown2;
+        this.fileName = fileName;
+        this.imageData = imageData;
+        this.unknown2 = unknown2;
     }
 
     public String getFileName() {

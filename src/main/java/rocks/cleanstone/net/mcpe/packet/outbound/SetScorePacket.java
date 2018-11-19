@@ -11,8 +11,8 @@ public class SetScorePacket implements Packet {
     private final ScorePacketInfos scorePacketInfos;
 
     public SetScorePacket(byte packetType, ScorePacketInfos scorePacketInfos) {
-        this.packetType =  packetType;
-        this.scorePacketInfos =  scorePacketInfos;
+        this.packetType = packetType;
+        this.scorePacketInfos = scorePacketInfos;
     }
 
     public byte getPacketType() {

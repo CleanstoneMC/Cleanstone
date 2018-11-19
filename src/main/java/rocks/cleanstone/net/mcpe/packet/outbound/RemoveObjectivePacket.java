@@ -9,7 +9,7 @@ public class RemoveObjectivePacket implements Packet {
     private final String objectiveName;
 
     public RemoveObjectivePacket(String objectiveName) {
-        this.objectiveName =  objectiveName;
+        this.objectiveName = objectiveName;
     }
 
     public String getObjectiveName() {

@@ -18,14 +18,14 @@ public class PlayerSkinPacket implements Packet {
     private final String geometryData;
 
     public PlayerSkinPacket(UUID uUID, String skinID, String skinName, String oldSkinName, byte[] skinData, byte[] capeData, String geometryModel, String geometryData) {
-        this.uUID =  uUID;
-        this.skinID =  skinID;
-        this.skinName =  skinName;
-        this.oldSkinName =  oldSkinName;
-        this.skinData =  skinData;
-        this.capeData =  capeData;
-        this.geometryModel =  geometryModel;
-        this.geometryData =  geometryData;
+        this.uUID = uUID;
+        this.skinID = skinID;
+        this.skinName = skinName;
+        this.oldSkinName = oldSkinName;
+        this.skinData = skinData;
+        this.capeData = capeData;
+        this.geometryModel = geometryModel;
+        this.geometryData = geometryData;
     }
 
     public UUID getUUID() {

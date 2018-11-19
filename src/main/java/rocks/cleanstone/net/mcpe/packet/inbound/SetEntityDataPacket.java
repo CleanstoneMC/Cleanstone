@@ -11,8 +11,8 @@ public class SetEntityDataPacket implements Packet {
     private final MetadataDictionary metadata;
 
     public SetEntityDataPacket(long runtimeEntityID, MetadataDictionary metadata) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.metadata =  metadata;
+        this.runtimeEntityID = runtimeEntityID;
+        this.metadata = metadata;
     }
 
     public long getRuntimeEntityID() {

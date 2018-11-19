@@ -10,8 +10,8 @@ public class InteractPacket implements Packet {
     private final long targetRuntimeEntityID;
 
     public InteractPacket(byte actionID, long targetRuntimeEntityID) {
-        this.actionID =  actionID;
-        this.targetRuntimeEntityID =  targetRuntimeEntityID;
+        this.actionID = actionID;
+        this.targetRuntimeEntityID = targetRuntimeEntityID;
     }
 
     public byte getActionID() {

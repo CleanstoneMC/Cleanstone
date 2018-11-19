@@ -31,160 +31,16 @@ import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 
 public class NoiseGenerator {
-    public enum NoiseType {Value, ValueFractal, Perlin, PerlinFractal, Simplex, SimplexFractal, Cellular, WhiteNoise, Cubic, CubicFractal}
-    public enum Interp {Linear, Hermite, Quintic}
-    public enum FractalType {FBM, Billow, RigidMulti}
-    public enum CellularDistanceFunction {Euclidean, Manhattan, Natural}
-    public enum CellularReturnType {CellValue, NoiseLookup, Distance, Distance2, Distance2Add, Distance2Sub, Distance2Mul, Distance2Div}
-
-    private int m_seed = 1337;
-    private float m_frequency = (float) 0.01;
-    private Interp m_interp = Interp.Quintic;
-    private NoiseType m_noiseType = NoiseType.Simplex;
-
-    private int m_octaves = 3;
-    private float m_lacunarity = (float) 2.0;
-    private float m_gain = (float) 0.5;
-    private FractalType m_fractalType = FractalType.FBM;
-
-    private float m_fractalBounding;
-
-    private CellularDistanceFunction m_cellularDistanceFunction = CellularDistanceFunction.Euclidean;
-    private CellularReturnType m_cellularReturnType = CellularReturnType.CellValue;
-    private NoiseGenerator m_cellularNoiseLookup = null;
-
-    private float m_gradientPerturbAmp = (float) (1.0 / 0.45);
-
-    public NoiseGenerator() {
-        this(1337);
-    }
-
-    public NoiseGenerator(int seed) {
-        m_seed = seed;
-        CalculateFractalBounding();
-    }
-
-    // Returns a 0 float/double
-    public static float GetDecimalType() {
-        return 0;
-    }
-
-    // Returns the seed used by this object
-    public int GetSeed() {
-        return m_seed;
-    }
-
-    // Sets seed used for all noise types
-    // Default: 1337
-    public void SetSeed(int seed) {
-        m_seed = seed;
-    }
-
-    // Sets frequency for all noise types
-    // Default: 0.01
-    public void SetFrequency(float frequency) {
-        m_frequency = frequency;
-    }
-
-    // Changes the interpolation method used to smooth between noise values
-    // Possible interpolation methods (lowest to highest quality) :
-    // - Linear
-    // - Hermite
-    // - Quintic
-    // Used in Value, Gradient Noise and Position Perturbing
-    // Default: Quintic
-    public void SetInterp(Interp interp) {
-        m_interp = interp;
-    }
-
-    // Sets noise return type of GetNoise(...)
-    // Default: Simplex
-    public void SetNoiseType(NoiseType noiseType) {
-        m_noiseType = noiseType;
-    }
-
-    // Sets octave count for all fractal noise types
-    // Default: 3
-    public void SetFractalOctaves(int octaves) {
-        m_octaves = octaves;
-        CalculateFractalBounding();
-    }
-
-    // Sets octave lacunarity for all fractal noise types
-    // Default: 2.0
-    public void SetFractalLacunarity(float lacunarity) {
-        m_lacunarity = lacunarity;
-    }
-
-    // Sets octave gain for all fractal noise types
-    // Default: 0.5
-    public void SetFractalGain(float gain) {
-        m_gain = gain;
-        CalculateFractalBounding();
-    }
-
-    // Sets method for combining octaves in all fractal noise types
-    // Default: FBM
-    public void SetFractalType(FractalType fractalType) {
-        m_fractalType = fractalType;
-    }
-
-    // Sets return type from cellular noise calculations
-    // Note: NoiseLookup requires another FastNoise object be set with SetCellularNoiseLookup() to function
-    // Default: CellValue
-    public void SetCellularDistanceFunction(CellularDistanceFunction cellularDistanceFunction) {
-        m_cellularDistanceFunction = cellularDistanceFunction;
-    }
-
-    // Sets distance function used in cellular noise calculations
-    // Default: Euclidean
-    public void SetCellularReturnType(CellularReturnType cellularReturnType) {
-        m_cellularReturnType = cellularReturnType;
-    }
-
-    // Noise used to calculate a cell value if cellular return type is NoiseLookup
-    // The lookup value is acquired through GetNoise() so ensure you SetNoiseType() on the noise lookup, value, gradient or simplex is recommended
-    public void SetCellularNoiseLookup(NoiseGenerator noise) {
-        m_cellularNoiseLookup = noise;
-    }
-
-    // Sets the maximum perturb distance from original location when using GradientPerturb{Fractal}(...)
-    // Default: 1.0
-    public void SetGradientPerturbAmp(float gradientPerturbAmp) {
-        m_gradientPerturbAmp = gradientPerturbAmp / (float) 0.45;
-    }
-
-    private static class Float2 {
-        public final float x, y;
-
-        public Float2(float x, float y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    private static class Float3 {
-        public final float x, y, z;
-
-        public Float3(float x, float y, float z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-    }
-
     private static final Float2[] GRAD_2D = {
             new Float2(-1, -1), new Float2(1, -1), new Float2(-1, 1), new Float2(1, 1),
             new Float2(0, -1), new Float2(-1, 0), new Float2(0, 1), new Float2(1, 0),
     };
-
     private static final Float3[] GRAD_3D = {
             new Float3(1, 1, 0), new Float3(-1, 1, 0), new Float3(1, -1, 0), new Float3(-1, -1, 0),
             new Float3(1, 0, 1), new Float3(-1, 0, 1), new Float3(1, 0, -1), new Float3(-1, 0, -1),
             new Float3(0, 1, 1), new Float3(0, -1, 1), new Float3(0, 1, -1), new Float3(0, -1, -1),
             new Float3(1, 1, 0), new Float3(0, -1, 1), new Float3(-1, 1, 0), new Float3(0, -1, -1),
     };
-
     private static final Float2[] CELL_2D =
             {
                     new Float2(-0.4313539279f, 0.1281943404f), new Float2(-0.1733316799f, 0.415278375f), new Float2(-0.2821957395f, -0.3505218461f), new Float2(-0.2806473808f, 0.3517627718f), new Float2(0.3125508975f, -0.3237467165f), new Float2(0.3383018443f, -0.2967353402f), new Float2(-0.4393982022f, -0.09710417025f), new Float2(-0.4460443703f, -0.05953502905f),
@@ -220,7 +76,6 @@ public class NoiseGenerator {
                     new Float2(0.1475103971f, -0.4251360756f), new Float2(0.09258030352f, 0.4403735771f), new Float2(-0.1589664637f, -0.4209865359f), new Float2(0.2482445008f, 0.3753327428f), new Float2(0.4383624232f, -0.1016778537f), new Float2(0.06242802956f, 0.4456486745f), new Float2(0.2846591015f, -0.3485243118f), new Float2(-0.344202744f, -0.2898697484f),
                     new Float2(0.1198188883f, -0.4337550392f), new Float2(-0.243590703f, 0.3783696201f), new Float2(0.2958191174f, -0.3391033025f), new Float2(-0.1164007991f, 0.4346847754f), new Float2(0.1274037151f, -0.4315881062f), new Float2(0.368047306f, 0.2589231171f), new Float2(0.2451436949f, 0.3773652989f), new Float2(-0.4314509715f, 0.12786735f),
             };
-
     private static final Float3[] CELL_3D =
             {
                     new Float3(0.1453787434f, -0.4149781685f, -0.0956981749f), new Float3(-0.01242829687f, -0.1457918398f, -0.4255470325f), new Float3(0.2877979582f, -0.02606483451f, -0.3449535616f), new Float3(-0.07732986802f, 0.2377094325f, 0.3741848704f), new Float3(0.1107205875f, -0.3552302079f, -0.2530858567f), new Float3(0.2755209141f, 0.2640521179f, -0.238463215f), new Float3(0.294168941f, 0.1526064594f, 0.3044271714f), new Float3(0.4000921098f, -0.2034056362f, 0.03244149937f),
@@ -256,53 +111,83 @@ public class NoiseGenerator {
                     new Float3(0.2054835762f, -0.3252600376f, -0.2334146693f), new Float3(-0.3231994983f, 0.1564282844f, -0.2712420987f), new Float3(-0.2669545963f, 0.2599343665f, -0.2523278991f), new Float3(-0.05554372779f, 0.3170813944f, -0.3144428146f), new Float3(-0.2083935713f, -0.310922837f, -0.2497981362f), new Float3(0.06989323478f, -0.3156141536f, 0.3130537363f), new Float3(0.3847566193f, -0.1605309138f, -0.1693876312f), new Float3(-0.3026215288f, -0.3001537679f, -0.1443188342f),
                     new Float3(0.3450735512f, 0.08611519592f, 0.2756962409f), new Float3(0.1814473292f, -0.2788782453f, -0.3029914042f), new Float3(-0.03855010448f, 0.09795110726f, 0.4375151083f), new Float3(0.3533670318f, 0.2665752752f, 0.08105160988f), new Float3(-0.007945601311f, 0.140359426f, -0.4274764309f), new Float3(0.4063099273f, -0.1491768253f, -0.1231199324f), new Float3(-0.2016773589f, 0.008816271194f, -0.4021797064f), new Float3(-0.07527055435f, -0.425643481f, -0.1251477955f),
             };
-
-
-    private static int FastFloor(float f) {
-        return (f >= 0 ? (int) f : (int) f - 1);
-    }
-
-
-    private static int FastRound(float f) {
-        return (f >= 0) ? (int) (f + (float) 0.5) : (int) (f - (float) 0.5);
-    }
-
-
-    private static float Lerp(float a, float b, float t) {
-        return a + t * (b - a);
-    }
-
-
-    private static float InterpHermiteFunc(float t) {
-        return t * t * (3 - 2 * t);
-    }
-
-
-    private static float InterpQuinticFunc(float t) {
-        return t * t * t * (t * (t * 6 - 15) + 10);
-    }
-
-
-    private static float CubicLerp(float a, float b, float c, float d, float t) {
-        float p = (d - c) - (a - b);
-        return t * t * t * p + t * t * ((a - b) - p) + t * (c - a) + b;
-    }
-
-    private void CalculateFractalBounding() {
-        float amp = m_gain;
-        float ampFractal = 1;
-        for (int i = 1; i < m_octaves; i++) {
-            ampFractal += amp;
-            amp *= m_gain;
-        }
-        m_fractalBounding = 1 / ampFractal;
-    }
-
     // Hashing
     private final static int X_PRIME = 1619;
     private final static int Y_PRIME = 31337;
     private final static int Z_PRIME = 6971;
     private final static int W_PRIME = 1013;
+    private final static float F3 = (float) (1.0 / 3.0);
+    private final static float G3 = (float) (1.0 / 6.0);
+    private final static float G33 = G3 * 3 - 1;
+    private final static float F2 = (float) (1.0 / 2.0);
+    private final static float G2 = (float) (1.0 / 4.0);
+    private static final byte[] SIMPLEX_4D =
+            {
+                    0, 1, 2, 3, 0, 1, 3, 2, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 0,
+                    0, 2, 1, 3, 0, 0, 0, 0, 0, 3, 1, 2, 0, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 2, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    1, 2, 0, 3, 0, 0, 0, 0, 1, 3, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 0, 1, 2, 3, 1, 0,
+                    1, 0, 2, 3, 1, 0, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3, 1, 0, 0, 0, 0, 2, 1, 3, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    2, 0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1, 2, 3, 0, 2, 1, 0, 0, 0, 0, 3, 1, 2, 0,
+                    2, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 0, 2, 0, 0, 0, 0, 3, 2, 0, 1, 3, 2, 1, 0
+            };
+    private final static float F4 = (float) ((2.23606797 - 1.0) / 4.0);
+    private final static float G4 = (float) ((5.0 - 2.23606797) / 20.0);
+    private final static float CUBIC_3D_BOUNDING = 1 / (float) (1.5 * 1.5 * 1.5);
+    private final static float CUBIC_2D_BOUNDING = 1 / (float) (1.5 * 1.5);
+    private int m_seed = 1337;
+    private float m_frequency = (float) 0.01;
+    private Interp m_interp = Interp.Quintic;
+    private NoiseType m_noiseType = NoiseType.Simplex;
+    private int m_octaves = 3;
+    private float m_lacunarity = (float) 2.0;
+    private float m_gain = (float) 0.5;
+    private FractalType m_fractalType = FractalType.FBM;
+    private float m_fractalBounding;
+    private CellularDistanceFunction m_cellularDistanceFunction = CellularDistanceFunction.Euclidean;
+    private CellularReturnType m_cellularReturnType = CellularReturnType.CellValue;
+    private NoiseGenerator m_cellularNoiseLookup = null;
+    private float m_gradientPerturbAmp = (float) (1.0 / 0.45);
+
+    public NoiseGenerator() {
+        this(1337);
+    }
+
+    public NoiseGenerator(int seed) {
+        m_seed = seed;
+        CalculateFractalBounding();
+    }
+
+    // Returns a 0 float/double
+    public static float GetDecimalType() {
+        return 0;
+    }
+
+    private static int FastFloor(float f) {
+        return (f >= 0 ? (int) f : (int) f - 1);
+    }
+
+    private static int FastRound(float f) {
+        return (f >= 0) ? (int) (f + (float) 0.5) : (int) (f - (float) 0.5);
+    }
+
+    private static float Lerp(float a, float b, float t) {
+        return a + t * (b - a);
+    }
+
+    private static float InterpHermiteFunc(float t) {
+        return t * t * (3 - 2 * t);
+    }
+
+    private static float InterpQuinticFunc(float t) {
+        return t * t * t * (t * (t * 6 - 15) + 10);
+    }
+
+    private static float CubicLerp(float a, float b, float c, float d, float t) {
+        float p = (d - c) - (a - b);
+        return t * t * t * p + t * t * ((a - b) - p) + t * (c - a) + b;
+    }
 
     private static int Hash2D(int seed, int x, int y) {
         int hash = seed;
@@ -424,6 +309,103 @@ public class NoiseGenerator {
                 break;     // Y,Z,W
         }
         return ((hash & 4) == 0 ? -a : a) + ((hash & 2) == 0 ? -b : b) + ((hash & 1) == 0 ? -c : c);
+    }
+
+    // Returns the seed used by this object
+    public int GetSeed() {
+        return m_seed;
+    }
+
+    // Sets seed used for all noise types
+    // Default: 1337
+    public void SetSeed(int seed) {
+        m_seed = seed;
+    }
+
+    // Sets frequency for all noise types
+    // Default: 0.01
+    public void SetFrequency(float frequency) {
+        m_frequency = frequency;
+    }
+
+    // Changes the interpolation method used to smooth between noise values
+    // Possible interpolation methods (lowest to highest quality) :
+    // - Linear
+    // - Hermite
+    // - Quintic
+    // Used in Value, Gradient Noise and Position Perturbing
+    // Default: Quintic
+    public void SetInterp(Interp interp) {
+        m_interp = interp;
+    }
+
+    // Sets noise return type of GetNoise(...)
+    // Default: Simplex
+    public void SetNoiseType(NoiseType noiseType) {
+        m_noiseType = noiseType;
+    }
+
+    // Sets octave count for all fractal noise types
+    // Default: 3
+    public void SetFractalOctaves(int octaves) {
+        m_octaves = octaves;
+        CalculateFractalBounding();
+    }
+
+    // Sets octave lacunarity for all fractal noise types
+    // Default: 2.0
+    public void SetFractalLacunarity(float lacunarity) {
+        m_lacunarity = lacunarity;
+    }
+
+    // Sets octave gain for all fractal noise types
+    // Default: 0.5
+    public void SetFractalGain(float gain) {
+        m_gain = gain;
+        CalculateFractalBounding();
+    }
+
+    // Sets method for combining octaves in all fractal noise types
+    // Default: FBM
+    public void SetFractalType(FractalType fractalType) {
+        m_fractalType = fractalType;
+    }
+
+    // Sets return type from cellular noise calculations
+    // Note: NoiseLookup requires another FastNoise object be set with SetCellularNoiseLookup() to function
+    // Default: CellValue
+    public void SetCellularDistanceFunction(CellularDistanceFunction cellularDistanceFunction) {
+        m_cellularDistanceFunction = cellularDistanceFunction;
+    }
+
+    // Sets distance function used in cellular noise calculations
+    // Default: Euclidean
+    public void SetCellularReturnType(CellularReturnType cellularReturnType) {
+        m_cellularReturnType = cellularReturnType;
+    }
+
+    // Noise used to calculate a cell value if cellular return type is NoiseLookup
+    // The lookup value is acquired through GetNoise() so ensure you SetNoiseType() on the noise lookup, value, gradient or simplex is recommended
+    public void SetCellularNoiseLookup(NoiseGenerator noise) {
+        m_cellularNoiseLookup = noise;
+    }
+
+    // Sets the maximum perturb distance from original location when using GradientPerturb{Fractal}(...)
+    // Default: 1.0
+    public void SetGradientPerturbAmp(float gradientPerturbAmp) {
+        m_gradientPerturbAmp = gradientPerturbAmp / (float) 0.45;
+    }
+
+    // White Noise
+
+    private void CalculateFractalBounding() {
+        float amp = m_gain;
+        float ampFractal = 1;
+        for (int i = 1; i < m_octaves; i++) {
+            ampFractal += amp;
+            amp *= m_gain;
+        }
+        m_fractalBounding = 1 / ampFractal;
     }
 
     public float GetNoise(float x, float y, float z) {
@@ -572,8 +554,6 @@ public class NoiseGenerator {
                 return 0;
         }
     }
-
-    // White Noise
 
     private int FloatCast2Int(float f) {
         int i = Float.floatToRawIntBits(f);
@@ -1119,10 +1099,6 @@ public class NoiseGenerator {
         return SingleSimplex(m_seed, x * m_frequency, y * m_frequency, z * m_frequency);
     }
 
-    private final static float F3 = (float) (1.0 / 3.0);
-    private final static float G3 = (float) (1.0 / 6.0);
-    private final static float G33 = G3 * 3 - 1;
-
     private float SingleSimplex(int seed, float x, float y, float z) {
         float t = (x + y + z) * F3;
         int i = FastFloor(x + t);
@@ -1299,9 +1275,6 @@ public class NoiseGenerator {
         return SingleSimplex(m_seed, x * m_frequency, y * m_frequency);
     }
 
-    private final static float F2 = (float) (1.0 / 2.0);
-    private final static float G2 = (float) (1.0 / 4.0);
-
     private float SingleSimplex(int seed, float x, float y) {
         float t = (x + y) * F2;
         int i = FastFloor(x + t);
@@ -1357,21 +1330,6 @@ public class NoiseGenerator {
     public float GetSimplex(float x, float y, float z, float w) {
         return SingleSimplex(m_seed, x * m_frequency, y * m_frequency, z * m_frequency, w * m_frequency);
     }
-
-    private static final byte[] SIMPLEX_4D =
-            {
-                    0, 1, 2, 3, 0, 1, 3, 2, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 0,
-                    0, 2, 1, 3, 0, 0, 0, 0, 0, 3, 1, 2, 0, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 2, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    1, 2, 0, 3, 0, 0, 0, 0, 1, 3, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 0, 1, 2, 3, 1, 0,
-                    1, 0, 2, 3, 1, 0, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3, 1, 0, 0, 0, 0, 2, 1, 3, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    2, 0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1, 2, 3, 0, 2, 1, 0, 0, 0, 0, 3, 1, 2, 0,
-                    2, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 0, 2, 0, 0, 0, 0, 3, 2, 0, 1, 3, 2, 1, 0
-            };
-
-    private final static float F4 = (float) ((2.23606797 - 1.0) / 4.0);
-    private final static float G4 = (float) ((5.0 - 2.23606797) / 20.0);
 
     private float SingleSimplex(int seed, float x, float y, float z, float w) {
         float n0, n1, n2, n3, n4;
@@ -1538,8 +1496,6 @@ public class NoiseGenerator {
         return SingleCubic(m_seed, x * m_frequency, y * m_frequency, z * m_frequency);
     }
 
-    private final static float CUBIC_3D_BOUNDING = 1 / (float) (1.5 * 1.5 * 1.5);
-
     private float SingleCubic(int seed, float x, float y, float z) {
         int x1 = FastFloor(x);
         int y1 = FastFloor(y);
@@ -1586,7 +1542,6 @@ public class NoiseGenerator {
                         ys),
                 zs) * CUBIC_3D_BOUNDING;
     }
-
 
     public float GetCubicFractal(float x, float y) {
         x *= m_frequency;
@@ -1661,8 +1616,6 @@ public class NoiseGenerator {
 
         return SingleCubic(0, x, y);
     }
-
-    private final static float CUBIC_2D_BOUNDING = 1 / (float) (1.5 * 1.5);
 
     private float SingleCubic(int seed, float x, float y) {
         int x1 = FastFloor(x);
@@ -2192,6 +2145,35 @@ public class NoiseGenerator {
 
         v2.x += Lerp(lx0x, lx1x, ys) * perturbAmp;
         v2.y += Lerp(ly0x, ly1x, ys) * perturbAmp;
+    }
+
+    public enum NoiseType {Value, ValueFractal, Perlin, PerlinFractal, Simplex, SimplexFractal, Cellular, WhiteNoise, Cubic, CubicFractal}
+
+    public enum Interp {Linear, Hermite, Quintic}
+
+    public enum FractalType {FBM, Billow, RigidMulti}
+
+    public enum CellularDistanceFunction {Euclidean, Manhattan, Natural}
+
+    public enum CellularReturnType {CellValue, NoiseLookup, Distance, Distance2, Distance2Add, Distance2Sub, Distance2Mul, Distance2Div}
+
+    private static class Float2 {
+        public final float x, y;
+
+        public Float2(float x, float y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    private static class Float3 {
+        public final float x, y, z;
+
+        public Float3(float x, float y, float z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
     }
 
 }

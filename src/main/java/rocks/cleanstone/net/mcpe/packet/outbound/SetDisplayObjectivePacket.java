@@ -13,11 +13,11 @@ public class SetDisplayObjectivePacket implements Packet {
     private final int sortOrder;
 
     public SetDisplayObjectivePacket(String displaySlot, String objectiveName, String displayName, String criteriaName, int sortOrder) {
-        this.displaySlot =  displaySlot;
-        this.objectiveName =  objectiveName;
-        this.displayName =  displayName;
-        this.criteriaName =  criteriaName;
-        this.sortOrder =  sortOrder;
+        this.displaySlot = displaySlot;
+        this.objectiveName = objectiveName;
+        this.displayName = displayName;
+        this.criteriaName = criteriaName;
+        this.sortOrder = sortOrder;
     }
 
     public String getDisplaySlot() {

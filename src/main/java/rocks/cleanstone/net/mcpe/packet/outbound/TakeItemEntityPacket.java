@@ -10,8 +10,8 @@ public class TakeItemEntityPacket implements Packet {
     private final long target;
 
     public TakeItemEntityPacket(long runtimeEntityID, long target) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.target =  target;
+        this.runtimeEntityID = runtimeEntityID;
+        this.target = target;
     }
 
     public long getRuntimeEntityID() {

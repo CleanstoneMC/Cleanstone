@@ -11,8 +11,8 @@ public class SetEntityMotionPacket implements Packet {
     private final Vector velocity;
 
     public SetEntityMotionPacket(long runtimeEntityID, Vector velocity) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.velocity =  velocity;
+        this.runtimeEntityID = runtimeEntityID;
+        this.velocity = velocity;
     }
 
     public long getRuntimeEntityID() {

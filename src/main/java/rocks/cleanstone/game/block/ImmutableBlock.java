@@ -11,9 +11,13 @@ import rocks.cleanstone.game.material.block.BlockType;
 @Slf4j
 public class ImmutableBlock implements Block {
     private static CachingImmutableBlockProvider loadingSource;
+    private final BlockState state;
 
-    static void setLoadingSource(CachingImmutableBlockProvider loadingSource) {
-        ImmutableBlock.loadingSource = loadingSource;
+    /**
+     * @param state The Blockstate for the Block
+     */
+    ImmutableBlock(BlockState state) {
+        this.state = state;
     }
 
     private static CachingImmutableBlockProvider getLoadingSource() {
@@ -22,6 +26,10 @@ public class ImmutableBlock implements Block {
         } else {
             return loadingSource;
         }
+    }
+
+    static void setLoadingSource(CachingImmutableBlockProvider loadingSource) {
+        ImmutableBlock.loadingSource = loadingSource;
     }
 
     public static ImmutableBlock of(BlockState state) {
@@ -34,15 +42,6 @@ public class ImmutableBlock implements Block {
 
     public static ImmutableBlock of(BlockType blockType, Properties properties) {
         return getLoadingSource().of(blockType, properties);
-    }
-
-    private final BlockState state;
-
-    /**
-     * @param state The Blockstate for the Block
-     */
-    ImmutableBlock(BlockState state) {
-        this.state = state;
     }
 
     @Override

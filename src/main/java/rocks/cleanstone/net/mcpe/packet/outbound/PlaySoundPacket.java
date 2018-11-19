@@ -13,10 +13,10 @@ public class PlaySoundPacket implements Packet {
     private final float pitch;
 
     public PlaySoundPacket(String name, BlockCoordinates coordinates, float volume, float pitch) {
-        this.name =  name;
-        this.coordinates =  coordinates;
-        this.volume =  volume;
-        this.pitch =  pitch;
+        this.name = name;
+        this.coordinates = coordinates;
+        this.volume = volume;
+        this.pitch = pitch;
     }
 
     public String getName() {

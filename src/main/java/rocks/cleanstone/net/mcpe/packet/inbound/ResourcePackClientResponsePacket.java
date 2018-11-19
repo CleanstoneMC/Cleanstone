@@ -11,8 +11,8 @@ public class ResourcePackClientResponsePacket implements Packet {
     private final ResourcePackIds resourcePackIds;
 
     public ResourcePackClientResponsePacket(byte responseStatus, ResourcePackIds resourcePackIds) {
-        this.responseStatus =  responseStatus;
-        this.resourcePackIds =  resourcePackIds;
+        this.responseStatus = responseStatus;
+        this.resourcePackIds = resourcePackIds;
     }
 
     public byte getResponseStatus() {

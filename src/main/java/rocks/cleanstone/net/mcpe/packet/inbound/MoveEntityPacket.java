@@ -12,9 +12,9 @@ public class MoveEntityPacket implements Packet {
     private final HeadRotatablePosition position;
 
     public MoveEntityPacket(long runtimeEntityID, byte flags, HeadRotatablePosition position) {
-        this.runtimeEntityID =  runtimeEntityID;
-        this.flags =  flags;
-        this.position =  position;
+        this.runtimeEntityID = runtimeEntityID;
+        this.flags = flags;
+        this.position = position;
     }
 
     public long getRuntimeEntityID() {

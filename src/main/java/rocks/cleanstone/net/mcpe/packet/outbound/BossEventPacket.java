@@ -10,8 +10,8 @@ public class BossEventPacket implements Packet {
     private final int eventType;
 
     public BossEventPacket(long bossEntityID, int eventType) {
-        this.bossEntityID =  bossEntityID;
-        this.eventType =  eventType;
+        this.bossEntityID = bossEntityID;
+        this.eventType = eventType;
     }
 
     public long getBossEntityID() {

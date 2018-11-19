@@ -15,11 +15,11 @@ public class CommandRequestPacket implements Packet {
     private final boolean unknown;
 
     public CommandRequestPacket(String command, int commandType, UUID unknownUUID, String requestID, boolean unknown) {
-        this.command =  command;
-        this.commandType =  commandType;
-        this.unknownUUID =  unknownUUID;
-        this.requestID =  requestID;
-        this.unknown =  unknown;
+        this.command = command;
+        this.commandType = commandType;
+        this.unknownUUID = unknownUUID;
+        this.requestID = requestID;
+        this.unknown = unknown;
     }
 
     public String getCommand() {

@@ -11,9 +11,9 @@ public class RespawnPacket implements Packet {
     private final float z;
 
     public RespawnPacket(float x, float y, float z) {
-        this.x =  x;
-        this.y =  y;
-        this.z =  z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     public float getX() {

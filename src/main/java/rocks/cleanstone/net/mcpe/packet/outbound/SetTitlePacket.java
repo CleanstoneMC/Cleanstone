@@ -13,11 +13,11 @@ public class SetTitlePacket implements Packet {
     private final int fadeOutTime;
 
     public SetTitlePacket(int packetType, String text, int fadeInTime, int stayTime, int fadeOutTime) {
-        this.packetType =  packetType;
-        this.text =  text;
-        this.fadeInTime =  fadeInTime;
-        this.stayTime =  stayTime;
-        this.fadeOutTime =  fadeOutTime;
+        this.packetType = packetType;
+        this.text = text;
+        this.fadeInTime = fadeInTime;
+        this.stayTime = stayTime;
+        this.fadeOutTime = fadeOutTime;
     }
 
     public int getPacketType() {

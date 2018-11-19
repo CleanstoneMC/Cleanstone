@@ -9,7 +9,7 @@ public class ServerToClientHandshakePacket implements Packet {
     private final String token;
 
     public ServerToClientHandshakePacket(String token) {
-        this.token =  token;
+        this.token = token;
     }
 
     public String getToken() {

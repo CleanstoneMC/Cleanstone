@@ -10,8 +10,8 @@ public class AnimatePacket implements Packet {
     private final long runtimeEntityID;
 
     public AnimatePacket(int actionID, long runtimeEntityID) {
-        this.actionID =  actionID;
-        this.runtimeEntityID =  runtimeEntityID;
+        this.actionID = actionID;
+        this.runtimeEntityID = runtimeEntityID;
     }
 
     public int getActionID() {

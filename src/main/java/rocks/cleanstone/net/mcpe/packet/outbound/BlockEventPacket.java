@@ -12,9 +12,9 @@ public class BlockEventPacket implements Packet {
     private final int case2;
 
     public BlockEventPacket(BlockCoordinates coordinates, int case1, int case2) {
-        this.coordinates =  coordinates;
-        this.case1 =  case1;
-        this.case2 =  case2;
+        this.coordinates = coordinates;
+        this.case1 = case1;
+        this.case2 = case2;
     }
 
     public BlockCoordinates getCoordinates() {
