@@ -5,11 +5,8 @@ import com.google.common.collect.Maps;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.data.InOutCodec;
-import rocks.cleanstone.game.entity.metadata.MetadataEntityCodec;
-import rocks.cleanstone.game.entity.vanilla.VanillaEntityType;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -19,8 +16,7 @@ public class SimpleEntityTypeRegistry implements EntityTypeRegistry {
     private final Map<EntityType, InOutCodec<Entity, ByteBuf>> entityTypeCodecMap = Maps.newConcurrentMap();
 
     public SimpleEntityTypeRegistry() {
-        Arrays.stream(VanillaEntityType.values())
-                .forEach(entityType -> registerEntityType(entityType, new MetadataEntityCodec()));
+        // TODO register vanilla entities
     }
 
     @Override
