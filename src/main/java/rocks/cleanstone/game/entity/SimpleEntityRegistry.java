@@ -2,13 +2,15 @@ package rocks.cleanstone.game.entity;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.entity.event.EntityAddEvent;
 import rocks.cleanstone.game.entity.event.EntityRemoveEvent;
-
-import javax.annotation.Nullable;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Scope("prototype")
@@ -26,7 +28,10 @@ public class SimpleEntityRegistry implements EntityRegistry {
 
     @Override
     public void addEntity(Entity entity) {
-        entityMap.put(entity.getEntityID(), entity);
+        // TODO only allow top-level entities (not LivingEntity,etc) to be added
+        int entityID = acquireEntityID();
+        entity.setEntityID(entityID);
+        entityMap.put(entityID, entity);
         CleanstoneServer.publishEvent(new EntityAddEvent(entity));
     }
 
@@ -42,8 +47,7 @@ public class SimpleEntityRegistry implements EntityRegistry {
         entityMap.remove(entity.getEntityID());
     }
 
-    @Override
-    public synchronized int acquireEntityID() {
+    private synchronized int acquireEntityID() {
         return nextEntityID++;
     }
 }

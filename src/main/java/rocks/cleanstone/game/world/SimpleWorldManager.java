@@ -1,16 +1,19 @@
 package rocks.cleanstone.game.world;
 
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.core.config.WorldConfig;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.annotation.Nullable;
+
+import lombok.extern.slf4j.Slf4j;
+import rocks.cleanstone.core.config.WorldConfig;
 
 @Slf4j
 @Component
@@ -37,6 +40,14 @@ public class SimpleWorldManager implements WorldManager {
     @Override
     public World getLoadedWorld(WorldConfig worldConfig) {
         return worldMap.get(worldConfig);
+    }
+
+    @Nullable
+    @Override
+    public World getLoadedWorld(String worldID) {
+        return getLoadedWorlds().stream()
+                .filter(world -> world.getID().equals(worldID))
+                .findAny().orElse(null);
     }
 
     @Override

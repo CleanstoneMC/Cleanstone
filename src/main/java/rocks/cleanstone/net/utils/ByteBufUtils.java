@@ -23,12 +23,16 @@
  */
 package rocks.cleanstone.net.utils;
 
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.utils.Vector;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+
+import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.Position;
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
+import rocks.cleanstone.game.entity.RotatablePosition;
+import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.utils.Vector;
 
 /**
  * A class containing various utility methods that act on byte buffers.
@@ -203,5 +207,38 @@ public class ByteBufUtils {
 
     public static UUID readUUID(ByteBuf byteBuf) {
         return new UUID(byteBuf.readLong(), byteBuf.readLong());
+    }
+
+    public static Position readPosition(ByteBuf byteBuf) {
+        double x = byteBuf.readDouble(), y = byteBuf.readDouble(), z = byteBuf.readDouble();
+        return new Position(x, y, z);
+    }
+
+    public static RotatablePosition readRotatablePosition(ByteBuf byteBuf) {
+        float yaw = byteBuf.readFloat(), pitch = byteBuf.readFloat();
+        return new RotatablePosition(readPosition(byteBuf), new Rotation(yaw, pitch));
+    }
+
+    public static HeadRotatablePosition readHeadRotatablePosition(ByteBuf byteBuf) {
+        float yaw = byteBuf.readFloat(), pitch = byteBuf.readFloat();
+        return new HeadRotatablePosition(readRotatablePosition(byteBuf), new Rotation(yaw, pitch));
+    }
+
+    public static void writePosition(ByteBuf byteBuf, Position position) {
+        byteBuf.writeDouble(position.getX());
+        byteBuf.writeDouble(position.getY());
+        byteBuf.writeDouble(position.getZ());
+    }
+
+    public static void writeRotatablePosition(ByteBuf byteBuf, RotatablePosition position) {
+        writePosition(byteBuf, position);
+        byteBuf.writeFloat(position.getRotation().getYaw());
+        byteBuf.writeFloat(position.getRotation().getPitch());
+    }
+
+    public static void writeHeadRotatablePosition(ByteBuf byteBuf, HeadRotatablePosition position) {
+        writeRotatablePosition(byteBuf, position);
+        byteBuf.writeFloat(position.getHeadRotation().getYaw());
+        byteBuf.writeFloat(position.getHeadRotation().getPitch());
     }
 }

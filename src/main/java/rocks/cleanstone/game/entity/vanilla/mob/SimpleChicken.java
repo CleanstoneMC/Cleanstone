@@ -1,12 +1,15 @@
 package rocks.cleanstone.game.entity.vanilla.mob;
 
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
-import rocks.cleanstone.game.entity.vanilla.VanillaEntityType;
+import rocks.cleanstone.game.entity.SimpleLivingEntity;
 import rocks.cleanstone.game.world.World;
 
-public class SimpleChicken extends AbstractMonster {
+public class SimpleChicken extends SimpleLivingEntity implements Chicken {
 
-    public SimpleChicken(World world, HeadRotatablePosition position, boolean persistent) {
-        super(VanillaEntityType.CHICKEN, world, position, persistent);
+    // TODO implement custom chicken properties
+
+    public SimpleChicken(World world, HeadRotatablePosition position, boolean persistent,
+                         boolean glowing, int health) {
+        super(world, position, persistent, glowing, health);
     }
 }

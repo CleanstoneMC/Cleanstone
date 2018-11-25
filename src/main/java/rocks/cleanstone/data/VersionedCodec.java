@@ -1,17 +1,18 @@
 package rocks.cleanstone.data;
 
 import com.google.common.base.Preconditions;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import rocks.cleanstone.net.utils.ByteBufUtils;
+
 /**
  * Codec proxy that allows the underlying main codec to be replaced without sacrificing
- * backwards-compatibility by mapping legacy codecs to a unique codec ID that
+ * backwards-compatibility by mapping each codec to a unique hardcoded codec ID that
  * determines which codec is used during deserialization
  */
 public class VersionedCodec<T> implements InOutCodec<T, ByteBuf> {
