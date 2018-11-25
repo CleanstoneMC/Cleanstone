@@ -1,23 +1,23 @@
 package rocks.cleanstone.game.entity.vanilla;
 
-import rocks.cleanstone.game.entity.AbstractEntity;
+import javax.annotation.Nullable;
+
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
+import rocks.cleanstone.game.entity.SimpleLivingEntity;
 import rocks.cleanstone.game.inventory.Hand;
 import rocks.cleanstone.game.inventory.Inventory;
 import rocks.cleanstone.game.inventory.SimpleInventory;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.world.World;
 
-import javax.annotation.Nullable;
-
-public class SimpleHuman extends AbstractEntity implements Human {
+public class SimpleHuman extends SimpleLivingEntity implements Human {
 
     private HeadRotatablePosition position;
     private Inventory inventory;
     private short mainHandSlot = 0;
 
-    public SimpleHuman(World world, HeadRotatablePosition position) {
-        super(VanillaEntityType.HUMAN, world, position, false);
+    public SimpleHuman(World world, HeadRotatablePosition position, boolean glowing, int health) {
+        super(world, position, false, glowing, health);
         this.position = position;
         this.inventory = new SimpleInventory(128);//TODO: Correct Size
     }

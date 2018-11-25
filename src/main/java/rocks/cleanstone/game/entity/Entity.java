@@ -4,9 +4,9 @@ import rocks.cleanstone.game.world.World;
 
 public interface Entity {
 
-    EntityType getType();
-
     int getEntityID();
+
+    void setEntityID(int id);
 
     RotatablePosition getPosition();
 
@@ -17,4 +17,8 @@ public interface Entity {
     boolean isPersistent();
 
     void setPersistent(boolean persistent);
+
+    boolean isGlowing();
+
+    void setGlowing(boolean glowing);
 }
