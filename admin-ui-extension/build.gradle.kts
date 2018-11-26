@@ -4,13 +4,11 @@ plugins {
 }
 
 node {
-  version = "11.1.0"
+  version = "11.2.0"
   download = true
 }
 
 tasks {
-  val yarn by existing
-
   fun Task.configureYarnTask() {
     dependsOn(yarn)
     inputs.files(
@@ -27,10 +25,10 @@ tasks {
     configureYarnTask()
     dependsOn(yarn_lint)
   }
-  named<Task>("yarn_watch") { configureYarnTask() }
+  "yarn_watch" { configureYarnTask() }
   val yarn_clean by existing { dependsOn(yarn) }
 
-  "assemble" { dependsOn(yarn_build) }
-  "check" { dependsOn(yarn_lint) }
-  "clean" { dependsOn(yarn_clean) }
+  assemble { dependsOn(yarn_build) }
+  check { dependsOn(yarn_lint) }
+  clean { dependsOn(yarn_clean) }
 }

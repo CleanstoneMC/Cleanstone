@@ -10,6 +10,10 @@ plugins {
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
 
+repositories {
+    jcenter()
+}
+
 group = "rocks.cleanstone"
 version = "0.2.0"
 
@@ -23,35 +27,31 @@ java {
 }
 
 lombok {
-	version = "1.18.2"
-}
-
-repositories {
-    jcenter()
+    version = "1.18.2"
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter")
-    compile("org.springframework.boot:spring-boot-starter-cache")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-devtools")
-    compile("de.codecentric:spring-boot-admin-starter-client:2.1.0")
-    compile("de.codecentric:spring-boot-admin-starter-server:2.1.0")
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-devtools")
+    implementation("de.codecentric:spring-boot-admin-starter-client:2.1.0")
+    implementation("de.codecentric:spring-boot-admin-starter-server:2.1.0")
 
-    compile("io.netty:netty-all:4.1.31.Final")
-    compile("com.whirvis:jraknet:2.9.8")
+    implementation("io.netty:netty-all:4.1.31.Final")
+    implementation("com.whirvis:jraknet:2.9.8")
 
-    compile("com.google.guava:guava:27.0-jre")
-    compile("com.google.code.gson:gson:2.8.5")
-    compile("org.apache.commons:commons-lang3:3.8.1")
-    compile("org.apache.commons:commons-text:1.6")
-    compile("javax.vecmath:vecmath:1.5.2")
-    compile("com.github.ben-manes.caffeine:caffeine:2.6.2")
-    compile("commons-io:commons-io:2.6")
+    implementation("com.google.guava:guava:27.0-jre")
+    implementation("com.google.code.gson:gson:2.8.5")
+    implementation("org.apache.commons:commons-lang3:3.8.1")
+    implementation("org.apache.commons:commons-text:1.6")
+    implementation("javax.vecmath:vecmath:1.5.2")
+    implementation("com.github.ben-manes.caffeine:caffeine:2.6.2")
+    implementation("commons-io:commons-io:2.6")
 
-    compile("org.fusesource.leveldbjni:leveldbjni-all:1.8")
+    implementation("org.fusesource.leveldbjni:leveldbjni-all:1.8")
 
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
@@ -61,7 +61,7 @@ jacoco {
 }
 
 tasks {
-    named<Test>("test") { useJUnitPlatform() }
+    test { useJUnitPlatform() }
 
     fun JavaExec.fixupStdIo() {
         standardInput = System.`in`
@@ -71,13 +71,13 @@ tasks {
     }
 
     named<JavaExec>("run") { fixupStdIo() }
-    named<BootRun>("bootRun") { fixupStdIo() }
+    bootRun { fixupStdIo() }
 
     withType(JavaCompile::class) {
         options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
     }
 
-    named<ProcessResources>("processResources") {
+    processResources {
         from(project("admin-ui-extension").tasks.named("yarn_build")) {
             into("META-INF/spring-boot-admin-server-ui/extensions/cleanstone")
         }
