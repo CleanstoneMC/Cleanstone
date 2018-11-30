@@ -1,5 +1,11 @@
 package rocks.cleanstone.game.world.data;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashSet;
+
+import javax.annotation.Nullable;
+
 import io.netty.buffer.ByteBuf;
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.data.InOutCodec;
@@ -16,12 +22,7 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCode
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityDataCodec;
-import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.HashSet;
+import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
 
 @Slf4j
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
@@ -41,7 +42,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     public LevelDBWorldDataSource(
             VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,
             EntityTypeRegistry entityTypeRegistry,
-            ProtocolBlockStateMapping protocolBlockStateMapping,
+            ProtocolBlockStateMapping_v1_13_1 protocolBlockStateMapping,
             Path worldDataFolder,
             String worldID
     ) throws IOException {

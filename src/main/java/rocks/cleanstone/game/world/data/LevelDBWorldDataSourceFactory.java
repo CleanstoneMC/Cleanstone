@@ -1,27 +1,28 @@
 package rocks.cleanstone.game.world.data;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.game.entity.EntityTypeRegistry;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
-import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import lombok.extern.slf4j.Slf4j;
+import rocks.cleanstone.game.entity.EntityTypeRegistry;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
+import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
+
 @Slf4j
 @Component
 @ConditionalOnProperty(name = "world.datasource", havingValue = "leveldb", matchIfMissing = true)
 public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
-    private final ProtocolBlockStateMapping blockStateMapping;
+    private final ProtocolBlockStateMapping_v1_13_1 blockStateMapping;
     private final VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory;
     private final EntityTypeRegistry entityTypeRegistry;
 
     public LevelDBWorldDataSourceFactory(
-            ProtocolBlockStateMapping blockStateMapping,
+            ProtocolBlockStateMapping_v1_13_1 blockStateMapping,
             VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,
             EntityTypeRegistry entityTypeRegistry
     ) {

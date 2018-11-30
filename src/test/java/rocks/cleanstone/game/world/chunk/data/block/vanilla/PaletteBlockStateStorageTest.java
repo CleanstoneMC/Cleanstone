@@ -1,9 +1,15 @@
 package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.CachingBlockStateProvider;
@@ -12,12 +18,7 @@ import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.SimpleMaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
-import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
+import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,7 +34,7 @@ class PaletteBlockStateStorageTest {
     void createStorageByTable() {
         blockStateProvider = new CachingBlockStateProvider();
         random = new Random(1);
-        blockStateMapping = new ProtocolBlockStateMapping();
+        blockStateMapping = new ProtocolBlockStateMapping_v1_13_1();
         materialRegistry = new SimpleMaterialRegistry();
 
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);

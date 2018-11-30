@@ -24,6 +24,7 @@ public class VanillaBlockProperties {
     public static final PropertyEnum<BlockHalf> HALF = new PropertyEnum<>("half", BlockHalf.class);
     public static final PropertyBoolean SHORT = new PropertyBoolean("short");
     public static final PropertyEnum<PistonType> TYPE = new PropertyEnum<>("type", PistonType.class);
+    public static final PropertyBoolean UNSTABLE = new PropertyBoolean("unstable");
     public static final PropertyInteger AGE = new PropertyInteger("age", 0, 25);
     public static final PropertyBoolean EAST = new PropertyBoolean("east");
     public static final PropertyBoolean NORTH = new PropertyBoolean("north");
