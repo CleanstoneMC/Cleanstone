@@ -17,7 +17,7 @@ public class SimpleHuman extends SimpleLivingEntity implements Human {
     private short mainHandSlot = 0;
 
     public SimpleHuman(World world, HeadRotatablePosition position, boolean glowing, int health) {
-        super(world, position, false, glowing, health);
+        super(world, position, false, true, glowing, health);
         this.position = position;
         this.inventory = new SimpleInventory(128);//TODO: Correct Size
     }

@@ -13,7 +13,7 @@ import rocks.cleanstone.game.entity.vanilla.mob.SimpleChicken;
 
 @Component
 public class SimpleChickenCodec implements InOutCodec<SimpleChicken, ByteBuf> {
-    
+
     private final LivingEntityCodec livingEntityCodec;
 
     @Autowired
@@ -25,8 +25,8 @@ public class SimpleChickenCodec implements InOutCodec<SimpleChicken, ByteBuf> {
     public SimpleChicken decode(ByteBuf data) throws IOException {
         LivingEntity livingEntity = livingEntityCodec.decode(data);
         // TODO read custom chicken properties
-        return new SimpleChicken(livingEntity.getWorld(), livingEntity.getPosition(), true, livingEntity.isGlowing(),
-                livingEntity.getHealth());
+        return new SimpleChicken(livingEntity.getWorld(), livingEntity.getPosition(),
+                livingEntity.isGlowing(), livingEntity.getHealth());
     }
 
     @Override

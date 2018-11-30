@@ -1,5 +1,7 @@
 package rocks.cleanstone.game.entity;
 
+import com.google.common.base.Preconditions;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +30,7 @@ public class SimpleEntityRegistry implements EntityRegistry {
 
     @Override
     public void addEntity(Entity entity) {
-        // TODO only allow top-level entities (not LivingEntity,etc) to be added
+        Preconditions.checkArgument(entity.isSpawnable(), "entity " + entity + " is not spawnable");
         int entityID = acquireEntityID();
         entity.setEntityID(entityID);
         entityMap.put(entityID, entity);

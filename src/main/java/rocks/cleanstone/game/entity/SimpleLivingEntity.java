@@ -8,8 +8,8 @@ public class SimpleLivingEntity extends SimpleEntity implements LivingEntity {
     private int health;
 
     public SimpleLivingEntity(World world, HeadRotatablePosition position, boolean persistent,
-                              boolean glowing, int health) {
-        super(world, position, persistent, glowing);
+                              boolean spawnable, boolean glowing, int health) {
+        super(world, position, persistent, spawnable, glowing);
         this.position = position;
         this.health = health;
     }
