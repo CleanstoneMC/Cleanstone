@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.entity.event.*;
-import rocks.cleanstone.game.entity.vanilla.Human;
+import rocks.cleanstone.game.entity.cleanstone.Human;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;

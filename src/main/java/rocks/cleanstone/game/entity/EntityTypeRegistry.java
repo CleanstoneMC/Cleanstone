@@ -8,7 +8,7 @@ import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.data.InOutCodec;
 
 public interface EntityTypeRegistry {
-    void registerEntityType(EntityType entityType, InOutCodec<Entity, ByteBuf> codec);
+    void registerEntityType(EntityType entityType, InOutCodec<? extends Entity, ByteBuf> codec);
 
     void unregisterEntityType(EntityType entityType);
 
@@ -21,8 +21,8 @@ public interface EntityTypeRegistry {
     EntityType getEntityType(int typeID);
 
     @Nullable
-    InOutCodec<Entity, ByteBuf> getEntityCodec(Entity entity);
+    InOutCodec<? extends Entity, ByteBuf> getEntityCodec(Entity entity);
 
     @Nullable
-    InOutCodec<Entity, ByteBuf> getEntityCodec(EntityType entityType);
+    InOutCodec<? extends Entity, ByteBuf> getEntityCodec(EntityType entityType);
 }

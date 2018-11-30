@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.entity.codec.mob;
+package rocks.cleanstone.game.entity.cleanstone.codec;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.game.entity.LivingEntity;
 import rocks.cleanstone.game.entity.codec.LivingEntityCodec;
-import rocks.cleanstone.game.entity.vanilla.mob.SimpleChicken;
+import rocks.cleanstone.game.entity.cleanstone.SimpleChicken;
 
 @Component
 public class SimpleChickenCodec implements InOutCodec<SimpleChicken, ByteBuf> {

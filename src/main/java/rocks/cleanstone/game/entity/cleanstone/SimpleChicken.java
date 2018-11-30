@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.entity.vanilla.mob;
+package rocks.cleanstone.game.entity.cleanstone;
 
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.SimpleLivingEntity;

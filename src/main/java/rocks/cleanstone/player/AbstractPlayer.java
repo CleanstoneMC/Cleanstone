@@ -7,7 +7,7 @@ import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.RotatablePosition;
-import rocks.cleanstone.game.entity.vanilla.Human;
+import rocks.cleanstone.game.entity.cleanstone.Human;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.game.inventory.MainHandSide;

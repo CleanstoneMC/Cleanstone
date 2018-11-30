@@ -9,8 +9,8 @@ import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 import lombok.extern.slf4j.Slf4j;
-import rocks.cleanstone.game.entity.vanilla.Human;
-import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
+import rocks.cleanstone.game.entity.cleanstone.Human;
+import rocks.cleanstone.game.entity.cleanstone.SimpleHuman;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.net.minecraft.packet.outbound.DestroyEntitiesPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutPlayerPositionAndLookPacket;
