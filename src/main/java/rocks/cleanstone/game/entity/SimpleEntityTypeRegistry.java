@@ -17,15 +17,10 @@ import rocks.cleanstone.data.InOutCodec;
 @Component
 public class SimpleEntityTypeRegistry implements EntityTypeRegistry {
 
-    private final Map<EntityType, InOutCodec<Entity, ByteBuf>> entityTypeCodecMap = Maps.newConcurrentMap();
-
-    public SimpleEntityTypeRegistry() {
-        // TODO Autowire all top-level entity codecs (Chicken,Zombie,etc;not LivingEntity) together with
-        // their entityType
-    }
+    private final Map<EntityType, InOutCodec<? extends Entity, ByteBuf>> entityTypeCodecMap = Maps.newConcurrentMap();
 
     @Override
-    public void registerEntityType(EntityType entityType, InOutCodec<Entity, ByteBuf> codec) {
+    public void registerEntityType(EntityType entityType, InOutCodec<? extends Entity, ByteBuf> codec) {
         entityTypeCodecMap.put(entityType, codec);
     }
 
@@ -57,7 +52,7 @@ public class SimpleEntityTypeRegistry implements EntityTypeRegistry {
 
     @Nullable
     @Override
-    public InOutCodec<Entity, ByteBuf> getEntityCodec(Entity entity) {
+    public InOutCodec<? extends Entity, ByteBuf> getEntityCodec(Entity entity) {
         EntityType entityType = getEntityType(entity);
         Preconditions.checkNotNull(entityType,
                 "Entity codec for entity " + entity + " with non-registered entityType not found");
@@ -66,7 +61,7 @@ public class SimpleEntityTypeRegistry implements EntityTypeRegistry {
 
     @Nullable
     @Override
-    public InOutCodec<Entity, ByteBuf> getEntityCodec(EntityType entityType) {
+    public InOutCodec<? extends Entity, ByteBuf> getEntityCodec(EntityType entityType) {
         return entityTypeCodecMap.get(entityType);
     }
 }

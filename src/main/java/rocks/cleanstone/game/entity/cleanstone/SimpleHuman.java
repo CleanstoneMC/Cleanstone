@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.entity.vanilla;
+package rocks.cleanstone.game.entity.cleanstone;
 
 import javax.annotation.Nullable;
 

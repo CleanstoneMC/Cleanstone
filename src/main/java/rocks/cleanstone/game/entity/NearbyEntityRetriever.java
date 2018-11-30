@@ -4,18 +4,19 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.entity.vanilla.Human;
+
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+
+import rocks.cleanstone.game.entity.cleanstone.Human;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.NearbyChunkRetriever;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
-
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 @Service
 public class NearbyEntityRetriever {

@@ -36,12 +36,14 @@ public class SimpleEntitySerialization implements EntitySerialization {
     private class CleanstoneEntitySerialization implements InOutCodec<Entity, ByteBuf> {
         @Override
         public ByteBuf encode(Entity entity) throws IOException {
-            InOutCodec<Entity, ByteBuf> entityCodec = entityTypeRegistry.getEntityCodec(entity);
+            // Cannot use generic type here; type-safety is instead guaranteed by the EntityTypeRegistry logic
+            InOutCodec entityCodec = entityTypeRegistry.getEntityCodec(entity);
             EntityType entityType = entityTypeRegistry.getEntityType(entity);
             ByteBuf data = Unpooled.buffer();
 
             ByteBufUtils.writeVarInt(data, entityType.getTypeID());
-            ByteBuf encoded = entityCodec.encode(entity);
+            //noinspection unchecked
+            ByteBuf encoded = (ByteBuf) entityCodec.encode(entity);
             data.writeBytes(encoded);
             encoded.release();
 
@@ -53,7 +55,7 @@ public class SimpleEntitySerialization implements EntitySerialization {
             int typeID = ByteBufUtils.readVarInt(data);
 
             EntityType entityType = entityTypeRegistry.getEntityType(typeID);
-            InOutCodec<Entity, ByteBuf> entityCodec = entityTypeRegistry.getEntityCodec(entityType);
+            InOutCodec<? extends Entity, ByteBuf> entityCodec = entityTypeRegistry.getEntityCodec(entityType);
 
             return entityCodec.decode(data);
         }
