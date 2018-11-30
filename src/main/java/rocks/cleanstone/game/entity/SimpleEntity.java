@@ -7,15 +7,18 @@ import rocks.cleanstone.game.world.World;
 public class SimpleEntity implements Entity {
 
     private final World world;
+    private final boolean persistent, spawnable;
     protected RotatablePosition position;
     private EntityType type;
     private int entityID = -1;
-    private boolean persistent, glowing;
+    private boolean glowing;
 
-    public SimpleEntity(World world, RotatablePosition position, boolean persistent, boolean glowing) {
+    public SimpleEntity(World world, RotatablePosition position, boolean persistent, boolean spawnable,
+                        boolean glowing) {
         this.world = world;
         this.position = position;
         this.persistent = persistent;
+        this.spawnable = spawnable;
         this.glowing = glowing;
     }
 
@@ -52,8 +55,8 @@ public class SimpleEntity implements Entity {
     }
 
     @Override
-    public void setPersistent(boolean persistent) {
-        this.persistent = persistent;
+    public boolean isSpawnable() {
+        return spawnable;
     }
 
     @Override

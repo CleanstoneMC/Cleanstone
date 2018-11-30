@@ -32,8 +32,8 @@ public class SimpleEntityCodec implements InOutCodec<SimpleEntity, ByteBuf> {
         String worldID = ByteBufUtils.readUTF8(data);
         World world = worldManager.getLoadedWorld(worldID);
         Preconditions.checkNotNull(world, "Cannot find world '" + worldID + "' while decoding entity");
-        boolean isGlowing = data.readBoolean();
-        return new SimpleEntity(world, rotatablePosition, true, isGlowing);
+        boolean isSpawnable = data.readBoolean(), isGlowing = data.readBoolean();
+        return new SimpleEntity(world, rotatablePosition, true, isSpawnable, isGlowing);
     }
 
     @Override
@@ -41,6 +41,7 @@ public class SimpleEntityCodec implements InOutCodec<SimpleEntity, ByteBuf> {
         ByteBuf data = Unpooled.buffer();
         ByteBufUtils.writeRotatablePosition(data, entity.getPosition());
         ByteBufUtils.writeUTF8(data, entity.getWorld().getID());
+        data.writeBoolean(entity.isSpawnable());
         data.writeBoolean(entity.isGlowing());
         return data;
     }

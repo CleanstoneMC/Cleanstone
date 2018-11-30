@@ -16,7 +16,10 @@ public interface Entity {
 
     boolean isPersistent();
 
-    void setPersistent(boolean persistent);
+    /**
+     * @return TRUE if this entity should be able to be spawned and used in the game
+     */
+    boolean isSpawnable();
 
     boolean isGlowing();
 

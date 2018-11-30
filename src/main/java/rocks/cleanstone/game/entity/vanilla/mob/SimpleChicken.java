@@ -8,8 +8,7 @@ public class SimpleChicken extends SimpleLivingEntity implements Chicken {
 
     // TODO implement custom chicken properties
 
-    public SimpleChicken(World world, HeadRotatablePosition position, boolean persistent,
-                         boolean glowing, int health) {
-        super(world, position, persistent, glowing, health);
+    public SimpleChicken(World world, HeadRotatablePosition position, boolean glowing, int health) {
+        super(world, position, true, true, glowing, health);
     }
 }

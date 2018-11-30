@@ -30,7 +30,8 @@ public class SimpleLivingEntityCodec implements InOutCodec<SimpleLivingEntity, B
         HeadRotatablePosition position = new HeadRotatablePosition(entity.getPosition(),
                 new Rotation(yaw, pitch));
         int health = ByteBufUtils.readVarInt(data);
-        return new SimpleLivingEntity(entity.getWorld(), position, true, entity.isGlowing(), health);
+        return new SimpleLivingEntity(entity.getWorld(), position, entity.isPersistent(),
+                entity.isSpawnable(), entity.isGlowing(), health);
     }
 
     @Override
