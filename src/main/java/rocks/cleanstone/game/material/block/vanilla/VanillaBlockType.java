@@ -143,7 +143,7 @@ public enum VanillaBlockType implements BlockType {
     GOLD_BLOCK("gold_block"),
     IRON_BLOCK("iron_block"),
     BRICKS("bricks"),
-    TNT("tnt"),
+    TNT("tnt", arrayOf(definitionOf(UNSTABLE, false))),
     BOOKSHELF("bookshelf"),
     MOSSY_COBBLESTONE("mossy_cobblestone"),
     OBSIDIAN("obsidian"),
@@ -571,11 +571,16 @@ public enum VanillaBlockType implements BlockType {
     BUBBLE_CORAL_BLOCK("bubble_coral_block"),
     FIRE_CORAL_BLOCK("fire_coral_block"),
     HORN_CORAL_BLOCK("horn_coral_block"),
-    TUBE_CORAL("tube_coral"),
-    BRAIN_CORAL("brain_coral"),
-    BUBBLE_CORAL("bubble_coral"),
-    FIRE_CORAL("fire_coral"),
-    HORN_CORAL("horn_coral"),
+    DEAD_TUBE_CORAL("dead_tube_coral", arrayOf(definitionOf(WATERLOGGED, true))),
+    DEAD_BRAIN_CORAL("dead_brain_coral", arrayOf(definitionOf(WATERLOGGED, true))),
+    DEAD_BUBBLE_CORAL("dead_bubble_coral", arrayOf(definitionOf(WATERLOGGED, true))),
+    DEAD_FIRE_CORAL("dead_fire_coral", arrayOf(definitionOf(WATERLOGGED, true))),
+    DEAD_HORN_CORAL("dead_horn_coral", arrayOf(definitionOf(WATERLOGGED, true))),
+    TUBE_CORAL("tube_coral", arrayOf(definitionOf(WATERLOGGED, true))),
+    BRAIN_CORAL("brain_coral", arrayOf(definitionOf(WATERLOGGED, true))),
+    BUBBLE_CORAL("bubble_coral", arrayOf(definitionOf(WATERLOGGED, true))),
+    FIRE_CORAL("fire_coral", arrayOf(definitionOf(WATERLOGGED, true))),
+    HORN_CORAL("horn_coral", arrayOf(definitionOf(WATERLOGGED, true))),
     DEAD_TUBE_CORAL_WALL_FAN("dead_tube_coral_wall_fan", arrayOf(definitionOf(FACING, Facing.NORTH), definitionOf(WATERLOGGED, true))),
     DEAD_BRAIN_CORAL_WALL_FAN("dead_brain_coral_wall_fan", arrayOf(definitionOf(FACING, Facing.NORTH), definitionOf(WATERLOGGED, true))),
     DEAD_BUBBLE_CORAL_WALL_FAN("dead_bubble_coral_wall_fan", arrayOf(definitionOf(FACING, Facing.NORTH), definitionOf(WATERLOGGED, true))),
@@ -598,7 +603,7 @@ public enum VanillaBlockType implements BlockType {
     HORN_CORAL_FAN("horn_coral_fan", arrayOf(definitionOf(WATERLOGGED, true))),
     SEA_PICKLE("sea_pickle", arrayOf(definitionOf(PICKLES, 1), definitionOf(WATERLOGGED, true))),
     BLUE_ICE("blue_ice"),
-    CONDUIT("conduit"),
+    CONDUIT("conduit", arrayOf(definitionOf(WATERLOGGED, true))),
     VOID_AIR("void_air"),
     CAVE_AIR("cave_air"),
     BUBBLE_COLUMN("bubble_column", arrayOf(definitionOf(DRAG, true))),
@@ -636,11 +641,6 @@ public enum VanillaBlockType implements BlockType {
     @Override
     public String getMinecraftID() {
         return "minecraft:" + minecraftID;
-    }
-
-    @Override
-    public String toString() {
-        return minecraftID;
     }
 
     @Override

@@ -96,16 +96,16 @@ foreach (Property::$properties as $propertyName => $property) {
 $vanillaPropertiesContent .= '}
 ';
 
-$protocolBlockStateMappingContent = 'package rocks.cleanstone.net.minecraft.protocol.v1_13;
+$protocolBlockStateMappingContent = 'package rocks.cleanstone.net.minecraft.protocol.v1_13_2;
 
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
 
 import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockType.*;
 
-public class ProtocolBlockStateMapping_v1_13 extends ModernBlockStateMapping {
+public class ProtocolBlockStateMapping_v1_13_2 extends ModernBlockStateMapping {
 
-    public ProtocolBlockStateMapping_v1_13() {
+    public ProtocolBlockStateMapping_v1_13_2() {
         super(BlockState.of(STONE));
 ';
 
@@ -125,6 +125,6 @@ $protocolBlockStateMappingContent .= '    }
 //file_put_contents('VanillaBlockType.java', $vanillaBlockTypeContent);
 //file_put_contents('VanillaBlockProperties.java', $vanillaPropertiesContent);
 //file_put_contents('ProtocolBlockStateMapping_v1_13.java', $protocolBlockStateMappingContent);
-file_put_contents('/home/fionera/src/Cleanstone/src/main/java/rocks/cleanstone/game/material/block/vanilla/VanillaBlockType.java', $vanillaBlockTypeContent);
-file_put_contents('/home/fionera/src/Cleanstone/src/main/java/rocks/cleanstone/game/material/block/vanilla/VanillaBlockProperties.java', $vanillaPropertiesContent);
-file_put_contents('/home/fionera/src/Cleanstone/src/main/java/rocks/cleanstone/net/minecraft/protocol/v1_13/ProtocolBlockStateMapping_v1_13.java', $protocolBlockStateMappingContent);
+file_put_contents('/home/leon/Programming/WorkSpace/Cleanstone/src/main/java/rocks/cleanstone/game/material/block/vanilla/VanillaBlockType.java', $vanillaBlockTypeContent);
+file_put_contents('/home/leon/Programming/WorkSpace/Cleanstone/src/main/java/rocks/cleanstone/game/material/block/vanilla/VanillaBlockProperties.java', $vanillaPropertiesContent);
+file_put_contents('/home/leon/Programming/WorkSpace/Cleanstone/src/main/java/rocks/cleanstone/net/minecraft/protocol/v1_13_2/ProtocolBlockStateMapping_v1_13_2.java', $protocolBlockStateMappingContent);

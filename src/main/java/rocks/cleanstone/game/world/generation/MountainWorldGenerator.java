@@ -1,13 +1,20 @@
 package rocks.cleanstone.game.world.generation;
 
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
-import rocks.cleanstone.game.world.chunk.*;
+import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
+import rocks.cleanstone.game.world.chunk.BlockDataTable;
+import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
+import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
@@ -15,9 +22,7 @@ import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.generation.utils.NoiseGenerator;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
-import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
-
-import java.util.HashSet;
+import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
 
 import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.*;
 
@@ -25,7 +30,7 @@ import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.*;
 public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
-    private final ProtocolBlockStateMapping blockStateMapping;
+    private final ProtocolBlockStateMapping_v1_13_1 blockStateMapping;
     private Block GRASS_BLOCK;
     private Block DIRT;
     private Block STONE;
@@ -34,7 +39,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     public MountainWorldGenerator(
             VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
-            ProtocolBlockStateMapping blockStateMapping
+            ProtocolBlockStateMapping_v1_13_1 blockStateMapping
 
     ) {
         super(Dimension.OVERWORLD, LevelType.DEFAULT);

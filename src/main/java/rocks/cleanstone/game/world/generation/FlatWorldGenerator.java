@@ -2,21 +2,26 @@ package rocks.cleanstone.game.world.generation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
-import rocks.cleanstone.game.world.chunk.*;
+import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
+import rocks.cleanstone.game.world.chunk.BlockDataTable;
+import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.ChunkCoords;
+import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
 import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
-import rocks.cleanstone.net.minecraft.protocol.v1_13.ProtocolBlockStateMapping;
-
-import java.util.HashSet;
+import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
 
 @Component("flatWorldGenerator")
 public class FlatWorldGenerator extends AbstractWorldGenerator {
@@ -47,7 +52,7 @@ public class FlatWorldGenerator extends AbstractWorldGenerator {
             }
         }
 
-        DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping(), 14);
+        DirectPalette directPalette = new DirectPalette(new ProtocolBlockStateMapping_v1_13_1(), 14);
         blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable, directPalette, true);
     }
 
