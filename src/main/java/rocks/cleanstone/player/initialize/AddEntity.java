@@ -1,15 +1,18 @@
 package rocks.cleanstone.player.initialize;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.OpenWorldGame;
 import rocks.cleanstone.game.entity.EntityTracker;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
-import rocks.cleanstone.game.entity.vanilla.Human;
-import rocks.cleanstone.game.entity.vanilla.SimpleHuman;
+import rocks.cleanstone.game.entity.cleanstone.Human;
+import rocks.cleanstone.game.entity.cleanstone.SimpleHuman;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.game.world.World;
@@ -19,8 +22,6 @@ import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.data.standard.EntityData;
 import rocks.cleanstone.player.data.standard.StandardPlayerDataType;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
-
-import java.io.IOException;
 
 @Slf4j
 @Component
@@ -52,7 +53,7 @@ public class AddEntity {
             World world = getWorld(entityData);
             HeadRotatablePosition position = getPosition(entityData, world);
 
-            Human human = new SimpleHuman(world, position);
+            Human human = new SimpleHuman(world, position, false, 20); // TODO save and read health,glowing
             log.debug("{} now has entity id {}", player.getFormattedName(), human.getEntityID());
             player.setEntity(human);
             world.getEntityRegistry().addEntity(human);
@@ -65,20 +66,14 @@ public class AddEntity {
     }
 
     private World getWorld(EntityData entityData) {
-        return worldManager.getLoadedWorlds().stream()
-                .filter(world -> worldIdMatches(entityData, world))
-                .findAny()
-                .orElseGet(openWorldGame::getFirstSpawnWorld);
+        World world = worldManager.getLoadedWorld(entityData.getLogoutWorldID());
+        return world != null ? world : openWorldGame.getFirstSpawnWorld();
     }
 
     private HeadRotatablePosition getPosition(EntityData entityData, World world) {
-        return !worldIdMatches(entityData, world)
-                ? new HeadRotatablePosition(world.getFirstSpawnPosition())
-                : new HeadRotatablePosition(entityData.getLogoutPosition());
-    }
-
-    private boolean worldIdMatches(EntityData entityData, World world) {
-        return entityData != null && world.getWorldConfig().getName().equals(entityData.getLogoutWorldID());
+        return world.getID().equals(entityData.getLogoutWorldID())
+                ? new HeadRotatablePosition(entityData.getLogoutPosition())
+                : new HeadRotatablePosition(world.getFirstSpawnPosition());
     }
 
     private GameMode getGameMode(EntityData entityData) {

@@ -10,7 +10,7 @@ import rocks.cleanstone.game.entity.LivingEntity;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.event.EntityTrackEvent;
 import rocks.cleanstone.game.entity.event.EntityUntrackEvent;
-import rocks.cleanstone.game.entity.vanilla.Human;
+import rocks.cleanstone.game.entity.cleanstone.Human;
 import rocks.cleanstone.net.minecraft.packet.data.EntityMetadata;
 import rocks.cleanstone.net.minecraft.packet.enums.MobType;
 import rocks.cleanstone.net.minecraft.packet.outbound.DestroyEntitiesPacket;

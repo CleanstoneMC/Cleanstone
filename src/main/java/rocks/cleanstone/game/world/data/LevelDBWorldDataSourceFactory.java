@@ -9,9 +9,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import lombok.extern.slf4j.Slf4j;
-import rocks.cleanstone.game.entity.EntityTypeRegistry;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
 import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
+import rocks.cleanstone.game.entity.EntitySerialization;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
 
 @Slf4j
 @Component
@@ -19,24 +19,24 @@ import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping
 public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
     private final ProtocolBlockStateMapping_v1_13_1 blockStateMapping;
     private final VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory;
-    private final EntityTypeRegistry entityTypeRegistry;
+    private final EntitySerialization entitySerialization;
 
     public LevelDBWorldDataSourceFactory(
             ProtocolBlockStateMapping_v1_13_1 blockStateMapping,
             VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,
-            EntityTypeRegistry entityTypeRegistry
+            EntitySerialization entitySerialization
     ) {
         this.blockStateMapping = blockStateMapping;
         this.vanillaBlockDataCodecFactory = vanillaBlockDataCodecFactory;
-        this.entityTypeRegistry = entityTypeRegistry;
+        this.entitySerialization = entitySerialization;
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public WorldDataSource get(String worldID) throws WorldDataSourceCreationException {
         try {
-            return new LevelDBWorldDataSource(vanillaBlockDataCodecFactory, entityTypeRegistry, blockStateMapping,
-                    getDataFolder(), worldID);
+            return new LevelDBWorldDataSource(vanillaBlockDataCodecFactory, entitySerialization,
+                    blockStateMapping, getDataFolder(), worldID);
         } catch (IOException e) {
             throw new WorldDataSourceCreationException("could not initialize leveldb", e);
         }

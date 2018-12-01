@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.data.VersionedCodec;
 import rocks.cleanstone.data.leveldb.LevelDBDataSource;
-import rocks.cleanstone.game.entity.EntityTypeRegistry;
+import rocks.cleanstone.game.entity.EntitySerialization;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
@@ -31,7 +31,6 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     private final String worldID;
     private final boolean hasSkyLight;
     private final DirectPalette directPalette;
-    private final EntityTypeRegistry entityTypeRegistry;
 
     private final InOutCodec<EntityData, ByteBuf> entityDataCodec;
     private final InOutCodec<VanillaBlockDataStorage, ByteBuf> blockDataCodec;
@@ -41,21 +40,20 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
      */
     public LevelDBWorldDataSource(
             VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,
-            EntityTypeRegistry entityTypeRegistry,
             ProtocolBlockStateMapping_v1_13_1 protocolBlockStateMapping,
+            EntitySerialization entitySerialization,
             Path worldDataFolder,
             String worldID
     ) throws IOException {
         super(worldDataFolder.resolve(worldID));
         this.vanillaBlockDataCodecFactory = vanillaBlockDataCodecFactory;
-        this.entityTypeRegistry = entityTypeRegistry;
         this.worldID = worldID;
 
         // TODO read general world data (dimension, seed, etc)
         hasSkyLight = true;
         directPalette = new DirectPalette(protocolBlockStateMapping, 14);
 
-        entityDataCodec = VersionedCodec.withMainCodec(0, new EntityDataCodec(entityTypeRegistry));
+        entityDataCodec = VersionedCodec.withMainCodec(0, new EntityDataCodec(entitySerialization));
         blockDataCodec = VersionedCodec.withMainCodec(0, vanillaBlockDataCodecFactory.get(directPalette, true));
     }
 
