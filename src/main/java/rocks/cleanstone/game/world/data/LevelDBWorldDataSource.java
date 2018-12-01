@@ -40,8 +40,8 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
      */
     public LevelDBWorldDataSource(
             VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory,
-            ProtocolBlockStateMapping_v1_13_1 protocolBlockStateMapping,
             EntitySerialization entitySerialization,
+            ProtocolBlockStateMapping_v1_13_1 protocolBlockStateMapping,
             Path worldDataFolder,
             String worldID
     ) throws IOException {
