@@ -11,23 +11,23 @@ import rocks.cleanstone.game.material.item.ItemType;
 import rocks.cleanstone.game.material.item.mapping.ItemTypeMapping;
 import rocks.cleanstone.net.minecraft.packet.inbound.CreativeInventoryActionPacket;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
-import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import javax.annotation.Nullable;
-import java.io.IOException;
 
 @Slf4j
 @Component
 public class CreativeInventoryActionCodec implements InboundPacketCodec<CreativeInventoryActionPacket> {
 
+
     private final ItemTypeMapping<Integer> itemTypeMapping;
 
     public CreativeInventoryActionCodec(@Qualifier("protocolItemTypeMapping_v1_13_1") ItemTypeMapping<Integer> itemTypeMapping) {
         this.itemTypeMapping = itemTypeMapping;
+
     }
 
     @Override
-    public CreativeInventoryActionPacket decode(ByteBuf byteBuf) throws IOException {
+    public CreativeInventoryActionPacket decode(ByteBuf byteBuf) {
         short slot = byteBuf.readShort();
         ItemStack clickedItem = readItemStack(byteBuf);
 
@@ -35,15 +35,13 @@ public class CreativeInventoryActionCodec implements InboundPacketCodec<Creative
     }
 
     @Nullable
-    private ItemStack readItemStack(ByteBuf byteBuf) throws IOException {
-        boolean present = byteBuf.readBoolean();
+    private ItemStack readItemStack(ByteBuf byteBuf) {
+        short itemID = byteBuf.readShort();
+        log.info("Reading itemID " + itemID + " with " + itemTypeMapping.getClass().getSimpleName());
 
-        if (present) {
-            int itemID = ByteBufUtils.readVarInt(byteBuf);
-            log.info("Reading itemID " + itemID + " with " + itemTypeMapping.getClass().getSimpleName());
-
+        if (itemID != -1) {
             byte itemCount = byteBuf.readByte();
-            ItemType itemType = itemTypeMapping.getItemType(itemID);
+            ItemType itemType = itemTypeMapping.getItemType((int) itemID);
             Preconditions.checkNotNull(itemType, "Cannot find itemType with ID " + itemID);
             byte nbtStartByte = byteBuf.readByte(); // TODO Item NBT
             return new SimpleItemStack(itemType, itemCount, null);
