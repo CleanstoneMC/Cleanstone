@@ -5,7 +5,6 @@ plugins {
     java
     application
     jacoco
-    id("io.franzbecker.gradle-lombok") version "1.14"
     id("org.springframework.boot") version "2.1.0.RELEASE"
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
@@ -26,8 +25,8 @@ java {
     targetCompatibility = VERSION_1_8
 }
 
-lombok {
-    version = "1.18.2"
+jacoco {
+    toolVersion = "0.8.2"
 }
 
 dependencies {
@@ -49,15 +48,15 @@ dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine:2.6.2")
     implementation("commons-io:commons-io:2.6")
 
+    // todo: switch back to lombok plugin as soon as intellij picks up the dependency again
+    implementation("org.projectlombok:lombok:1.18.4")
+    annotationProcessor("org.projectlombok:lombok:1.18.4")
+
     implementation("org.fusesource.leveldbjni:leveldbjni-all:1.8")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-}
-
-jacoco {
-    toolVersion = "0.8.2"
 }
 
 tasks {
