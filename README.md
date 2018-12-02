@@ -48,11 +48,11 @@ innovative and intelligent tools for profiling Java and .NET applications.
 - Multiple Network Stacks
   - Minecraft Java Edition
   - Minecraft Pocket Edtition
-- Multiple Versions for Pocket Edition
+- Multiple Versions for Java Edition
   - 1.12.2
   - 1.13
   - 1.13.1
-  - 1.12.2
+  - 1.13.2
 - Placing and Destroying (but without Drops)
 - You can see other Players
  
