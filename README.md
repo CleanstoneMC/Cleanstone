@@ -18,6 +18,32 @@ Cleanstone is multi-threaded by design since we are using multiple thread pools 
 In the future we want to add the possibility to balance it across multiple servers as well.
 This is possible because we don't have a global tick loop that synchronizes all server actions but instead we outsource the work as modular services that can work asynchronously and are therefore scalable.
 
+## Features
+### Implemented
+- Multiple Network Protocols
+  - Minecraft Java Edition
+    - 1.12.2
+    - 1.13
+    - 1.13.1
+    - 1.13.2
+  - Minecraft Pocket Edtition
+    - Basic serverlist ping support
+- Async world loading and saving in LevelDB
+- Online mode login
+- Async chunk loading
+- Breaking and placing blocks (without item drops)
+- Seeing other players move around (entity tracking)
+- Command system with nice sub-command and parameter abstraction
+- Online admin panel to execute console commands
+### TODO
+- Seeing non-player entities (Missing entity metadata protocol)
+- World conversion (Missing NBT Support)
+- Item drops
+- Special block behavior (e.g. beds)
+- Spreading load over multiple servers
+- Network packet encapsulation (Events for Packets)
+- Chunk/Region behavior (Physics and AI)
+
 ## No global Tick Loop?
 We will probably not be able to avoid a tick loop completely when we get to redstone, gravity, etc. since too many other systems directly depend on it and it would cause too many race conditions and delays to synchronize it all.
 Our trick here is to divide the world into independent regions that manage their entities and work by themselves using their own worker threads and their own independent tick loops or worker servers independent of other regions.
@@ -42,26 +68,3 @@ YourKit supports open source projects with its full-featured Java Profiler.
 YourKit, LLC is the creator of <a href="https://www.yourkit.com/java/profiler/">YourKit Java Profiler</a>
 and <a href="https://www.yourkit.com/.net/profiler/">YourKit .NET Profiler</a>,
 innovative and intelligent tools for profiling Java and .NET applications.
-
-## Features
-### Implemented
-- Multiple Network Stacks
-  - Minecraft Java Edition
-  - Minecraft Pocket Edtition
-- Multiple Versions for Java Edition
-  - 1.12.2
-  - 1.13
-  - 1.13.1
-  - 1.13.2
-- Placing and Destroying (but without Drops)
-- You can see other Players
- 
-  
-### Missing
-- everything else
-- Entity Metadata
-- NBT Support
-- Drops
-- special handling for Blocks like Beds
-- Multi Server Support
-- Network Packet Abstraction (Events for Packets)
