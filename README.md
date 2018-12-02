@@ -42,3 +42,26 @@ YourKit supports open source projects with its full-featured Java Profiler.
 YourKit, LLC is the creator of <a href="https://www.yourkit.com/java/profiler/">YourKit Java Profiler</a>
 and <a href="https://www.yourkit.com/.net/profiler/">YourKit .NET Profiler</a>,
 innovative and intelligent tools for profiling Java and .NET applications.
+
+## Features
+### Implemented
+- Multiple Network Stacks
+  - Minecraft Java Edition
+  - Minecraft Pocket Edtition
+- Multiple Versions for Pocket Edition
+  - 1.12.2
+  - 1.13
+  - 1.13.1
+  - 1.12.2
+- Placing and Destroying (but without Drops)
+- You can see other Players
+ 
+  
+### Missing
+- everything else
+- Entity Metadata
+- NBT Support
+- Drops
+- special handling for Blocks like Beds
+- Multi Server Support
+- Network Packet Abstraction (Events for Packets)
