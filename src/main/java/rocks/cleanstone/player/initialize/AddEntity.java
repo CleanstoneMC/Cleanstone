@@ -66,12 +66,13 @@ public class AddEntity {
     }
 
     private World getWorld(EntityData entityData) {
+        if (entityData == null) return openWorldGame.getFirstSpawnWorld();
         World world = worldManager.getLoadedWorld(entityData.getLogoutWorldID());
         return world != null ? world : openWorldGame.getFirstSpawnWorld();
     }
 
     private HeadRotatablePosition getPosition(EntityData entityData, World world) {
-        return world.getID().equals(entityData.getLogoutWorldID())
+        return (entityData != null && world.getID().equals(entityData.getLogoutWorldID()))
                 ? new HeadRotatablePosition(entityData.getLogoutPosition())
                 : new HeadRotatablePosition(world.getFirstSpawnPosition());
     }
