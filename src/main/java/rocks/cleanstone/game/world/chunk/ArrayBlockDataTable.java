@@ -1,12 +1,12 @@
 package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Objects;
+import java.util.Arrays;
+import java.util.Collection;
+import org.apache.commons.lang3.SerializationUtils;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 public class ArrayBlockDataTable implements BlockDataTable {
 
@@ -16,10 +16,19 @@ public class ArrayBlockDataTable implements BlockDataTable {
     private final boolean hasSkylight;
 
     public ArrayBlockDataTable(ArrayBlockDataTable arrayBlockDataTable) {
-        this.blockLight = arrayBlockDataTable.blockLight.clone();
-        this.skyLight = arrayBlockDataTable.skyLight.clone();
+        this.blockLight = SerializationUtils.clone(arrayBlockDataTable.blockLight);
+        this.skyLight = SerializationUtils.clone(arrayBlockDataTable.skyLight);
         this.hasSkylight = arrayBlockDataTable.hasSkylight;
-        this.blocks = arrayBlockDataTable.blocks.clone();
+
+        Block[][][] srcBlocks = arrayBlockDataTable.blocks;
+        blocks = new Block[srcBlocks.length][][];
+        for (int a = 0; a < srcBlocks.length; a++) {
+            blocks[a] = new Block[srcBlocks[a].length][];
+            for (int b = 0; b < srcBlocks[a].length; b++) {
+                blocks[a][b] = new Block[srcBlocks[a][b].length];
+                System.arraycopy(srcBlocks[a][b], 0, blocks[a][b], 0, srcBlocks[a][b].length);
+            }
+        }
     }
 
     public ArrayBlockDataTable(Block[][][] blocks, byte[][][] blockLight, byte[][][] skyLight,
@@ -46,8 +55,9 @@ public class ArrayBlockDataTable implements BlockDataTable {
     public void setBlock(int x, int y, int z, Block block) {
         if (block == null || block.getState().getBlockType() == VanillaBlockType.AIR) {
             blocks[x][z][y] = null;
-        } else
+        } else {
             blocks[x][z][y] = block;
+        }
     }
 
     @Override
@@ -82,8 +92,12 @@ public class ArrayBlockDataTable implements BlockDataTable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ArrayBlockDataTable)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ArrayBlockDataTable)) {
+            return false;
+        }
         ArrayBlockDataTable that = (ArrayBlockDataTable) o;
         return hasSkylight == that.hasSkylight &&
                 Arrays.deepEquals(blocks, that.blocks) &&
