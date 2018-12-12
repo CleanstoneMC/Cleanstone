@@ -1,10 +1,11 @@
 package rocks.cleanstone.net.minecraft.login;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.minecraft.packet.inbound.EncryptionResponsePacket;
@@ -25,7 +26,7 @@ public class EncryptionResponseListener {
         if (event.getPacket() instanceof EncryptionResponsePacket) {
             EncryptionResponsePacket packet = (EncryptionResponsePacket) event.getPacket();
             try {
-                loginManager.onEncryptionResponse(event.getConnection(), packet);
+                loginManager.handleEncryptionResponse(event.getConnection(), packet);
             } catch (Exception e) {
                 log.error("Error occurred while handling encryption response", e);
                 loginManager.stopLogin(event.getConnection(), Text.of("Invalid encryption response"));

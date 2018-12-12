@@ -1,11 +1,24 @@
 package rocks.cleanstone.net.minecraft.login;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.crypto.SecretKey;
+
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
@@ -20,11 +33,6 @@ import rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;
 import rocks.cleanstone.player.UserProperty;
-
-import javax.crypto.SecretKey;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.util.*;
 
 @Slf4j
 @Component
@@ -46,7 +54,8 @@ public class LoginManager {
         privateKey = networking.getKeyPair().getPrivate();
     }
 
-    public void startLogin(Connection connection, String playerName) {
+    void startLogin(Connection connection, String playerName) {
+        Preconditions.checkState(!connectionLoginDataMap.containsKey(connection), "Login already started");
         byte[] verifyToken = SecurityUtils.generateRandomToken(4);
         LoginData loginData = new LoginData(verifyToken, playerName);
         connectionLoginDataMap.put(connection, loginData);
@@ -59,7 +68,7 @@ public class LoginManager {
         connection.sendPacket(LoginCrypto.constructEncryptionRequest(loginData, publicKey));
     }
 
-    public void finishLogin(Connection connection, UUID uuid, String accountName, UserProperty[] properties) {
+    private void finishLogin(Connection connection, UUID uuid, String accountName, UserProperty[] properties) {
         if (connectionLoginDataMap.remove(connection) == null || connection.isClosed()) {
             return;
         }
@@ -88,16 +97,18 @@ public class LoginManager {
                 new AsyncLoginSuccessEvent(connection, uuid, accountName, userProperties));
     }
 
-    public void stopLogin(Connection connection, Text reason) {
+    void stopLogin(Connection connection, Text reason) {
+        if (connectionLoginDataMap.remove(connection) == null) {
+            throw new IllegalArgumentException("Login has not started");
+        }
         connection.close(new DisconnectLoginPacket(reason));
-        connectionLoginDataMap.remove(connection);
     }
 
-    void onEncryptionResponse(Connection connection,
-                              EncryptionResponsePacket encryptionResponsePacket) {
+    void handleEncryptionResponse(Connection connection,
+                                  EncryptionResponsePacket encryptionResponsePacket) {
         LoginData loginData = connectionLoginDataMap.get(connection);
-        if (loginData == null || connection.isClosed()) {
-            return;
+        if (loginData == null) {
+            throw new IllegalArgumentException("Login has not started");
         }
         SecretKey key = LoginCrypto.validateEncryptionResponse(loginData, privateKey, encryptionResponsePacket);
         connection.setSharedSecret(key);
