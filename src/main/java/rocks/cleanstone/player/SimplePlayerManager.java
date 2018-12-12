@@ -1,10 +1,25 @@
 package rocks.cleanstone.player;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArraySet;
+
+import javax.annotation.Nullable;
+import javax.annotation.PreDestroy;
+
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.message.Text;
@@ -18,23 +33,12 @@ import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
 
-import javax.annotation.Nullable;
-import javax.annotation.PreDestroy;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
 @Slf4j
 @Component
 public class SimplePlayerManager implements PlayerManager {
 
-    private final Collection<Player> onlinePlayers = Sets.newConcurrentHashSet();
-    private final Collection<Player> terminatingPlayers = Sets.newConcurrentHashSet();
+    private final Collection<Player> onlinePlayers = new CopyOnWriteArraySet<>();
+    private final Collection<Player> terminatingPlayers = new CopyOnWriteArraySet<>();
     private final Collection<Identity> playerIDs = Sets.newConcurrentHashSet();
     private final PlayerDataSource playerDataSource;
 
@@ -44,7 +48,7 @@ public class SimplePlayerManager implements PlayerManager {
 
     @Override
     public Collection<Player> getOnlinePlayers() {
-        return ImmutableSet.copyOf(onlinePlayers);
+        return Collections.unmodifiableCollection(onlinePlayers);
     }
 
     @Override
@@ -82,7 +86,7 @@ public class SimplePlayerManager implements PlayerManager {
 
     @Override
     public Collection<Identity> getAllPlayerIDs() {
-        return ImmutableSet.copyOf(playerIDs);
+        return Collections.unmodifiableCollection(playerIDs);
     }
 
     @Override
@@ -117,9 +121,9 @@ public class SimplePlayerManager implements PlayerManager {
 
     @Override
     public void initializePlayer(Player player) {
-        log.info("Initializing player");
         Preconditions.checkState(onlinePlayers.add(player),
                 "Cannot initialize already initialized player " + player);
+        log.info("Initializing player " + player);
         try {
             CleanstoneServer.publishEvent(new AsyncPlayerInitializationEvent(player), true);
         } catch (Exception e) {
@@ -132,9 +136,12 @@ public class SimplePlayerManager implements PlayerManager {
 
     @Override
     public void terminatePlayer(Player player) {
-        log.info("Terminating player");
-        Preconditions.checkState(terminatingPlayers.add(player),
+        Preconditions.checkState(onlinePlayers.contains(player),
                 "Cannot terminate already terminated / non-initialized player " + player);
+        Preconditions.checkState(terminatingPlayers.add(player),
+                "Already terminating player " + player);
+
+        log.info("Terminating player " + player);
         CleanstoneServer.publishEvent(new PlayerQuitEvent(player));
         CleanstoneServer.publishEvent(new AsyncPlayerTerminationEvent(player));
         onlinePlayers.remove(player);
