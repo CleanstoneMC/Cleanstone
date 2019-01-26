@@ -9,7 +9,6 @@ public class SimpleEntity implements Entity {
     private final World world;
     private final boolean persistent, spawnable;
     protected RotatablePosition position;
-    private EntityType type;
     private int entityID = -1;
     private boolean glowing;
 
