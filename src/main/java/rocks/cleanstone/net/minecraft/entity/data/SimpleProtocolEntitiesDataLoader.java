@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.entity;
+package rocks.cleanstone.net.minecraft.entity.data;
 
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;

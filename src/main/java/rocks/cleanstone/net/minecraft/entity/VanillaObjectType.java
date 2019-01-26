@@ -1,6 +1,6 @@
-package rocks.cleanstone.net.minecraft.packet.enums;
+package rocks.cleanstone.net.minecraft.entity;
 
-public enum ObjectType {
+public enum VanillaObjectType {
     BOAT(1),
     ITEM_STACK(2),
     AREA_EFFECT_CLOUD(3),
@@ -31,13 +31,13 @@ public enum ObjectType {
 
     private final int typeID;
 
-    ObjectType(int typeID) {
+    VanillaObjectType(int typeID) {
         this.typeID = typeID;
     }
 
     @SuppressWarnings("Duplicates")
-    public static ObjectType fromTypeID(int typeID) {
-        for (ObjectType objectType : ObjectType.values()) {
+    public static VanillaObjectType fromTypeID(int typeID) {
+        for (VanillaObjectType objectType : VanillaObjectType.values()) {
             if (objectType.getTypeID() == typeID) {
                 return objectType;
             }

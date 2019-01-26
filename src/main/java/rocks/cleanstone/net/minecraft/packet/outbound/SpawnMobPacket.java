@@ -1,18 +1,19 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
+import java.util.UUID;
+
+import rocks.cleanstone.net.minecraft.entity.MobType;
+import rocks.cleanstone.net.minecraft.entity.VanillaEntityType;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.data.EntityMetadata;
-import rocks.cleanstone.net.minecraft.packet.enums.MobType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
-
-import java.util.UUID;
 
 public class SpawnMobPacket implements Packet {
 
     private final int entityID;
     private final UUID entityUUID;
-    private final MobType mobType;
+    private final VanillaEntityType entityType;
     private final double x;
     private final double y;
     private final double z;
@@ -27,7 +28,7 @@ public class SpawnMobPacket implements Packet {
     public SpawnMobPacket(int entityID, UUID entityUUID, int mobType, double x, double y, double z, float yaw, float pitch, float headPitch, short velocityX, short velocityY, short velocityZ, EntityMetadata entityMetadata) {
         this.entityID = entityID;
         this.entityUUID = entityUUID;
-        this.mobType = MobType.fromTypeID(mobType);
+        this.entityType = VanillaEntityType.fromTypeID(mobType);
         this.x = x;
         this.y = y;
         this.z = z;
@@ -40,10 +41,10 @@ public class SpawnMobPacket implements Packet {
         this.entityMetadata = entityMetadata;
     }
 
-    public SpawnMobPacket(int entityID, UUID entityUUID, MobType mobType, double x, double y, double z, float yaw, float pitch, float headPitch, short velocityX, short velocityY, short velocityZ, EntityMetadata entityMetadata) {
+    public SpawnMobPacket(int entityID, UUID entityUUID, VanillaEntityType entityType, double x, double y, double z, float yaw, float pitch, float headPitch, short velocityX, short velocityY, short velocityZ, EntityMetadata entityMetadata) {
         this.entityID = entityID;
         this.entityUUID = entityUUID;
-        this.mobType = mobType;
+        this.entityType = entityType;
         this.x = x;
         this.y = y;
         this.z = z;
@@ -64,8 +65,8 @@ public class SpawnMobPacket implements Packet {
         return entityUUID;
     }
 
-    public MobType getMobType() {
-        return mobType;
+    public VanillaEntityType getEntityType() {
+        return entityType;
     }
 
     public double getX() {

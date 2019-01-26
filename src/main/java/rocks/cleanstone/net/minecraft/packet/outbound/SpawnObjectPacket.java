@@ -2,7 +2,7 @@ package rocks.cleanstone.net.minecraft.packet.outbound;
 
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
-import rocks.cleanstone.net.minecraft.packet.enums.ObjectType;
+import rocks.cleanstone.net.minecraft.entity.VanillaObjectType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
@@ -12,7 +12,7 @@ public class SpawnObjectPacket implements Packet {
 
     private final int entityID;
     private final UUID objectUUID;
-    private final ObjectType entityType;
+    private final VanillaObjectType entityType;
     private final double x;
     private final double y;
     private final double z;
@@ -26,7 +26,7 @@ public class SpawnObjectPacket implements Packet {
     public SpawnObjectPacket(int entityID, UUID objectUUID, byte entityType, double x, double y, double z, float pitch, float yaw, int data, short velocityX, short velocityY, short velocityZ) {
         this.entityID = entityID;
         this.objectUUID = objectUUID;
-        this.entityType = ObjectType.fromTypeID(entityType);
+        this.entityType = VanillaObjectType.fromTypeID(entityType);
         this.x = x;
         this.y = y;
         this.z = z;
@@ -38,7 +38,7 @@ public class SpawnObjectPacket implements Packet {
         this.velocityZ = velocityZ;
     }
 
-    public SpawnObjectPacket(int entityID, UUID objectUUID, ObjectType entityType, double x, double y, double z, float pitch, float yaw, int data, short velocityX, short velocityY, short velocityZ) {
+    public SpawnObjectPacket(int entityID, UUID objectUUID, VanillaObjectType entityType, double x, double y, double z, float pitch, float yaw, int data, short velocityX, short velocityY, short velocityZ) {
         this.entityID = entityID;
         this.objectUUID = objectUUID;
         this.entityType = entityType;
@@ -53,7 +53,7 @@ public class SpawnObjectPacket implements Packet {
         this.velocityZ = velocityZ;
     }
 
-    public SpawnObjectPacket(int entityID, UUID objectUUID, ObjectType entityType, RotatablePosition position, int data, short velocityX, short velocityY, short velocityZ) {
+    public SpawnObjectPacket(int entityID, UUID objectUUID, VanillaObjectType entityType, RotatablePosition position, int data, short velocityX, short velocityY, short velocityZ) {
         this.entityID = entityID;
         this.objectUUID = objectUUID;
         this.entityType = entityType;
@@ -76,7 +76,7 @@ public class SpawnObjectPacket implements Packet {
         return objectUUID;
     }
 
-    public ObjectType getEntityType() {
+    public VanillaObjectType getEntityType() {
         return entityType;
     }
 

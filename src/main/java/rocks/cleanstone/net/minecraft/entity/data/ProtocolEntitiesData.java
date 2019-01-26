@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.entity;
+package rocks.cleanstone.net.minecraft.entity.data;
 
 public class ProtocolEntitiesData {
 

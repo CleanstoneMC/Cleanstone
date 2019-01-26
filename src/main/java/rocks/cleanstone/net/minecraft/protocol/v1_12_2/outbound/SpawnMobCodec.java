@@ -14,7 +14,7 @@ public class SpawnMobCodec implements OutboundPacketCodec<SpawnMobPacket> {
 
         ByteBufUtils.writeVarInt(byteBuf, packet.getEntityID());
         ByteBufUtils.writeUUID(byteBuf, packet.getEntityUUID());
-        ByteBufUtils.writeVarInt(byteBuf, packet.getMobType().getTypeID());
+        ByteBufUtils.writeVarInt(byteBuf, packet.getEntityType().getTypeID());
         byteBuf.writeDouble(packet.getX());
         byteBuf.writeDouble(packet.getY());
         byteBuf.writeDouble(packet.getZ());

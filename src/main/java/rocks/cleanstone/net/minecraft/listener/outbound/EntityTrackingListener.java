@@ -1,26 +1,27 @@
 package rocks.cleanstone.net.minecraft.listener.outbound;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+import java.util.UUID;
+
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.entity.LivingEntity;
 import rocks.cleanstone.game.entity.RotatablePosition;
+import rocks.cleanstone.game.entity.cleanstone.Human;
 import rocks.cleanstone.game.entity.event.EntityTrackEvent;
 import rocks.cleanstone.game.entity.event.EntityUntrackEvent;
-import rocks.cleanstone.game.entity.cleanstone.Human;
+import rocks.cleanstone.net.minecraft.entity.VanillaEntityType;
 import rocks.cleanstone.net.minecraft.packet.data.EntityMetadata;
-import rocks.cleanstone.net.minecraft.packet.enums.MobType;
 import rocks.cleanstone.net.minecraft.packet.outbound.DestroyEntitiesPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
-
-import java.util.Collections;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -53,7 +54,7 @@ public class EntityTrackingListener {
             // TODO Is the mob UUID actually used?
             // TODO Add velocity
             // TODO convert game-side EntityType to protocol-side MobType
-            observer.sendPacket(new SpawnMobPacket(entity.getEntityID(), UUID.randomUUID(), MobType.CHICKEN,
+            observer.sendPacket(new SpawnMobPacket(entity.getEntityID(), UUID.randomUUID(), VanillaEntityType.CHICKEN,
                     position.getX(), position.getY(), position.getZ(),
                     position.getRotation().getYaw(), position.getRotation().getPitch(), headPitch,
                     (short) 0, (short) 0, (short) 0, new EntityMetadata()

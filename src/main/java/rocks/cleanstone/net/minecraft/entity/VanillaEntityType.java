@@ -1,6 +1,6 @@
-package rocks.cleanstone.net.minecraft.packet.enums;
+package rocks.cleanstone.net.minecraft.entity;
 
-public enum MobType {
+public enum VanillaEntityType {
     ITEM(1, "minecraft:item"),
     XP_ORB(2, "minecraft:xp_orb"),
     AREA_EFFECT_CLOUD(3, "minecraft:area_effect_cloud"),
@@ -89,16 +89,16 @@ public enum MobType {
     private final int typeID;
     private final String minecraftID;
 
-    MobType(int typeID, String minecraftID) {
+    VanillaEntityType(int typeID, String minecraftID) {
         this.typeID = typeID;
         this.minecraftID = minecraftID;
     }
 
     @SuppressWarnings("Duplicates")
-    public static MobType fromTypeID(int typeID) {
-        for (MobType mobType : MobType.values()) {
-            if (mobType.getTypeID() == typeID) {
-                return mobType;
+    public static VanillaEntityType fromTypeID(int typeID) {
+        for (VanillaEntityType entityType : VanillaEntityType.values()) {
+            if (entityType.getTypeID() == typeID) {
+                return entityType;
             }
         }
 
@@ -106,10 +106,10 @@ public enum MobType {
     }
 
     @SuppressWarnings("Duplicates")
-    public static MobType fromMinecraftID(String minecraftID) {
-        for (MobType mobType : MobType.values()) {
-            if (mobType.getMinecraftID().equals(minecraftID)) {
-                return mobType;
+    public static VanillaEntityType fromMinecraftID(String minecraftID) {
+        for (VanillaEntityType entityType : VanillaEntityType.values()) {
+            if (entityType.getMinecraftID().equals(minecraftID)) {
+                return entityType;
             }
         }
 

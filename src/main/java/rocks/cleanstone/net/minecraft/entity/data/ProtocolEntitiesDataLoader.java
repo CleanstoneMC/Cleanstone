@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.entity;
+package rocks.cleanstone.net.minecraft.entity.data;
 
 import org.springframework.util.concurrent.ListenableFuture;
 
