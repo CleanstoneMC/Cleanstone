@@ -2,7 +2,6 @@ package rocks.cleanstone.net.minecraft.packet.outbound;
 
 import java.util.UUID;
 
-import rocks.cleanstone.net.minecraft.entity.MobType;
 import rocks.cleanstone.net.minecraft.entity.VanillaEntityType;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.minecraft.packet.data.EntityMetadata;
