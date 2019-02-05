@@ -2,6 +2,9 @@ package rocks.cleanstone.net.minecraft.entity.metadata;
 
 import rocks.cleanstone.game.entity.Entity;
 
+/**
+ * Registry that links {@link Entity} classes to {@link EntityConverter}s
+ */
 public interface EntityConverterRegistry {
 
     <T extends Entity> void registerConverter(Class<T> entityClass, EntityConverter<T> retriever);

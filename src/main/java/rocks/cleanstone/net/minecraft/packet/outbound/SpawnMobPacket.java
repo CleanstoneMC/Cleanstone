@@ -2,18 +2,15 @@ package rocks.cleanstone.net.minecraft.packet.outbound;
 
 import java.util.UUID;
 
-import rocks.cleanstone.net.minecraft.entity.MobType;
-import rocks.cleanstone.net.minecraft.entity.VanillaEntityType;
+import rocks.cleanstone.net.minecraft.entity.VanillaEntity;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
-import rocks.cleanstone.net.minecraft.packet.data.EntityMetadata;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class SpawnMobPacket implements Packet {
+public class SpawnMobPacket implements Packet, AutoCloseable {
 
     private final int entityID;
     private final UUID entityUUID;
-    private final VanillaEntityType entityType;
     private final double x;
     private final double y;
     private final double z;
@@ -23,12 +20,13 @@ public class SpawnMobPacket implements Packet {
     private final short velocityX;
     private final short velocityY;
     private final short velocityZ;
-    private final EntityMetadata entityMetadata;
+    private final VanillaEntity vanillaEntity;
 
-    public SpawnMobPacket(int entityID, UUID entityUUID, int mobType, double x, double y, double z, float yaw, float pitch, float headPitch, short velocityX, short velocityY, short velocityZ, EntityMetadata entityMetadata) {
+    public SpawnMobPacket(int entityID, UUID entityUUID, double x, double y, double z, float yaw,
+                          float pitch, float headPitch, short velocityX, short velocityY, short velocityZ,
+                          VanillaEntity vanillaEntity) {
         this.entityID = entityID;
         this.entityUUID = entityUUID;
-        this.entityType = VanillaEntityType.fromTypeID(mobType);
         this.x = x;
         this.y = y;
         this.z = z;
@@ -38,23 +36,7 @@ public class SpawnMobPacket implements Packet {
         this.velocityX = velocityX;
         this.velocityY = velocityY;
         this.velocityZ = velocityZ;
-        this.entityMetadata = entityMetadata;
-    }
-
-    public SpawnMobPacket(int entityID, UUID entityUUID, VanillaEntityType entityType, double x, double y, double z, float yaw, float pitch, float headPitch, short velocityX, short velocityY, short velocityZ, EntityMetadata entityMetadata) {
-        this.entityID = entityID;
-        this.entityUUID = entityUUID;
-        this.entityType = entityType;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.yaw = yaw;
-        this.pitch = pitch;
-        this.headPitch = headPitch;
-        this.velocityX = velocityX;
-        this.velocityY = velocityY;
-        this.velocityZ = velocityZ;
-        this.entityMetadata = entityMetadata;
+        this.vanillaEntity = vanillaEntity;
     }
 
     public int getEntityID() {
@@ -63,10 +45,6 @@ public class SpawnMobPacket implements Packet {
 
     public UUID getEntityUUID() {
         return entityUUID;
-    }
-
-    public VanillaEntityType getEntityType() {
-        return entityType;
     }
 
     public double getX() {
@@ -105,12 +83,17 @@ public class SpawnMobPacket implements Packet {
         return velocityZ;
     }
 
-    public EntityMetadata getEntityMetadata() {
-        return entityMetadata;
+    public VanillaEntity getVanillaEntity() {
+        return vanillaEntity;
     }
 
     @Override
     public PacketType getType() {
         return MinecraftOutboundPacketType.SPAWN_MOB;
+    }
+
+    @Override
+    public void close() {
+        vanillaEntity.getEntityMetadata().close();
     }
 }

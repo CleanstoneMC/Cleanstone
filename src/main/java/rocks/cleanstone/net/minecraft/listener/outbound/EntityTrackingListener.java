@@ -15,8 +15,9 @@ import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.cleanstone.Human;
 import rocks.cleanstone.game.entity.event.EntityTrackEvent;
 import rocks.cleanstone.game.entity.event.EntityUntrackEvent;
-import rocks.cleanstone.net.minecraft.entity.VanillaEntityType;
-import rocks.cleanstone.net.minecraft.packet.data.EntityMetadata;
+import rocks.cleanstone.net.minecraft.entity.VanillaEntity;
+import rocks.cleanstone.net.minecraft.entity.VanillaMobType;
+import rocks.cleanstone.net.minecraft.entity.metadata.EntityMetadata;
 import rocks.cleanstone.net.minecraft.packet.outbound.DestroyEntitiesPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
@@ -54,10 +55,11 @@ public class EntityTrackingListener {
             // TODO Is the mob UUID actually used?
             // TODO Add velocity
             // TODO convert game-side EntityType to protocol-side MobType
-            observer.sendPacket(new SpawnMobPacket(entity.getEntityID(), UUID.randomUUID(), VanillaEntityType.CHICKEN,
+            observer.sendPacket(new SpawnMobPacket(entity.getEntityID(), UUID.randomUUID(),
                     position.getX(), position.getY(), position.getZ(),
                     position.getRotation().getYaw(), position.getRotation().getPitch(), headPitch,
-                    (short) 0, (short) 0, (short) 0, new EntityMetadata()
+                    (short) 0, (short) 0, (short) 0,
+                    new VanillaEntity(VanillaMobType.CHICKEN, new EntityMetadata(Collections.emptySet()))
             ));
         }
     }

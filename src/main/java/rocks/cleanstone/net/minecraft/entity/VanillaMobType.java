@@ -1,6 +1,11 @@
 package rocks.cleanstone.net.minecraft.entity;
 
-public enum VanillaEntityType {
+/**
+ * The various types of "mob" entities that are known to the minecraft client
+ *
+ * TODO load from an entity scheme since the typeIDs might be version-dependent?
+ */
+public enum VanillaMobType {
     ITEM(1, "minecraft:item"),
     XP_ORB(2, "minecraft:xp_orb"),
     AREA_EFFECT_CLOUD(3, "minecraft:area_effect_cloud"),
@@ -89,14 +94,14 @@ public enum VanillaEntityType {
     private final int typeID;
     private final String minecraftID;
 
-    VanillaEntityType(int typeID, String minecraftID) {
+    VanillaMobType(int typeID, String minecraftID) {
         this.typeID = typeID;
         this.minecraftID = minecraftID;
     }
 
     @SuppressWarnings("Duplicates")
-    public static VanillaEntityType fromTypeID(int typeID) {
-        for (VanillaEntityType entityType : VanillaEntityType.values()) {
+    public static VanillaMobType fromTypeID(int typeID) {
+        for (VanillaMobType entityType : VanillaMobType.values()) {
             if (entityType.getTypeID() == typeID) {
                 return entityType;
             }
@@ -106,8 +111,8 @@ public enum VanillaEntityType {
     }
 
     @SuppressWarnings("Duplicates")
-    public static VanillaEntityType fromMinecraftID(String minecraftID) {
-        for (VanillaEntityType entityType : VanillaEntityType.values()) {
+    public static VanillaMobType fromMinecraftID(String minecraftID) {
+        for (VanillaMobType entityType : VanillaMobType.values()) {
             if (entityType.getMinecraftID().equals(minecraftID)) {
                 return entityType;
             }

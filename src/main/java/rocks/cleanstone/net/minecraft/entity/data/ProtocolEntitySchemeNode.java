@@ -2,12 +2,12 @@ package rocks.cleanstone.net.minecraft.entity.data;
 
 import javax.annotation.Nullable;
 
-public class ProtocolEntityData {
+public class ProtocolEntitySchemeNode {
 
     private final String id, ancestor;
-    private final ProtocolEntityMetadataEntry[] metadata;
+    private final ProtocolEntitySchemeMetadataEntry[] metadata;
 
-    public ProtocolEntityData(String id, String ancestor, ProtocolEntityMetadataEntry[] metadata) {
+    public ProtocolEntitySchemeNode(String id, String ancestor, ProtocolEntitySchemeMetadataEntry[] metadata) {
         this.id = id;
         this.ancestor = ancestor;
         this.metadata = metadata;
@@ -22,7 +22,7 @@ public class ProtocolEntityData {
         return ancestor;
     }
 
-    public ProtocolEntityMetadataEntry[] getMetadataEntries() {
+    public ProtocolEntitySchemeMetadataEntry[] getMetadataEntries() {
         return metadata;
     }
 }

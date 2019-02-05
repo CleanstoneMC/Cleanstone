@@ -1,18 +1,21 @@
 package rocks.cleanstone.net.minecraft.entity;
 
-import rocks.cleanstone.net.minecraft.packet.data.EntityMetadata;
+import rocks.cleanstone.net.minecraft.entity.metadata.EntityMetadata;
 
+/**
+ * A captured state of a "mob" entity as known by the minecraft client
+ */
 public class VanillaEntity {
 
-    private final VanillaEntityType entityType;
+    private final VanillaMobType entityType;
     private final EntityMetadata entityMetadata;
 
-    public VanillaEntity(VanillaEntityType entityType, EntityMetadata entityMetadata) {
+    public VanillaEntity(VanillaMobType entityType, EntityMetadata entityMetadata) {
         this.entityType = entityType;
         this.entityMetadata = entityMetadata;
     }
 
-    public VanillaEntityType getEntityType() {
+    public VanillaMobType getEntityType() {
         return entityType;
     }
 

@@ -1,12 +1,12 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
+import java.util.UUID;
+
 import rocks.cleanstone.game.entity.RotatablePosition;
+import rocks.cleanstone.net.minecraft.entity.metadata.EntityMetadata;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
-import rocks.cleanstone.net.minecraft.packet.data.EntityMetadata;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
-
-import java.util.UUID;
 
 public class SpawnPlayerPacket implements Packet {
 

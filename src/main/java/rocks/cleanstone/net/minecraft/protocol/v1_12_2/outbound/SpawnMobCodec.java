@@ -1,7 +1,8 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
-import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
@@ -14,7 +15,7 @@ public class SpawnMobCodec implements OutboundPacketCodec<SpawnMobPacket> {
 
         ByteBufUtils.writeVarInt(byteBuf, packet.getEntityID());
         ByteBufUtils.writeUUID(byteBuf, packet.getEntityUUID());
-        ByteBufUtils.writeVarInt(byteBuf, packet.getEntityType().getTypeID());
+        ByteBufUtils.writeVarInt(byteBuf, packet.getVanillaEntity().getEntityType().getTypeID());
         byteBuf.writeDouble(packet.getX());
         byteBuf.writeDouble(packet.getY());
         byteBuf.writeDouble(packet.getZ());
@@ -25,8 +26,13 @@ public class SpawnMobCodec implements OutboundPacketCodec<SpawnMobPacket> {
         byteBuf.writeShort(packet.getVelocityY());
         byteBuf.writeShort(packet.getVelocityZ());
 
+        packet.getVanillaEntity().getEntityMetadata().getMetadataEntries().forEach((entityMetadataEntry -> {
+            byteBuf.writeByte(entityMetadataEntry.getIndex());
+            ByteBufUtils.writeVarInt(byteBuf, entityMetadataEntry.getType().getTypeID());
+            byteBuf.writeBytes(entityMetadataEntry.getValue());
+        }));
+        // Terminating metadata entry
         byteBuf.writeByte(0xff);
-        //TODO: Write EntityMetadata
 
         return byteBuf;
     }

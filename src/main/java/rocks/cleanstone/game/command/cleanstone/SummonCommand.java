@@ -9,8 +9,9 @@ import java.util.UUID;
 
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
-import rocks.cleanstone.net.minecraft.entity.VanillaEntityType;
-import rocks.cleanstone.net.minecraft.packet.data.EntityMetadata;
+import rocks.cleanstone.net.minecraft.entity.VanillaEntity;
+import rocks.cleanstone.net.minecraft.entity.VanillaMobType;
+import rocks.cleanstone.net.minecraft.entity.metadata.EntityMetadata;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
@@ -21,7 +22,7 @@ public class SummonCommand extends SimpleCommand {
 
     @Autowired
     public SummonCommand(PlayerManager playerManager) {
-        super("summon", Collections.emptyList(), VanillaEntityType.class);
+        super("summon", Collections.emptyList(), VanillaMobType.class);
         this.playerManager = playerManager;
     }
 
@@ -29,7 +30,7 @@ public class SummonCommand extends SimpleCommand {
     public void execute(CommandMessage message) {
         Player player = message.requireTargetPlayer();
 
-        VanillaEntityType entityType = message.requireParameter(VanillaEntityType.class);
+        VanillaMobType entityType = message.requireParameter(VanillaMobType.class);
         double x = message.optionalParameter(Double.class)
                 .orElseGet(() -> player.getEntity().getPosition().getX());
         double y = message.optionalParameter(Double.class)
@@ -53,11 +54,11 @@ public class SummonCommand extends SimpleCommand {
                 new SpawnMobPacket(
                         new Random().nextInt(Integer.MAX_VALUE),
                         UUID.randomUUID(),
-                        entityType,
                         x, y, z,
                         yaw, pitch, headPitch,
                         velocityX, velocityY, velocityZ,
-                        new EntityMetadata()
+                        new VanillaEntity(VanillaMobType.CHICKEN,
+                                new EntityMetadata(Collections.emptySet()))
                 )
         );
     }
