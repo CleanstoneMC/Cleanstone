@@ -7,7 +7,7 @@ import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
-public class SpawnMobPacket implements Packet, AutoCloseable {
+public class SpawnMobPacket implements Packet {
 
     private final int entityID;
     private final UUID entityUUID;
@@ -90,10 +90,5 @@ public class SpawnMobPacket implements Packet, AutoCloseable {
     @Override
     public PacketType getType() {
         return MinecraftOutboundPacketType.SPAWN_MOB;
-    }
-
-    @Override
-    public void close() {
-        vanillaEntity.getEntityMetadata().close();
     }
 }

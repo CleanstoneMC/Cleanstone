@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.entity.metadata.converters;
+package rocks.cleanstone.net.minecraft.entity.metadata.converter;
 
 import rocks.cleanstone.game.entity.cleanstone.Chicken;
 import rocks.cleanstone.net.minecraft.entity.VanillaEntity;

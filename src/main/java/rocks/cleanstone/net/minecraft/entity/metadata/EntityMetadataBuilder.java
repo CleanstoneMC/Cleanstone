@@ -6,10 +6,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.minecraft.entity.data.ProtocolEntityScheme;
 import rocks.cleanstone.net.minecraft.entity.data.ProtocolEntitySchemeMetadataEntry;
 import rocks.cleanstone.net.minecraft.entity.data.ProtocolEntitySchemeNode;
+import rocks.cleanstone.net.minecraft.entity.metadata.value.EntityMetadataEntryValue;
 
 /**
  * Utility class for creating {@link EntityMetadata} based on a {@link ProtocolEntityScheme}
@@ -25,20 +25,22 @@ public class EntityMetadataBuilder {
         possibleMetadataEntries = protocolEntityScheme.getMetadataEntriesOfNodeRecursively(entityNode);
     }
 
-    public void writeMetadata(String metadataEntryID, ByteBuf value) {
+    public void writeMetadata(String metadataEntryID, EntityMetadataEntryValue metadataEntryValue) {
         Preconditions.checkNotNull(metadataEntryID, "metadataEntryID cannot be null");
-        Preconditions.checkNotNull(value, "value cannot be null");
+        Preconditions.checkNotNull(metadataEntryValue, "value cannot be null");
 
         ProtocolEntitySchemeMetadataEntry metadataEntryScheme = possibleMetadataEntries.stream()
                 .filter(entry -> entry.getId().equals(metadataEntryID))
-                .findAny().orElseThrow(
-                        () -> new IllegalArgumentException("Cannot resolve metadataEntryID " + metadataEntryID)
+                .findAny().orElseThrow(() -> new IllegalArgumentException(
+                        "Cannot resolve metadataEntryID " + metadataEntryID)
                 );
         int index = metadataEntryScheme.getIndex();
-        EntityMetadataType metadataType = EntityMetadataType.byName(metadataEntryScheme.getType());
-        Preconditions.checkNotNull(metadataType, "Cannot resolve metadataType " + metadataEntryScheme.getType());
+        EntityMetadataEntryType metadataEntryType = EntityMetadataEntryType.fromValueClass(
+                metadataEntryValue.getClass());
+        Preconditions.checkNotNull(metadataEntryType, "Cannot resolve metadataType "
+                + metadataEntryScheme.getType());
 
-        metadataEntries.add(new EntityMetadataEntry(index, metadataType, value));
+        metadataEntries.add(new EntityMetadataEntry(index, metadataEntryType, metadataEntryValue));
     }
 
     public EntityMetadata build() {

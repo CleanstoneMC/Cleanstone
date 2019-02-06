@@ -1,6 +1,6 @@
 package rocks.cleanstone.net.minecraft.entity.metadata;
 
-import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.net.minecraft.entity.metadata.value.EntityMetadataEntryValue;
 
 /**
  * An entry for the {@link EntityMetadata} which is created using a {@link EntityMetadataBuilder}
@@ -8,10 +8,10 @@ import io.netty.buffer.ByteBuf;
 public class EntityMetadataEntry {
 
     private final int index;
-    private final EntityMetadataType type;
-    private final ByteBuf value;
+    private final EntityMetadataEntryType type;
+    private final EntityMetadataEntryValue value;
 
-    public EntityMetadataEntry(int index, EntityMetadataType type, ByteBuf value) {
+    public EntityMetadataEntry(int index, EntityMetadataEntryType type, EntityMetadataEntryValue value) {
         this.index = index;
         this.type = type;
         this.value = value;
@@ -21,11 +21,11 @@ public class EntityMetadataEntry {
         return index;
     }
 
-    public EntityMetadataType getType() {
+    public EntityMetadataEntryType getType() {
         return type;
     }
 
-    public ByteBuf getValue() {
+    public EntityMetadataEntryValue getValue() {
         return value;
     }
 }

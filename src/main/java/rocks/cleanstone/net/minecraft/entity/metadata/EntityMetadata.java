@@ -8,7 +8,7 @@ import rocks.cleanstone.net.minecraft.entity.VanillaEntity;
  * <p>Metadata for a minecraft {@link VanillaEntity} as required by a minecraft client</p>
  * Created using an {@link EntityMetadataBuilder}
  */
-public class EntityMetadata implements AutoCloseable {
+public class EntityMetadata {
 
     private final Collection<EntityMetadataEntry> metadataEntries;
 
@@ -18,10 +18,5 @@ public class EntityMetadata implements AutoCloseable {
 
     public Collection<EntityMetadataEntry> getMetadataEntries() {
         return metadataEntries;
-    }
-
-    @Override
-    public void close() {
-        metadataEntries.forEach(entry -> entry.getValue().release());
     }
 }
