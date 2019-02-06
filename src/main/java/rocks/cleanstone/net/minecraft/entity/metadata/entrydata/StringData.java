@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.entity.metadata.value;
+package rocks.cleanstone.net.minecraft.entity.metadata.entrydata;
 
 import com.google.common.base.Preconditions;
 
@@ -8,17 +8,17 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class StringValue implements EntityMetadataEntryValue {
+public class StringData implements EntityMetadataEntryData {
 
     private final String string;
 
-    private StringValue(String string) {
+    private StringData(String string) {
         Preconditions.checkNotNull(string, "string cannot be null");
         this.string = string;
     }
 
-    public static StringValue of(String string) {
-        return new StringValue(string);
+    public static StringData of(String string) {
+        return new StringData(string);
     }
 
     @Override

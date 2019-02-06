@@ -29,7 +29,7 @@ public class SpawnMobCodec implements OutboundPacketCodec<SpawnMobPacket> {
         packet.getVanillaEntity().getEntityMetadata().getMetadataEntries().forEach((entityMetadataEntry -> {
             byteBuf.writeByte(entityMetadataEntry.getIndex());
             ByteBufUtils.writeVarInt(byteBuf, entityMetadataEntry.getType().getTypeID());
-            ByteBuf valueData = entityMetadataEntry.getValue().serialize();
+            ByteBuf valueData = entityMetadataEntry.getData().serialize();
             byteBuf.writeBytes(valueData);
             valueData.release();
         }));

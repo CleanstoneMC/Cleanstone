@@ -1,18 +1,18 @@
-package rocks.cleanstone.net.minecraft.entity.metadata.value;
+package rocks.cleanstone.net.minecraft.entity.metadata.entrydata;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
-public class BooleanValue implements EntityMetadataEntryValue {
+public class BooleanData implements EntityMetadataEntryData {
 
     private final boolean state;
 
-    private BooleanValue(boolean state) {
+    private BooleanData(boolean state) {
         this.state = state;
     }
 
-    public static BooleanValue of(boolean state) {
-        return new BooleanValue(state);
+    public static BooleanData of(boolean state) {
+        return new BooleanData(state);
     }
 
     @Override

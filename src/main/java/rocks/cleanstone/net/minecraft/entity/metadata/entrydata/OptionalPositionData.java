@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.entity.metadata.value;
+package rocks.cleanstone.net.minecraft.entity.metadata.entrydata;
 
 import javax.annotation.Nullable;
 
@@ -6,16 +6,16 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import rocks.cleanstone.game.Position;
 
-public class OptionalPositionValue implements EntityMetadataEntryValue {
+public class OptionalPositionData implements EntityMetadataEntryData {
     @Nullable
     private final Position position;
 
-    private OptionalPositionValue(@Nullable Position position) {
+    private OptionalPositionData(@Nullable Position position) {
         this.position = position;
     }
 
-    public static OptionalPositionValue of(@Nullable Position position) {
-        return new OptionalPositionValue(position);
+    public static OptionalPositionData of(@Nullable Position position) {
+        return new OptionalPositionData(position);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class OptionalPositionValue implements EntityMetadataEntryValue {
         ByteBuf byteBuf = Unpooled.buffer();
         byteBuf.writeBoolean(position != null);
         if (position != null) {
-            ByteBuf positionData = PositionValue.of(position).serialize();
+            ByteBuf positionData = PositionData.of(position).serialize();
             byteBuf.writeBytes(positionData);
             positionData.release();
         }

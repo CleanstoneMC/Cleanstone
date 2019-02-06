@@ -1,6 +1,6 @@
 package rocks.cleanstone.net.minecraft.entity.metadata;
 
-import rocks.cleanstone.net.minecraft.entity.metadata.value.EntityMetadataEntryValue;
+import rocks.cleanstone.net.minecraft.entity.metadata.entrydata.EntityMetadataEntryData;
 
 /**
  * An entry for the {@link EntityMetadata} which is created using a {@link EntityMetadataBuilder}
@@ -8,24 +8,24 @@ import rocks.cleanstone.net.minecraft.entity.metadata.value.EntityMetadataEntryV
 public class EntityMetadataEntry {
 
     private final int index;
-    private final EntityMetadataEntryType type;
-    private final EntityMetadataEntryValue value;
+    private final VanillaEntityMetadataEntryDataType type;
+    private final EntityMetadataEntryData data;
 
-    public EntityMetadataEntry(int index, EntityMetadataEntryType type, EntityMetadataEntryValue value) {
+    public EntityMetadataEntry(int index, VanillaEntityMetadataEntryDataType type, EntityMetadataEntryData data) {
         this.index = index;
         this.type = type;
-        this.value = value;
+        this.data = data;
     }
 
     public int getIndex() {
         return index;
     }
 
-    public EntityMetadataEntryType getType() {
+    public VanillaEntityMetadataEntryDataType getType() {
         return type;
     }
 
-    public EntityMetadataEntryValue getValue() {
-        return value;
+    public EntityMetadataEntryData getData() {
+        return data;
     }
 }

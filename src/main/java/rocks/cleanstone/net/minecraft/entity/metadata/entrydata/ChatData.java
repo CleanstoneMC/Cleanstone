@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.entity.metadata.value;
+package rocks.cleanstone.net.minecraft.entity.metadata.entrydata;
 
 import com.google.common.base.Preconditions;
 
@@ -11,17 +11,17 @@ import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 @Slf4j
-public class ChatValue implements EntityMetadataEntryValue {
+public class ChatData implements EntityMetadataEntryData {
 
     private final Text text;
 
-    private ChatValue(Text text) {
+    private ChatData(Text text) {
         Preconditions.checkNotNull(text, "text cannot be null");
         this.text = text;
     }
 
-    public static ChatValue of(Text text) {
-        return new ChatValue(text);
+    public static ChatData of(Text text) {
+        return new ChatData(text);
     }
 
     @Override

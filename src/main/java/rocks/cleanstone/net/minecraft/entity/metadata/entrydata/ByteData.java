@@ -1,18 +1,18 @@
-package rocks.cleanstone.net.minecraft.entity.metadata.value;
+package rocks.cleanstone.net.minecraft.entity.metadata.entrydata;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
-public class ByteValue implements EntityMetadataEntryValue {
+public class ByteData implements EntityMetadataEntryData {
 
     private final byte number;
 
-    private ByteValue(byte number) {
+    private ByteData(byte number) {
         this.number = number;
     }
 
-    public static ByteValue of(byte number) {
-        return new ByteValue(number);
+    public static ByteData of(byte number) {
+        return new ByteData(number);
     }
 
     @Override

@@ -1,18 +1,18 @@
-package rocks.cleanstone.net.minecraft.entity.metadata.value;
+package rocks.cleanstone.net.minecraft.entity.metadata.entrydata;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
-public class FloatValue implements EntityMetadataEntryValue {
+public class FloatData implements EntityMetadataEntryData {
 
     private final float number;
 
-    private FloatValue(float number) {
+    private FloatData(float number) {
         this.number = number;
     }
 
-    public static FloatValue of(float number) {
-        return new FloatValue(number);
+    public static FloatData of(float number) {
+        return new FloatData(number);
     }
 
     @Override

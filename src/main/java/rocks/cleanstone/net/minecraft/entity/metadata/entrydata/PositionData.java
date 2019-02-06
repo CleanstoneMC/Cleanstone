@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.entity.metadata.value;
+package rocks.cleanstone.net.minecraft.entity.metadata.entrydata;
 
 import com.google.common.base.Preconditions;
 
@@ -7,17 +7,17 @@ import io.netty.buffer.Unpooled;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-public class PositionValue implements EntityMetadataEntryValue {
+public class PositionData implements EntityMetadataEntryData {
 
     private final Position position;
 
-    private PositionValue(Position position) {
+    private PositionData(Position position) {
         Preconditions.checkNotNull(position, "position cannot be null");
         this.position = position;
     }
 
-    public static PositionValue of(Position position) {
-        return new PositionValue(position);
+    public static PositionData of(Position position) {
+        return new PositionData(position);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.entity.metadata.value;
+package rocks.cleanstone.net.minecraft.entity.metadata.entrydata;
 
 import javax.annotation.Nullable;
 
@@ -8,16 +8,16 @@ import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.chat.message.Text;
 
 @Slf4j
-public class OptionalChatValue implements EntityMetadataEntryValue {
+public class OptionalChatData implements EntityMetadataEntryData {
     @Nullable
     private final Text text;
 
-    private OptionalChatValue(@Nullable Text text) {
+    private OptionalChatData(@Nullable Text text) {
         this.text = text;
     }
 
-    public static OptionalChatValue of(@Nullable Text text) {
-        return new OptionalChatValue(text);
+    public static OptionalChatData of(@Nullable Text text) {
+        return new OptionalChatData(text);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class OptionalChatValue implements EntityMetadataEntryValue {
         ByteBuf byteBuf = Unpooled.buffer();
         byteBuf.writeBoolean(text != null);
         if (text != null) {
-            ByteBuf chatData = ChatValue.of(text).serialize();
+            ByteBuf chatData = ChatData.of(text).serialize();
             byteBuf.writeBytes(chatData);
             chatData.release();
         }
