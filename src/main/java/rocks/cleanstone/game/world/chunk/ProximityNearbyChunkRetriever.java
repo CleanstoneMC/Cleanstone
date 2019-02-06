@@ -10,7 +10,6 @@ import rocks.cleanstone.game.world.World;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,8 +41,8 @@ public class ProximityNearbyChunkRetriever implements NearbyChunkRetriever {
             return new AsyncResult<>(getChunkCoordsAround(startCoords, radius).stream()
                     .map(coords -> {
                         try {
-                            return world.getChunk(coords).get();
-                        } catch (InterruptedException | ExecutionException e) {
+                            return world.getChunk(coords).completable().join();
+                        } catch (Exception e) {
                             log.error("Failed to get chunk " + coords + " in world "
                                     + world.getWorldConfig().getName(), e);
                             throw new RuntimeException(e);

@@ -23,7 +23,6 @@ import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 
 import javax.annotation.Nullable;
-import java.util.concurrent.ExecutionException;
 
 @Component
 @Scope("prototype")
@@ -123,8 +122,8 @@ public class SimpleGeneratedWorld implements World {
 
         int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
         try {
-            return new AsyncResult<>(getChunk(ChunkCoords.ofBlockCoords(x, z)).get().getBlock(relX, y, relZ));
-        } catch (InterruptedException | ExecutionException e) {
+            return new AsyncResult<>(getChunk(ChunkCoords.ofBlockCoords(x, z)).completable().join().getBlock(relX, y, relZ));
+        } catch (Exception e) {
             return AsyncResult.forExecutionException(e);
         }
     }
@@ -154,8 +153,8 @@ public class SimpleGeneratedWorld implements World {
     @Override
     public ListenableFuture<Chunk> getChunk(ChunkCoords coords) {
         try {
-            return new AsyncResult<>(getRegion(coords).get().getChunk(coords).get());
-        } catch (InterruptedException | ExecutionException e) {
+            return new AsyncResult<>(getRegion(coords).completable().join().getChunk(coords).completable().join());
+        } catch (Exception e) {
             return AsyncResult.forExecutionException(e);
         }
     }

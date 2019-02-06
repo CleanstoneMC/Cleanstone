@@ -84,7 +84,7 @@ public class BlockDataSection {
                 for (int x = 0; x < WIDTH; x += 2) {
                     byte light = isBlockLight ? blockLight[x][z][y] : skyLight[x][z][y];
                     byte upperLight = isBlockLight ? blockLight[x + 1][z][y] : skyLight[x + 1][z][y];
-                    byte value = (byte) (light | (upperLight << 4));
+                    byte value = (byte) ((light & 0xff) | (upperLight << 4));
                     buf.writeByte(value);
                 }
             }

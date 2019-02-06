@@ -21,7 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Component
 public class KeepAliveTask {
 
-    private static final long CLIENT_RESPONSE_TIMEOUT = 30 * 1000;
+    private static final long CLIENT_RESPONSE_TIMEOUT = 30 * 1000L;
 
     private final Map<Connection, Long> connectionLastResponseMap = Maps.newConcurrentMap();
     private final Map<Connection, Long> connectionLastKeepAliveIDMap = Maps.newConcurrentMap();

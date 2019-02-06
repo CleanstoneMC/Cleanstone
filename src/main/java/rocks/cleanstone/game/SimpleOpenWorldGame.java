@@ -11,7 +11,6 @@ import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
 
 import javax.annotation.Nonnull;
-import java.util.concurrent.ExecutionException;
 
 @Lazy
 @Slf4j
@@ -45,12 +44,12 @@ public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
 
     private void loadWorld(WorldConfig worldConfig) {
         try {
-            World world = this.worldManager.loadWorld(worldConfig).get();
+            World world = this.worldManager.loadWorld(worldConfig).completable().join();
 
             if (worldConfig.isFirstSpawnWorld()) {
                 firstSpawnWorld = world;
             }
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             log.error("Failed to load auto-load world " + worldConfig.getName(), e);
         }
     }

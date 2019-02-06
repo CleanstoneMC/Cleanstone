@@ -1,29 +1,29 @@
 package rocks.cleanstone.net.minecraft.packet.outbound;
 
-import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.minecraft.entity.VanillaGlobalEntityType;
+import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
 public class SpawnGlobalEntityPacket implements Packet {
 
     private final int entityID;
-    private final VanillaGlobalEntityType type;
+    private final VanillaGlobalEntityType entityType;
     private final double x;
     private final double y;
     private final double z;
 
-    public SpawnGlobalEntityPacket(int entityID, byte type, double x, double y, double z) {
+    public SpawnGlobalEntityPacket(int entityID, byte entityType, double x, double y, double z) {
         this.entityID = entityID;
-        this.type = VanillaGlobalEntityType.fromTypeID(type);
+        this.entityType = VanillaGlobalEntityType.fromTypeID(entityType);
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public SpawnGlobalEntityPacket(int entityID, VanillaGlobalEntityType type, double x, double y, double z) {
+    public SpawnGlobalEntityPacket(int entityID, VanillaGlobalEntityType entityType, double x, double y, double z) {
         this.entityID = entityID;
-        this.type = type;
+        this.entityType = entityType;
         this.x = x;
         this.y = y;
         this.z = z;
