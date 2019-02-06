@@ -1,5 +1,4 @@
 import org.gradle.api.JavaVersion.VERSION_1_8
-import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
     java

@@ -1,7 +1,8 @@
 ![Cleanstone](https://i.imgur.com/A5pc55f.png)
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/CleanstoneMC/Cleanstone/?branch=master)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=CleanstoneMC_Cleanstone&metric=coverage)](https://sonarcloud.io/dashboard?id=CleanstoneMC_Cleanstone)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=CleanstoneMC_Cleanstone&metric=ncloc)](https://sonarcloud.io/dashboard?id=CleanstoneMC_Cleanstone)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=CleanstoneMC_Cleanstone&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=CleanstoneMC_Cleanstone)
 [![Build Status](https://ci.codemc.org/buildStatus/icon?job=CleanstoneMC/Cleanstone)](https://ci.codemc.org/job/CleanstoneMC/job/Cleanstone)
 [![Join our Discord](https://img.shields.io/discord/429029538778054657.svg?logo=discord)](https://discord.gg/Jx5kk3u)
 ## What is Cleanstone?
