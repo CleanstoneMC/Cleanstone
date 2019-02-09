@@ -15,6 +15,15 @@ public class ByteData implements EntityMetadataEntryData {
         return new ByteData(number);
     }
 
+    public static ByteData fromBits(boolean... bits) {
+        byte number = 0;
+        for (int i = 0; i < bits.length; i++) {
+            boolean bit = bits[i];
+            number += bit ? (1 << i) : 0;
+        }
+        return of(number);
+    }
+
     @Override
     public ByteBuf serialize() {
         ByteBuf byteBuf = Unpooled.buffer();

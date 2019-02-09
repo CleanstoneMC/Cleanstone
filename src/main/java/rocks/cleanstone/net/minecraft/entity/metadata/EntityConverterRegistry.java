@@ -1,6 +1,7 @@
 package rocks.cleanstone.net.minecraft.entity.metadata;
 
 import rocks.cleanstone.game.entity.Entity;
+import rocks.cleanstone.net.minecraft.entity.metadata.converter.EntityConverter;
 
 /**
  * Registry that links {@link Entity} classes to {@link EntityConverter}s
