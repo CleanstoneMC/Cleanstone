@@ -1,12 +1,18 @@
 package rocks.cleanstone.game.world;
 
 import com.google.common.base.Preconditions;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.util.concurrent.ExecutionException;
+
+import javax.annotation.Nullable;
+
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
@@ -21,8 +27,6 @@ import rocks.cleanstone.game.world.region.RegionManager;
 import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
-
-import javax.annotation.Nullable;
 
 @Component
 @Scope("prototype")
@@ -122,8 +126,8 @@ public class SimpleGeneratedWorld implements World {
 
         int relX = getRelativeBlockCoordinate(x), relZ = getRelativeBlockCoordinate(z);
         try {
-            return new AsyncResult<>(getChunk(ChunkCoords.ofBlockCoords(x, z)).completable().join().getBlock(relX, y, relZ));
-        } catch (Exception e) {
+            return new AsyncResult<>(getChunk(ChunkCoords.ofBlockCoords(x, z)).get().getBlock(relX, y, relZ));
+        } catch (InterruptedException | ExecutionException e) {
             return AsyncResult.forExecutionException(e);
         }
     }
@@ -153,8 +157,8 @@ public class SimpleGeneratedWorld implements World {
     @Override
     public ListenableFuture<Chunk> getChunk(ChunkCoords coords) {
         try {
-            return new AsyncResult<>(getRegion(coords).completable().join().getChunk(coords).completable().join());
-        } catch (Exception e) {
+            return new AsyncResult<>(getRegion(coords).get().getChunk(coords).get());
+        } catch (InterruptedException | ExecutionException e) {
             return AsyncResult.forExecutionException(e);
         }
     }
