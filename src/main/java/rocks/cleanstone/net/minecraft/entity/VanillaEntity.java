@@ -7,16 +7,16 @@ import rocks.cleanstone.net.minecraft.entity.metadata.EntityMetadata;
  */
 public class VanillaEntity {
 
-    private final VanillaMobType entityType;
+    private final int entityTypeID;
     private final EntityMetadata entityMetadata;
 
-    public VanillaEntity(VanillaMobType entityType, EntityMetadata entityMetadata) {
-        this.entityType = entityType;
+    public VanillaEntity(int entityTypeID, EntityMetadata entityMetadata) {
+        this.entityTypeID = entityTypeID;
         this.entityMetadata = entityMetadata;
     }
 
-    public VanillaMobType getEntityType() {
-        return entityType;
+    public int getEntityTypeID() {
+        return entityTypeID;
     }
 
     public EntityMetadata getEntityMetadata() {

@@ -1,10 +1,12 @@
 package rocks.cleanstone.net.minecraft.entity.metadata;
 
+import com.google.common.collect.Sets;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Set;
 
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.net.minecraft.entity.metadata.converter.EntityConverter;
@@ -12,26 +14,27 @@ import rocks.cleanstone.net.minecraft.entity.metadata.converter.EntityConverter;
 @Component
 public class SimpleEntityConverterRegistry implements EntityConverterRegistry {
 
-    private final Map<Class<?>, EntityConverter<?>> entityClassConverterMap = new ConcurrentHashMap<>();
+    private final Set<EntityConverter<? extends Entity>> entityConverters = Sets.newConcurrentHashSet();
 
+    @Autowired
     public SimpleEntityConverterRegistry(Collection<EntityConverter> converters) {
-        //noinspection unchecked
-        converters.forEach(converter -> registerConverter(converter.getEntityClass(), converter));
+        converters.forEach(this::registerConverter);
     }
 
     @Override
-    public <T extends Entity> void registerConverter(Class<T> entityClass, EntityConverter<T> converter) {
-        entityClassConverterMap.put(entityClass, converter);
+    public void registerConverter(EntityConverter<? extends Entity> converter) {
+        entityConverters.add(converter);
     }
 
     @Override
-    public void unregisterConverter(Class<? extends Entity> entityClass) {
-        entityClassConverterMap.remove(entityClass);
+    public void unregisterConverter(EntityConverter<? extends Entity> converter) {
+        entityConverters.remove(converter);
     }
 
     @Override
-    public <T extends Entity> EntityConverter<T> getConverter(Class<T> entityClass) {
-        //noinspection unchecked
-        return (EntityConverter<T>) entityClassConverterMap.get(entityClass);
+    public EntityConverter<? extends Entity> getConverter(Class<? extends Entity> entityClass) {
+        return entityConverters.stream()
+                .filter(converter -> converter.getEntityClass().isAssignableFrom(entityClass))
+                .findAny().orElse(null);
     }
 }

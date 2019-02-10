@@ -91,6 +91,7 @@
     {
       "id": "chicken",
       "ancestor": "ageable",
+      "typeID": 7,
       "metadata": []
     },
     {
@@ -107,6 +108,7 @@
     {
       "id": "blaze",
       "ancestor": "mob",
+      "typeID": 4,
       "metadata": [
         {
           "id": "blazeBits",
@@ -118,6 +120,7 @@
     {
       "id": "creeper",
       "ancestor": "mob",
+      "typeID": 10,
       "metadata": [
         {
           "id": "creeperState",

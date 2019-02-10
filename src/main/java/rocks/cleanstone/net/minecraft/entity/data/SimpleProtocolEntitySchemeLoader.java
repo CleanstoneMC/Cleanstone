@@ -13,8 +13,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import rocks.cleanstone.net.protocol.ServerProtocolLayer;
+import lombok.extern.slf4j.Slf4j;
+import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 
+@Slf4j
 @Component
 public class SimpleProtocolEntitySchemeLoader implements ProtocolEntitySchemeLoader {
 
@@ -26,8 +28,8 @@ public class SimpleProtocolEntitySchemeLoader implements ProtocolEntitySchemeLoa
     }
 
     @Override
-    public ProtocolEntityScheme loadData(ServerProtocolLayer serverLayer) throws IOException {
-        String protocolVersion = serverLayer.getCorrespondingClientLayer().getName().replace(".", "_");
+    public ProtocolEntityScheme loadData(ClientProtocolLayer protocolLayer) throws IOException {
+        String protocolVersion = protocolLayer.getName().replace(".", "_");
 
         Resource entitiesDataResource = resourceLoader.getResource(
                 "classpath:protocol/v" + protocolVersion + "/entities.json");

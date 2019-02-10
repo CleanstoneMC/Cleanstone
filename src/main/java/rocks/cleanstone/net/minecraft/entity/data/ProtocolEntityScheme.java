@@ -15,19 +15,19 @@ import rocks.cleanstone.net.minecraft.entity.VanillaEntity;
  */
 public class ProtocolEntityScheme {
 
-    private final ProtocolEntitySchemeNode[] nodes;
+    private final ProtocolEntitySchemeNode[] entities;
 
-    public ProtocolEntityScheme(ProtocolEntitySchemeNode[] nodes) {
-        this.nodes = nodes;
+    public ProtocolEntityScheme(ProtocolEntitySchemeNode[] entities) {
+        this.entities = entities;
     }
 
     public ProtocolEntitySchemeNode[] getNodes() {
-        return nodes;
+        return entities;
     }
 
     @Nullable
     public ProtocolEntitySchemeNode getEntityNodeByID(String id) {
-        return Arrays.stream(nodes).filter(node -> node.getId().equals(id)).findAny().orElse(null);
+        return Arrays.stream(entities).filter(node -> node.getId().equals(id)).findAny().orElse(null);
     }
 
     public Collection<ProtocolEntitySchemeMetadataEntry> getMetadataEntriesOfNodeRecursively(ProtocolEntitySchemeNode node) {

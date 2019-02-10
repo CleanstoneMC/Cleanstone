@@ -10,19 +10,19 @@ import java.util.UUID;
 
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.entity.Entity;
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.LivingEntity;
 import rocks.cleanstone.game.entity.RotatablePosition;
+import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.entity.cleanstone.Human;
 import rocks.cleanstone.game.entity.event.EntityTrackEvent;
 import rocks.cleanstone.game.entity.event.EntityUntrackEvent;
-import rocks.cleanstone.net.minecraft.entity.VanillaEntity;
-import rocks.cleanstone.net.minecraft.entity.VanillaMobType;
-import rocks.cleanstone.net.minecraft.entity.metadata.EntityMetadata;
 import rocks.cleanstone.net.minecraft.packet.outbound.DestroyEntitiesPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPlayerPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
+import rocks.cleanstone.utils.Vector;
 
 @Slf4j
 @Component
@@ -54,12 +54,9 @@ public class EntityTrackingListener {
                     ((LivingEntity) entity).getPosition().getHeadRotation().getPitch() : 0f;
             // TODO Is the mob UUID actually used?
             // TODO Add velocity
-            // TODO convert game-side EntityType to protocol-side MobType
             observer.sendPacket(new SpawnMobPacket(entity.getEntityID(), UUID.randomUUID(),
-                    position.getX(), position.getY(), position.getZ(),
-                    position.getRotation().getYaw(), position.getRotation().getPitch(), headPitch,
-                    (short) 0, (short) 0, (short) 0,
-                    new VanillaEntity(VanillaMobType.CHICKEN, new EntityMetadata(Collections.emptySet()))
+                    new HeadRotatablePosition(position, new Rotation(0, headPitch)),
+                    new Vector(), entity
             ));
         }
     }

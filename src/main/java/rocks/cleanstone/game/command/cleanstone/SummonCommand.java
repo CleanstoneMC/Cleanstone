@@ -4,17 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.Random;
-import java.util.UUID;
 
+import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
-import rocks.cleanstone.net.minecraft.entity.VanillaEntity;
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
+import rocks.cleanstone.game.entity.Rotation;
+import rocks.cleanstone.game.entity.cleanstone.Chicken;
+import rocks.cleanstone.game.entity.cleanstone.SimpleChicken;
+import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.net.minecraft.entity.VanillaMobType;
-import rocks.cleanstone.net.minecraft.entity.metadata.EntityMetadata;
-import rocks.cleanstone.net.minecraft.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
+import rocks.cleanstone.utils.Vector;
 
 @Component
 public class SummonCommand extends SimpleCommand {
@@ -29,8 +31,9 @@ public class SummonCommand extends SimpleCommand {
     @Override
     public void execute(CommandMessage message) {
         Player player = message.requireTargetPlayer();
-
+        World world = player.getEntity().getWorld();
         VanillaMobType entityType = message.requireParameter(VanillaMobType.class);
+        // TODO add more entity templates than just chicken
         double x = message.optionalParameter(Double.class)
                 .orElseGet(() -> player.getEntity().getPosition().getX());
         double y = message.optionalParameter(Double.class)
@@ -49,17 +52,11 @@ public class SummonCommand extends SimpleCommand {
                 .orElse(0);
         short velocityZ = (short) (int) message.optionalParameter(Integer.class)
                 .orElse(0);
+        HeadRotatablePosition position = new HeadRotatablePosition(new Position(x, y, z),
+                new Rotation(yaw, pitch), new Rotation(0, headPitch));
+        Vector velocity = new Vector(velocityX, velocityY, velocityZ);
 
-        playerManager.broadcastPacket(
-                new SpawnMobPacket(
-                        new Random().nextInt(Integer.MAX_VALUE),
-                        UUID.randomUUID(),
-                        x, y, z,
-                        yaw, pitch, headPitch,
-                        velocityX, velocityY, velocityZ,
-                        new VanillaEntity(VanillaMobType.CHICKEN,
-                                new EntityMetadata(Collections.emptySet()))
-                )
-        );
+        Chicken entity = new SimpleChicken(world, position, false, 5);
+        world.getEntityRegistry().addEntity(entity);
     }
 }

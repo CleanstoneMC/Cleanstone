@@ -2,41 +2,28 @@ package rocks.cleanstone.net.minecraft.packet.outbound;
 
 import java.util.UUID;
 
-import rocks.cleanstone.net.minecraft.entity.VanillaEntity;
+import rocks.cleanstone.game.entity.Entity;
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.net.minecraft.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
+import rocks.cleanstone.utils.Vector;
 
 public class SpawnMobPacket implements Packet {
 
     private final int entityID;
     private final UUID entityUUID;
-    private final double x;
-    private final double y;
-    private final double z;
-    private final float yaw;
-    private final float pitch;
-    private final float headPitch;
-    private final short velocityX;
-    private final short velocityY;
-    private final short velocityZ;
-    private final VanillaEntity vanillaEntity;
+    private final HeadRotatablePosition position;
+    private final Vector velocity;
+    private final Entity entity;
 
-    public SpawnMobPacket(int entityID, UUID entityUUID, double x, double y, double z, float yaw,
-                          float pitch, float headPitch, short velocityX, short velocityY, short velocityZ,
-                          VanillaEntity vanillaEntity) {
+    public SpawnMobPacket(int entityID, UUID entityUUID, HeadRotatablePosition position,
+                          Vector velocity, Entity entity) {
         this.entityID = entityID;
         this.entityUUID = entityUUID;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.yaw = yaw;
-        this.pitch = pitch;
-        this.headPitch = headPitch;
-        this.velocityX = velocityX;
-        this.velocityY = velocityY;
-        this.velocityZ = velocityZ;
-        this.vanillaEntity = vanillaEntity;
+        this.position = position;
+        this.velocity = velocity;
+        this.entity = entity;
     }
 
     public int getEntityID() {
@@ -47,44 +34,16 @@ public class SpawnMobPacket implements Packet {
         return entityUUID;
     }
 
-    public double getX() {
-        return x;
+    public HeadRotatablePosition getPosition() {
+        return position;
     }
 
-    public double getY() {
-        return y;
+    public Vector getVelocity() {
+        return velocity;
     }
 
-    public double getZ() {
-        return z;
-    }
-
-    public float getYaw() {
-        return yaw;
-    }
-
-    public float getPitch() {
-        return pitch;
-    }
-
-    public float getHeadPitch() {
-        return headPitch;
-    }
-
-    public short getVelocityX() {
-        return velocityX;
-    }
-
-    public short getVelocityY() {
-        return velocityY;
-    }
-
-    public short getVelocityZ() {
-        return velocityZ;
-    }
-
-    public VanillaEntity getVanillaEntity() {
-        return vanillaEntity;
+    public Entity getEntity() {
+        return entity;
     }
 
     @Override

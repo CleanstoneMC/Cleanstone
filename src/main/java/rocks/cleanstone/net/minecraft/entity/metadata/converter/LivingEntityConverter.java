@@ -1,5 +1,6 @@
 package rocks.cleanstone.net.minecraft.entity.metadata.converter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import rocks.cleanstone.game.entity.LivingEntity;
@@ -14,6 +15,7 @@ public class LivingEntityConverter implements BaseConverter<LivingEntity> {
 
     private final BaseEntityConverter entityConverter;
 
+    @Autowired
     public LivingEntityConverter(BaseEntityConverter entityConverter) {
         this.entityConverter = entityConverter;
     }

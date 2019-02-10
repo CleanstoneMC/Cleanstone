@@ -8,9 +8,9 @@ import rocks.cleanstone.net.minecraft.entity.metadata.converter.EntityConverter;
  */
 public interface EntityConverterRegistry {
 
-    <T extends Entity> void registerConverter(Class<T> entityClass, EntityConverter<T> retriever);
+    void registerConverter(EntityConverter<? extends Entity> converter);
 
-    void unregisterConverter(Class<? extends Entity> entityClass);
+    void unregisterConverter(EntityConverter<? extends Entity> converter);
 
-    <T extends Entity> EntityConverter<T> getConverter(Class<T> entityClass);
+    EntityConverter<?> getConverter(Class<? extends Entity> entityClass);
 }

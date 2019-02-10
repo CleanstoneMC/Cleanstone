@@ -54,7 +54,6 @@ public class AddEntity {
             HeadRotatablePosition position = getPosition(entityData, world);
 
             Human human = new SimpleHuman(world, position, false, 20); // TODO save and read health,glowing
-            log.debug("{} now has entity id {}", player.getFormattedName(), human.getEntityID());
             player.setEntity(human);
             world.getEntityRegistry().addEntity(human);
             player.setGameMode(getGameMode(entityData));
