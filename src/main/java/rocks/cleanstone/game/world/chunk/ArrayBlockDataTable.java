@@ -1,12 +1,15 @@
 package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Objects;
-import java.util.Arrays;
-import java.util.Collection;
 import org.apache.commons.lang3.SerializationUtils;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class ArrayBlockDataTable implements BlockDataTable {
 
@@ -87,7 +90,15 @@ public class ArrayBlockDataTable implements BlockDataTable {
 
     @Override
     public Collection<Block> getBlocks() {
-        return Arrays.asList((Block[]) Arrays.stream(blocks).toArray());
+        ArrayList<Block> blockArrayList = new ArrayList<>();
+
+        for (Block[][] blockArrayArray : blocks) {
+            for (Block[] blockArray : blockArrayArray) {
+                Collections.addAll(blockArrayList, blockArray);
+            }
+        }
+
+        return blockArrayList;
     }
 
     @Override

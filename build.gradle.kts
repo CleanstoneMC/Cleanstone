@@ -9,6 +9,7 @@ plugins {
 }
 
 repositories {
+    maven("https://jitpack.io")
     jcenter()
 }
 
@@ -46,6 +47,8 @@ dependencies {
     implementation("javax.vecmath:vecmath:1.5.2")
     implementation("com.github.ben-manes.caffeine:caffeine:2.6.2")
     implementation("commons-io:commons-io:2.6")
+
+    implementation("com.github.querz:nbt:4.0")
 
     // todo: switch back to lombok plugin as soon as intellij picks up the dependency again
     implementation("org.projectlombok:lombok:1.18.4")
