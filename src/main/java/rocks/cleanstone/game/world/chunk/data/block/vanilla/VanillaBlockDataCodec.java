@@ -3,10 +3,16 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
+import lombok.val;
+import net.querz.nbt.CompoundTag;
+import net.querz.nbt.LongArrayTag;
+import net.querz.nbt.Tag;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage, ByteBuf> {
@@ -41,6 +47,8 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
         ByteBuf data = Unpooled.buffer();
         int primaryBitMask = 0;
 
+        data.writeShort(storage.constructTable().getBlocks().size());
+
         ByteBuf dataBuf = Unpooled.buffer();
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
             BlockDataSection section = storage.getSection(sectionY);
@@ -59,6 +67,29 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
         }
 
         ByteBufUtils.writeVarInt(data, primaryBitMask);
+
+        // Encode NBT Heightmaps
+        {
+            long[] heightMap = new long[256];
+            for (int i = heightMap.length - 1; i >= 0; i--) {
+                heightMap[i] = 255;
+            }
+
+            LongArrayTag longArrayTag = new LongArrayTag(heightMap);
+
+            val compoundTag = new CompoundTag();
+            compoundTag.put("MOTION_BLOCKING", longArrayTag);
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            try {
+                compoundTag.serializeValue(new DataOutputStream(byteArrayOutputStream), Tag.DEFAULT_MAX_DEPTH);
+            } catch (IOException i) {
+
+            }
+
+            data.writeBytes(byteArrayOutputStream.toByteArray());
+        }
+
         ByteBufUtils.writeVarInt(data, dataBuf.readableBytes());
         data.writeBytes(dataBuf);
         ReferenceCountUtil.release(dataBuf);
