@@ -1,6 +1,5 @@
 package rocks.cleanstone.core;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.Lifecycle;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +7,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Manages server console input through the command line and publishes {@link ConsoleInputEvent}s for new
+ * input lines.
+ */
 @Slf4j
 @Component
 public class ConsoleInputEventPublisher implements Lifecycle {

@@ -1,11 +1,15 @@
 package rocks.cleanstone.core.event;
 
 import com.google.common.base.Preconditions;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ErrorHandler;
 
+/**
+ * Custom event multicaster which includes a custom error handler to handle event cancellation
+ */
 @Component
 public class CleanstoneEventMulticaster extends SimpleApplicationEventMulticaster {
 

@@ -1,5 +1,8 @@
 package rocks.cleanstone.core.config;
 
+/**
+ * Section of the {@link MinecraftConfig} with various world-related properties
+ */
 public class WorldConfig {
     private String name;
     private String generator;

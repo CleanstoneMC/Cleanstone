@@ -1,4 +1,4 @@
-package rocks.cleanstone.core.config;
+package rocks.cleanstone.core;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
@@ -14,12 +14,16 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * Central configuration file which defines additional components/services that should be started along with
+ * the annotation-defined beans on boot
+ */
 @Configuration
 @EnableCaching
 @EnableAsync
 @EnableAutoConfiguration
 @EnableScheduling
-public class MainServerConfig {
+public class MainBeanConfig {
 
     @Bean
     public MessageSource messageSource() {

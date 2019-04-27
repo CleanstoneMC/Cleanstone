@@ -1,5 +1,8 @@
 package rocks.cleanstone.core.event;
 
+/**
+ * An event that can be cancelled by an event listener to stop further event listeners from being called
+ */
 public abstract class CancellableEvent {
 
     private boolean cancelled = false;
@@ -7,7 +10,8 @@ public abstract class CancellableEvent {
 
     /**
      * Cancels the current event and prevents further EventListeners from being called by raising an exception
-     * Event listeners calling this *MUST* have an order number of roughly EventAction.PREVENT and cannot be async
+     * Event listeners calling this *MUST* have an order number of roughly EventAction.PREVENT and cannot be
+     * async
      */
     public void cancel() {
         if (!allowCancelling) throw new IllegalEventCancellationException(

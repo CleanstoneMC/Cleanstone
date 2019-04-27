@@ -3,11 +3,15 @@ package rocks.cleanstone.core.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import rocks.cleanstone.core.CleanstoneServer;
 
 import java.net.InetAddress;
 import java.util.List;
 
+import rocks.cleanstone.core.CleanstoneServer;
+
+/**
+ * Section of the main configuration file with various game-related properties
+ */
 @Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "minecraft")

@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 
+/**
+ * A sub Cleanstone server instance which accepts workload allocated by the {@link CleanstoneMainServer}.
+ * Currently unused.
+ */
 @SpringBootApplication
 @Component("cleanstoneSubServer")
 @Profile(value = "subServer")

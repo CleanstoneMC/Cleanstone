@@ -1,5 +1,8 @@
 package rocks.cleanstone.core;
 
+/**
+ * Text input which originates from the server console.
+ */
 public class ConsoleInputEvent {
     private final String input;
 

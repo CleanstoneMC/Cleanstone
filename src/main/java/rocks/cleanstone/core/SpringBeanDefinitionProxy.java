@@ -5,6 +5,9 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.stereotype.Component;
 
+/**
+ * Registers new beans on-the-fly. Currently unused.
+ */
 @Component
 public class SpringBeanDefinitionProxy {
     private DefaultListableBeanFactory beanDefinitionRegistry;

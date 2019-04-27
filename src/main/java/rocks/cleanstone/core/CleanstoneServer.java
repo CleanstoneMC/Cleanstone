@@ -1,25 +1,30 @@
 package rocks.cleanstone.core;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
+import java.util.Locale;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.core.config.CleanstoneConfig;
 import rocks.cleanstone.core.config.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
 import rocks.cleanstone.core.event.EventExecutionException;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import java.util.Locale;
-
+/**
+ * The central Cleanstone server instance which is initialized very early and destroyed very late. It provides
+ * convenient static access to event publication, message sources and shutdown/restart functions.
+ */
 @Slf4j
-public abstract class CleanstoneServer implements ApplicationRunner {
+public abstract class CleanstoneServer {
     private static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
     private static CleanstoneServer INSTANCE;
     private static Thread restartThread;
