@@ -74,8 +74,8 @@ public class BlockDataSection {
 
     public void write(ByteBuf out) {
         blockStateStorage.write(out);
-//        writeLights(out, true);
-//        if (hasSkyLight) writeLights(out, false);
+        writeLights(out, true);
+        if (hasSkyLight) writeLights(out, false);
     }
 
     private void writeLights(ByteBuf buf, boolean isBlockLight) {

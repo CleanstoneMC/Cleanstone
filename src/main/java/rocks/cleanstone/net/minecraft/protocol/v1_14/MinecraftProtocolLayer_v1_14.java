@@ -30,7 +30,7 @@ public class MinecraftProtocolLayer_v1_14 extends MinecraftProtocolLayer_v1_13_2
         registerPacketCodec(PingCodec.class, STATUS, 0x01);
         registerPacketCodec(ClientSettingsCodec.class, PLAY, 0x05);
         registerPacketCodec(InKeepAliveCodec.class, PLAY, 0x0F);
-        registerPacketCodec(InChatMessageCodec.class, PLAY, 0x02);
+        registerPacketCodec(InChatMessageCodec.class, PLAY, 0x03);
         registerPacketCodec(InTabCompleteCodec.class, PLAY, 0x06);
         registerPacketCodec(PlayerPositionCodec.class, PLAY, 0x11);
         registerPacketCodec(PlayerLookCodec.class, PLAY, 0x13);
@@ -42,7 +42,7 @@ public class MinecraftProtocolLayer_v1_14 extends MinecraftProtocolLayer_v1_13_2
         registerPacketCodec(HeldItemChangeCodec.class, PLAY, 0x23);
         registerPacketCodec(InPlayerAbilitiesCodec.class, PLAY, 0x19);
         registerPacketCodec(InAnimationCodec.class, PLAY, 0x27);
-        registerPacketCodec(InTabCompleteCodec.class, PLAY, 0x05);
+        registerPacketCodec(InTabCompleteCodec.class, PLAY, 0x06);
         registerPacketCodec(InPluginMessageCodec.class, PLAY, 0x0B);
         registerPacketCodec(PlayerCodec.class, PLAY, 0x14);
 

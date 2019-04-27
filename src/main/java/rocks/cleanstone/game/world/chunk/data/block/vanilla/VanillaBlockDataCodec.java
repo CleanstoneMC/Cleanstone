@@ -3,18 +3,10 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
-import lombok.val;
-import net.querz.nbt.CompoundTag;
-import net.querz.nbt.LongArrayTag;
-import net.querz.nbt.Tag;
 import rocks.cleanstone.data.InOutCodec;
-import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage, ByteBuf> {
@@ -27,29 +19,6 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
         this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
         this.directPalette = directPalette;
         this.omitDirectPaletteLength = omitDirectPaletteLength;
-    }
-
-    private static long[] encodeHeightMap(int[] heightMap) {
-        final int bitsPerBlock = 9;
-        long maxEntryValue = (1L << bitsPerBlock) - 1;
-
-        int length = (int) Math.ceil(heightMap.length * bitsPerBlock / 64.0);
-        long[] data = new long[length];
-
-        for (int index = 0; index < heightMap.length; index++) {
-            int value = heightMap[index];
-            int bitIndex = index * 9;
-            int startIndex = bitIndex / 64;
-            int endIndex = ((index + 1) * bitsPerBlock - 1) / 64;
-            int startBitSubIndex = bitIndex % 64;
-            data[startIndex] = data[startIndex] & ~(maxEntryValue << startBitSubIndex) | ((long) value & maxEntryValue) << startBitSubIndex;
-            if (startIndex != endIndex) {
-                int endBitSubIndex = 64 - startBitSubIndex;
-                data[endIndex] = data[endIndex] >>> endBitSubIndex << endBitSubIndex | ((long) value & maxEntryValue) >> endBitSubIndex;
-            }
-        }
-
-        return data;
     }
 
     @Override
@@ -72,31 +41,10 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
         ByteBuf data = Unpooled.buffer();
         int primaryBitMask = 0;
 
-        int[] motionBlocking = new int[16 * 16];
-
         ByteBuf dataBuf = Unpooled.buffer();
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / BlockDataSection.HEIGHT; sectionY++) {
-
             BlockDataSection section = storage.getSection(sectionY);
             if (section != null) {
-                int nonAirBlockCount = 0;
-                for (int x = 0; x < 16; x++) {
-                    for (int y = 0; y < 16; y++) {
-                        for (int z = 0; z < 16; z++) {
-                            final BlockState blockState = section.getBlockStateStorage().get(x, y, z);
-                            if (blockState.getBlockType() != VanillaBlockType.AIR && blockState.getBlockType() != VanillaBlockType.CAVE_AIR && blockState.getBlockType() != VanillaBlockType.VOID_AIR) {
-                                nonAirBlockCount++;
-                            }
-
-                            motionBlocking[x + z * 16] = y + sectionY * 16 + 2; // Should be +1 (top of the block) but +2 works :tm:
-                        }
-                    }
-                }
-
-
-                dataBuf.writeShort(nonAirBlockCount);
-
-
                 section.write(dataBuf);
                 primaryBitMask |= (1 << sectionY);
             }
@@ -111,24 +59,6 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
         }
 
         ByteBufUtils.writeVarInt(data, primaryBitMask);
-
-        // Encode NBT Heightmaps
-        {
-            LongArrayTag longArrayTag = new LongArrayTag(encodeHeightMap(motionBlocking));
-
-            val compoundTag = new CompoundTag();
-            compoundTag.put("MOTION_BLOCKING", longArrayTag);
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            try {
-                compoundTag.serializeValue(new DataOutputStream(byteArrayOutputStream), Tag.DEFAULT_MAX_DEPTH);
-            } catch (IOException i) {
-
-            }
-
-            data.writeBytes(byteArrayOutputStream.toByteArray());
-        }
-
         ByteBufUtils.writeVarInt(data, dataBuf.readableBytes());
         data.writeBytes(dataBuf);
         ReferenceCountUtil.release(dataBuf);
