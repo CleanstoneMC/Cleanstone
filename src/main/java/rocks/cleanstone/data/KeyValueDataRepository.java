@@ -1,10 +1,14 @@
 package rocks.cleanstone.data;
 
-import io.netty.util.ReferenceCountUtil;
-
-import javax.annotation.Nullable;
 import java.io.IOException;
 
+import javax.annotation.Nullable;
+
+import io.netty.util.ReferenceCountUtil;
+
+/**
+ * A key-value based data repository
+ */
 public interface KeyValueDataRepository<K, V> {
 
     @Nullable

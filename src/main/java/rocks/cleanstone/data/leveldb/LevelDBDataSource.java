@@ -1,19 +1,24 @@
 package rocks.cleanstone.data.leveldb;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import lombok.extern.slf4j.Slf4j;
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.DBIterator;
 import org.iq80.leveldb.Options;
 import org.iq80.leveldb.WriteBatch;
-import rocks.cleanstone.data.KeyValueDataRepository;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import javax.annotation.Nullable;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import lombok.extern.slf4j.Slf4j;
+import rocks.cleanstone.data.KeyValueDataRepository;
+
+/**
+ * LevelDB data source which supports key-value based IO
+ */
 @Slf4j
 public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBuf>, AutoCloseable {
     private final Path path;

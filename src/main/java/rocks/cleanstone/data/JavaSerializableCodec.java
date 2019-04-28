@@ -1,15 +1,18 @@
 package rocks.cleanstone.data;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.Unpooled;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.buffer.Unpooled;
+
+/**
+ * A codec for converting data that is Java-serializable to/from byte buffers
+ */
 public class JavaSerializableCodec<T extends Serializable> implements InOutCodec<T, ByteBuf> {
     @Override
     @SuppressWarnings("unchecked")
