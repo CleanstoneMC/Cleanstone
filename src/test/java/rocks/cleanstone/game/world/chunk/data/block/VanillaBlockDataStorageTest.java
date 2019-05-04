@@ -46,14 +46,14 @@ class VanillaBlockDataStorageTest {
                             .get(random.nextInt(materialRegistry.getBlockTypes().size())));
             blockDataTable.setBlock(random.nextInt(16), random.nextInt(256), random.nextInt(16), randomBlock);
         }
-        storage = simpleVanillaBlockDataStorageFactory.get(blockDataTable, directPalette, true);
+        storage = simpleVanillaBlockDataStorageFactory.get(blockDataTable, directPalette, true, false, false);
     }
 
     @Disabled
     @Test
     void testSerializationAndTable() {
         VanillaBlockDataCodec codec = new SimpleVanillaBlockDataCodecFactory(simpleVanillaBlockDataStorageFactory)
-                .get(directPalette, true);
+                .get(directPalette, true, false, false, false);
         ByteBuf serialized = codec.encode(storage);
         VanillaBlockDataStorage deserialized;
         try {

@@ -22,7 +22,7 @@ import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.generation.utils.NoiseGenerator;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
-import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
+import rocks.cleanstone.net.minecraft.protocol.v1_14.ProtocolBlockStateMapping_v1_14;
 
 import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.*;
 
@@ -30,7 +30,7 @@ import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.*;
 public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
-    private final ProtocolBlockStateMapping_v1_13_1 blockStateMapping;
+    private final ProtocolBlockStateMapping_v1_14 blockStateMapping;
     private Block GRASS_BLOCK;
     private Block DIRT;
     private Block STONE;
@@ -39,8 +39,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     public MountainWorldGenerator(
             VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
-            ProtocolBlockStateMapping_v1_13_1 blockStateMapping
-
+            ProtocolBlockStateMapping_v1_14 blockStateMapping
     ) {
         super(Dimension.OVERWORLD, LevelType.DEFAULT);
         this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
@@ -104,7 +103,7 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
         }
         DirectPalette directPalette = new DirectPalette(blockStateMapping, 14);
         VanillaBlockDataStorage blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable,
-                directPalette, true);
+                directPalette, true, false, false);
 
         return new SimpleChunk(blockDataTable, blockDataStorage, new EntityData(new HashSet<>()), coords);
     }

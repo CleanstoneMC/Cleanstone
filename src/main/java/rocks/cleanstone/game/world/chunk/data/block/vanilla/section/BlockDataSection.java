@@ -14,24 +14,31 @@ public class BlockDataSection {
 
     private final PaletteBlockStateStorage blockStateStorage;
     private final byte[][][] blockLight, skyLight;
-    private final boolean hasSkyLight;
+    private final boolean hasSkyLight, writeNonAirBlockCount, omitLighting;
 
     public BlockDataSection(BlockDataSection blockDataSection) {
         blockStateStorage = new PaletteBlockStateStorage(blockDataSection.blockStateStorage);
         blockLight = blockDataSection.blockLight.clone();
         skyLight = blockDataSection.skyLight.clone();
         hasSkyLight = blockDataSection.hasSkyLight;
+        writeNonAirBlockCount = blockDataSection.writesNonAirBlockCount();
+        omitLighting = blockDataSection.omitsLighting();
     }
 
     public BlockDataSection(PaletteBlockStateStorage blockStateStorage, byte[][][] blockLight, byte[][][] skyLight,
-                            boolean hasSkyLight) {
+                            boolean hasSkyLight, boolean writeNonAirBlockCount, boolean omitLighting) {
         this.blockStateStorage = blockStateStorage;
         this.blockLight = blockLight;
         this.skyLight = skyLight;
         this.hasSkyLight = hasSkyLight;
+        this.writeNonAirBlockCount = writeNonAirBlockCount;
+        this.omitLighting = omitLighting;
     }
 
-    public BlockDataSection(boolean hasSkyLight, DirectPalette directPalette, boolean omitDirectPaletteLength) {
+    public BlockDataSection(boolean hasSkyLight, DirectPalette directPalette, boolean omitDirectPaletteLength,
+                            boolean writeNonAirBlockCount, boolean omitLighting) {
+        this.writeNonAirBlockCount = writeNonAirBlockCount;
+        this.omitLighting = omitLighting;
         this.blockStateStorage = new PaletteBlockStateStorage(directPalette, omitDirectPaletteLength);
         blockLight = new byte[WIDTH][WIDTH][HEIGHT];
         skyLight = new byte[WIDTH][WIDTH][HEIGHT];
@@ -47,15 +54,20 @@ public class BlockDataSection {
     }
 
     public BlockDataSection(ByteBuf in, boolean hasSkyLight, DirectPalette directPalette,
-                            boolean omitDirectPaletteLength) throws IOException {
+                            boolean omitDirectPaletteLength, boolean writeNonAirBlockCount,
+                            boolean omitLighting) throws IOException {
+        this.writeNonAirBlockCount = writeNonAirBlockCount;
+        this.omitLighting = omitLighting;
         this.blockStateStorage = new PaletteBlockStateStorage(in, directPalette, omitDirectPaletteLength);
 
         this.blockLight = new byte[WIDTH][WIDTH][HEIGHT];
         this.skyLight = new byte[WIDTH][WIDTH][HEIGHT];
         this.hasSkyLight = hasSkyLight;
-        readLights(in, true);
-        if (hasSkyLight) {
-            readLights(in, false);
+        if (!omitLighting) {
+            readLights(in, true);
+            if (hasSkyLight) {
+                readLights(in, false);
+            }
         }
     }
 
@@ -76,12 +88,14 @@ public class BlockDataSection {
     }
 
     public void write(ByteBuf out) {
-        // 1.14 non-air block count
-        out.writeShort(countNonAirBlocks());
+        if (writeNonAirBlockCount)
+            out.writeShort(countNonAirBlocks());
 
         blockStateStorage.write(out);
-        //writeLights(out, true);
-        //if (hasSkyLight) writeLights(out, false);
+        if (!omitLighting) {
+            writeLights(out, true);
+            if (hasSkyLight) writeLights(out, false);
+        }
     }
 
     private void writeLights(ByteBuf buf, boolean isBlockLight) {
@@ -117,6 +131,7 @@ public class BlockDataSection {
     }
 
     private int countNonAirBlocks() {
+        // TODO find less expensive way to calculate non air blocks
         int blockCount = 0;
         for (int y = 0; y < HEIGHT; y++) {
             for (int z = 0; z < WIDTH; z++) {
@@ -129,5 +144,13 @@ public class BlockDataSection {
             }
         }
         return blockCount;
+    }
+
+    public boolean writesNonAirBlockCount() {
+        return writeNonAirBlockCount;
+    }
+
+    public boolean omitsLighting() {
+        return omitLighting;
     }
 }
