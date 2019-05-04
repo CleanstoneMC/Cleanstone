@@ -1,18 +1,20 @@
-package rocks.cleanstone.game.world.chunk.data.block.vanilla;
+package rocks.cleanstone.game.world.chunk.data.block.vanilla.section;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import io.netty.buffer.ByteBuf;
-import lombok.extern.slf4j.Slf4j;
-import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
-import rocks.cleanstone.game.world.chunk.BlockDataTable;
-import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import io.netty.buffer.ByteBuf;
+import lombok.extern.slf4j.Slf4j;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
+import rocks.cleanstone.game.world.chunk.BlockDataTable;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
+import rocks.cleanstone.net.utils.ByteBufUtils;
 
 @Slf4j
 public class PaletteBlockStateStorage {

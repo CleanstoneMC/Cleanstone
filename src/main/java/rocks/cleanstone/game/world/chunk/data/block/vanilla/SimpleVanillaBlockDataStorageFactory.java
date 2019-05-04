@@ -2,6 +2,7 @@ package rocks.cleanstone.game.world.chunk.data.block.vanilla;
 
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.section.BlockDataSection;
 
 @Component
 public class SimpleVanillaBlockDataStorageFactory implements VanillaBlockDataStorageFactory {
