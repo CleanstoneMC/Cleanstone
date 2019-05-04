@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
+package rocks.cleanstone.net.minecraft.protocol.v1_14.inbound;
 
 import com.google.common.base.Preconditions;
 
@@ -21,7 +21,7 @@ public class PlayerDiggingCodec implements InboundPacketCodec<PlayerDiggingPacke
     @Override
     public PlayerDiggingPacket decode(ByteBuf byteBuf) throws IOException {
         final int diggingStatusID = ByteBufUtils.readVarInt(byteBuf);
-        final Vector positionVector = ByteBufUtils.readVector(byteBuf, true);
+        final Vector positionVector = ByteBufUtils.readVector(byteBuf, false);
         final byte faceID = byteBuf.readByte();
 
         final DiggingStatus diggingStatus = DiggingStatus.fromStatusID(diggingStatusID);

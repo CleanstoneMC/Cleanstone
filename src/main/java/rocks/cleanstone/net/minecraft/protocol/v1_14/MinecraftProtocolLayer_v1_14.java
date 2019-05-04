@@ -10,6 +10,8 @@ import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_14.inbound.CreativeInventoryActionCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_14.inbound.PlayerBlockPlacementCodec;
+import rocks.cleanstone.net.minecraft.protocol.v1_14.inbound.PlayerDiggingCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_14.outbound.BlockChangeCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_14.outbound.ChunkDataCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_14.outbound.JoinGameCodec;
