@@ -2,22 +2,23 @@ package rocks.cleanstone.net.minecraft.protocol.v1_14;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+import rocks.cleanstone.net.minecraft.protocol.AutowiredServerProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound.*;
 import rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound.*;
-import rocks.cleanstone.net.minecraft.protocol.v1_13_2.MinecraftProtocolLayer_v1_13_2;
 import rocks.cleanstone.net.minecraft.protocol.v1_14.inbound.CreativeInventoryActionCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_14.outbound.BlockChangeCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_14.outbound.ChunkDataCodec;
 import rocks.cleanstone.net.minecraft.protocol.v1_14.outbound.JoinGameCodec;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
-import java.util.List;
-
 import static rocks.cleanstone.net.minecraft.protocol.VanillaProtocolState.*;
 
 @Component("minecraftProtocolLayer_v1_14")
-public class MinecraftProtocolLayer_v1_14 extends MinecraftProtocolLayer_v1_13_2 {
+public class MinecraftProtocolLayer_v1_14 extends AutowiredServerProtocolLayer {
 
     @Autowired
     public MinecraftProtocolLayer_v1_14(List<? extends PacketCodec> packetCodecs) {
@@ -84,5 +85,10 @@ public class MinecraftProtocolLayer_v1_14 extends MinecraftProtocolLayer_v1_13_2
     @Override
     public MinecraftClientProtocolLayer getCorrespondingClientLayer() {
         return MinecraftClientProtocolLayer.MINECRAFT_V1_14;
+    }
+
+    @Override
+    public int getOrderedID() {
+        return 2;
     }
 }

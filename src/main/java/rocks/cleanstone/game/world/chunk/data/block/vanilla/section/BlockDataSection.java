@@ -1,9 +1,12 @@
-package rocks.cleanstone.game.world.chunk.data.block.vanilla;
-
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.game.world.chunk.Chunk;
+package rocks.cleanstone.game.world.chunk.data.block.vanilla.section;
 
 import java.io.IOException;
+
+import io.netty.buffer.ByteBuf;
+import rocks.cleanstone.game.block.state.BlockState;
+import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
+import rocks.cleanstone.game.world.chunk.Chunk;
+import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 
 public class BlockDataSection {
 
@@ -73,9 +76,12 @@ public class BlockDataSection {
     }
 
     public void write(ByteBuf out) {
+        // 1.14 non-air block count
+        out.writeShort(countNonAirBlocks());
+
         blockStateStorage.write(out);
-        writeLights(out, true);
-        if (hasSkyLight) writeLights(out, false);
+        //writeLights(out, true);
+        //if (hasSkyLight) writeLights(out, false);
     }
 
     private void writeLights(ByteBuf buf, boolean isBlockLight) {
@@ -108,5 +114,20 @@ public class BlockDataSection {
                 }
             }
         }
+    }
+
+    private int countNonAirBlocks() {
+        int blockCount = 0;
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int z = 0; z < WIDTH; z++) {
+                for (int x = 0; x < WIDTH; x++) {
+                    BlockState state = blockStateStorage.get(x, y, z);
+                    if (state.getBlockType() != VanillaBlockType.AIR) {
+                        blockCount++;
+                    }
+                }
+            }
+        }
+        return blockCount;
     }
 }
