@@ -1,8 +1,9 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
-import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
@@ -33,9 +34,10 @@ public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
 
         DirectPalette directPalette = new DirectPalette(blockStateMapping, 13);
         VanillaBlockDataStorage storage = vanillaBlockDataStorageFactory.get(packet.getBlockDataTable(),
-                directPalette, false);
+                directPalette, false, false, false);
 
-        ByteBuf blockData = vanillaBlockDataCodecFactory.get(directPalette, false).encode(storage);
+        ByteBuf blockData = vanillaBlockDataCodecFactory.get(directPalette, false, false, false, false)
+                .encode(storage);
         byteBuf.writeBytes(blockData);
         blockData.release();
 

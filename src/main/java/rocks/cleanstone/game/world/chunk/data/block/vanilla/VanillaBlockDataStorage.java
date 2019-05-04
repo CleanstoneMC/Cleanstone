@@ -24,29 +24,35 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
             SEC_AMNT = Chunk.HEIGHT / SEC_HEIGHT;
     private final boolean hasSkyLight;
     private final DirectPalette directPalette;
-    private final boolean omitDirectPaletteLength;
+    private final boolean omitDirectPaletteLength, writeNonAirBlockCount, omitLighting;
     private BlockDataSection[] sections = new BlockDataSection[SEC_AMNT];
 
     VanillaBlockDataStorage(VanillaBlockDataStorage blockDataStorage) {
         this.hasSkyLight = blockDataStorage.hasSkyLight;
         this.directPalette = blockDataStorage.directPalette;
         this.omitDirectPaletteLength = blockDataStorage.omitDirectPaletteLength;
+        this.writeNonAirBlockCount = blockDataStorage.writeNonAirBlockCount;
+        this.omitLighting = blockDataStorage.omitLighting;
 
         for (int i = 0; i < SEC_AMNT; i++) {
             sections[i] = new BlockDataSection(blockDataStorage.sections[i]);
         }
     }
 
-    VanillaBlockDataStorage(BlockDataSection[] sections, boolean hasSkyLight,
-                            DirectPalette directPalette, boolean omitDirectPaletteLength) {
+    VanillaBlockDataStorage(BlockDataSection[] sections, boolean hasSkyLight, DirectPalette directPalette,
+                            boolean omitDirectPaletteLength, boolean writeNonAirBlockCount,
+                            boolean omitLighting) {
         this.sections = Arrays.copyOf(sections, SEC_AMNT);
         this.hasSkyLight = hasSkyLight;
         this.directPalette = directPalette;
         this.omitDirectPaletteLength = omitDirectPaletteLength;
+        this.writeNonAirBlockCount = writeNonAirBlockCount;
+        this.omitLighting = omitLighting;
     }
 
     public VanillaBlockDataStorage(BlockDataTable table, DirectPalette directPalette,
-                                   boolean omitDirectPaletteLength) {
+                                   boolean omitDirectPaletteLength, boolean writeNonAirBlockCount,
+                                   boolean omitLighting) {
 
         for (int sectionY = 0; sectionY < SEC_AMNT; sectionY++) {
             AtomicBoolean isEmptyFlag = new AtomicBoolean();
@@ -69,13 +75,15 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
                     directPalette, omitDirectPaletteLength);
 
             BlockDataSection section = new BlockDataSection(storage, blockLight,
-                    skyLight, table.hasSkylight());
+                    skyLight, table.hasSkylight(), writeNonAirBlockCount, omitLighting);
             sections[sectionY] = section;
 
         }
         this.hasSkyLight = table.hasSkylight();
         this.directPalette = directPalette;
         this.omitDirectPaletteLength = omitDirectPaletteLength;
+        this.writeNonAirBlockCount = writeNonAirBlockCount;
+        this.omitLighting = omitLighting;
     }
 
     @Nullable
@@ -86,7 +94,8 @@ public class VanillaBlockDataStorage implements BlockDataStorage {
     private BlockDataSection getOrCreateSection(int y) {
         BlockDataSection section = getSection(y);
         if (section == null) {
-            section = new BlockDataSection(hasSkyLight, directPalette, omitDirectPaletteLength);
+            section = new BlockDataSection(hasSkyLight, directPalette, omitDirectPaletteLength,
+                    writeNonAirBlockCount, omitLighting);
             sections[y] = section;
         }
         return section;

@@ -6,9 +6,11 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.section.BlockDataSec
 public interface VanillaBlockDataStorageFactory {
     VanillaBlockDataStorage get(VanillaBlockDataStorage blockDataStorage);
 
-    VanillaBlockDataStorage get(BlockDataSection[] sectionMap, boolean hasSkyLight,
-                                DirectPalette directPalette, boolean omitDirectPaletteLength);
+    VanillaBlockDataStorage get(BlockDataSection[] sections, boolean hasSkyLight,
+                                DirectPalette directPalette, boolean omitDirectPaletteLength,
+                                boolean writeNonAirBlockCount, boolean omitLighting);
 
     VanillaBlockDataStorage get(BlockDataTable table, DirectPalette directPalette,
-                                boolean omitDirectPaletteLength);
+                                boolean omitDirectPaletteLength, boolean writeNonAirBlockCount,
+                                boolean omitLighting);
 }

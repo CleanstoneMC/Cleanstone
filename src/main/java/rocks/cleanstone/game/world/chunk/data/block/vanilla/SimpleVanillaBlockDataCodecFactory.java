@@ -12,7 +12,9 @@ public class SimpleVanillaBlockDataCodecFactory implements VanillaBlockDataCodec
     }
 
     @Override
-    public VanillaBlockDataCodec get(DirectPalette directPalette, boolean omitDirectPaletteLength) {
-        return new VanillaBlockDataCodec(vanillaBlockDataStorageFactory, directPalette, omitDirectPaletteLength);
+    public VanillaBlockDataCodec get(DirectPalette directPalette, boolean omitDirectPaletteLength,
+                                     boolean writeHeightMap, boolean writeNonAirBlockCount, boolean omitLighting) {
+        return new VanillaBlockDataCodec(vanillaBlockDataStorageFactory, directPalette,
+                omitDirectPaletteLength, writeHeightMap, writeNonAirBlockCount, omitLighting);
     }
 }
