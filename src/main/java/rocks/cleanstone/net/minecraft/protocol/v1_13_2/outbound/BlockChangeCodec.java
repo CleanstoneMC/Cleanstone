@@ -21,7 +21,7 @@ public class BlockChangeCodec implements OutboundPacketCodec<BlockChangePacket> 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, BlockChangePacket packet) {
 
-        ByteBufUtils.writeVector(byteBuf, packet.getPosition().toVector());
+        ByteBufUtils.writeVector(byteBuf, packet.getPosition().toVector(),true);
         ByteBufUtils.writeVarInt(byteBuf, blockStateMapping.getID(packet.getBlockState()));
 
         return byteBuf;

@@ -23,16 +23,16 @@
  */
 package rocks.cleanstone.net.utils;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.utils.Vector;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 /**
  * A class containing various utility methods that act on byte buffers.
@@ -182,20 +182,30 @@ public class ByteBufUtils {
         }
     }
 
-    public static void writeVector(ByteBuf byteBuf, Vector vector) {
+    public static void writeVector(ByteBuf byteBuf, Vector vector, boolean legacy) {
         final long x = vector.getXAsLong();
         final long y = vector.getYAsLong();
         final long z = vector.getZAsLong();
-
-        byteBuf.writeLong((x & 0x3ffffff) << 38 |  ((z & 0x3FFFFFF) << 12) | (y & 0xFFF));
+        if (legacy) {
+            byteBuf.writeLong((x & 0x3ffffff) << 38 | (y & 0xfff) << 26 | z & 0x3ffffff);
+        } else {
+            byteBuf.writeLong((x & 0x3ffffff) << 38 | ((z & 0x3FFFFFF) << 12) | (y & 0xFFF));
+        }
     }
 
-    public static Vector readVector(ByteBuf byteBuf) {
+    public static Vector readVector(ByteBuf byteBuf, boolean legacy) {
         long val = byteBuf.readLong();
+        long x, y, z;
 
-        long x = val >> 38;
-        long y = val & 0xFFF;
-        long z = (val << 26 >> 38);
+        if (legacy) {
+            x = val >> 38;
+            y = (val >> 26) & 0xFFF;
+            z = val << 38 >> 38;
+        } else {
+            x = val >> 38;
+            y = val & 0xFFF;
+            z = (val << 26 >> 38);
+        }
 
         return new Vector(x, y, z);
     }

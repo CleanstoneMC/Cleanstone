@@ -23,7 +23,8 @@ public class PositionData implements EntityMetadataEntryData {
     @Override
     public ByteBuf serialize() {
         ByteBuf byteBuf = Unpooled.buffer();
-        ByteBufUtils.writeVector(byteBuf, position.toVector());
+        // TODO is it legacy vector encoding or not?
+        ByteBufUtils.writeVector(byteBuf, position.toVector(), false);
         return byteBuf;
     }
 }

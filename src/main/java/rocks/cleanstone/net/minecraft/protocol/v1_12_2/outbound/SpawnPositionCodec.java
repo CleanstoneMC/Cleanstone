@@ -1,7 +1,8 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
-import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnPositionPacket;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
@@ -12,7 +13,7 @@ public class SpawnPositionCodec implements OutboundPacketCodec<SpawnPositionPack
     @Override
     public ByteBuf encode(ByteBuf byteBuf, SpawnPositionPacket packet) {
 
-        ByteBufUtils.writeVector(byteBuf, packet.getPosition().toVector());
+        ByteBufUtils.writeVector(byteBuf, packet.getPosition().toVector(), true);
 
         return byteBuf;
     }

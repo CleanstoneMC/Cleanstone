@@ -1,13 +1,14 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
-import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.net.minecraft.packet.inbound.InTabCompletePacket;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.utils.Vector;
-
-import java.io.IOException;
 
 @Component
 public class InTabCompleteCodec implements InboundPacketCodec<InTabCompletePacket> {
@@ -21,7 +22,7 @@ public class InTabCompleteCodec implements InboundPacketCodec<InTabCompletePacke
         final Vector lookedAtBlock;
 
         if (hasPosition) {
-            lookedAtBlock = ByteBufUtils.readVector(byteBuf);
+            lookedAtBlock = ByteBufUtils.readVector(byteBuf, true);
         } else {
             lookedAtBlock = null;
         }

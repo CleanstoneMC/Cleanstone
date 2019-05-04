@@ -1,8 +1,9 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_13.outbound;
 
-import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.net.minecraft.packet.outbound.BlockChangePacket;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
@@ -20,7 +21,7 @@ public class BlockChangeCodec implements OutboundPacketCodec<BlockChangePacket> 
     @Override
     public ByteBuf encode(ByteBuf byteBuf, BlockChangePacket packet) {
 
-        ByteBufUtils.writeVector(byteBuf, packet.getPosition().toVector());
+        ByteBufUtils.writeVector(byteBuf, packet.getPosition().toVector(), true);
         ByteBufUtils.writeVarInt(byteBuf, blockStateMapping.getID(packet.getBlockState()));
 
         return byteBuf;

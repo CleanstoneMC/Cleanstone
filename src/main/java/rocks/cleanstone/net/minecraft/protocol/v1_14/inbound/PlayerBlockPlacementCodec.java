@@ -1,4 +1,4 @@
-package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
+package rocks.cleanstone.net.minecraft.protocol.v1_14.inbound;
 
 import org.springframework.stereotype.Component;
 
@@ -16,13 +16,16 @@ public class PlayerBlockPlacementCodec implements InboundPacketCodec<PlayerBlock
 
     @Override
     public PlayerBlockPlacementPacket decode(ByteBuf byteBuf) throws IOException {
-        final Vector positionVector = ByteBufUtils.readVector(byteBuf, true);
-        final int face = ByteBufUtils.readVarInt(byteBuf);
         final int hand = ByteBufUtils.readVarInt(byteBuf);
+        final Vector positionVector = ByteBufUtils.readVector(byteBuf, false);
+        final int face = ByteBufUtils.readVarInt(byteBuf);
 
         final float cursorX = byteBuf.readFloat();
         final float cursorY = byteBuf.readFloat();
         final float cursorZ = byteBuf.readFloat();
+
+        // player's head inside block? (unused)
+        byteBuf.readBoolean();
 
         Position position = new Position(positionVector);
 
