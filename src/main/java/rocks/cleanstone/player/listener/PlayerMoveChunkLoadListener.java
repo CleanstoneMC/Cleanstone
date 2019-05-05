@@ -15,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.NearbyChunkRetriever;
+import rocks.cleanstone.net.minecraft.packet.outbound.UpdateViewPositionPacket;
+import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
+import rocks.cleanstone.player.OnlinePlayer;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.event.PlayerMoveEvent;
@@ -60,6 +63,7 @@ public class PlayerMoveChunkLoadListener {
             }
 
             log.debug("loading chunks around {} for {}", coords, player.getID().getName());
+            updateViewPosition(player, coords);
             sendNewNearbyChunks(player, coords, loadingToken);
             unloadRemoteChunks(player, coords);
         }
@@ -106,6 +110,18 @@ public class PlayerMoveChunkLoadListener {
                     playerChunkLoadService.unregisterLoadedChunk(uuid, coords);
                     playerChunkLoadService.sendChunkUnloadPacket(player, coords);
                 });
+    }
+
+    protected void updateViewPosition(Player player, ChunkCoords chunkCoords) {
+        // TODO move this to the protocol
+        if (player instanceof OnlinePlayer) {
+            OnlinePlayer onlinePlayer = (OnlinePlayer) player;
+            if (onlinePlayer.getConnection().getClientProtocolLayer()
+                    .getOrderedVersionNumber() >= MinecraftClientProtocolLayer.MINECRAFT_V1_14
+                    .getOrderedVersionNumber()) {
+                player.sendPacket(new UpdateViewPositionPacket(chunkCoords));
+            }
+        }
     }
 
     protected boolean isWithinRange(int x1, int z1, int x2, int z2, int range) {
