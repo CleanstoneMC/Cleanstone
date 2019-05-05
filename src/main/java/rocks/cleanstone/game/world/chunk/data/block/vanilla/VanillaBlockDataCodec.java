@@ -8,6 +8,8 @@ import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import javax.annotation.Nullable;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
@@ -29,16 +31,20 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
     private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
     private final DirectPalette directPalette;
     private final boolean omitDirectPaletteLength, writeHeightMap, writeNonAirBlockCount, omitLighting;
+    @Nullable
+    private final BlockDataTable blockDataTable;
 
     public VanillaBlockDataCodec(VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
                                  DirectPalette directPalette, boolean omitDirectPaletteLength,
-                                 boolean writeHeightMap, boolean writeNonAirBlockCount, boolean omitLighting) {
+                                 boolean writeHeightMap, boolean writeNonAirBlockCount,
+                                 boolean omitLighting, @Nullable BlockDataTable blockDataTable) {
         this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
         this.directPalette = directPalette;
         this.omitDirectPaletteLength = omitDirectPaletteLength;
         this.omitLighting = omitLighting;
         this.writeHeightMap = writeHeightMap;
         this.writeNonAirBlockCount = writeNonAirBlockCount;
+        this.blockDataTable = blockDataTable;
     }
 
     @Override
@@ -90,8 +96,7 @@ public class VanillaBlockDataCodec implements InOutCodec<VanillaBlockDataStorage
     }
 
     private void writeHeightMap(ByteBuf data, VanillaBlockDataStorage storage) {
-        // TODO find a faster way to retrieve a heightMap; constructTable() is very expensive
-        BlockDataTable table = storage.constructTable();
+        BlockDataTable table = blockDataTable != null ? blockDataTable : storage.constructTable();
         int[] motionBlocking = new int[WIDTH * WIDTH];
         for (int sectionY = 0; sectionY < Chunk.HEIGHT / HEIGHT; sectionY++) {
             for (int x = 0; x < WIDTH; x++) {
