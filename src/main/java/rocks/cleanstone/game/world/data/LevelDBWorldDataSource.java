@@ -55,7 +55,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
 
         entityDataCodec = VersionedCodec.withMainCodec(0, new EntityDataCodec(entitySerialization));
         blockDataCodec = VersionedCodec.withMainCodec(0, vanillaBlockDataCodecFactory.get(directPalette,
-                true, false, false, false));
+                true, false, false, false, null));
     }
 
     @Nullable

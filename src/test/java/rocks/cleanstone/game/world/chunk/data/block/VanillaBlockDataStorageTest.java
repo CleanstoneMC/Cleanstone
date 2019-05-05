@@ -53,7 +53,7 @@ class VanillaBlockDataStorageTest {
     @Test
     void testSerializationAndTable() {
         VanillaBlockDataCodec codec = new SimpleVanillaBlockDataCodecFactory(simpleVanillaBlockDataStorageFactory)
-                .get(directPalette, true, false, false, false);
+                .get(directPalette, true, false, false, false, null);
         ByteBuf serialized = codec.encode(storage);
         VanillaBlockDataStorage deserialized;
         try {
