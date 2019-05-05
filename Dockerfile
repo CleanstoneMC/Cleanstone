@@ -3,7 +3,7 @@ RUN apk add bash nodejs
 
 COPY . /repo
 
-RUN mkdir /data && cd /repo && ./gradlew assemble && cp /repo/build/libs/Cleanstone*.jar /data/Cleanstone.jar
+RUN mkdir /data && cd /repo && ./gradlew assemble && cp /repo/build/libs/Cleanstone*.jar /data/Cleanstone.jar && rm -rf /repo
 
 WORKDIR /data
 CMD java -jar Cleanstone.jar
