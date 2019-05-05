@@ -1,11 +1,16 @@
-FROM openjdk:13-alpine
+FROM openjdk:13-alpine as BUILD
 RUN apk add bash nodejs
 
-COPY . /repo
+COPY . /build
 
-RUN mkdir /data && cd /repo && ./gradlew assemble && cp /repo/build/libs/Cleanstone*.jar /data/Cleanstone.jar && rm -rf /repo
+RUN cd /build && ./gradlew assemble && cp /build/build/libs/Cleanstone*.jar /Cleanstone.jar
 
+FROM openjdk:13-alpine
+RUN mkdir /data
 WORKDIR /data
+
+COPY --from=BUILD Cleanstone.jar /data/Cleanstone.jar
+
 CMD java -jar Cleanstone.jar
 
 EXPOSE 25565/tcp
