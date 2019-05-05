@@ -520,7 +520,7 @@ public class ProtocolItemTypeMapping extends LegacyMaterialMapping {
         setID(PAINTING, 321);
         setID(GOLDEN_APPLE, 322);
         setID(ENCHANTED_GOLDEN_APPLE, 322, 1);
-        setID(SIGN, 323);
+        setID(OAK_SIGN, 323);
         setID(OAK_DOOR, 324);
         setID(BUCKET, 325);
         setID(WATER_BUCKET, 326);
@@ -553,8 +553,8 @@ public class ProtocolItemTypeMapping extends LegacyMaterialMapping {
 //        setID(COOKED_FISH, 350);
         setID(COOKED_SALMON, 350, 1);
         setID(INK_SAC, 351);
-        setID(ROSE_RED, 351, 1);
-        setID(CACTUS_GREEN, 351, 2);
+        setID(RED_DYE, 351, 1);
+        setID(GREEN_DYE, 351, 2);
         setID(COCOA_BEANS, 351, 3);
         setID(LAPIS_LAZULI, 351, 4);
         setID(PURPLE_DYE, 351, 5);
@@ -563,7 +563,7 @@ public class ProtocolItemTypeMapping extends LegacyMaterialMapping {
         setID(GRAY_DYE, 351, 8);
         setID(PINK_DYE, 351, 9);
         setID(LIME_DYE, 351, 10);
-        setID(DANDELION_YELLOW, 351, 11);
+        setID(YELLOW_DYE, 351, 11);
         setID(LIGHT_BLUE_DYE, 351, 12);
         setID(MAGENTA_DYE, 351, 13);
         setID(ORANGE_DYE, 351, 14);
