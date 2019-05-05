@@ -552,7 +552,7 @@ public class ProtocolItemTypeMapping_v1_13_2 extends SimpleItemTypeMapping<Integ
         setID(PAINTING, 538);
         setID(GOLDEN_APPLE, 539);
         setID(ENCHANTED_GOLDEN_APPLE, 540);
-        setID(SIGN, 541);
+        setID(OAK_SIGN, 541);
         setID(BUCKET, 542);
         setID(WATER_BUCKET, 543);
         setID(LAVA_BUCKET, 544);
@@ -589,8 +589,8 @@ public class ProtocolItemTypeMapping_v1_13_2 extends SimpleItemTypeMapping<Integ
         setID(COOKED_COD, 575);
         setID(COOKED_SALMON, 576);
         setID(INK_SAC, 577);
-        setID(ROSE_RED, 578);
-        setID(CACTUS_GREEN, 579);
+        setID(RED_DYE, 578);
+        setID(GREEN_DYE, 579);
         setID(COCOA_BEANS, 580);
         setID(LAPIS_LAZULI, 581);
         setID(PURPLE_DYE, 582);
@@ -599,7 +599,7 @@ public class ProtocolItemTypeMapping_v1_13_2 extends SimpleItemTypeMapping<Integ
         setID(GRAY_DYE, 585);
         setID(PINK_DYE, 586);
         setID(LIME_DYE, 587);
-        setID(DANDELION_YELLOW, 588);
+        setID(YELLOW_DYE, 588);
         setID(LIGHT_BLUE_DYE, 589);
         setID(MAGENTA_DYE, 590);
         setID(ORANGE_DYE, 591);

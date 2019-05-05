@@ -162,12 +162,12 @@ public class ProtocolBlockStateMapping_v1_13_1 extends ModernBlockStateMapping {
         setBaseID(WHEAT, 3052);
         setBaseID(FARMLAND, 3060);
         setBaseID(FURNACE, 3068);
-        setBaseID(SIGN, 3076);
+        setBaseID(OAK_SIGN, 3076);
         setBaseID(OAK_DOOR, 3108);
         setBaseID(LADDER, 3172);
         setBaseID(RAIL, 3180);
         setBaseID(COBBLESTONE_STAIRS, 3190);
-        setBaseID(WALL_SIGN, 3270);
+        setBaseID(OAK_WALL_SIGN, 3270);
         setBaseID(LEVER, 3278);
         setBaseID(STONE_PRESSURE_PLATE, 3302);
         setBaseID(IRON_DOOR, 3304);

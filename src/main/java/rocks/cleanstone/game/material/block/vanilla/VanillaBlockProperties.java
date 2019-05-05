@@ -8,9 +8,9 @@ import rocks.cleanstone.game.block.state.property.vanilla.*;
 public class VanillaBlockProperties {
     public static final PropertyBoolean SNOWY = new PropertyBoolean("snowy");
     public static final PropertyInteger STAGE = new PropertyInteger("stage", 0, 1);
-    public static final PropertyInteger LEVEL = new PropertyInteger("level", 0, 3);
+    public static final PropertyInteger LEVEL = new PropertyInteger("level", 0, 8);
     public static final PropertyEnum<Axis> AXIS = new PropertyEnum<>("axis", Axis.class);
-    public static final PropertyInteger DISTANCE = new PropertyInteger("distance", 1, 7);
+    public static final PropertyInteger DISTANCE = new PropertyInteger("distance", 0, 7);
     public static final PropertyBoolean PERSISTENT = new PropertyBoolean("persistent");
     public static final PropertyEnum<Facing> FACING = new PropertyEnum<>("facing", Facing.class);
     public static final PropertyBoolean TRIGGERED = new PropertyBoolean("triggered");
@@ -25,7 +25,7 @@ public class VanillaBlockProperties {
     public static final PropertyBoolean SHORT = new PropertyBoolean("short");
     public static final PropertyEnum<PistonType> TYPE = new PropertyEnum<>("type", PistonType.class);
     public static final PropertyBoolean UNSTABLE = new PropertyBoolean("unstable");
-    public static final PropertyInteger AGE = new PropertyInteger("age", 0, 25);
+    public static final PropertyInteger AGE = new PropertyInteger("age", 0, 3);
     public static final PropertyBoolean EAST = new PropertyBoolean("east");
     public static final PropertyBoolean NORTH = new PropertyBoolean("north");
     public static final PropertyBoolean SOUTH = new PropertyBoolean("south");
@@ -67,6 +67,12 @@ public class VanillaBlockProperties {
     public static final PropertyInteger EGGS = new PropertyInteger("eggs", 1, 4);
     public static final PropertyInteger HATCH = new PropertyInteger("hatch", 0, 2);
     public static final PropertyInteger PICKLES = new PropertyInteger("pickles", 1, 4);
+    public static final PropertyEnum<BambooLeaves> BAMBOO_LEAVES = new PropertyEnum<>("leaves", BambooLeaves.class);
     public static final PropertyBoolean DRAG = new PropertyBoolean("drag");
+    public static final PropertyBoolean BOTTOM = new PropertyBoolean("bottom");
+    public static final PropertyBoolean HAS_BOOK = new PropertyBoolean("has_book");
+    public static final PropertyEnum<BellAttachment> BELL_ATTACHMENT = new PropertyEnum<>("attachment", BellAttachment.class);
+    public static final PropertyBoolean HANGING = new PropertyBoolean("hanging");
+    public static final PropertyBoolean SIGNAL_FIRE = new PropertyBoolean("signal_fire");
     public static final PropertyEnum<StructureBlockMode> STRUCTURE_BLOCK_MODE = new PropertyEnum<>("mode", StructureBlockMode.class);
 }
