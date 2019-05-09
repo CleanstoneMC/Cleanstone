@@ -7,6 +7,10 @@ import rocks.cleanstone.game.material.item.vanilla.VanillaItemType;
 
 import static rocks.cleanstone.game.material.item.vanilla.VanillaItemType.*;
 
+/**
+ * Maps Cleanstone's internal item types to the Minecraft client's format
+ * !! GENERATED FILE. This file was generated using the php-converter script. !!
+ * */
 @Component("protocolItemTypeMapping_v1_14")
 public class ProtocolItemTypeMapping_v1_14 extends SimpleItemTypeMapping<Integer> {
     public ProtocolItemTypeMapping_v1_14() {

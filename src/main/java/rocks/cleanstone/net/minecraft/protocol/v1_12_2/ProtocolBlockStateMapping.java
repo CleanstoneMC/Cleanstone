@@ -1,11 +1,15 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2;
 
 import org.springframework.stereotype.Component;
+
 import rocks.cleanstone.game.block.state.mapping.LegacyMaterialMapping;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 
 import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockType.*;
 
+/**
+ * Maps Cleanstone's internal block states to the Minecraft client's legacy pre-1.13 format
+ */
 @Component("protocolBlockStateMapping_v1_12_2")
 public class ProtocolBlockStateMapping extends LegacyMaterialMapping {
     public ProtocolBlockStateMapping() {

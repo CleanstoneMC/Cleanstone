@@ -9,6 +9,10 @@ import static rocks.cleanstone.game.block.state.property.PropertyDefinition.arra
 import static rocks.cleanstone.game.block.state.property.PropertyDefinition.definitionOf;
 import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties.*;
 
+/**
+ * A list of Cleanstone's block types together with their properties
+ * !! GENERATED FILE. This file was generated using the php-converter script. !!
+ * */
 public enum VanillaBlockType implements BlockType {
     AIR("air"),
     STONE("stone"),

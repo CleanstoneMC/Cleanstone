@@ -5,6 +5,10 @@ import rocks.cleanstone.game.block.state.property.type.PropertyEnum;
 import rocks.cleanstone.game.block.state.property.type.PropertyInteger;
 import rocks.cleanstone.game.block.state.property.vanilla.*;
 
+/**
+ * A list of Cleanstone's block state properties
+ * !! GENERATED FILE. This file was generated using the php-converter script. !!
+ * */
 public class VanillaBlockProperties {
     public static final PropertyBoolean SNOWY = new PropertyBoolean("snowy");
     public static final PropertyInteger STAGE = new PropertyInteger("stage", 0, 1);

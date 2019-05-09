@@ -7,6 +7,10 @@ import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
 
 import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockType.*;
 
+/**
+ * Maps Cleanstone's internal block types to the Minecraft client's format
+ * !! GENERATED FILE. This file was generated using the php-converter script. !!
+ * */
 @Component("protocolBlockStateMapping_v1_14")
 public class ProtocolBlockStateMapping_v1_14 extends ModernBlockStateMapping {
 

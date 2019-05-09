@@ -6,6 +6,10 @@ import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.material.item.ItemType;
 
+/**
+ * A list of Cleanstone's item types
+ * !! GENERATED FILE. This file was generated using the php-converter script. !!
+ * */
 public enum VanillaItemType implements ItemType {
     AIR("air"),
     STONE("stone"),
