@@ -14,7 +14,7 @@ public class VanillaBlockProperties {
     public static final PropertyInteger STAGE = new PropertyInteger("stage", 0, 1);
     public static final PropertyInteger LEVEL = new PropertyInteger("level", 0, 8);
     public static final PropertyEnum<Axis> AXIS = new PropertyEnum<>("axis", Axis.class);
-    public static final PropertyInteger DISTANCE = new PropertyInteger("distance", 0, 7);
+    public static final PropertyInteger DISTANCE = new PropertyInteger("distance", 1, 7);
     public static final PropertyBoolean PERSISTENT = new PropertyBoolean("persistent");
     public static final PropertyEnum<Facing> FACING = new PropertyEnum<>("facing", Facing.class);
     public static final PropertyBoolean TRIGGERED = new PropertyBoolean("triggered");

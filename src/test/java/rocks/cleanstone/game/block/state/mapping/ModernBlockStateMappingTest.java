@@ -21,6 +21,13 @@ class ModernBlockStateMappingTest {
         materialRegistry = new SimpleMaterialRegistry();
     }
 
+    /**
+     * Checks if deserializing a serialized block state returns the same block state. This only tests the
+     * default block states.
+     *
+     * TODO: Currently, block states which have int properties that have different value ranges for different
+     *  block states are not serialized properly (distance, level, range, ...)
+     */
     @Test
     void serializationShouldBeOneToOne() {
         materialRegistry.getBlockTypes().forEach(blockType -> {
