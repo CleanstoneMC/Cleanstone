@@ -2,10 +2,11 @@ package rocks.cleanstone.game.block.state.mapping;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.SimpleMaterialRegistry;
-import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
+import rocks.cleanstone.net.minecraft.protocol.v1_14.ProtocolBlockStateMapping_v1_14;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,7 +17,7 @@ class ModernBlockStateMappingTest {
 
     @BeforeEach
     void setUp() {
-        blockStateMapping = new ProtocolBlockStateMapping_v1_13_1();
+        blockStateMapping = new ProtocolBlockStateMapping_v1_14();
         materialRegistry = new SimpleMaterialRegistry();
     }
 

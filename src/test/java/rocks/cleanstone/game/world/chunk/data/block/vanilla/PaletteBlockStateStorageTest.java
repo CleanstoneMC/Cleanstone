@@ -19,7 +19,7 @@ import rocks.cleanstone.game.material.SimpleMaterialRegistry;
 import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
 import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.section.PaletteBlockStateStorage;
-import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
+import rocks.cleanstone.net.minecraft.protocol.v1_14.ProtocolBlockStateMapping_v1_14;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,7 +35,7 @@ class PaletteBlockStateStorageTest {
     void createStorageByTable() {
         blockStateProvider = new CachingBlockStateProvider();
         random = new Random(1);
-        blockStateMapping = new ProtocolBlockStateMapping_v1_13_1();
+        blockStateMapping = new ProtocolBlockStateMapping_v1_14();
         materialRegistry = new SimpleMaterialRegistry();
 
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);

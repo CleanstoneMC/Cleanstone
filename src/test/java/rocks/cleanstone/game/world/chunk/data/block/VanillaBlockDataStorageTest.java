@@ -20,7 +20,7 @@ import rocks.cleanstone.game.world.chunk.data.block.vanilla.SimpleVanillaBlockDa
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.SimpleVanillaBlockDataStorageFactory;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodec;
 import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
-import rocks.cleanstone.net.minecraft.protocol.v1_13_1.ProtocolBlockStateMapping_v1_13_1;
+import rocks.cleanstone.net.minecraft.protocol.v1_14.ProtocolBlockStateMapping_v1_14;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,7 +36,7 @@ class VanillaBlockDataStorageTest {
         simpleVanillaBlockDataStorageFactory = new SimpleVanillaBlockDataStorageFactory();
 
         random = new Random(1);
-        directPalette = new DirectPalette(new ProtocolBlockStateMapping_v1_13_1(), 14);
+        directPalette = new DirectPalette(new ProtocolBlockStateMapping_v1_14(), 14);
         MaterialRegistry materialRegistry = new SimpleMaterialRegistry();
 
         BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
