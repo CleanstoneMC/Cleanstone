@@ -36,6 +36,8 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     private Block STONE;
     private Block BEDROCK;
     private NoiseGenerator noiseGenerator;
+    private double amplitude, power;
+    private int lowestY;
 
     public MountainWorldGenerator(
             VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
@@ -52,6 +54,9 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
         setGenerationParameter(FRACTAL_OCTAVES, 3);
         setGenerationParameter(FRACTAL_GAIN, 0.35F);
         setGenerationParameter(FRACTAL_LACUNARITY, 3.5F);
+        setGenerationParameter(AMPLITUDE, 128.0);
+        setGenerationParameter(LOWEST_Y, 16);
+        setGenerationParameter(POWER, 1.0);
 
         GRASS_BLOCK = ImmutableBlock.of(VanillaBlockType.GRASS_BLOCK);
         DIRT = ImmutableBlock.of(VanillaBlockType.DIRT);
@@ -76,6 +81,15 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
                 break;
             case FRACTAL_LACUNARITY:
                 noiseGenerator.SetFractalLacunarity((float) value);
+                break;
+            case AMPLITUDE:
+                this.amplitude = value;
+                break;
+            case LOWEST_Y:
+                this.lowestY = (int) value;
+                break;
+            case POWER:
+                this.power = (int) value;
                 break;
         }
     }
@@ -110,12 +124,12 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     @Override
     public RotatablePosition getFirstSpawnPosition(int seed) {
+        noiseGenerator.SetSeed(seed);
         return new RotatablePosition(new Position(0, getHeightAt(seed, 0, 0) + 1, 0), new Rotation(0, 0));
     }
 
     private int getHeightAt(int seed, int blockX, int blockZ) {
-        noiseGenerator.SetSeed(seed);
-        return (int) Math.pow(((noiseGenerator.GetNoise(blockX, blockZ) + 1.0) / 2.0) * 128.0, 1.0) + 16;
+        return (int) Math.pow(((noiseGenerator.GetNoise(blockX, blockZ) + 1.0) / 2.0) * amplitude, power) + lowestY;
     }
 
     @Override
