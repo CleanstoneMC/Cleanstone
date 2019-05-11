@@ -36,8 +36,6 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     private Block STONE;
     private Block BEDROCK;
     private NoiseGenerator noiseGenerator;
-    private double amplitude, power;
-    private int lowestY;
 
     public MountainWorldGenerator(
             VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
@@ -49,14 +47,21 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
 
         noiseGenerator = new NoiseGenerator();
         noiseGenerator.SetNoiseType(NoiseGenerator.NoiseType.SimplexFractal);
+        noiseGenerator.SetFractalType(NoiseGenerator.FractalType.CUSTOM);
 
-        setGenerationParameter(FREQUENCY, 0.0125F);
-        setGenerationParameter(FRACTAL_OCTAVES, 3);
-        setGenerationParameter(FRACTAL_GAIN, 0.35F);
-        setGenerationParameter(FRACTAL_LACUNARITY, 3.5F);
-        setGenerationParameter(AMPLITUDE, 128.0);
-        setGenerationParameter(LOWEST_Y, 16);
-        setGenerationParameter(POWER, 1.0);
+        setGenerationParameter(FREQUENCY, 0.01F);
+        setGenerationParameter(FRACTAL_OCTAVES, 4);
+        setFractalGenerationParameter(FractalWorldGenerationParameter.AMPLITUDE, 1, 0.75F);
+        setFractalGenerationParameter(FractalWorldGenerationParameter.FREQUENCY, 1, 0.3F);
+        setFractalGenerationParameter(FractalWorldGenerationParameter.AMPLITUDE, 2, 0.25F);
+        setFractalGenerationParameter(FractalWorldGenerationParameter.FREQUENCY, 2, 1F);
+        setFractalGenerationParameter(FractalWorldGenerationParameter.AMPLITUDE, 3, 0.1F);
+        setFractalGenerationParameter(FractalWorldGenerationParameter.FREQUENCY, 3, 2F);
+        setFractalGenerationParameter(FractalWorldGenerationParameter.AMPLITUDE, 4, 0.1F);
+        setFractalGenerationParameter(FractalWorldGenerationParameter.FREQUENCY, 4, 4F);
+        setGenerationParameter(AMPLITUDE, 128F);
+        setGenerationParameter(HEIGHT, 25);
+        setGenerationParameter(POWER, 1F);
 
         GRASS_BLOCK = ImmutableBlock.of(VanillaBlockType.GRASS_BLOCK);
         DIRT = ImmutableBlock.of(VanillaBlockType.DIRT);
@@ -68,7 +73,6 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     @Override
     public void setGenerationParameter(WorldGenerationParameter parameter, double value) {
         super.setGenerationParameter(parameter, value);
-
         switch (parameter) {
             case FREQUENCY:
                 noiseGenerator.SetFrequency((float) value);
@@ -76,21 +80,21 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
             case FRACTAL_OCTAVES:
                 noiseGenerator.SetFractalOctaves((int) value);
                 break;
-            case FRACTAL_GAIN:
-                noiseGenerator.SetFractalGain((float) value);
-                break;
-            case FRACTAL_LACUNARITY:
-                noiseGenerator.SetFractalLacunarity((float) value);
-                break;
+        }
+    }
+
+    @Override
+    public void setFractalGenerationParameter(FractalWorldGenerationParameter parameter, int octave,
+                                              double value) {
+        super.setFractalGenerationParameter(parameter, octave, value);
+        switch (parameter) {
             case AMPLITUDE:
-                this.amplitude = value;
+                noiseGenerator.SetCustomFractalAmplitude(octave, (float) value);
                 break;
-            case LOWEST_Y:
-                this.lowestY = (int) value;
+            case FREQUENCY:
+                noiseGenerator.SetCustomFractalFrequency(octave, (float) value);
                 break;
-            case POWER:
-                this.power = (int) value;
-                break;
+
         }
     }
 
@@ -129,7 +133,13 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     }
 
     private int getHeightAt(int seed, int blockX, int blockZ) {
-        return (int) Math.pow(((noiseGenerator.GetNoise(blockX, blockZ) + 1.0) / 2.0) * amplitude, power) + lowestY;
+        double amplitude = getGenerationParameter(AMPLITUDE);
+        double power = getGenerationParameter(POWER);
+        int lowestY = (int) getGenerationParameter(HEIGHT);
+        int height = (int) Math.pow(
+                ((noiseGenerator.GetNoise(blockX, blockZ) + 1.0) / 2.0) * amplitude,
+                power) + lowestY;
+        return Math.max(0, Math.min(255, height));
     }
 
     @Override

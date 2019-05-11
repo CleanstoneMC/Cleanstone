@@ -1,11 +1,8 @@
 package rocks.cleanstone.game.world.generation;
 
-public enum WorldGenerationParameter {
-    FREQUENCY,
-    FRACTAL_OCTAVES,
+public enum FractalWorldGenerationParameter {
     AMPLITUDE,
-    HEIGHT,
-    POWER;
+    FREQUENCY;
 
     @Override
     public String toString() {

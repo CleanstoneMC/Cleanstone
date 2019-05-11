@@ -1,17 +1,19 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.game.world.SimpleWorldManager;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
+import rocks.cleanstone.game.world.generation.FractalWorldGenerationParameter;
 import rocks.cleanstone.game.world.generation.WorldGenerationParameter;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.PlayerManager;
-
-import java.util.List;
 
 @Component
 public class WorldCommand extends SimpleCommand {
@@ -87,6 +89,7 @@ public class WorldCommand extends SimpleCommand {
 
             addSubCommand(new ListWorldGenerationParamsCommand());
             addSubCommand(new SetWorldGenerationParamCommand());
+            addSubCommand(new SetFractalWorldGenerationParamCommand());
         }
 
 
@@ -105,6 +108,12 @@ public class WorldCommand extends SimpleCommand {
                                 String.format("    %s: %s", key, value)
                         );
                     });
+                    wg.getFractalGenerationParameters().cellSet().forEach((cell) -> {
+                        commandMessage.getCommandSender().sendRawMessage(
+                                String.format("    %s-%s %s", cell.getRowKey(),
+                                        cell.getColumnKey(), cell.getValue())
+                        );
+                    });
                 });
             }
         }
@@ -113,7 +122,6 @@ public class WorldCommand extends SimpleCommand {
 
             SetWorldGenerationParamCommand() {
                 super("set", WorldGenerationParameter.class, Double.class);
-
             }
 
             @Override
@@ -122,6 +130,23 @@ public class WorldCommand extends SimpleCommand {
                 double value = commandMessage.requireParameter(Double.class);
 
                 worldGenerators.forEach(wg -> wg.setGenerationParameter(parameter, value));
+            }
+        }
+
+        class SetFractalWorldGenerationParamCommand extends SimpleCommand {
+
+            SetFractalWorldGenerationParamCommand() {
+                super("setfractal", FractalWorldGenerationParameter.class, Integer.class, Double.class);
+            }
+
+            @Override
+            public void execute(CommandMessage commandMessage) {
+                FractalWorldGenerationParameter parameter = commandMessage
+                        .requireParameter(FractalWorldGenerationParameter.class);
+                int octave = commandMessage.requireParameter(Integer.class);
+                double value = commandMessage.requireParameter(Double.class);
+
+                worldGenerators.forEach(wg -> wg.setFractalGenerationParameter(parameter, octave, value));
             }
         }
     }

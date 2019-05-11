@@ -1,10 +1,12 @@
 package rocks.cleanstone.game.world.generation;
 
+import com.google.common.collect.Table;
+
+import java.util.Map;
+
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
-
-import java.util.Map;
 
 public interface WorldGenerator {
 
@@ -16,7 +18,13 @@ public interface WorldGenerator {
 
     double getGenerationParameter(WorldGenerationParameter parameter);
 
+    void setFractalGenerationParameter(FractalWorldGenerationParameter parameter, int octave, double value);
+
+    double getFractalGenerationParameter(FractalWorldGenerationParameter parameter, int octave);
+
     Map<WorldGenerationParameter, Double> getGenerationParameters();
+
+    Table<FractalWorldGenerationParameter, Integer, Double> getFractalGenerationParameters();
 
     String getName();
 }

@@ -136,6 +136,7 @@ public class NoiseGenerator {
     private final static float G4 = (float) ((5.0 - 2.23606797) / 20.0);
     private final static float CUBIC_3D_BOUNDING = 1 / (float) (1.5 * 1.5 * 1.5);
     private final static float CUBIC_2D_BOUNDING = 1 / (float) (1.5 * 1.5);
+    private final static int MAX_OCTAVES = 100;
     private int m_seed = 1337;
     private float m_frequency = (float) 0.01;
     private Interp m_interp = Interp.Quintic;
@@ -149,6 +150,10 @@ public class NoiseGenerator {
     private CellularReturnType m_cellularReturnType = CellularReturnType.CellValue;
     private NoiseGenerator m_cellularNoiseLookup = null;
     private float m_gradientPerturbAmp = (float) (1.0 / 0.45);
+
+    // Cleanstone
+    private float[] custom_frequency = new float[MAX_OCTAVES];
+    private float[] custom_amplitude = new float[MAX_OCTAVES];
 
     public NoiseGenerator() {
         this(1337);
@@ -396,14 +401,35 @@ public class NoiseGenerator {
         m_gradientPerturbAmp = gradientPerturbAmp / (float) 0.45;
     }
 
+    // Cleanstone
+    public void SetCustomFractalFrequency(int octave, float frequency) {
+        if (octave <= MAX_OCTAVES) {
+            custom_frequency[octave - 1] = frequency;
+        }
+    }
+
+    public void SetCustomFractalAmplitude(int octave, float amplitude) {
+        if (octave <= MAX_OCTAVES) {
+            custom_amplitude[octave - 1] = amplitude;
+            CalculateFractalBounding();
+        }
+    }
+
     // White Noise
 
     private void CalculateFractalBounding() {
-        float amp = m_gain;
         float ampFractal = 1;
-        for (int i = 1; i < m_octaves; i++) {
-            ampFractal += amp;
-            amp *= m_gain;
+        if (m_fractalType != FractalType.CUSTOM) {
+            float amp = m_gain;
+            for (int i = 1; i < m_octaves; i++) {
+                ampFractal += amp;
+                amp *= m_gain;
+            }
+            // Cleanstone
+        } else {
+            for (int i = 0; i < m_octaves; i++) {
+                ampFractal += custom_amplitude[i];
+            }
         }
         m_fractalBounding = 1 / ampFractal;
     }
@@ -523,6 +549,8 @@ public class NoiseGenerator {
                         return SingleSimplexFractalBillow(x, y);
                     case RigidMulti:
                         return SingleSimplexFractalRigidMulti(x, y);
+                    case CUSTOM:
+                        return SingleSimplexFractalCustom(x, y);
                     default:
                         return 0;
                 }
@@ -1218,6 +1246,8 @@ public class NoiseGenerator {
                 return SingleSimplexFractalBillow(x, y);
             case RigidMulti:
                 return SingleSimplexFractalRigidMulti(x, y);
+            case CUSTOM:
+                return SingleSimplexFractalCustom(x, y);
             default:
                 return 0;
         }
@@ -1234,6 +1264,18 @@ public class NoiseGenerator {
 
             amp *= m_gain;
             sum += SingleSimplex(++seed, x, y) * amp;
+        }
+
+        return sum * m_fractalBounding;
+    }
+
+    // Cleanstone custom fractals
+    private float SingleSimplexFractalCustom(float x, float y) {
+        int seed = m_seed;
+        float sum = 0;
+        for (int i = 0; i < m_octaves; i++) {
+            float frequency = custom_frequency[i];
+            sum += SingleSimplex(seed++, x * frequency, y * frequency) * custom_amplitude[i];
         }
 
         return sum * m_fractalBounding;
@@ -2151,7 +2193,7 @@ public class NoiseGenerator {
 
     public enum Interp {Linear, Hermite, Quintic}
 
-    public enum FractalType {FBM, Billow, RigidMulti}
+    public enum FractalType {FBM, Billow, RigidMulti, CUSTOM}
 
     public enum CellularDistanceFunction {Euclidean, Manhattan, Natural}
 
