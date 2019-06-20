@@ -1,8 +1,8 @@
 package rocks.cleanstone.game.world.chunk;
 
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
+import rocks.cleanstone.storage.world.WorldDataSource;
 
 public interface ChunkProvider {
 

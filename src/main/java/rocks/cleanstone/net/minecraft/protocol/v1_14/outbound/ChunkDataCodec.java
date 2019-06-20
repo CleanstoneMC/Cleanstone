@@ -1,14 +1,10 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_14.outbound;
 
+import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataCodecFactory;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
+import rocks.cleanstone.net.minecraft.chunk.ChunkDataEncoder;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
@@ -17,14 +13,12 @@ import rocks.cleanstone.net.utils.ByteBufUtils;
 public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
 
     private final BlockStateMapping<Integer> blockStateMapping;
-    private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
-    private final VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory;
+    private final ChunkDataEncoder chunkDataEncoder;
 
-    public ChunkDataCodec(@Qualifier("protocolBlockStateMapping_v1_14") BlockStateMapping<Integer> blockStateMapping, VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
-                          VanillaBlockDataCodecFactory vanillaBlockDataCodecFactory) {
+    public ChunkDataCodec(@Qualifier("protocolBlockStateMapping_v1_14") BlockStateMapping<Integer> blockStateMapping,
+                          @Qualifier("chunkDataEncoder_v1_14") ChunkDataEncoder chunkDataEncoder) {
         this.blockStateMapping = blockStateMapping;
-        this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
-        this.vanillaBlockDataCodecFactory = vanillaBlockDataCodecFactory;
+        this.chunkDataEncoder = chunkDataEncoder;
     }
 
     @Override
@@ -33,12 +27,8 @@ public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
         byteBuf.writeInt(packet.getChunkZ());
         byteBuf.writeBoolean(packet.isGroundUpContinuous());
 
-        DirectPalette directPalette = new DirectPalette(blockStateMapping, 14);
-        VanillaBlockDataStorage storage = vanillaBlockDataStorageFactory.get(packet.getBlockDataTable(),
-                directPalette, true, true, true);
+        ByteBuf blockData = chunkDataEncoder.encodeChunk(packet.getBlockDataStorage(), blockStateMapping, 14);
 
-        ByteBuf blockData = vanillaBlockDataCodecFactory.get(directPalette, true, true, true, true,
-                packet.getBlockDataTable()).encode(storage);
         byteBuf.writeBytes(blockData);
         blockData.release();
 
