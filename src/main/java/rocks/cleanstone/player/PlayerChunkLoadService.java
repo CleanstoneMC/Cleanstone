@@ -61,7 +61,7 @@ public class PlayerChunkLoadService {
             }
 
             ChunkDataPacket chunkDataPacket = new ChunkDataPacket(coords.getX(), coords.getZ(), true,
-                    chunk.getBlockDataTable(), new NamedBinaryTag[]{});
+                    chunk.getBlockDataStorage(), new NamedBinaryTag[]{});
             player.sendPacket(chunkDataPacket);
         }, throwable -> log.error("Error getting Chunk " + coords, throwable));
     }

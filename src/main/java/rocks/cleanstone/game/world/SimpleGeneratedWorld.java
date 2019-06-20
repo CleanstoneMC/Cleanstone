@@ -1,18 +1,12 @@
 package rocks.cleanstone.game.world;
 
 import com.google.common.base.Preconditions;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.concurrent.ExecutionException;
-
-import javax.annotation.Nullable;
-
-import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
@@ -20,13 +14,16 @@ import rocks.cleanstone.game.entity.EntityRegistry;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
-import rocks.cleanstone.game.world.data.WorldDataSource;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.Region;
 import rocks.cleanstone.game.world.region.RegionManager;
 import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
+import rocks.cleanstone.storage.world.WorldDataSource;
+
+import javax.annotation.Nullable;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @Scope("prototype")

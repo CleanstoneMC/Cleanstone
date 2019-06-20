@@ -2,8 +2,8 @@ package rocks.cleanstone.game.world.chunk;
 
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
-import rocks.cleanstone.game.world.chunk.data.block.BlockDataStorage;
-import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
+import rocks.cleanstone.storage.chunk.BlockDataStorage;
+import rocks.cleanstone.storage.engine.leveldb.entity.EntityData;
 
 import java.util.Collection;
 
@@ -37,8 +37,6 @@ public interface Chunk {
     void setHasUnsavedChanges(boolean hasUnsavedChanges);
 
     boolean hasUnsavedChanges();
-
-    BlockDataTable getBlockDataTable();
 
     BlockDataStorage getBlockDataStorage();
 

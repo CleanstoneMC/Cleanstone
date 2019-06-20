@@ -8,7 +8,7 @@ import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.inventory.item.SimpleItemStack;
 import rocks.cleanstone.game.material.item.ItemType;
 import rocks.cleanstone.net.minecraft.packet.inbound.CreativeInventoryActionPacket;
-import rocks.cleanstone.net.minecraft.protocol.v1_12_2.ProtocolItemTypeMapping;
+import rocks.cleanstone.net.minecraft.protocol.v1_12_2.ProtocolItemTypeMapping_v1_12_2;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
 
 import javax.annotation.Nullable;
@@ -18,7 +18,7 @@ public class CreativeInventoryActionCodec implements InboundPacketCodec<Creative
 
     private final LegacyMaterialMapping itemTypeMapping;
 
-    public CreativeInventoryActionCodec(ProtocolItemTypeMapping itemTypeMapping) {
+    public CreativeInventoryActionCodec(ProtocolItemTypeMapping_v1_12_2 itemTypeMapping) {
         this.itemTypeMapping = itemTypeMapping;
     }
 

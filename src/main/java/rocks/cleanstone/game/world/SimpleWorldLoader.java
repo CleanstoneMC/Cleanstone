@@ -10,11 +10,11 @@ import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.config.WorldConfig;
 import rocks.cleanstone.game.entity.EntityRegistry;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
-import rocks.cleanstone.game.world.data.WorldDataSource;
-import rocks.cleanstone.game.world.data.WorldDataSourceCreationException;
-import rocks.cleanstone.game.world.data.WorldDataSourceFactory;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.RegionManager;
+import rocks.cleanstone.storage.world.WorldDataSource;
+import rocks.cleanstone.storage.world.WorldDataSourceCreationException;
+import rocks.cleanstone.storage.world.WorldDataSourceFactory;
 
 import java.io.IOException;
 

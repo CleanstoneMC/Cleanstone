@@ -1,49 +1,39 @@
 package rocks.cleanstone.game.world.generation;
 
 import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
-
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
-import rocks.cleanstone.game.world.chunk.ArrayBlockDataTable;
-import rocks.cleanstone.game.world.chunk.BlockDataTable;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.DirectPalette;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorage;
-import rocks.cleanstone.game.world.chunk.data.block.vanilla.VanillaBlockDataStorageFactory;
-import rocks.cleanstone.game.world.chunk.data.entity.EntityData;
 import rocks.cleanstone.game.world.generation.utils.NoiseGenerator;
 import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
 import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
-import rocks.cleanstone.net.minecraft.protocol.v1_14.ProtocolBlockStateMapping_v1_14;
+import rocks.cleanstone.storage.chunk.BlockDataStorage;
+import rocks.cleanstone.storage.chunk.BlockDataStorageProvider;
+import rocks.cleanstone.storage.engine.leveldb.entity.EntityData;
+
+import java.util.HashSet;
 
 import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.*;
 
 @Component
 public class MountainWorldGenerator extends AbstractWorldGenerator {
 
-    private final VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory;
-    private final ProtocolBlockStateMapping_v1_14 blockStateMapping;
+    private final BlockDataStorageProvider blockDataStorageProvider;
     private Block GRASS_BLOCK;
     private Block DIRT;
     private Block STONE;
     private Block BEDROCK;
     private NoiseGenerator noiseGenerator;
 
-    public MountainWorldGenerator(
-            VanillaBlockDataStorageFactory vanillaBlockDataStorageFactory,
-            ProtocolBlockStateMapping_v1_14 blockStateMapping
-    ) {
+    public MountainWorldGenerator(BlockDataStorageProvider blockDataStorageProvider) {
         super(Dimension.OVERWORLD, LevelType.DEFAULT);
-        this.vanillaBlockDataStorageFactory = vanillaBlockDataStorageFactory;
-        this.blockStateMapping = blockStateMapping;
+        this.blockDataStorageProvider = blockDataStorageProvider;
 
         noiseGenerator = new NoiseGenerator();
         noiseGenerator.SetNoiseType(NoiseGenerator.NoiseType.SimplexFractal);
@@ -101,29 +91,27 @@ public class MountainWorldGenerator extends AbstractWorldGenerator {
     @Override
     public Chunk generateChunk(int seed, ChunkCoords coords) {
         noiseGenerator.SetSeed(seed);
-        BlockDataTable blockDataTable = new ArrayBlockDataTable(true);
+        BlockDataStorage blockDataStorage = blockDataStorageProvider.getBlockDataStorage();
+
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int height = getHeightAt(seed, (coords.getX() << 4) + x, (coords.getZ() << 4) + z);
-                blockDataTable.setBlock(x, height, z, GRASS_BLOCK);
-                blockDataTable.setBlock(x, height - 1, z, DIRT);
-                blockDataTable.setBlock(x, height - 2, z, DIRT);
+                blockDataStorage.setBlock(x, height, z, GRASS_BLOCK);
+                blockDataStorage.setBlock(x, height - 1, z, DIRT);
+                blockDataStorage.setBlock(x, height - 2, z, DIRT);
 
                 for (int y = 1; y < (height - 2); y++) {
-                    blockDataTable.setBlock(x, y, z, STONE);
+                    blockDataStorage.setBlock(x, y, z, STONE);
                 }
 
-                blockDataTable.setBlock(x, 0, z, BEDROCK);
+                blockDataStorage.setBlock(x, 0, z, BEDROCK);
                 for (int y = 0; y < Chunk.HEIGHT; y++) {
-                    blockDataTable.setSkyLight(x, y, z, (byte) 15);
+                    blockDataStorage.setSkyLight(x, y, z, (byte) 15);
                 }
             }
         }
-        DirectPalette directPalette = new DirectPalette(blockStateMapping, 14);
-        VanillaBlockDataStorage blockDataStorage = vanillaBlockDataStorageFactory.get(blockDataTable,
-                directPalette, true, false, false);
 
-        return new SimpleChunk(blockDataTable, blockDataStorage, new EntityData(new HashSet<>()), coords);
+        return new SimpleChunk(blockDataStorage, new EntityData(new HashSet<>()), coords);
     }
 
     @Override
