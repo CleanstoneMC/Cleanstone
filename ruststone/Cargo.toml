@@ -1,0 +1,14 @@
+[package]
+name = "ruststone"
+version = "0.1.0"
+authors = ["Fionera <fionera@fionera.de>"]
+edition = "2018"
+
+[dependencies]
+
+[workspace]
+members = []
+
+[[bin]]
+name = "ruststone"
+path = "src/main/rust/main.rs"
