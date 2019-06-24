@@ -24,6 +24,13 @@ public class UnsafeBlockDataStorage implements BlockDataStorage {
     }
 
     @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+
+        UNSAFE.freeMemory(position);
+    }
+
+    @Override
     public Block getBlock(int x, int y, int z) {
         long data = UNSAFE.getAddress(position + bitsPerBlock * getBlockAddress(x, y, z));
         int blockOffset = (int) (data >> 64 - bitsPerBlock);
