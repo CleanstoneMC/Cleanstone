@@ -8,7 +8,7 @@ import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.minecraft.chunk.ChunkDataEncoder;
 import rocks.cleanstone.net.minecraft.chunk.DirectPalette;
-import rocks.cleanstone.net.minecraft.chunk.EntrySizeBasedStorage;
+import rocks.cleanstone.net.minecraft.chunk.PaletteBlockStateStorage;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
 
@@ -21,64 +21,50 @@ import java.io.IOException;
 @Component("chunkDataEncoder_v1_12_2")
 public class ChunkDataEncoder_v1_12_2 implements ChunkDataEncoder {
 
-    public static final int HEIGHT = Chunk.HEIGHT / 16, WIDTH = Chunk.WIDTH;
-    private static final int MINIMUM_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 4,
-            MAX_BITS_PER_ENTRY_FOR_INDIRECT_PALETTE = 8;
+
 
     @Override
-    public ByteBuf encodeChunk(BlockDataStorage blockDataStorage, BlockStateMapping<Integer> blockStateMapping, int bitsPerEntry) {
-        DirectPalette directPalette = new DirectPalette(blockStateMapping, bitsPerEntry);
-        final EntrySizeBasedStorage entrySizeBasedStorage = new EntrySizeBasedStorage(bitsPerEntry, 4096);
-
+    public ByteBuf encodeChunk(BlockDataStorage blockDataStorage, BlockStateMapping<Integer> blockStateMapping, int bitsPerEntry, boolean isFullChunk) {
         ByteBuf buffer = Unpooled.buffer();
         int primaryBitMask = 0;
 
         ByteBuf sectionBuffer = Unpooled.buffer();
-        for (int sectionY = 0; sectionY < Chunk.HEIGHT / HEIGHT; sectionY++) {
-            writeChunkSection(sectionBuffer, bitsPerEntry, entrySizeBasedStorage, blockDataStorage);
+        for (int sectionY = 0; sectionY < PaletteBlockStateStorage.SECTION_HEIGHT; sectionY++) {
+            DirectPalette directPalette = new DirectPalette(blockStateMapping, bitsPerEntry);
+
+            PaletteBlockStateStorage paletteBlockStateStorage = new PaletteBlockStateStorage(blockDataStorage, sectionY, directPalette, false);
+
+            paletteBlockStateStorage.write(buffer);
+
+            writeLights(buffer, blockDataStorage, true); // Write Block Light
+            if (blockDataStorage.hasSkylight()) {
+                writeLights(buffer, blockDataStorage, false); // Write Sky Light
+            }
+
             primaryBitMask |= (1 << sectionY);
         }
 
         ByteBufUtils.writeVarInt(buffer, primaryBitMask);
 
         ByteBufUtils.writeVarInt(buffer, sectionBuffer.readableBytes());
-
         buffer.writeBytes(sectionBuffer);
         ReferenceCountUtil.release(sectionBuffer);
 
-        for (int z = 0; z < Chunk.WIDTH; z++) {
-            for (int x = 0; x < Chunk.WIDTH; x++) {
-                buffer.writeByte(127);  // TODO write biome data
+        if (isFullChunk) {
+            for (int z = 0; z < Chunk.WIDTH; z++) {
+                for (int x = 0; x < Chunk.WIDTH; x++) {
+                    buffer.writeByte(127);  // TODO write biome data
+                }
             }
         }
 
         return buffer;
     }
 
-    private void writeChunkSection(ByteBuf buffer, int bitsPerEntry, EntrySizeBasedStorage entrySizeBasedStorage, BlockDataStorage blockDataStorage) {
-        buffer.writeByte(bitsPerEntry); //Write BitsPerEntry
-        ByteBufUtils.writeVarInt(buffer, 0); // Write indirectPalette Length
-
-//            for (BlockState state : indirectPalette) {
-//                ByteBufUtils.writeVarInt(out, directPalette.getIndex(state));
-//            }
-
-        long[] data = entrySizeBasedStorage.getData();
-        ByteBufUtils.writeVarInt(buffer, data.length);
-        for (long dataItem : data) {
-            buffer.writeLong(dataItem);
-        }
-
-        writeLights(buffer, blockDataStorage, true); // Write Block Light
-        if (blockDataStorage.hasSkylight()) {
-            writeLights(buffer, blockDataStorage, false); // Write Sky Light
-        }
-    }
-
     private void writeLights(ByteBuf buf, BlockDataStorage blockDataStorage, boolean isBlockLight) {
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int z = 0; z < WIDTH; z++) {
-                for (int x = 0; x < WIDTH; x += 2) {
+        for (int y = 0; y < PaletteBlockStateStorage.SECTION_HEIGHT; y++) {
+            for (int z = 0; z < Chunk.WIDTH; z++) {
+                for (int x = 0; x < Chunk.WIDTH; x += 2) {
                     byte light = isBlockLight ? blockDataStorage.getBlockLight(x, y, z) : blockDataStorage.getSkyLight(x, y, z);
                     byte upperLight = isBlockLight ? blockDataStorage.getBlockLight(x + 1, y, z) : blockDataStorage.getSkyLight(x + 1, y, z);
                     byte value = (byte) ((light & 0xff) | (upperLight << 4));

@@ -27,7 +27,7 @@ public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
         byteBuf.writeInt(packet.getChunkZ());
         byteBuf.writeBoolean(packet.isGroundUpContinuous());
 
-        ByteBuf blockData = chunkDataEncoder.encodeChunk(packet.getBlockDataStorage(), blockStateMapping, 14);
+        ByteBuf blockData = chunkDataEncoder.encodeChunk(packet.getBlockDataStorage(), blockStateMapping, 14, packet.isGroundUpContinuous());
 
         byteBuf.writeBytes(blockData);
         blockData.release();

@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ChunkDataEncoder_v1_14 implements ChunkDataEncoder {
 
     @Override
-    public ByteBuf encodeChunk(BlockDataStorage blockDataStorage, BlockStateMapping<Integer> blockStateMapping, int bitsPerEntry) {
+    public ByteBuf encodeChunk(BlockDataStorage blockDataStorage, BlockStateMapping<Integer> blockStateMapping, int bitsPerEntry, boolean isFullChunk) {
         DirectPalette directPalette = new DirectPalette(blockStateMapping, bitsPerEntry);
 
         return null;
