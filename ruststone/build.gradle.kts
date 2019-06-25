@@ -5,24 +5,15 @@ plugins {
 }
 
 rust {
-    executable(mapOf(Pair("version", "1.34.2")))
-    cargoToml("./Cargo.toml")
+    executable(mapOf("version" to "1.34.2"))
 }
-
-
 
 tasks {
-//    cargoManifest {
-//        manifest {
-//            packageInf {
-//                name("hello")
-//            }
-//        }
-//    }
+    cargoManifest {
+        manifest.packageInf {
+            name("ruststone")
+            version("0.1.0")
+            authors.add("Fionera")
+        }
+    }
 }
-
-
-//cargo {
-//  module = "./src"
-//  targets = ["x86"]
-//}
