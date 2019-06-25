@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public interface ChunkDataEncoder extends InOutCodec<BlockDataStorage, ByteBuf> {
 
-    ByteBuf encodeChunk(BlockDataStorage blockDataStorage, BlockStateMapping<Integer> blockStateMapping, int bitsPerEntry);
+    ByteBuf encodeChunk(BlockDataStorage blockDataStorage, BlockStateMapping<Integer> blockStateMapping, int bitsPerEntry, boolean isFullChunk);
 
     @Override
     BlockDataStorage decode(ByteBuf data) throws IOException;
