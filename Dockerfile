@@ -5,7 +5,7 @@ COPY . /build
 
 RUN cd /build && ./gradlew assemble && cp /build/build/libs/Cleanstone*.jar /Cleanstone.jar
 
-FROM openjdk:13-alpine
+FROM openjdk:13
 RUN mkdir /data
 WORKDIR /data
 
