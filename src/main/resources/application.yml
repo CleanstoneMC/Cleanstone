@@ -38,14 +38,16 @@ minecraft:
       generator: mountainWorldGenerator
       autoload: true
 
+
 spring:
   boot:
     admin:
       client:
-        url: http://localhost:8080
+        url: http://localhost:8181
         instance.name: "Cleanstone Main"
       ui:
         title: "Cleanstone Admin"
+        public-url: http://localhost:8181
   profiles:
     active: mainServer
   thymeleaf:
@@ -67,3 +69,5 @@ management:
     web:
       exposure:
         include: "*"
+server:
+  port: 8181

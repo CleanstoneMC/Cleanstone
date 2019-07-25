@@ -34,7 +34,7 @@ public class OutboundPacketHandler extends ChannelOutboundHandlerAdapter {
                     new OutboundPacketEvent<>(packet, connection, networking)).isCancelled()) {
                 return;
             }
-            log.trace("Sending " + packet.getType() + " packet to " + connection.getAddress().getHostAddress());
+            log.trace("Sending " + packet.getType() + " (" + networking.getProtocol().translateOutboundPacketID(packet.getType(), connection) + ") packet to " + connection.getAddress().getHostAddress());
             ctx.write(packet, promise);
         } catch (Exception e) {
             log.error("Error occurred while handling outbound packet", e);

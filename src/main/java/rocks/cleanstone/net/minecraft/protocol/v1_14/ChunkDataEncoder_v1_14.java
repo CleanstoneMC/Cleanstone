@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.net.minecraft.chunk.ChunkDataEncoder;
 import rocks.cleanstone.net.minecraft.chunk.DirectPalette;
+import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
 
 import java.io.IOException;
@@ -13,10 +14,8 @@ import java.io.IOException;
 public class ChunkDataEncoder_v1_14 implements ChunkDataEncoder {
 
     @Override
-    public ByteBuf encodeChunk(BlockDataStorage blockDataStorage, BlockStateMapping<Integer> blockStateMapping, int bitsPerEntry, boolean isFullChunk) {
+    public void encodeChunk(ByteBuf byteBuf, ChunkDataPacket blockDataStorage, BlockStateMapping<Integer> blockStateMapping, int bitsPerEntry) {
         DirectPalette directPalette = new DirectPalette(blockStateMapping, bitsPerEntry);
-
-        return null;
     }
 
     @Override
