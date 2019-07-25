@@ -9,6 +9,7 @@ import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.minecraft.chunk.ChunkDataEncoder;
 import rocks.cleanstone.net.minecraft.chunk.DirectPalette;
 import rocks.cleanstone.net.minecraft.chunk.PaletteBlockStateStorage;
+import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
 
@@ -21,11 +22,10 @@ import java.io.IOException;
 @Component("chunkDataEncoder_v1_12_2")
 public class ChunkDataEncoder_v1_12_2 implements ChunkDataEncoder {
 
-
-
     @Override
-    public ByteBuf encodeChunk(BlockDataStorage blockDataStorage, BlockStateMapping<Integer> blockStateMapping, int bitsPerEntry, boolean isFullChunk) {
-        ByteBuf buffer = Unpooled.buffer();
+    public void encodeChunk(ByteBuf buffer, ChunkDataPacket chunkDataPacket, BlockStateMapping<Integer> blockStateMapping, int bitsPerEntry) {
+        BlockDataStorage blockDataStorage = chunkDataPacket.getBlockDataStorage();
+
         int primaryBitMask = 0;
 
         ByteBuf sectionBuffer = Unpooled.buffer();
@@ -34,15 +34,19 @@ public class ChunkDataEncoder_v1_12_2 implements ChunkDataEncoder {
 
             PaletteBlockStateStorage paletteBlockStateStorage = new PaletteBlockStateStorage(blockDataStorage, sectionY, directPalette, false);
 
-            paletteBlockStateStorage.write(buffer);
+            paletteBlockStateStorage.write(sectionBuffer);
 
-            writeLights(buffer, blockDataStorage, true); // Write Block Light
+            writeLights(sectionBuffer, blockDataStorage, true); // Write Block Light
             if (blockDataStorage.hasSkylight()) {
-                writeLights(buffer, blockDataStorage, false); // Write Sky Light
+                writeLights(sectionBuffer, blockDataStorage, false); // Write Sky Light
             }
 
             primaryBitMask |= (1 << sectionY);
         }
+
+        buffer.writeInt(chunkDataPacket.getChunkX());
+        buffer.writeInt(chunkDataPacket.getChunkZ());
+        buffer.writeBoolean(chunkDataPacket.isGroundUpContinuous());
 
         ByteBufUtils.writeVarInt(buffer, primaryBitMask);
 
@@ -50,7 +54,7 @@ public class ChunkDataEncoder_v1_12_2 implements ChunkDataEncoder {
         buffer.writeBytes(sectionBuffer);
         ReferenceCountUtil.release(sectionBuffer);
 
-        if (isFullChunk) {
+        if (chunkDataPacket.isGroundUpContinuous()) {
             for (int z = 0; z < Chunk.WIDTH; z++) {
                 for (int x = 0; x < Chunk.WIDTH; x++) {
                     buffer.writeByte(127);  // TODO write biome data
@@ -58,7 +62,10 @@ public class ChunkDataEncoder_v1_12_2 implements ChunkDataEncoder {
             }
         }
 
-        return buffer;
+        ByteBufUtils.writeVarInt(buffer, 0);
+        //TODO encode NBT Tag array of block entities
+        //ByteBufUtils.writeVarInt(byteBuf,chunkDataPacket.getBlockEntities().length);
+        //byteBuf.writeBytes(chunkDataPacket.getBlockEntities())
     }
 
     private void writeLights(ByteBuf buf, BlockDataStorage blockDataStorage, boolean isBlockLight) {
