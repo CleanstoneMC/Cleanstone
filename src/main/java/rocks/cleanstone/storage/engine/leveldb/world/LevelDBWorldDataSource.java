@@ -48,7 +48,8 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         hasSkyLight = true;
 
         entityDataCodec = VersionedCodec.withMainCodec(0, new EntityDataCodec(entitySerialization));
-        blockDataCodec = VersionedCodec.withMainCodec(0, chunkDataEncoder);
+//        blockDataCodec = VersionedCodec.withMainCodec(0, chunkDataEncoder); //TODO: Use own codec
+        blockDataCodec = null;
     }
 
     @Nullable

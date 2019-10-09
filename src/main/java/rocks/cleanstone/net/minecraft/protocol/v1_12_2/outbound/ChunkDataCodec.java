@@ -8,21 +8,24 @@ import rocks.cleanstone.net.minecraft.chunk.ChunkDataEncoder;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 
+import java.io.IOException;
+
 @Component
 public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
 
-    private final BlockStateMapping<Integer> blockStateMapping;
     private final ChunkDataEncoder chunkDataEncoder;
+    private BlockStateMapping<Integer> blockStateMapping;
 
-    public ChunkDataCodec(@Qualifier("protocolBlockStateMapping_v1_12_2") BlockStateMapping<Integer> blockStateMapping,
-                          @Qualifier("chunkDataEncoder_v1_12_2") ChunkDataEncoder chunkDataEncoder) {
-        this.blockStateMapping = blockStateMapping;
+    public ChunkDataCodec(@Qualifier("chunkDataEncoder_v1_12_2") ChunkDataEncoder chunkDataEncoder,
+                          @Qualifier("protocolBlockStateMapping_v1_12_2") BlockStateMapping<Integer> blockStateMapping) {
         this.chunkDataEncoder = chunkDataEncoder;
+        this.blockStateMapping = blockStateMapping;
     }
 
     @Override
-    public ByteBuf encode(ByteBuf byteBuf, ChunkDataPacket packet) {
-        chunkDataEncoder.encodeChunk(byteBuf, packet, blockStateMapping, 13);
+    public ByteBuf encode(ByteBuf byteBuf, ChunkDataPacket packet) throws IOException {
+        ByteBuf encoded = chunkDataEncoder.encode(packet, blockStateMapping, 13);
+        byteBuf.writeBytes(encoded);
 
         return byteBuf;
     }

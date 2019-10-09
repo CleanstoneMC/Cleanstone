@@ -2,6 +2,8 @@ package rocks.cleanstone.net.minecraft.protocol;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.GenericTypeResolver;
+import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
+import rocks.cleanstone.net.minecraft.chunk.ChunkDataEncoder;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 import rocks.cleanstone.net.protocol.ProtocolState;
@@ -19,8 +21,8 @@ public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtoc
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Packet> void registerPacketCodec(Class<? extends PacketCodec<T>> codecClass, ProtocolState state,
-                                                       int protocolPacketID) {
+    protected <T extends Packet> void registerPacketCodec(Class<? extends PacketCodec<T>> codecClass, ProtocolState state,
+                                                          int protocolPacketID) {
 
         Optional<PacketCodec<T>> optionalCodec = getCodecInstance(codecClass);
 
