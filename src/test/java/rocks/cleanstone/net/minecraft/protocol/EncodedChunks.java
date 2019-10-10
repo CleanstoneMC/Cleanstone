@@ -9,11 +9,11 @@ import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.storage.chunk.BlockDataStorageProvider;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
 public enum EncodedChunks {
-    V1_12_2_WithoutLight("V1_12_2_WithoutLight.hex");
+    V1_12_2_WithoutLight("V1_12_2_WithoutLight.hex"),
+    V1_14_WithoutLight("V1_14_WithoutLight.hex");
 
     byte[] data;
 
