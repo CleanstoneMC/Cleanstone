@@ -16,8 +16,8 @@ public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
     private final BlockStateMapping<Integer> blockStateMapping;
     private final ChunkDataEncoder chunkDataEncoder;
 
-    public ChunkDataCodec(@Qualifier("protocolBlockStateMapping_v1_14") BlockStateMapping<Integer> blockStateMapping,
-                          @Qualifier("chunkDataEncoder_v1_14") ChunkDataEncoder chunkDataEncoder) {
+    public ChunkDataCodec(@Qualifier("chunkDataEncoder_v1_14") ChunkDataEncoder chunkDataEncoder,
+                          @Qualifier("protocolBlockStateMapping_v1_14") BlockStateMapping<Integer> blockStateMapping) {
         this.blockStateMapping = blockStateMapping;
         this.chunkDataEncoder = chunkDataEncoder;
     }
@@ -26,7 +26,6 @@ public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
     public ByteBuf encode(ByteBuf byteBuf, ChunkDataPacket packet) throws IOException {
         ByteBuf encoded = chunkDataEncoder.encode(packet, blockStateMapping, 14);
         byteBuf.writeBytes(encoded);
-
 
         return byteBuf;
     }
