@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.config.MinecraftConfig;
-import rocks.cleanstone.core.config.WorldConfig;
+import rocks.cleanstone.core.config.structs.MinecraftConfig;
+import rocks.cleanstone.core.config.structs.WorldConfig;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
 

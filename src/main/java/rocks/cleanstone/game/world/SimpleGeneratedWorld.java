@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.core.config.WorldConfig;
+import rocks.cleanstone.core.config.structs.WorldConfig;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.EntityRegistry;

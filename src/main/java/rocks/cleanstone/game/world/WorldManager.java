@@ -1,12 +1,10 @@
 package rocks.cleanstone.game.world;
 
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.util.Collection;
+import rocks.cleanstone.core.config.structs.WorldConfig;
 
 import javax.annotation.Nullable;
-
-import rocks.cleanstone.core.config.WorldConfig;
+import java.util.Collection;
 
 public interface WorldManager {
 

@@ -1,23 +1,23 @@
 package rocks.cleanstone.core;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-
-import java.util.Locale;
+import rocks.cleanstone.core.config.structs.CleanstoneConfig;
+import rocks.cleanstone.core.config.structs.MinecraftConfig;
+import rocks.cleanstone.core.event.CleanstoneEventPublisher;
+import rocks.cleanstone.core.event.EventExecutionException;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-
-import lombok.extern.slf4j.Slf4j;
-import rocks.cleanstone.core.config.CleanstoneConfig;
-import rocks.cleanstone.core.config.MinecraftConfig;
-import rocks.cleanstone.core.event.CleanstoneEventPublisher;
-import rocks.cleanstone.core.event.EventExecutionException;
+import java.util.Locale;
 
 /**
  * The central Cleanstone server instance which is initialized very early and destroyed very late. It provides
@@ -121,5 +121,11 @@ public abstract class CleanstoneServer {
     @EventListener
     public void onShutdown(ContextClosedEvent e) {
         log.info("Shutting down");
+    }
+
+    @Bean
+    @ConfigurationProperties("spring.boot.admin.client.instance.name")
+    public String instanceName() {
+        return "Cleanstone Mainserver";
     }
 }

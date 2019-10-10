@@ -36,6 +36,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-devtools")
     implementation("de.codecentric:spring-boot-admin-starter-client:2.1.0")
     implementation("de.codecentric:spring-boot-admin-starter-server:2.1.0")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     implementation("io.netty:netty-all:4.1.31.Final")
     implementation("com.whirvis:jraknet:2.9.8")

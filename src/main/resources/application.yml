@@ -1,53 +1,12 @@
-cleanstone:
-  mainServerAddress: 127.0.0.1
-  mainServerPort: 25564
-
-  requiredSubServers:
-   - 127.0.0.2
-
-  port: 25564
-  address: 0.0.0.0
-
-world.datasource: leveldb
-
-minecraft:
-  port: 25565
-  address: 0.0.0.0
-  mcpePort: 19132
-  mcpeAddress: 0.0.0.0
-  onlineMode: true
-  motd: Cleanstone Advanced Minecraft Server
-  maxPlayers: 10000
-  ops:
-  - fionera
-  - MyzelYam
-  - succcubbus
-  maxViewDistance: 32
-  worlds:
-    - name: world
-      generator: mountainWorldGenerator
-      autoload: true
-      firstSpawnWorld: true
-      seed: 123456789
-
-    - name: world_nether
-      generator: mountainWorldGenerator
-      autoload: true
-
-    - name: world_the_end
-      generator: mountainWorldGenerator
-      autoload: true
-
-
 spring:
   boot:
     admin:
-      client:
-        url: http://localhost:8181
-        instance.name: "Cleanstone Main"
       ui:
+        public-url: http://localhost:8085
         title: "Cleanstone Admin"
-        public-url: http://localhost:8181
+      client:
+        url: http://localhost:8085
+        enabled: true
   profiles:
     active: mainServer
   thymeleaf:
@@ -69,5 +28,3 @@ management:
     web:
       exposure:
         include: "*"
-server:
-  port: 8181
