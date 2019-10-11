@@ -1,9 +1,11 @@
 package rocks.cleanstone.web;
 
+import de.codecentric.boot.admin.server.config.AdminServerMarkerConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import rocks.cleanstone.core.config.structs.WebConfig;
 
@@ -15,6 +17,11 @@ public class SpringBootAdminServer implements WebServerFactoryCustomizer<Configu
 
     public SpringBootAdminServer(WebConfig webConfig) {
         this.webConfig = webConfig;
+    }
+
+    @Bean
+    public AdminServerMarkerConfiguration.Marker adminServerMarker() {
+        return new AdminServerMarkerConfiguration.Marker();
     }
 
     @Override
