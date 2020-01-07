@@ -16,7 +16,7 @@ public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
     private final BlockStateMapping<Integer> blockStateMapping;
     private final ChunkDataEncoder chunkDataEncoder;
 
-    public ChunkDataCodec(@Qualifier("chunkDataEncoder_v1_12_2") ChunkDataEncoder chunkDataEncoder,
+    public ChunkDataCodec(@Qualifier("chunkDataEncoder_v1_13") ChunkDataEncoder chunkDataEncoder,
                           @Qualifier("protocolBlockStateMapping_v1_13") BlockStateMapping<Integer> blockStateMapping) {
         this.blockStateMapping = blockStateMapping;
         this.chunkDataEncoder = chunkDataEncoder;
