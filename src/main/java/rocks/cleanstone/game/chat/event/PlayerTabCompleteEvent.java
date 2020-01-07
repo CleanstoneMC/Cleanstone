@@ -1,19 +1,18 @@
 package rocks.cleanstone.game.chat.event;
 
+import rocks.cleanstone.net.minecraft.packet.inbound.InTabCompletePacket;
 import rocks.cleanstone.player.Player;
-import rocks.cleanstone.utils.Vector;
-
-import javax.annotation.Nullable;
 
 public class PlayerTabCompleteEvent {
     private final Player player;
     private final String text;
-    private final Vector lookedAtBlock;
 
-    public PlayerTabCompleteEvent(Player player, String text, @Nullable Vector lookedAtBlock) {
+    private final InTabCompletePacket inTabCompletePacket;
+
+    public PlayerTabCompleteEvent(InTabCompletePacket inTabCompletePacket, Player player, String text) {
+        this.inTabCompletePacket = inTabCompletePacket;
         this.player = player;
         this.text = text;
-        this.lookedAtBlock = lookedAtBlock;
     }
 
     public Player getPlayer() {
@@ -24,8 +23,7 @@ public class PlayerTabCompleteEvent {
         return text;
     }
 
-    @Nullable
-    public Vector getLookedAtBlock() {
-        return lookedAtBlock;
+    public InTabCompletePacket getInTabCompletePacket() {
+        return inTabCompletePacket;
     }
 }

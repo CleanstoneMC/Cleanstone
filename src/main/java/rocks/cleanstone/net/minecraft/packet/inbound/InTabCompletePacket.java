@@ -8,9 +8,14 @@ import rocks.cleanstone.utils.Vector;
 public class InTabCompletePacket implements Packet {
 
     private final String text;
-    private final boolean assumeCommand;
-    private final boolean hasPosition;
-    private final Vector lookedAtBlock;
+
+    // v1.13+
+    private int transactionId;
+
+    // v1.12-
+    private boolean assumeCommand;
+    private boolean hasPosition;
+    private Vector lookedAtBlock;
 
 
     public InTabCompletePacket(String text, boolean assumeCommand, boolean hasPosition, Vector lookedAtBlock) {
@@ -20,8 +25,17 @@ public class InTabCompletePacket implements Packet {
         this.lookedAtBlock = lookedAtBlock;
     }
 
+    public InTabCompletePacket(String text, int transactionId) {
+        this.text = text;
+        this.transactionId = transactionId;
+    }
+
     public String getText() {
         return text;
+    }
+
+    public int getTransactionId() {
+        return transactionId;
     }
 
     public boolean isAssumeCommand() {

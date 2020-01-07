@@ -1,8 +1,10 @@
 package rocks.cleanstone.game.command.completion;
 
 import rocks.cleanstone.player.Player;
-import rocks.cleanstone.utils.Vector;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface CommandCompletion {
-    void completeCommandLine(String commandLine, Player sender, Vector lookedAtBlock);
+    CompletableFuture<List<String>> completeCommandLine(String commandLine, Player sender);
 }

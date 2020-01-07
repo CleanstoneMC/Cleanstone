@@ -9,6 +9,7 @@ import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.minecraft.login.event.AsyncLoginSuccessEvent;
+import rocks.cleanstone.net.minecraft.packet.outbound.DeclareCommandsPacket;
 import rocks.cleanstone.net.minecraft.packet.outbound.DisconnectPacket;
 import rocks.cleanstone.player.OnlinePlayer;
 import rocks.cleanstone.player.Player;
@@ -51,5 +52,7 @@ public class PlayerInitializationCauseListener {
         }
 
         playerManager.initializePlayer(player);
+
+        player.sendPacket(new DeclareCommandsPacket(null));
     }
 }

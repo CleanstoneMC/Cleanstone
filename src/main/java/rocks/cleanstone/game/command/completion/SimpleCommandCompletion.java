@@ -9,12 +9,11 @@ import rocks.cleanstone.game.command.Command;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.CommandMessageFactory;
 import rocks.cleanstone.game.command.CommandRegistry;
-import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.player.Player;
-import rocks.cleanstone.utils.Vector;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static java.util.stream.Collectors.toList;
 
@@ -38,7 +37,7 @@ public class SimpleCommandCompletion implements CommandCompletion {
 
     @Async
     @Override
-    public void completeCommandLine(String commandLine, Player sender, Vector lookedAtBlock) {
+    public CompletableFuture<List<String>> completeCommandLine(String commandLine, Player sender) {
         Preconditions.checkNotNull(commandLine, "commandLine cannot be null");
         Preconditions.checkNotNull(sender, "sender cannot be null");
 
@@ -64,7 +63,7 @@ public class SimpleCommandCompletion implements CommandCompletion {
             matches = Collections.singletonList(matches.get(0) + " ");
         }
 
-        sender.sendPacket(new OutTabCompletePacket(matches));
+        return CompletableFuture.completedFuture(matches);
     }
 
     private Command resolveSubCommands(Command command, CommandMessage commandMessage) {

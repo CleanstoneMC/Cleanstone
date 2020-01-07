@@ -22,23 +22,17 @@ public class IncomingTabCompleteListener {
 
     @Async("chatExec")
     @EventListener
-    public void onChatMessage(InboundPacketEvent inboundPacketEvent) {
-        if (!(inboundPacketEvent.getPacket() instanceof InTabCompletePacket)) {
-            return;
-        }
-
+    public void onChatMessage(InboundPacketEvent<InTabCompletePacket> inboundPacketEvent) {
         Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
         if (player == null) return;
 
-        InTabCompletePacket tabCompletePacket = (InTabCompletePacket) inboundPacketEvent.getPacket();
+        InTabCompletePacket tabCompletePacket = inboundPacketEvent.getPacket();
 
         String text = tabCompletePacket.getText();
-        if (text.charAt(0) != '/' && !tabCompletePacket.isAssumeCommand()) return;
+        if (text.length() == 0 || (text.charAt(0) != '/' && !tabCompletePacket.isAssumeCommand())) {
+            return;
+        }
 
-        CleanstoneServer.publishEvent(new PlayerTabCompleteEvent(
-                player,
-                tabCompletePacket.getText(),
-                tabCompletePacket.getLookedAtBlock()
-        ));
+        CleanstoneServer.publishEvent(new PlayerTabCompleteEvent(tabCompletePacket, player, tabCompletePacket.getText()));
     }
 }

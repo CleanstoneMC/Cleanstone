@@ -5,6 +5,10 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.chat.event.PlayerTabCompleteEvent;
 import rocks.cleanstone.game.command.completion.CommandCompletion;
+import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 public class TabCompleteListener {
@@ -18,6 +22,10 @@ public class TabCompleteListener {
 
     @EventListener
     public void onCommand(PlayerTabCompleteEvent event) {
-        commandCompletion.completeCommandLine(event.getText(), event.getPlayer(), event.getLookedAtBlock());
+        CompletableFuture<List<String>> future = commandCompletion.completeCommandLine(event.getText(), event.getPlayer());
+
+        future.thenAccept((completions) -> {
+            event.getPlayer().sendPacket(new OutTabCompletePacket(event.getInTabCompletePacket(), completions));
+        });
     }
 }
