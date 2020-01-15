@@ -1,21 +1,19 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 import com.google.common.base.Preconditions;
-
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Face;
 import rocks.cleanstone.net.minecraft.packet.enums.DiggingStatus;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerDiggingPacket;
+import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.utils.Vector;
 
-@Component
+import java.io.IOException;
+
+@Codec
 public class PlayerDiggingCodec implements InboundPacketCodec<PlayerDiggingPacket> {
 
     @Override

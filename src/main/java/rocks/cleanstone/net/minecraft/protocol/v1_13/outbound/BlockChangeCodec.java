@@ -1,15 +1,14 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_13.outbound;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import io.netty.buffer.ByteBuf;
+import org.springframework.beans.factory.annotation.Qualifier;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.net.minecraft.packet.outbound.BlockChangePacket;
+import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
-@Component
+@Codec
 public class BlockChangeCodec implements OutboundPacketCodec<BlockChangePacket> {
 
     private final BlockStateMapping<Integer> blockStateMapping;

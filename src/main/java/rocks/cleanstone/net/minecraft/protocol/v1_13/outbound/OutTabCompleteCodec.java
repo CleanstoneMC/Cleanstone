@@ -2,8 +2,8 @@ package rocks.cleanstone.net.minecraft.protocol.v1_13.outbound;
 
 import io.netty.buffer.ByteBuf;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.OutTabCompletePacket;
+import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
@@ -12,7 +12,7 @@ import java.io.IOException;
 //TODO: This currently brings the client to disconnect with an error
 
 @Slf4j
-@Component
+@Codec
 public class OutTabCompleteCodec implements OutboundPacketCodec<OutTabCompletePacket> {
     @Override
     public ByteBuf encode(ByteBuf byteBuf, OutTabCompletePacket packet) throws IOException {

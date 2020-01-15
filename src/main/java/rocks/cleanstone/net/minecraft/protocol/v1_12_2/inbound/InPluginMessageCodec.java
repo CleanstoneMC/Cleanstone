@@ -2,14 +2,14 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
 
 import io.netty.buffer.ByteBuf;
-import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.inbound.InPluginMessagePacket;
+import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
 
-@Component
+@Codec
 public class InPluginMessageCodec implements InboundPacketCodec<InPluginMessagePacket> {
 
     @Override

@@ -1,8 +1,8 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
-import org.springframework.stereotype.Component;
 import rocks.cleanstone.net.minecraft.packet.outbound.PlayerListItemPacket;
+import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.player.UserProperty;
@@ -13,7 +13,7 @@ import java.util.Collection;
 import static rocks.cleanstone.net.utils.ByteBufUtils.writeUTF8;
 import static rocks.cleanstone.net.utils.ByteBufUtils.writeVarInt;
 
-@Component
+@Codec
 public class PlayerListItemCodec implements OutboundPacketCodec<PlayerListItemPacket> {
 
     @Override

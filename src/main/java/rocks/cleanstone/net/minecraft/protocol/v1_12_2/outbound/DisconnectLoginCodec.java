@@ -1,7 +1,7 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
-import org.springframework.stereotype.Component;
+import rocks.cleanstone.net.protocol.Codec;
 
-@Component
+@Codec
 public class DisconnectLoginCodec extends DisconnectCodec {
 }

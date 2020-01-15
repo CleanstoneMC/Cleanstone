@@ -3,11 +3,11 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
 import rocks.cleanstone.net.minecraft.packet.enums.DisplayedSkinPart;
 import rocks.cleanstone.net.minecraft.packet.inbound.ClientSettingsPacket;
+import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 @Slf4j
-@Component
+@Codec
 public class ClientSettingsCodec implements InboundPacketCodec<ClientSettingsPacket> {
     @Override
     public ClientSettingsPacket decode(ByteBuf byteBuf) throws IOException {

@@ -2,15 +2,15 @@ package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
 import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.net.minecraft.chunk.ChunkDataEncoder;
 import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
+import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 
 import java.io.IOException;
 
-@Component
+@Codec
 public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
 
     private final ChunkDataEncoder chunkDataEncoder;

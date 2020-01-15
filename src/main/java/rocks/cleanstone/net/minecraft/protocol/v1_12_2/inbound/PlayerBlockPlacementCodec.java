@@ -1,17 +1,16 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.inbound;
 
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.net.minecraft.packet.inbound.PlayerBlockPlacementPacket;
+import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.utils.Vector;
 
-@Component
+import java.io.IOException;
+
+@Codec
 public class PlayerBlockPlacementCodec implements InboundPacketCodec<PlayerBlockPlacementPacket> {
 
     @Override

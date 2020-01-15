@@ -1,21 +1,19 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_13_1.inbound;
 
 import com.google.common.base.Preconditions;
-
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Nullable;
-
 import io.netty.buffer.ByteBuf;
+import org.springframework.beans.factory.annotation.Qualifier;
 import rocks.cleanstone.game.inventory.item.ItemStack;
 import rocks.cleanstone.game.inventory.item.SimpleItemStack;
 import rocks.cleanstone.game.material.item.ItemType;
 import rocks.cleanstone.game.material.item.mapping.ItemTypeMapping;
 import rocks.cleanstone.net.minecraft.packet.inbound.CreativeInventoryActionPacket;
+import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.InboundPacketCodec;
 
-@Component
+import javax.annotation.Nullable;
+
+@Codec
 public class CreativeInventoryActionCodec implements InboundPacketCodec<CreativeInventoryActionPacket> {
 
 

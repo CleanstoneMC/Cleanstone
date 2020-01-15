@@ -1,12 +1,8 @@
 package rocks.cleanstone.net.minecraft.protocol.v1_12_2.outbound;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.net.minecraft.entity.VanillaEntity;
 import rocks.cleanstone.net.minecraft.entity.data.ProtocolEntityScheme;
@@ -15,11 +11,14 @@ import rocks.cleanstone.net.minecraft.entity.metadata.EntityConverterRegistry;
 import rocks.cleanstone.net.minecraft.entity.metadata.converter.EntityConverter;
 import rocks.cleanstone.net.minecraft.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.net.minecraft.protocol.MinecraftClientProtocolLayer;
+import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
+import java.io.IOException;
+
 @Slf4j
-@Component
+@Codec
 public class SpawnMobCodec implements OutboundPacketCodec<SpawnMobPacket> {
 
     private final ProtocolEntityScheme entityScheme;
