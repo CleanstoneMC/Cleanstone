@@ -1,11 +1,10 @@
-package rocks.cleanstone.storage.engine.simple;
+package rocks.cleanstone.storage.chunk;
 
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.Chunk;
-import rocks.cleanstone.storage.chunk.BlockDataStorage;
 import rocks.cleanstone.utils.NibbleArray;
 
 import java.util.Arrays;
