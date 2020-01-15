@@ -24,7 +24,7 @@ public class StopCommand extends SimpleCommand {
 
     @Autowired
     public StopCommand(PlayerManager playerManager, Executor commandExec) {
-        super("stop", String.class);
+        super("stop", List.of("quit", "exit"), String.class);
         this.playerManager = playerManager;
         this.executor = commandExec;
     }

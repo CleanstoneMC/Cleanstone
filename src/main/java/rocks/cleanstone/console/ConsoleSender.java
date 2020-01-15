@@ -1,30 +1,26 @@
-package rocks.cleanstone.game;
+package rocks.cleanstone.console;
 
 import com.google.common.base.Charsets;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.core.ConsoleInputEvent;
-import rocks.cleanstone.game.chat.ConsoleSender;
+import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.message.Text;
-import rocks.cleanstone.game.command.CommandRegistry;
+import rocks.cleanstone.game.command.CommandSender;
 
 import java.util.Locale;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-@Slf4j
-@Component("console")
-public class SimpleConsole implements ConsoleSender {
-    private CommandRegistry commandRegistry;
+public class ConsoleSender implements CommandSender {
 
-    public SimpleConsole(CommandRegistry commandRegistry) {
-        this.commandRegistry = commandRegistry;
+    private Consumer<String> messageFunction;
+
+    public ConsoleSender(Consumer<String> messageFunction) {
+        this.messageFunction = messageFunction;
     }
 
     @Override
     public void sendRawMessage(Text message) {
-        log.info(message.getPlainText());
+        messageFunction.accept(message.getPlainText());
     }
 
     @Override
@@ -50,15 +46,6 @@ public class SimpleConsole implements ConsoleSender {
     @Override
     public String getFormattedName() {
         return getID().getName();
-    }
-
-    @EventListener
-    public void onConsoleInput(ConsoleInputEvent inputEvent) {
-        if (commandRegistry != null) {
-            commandRegistry.executeCommand(inputEvent.getInput(), this);
-        } else {
-            sendRawMessage("No command registry available");
-        }
     }
 
     public static class ConsoleIdentity implements Identity {

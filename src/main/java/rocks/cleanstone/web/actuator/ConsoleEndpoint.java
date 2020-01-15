@@ -11,8 +11,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.core.ConsoleInputEvent;
+import rocks.cleanstone.console.ConsoleSender;
+import rocks.cleanstone.game.command.Command;
+import rocks.cleanstone.game.command.CommandMessage;
+import rocks.cleanstone.game.command.CommandMessageFactory;
+import rocks.cleanstone.game.command.CommandRegistry;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -25,25 +28,39 @@ import java.util.List;
 @Endpoint(id = "console")
 public class ConsoleEndpoint {
 
-
     private final Environment environment;
+    private final ConsoleSender consoleSender;
 
     private Path externalFile;
+    private CommandRegistry commandRegistry;
 
-    public ConsoleEndpoint(Environment environment, Path externalFile) {
+    public ConsoleEndpoint(Environment environment, Path externalFile, CommandRegistry commandRegistry) {
         this.environment = environment;
         this.externalFile = externalFile;
+        this.commandRegistry = commandRegistry;
+        this.consoleSender = new ConsoleSender(s -> {
+        });
     }
 
     @Autowired
-    public ConsoleEndpoint(Environment environment) {
-        this(environment, null);
+    public ConsoleEndpoint(Environment environment, CommandRegistry commandRegistry) {
+        this(environment, null, commandRegistry);
     }
 
     @WriteOperation
-    public void sendCommand(String command) {
-        log.info("Console: " + command + "");
-        CleanstoneServer.publishEvent(new ConsoleInputEvent(command));
+    public void sendCommand(String commandString) {
+        log.info("WebConsole: " + commandString + "");
+
+        CommandMessage commandMessage = CommandMessageFactory.construct(consoleSender, commandString, this.commandRegistry);
+
+        Command command = commandRegistry.getCommand(commandMessage.getCommandName());
+        if (command != null) {
+            try {
+                command.execute(commandMessage);
+            } catch (Exception e) {
+                log.error("Error executing Command: []", e);
+            }
+        }
     }
 
     /**

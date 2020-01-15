@@ -5,11 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.game.command.Command;
-import rocks.cleanstone.game.command.CommandMessage;
-import rocks.cleanstone.game.command.CommandMessageFactory;
-import rocks.cleanstone.game.command.CommandRegistry;
-import rocks.cleanstone.player.Player;
+import rocks.cleanstone.game.command.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +33,7 @@ public class SimpleCommandCompletion implements CommandCompletion {
 
     @Async
     @Override
-    public CompletableFuture<List<String>> completeCommandLine(String commandLine, Player sender) {
+    public CompletableFuture<List<String>> completeCommandLine(String commandLine, CommandSender sender) {
         Preconditions.checkNotNull(commandLine, "commandLine cannot be null");
         Preconditions.checkNotNull(sender, "sender cannot be null");
 
