@@ -4,7 +4,7 @@ import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.player.data.PlayerDataSource;
+import rocks.cleanstone.storage.player.PlayerDataSource;
 
 import javax.annotation.Nullable;
 import java.util.Collection;

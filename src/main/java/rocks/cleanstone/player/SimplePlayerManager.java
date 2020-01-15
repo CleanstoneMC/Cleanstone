@@ -2,36 +2,26 @@ package rocks.cleanstone.player;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
-
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArraySet;
-
-import javax.annotation.Nullable;
-import javax.annotation.PreDestroy;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
-import rocks.cleanstone.player.data.LevelDBPlayerDataSource;
-import rocks.cleanstone.player.data.PlayerDataSource;
 import rocks.cleanstone.player.event.AsyncPlayerInitializationEvent;
 import rocks.cleanstone.player.event.AsyncPlayerTerminationEvent;
 import rocks.cleanstone.player.event.PlayerJoinEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
+import rocks.cleanstone.storage.player.PlayerDataSource;
+import rocks.cleanstone.storage.player.PlayerDataSourceCreationException;
+import rocks.cleanstone.storage.player.PlayerDataSourceFactory;
+
+import javax.annotation.Nullable;
+import javax.annotation.PreDestroy;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 @Slf4j
 @Component
@@ -42,8 +32,8 @@ public class SimplePlayerManager implements PlayerManager {
     private final Collection<Identity> playerIDs = Sets.newConcurrentHashSet();
     private final PlayerDataSource playerDataSource;
 
-    public SimplePlayerManager() throws IOException {
-        this.playerDataSource = new LevelDBPlayerDataSource(getPlayerDataFolder());
+    public SimplePlayerManager(PlayerDataSourceFactory playerDataSourceFactory) throws PlayerDataSourceCreationException {
+        this.playerDataSource = playerDataSourceFactory.get();
     }
 
     @Override
@@ -151,16 +141,6 @@ public class SimplePlayerManager implements PlayerManager {
     @Override
     public boolean isTerminating(Player player) {
         return terminatingPlayers.contains(player);
-    }
-
-    private Path getPlayerDataFolder() {
-        Path dataFolder = Paths.get("data", "players");
-        try {
-            Files.createDirectories(dataFolder);
-        } catch (IOException e) {
-            log.error("Cannot create data folder (no permission?)", e);
-        }
-        return dataFolder;
     }
 
     @PreDestroy

@@ -1,4 +1,4 @@
-package rocks.cleanstone.storage.engine.noop;
+package rocks.cleanstone.storage.engine.noop.world;
 
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;

@@ -1,4 +1,4 @@
-package rocks.cleanstone.storage.engine.noop;
+package rocks.cleanstone.storage.engine.noop.world;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

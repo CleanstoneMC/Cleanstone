@@ -1,9 +1,10 @@
-package rocks.cleanstone.player.data;
+package rocks.cleanstone.storage.player;
 
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.data.InboundCodec;
 import rocks.cleanstone.data.OutboundCodec;
 import rocks.cleanstone.player.Player;
+import rocks.cleanstone.player.data.PlayerDataType;
 
 import java.io.IOException;
 import java.io.Serializable;

@@ -11,6 +11,9 @@ cleanstone:
 world:
   datasource: leveldb
 
+player:
+  datasource: leveldb
+
 minecraft:
   java:
     enabled: true
