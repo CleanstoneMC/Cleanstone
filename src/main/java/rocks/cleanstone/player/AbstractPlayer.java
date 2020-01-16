@@ -2,14 +2,9 @@ package rocks.cleanstone.player;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Locale;
-
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.DisplayedSkinPart;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.PlayerAbility;
 import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
@@ -18,10 +13,13 @@ import rocks.cleanstone.game.entity.cleanstone.Human;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.vanilla.VanillaGameMode;
 import rocks.cleanstone.game.inventory.MainHandSide;
-import rocks.cleanstone.net.minecraft.packet.enums.DisplayedSkinPart;
-import rocks.cleanstone.net.minecraft.packet.enums.PlayerAbility;
 import rocks.cleanstone.player.event.MoveReason;
 import rocks.cleanstone.player.event.PlayerTeleportEvent;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Locale;
 
 public abstract class AbstractPlayer implements Player {
 

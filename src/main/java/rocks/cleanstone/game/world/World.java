@@ -2,6 +2,9 @@ package rocks.cleanstone.game.world;
 
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.config.structs.WorldConfig;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.Difficulty;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.Dimension;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.LevelType;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.EntityRegistry;
@@ -9,9 +12,6 @@ import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
-import rocks.cleanstone.net.minecraft.packet.enums.Difficulty;
-import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
-import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 import rocks.cleanstone.storage.world.WorldDataSource;
 
 import javax.annotation.Nullable;

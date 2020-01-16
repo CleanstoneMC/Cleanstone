@@ -2,6 +2,8 @@ package rocks.cleanstone.game.world.generation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.Dimension;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.LevelType;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.entity.RotatablePosition;
@@ -10,8 +12,6 @@ import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
-import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
-import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
 import rocks.cleanstone.storage.chunk.BlockDataStorageProvider;
 import rocks.cleanstone.storage.engine.leveldb.entity.EntityData;

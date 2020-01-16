@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.net.minecraft.packet.enums.Animation;
-import rocks.cleanstone.net.minecraft.packet.outbound.AnimationPacket;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.Animation;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.AnimationPacket;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.player.event.PlayerAnimationEvent;
 

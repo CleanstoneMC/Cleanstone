@@ -2,12 +2,11 @@ package rocks.cleanstone.game.world.generation;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.Dimension;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.LevelType;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import rocks.cleanstone.net.minecraft.packet.enums.Dimension;
-import rocks.cleanstone.net.minecraft.packet.enums.LevelType;
 
 public abstract class AbstractWorldGenerator implements WorldGenerator {
 

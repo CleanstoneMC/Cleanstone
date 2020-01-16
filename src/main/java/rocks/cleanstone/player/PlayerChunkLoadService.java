@@ -5,10 +5,10 @@ import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.ChunkDataPacket;
+import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
-import rocks.cleanstone.net.minecraft.packet.outbound.ChunkDataPacket;
-import rocks.cleanstone.net.minecraft.packet.outbound.UnloadChunkPacket;
 
 import java.util.ArrayList;
 import java.util.Collection;
