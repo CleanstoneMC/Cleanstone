@@ -11,7 +11,7 @@ public class CommandBuilder {
     private List<String> aliases = Collections.emptyList();
     private Map<String, Command> subCommandMap = new HashMap<>();
     private CommandExecutor executor;
-    private Class[] expectedParameterTypes = new Class[0];
+    private Class<?>[] expectedParameterTypes = new Class[0];
 
     private CommandBuilder(String commandName) {
         this.commandName = commandName;
@@ -37,7 +37,7 @@ public class CommandBuilder {
         return this;
     }
 
-    public CommandBuilder withParameters(Class... expectedParameterTypes) {
+    public CommandBuilder withParameters(Class<?>... expectedParameterTypes) {
         this.expectedParameterTypes = expectedParameterTypes;
         return this;
     }

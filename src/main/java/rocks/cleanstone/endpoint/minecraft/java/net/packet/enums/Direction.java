@@ -12,7 +12,6 @@ public enum Direction {
         this.directionID = directionID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static Direction fromDirectionID(int directionID) {
         for (Direction direction : Direction.values()) {
             if (direction.getDirectionID() == directionID) {

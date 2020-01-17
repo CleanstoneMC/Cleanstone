@@ -18,7 +18,7 @@ import rocks.cleanstone.game.command.CommandMessageFactory;
 import rocks.cleanstone.game.command.CommandRegistry;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +76,7 @@ public class ConsoleEndpoint {
             return null;
         }
 
-        ReversedLinesFileReader reversedLinesFileReader = new ReversedLinesFileReader(logFileResource.getFile(), Charset.forName("UTF-8"));
+        ReversedLinesFileReader reversedLinesFileReader = new ReversedLinesFileReader(logFileResource.getFile(), StandardCharsets.UTF_8);
 
         List<String> log = new ArrayList<>();
 

@@ -692,16 +692,16 @@ public enum VanillaBlockType implements BlockType {
 
 
     private final String minecraftID;
-    private final PropertyDefinition[] properties;
+    private final PropertyDefinition<?>[] properties;
     private final VanillaMiningLevel miningLevel;
 
-    VanillaBlockType(String minecraftID, PropertyDefinition[] properties, VanillaMiningLevel miningLevel) {
+    VanillaBlockType(String minecraftID, PropertyDefinition<?>[] properties, VanillaMiningLevel miningLevel) {
         this.minecraftID = minecraftID;
         this.properties = properties;
         this.miningLevel = miningLevel;
     }
 
-    VanillaBlockType(String minecraftID, PropertyDefinition[] properties) {
+    VanillaBlockType(String minecraftID, PropertyDefinition<?>[] properties) {
         this(minecraftID, properties, VanillaMiningLevel.HAND);
     }
 
@@ -725,7 +725,7 @@ public enum VanillaBlockType implements BlockType {
     }
 
     @Override
-    public PropertyDefinition[] getProperties() {
+    public PropertyDefinition<?>[] getProperties() {
         return properties;
     }
 

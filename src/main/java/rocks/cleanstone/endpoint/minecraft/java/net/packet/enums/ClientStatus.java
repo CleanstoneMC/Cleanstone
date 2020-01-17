@@ -10,7 +10,6 @@ public enum ClientStatus {
         this.statusID = statusID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static ClientStatus fromStatusID(int statusID) {
         for (ClientStatus clientStatus : ClientStatus.values()) {
             if (clientStatus.getStatusID() == statusID) {

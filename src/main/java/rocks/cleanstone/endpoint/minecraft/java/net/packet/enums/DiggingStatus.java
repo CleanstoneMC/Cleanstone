@@ -15,7 +15,6 @@ public enum DiggingStatus {
         this.statusID = statusID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static DiggingStatus fromStatusID(int statusID) {
         for (DiggingStatus diggingStatus : DiggingStatus.values()) {
             if (diggingStatus.getStatusID() == statusID) {

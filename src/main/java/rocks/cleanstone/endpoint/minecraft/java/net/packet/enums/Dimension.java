@@ -11,7 +11,6 @@ public enum Dimension {
         this.dimensionID = dimensionID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static Dimension fromDimensionID(int dimensionID) {
         for (Dimension dimension : Dimension.values()) {
             if (dimension.getDimensionID() == dimensionID) {

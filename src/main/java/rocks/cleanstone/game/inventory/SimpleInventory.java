@@ -82,8 +82,8 @@ public class SimpleInventory implements Inventory {
             }
         }
 
-        for (int i = 0; i < inventoryClone.length; i++) {
-            if (inventoryClone[i] == null) {
+        for (ItemStack itemStack : inventoryClone) {
+            if (itemStack == null) {
                 //TODO: Add Itemstack of item
             }
         }

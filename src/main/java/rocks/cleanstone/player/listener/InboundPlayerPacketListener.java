@@ -8,6 +8,7 @@ import rocks.cleanstone.core.CleanstoneServer;
 import rocks.cleanstone.core.event.EventAction;
 import rocks.cleanstone.net.event.InboundPacketEvent;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 
@@ -23,14 +24,14 @@ public class InboundPlayerPacketListener {
 
     @Order(value = EventAction.MODIFY + 50)
     @EventListener
-    public void onPacket(InboundPacketEvent inboundPacketEvent) {
+    public void onPacket(InboundPacketEvent<? extends Packet> inboundPacketEvent) {
         Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
 
         if (player == null || playerManager.isTerminating(player)) {
             return;
         }
 
-        PlayerInboundPacketEvent playerEvent = new PlayerInboundPacketEvent<>(
+        PlayerInboundPacketEvent<? extends Packet> playerEvent = new PlayerInboundPacketEvent<>(
                 inboundPacketEvent.getPacket(), inboundPacketEvent.getConnection(),
                 player, inboundPacketEvent.getNetworking());
 

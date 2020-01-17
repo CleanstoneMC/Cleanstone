@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 public class NamedBinaryTag {
 
     private final Path path;
-    private final AbstractTag rootTag;
+    private final AbstractTag<?> rootTag;
     private String rootTagId;
     private byte rootTagType;
 

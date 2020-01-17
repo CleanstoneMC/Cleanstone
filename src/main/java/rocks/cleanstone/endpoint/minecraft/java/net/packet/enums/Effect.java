@@ -59,7 +59,6 @@ public enum Effect {
         this.effectID = effectID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static Effect fromEffectID(int effectID) {
         for (Effect effect : Effect.values()) {
             if (effect.getEffectID() == effectID)

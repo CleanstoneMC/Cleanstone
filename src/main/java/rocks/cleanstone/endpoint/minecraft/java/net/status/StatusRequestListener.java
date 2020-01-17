@@ -28,19 +28,17 @@ public class StatusRequestListener {
 
     @Async
     @EventListener
-    public void onReceive(InboundPacketEvent event) {
-        if (event.getPacket() instanceof RequestPacket) {
-            ClientProtocolLayer latestSupportedClientVersion = event.getConnection().getClientProtocolLayer();
+    public void onReceive(InboundPacketEvent<RequestPacket> event) {
+        ClientProtocolLayer latestSupportedClientVersion = event.getConnection().getClientProtocolLayer();
 
-            StatusResponse statusResponse = new StatusResponse(
-                    new StatusResponse.Version(latestSupportedClientVersion.getName(),
-                            latestSupportedClientVersion.getOrderedVersionNumber()),
-                    new StatusResponse.Players(maxPlayers, playerManager.getOnlinePlayers().size(),
-                            new StatusResponse.Players.SampleItem[]{}),
-                    new StatusResponse.Description(motd));
-            String jsonResponse = new Gson().toJson(statusResponse);
+        StatusResponse statusResponse = new StatusResponse(
+                new StatusResponse.Version(latestSupportedClientVersion.getName(),
+                        latestSupportedClientVersion.getOrderedVersionNumber()),
+                new StatusResponse.Players(maxPlayers, playerManager.getOnlinePlayers().size(),
+                        new StatusResponse.Players.SampleItem[]{}),
+                new StatusResponse.Description(motd));
+        String jsonResponse = new Gson().toJson(statusResponse);
 
-            event.getConnection().sendPacket(new ResponsePacket(jsonResponse));
-        }
+        event.getConnection().sendPacket(new ResponsePacket(jsonResponse));
     }
 }

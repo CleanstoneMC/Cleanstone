@@ -11,7 +11,6 @@ public enum InteractType {
         this.typeID = typeID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static InteractType fromTypeID(int typeID) {
         for (InteractType interactType : InteractType.values()) {
             if (interactType.getTypeID() == typeID) {

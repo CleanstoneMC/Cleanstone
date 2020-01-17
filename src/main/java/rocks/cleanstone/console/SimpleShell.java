@@ -23,15 +23,14 @@ import java.util.stream.Stream;
 public class SimpleShell extends Shell {
 
     private final ConsoleSender consoleSender;
-    private ResultHandler resultHandler;
     private CommandRegistry commandRegistry;
     private final CommandCompletion commandCompletion;
 
+    @SuppressWarnings("unchecked")
     public SimpleShell(@Qualifier("mainResultHandler") ResultHandler resultHandler,
                        CommandRegistry commandRegistry,
                        CommandCompletion commandCompletion) {
         super(resultHandler);
-        this.resultHandler = resultHandler;
         this.commandRegistry = commandRegistry;
         this.commandCompletion = commandCompletion;
         this.consoleSender = new ConsoleSender(resultHandler::handleResult);

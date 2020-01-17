@@ -1,15 +1,14 @@
 package rocks.cleanstone.game.entity;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.data.VersionedCodec;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import java.io.IOException;
 
 @Component
 public class SimpleEntitySerialization implements EntitySerialization {
@@ -37,6 +36,7 @@ public class SimpleEntitySerialization implements EntitySerialization {
         @Override
         public ByteBuf encode(Entity entity) throws IOException {
             // Cannot use generic type here; type-safety is instead guaranteed by the EntityTypeRegistry logic
+            //noinspection rawtypes
             InOutCodec entityCodec = entityTypeRegistry.getEntityCodec(entity);
             EntityType entityType = entityTypeRegistry.getEntityType(entity);
             ByteBuf data = Unpooled.buffer();

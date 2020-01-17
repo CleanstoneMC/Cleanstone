@@ -28,6 +28,7 @@ public class PacketEncoder extends MessageToMessageEncoder<Packet> {
             Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
 
             int packetID = protocol.translateOutboundPacketID(in.getType(), connection);
+            //noinspection rawtypes
             OutboundPacketCodec outboundPacketCodec = protocol.getOutboundPacketCodec(in.getClass(), connection.getClientProtocolLayer());
             ByteBuf data = ctx.alloc().buffer();
             ByteBufUtils.writeVarInt(data, packetID);

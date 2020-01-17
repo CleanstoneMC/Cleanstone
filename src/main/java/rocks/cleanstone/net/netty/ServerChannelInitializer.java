@@ -12,6 +12,7 @@ import rocks.cleanstone.net.netty.pipeline.outbound.ByteStreamEncoder;
 import rocks.cleanstone.net.netty.pipeline.outbound.OutboundPacketHandler;
 import rocks.cleanstone.net.netty.pipeline.outbound.PacketEncoder;
 
+@SuppressWarnings("rawtypes")
 public class ServerChannelInitializer extends ChannelInitializer {
 
     private final NettyNetworking nettyNetworking;

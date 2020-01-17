@@ -12,6 +12,7 @@ import rocks.cleanstone.endpoint.minecraft.java.v1_13.net.protocol.outbound.Bloc
 import rocks.cleanstone.endpoint.minecraft.java.v1_13.net.protocol.outbound.ChunkDataCodec;
 import rocks.cleanstone.endpoint.minecraft.java.v1_13.net.protocol.outbound.DeclareCommandsCodec;
 import rocks.cleanstone.endpoint.minecraft.java.v1_13.net.protocol.outbound.OutTabCompleteCodec;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import static rocks.cleanstone.endpoint.minecraft.java.net.protocol.VanillaProto
 public class MinecraftProtocolLayer_v1_13 extends AutowiredServerProtocolLayer {
 
     @Autowired
-    public MinecraftProtocolLayer_v1_13(List<? extends PacketCodec> packetCodecs) {
+    public MinecraftProtocolLayer_v1_13(List<? extends PacketCodec<? extends Packet>> packetCodecs) {
         super(packetCodecs);
         // inbound
         registerPacketCodec(HandshakeCodec.class, HANDSHAKE, 0x00);

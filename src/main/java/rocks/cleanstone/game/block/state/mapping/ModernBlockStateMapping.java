@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 @Slf4j
 public abstract class ModernBlockStateMapping implements BlockStateMapping<Integer> {
     private final Map<BlockType, Integer> blockTypeBaseStateIDMap;
-    private final Map<BlockType, PropertyDefinition[]> blockTypeDefaultPropertiesMap;
+    private final Map<BlockType, PropertyDefinition<?>[]> blockTypeDefaultPropertiesMap;
     private final NavigableMap<Integer, BlockType> baseStateIDBlockTypeMap;
     protected BlockState defaultState;
 
@@ -54,11 +54,11 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
         });
     }
 
-    public PropertyDefinition[] getDefaultProperties(BlockType blockType) {
+    public PropertyDefinition<?>[] getDefaultProperties(BlockType blockType) {
         return blockTypeDefaultPropertiesMap.get(blockType);
     }
 
-    public void setDefaultProperties(BlockType blockType, PropertyDefinition[] properties) {
+    public void setDefaultProperties(BlockType blockType, PropertyDefinition<?>[] properties) {
         blockTypeDefaultPropertiesMap.put(blockType, properties);
     }
 
@@ -66,7 +66,7 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
     public Integer getID(BlockState state) {
         Integer baseID = blockTypeBaseStateIDMap.getOrDefault(state.getBlockType(), null);
         if (baseID != null) {
-            PropertyDefinition[] properties = blockTypeDefaultPropertiesMap.get(state.getBlockType());
+            PropertyDefinition<?>[] properties = blockTypeDefaultPropertiesMap.get(state.getBlockType());
             if (properties == null) {
                 properties = state.getBlockType().getProperties();
             }
@@ -86,7 +86,7 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
             Preconditions.checkNotNull(entry);
             int baseID = entry.getKey();
             BlockType blockType = entry.getValue();
-            PropertyDefinition[] properties = blockTypeDefaultPropertiesMap.get(blockType);
+            PropertyDefinition<?>[] properties = blockTypeDefaultPropertiesMap.get(blockType);
             if (properties == null) {
                 properties = blockType.getProperties();
             }
@@ -101,7 +101,7 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
         }
     }
 
-    private int serializeState(BlockState state, PropertyDefinition[] propertyDefinitions, int baseID) {
+    private int serializeState(BlockState state, PropertyDefinition<?>[] propertyDefinitions, int baseID) {
         BlockType blockType = state.getBlockType();
         int temp = 0;
         for (PropertyDefinition<?> propertyDefinition : propertyDefinitions) {
@@ -115,7 +115,7 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
         return propertyDefinition.getProperty().serialize(state.getProperty(propertyDefinition.getProperty()));
     }
 
-    private BlockState deserializeState(int id, BlockType blockType, PropertyDefinition[] propertyDefinitions, int baseID) {
+    private BlockState deserializeState(int id, BlockType blockType, PropertyDefinition<?>[] propertyDefinitions, int baseID) {
         PropertiesBuilder builder = new PropertiesBuilder(blockType);
         int propertyIDAmount = Arrays.stream(propertyDefinitions).mapToInt(definition -> definition.getProperty().getTotalValuesAmount())
                 .reduce(1, (a, b) -> a * b);

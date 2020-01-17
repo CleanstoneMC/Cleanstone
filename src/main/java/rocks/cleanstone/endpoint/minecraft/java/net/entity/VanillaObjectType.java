@@ -35,7 +35,6 @@ public enum VanillaObjectType {
         this.typeID = typeID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static VanillaObjectType fromTypeID(int typeID) {
         for (VanillaObjectType objectType : VanillaObjectType.values()) {
             if (objectType.getTypeID() == typeID) {

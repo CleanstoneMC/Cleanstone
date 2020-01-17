@@ -21,15 +21,13 @@ public class EncryptionResponseListener {
 
     @Async(value = "mcLoginExec")
     @EventListener
-    public void onReceive(InboundPacketEvent event) {
-        if (event.getPacket() instanceof EncryptionResponsePacket) {
-            EncryptionResponsePacket packet = (EncryptionResponsePacket) event.getPacket();
-            try {
-                loginManager.handleEncryptionResponse(event.getConnection(), packet);
-            } catch (Exception e) {
-                log.error("Error occurred while handling encryption response", e);
-                loginManager.stopLogin(event.getConnection(), Text.of("Invalid encryption response"));
-            }
+    public void onReceive(InboundPacketEvent<EncryptionResponsePacket> event) {
+        EncryptionResponsePacket packet = event.getPacket();
+        try {
+            loginManager.handleEncryptionResponse(event.getConnection(), packet);
+        } catch (Exception e) {
+            log.error("Error occurred while handling encryption response", e);
+            loginManager.stopLogin(event.getConnection(), Text.of("Invalid encryption response"));
         }
     }
 }

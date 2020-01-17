@@ -18,7 +18,7 @@ public interface CommandRegistry {
 
     Collection<Command> getAllCommands();
 
-    void registerCommandParameter(CommandParameter commandParameter);
+    void registerCommandParameter(CommandParameter<?> commandParameter);
 
     @Nullable
     <T> CommandParameter<T> getCommandParameter(Class<? super T> parameterClass);

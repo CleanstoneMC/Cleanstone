@@ -19,7 +19,6 @@ public enum UpdateBlockAction {
         this.actionID = actionID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static UpdateBlockAction fromActionID(int actionID) {
         for (UpdateBlockAction updateBlockAction : UpdateBlockAction.values()) {
             if (updateBlockAction.getActionID() == actionID) {

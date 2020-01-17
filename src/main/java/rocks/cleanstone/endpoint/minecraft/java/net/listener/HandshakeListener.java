@@ -13,20 +13,18 @@ import rocks.cleanstone.net.protocol.ClientProtocolLayer;
 @Component
 public class HandshakeListener {
     @EventListener
-    public void onReceive(InboundPacketEvent event) {
-        if (event.getPacket() instanceof HandshakePacket) {
-            HandshakePacket packet = (HandshakePacket) event.getPacket();
+    public void onReceive(InboundPacketEvent<HandshakePacket> event) {
+        HandshakePacket packet = event.getPacket();
 
-            ClientProtocolLayer updatedLayer = MinecraftClientProtocolLayer.byVersionNumber(packet.getVersion());
-            if (updatedLayer != null) {
-                event.getConnection().setClientProtocolLayer(updatedLayer);
-            }
+        ClientProtocolLayer updatedLayer = MinecraftClientProtocolLayer.byVersionNumber(packet.getVersion());
+        if (updatedLayer != null) {
+            event.getConnection().setClientProtocolLayer(updatedLayer);
+        }
 
-            VanillaProtocolState updatedState = VanillaProtocolState.byStateID(packet.getState());
-            if ((updatedState == VanillaProtocolState.STATUS || updatedState == VanillaProtocolState.LOGIN)
-                    && event.getConnection().getProtocolState() == VanillaProtocolState.HANDSHAKE) {
-                event.getConnection().setProtocolState(updatedState);
-            }
+        VanillaProtocolState updatedState = VanillaProtocolState.byStateID(packet.getState());
+        if ((updatedState == VanillaProtocolState.STATUS || updatedState == VanillaProtocolState.LOGIN)
+                && event.getConnection().getProtocolState() == VanillaProtocolState.HANDSHAKE) {
+            event.getConnection().setProtocolState(updatedState);
         }
     }
 }

@@ -20,7 +20,6 @@ public enum SoundCategory {
         this.categoryName = categoryName;
     }
 
-    @SuppressWarnings("Duplicates")
     public static SoundCategory fromCategoryID(int categoryID) {
         for (SoundCategory soundCategory : SoundCategory.values()) {
             if (soundCategory.getCategoryID() == categoryID) {
@@ -31,7 +30,6 @@ public enum SoundCategory {
         return null;
     }
 
-    @SuppressWarnings("Duplicates")
     public static SoundCategory fromCategoryName(String categoryName) {
         for (SoundCategory soundCategory : SoundCategory.values()) {
             if (soundCategory.getCategoryName().equals(categoryName)) {

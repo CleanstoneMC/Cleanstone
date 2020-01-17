@@ -11,7 +11,6 @@ public enum ChatPosition {
         this.positionID = positionID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static ChatPosition fromPositionID(int positionID) {
         for (ChatPosition chatPosition : ChatPosition.values()) {
             if (chatPosition.getPositionID() == positionID) {

@@ -15,7 +15,6 @@ public enum BossBarColor {
         this.colorID = colorID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static BossBarColor fromColorID(int colorID) {
         for (BossBarColor bossBarColor : BossBarColor.values()) {
             if (bossBarColor.getColorID() == colorID) {

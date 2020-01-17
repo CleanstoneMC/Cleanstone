@@ -6,6 +6,7 @@ import rocks.cleanstone.endpoint.minecraft.java.net.protocol.AutowiredServerProt
 import rocks.cleanstone.endpoint.minecraft.java.net.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.endpoint.minecraft.java.v1_12_2.net.protocol.inbound.*;
 import rocks.cleanstone.endpoint.minecraft.java.v1_12_2.net.protocol.outbound.*;
+import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import static rocks.cleanstone.endpoint.minecraft.java.net.protocol.VanillaProto
 public class MinecraftProtocolLayer_v1_12_2 extends AutowiredServerProtocolLayer {
 
     @Autowired
-    public MinecraftProtocolLayer_v1_12_2(List<? extends PacketCodec> packetCodecs) {
+    public MinecraftProtocolLayer_v1_12_2(List<? extends PacketCodec<? extends Packet>> packetCodecs) {
         super(packetCodecs);
 
         //inbound

@@ -26,7 +26,7 @@ public interface Command extends SecuredAction {
 
     void execute(CommandMessage commandMessage, boolean considerSubCommands);
 
-    Class[] getExpectedParameterTypes();
+    Class<?>[] getExpectedParameterTypes();
 
     Collection<Command> getParents();
 

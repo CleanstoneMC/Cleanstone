@@ -18,7 +18,6 @@ public enum GameStateChangeReason {
         this.reasonID = reasonID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static GameStateChangeReason fromReasonID(int reasonID) {
         for (GameStateChangeReason gameStateChangeReason : GameStateChangeReason.values()) {
             if (gameStateChangeReason.getReasonID() == reasonID)

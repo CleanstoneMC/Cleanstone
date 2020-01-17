@@ -39,6 +39,7 @@ public class SpawnMobCodec implements OutboundPacketCodec<SpawnMobPacket> {
     @Override
     public ByteBuf encode(ByteBuf byteBuf, SpawnMobPacket packet) {
         Entity entity = packet.getEntity();
+        //noinspection rawtypes
         EntityConverter entityConverter = entityConverterRegistry.getConverter(entity.getClass());
         if (entityConverter == null) {
             throw new IllegalArgumentException("Cannot find converter for " + entity.getClass());

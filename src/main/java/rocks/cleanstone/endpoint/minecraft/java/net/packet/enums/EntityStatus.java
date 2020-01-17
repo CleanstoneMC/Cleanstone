@@ -11,7 +11,6 @@ public enum EntityStatus {
         this.statusID = statusID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static EntityStatus fromStatusID(int statusID) {
         for (EntityStatus entityStatus : EntityStatus.values()) {
             if (entityStatus.getStatusID() == statusID)

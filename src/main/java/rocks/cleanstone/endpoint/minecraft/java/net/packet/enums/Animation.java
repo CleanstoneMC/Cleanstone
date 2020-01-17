@@ -14,7 +14,6 @@ public enum Animation {
         this.animationID = animationID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static Animation fromAnimationID(int animationID) {
         for (Animation animation : Animation.values()) {
             if (animation.getAnimationID() == animationID)

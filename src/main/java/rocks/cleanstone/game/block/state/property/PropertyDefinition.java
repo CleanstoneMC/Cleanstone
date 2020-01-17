@@ -9,11 +9,11 @@ public class PropertyDefinition<T> {
         this.value = defaultValue;
     }
 
-    public static <M> PropertyDefinition definitionOf(Property<M> property, M value) {
+    public static <M> PropertyDefinition<M> definitionOf(Property<M> property, M value) {
         return new PropertyDefinition<>(property, value);
     }
 
-    public static PropertyDefinition[] arrayOf(PropertyDefinition... properties) {
+    public static PropertyDefinition<?>[] arrayOf(PropertyDefinition<?>... properties) {
         return properties;
     }
 

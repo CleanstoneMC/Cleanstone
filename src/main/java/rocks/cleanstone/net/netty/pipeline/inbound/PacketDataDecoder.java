@@ -31,7 +31,7 @@ public class PacketDataDecoder extends MessageToMessageDecoder<ByteBuf> {
         PacketTypeRegistry packetTypeRegistry = protocol.getPacketTypeRegistry();
         Connection connection = ctx.channel().attr(AttributeKey.<Connection>valueOf("connection")).get();
         PacketType packetType = protocol.translateInboundPacketID(packetID, connection);
-        InboundPacketCodec codec = protocol.getInboundPacketCodec(packetType.getPacketClass(),
+        InboundPacketCodec<? extends Packet> codec = protocol.getInboundPacketCodec(packetType.getPacketClass(),
                 connection.getClientProtocolLayer());
         Preconditions.checkNotNull(codec, "Cannot find codec for packetType " + packetType
                 + " and clientLayer " + connection.getClientProtocolLayer());

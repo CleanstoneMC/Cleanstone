@@ -9,7 +9,6 @@ public enum VanillaGlobalEntityType {
         this.entityID = entityID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static VanillaGlobalEntityType fromTypeID(int typeID) {
         for (VanillaGlobalEntityType globalEntityType : VanillaGlobalEntityType.values()) {
             if (globalEntityType.getEntityID() == typeID) {

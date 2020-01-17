@@ -23,11 +23,7 @@ public class BlockState {
     }
 
     private static CachingBlockStateProvider getLoadingSource() {
-        if (loadingSource == null) {
-            return (loadingSource = new CachingBlockStateProvider());
-        } else {
-            return loadingSource;
-        }
+        return java.util.Objects.requireNonNullElseGet(loadingSource, () -> (loadingSource = new CachingBlockStateProvider()));
     }
 
     static void setLoadingSource(CachingBlockStateProvider loadingSource) {

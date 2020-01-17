@@ -10,7 +10,6 @@ public enum AdvancementTabStatus {
         this.statusID = statusID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static AdvancementTabStatus fromStatusID(int statusID) {
         for (AdvancementTabStatus advancementTabStatus : AdvancementTabStatus.values()) {
             if (advancementTabStatus.getStatusID() == statusID)

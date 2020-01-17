@@ -5,7 +5,7 @@ import rocks.cleanstone.data.vanilla.nbt.VanillaTagType;
 
 import java.util.List;
 
-public class ListTag<T extends AbstractTag> extends AbstractTag<List<T>> {
+public class ListTag<T extends AbstractTag<?>> extends AbstractTag<List<T>> {
 
     public ListTag(byte[] rawData) {
         super(rawData);

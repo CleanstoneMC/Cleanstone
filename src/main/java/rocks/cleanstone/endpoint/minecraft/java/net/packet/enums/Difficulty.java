@@ -11,7 +11,6 @@ public enum Difficulty {
         this.difficultyID = difficultyID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static Difficulty fromDifficultID(int difficultyID) {
         for (Difficulty difficulty : Difficulty.values()) {
             if (difficulty.getDifficultyID() == difficultyID) {

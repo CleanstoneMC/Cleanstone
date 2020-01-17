@@ -31,7 +31,7 @@ public class PluginMessageListener {
     public void onPacket(PlayerInboundPacketEvent<InPluginMessagePacket> pluginMessagePacketPlayerInboundPacketEvent) {
         InPluginMessagePacket packet = pluginMessagePacketPlayerInboundPacketEvent.getPacket();
 
-        PluginChannel pluginChannel = pluginChannelRegistry.getPluginChannel(packet.getChannel());
+        PluginChannel<?> pluginChannel = pluginChannelRegistry.getPluginChannel(packet.getChannel());
 
         if (pluginChannel == null) {
             log.warn("Cant find PluginChannel for Channel with name \"" + packet.getChannel() + "\"");
@@ -61,7 +61,7 @@ public class PluginMessageListener {
 
     @Async(value = "playerExec")
     @EventListener
-    public void onPluginMessage(OutboundPluginChannelMessageEvent outboundPluginChannelMessageEvent) {
+    public void onPluginMessage(OutboundPluginChannelMessageEvent<? extends PluginChannel.PluginMessage> outboundPluginChannelMessageEvent) {
         PluginChannel.PluginMessage message = outboundPluginChannelMessageEvent.getMessage();
         PluginChannel<PluginChannel.PluginMessage> pluginChannel = pluginChannelRegistry.getPluginChannel(message);
 

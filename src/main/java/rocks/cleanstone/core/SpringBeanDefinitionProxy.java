@@ -20,7 +20,7 @@ public class SpringBeanDefinitionProxy {
         beanDefinitionRegistry.registerBeanDefinition(name, beanDefinition);
     }
 
-    public void registerSimpleBean(String beanName, Class beanClass) {
+    public void registerSimpleBean(String beanName, Class<?> beanClass) {
         final BeanDefinition beanDefinition = BeanDefinitionBuilder
                 .rootBeanDefinition(beanClass)
                 .setScope(BeanDefinition.SCOPE_PROTOTYPE)

@@ -1,9 +1,6 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.game.world.SimpleWorldManager;
@@ -14,6 +11,8 @@ import rocks.cleanstone.game.world.generation.WorldGenerationParameter;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.player.PlayerChunkLoadService;
 import rocks.cleanstone.player.PlayerManager;
+
+import java.util.List;
 
 @Component
 public class WorldCommand extends SimpleCommand {
@@ -103,17 +102,13 @@ public class WorldCommand extends SimpleCommand {
             public void execute(CommandMessage commandMessage) {
                 worldGenerators.forEach(wg -> {
                     commandMessage.getCommandSender().sendRawMessage(wg.getName());
-                    wg.getGenerationParameters().forEach((key, value) -> {
-                        commandMessage.getCommandSender().sendRawMessage(
-                                String.format("    %s: %s", key, value)
-                        );
-                    });
-                    wg.getFractalGenerationParameters().cellSet().forEach((cell) -> {
-                        commandMessage.getCommandSender().sendRawMessage(
-                                String.format("    %s-%s %s", cell.getRowKey(),
-                                        cell.getColumnKey(), cell.getValue())
-                        );
-                    });
+                    wg.getGenerationParameters().forEach((key, value) -> commandMessage.getCommandSender().sendRawMessage(
+                            String.format("    %s: %s", key, value)
+                    ));
+                    wg.getFractalGenerationParameters().cellSet().forEach((cell) -> commandMessage.getCommandSender().sendRawMessage(
+                            String.format("    %s-%s %s", cell.getRowKey(),
+                                    cell.getColumnKey(), cell.getValue())
+                    ));
                 });
             }
         }

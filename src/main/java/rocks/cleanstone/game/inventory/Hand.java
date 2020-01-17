@@ -10,7 +10,6 @@ public enum Hand {
         this.handID = handID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static Hand fromHandID(int handID) {
         for (Hand hand : Hand.values()) {
             if (hand.getHandID() == handID) {

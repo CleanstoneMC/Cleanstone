@@ -9,7 +9,7 @@ import java.util.Map;
 public interface ServerProtocolLayer extends Comparable<ServerProtocolLayer> {
     MinecraftClientProtocolLayer getCorrespondingClientLayer();
 
-    <T extends Packet> void registerPacketCodec(PacketCodec codec, Class<T> packetClass);
+    <T extends Packet> void registerPacketCodec(PacketCodec<T> codec, Class<T> packetClass);
 
     <T extends Packet> InboundPacketCodec<T> getInboundPacketCodec(Class<T> packetClass);
 

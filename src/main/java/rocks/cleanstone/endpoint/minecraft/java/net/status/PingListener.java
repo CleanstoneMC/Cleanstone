@@ -13,11 +13,9 @@ import rocks.cleanstone.net.event.InboundPacketEvent;
 public class PingListener {
     @Async
     @EventListener
-    public void onReceive(InboundPacketEvent event) {
-        if (event.getPacket() instanceof PingPacket) {
-            final long payload = ((PingPacket) event.getPacket()).getPayload();
+    public void onReceive(InboundPacketEvent<PingPacket> event) {
+        long payload = event.getPacket().getPayload();
 
-            event.getConnection().sendPacket(new PongPacket(payload));
-        }
+        event.getConnection().sendPacket(new PongPacket(payload));
     }
 }

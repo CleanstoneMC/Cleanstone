@@ -26,11 +26,7 @@ public class IncomingChatPacketListener {
 
     @Async("chatExec")
     @EventListener
-    public void onChatMessage(InboundPacketEvent inboundPacketEvent) {
-        if (!(inboundPacketEvent.getPacket() instanceof InChatMessagePacket)) {
-            return;
-        }
-
+    public void onChatMessage(InboundPacketEvent<InChatMessagePacket> inboundPacketEvent) {
         Player player = playerManager.getOnlinePlayer(inboundPacketEvent.getConnection());
         if (player == null) {
             return;
@@ -38,7 +34,7 @@ public class IncomingChatPacketListener {
         Identity playerID = player.getID();
         String playerName = playerID.getName() + "(" + playerID.getUUID() + ")";
 
-        InChatMessagePacket chatMessagePacket = ((InChatMessagePacket) inboundPacketEvent.getPacket());
+        InChatMessagePacket chatMessagePacket = inboundPacketEvent.getPacket();
         String chatMessage = chatMessagePacket.getMessage();
         if (chatMessage.isEmpty()) {
             return;

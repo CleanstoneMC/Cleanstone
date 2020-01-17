@@ -92,7 +92,7 @@ public class SimpleCommandRegistry implements CommandRegistry {
     }
 
     @Override
-    public void registerCommandParameter(CommandParameter commandParameter) {
+    public void registerCommandParameter(CommandParameter<?> commandParameter) {
         Preconditions.checkNotNull(commandParameter, "commandParameter cannot be null");
 
         commandParameters.add(commandParameter);

@@ -35,7 +35,7 @@ public class PlayerBlockPlacementPacketListener {
     public PlayerBlockPlacementPacketListener(
             PlayerManager playerManager,
             MaterialRegistry materialRegistry,
-            List<BlockPlacePropertyProvider> propProviders) {
+            List<BlockPlacePropertyProvider<?>> propProviders) {
         this.playerManager = playerManager;
         this.materialRegistry = materialRegistry;
 

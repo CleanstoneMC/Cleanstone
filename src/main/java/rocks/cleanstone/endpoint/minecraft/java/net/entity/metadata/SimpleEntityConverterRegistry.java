@@ -15,7 +15,7 @@ public class SimpleEntityConverterRegistry implements EntityConverterRegistry {
     private final Set<EntityConverter<? extends Entity>> entityConverters = Sets.newConcurrentHashSet();
 
     @Autowired
-    public SimpleEntityConverterRegistry(Collection<EntityConverter> converters) {
+    public SimpleEntityConverterRegistry(Collection<EntityConverter<? extends Entity>> converters) {
         converters.forEach(this::registerConverter);
     }
 

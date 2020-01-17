@@ -16,7 +16,6 @@ public class EnumParameter<T extends Enum<T>> implements CompletableParameter<T>
 
     @Override
     public List<String> getCompletion(CompletionContext<T> context) {
-        //noinspection unchecked
         T[] enumConstants = context.getExpectedType().getEnumConstants();
 
         try {
@@ -46,7 +45,7 @@ public class EnumParameter<T extends Enum<T>> implements CompletableParameter<T>
     }
 
     @Override
-    public Class getParameterClass() {
+    public Class<?> getParameterClass() {
         return Enum.class;
     }
 }

@@ -57,7 +57,6 @@ public enum Particle {
         this.particleID = particleID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static Particle fromParticleID(int particleID) {
         for (Particle particle : Particle.values()) {
             if (particle.getParticleID() == particleID) {

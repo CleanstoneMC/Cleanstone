@@ -20,11 +20,9 @@ public class LoginStartListener {
 
     @Async(value = "mcLoginExec")
     @EventListener
-    public void onReceive(InboundPacketEvent event) {
-        if (event.getPacket() instanceof LoginStartPacket) {
-            LoginStartPacket packet = (LoginStartPacket) event.getPacket();
-            String playerName = packet.getPlayerName();
-            loginManager.startLogin(event.getConnection(), playerName);
-        }
+    public void onReceive(InboundPacketEvent<LoginStartPacket> event) {
+        LoginStartPacket packet = event.getPacket();
+        String playerName = packet.getPlayerName();
+        loginManager.startLogin(event.getConnection(), playerName);
     }
 }

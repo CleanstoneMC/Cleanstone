@@ -18,7 +18,6 @@ public enum Face {
         this.offset = offset;
     }
 
-    @SuppressWarnings("Duplicates")
     public static Face fromFaceID(int faceID) {
         for (Face face : Face.values()) {
             if (face.getFaceID() == faceID) {
@@ -29,7 +28,6 @@ public enum Face {
         return null;
     }
 
-    @SuppressWarnings("Duplicates")
     public static Face fromOffset(String offset) {
         for (Face face : Face.values()) {
             if (face.getOffset().equals(offset)) {

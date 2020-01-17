@@ -5,6 +5,8 @@ import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.property.Properties;
 import rocks.cleanstone.game.material.block.BlockType;
 
+import java.util.Objects;
+
 /**
  * A standard block in the world that cannot be changed without being replaced
  */
@@ -21,11 +23,7 @@ public class ImmutableBlock implements Block {
     }
 
     private static CachingImmutableBlockProvider getLoadingSource() {
-        if (loadingSource == null) {
-            return (loadingSource = new CachingImmutableBlockProvider());
-        } else {
-            return loadingSource;
-        }
+        return Objects.requireNonNullElseGet(loadingSource, () -> (loadingSource = new CachingImmutableBlockProvider()));
     }
 
     static void setLoadingSource(CachingImmutableBlockProvider loadingSource) {

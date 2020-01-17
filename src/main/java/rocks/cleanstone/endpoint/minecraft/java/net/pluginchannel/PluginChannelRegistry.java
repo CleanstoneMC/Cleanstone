@@ -10,13 +10,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class PluginChannelRegistry {
 
-    private final Map<String, PluginChannel> pluginChannels = new ConcurrentHashMap<>();
+    private final Map<String, PluginChannel<? extends PluginChannel.PluginMessage>> pluginChannels = new ConcurrentHashMap<>();
 
-    public PluginChannelRegistry(List<? extends PluginChannel> pluginChannels) {
+    public PluginChannelRegistry(List<? extends PluginChannel<?>> pluginChannels) {
         pluginChannels.forEach(this::registerPluginChannel);
     }
 
-    public void registerPluginChannel(PluginChannel pluginChannel) {
+    public void registerPluginChannel(PluginChannel<? extends PluginChannel.PluginMessage> pluginChannel) {
         if (pluginChannels.containsKey(pluginChannel.getName())) {
             throw new RuntimeException("PluginChanel is already registered");
         }
@@ -26,7 +26,7 @@ public class PluginChannelRegistry {
 
     @SuppressWarnings("unchecked")
     public <T extends PluginChannel.PluginMessage> PluginChannel<T> getPluginChannel(T pluginMessage) {
-        return pluginChannels.values().stream()
+        return (PluginChannel<T>) pluginChannels.values().stream()
                 .filter(pluginChannel -> messageTypeMatches(pluginMessage, pluginChannel))
                 .findAny().orElse(null);
     }
@@ -37,7 +37,7 @@ public class PluginChannelRegistry {
         return pluginMessage.getClass().equals(messageClass);
     }
 
-    public PluginChannel getPluginChannel(String name) {
+    public PluginChannel<? extends PluginChannel.PluginMessage> getPluginChannel(String name) {
         return pluginChannels.get(name);
     }
 }

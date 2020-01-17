@@ -12,9 +12,9 @@ import java.util.Optional;
 @Slf4j
 public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtocolLayer {
 
-    private final List<? extends PacketCodec> packetCodecs;
+    private final List<? extends PacketCodec<? extends Packet>> packetCodecs;
 
-    public AutowiredServerProtocolLayer(List<? extends PacketCodec> packetCodecs) {
+    public AutowiredServerProtocolLayer(List<? extends PacketCodec<? extends Packet>> packetCodecs) {
         this.packetCodecs = packetCodecs;
     }
 
@@ -39,7 +39,7 @@ public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtoc
         }
 
         if (!Packet.class.isAssignableFrom(packetClass)) {
-            log.info("PacketClass is not is not implementing Packet");
+            log.info("PacketClass is not implementing Packet");
             return;
         }
 

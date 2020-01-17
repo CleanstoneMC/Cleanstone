@@ -12,7 +12,6 @@ public enum ResourcePackStatus {
         this.status = statusID;
     }
 
-    @SuppressWarnings("Duplicates")
     public static ResourcePackStatus fromStatusID(int statusID) {
         for (ResourcePackStatus resourcePackStatus : ResourcePackStatus.values()) {
             if (resourcePackStatus.getStatus() == statusID) {

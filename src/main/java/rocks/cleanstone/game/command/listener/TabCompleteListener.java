@@ -24,8 +24,6 @@ public class TabCompleteListener {
     public void onCommand(PlayerTabCompleteEvent event) {
         CompletableFuture<List<String>> future = commandCompletion.completeCommandLine(event.getText(), event.getPlayer());
 
-        future.thenAccept((completions) -> {
-            event.getPlayer().sendPacket(new OutTabCompletePacket(event.getInTabCompletePacket(), completions));
-        });
+        future.thenAccept((completions) -> event.getPlayer().sendPacket(new OutTabCompletePacket(event.getInTabCompletePacket(), completions)));
     }
 }

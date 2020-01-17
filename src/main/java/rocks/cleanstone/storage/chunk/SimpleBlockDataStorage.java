@@ -34,9 +34,9 @@ public class SimpleBlockDataStorage implements BlockDataStorage {
 
     public SimpleBlockDataStorage(boolean hasSkyLight) {
         //TODO: Do we really want to fill it with air?
-        for (int x = 0; x < blocks.length; x++) {
-            for (int z = 0; z < blocks[x].length; z++) {
-                Arrays.fill(blocks[x][z], AIR);
+        for (BlockState[][] block : blocks) {
+            for (BlockState[] blockStates : block) {
+                Arrays.fill(blockStates, AIR);
             }
         }
 

@@ -13,5 +13,5 @@ public interface BlockType extends Material, PropertyHolder {
 
     MiningLevel getMiningLevel();
 
-    PropertyDefinition[] getProperties();
+    PropertyDefinition<?>[] getProperties();
 }

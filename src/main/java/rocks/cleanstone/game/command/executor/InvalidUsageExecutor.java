@@ -37,7 +37,7 @@ public class InvalidUsageExecutor implements CommandExecutor {
         sender.sendMessage("game.command.invalid-usage.usage", command.getUsage());
     }
 
-    private String getParameterDisplayName(Class parameterType) {
+    private String getParameterDisplayName(Class<?> parameterType) {
         if (String.class.isAssignableFrom(parameterType)) {
             return CleanstoneServer.getMessage("game.command.invalid-usage.text");
         } else if (Number.class.isAssignableFrom(parameterType)) {

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class SimpleCommandMessage implements CommandMessage {
 
@@ -127,8 +126,7 @@ public class SimpleCommandMessage implements CommandMessage {
 
     @Override
     public Optional<String> optionalStringMessage() {
-        String message = requireVarargParameter(String.class, true).stream()
-                .collect(Collectors.joining(" "));
+        String message = String.join(" ", requireVarargParameter(String.class, true));
         return message.equals("") ? Optional.empty() : Optional.of(message);
     }
 

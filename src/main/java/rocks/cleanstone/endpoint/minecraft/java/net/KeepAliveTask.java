@@ -41,15 +41,13 @@ public class KeepAliveTask {
 
     @Async
     @EventListener
-    public void onKeepAliveReceive(InboundPacketEvent e) {
-        if (e.getPacket() instanceof InKeepAlivePacket) {
-            InKeepAlivePacket packet = (InKeepAlivePacket) e.getPacket();
-            long keepAliveID = packet.getKeepAliveID();
+    public void onKeepAliveReceive(InboundPacketEvent<InKeepAlivePacket> e) {
+        InKeepAlivePacket packet = e.getPacket();
+        long keepAliveID = packet.getKeepAliveID();
 
-            if (connectionLastKeepAliveIDMap.getOrDefault(e.getConnection(), -1L) == keepAliveID) {
-                connectionLastResponseMap.put(e.getConnection(), System.currentTimeMillis());
-                generateNewKeepAliveID(e.getConnection());
-            }
+        if (connectionLastKeepAliveIDMap.getOrDefault(e.getConnection(), -1L) == keepAliveID) {
+            connectionLastResponseMap.put(e.getConnection(), System.currentTimeMillis());
+            generateNewKeepAliveID(e.getConnection());
         }
     }
 

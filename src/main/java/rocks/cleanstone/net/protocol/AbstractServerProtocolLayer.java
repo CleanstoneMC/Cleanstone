@@ -7,28 +7,26 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 public abstract class AbstractServerProtocolLayer implements ServerProtocolLayer {
-    private final Map<Class<? extends Packet>, InboundPacketCodec<?>> inboundPacketClassCodecMap = Maps.newConcurrentMap();
-    private final Map<Class<? extends Packet>, OutboundPacketCodec<?>> outboundPacketClassCodecMap = Maps.newConcurrentMap();
+    private final Map<Class<? extends Packet>, InboundPacketCodec<? extends Packet>> inboundPacketClassCodecMap = Maps.newConcurrentMap();
+    private final Map<Class<? extends Packet>, OutboundPacketCodec<? extends Packet>> outboundPacketClassCodecMap = Maps.newConcurrentMap();
 
     @Override
-    public <T extends Packet> void registerPacketCodec(PacketCodec codec, Class<T> packetClass) {
+    public <T extends Packet> void registerPacketCodec(PacketCodec<T> codec, Class<T> packetClass) {
         if (codec instanceof InboundPacketCodec) {
-            inboundPacketClassCodecMap.put(packetClass, (InboundPacketCodec) codec);
+            inboundPacketClassCodecMap.put(packetClass, (InboundPacketCodec<? extends T>) codec);
         }
 
         if (codec instanceof OutboundPacketCodec) {
-            outboundPacketClassCodecMap.put(packetClass, (OutboundPacketCodec) codec);
+            outboundPacketClassCodecMap.put(packetClass, (OutboundPacketCodec<? extends T>) codec);
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Packet> InboundPacketCodec<T> getInboundPacketCodec(Class<T> packetClass) {
         return (InboundPacketCodec<T>) inboundPacketClassCodecMap.get(packetClass);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Packet> OutboundPacketCodec<T> getOutboundPacketCodec(Class<T> packetClass) {
         return (OutboundPacketCodec<T>) outboundPacketClassCodecMap.get(packetClass);
     }

@@ -21,18 +21,18 @@ public class SimpleCommand implements Command {
     private final List<String> aliases;
     private final Map<String, Command> subCommandMap = new HashMap<>();
     private final CommandExecutor commandExecutor;
-    private final Class[] expectedParameterTypes;
+    private final Class<?>[] expectedParameterTypes;
     private final Collection<Command> parents = new HashSet<>();
 
     public SimpleCommand(String name, Collection<String> aliases, CommandExecutor commandExecutor,
-                         Class... expectedParameterTypes) {
+                         Class<?>... expectedParameterTypes) {
         this.name = name;
         this.aliases = new ArrayList<>(aliases);
         this.commandExecutor = commandExecutor;
         this.expectedParameterTypes = expectedParameterTypes;
     }
 
-    public SimpleCommand(String name, List<String> aliases, Class... expectedParameterTypes) {
+    public SimpleCommand(String name, List<String> aliases, Class<?>... expectedParameterTypes) {
         this(name, aliases, null, expectedParameterTypes);
     }
 
@@ -40,7 +40,7 @@ public class SimpleCommand implements Command {
         this(name, new ArrayList<>(), commandExecutor);
     }
 
-    public SimpleCommand(String name, Class... expectedParameterTypes) {
+    public SimpleCommand(String name, Class<?>... expectedParameterTypes) {
         this(name, Collections.emptyList(), expectedParameterTypes);
     }
 
@@ -106,7 +106,7 @@ public class SimpleCommand implements Command {
     }
 
     @Override
-    public Class[] getExpectedParameterTypes() {
+    public Class<?>[] getExpectedParameterTypes() {
         return expectedParameterTypes;
     }
 
