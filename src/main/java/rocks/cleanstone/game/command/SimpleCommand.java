@@ -13,6 +13,7 @@ import rocks.cleanstone.player.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 public class SimpleCommand implements Command {
@@ -118,13 +119,21 @@ public class SimpleCommand implements Command {
     public String getUsage() {
         String text = CleanstoneServer.getMessage("game.command.invalid-usage.text"),
                 number = CleanstoneServer.getMessage("game.command.invalid-usage.number");
-        return "/" + name + " " + Joiner.on(" ").join(
+        return "/" + getFullCommandName() + " " + Joiner.on(" ").join(
                 Arrays.stream(getExpectedParameterTypes())
                         .map(Class::getSimpleName)
                         .map(name -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, name))
                         .map(name -> name.replace("string", text.toLowerCase())
                                 .replaceAll("int|double", number.toLowerCase()))
+                        .map(name -> "<" + name + ">")
                         .collect(Collectors.toList()));
+    }
+
+    private String getFullCommandName() {
+        return Stream.of(
+                this.getParents().stream().map(Command::getName).collect(Collectors.toList()),
+                List.of(this.getName())
+        ).flatMap(Collection::stream).collect(Collectors.joining(" "));
     }
 
     /**
