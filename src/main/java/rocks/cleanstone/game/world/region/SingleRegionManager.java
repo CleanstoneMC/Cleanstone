@@ -1,6 +1,7 @@
 package rocks.cleanstone.game.world.region;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -17,7 +18,7 @@ import java.util.Collections;
  * Manages a single region in the world to rule them all
  */
 @Component
-@Scope("prototype")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SingleRegionManager implements RegionManager {
 
     private final ChunkProvider chunkProvider;

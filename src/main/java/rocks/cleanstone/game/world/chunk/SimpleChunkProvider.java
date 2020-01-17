@@ -1,6 +1,7 @@
 package rocks.cleanstone.game.world.chunk;
 
 import com.google.common.base.Preconditions;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -13,7 +14,7 @@ import rocks.cleanstone.storage.world.WorldDataSource;
  * Loads/Generates a chunk that isnt already in local memory
  */
 @Component
-@Scope("prototype")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SimpleChunkProvider implements ChunkProvider {
 
     private final WorldDataSource dataSource;
