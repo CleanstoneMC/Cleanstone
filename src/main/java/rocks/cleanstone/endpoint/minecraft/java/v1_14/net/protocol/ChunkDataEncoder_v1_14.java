@@ -8,6 +8,7 @@ import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.endpoint.minecraft.block.VanillaBlockType;
 import rocks.cleanstone.endpoint.minecraft.java.net.chunk.ChunkDataEncoder;
 import rocks.cleanstone.endpoint.minecraft.java.net.chunk.DirectPalette;
 import rocks.cleanstone.endpoint.minecraft.java.net.chunk.HeightMapUtil;
@@ -15,7 +16,6 @@ import rocks.cleanstone.endpoint.minecraft.java.net.chunk.PaletteBlockStateStora
 import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;

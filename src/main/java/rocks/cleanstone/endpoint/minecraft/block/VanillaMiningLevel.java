@@ -1,4 +1,6 @@
-package rocks.cleanstone.game.material.block;
+package rocks.cleanstone.endpoint.minecraft.block;
+
+import rocks.cleanstone.game.material.block.MiningLevel;
 
 public enum VanillaMiningLevel implements MiningLevel {
     HAND(0),

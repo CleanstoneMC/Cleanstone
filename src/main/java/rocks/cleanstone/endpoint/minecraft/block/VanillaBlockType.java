@@ -1,13 +1,12 @@
-package rocks.cleanstone.game.material.block.vanilla;
+package rocks.cleanstone.endpoint.minecraft.block;
 
 import rocks.cleanstone.game.block.state.property.PropertyDefinition;
 import rocks.cleanstone.game.block.state.property.vanilla.*;
 import rocks.cleanstone.game.material.block.BlockType;
-import rocks.cleanstone.game.material.block.VanillaMiningLevel;
 
+import static rocks.cleanstone.endpoint.minecraft.block.VanillaBlockProperties.*;
 import static rocks.cleanstone.game.block.state.property.PropertyDefinition.arrayOf;
 import static rocks.cleanstone.game.block.state.property.PropertyDefinition.definitionOf;
-import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties.*;
 
 /**
  * A list of Cleanstone's block types together with their properties

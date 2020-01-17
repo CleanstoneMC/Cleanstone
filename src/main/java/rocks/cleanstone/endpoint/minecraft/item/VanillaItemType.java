@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.material.item.vanilla;
+package rocks.cleanstone.endpoint.minecraft.item;
 
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.Face;

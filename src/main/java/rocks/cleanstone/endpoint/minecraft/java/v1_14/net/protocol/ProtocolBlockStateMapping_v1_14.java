@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.block.state.mapping.ModernBlockStateMapping;
 
-import static rocks.cleanstone.game.material.block.vanilla.VanillaBlockType.*;
+import static rocks.cleanstone.endpoint.minecraft.block.VanillaBlockType.*;
 
 /**
  * Maps Cleanstone's internal block types to the Minecraft client's format

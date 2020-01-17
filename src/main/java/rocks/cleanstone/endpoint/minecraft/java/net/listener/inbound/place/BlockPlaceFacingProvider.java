@@ -1,12 +1,12 @@
 package rocks.cleanstone.endpoint.minecraft.java.net.listener.inbound.place;
 
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.endpoint.minecraft.block.VanillaBlockProperties;
+import rocks.cleanstone.endpoint.minecraft.block.VanillaBlockType;
 import rocks.cleanstone.endpoint.minecraft.java.net.packet.inbound.PlayerBlockPlacementPacket;
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.block.state.property.vanilla.Facing;
 import rocks.cleanstone.game.material.block.BlockType;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockProperties;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.player.Player;
 
 import java.util.Arrays;

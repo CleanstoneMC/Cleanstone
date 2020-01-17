@@ -1,4 +1,4 @@
-package rocks.cleanstone.game.material.block.vanilla;
+package rocks.cleanstone.endpoint.minecraft.block;
 
 import rocks.cleanstone.game.block.state.property.type.PropertyBoolean;
 import rocks.cleanstone.game.block.state.property.type.PropertyEnum;

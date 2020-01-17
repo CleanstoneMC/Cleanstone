@@ -1,10 +1,10 @@
 package rocks.cleanstone.endpoint.minecraft.java.v1_12_2.net.protocol;
 
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.endpoint.minecraft.item.VanillaItemType;
 import rocks.cleanstone.game.block.state.mapping.LegacyMaterialMapping;
-import rocks.cleanstone.game.material.item.vanilla.VanillaItemType;
 
-import static rocks.cleanstone.game.material.item.vanilla.VanillaItemType.*;
+import static rocks.cleanstone.endpoint.minecraft.item.VanillaItemType.*;
 
 /**
  * Maps Cleanstone's internal item types to the Minecraft client's legacy pre-1.13 format

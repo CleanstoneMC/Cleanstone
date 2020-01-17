@@ -1,9 +1,9 @@
 package rocks.cleanstone.storage.chunk;
 
+import rocks.cleanstone.endpoint.minecraft.block.VanillaBlockType;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;
-import rocks.cleanstone.game.material.block.vanilla.VanillaBlockType;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.utils.NibbleArray;
 
@@ -33,6 +33,7 @@ public class SimpleBlockDataStorage implements BlockDataStorage {
     }
 
     public SimpleBlockDataStorage(boolean hasSkyLight) {
+        //TODO: Do we really want to fill it with air?
         for (int x = 0; x < blocks.length; x++) {
             for (int z = 0; z < blocks[x].length; z++) {
                 Arrays.fill(blocks[x][z], AIR);
