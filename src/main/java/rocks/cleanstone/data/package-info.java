@@ -1,4 +1,4 @@
 /**
- * Architecture related to <i>universal</i> data storage, serialization and deserialization
+ * Architecture related to <i>universal</i> serialization and deserialization
  */
 package rocks.cleanstone.data;
