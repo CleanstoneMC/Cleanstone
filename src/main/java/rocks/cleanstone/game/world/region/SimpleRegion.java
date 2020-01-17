@@ -14,6 +14,7 @@ import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
 import rocks.cleanstone.game.world.event.ChunkLoadedEvent;
+import rocks.cleanstone.game.world.event.ChunkSaveEvent;
 import rocks.cleanstone.game.world.event.ChunkUnloadEvent;
 
 import javax.annotation.Nullable;
@@ -40,11 +41,9 @@ public class SimpleRegion implements Region {
         this(id, Sets.newConcurrentHashSet(), regionWorker, chunkProvider);
     }
 
-    private void removeChunkListener(RemovalNotification removalNotification) {
-        Chunk chunk = (Chunk) removalNotification.getValue();
-        if (chunk.hasUnsavedChanges()) {
-            this.chunkProvider.getDataSource().saveChunk(chunk);
-        }
+    private void removeChunkListener(RemovalNotification<ChunkCoords, Chunk> removalNotification) {
+        Chunk chunk = removalNotification.getValue();
+        unloadChunk(chunk);
     }
 
     @Override
@@ -88,9 +87,17 @@ public class SimpleRegion implements Region {
     @Override
     public void unloadChunk(ChunkCoords coords) {
         Chunk chunk = getLoadedChunk(coords);
-        Preconditions.checkNotNull(chunk, "Cannot unload non-loaded chunk " + coords);
-        CleanstoneServer.publishEvent(new ChunkUnloadEvent(chunk));
+        unloadChunk(chunk);
         loadedChunks.invalidate(coords);
+    }
+
+    private void unloadChunk(Chunk chunk) {
+        Preconditions.checkNotNull(chunk, "Cannot unload non-loaded chunk " + chunk.getCoordinates());
+        if (chunk.hasUnsavedChanges()) {
+            CleanstoneServer.publishEvent(new ChunkSaveEvent(chunk));
+            this.chunkProvider.getDataSource().saveChunk(chunk);
+        }
+        CleanstoneServer.publishEvent(new ChunkUnloadEvent(chunk));
     }
 
     @Override
