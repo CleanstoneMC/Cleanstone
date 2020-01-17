@@ -12,7 +12,7 @@ import java.util.Optional;
 @Slf4j
 public abstract class AutowiredServerProtocolLayer extends MinecraftServerProtocolLayer {
 
-    private final List<? extends PacketCodec<? extends Packet>> packetCodecs;
+    private final List<? extends PacketCodec<?>> packetCodecs;
 
     public AutowiredServerProtocolLayer(List<? extends PacketCodec<? extends Packet>> packetCodecs) {
         this.packetCodecs = packetCodecs;

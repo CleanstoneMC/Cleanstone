@@ -1,6 +1,6 @@
 package rocks.cleanstone.endpoint.minecraft.bedrock.net.packet.outbound;
 
-import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
+import com.github.steveice10.opennbt.tag.builtin.Tag;
 import rocks.cleanstone.endpoint.minecraft.bedrock.net.packet.BedrockOutboundPacketType;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
@@ -15,9 +15,9 @@ public class UpdateTradePacket implements Packet {
     private final long traderEntityID;
     private final long playerEntityID;
     private final String displayName;
-    private final NamedBinaryTag namedTag;
+    private final Tag namedTag;
 
-    public UpdateTradePacket(byte windowID, byte windowType, int unknown0, int unknown1, boolean isWilling, long traderEntityID, long playerEntityID, String displayName, NamedBinaryTag namedTag) {
+    public UpdateTradePacket(byte windowID, byte windowType, int unknown0, int unknown1, boolean isWilling, long traderEntityID, long playerEntityID, String displayName, Tag namedTag) {
         this.windowID = windowID;
         this.windowType = windowType;
         this.unknown0 = unknown0;
@@ -61,7 +61,7 @@ public class UpdateTradePacket implements Packet {
         return displayName;
     }
 
-    public NamedBinaryTag getNamedTag() {
+    public Tag getNamedTag() {
         return namedTag;
     }
 

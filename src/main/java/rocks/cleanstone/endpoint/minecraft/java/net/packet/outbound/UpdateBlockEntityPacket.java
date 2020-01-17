@@ -1,6 +1,6 @@
 package rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound;
 
-import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
+import com.github.steveice10.opennbt.tag.builtin.Tag;
 import rocks.cleanstone.endpoint.minecraft.java.net.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.UpdateBlockAction;
 import rocks.cleanstone.game.Position;
@@ -11,15 +11,15 @@ public class UpdateBlockEntityPacket implements Packet {
 
     private final Position location;
     private final UpdateBlockAction action;
-    private final NamedBinaryTag nbtData;
+    private final Tag nbtData;
 
-    public UpdateBlockEntityPacket(Position location, byte action, NamedBinaryTag nbtData) {
+    public UpdateBlockEntityPacket(Position location, byte action, Tag nbtData) {
         this.location = location;
         this.action = UpdateBlockAction.fromActionID(action);
         this.nbtData = nbtData;
     }
 
-    public UpdateBlockEntityPacket(Position location, UpdateBlockAction action, NamedBinaryTag nbtData) {
+    public UpdateBlockEntityPacket(Position location, UpdateBlockAction action, Tag nbtData) {
         this.location = location;
         this.action = action;
         this.nbtData = nbtData;
@@ -33,7 +33,7 @@ public class UpdateBlockEntityPacket implements Packet {
         return action;
     }
 
-    public NamedBinaryTag getNbtData() {
+    public Tag getNbtData() {
         return nbtData;
     }
 

@@ -1,7 +1,7 @@
 package rocks.cleanstone.game.inventory.item;
 
+import com.github.steveice10.opennbt.tag.builtin.Tag;
 import com.google.common.base.Preconditions;
-import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.game.material.item.ItemType;
 
 /**
@@ -10,16 +10,16 @@ import rocks.cleanstone.game.material.item.ItemType;
 public class SimpleItemStack implements ItemStack {
 
     private final ItemType itemType;
-    private final NamedBinaryTag nbt;
+    private final Tag nbt;
     private int amount;
 
-    public SimpleItemStack(ItemType itemType, int amount, NamedBinaryTag nbt) {
+    public SimpleItemStack(ItemType itemType, int amount, Tag nbt) {
         this.itemType = itemType;
         this.amount = amount;
         this.nbt = nbt;
     }
 
-    public NamedBinaryTag getNbt() {
+    public Tag getNbt() {
         return nbt;
     }
 

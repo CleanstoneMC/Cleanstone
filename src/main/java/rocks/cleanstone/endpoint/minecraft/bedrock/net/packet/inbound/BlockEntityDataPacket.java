@@ -1,6 +1,6 @@
 package rocks.cleanstone.endpoint.minecraft.bedrock.net.packet.inbound;
 
-import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
+import com.github.steveice10.opennbt.tag.builtin.Tag;
 import rocks.cleanstone.endpoint.minecraft.bedrock.net.packet.BedrockInboundPacketType;
 import rocks.cleanstone.endpoint.minecraft.bedrock.net.packet.data.BlockCoordinates;
 import rocks.cleanstone.net.packet.Packet;
@@ -9,9 +9,9 @@ import rocks.cleanstone.net.packet.PacketType;
 public class BlockEntityDataPacket implements Packet {
 
     private final BlockCoordinates coordinates;
-    private final NamedBinaryTag namedTag;
+    private final Tag namedTag;
 
-    public BlockEntityDataPacket(BlockCoordinates coordinates, NamedBinaryTag namedTag) {
+    public BlockEntityDataPacket(BlockCoordinates coordinates, Tag namedTag) {
         this.coordinates = coordinates;
         this.namedTag = namedTag;
     }
@@ -20,7 +20,7 @@ public class BlockEntityDataPacket implements Packet {
         return coordinates;
     }
 
-    public NamedBinaryTag getNamedTag() {
+    public Tag getNamedTag() {
         return namedTag;
     }
 

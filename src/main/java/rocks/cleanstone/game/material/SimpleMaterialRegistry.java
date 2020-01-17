@@ -25,7 +25,6 @@ public class SimpleMaterialRegistry implements MaterialRegistry {
 
     @Override
     public void registerBlockType(BlockType blockType) {
-        System.out.println(blockType.getMinecraftID());
         if (!blockTypes.add(blockType)) throw new IllegalArgumentException(
                 "blockType " + blockType.getMinecraftID() + " is already registered");
         materials.add(blockType);

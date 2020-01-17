@@ -4,7 +4,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.data.vanilla.nbt.NamedBinaryTag;
 import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.game.world.World;
@@ -61,7 +60,7 @@ public class PlayerChunkLoadService {
             }
 
             ChunkDataPacket chunkDataPacket = new ChunkDataPacket(coords.getX(), coords.getZ(), true,
-                    chunk.getBlockDataStorage(), new NamedBinaryTag[]{});
+                    chunk.getBlockDataStorage(), null); //TODO: Add Entities
             player.sendPacket(chunkDataPacket);
         }, throwable -> log.error("Error getting Chunk " + coords, throwable));
     }
