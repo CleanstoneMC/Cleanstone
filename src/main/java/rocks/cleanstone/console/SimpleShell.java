@@ -3,6 +3,7 @@ package rocks.cleanstone.console;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
+import org.springframework.shell.Command.Help;
 import org.springframework.shell.*;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.command.Command;
@@ -11,10 +12,7 @@ import rocks.cleanstone.game.command.CommandMessageFactory;
 import rocks.cleanstone.game.command.CommandRegistry;
 import rocks.cleanstone.game.command.completion.CommandCompletion;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -56,21 +54,19 @@ public class SimpleShell extends Shell {
             return NO_INPUT;
         }
 
-        String commandString = input.rawText().substring(1);
-
         CommandMessage commandMessage = CommandMessageFactory.construct(consoleSender, input.rawText(), this.commandRegistry);
 
         Command command = commandRegistry.getCommand(commandMessage.getCommandName());
         if (command != null) {
             try {
-                command.execute(commandMessage);
+                command.execute(commandMessage, true);
             } catch (Exception e) {
                 return e;
             }
             return null;
         }
 
-        return super.evaluate(() -> commandString);
+        return super.evaluate(() -> input.rawText().substring(1));
     }
 
     /**
@@ -87,7 +83,7 @@ public class SimpleShell extends Shell {
 
         CompletionContext completionContext = new CompletionContext(Arrays.asList(commandString.split(" ")), context.getWordIndex(), context.getPosition() - 1);
 
-        List<CompletionProposal> springShellCompletions = super.complete(completionContext).stream()
+        List<CompletionProposal> springShellCompletions = super.complete(completionContext).parallelStream()
                 .map(s -> "/" + s.value())
                 .map(CompletionProposal::new)
                 .collect(Collectors.toList());
@@ -95,15 +91,17 @@ public class SimpleShell extends Shell {
         List<CompletionProposal> proposalList = new ArrayList<>();
         try {
             return commandCompletion.completeCommandLine(commandString, consoleSender)
+                    // Trim the result from our command completion
                     .thenApply(completions ->
-                            completions.stream()
+                            completions.parallelStream()
                                     .map(String::trim)
                                     .map(CompletionProposal::new)
                                     .collect(Collectors.toList())
                     )
+                    // Map the Spring Shell Completion to a List
                     .thenApply(completions ->
                             Stream.of(completions, springShellCompletions)
-                                    .flatMap(Collection::stream)
+                                    .flatMap(Collection::parallelStream)
                                     .collect(Collectors.toList())
                     )
                     .get();
@@ -111,6 +109,56 @@ public class SimpleShell extends Shell {
         }
 
         return proposalList;
+    }
+
+    private List<Command> flatSubCommands(Command command) {
+        return Stream.concat(
+                Stream.of(command.getSubCommands().values()).flatMap(Collection::stream)
+                        .map(this::flatSubCommands)
+                        .filter(Objects::nonNull)
+                        .flatMap(Collection::stream)
+                , List.of(command).stream()
+        ).collect(Collectors.toList());
+    }
+
+    private String getFullCommandName(Command command) {
+        return "/" + Stream.of(
+                command.getParents().stream().map(Command::getName).collect(Collectors.toList()),
+                List.of(command.getName())
+        ).flatMap(Collection::stream).collect(Collectors.joining(" "));
+    }
+
+    @Override
+    public Map<String, MethodTarget> listCommands() {
+        Map<String, MethodTarget> wrappedCommandList = commandRegistry.getAllCommands().parallelStream()
+                .map(this::flatSubCommands)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toMap(this::getFullCommandName,
+                        cmd -> MethodTarget.of("execute", new CommandWrapper(cmd), new Help(cmd.getUsage())))
+                );
+
+        Map<String, MethodTarget> springCommandList = super.listCommands().entrySet().stream()
+                .map(entry -> Map.entry("/" + entry.getKey(), entry.getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        return Stream.concat(wrappedCommandList.entrySet().stream(), springCommandList.entrySet().stream())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (cmd1, cmd2) -> cmd1));
+    }
+
+    /**
+     * Currently this only wraps it for beauty reasons. It never calls the execute {@link CommandWrapper#execute} function.
+     */
+    class CommandWrapper {
+        private final Command command;
+
+        public CommandWrapper(Command command) {
+            this.command = command;
+        }
+
+        public Object execute(String message) {
+            command.execute(CommandMessageFactory.construct(consoleSender, message, commandRegistry));
+            return null;
+        }
     }
 
     /**
