@@ -1,10 +1,10 @@
 plugins {
   base
-  id("com.moowork.node") version "1.2.0"
+  id("com.github.node-gradle.node") version "2.2.0"
 }
 
 node {
-  version = "11.2.0"
+  version = "13.6.0"
   download = true
 }
 
