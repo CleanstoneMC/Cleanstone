@@ -7,7 +7,6 @@ import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.utils.NibbleArray;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 public class SimpleBlockDataStorage implements BlockDataStorage {
@@ -33,13 +32,6 @@ public class SimpleBlockDataStorage implements BlockDataStorage {
     }
 
     public SimpleBlockDataStorage(boolean hasSkyLight) {
-        //TODO: Do we really want to fill it with air?
-        for (BlockState[][] block : blocks) {
-            for (BlockState[] blockStates : block) {
-                Arrays.fill(blockStates, AIR);
-            }
-        }
-
         blockLightNibbleArray = new NibbleArray(Chunk.WIDTH * Chunk.WIDTH * Chunk.HEIGHT / 2);
         skyLightNibbleArray = new NibbleArray(Chunk.WIDTH * Chunk.WIDTH * Chunk.HEIGHT / 2);
         this.hasSkyLight = hasSkyLight;
@@ -47,21 +39,31 @@ public class SimpleBlockDataStorage implements BlockDataStorage {
 
     @Override
     public Block getBlock(int x, int y, int z) {
-        return ImmutableBlock.of(blocks[x][z][y]);
+        return ImmutableBlock.of(getBlockState(x, y, z));
     }
 
     @Override
     public void setBlock(int x, int y, int z, Block block) {
-        blocks[x][z][y] = block.getState();
+        setBlockState(x, y, z, block.getState());
     }
 
     @Override
     public BlockState getBlockState(int x, int y, int z) {
-        return blocks[x][z][y];
+        BlockState blockState = blocks[x][z][y];
+
+        if (blockState == null) {
+            return AIR;
+        }
+
+        return blockState;
     }
 
     @Override
     public void setBlockState(int x, int y, int z, BlockState state) {
+        if (state == AIR) {
+            state = null;
+        }
+
         blocks[x][z][y] = state;
     }
 
@@ -72,12 +74,12 @@ public class SimpleBlockDataStorage implements BlockDataStorage {
 
     @Override
     public void setBlockLight(int x, int y, int z, byte blockLight) {
-         blockLightNibbleArray.set(getBlockAddress(x, y, z), blockLight);
+        blockLightNibbleArray.set(getBlockAddress(x, y, z), blockLight);
     }
 
     @Override
     public byte getSkyLight(int x, int y, int z) {
-         return skyLightNibbleArray.get(getBlockAddress(x, y, z));
+        return skyLightNibbleArray.get(getBlockAddress(x, y, z));
     }
 
     @Override
