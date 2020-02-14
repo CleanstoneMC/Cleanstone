@@ -1,0 +1,64 @@
+package rocks.cleanstone.endpoint.cleanstone.entity.types;
+
+import rocks.cleanstone.game.entity.HeadRotatablePosition;
+import rocks.cleanstone.game.entity.SimpleLivingEntity;
+import rocks.cleanstone.game.inventory.Hand;
+import rocks.cleanstone.game.inventory.Inventory;
+import rocks.cleanstone.game.inventory.SimpleInventory;
+import rocks.cleanstone.game.inventory.item.ItemStack;
+import rocks.cleanstone.game.world.World;
+
+import javax.annotation.Nullable;
+
+public class SimpleHuman extends SimpleLivingEntity implements Human {
+
+    private HeadRotatablePosition position;
+    private Inventory inventory;
+    private short mainHandSlot = 0;
+
+    public SimpleHuman(World world, HeadRotatablePosition position, boolean glowing, int health) {
+        super(world, position, false, true, glowing, health);
+        this.position = position;
+        this.inventory = new SimpleInventory(128);//TODO: Correct Size
+    }
+
+    @Override
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    @Override
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    @Override
+    public HeadRotatablePosition getPosition() {
+        return position;
+    }
+
+    @Override
+    public void setPosition(HeadRotatablePosition position) {
+        this.position = position;
+    }
+
+    @Nullable
+    @Override
+    public ItemStack getItemByHand(Hand hand) {
+        if (hand == Hand.MAIN_HAND) {
+            return inventory.getItemStackInSlot(36 + mainHandSlot); //TODO: Remove Magic Number aka SlotID of first Slot
+        }
+        //TODO: Implement OffHand
+        return null;
+    }
+
+    @Override
+    public short getSelectedSlot() {
+        return mainHandSlot;
+    }
+
+    @Override
+    public void setSelectedSlot(short slot) {
+        mainHandSlot = slot;
+    }
+}
