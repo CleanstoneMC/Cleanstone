@@ -1,11 +1,11 @@
-package rocks.cleanstone.endpoint.minecraft.java.v1_14.protocol.outbound;
+package rocks.cleanstone.endpoint.minecraft.java.v1_14.net.protocol.outbound;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.junit.jupiter.api.Test;
 import rocks.cleanstone.endpoint.minecraft.java.net.protocol.EncodedChunks;
-import rocks.cleanstone.endpoint.minecraft.java.v1_14.protocol.ChunkDataEncoder_v1_14;
-import rocks.cleanstone.endpoint.minecraft.java.v1_14.protocol.ProtocolBlockStateMapping_v1_14;
+import rocks.cleanstone.endpoint.minecraft.java.v1_14.net.protocol.ChunkDataEncoder_v1_14;
+import rocks.cleanstone.endpoint.minecraft.java.v1_14.net.protocol.ProtocolBlockStateMapping_v1_14;
 
 import java.io.IOException;
 
@@ -24,19 +24,14 @@ class ChunkDataCodecTest {
         chunkDataCodec.encode(buffer, EncodedChunks.getChunkDataPacket());
 
         byte[] data = new byte[buffer.readableBytes()];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = buffer.readByte();
-        }
+        buffer.readBytes(data, 0, data.length);
 
         byte[] encodedChunk = EncodedChunks.V1_14_WithoutLight.getData();
 
-        assertEquals(data.length, encodedChunk.length);
+        assertEquals(data.length, encodedChunk.length, "Length is wrong");
 
         for (int i = 0; i < encodedChunk.length; i++) {
-            if (encodedChunk[i] != data[i]) {
-                System.out.println("Byte " + i + " is wrong");
-            }
-            assertEquals(encodedChunk[i], data[i]);
+            assertEquals(encodedChunk[i], data[i], "Byte " + i + " is wrong");
         }
     }
 }

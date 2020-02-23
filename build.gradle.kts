@@ -40,7 +40,7 @@ dependencies {
     implementation("de.codecentric:spring-boot-admin-starter-server:2.1.0")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    implementation("io.netty:netty-all:4.1.31.Final")
+    implementation("io.netty:netty-all:4.1.45.Final")
     implementation("com.whirvis:jraknet:2.9.8")
 
     implementation("com.google.guava:guava:27.0-jre")

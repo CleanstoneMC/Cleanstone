@@ -24,19 +24,14 @@ class ChunkDataCodecTest {
         chunkDataCodec.encode(buffer, EncodedChunks.getChunkDataPacket());
 
         byte[] data = new byte[buffer.readableBytes()];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = buffer.readByte();
-        }
+        buffer.readBytes(data, 0, data.length);
 
         byte[] encodedChunk = EncodedChunks.V1_12_2_WithoutLight.getData();
 
-        assertEquals(data.length, encodedChunk.length);
+        assertEquals(data.length, encodedChunk.length, "Length is wrong");
 
         for (int i = 0; i < encodedChunk.length; i++) {
-            if (encodedChunk[i] != data[i]) {
-                System.out.println("Byte " + i + " is wrong");
-            }
-            assertEquals(encodedChunk[i], data[i]);
+            assertEquals(encodedChunk[i], data[i], "Byte " + i + " is wrong");
         }
     }
 }

@@ -25,13 +25,14 @@ public abstract class ModernBlockStateMapping implements BlockStateMapping<Integ
         blockTypeBaseStateIDMap = new ConcurrentHashMap<>(defaultMapping.blockTypeBaseStateIDMap);
         blockTypeDefaultPropertiesMap = new ConcurrentHashMap<>(defaultMapping.blockTypeDefaultPropertiesMap);
         baseStateIDBlockTypeMap = new ConcurrentSkipListMap<>(defaultMapping.baseStateIDBlockTypeMap);
-        defaultState = defaultMapping.defaultState;
+        this.defaultState = defaultMapping.defaultState;
     }
 
     public ModernBlockStateMapping(BlockState defaultState) {
         blockTypeBaseStateIDMap = new ConcurrentHashMap<>();
         blockTypeDefaultPropertiesMap = new ConcurrentHashMap<>();
         baseStateIDBlockTypeMap = new ConcurrentSkipListMap<>();
+        this.defaultState = defaultState;
     }
 
     public int getBaseID(BlockType blockType) {
