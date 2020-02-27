@@ -14,7 +14,7 @@ open class GenerateVanillaItemTypeList : ItemReportTask() {
     fun generateVanillaItemTypeList() {
         val itemList = getSortedItemList()
 
-        val enum = TypeSpec.enumBuilder("VanillaItemType")
+        val enum = TypeSpec.enumBuilder("VanillaItemType_v${getVersionString()}")
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(ClassName.get("rocks.cleanstone.game.material.item", "ItemType"))
 
@@ -62,7 +62,7 @@ open class GenerateVanillaItemTypeList : ItemReportTask() {
 
         itemList.forEach { enum.addEnumConstant(it.getEnumName(), TypeSpec.anonymousClassBuilder("\$S", it.getShortName()).build()) }
 
-        JavaFile.builder("rocks.cleanstone.endpoint.minecraft.item", enum.build())
+        JavaFile.builder("rocks.cleanstone.endpoint.minecraft.java.v${getVersionString()}.item", enum.build())
                 .skipJavaLangImports(true)
                 .indent("    ")
                 .build()

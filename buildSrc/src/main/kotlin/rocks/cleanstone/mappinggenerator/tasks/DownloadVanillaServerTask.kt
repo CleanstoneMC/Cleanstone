@@ -2,8 +2,10 @@ package rocks.cleanstone.mappinggenerator.tasks
 
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import rocks.cleanstone.mappinggenerator.util.RevisionAwareTask
+import java.io.File
 import java.net.URI
 import java.nio.file.Files
 
@@ -37,5 +39,10 @@ open class DownloadVanillaServerTask : RevisionAwareTask() {
 
         Files.deleteIfExists(cacheDir)
         Files.copy(versionDownloadUrl.openStream(), cacheDir)
+    }
+
+    @OutputFile
+    fun getVanillaServerFile(): File {
+        return getServerFile()
     }
 }
