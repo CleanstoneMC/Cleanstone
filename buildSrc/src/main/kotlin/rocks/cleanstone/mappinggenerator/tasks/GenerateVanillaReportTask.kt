@@ -12,7 +12,5 @@ open class GenerateVanillaReportTask : RevisionAwareTask() {
                 null,
                 getServerFolder()
         ).waitFor()
-
-        Thread.sleep(2000)
     }
 }
