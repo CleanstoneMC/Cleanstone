@@ -1,10 +1,10 @@
 package rocks.cleanstone.endpoint.minecraft.java.v1_12_2.net.protocol;
 
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.item.VanillaItemType;
+import rocks.cleanstone.endpoint.minecraft.java.v1_12_2.item.VanillaItemType_v1_12_2;
 import rocks.cleanstone.game.block.state.mapping.LegacyMaterialMapping;
 
-import static rocks.cleanstone.endpoint.minecraft.item.VanillaItemType.*;
+import static rocks.cleanstone.endpoint.minecraft.java.v1_12_2.item.VanillaItemType_v1_12_2.*;
 
 /**
  * Maps Cleanstone's internal item types to the Minecraft client's legacy pre-1.13 format
@@ -12,7 +12,7 @@ import static rocks.cleanstone.endpoint.minecraft.item.VanillaItemType.*;
 @Component("protocolItemTypeMapping_v1_12_2")
 public class ProtocolItemTypeMapping_v1_12_2 extends LegacyMaterialMapping {
     public ProtocolItemTypeMapping_v1_12_2() {
-        super(VanillaItemType.STONE);
+        super(VanillaItemType_v1_12_2.STONE);
         setID(AIR, 0);
         setID(STONE, 1);
         setID(GRANITE, 1, 1); //TODO, Add Metadata workaround
