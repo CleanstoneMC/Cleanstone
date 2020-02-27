@@ -9,11 +9,11 @@ import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
 @Component
-public class VanillaItemTypeProvider {
+public class VanillaBlockItemTypeProvider {
 
     private MaterialRegistry materialRegistry;
 
-    public VanillaItemTypeProvider(MaterialRegistry materialRegistry) {
+    public VanillaBlockItemTypeProvider(MaterialRegistry materialRegistry) {
         this.materialRegistry = materialRegistry;
     }
 
