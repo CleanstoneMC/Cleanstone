@@ -715,12 +715,7 @@ public enum VanillaBlockType implements BlockType {
     }
 
     @Override
-    public int getID() {
-        return ordinal();
-    }
-
-    @Override
-    public String getMinecraftID() {
+    public String getID() {
         return "minecraft:" + minecraftID;
     }
 

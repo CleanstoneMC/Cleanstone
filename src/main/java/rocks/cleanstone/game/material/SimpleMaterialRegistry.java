@@ -26,28 +26,28 @@ public class SimpleMaterialRegistry implements MaterialRegistry {
     @Override
     public void registerBlockType(BlockType blockType) {
         if (!blockTypes.add(blockType)) throw new IllegalArgumentException(
-                "blockType " + blockType.getMinecraftID() + " is already registered");
+                "blockType " + blockType.getID() + " is already registered");
         materials.add(blockType);
     }
 
     @Override
     public void unregisterBlockType(BlockType blockType) {
         if (!blockTypes.remove(blockType)) throw new IllegalArgumentException(
-                "blockType " + blockType.getMinecraftID() + " is not registered");
+                "blockType " + blockType.getID() + " is not registered");
         materials.remove(blockType);
     }
 
     @Override
     public void registerItemType(ItemType itemType) {
         if (!itemTypes.add(itemType)) throw new IllegalArgumentException(
-                "itemType " + itemType.getMinecraftID() + " is already registered");
+                "itemType " + itemType.getID() + " is already registered");
         materials.add(itemType);
     }
 
     @Override
     public void unregisterItemType(ItemType itemType) {
         if (!itemTypes.remove(itemType)) throw new IllegalArgumentException(
-                "itemType " + itemType.getMinecraftID() + " is not registered");
+                "itemType " + itemType.getID() + " is not registered");
         materials.remove(itemType);
     }
 
@@ -70,7 +70,7 @@ public class SimpleMaterialRegistry implements MaterialRegistry {
     @Override
     public BlockType getBlockTypeByItemType(ItemType itemType) {
         return blockTypes.stream()
-                .filter(blockType -> blockType.getMinecraftID().equals(itemType.getMinecraftID()))
+                .filter(blockType -> blockType.getID().equals(itemType.getID()))
                 .findAny().orElse(null);
     }
 
@@ -78,7 +78,7 @@ public class SimpleMaterialRegistry implements MaterialRegistry {
     @Override
     public ItemType getItemTypeByBlockType(BlockType blockType) {
         return itemTypes.stream()
-                .filter(itemType -> itemType.getMinecraftID().equals(blockType.getMinecraftID()))
+                .filter(itemType -> itemType.getID().equals(blockType.getID()))
                 .findAny().orElse(null);
     }
 }

@@ -29,12 +29,7 @@ public class BlockItemType implements ItemType {
     }
 
     @Override
-    public int getID() {
+    public String getID() {
         return blockType.getID();
-    }
-
-    @Override
-    public String getMinecraftID() {
-        return blockType.getMinecraftID();
     }
 }
