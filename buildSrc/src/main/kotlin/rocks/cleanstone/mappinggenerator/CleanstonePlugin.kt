@@ -5,9 +5,9 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.invoke
 import rocks.cleanstone.mappinggenerator.tasks.DownloadVanillaServerTask
-import rocks.cleanstone.mappinggenerator.tasks.GenerateVanillaItemMappings
+import rocks.cleanstone.mappinggenerator.tasks.GenerateVanillaItemTypeList
+import rocks.cleanstone.mappinggenerator.tasks.GenerateVanillaProtocolItemTypeMapping
 import rocks.cleanstone.mappinggenerator.tasks.GenerateVanillaReportTask
-
 
 class CleanstonePlugin : Plugin<Project> {
 
@@ -25,10 +25,16 @@ class CleanstonePlugin : Plugin<Project> {
                 description = "Generates the Report for the given Version."
             }
 
-            val generateVanillaItemMappings = create("generateVanillaItemMappings", GenerateVanillaItemMappings::class) {
-                //                dependsOn(generateReport)
+            val generateVanillaItemTypeList = create("generateVanillaItemTypeList", GenerateVanillaItemTypeList::class) {
+                dependsOn(generateReport)
                 group = "generate"
-                description = "Generates the Item Mappings for the given Version."
+                description = "Generates the Vanilla Item type List for the given Version."
+            }
+
+            val generateVanillaProtocolItemTypeMapping = create("generateVanillaProtocolItemTypeMapping", GenerateVanillaProtocolItemTypeMapping::class) {
+                dependsOn(generateReport)
+                group = "generate"
+                description = "Generates the Vanilla protocol item type mapping for the given Version."
             }
         }
     }

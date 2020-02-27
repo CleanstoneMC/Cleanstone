@@ -1,4 +1,4 @@
-package rocks.cleanstone.mappinggenerator.tasks
+package rocks.cleanstone.mappinggenerator.util
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
@@ -37,17 +37,13 @@ open class RevisionAwareTask : DefaultTask() {
 
 
     @Internal
-    protected fun getItemReportFile(): File {
-        return getServerFolder()
-                .resolve("generated")
-                .resolve("reports")
-                .resolve("items.json")
+    protected fun getVersionString(): String {
+        return getRev().replace('.', '_')
     }
 
+    @Internal
+    protected val srcRoot = project.rootDir
+            .resolve("src")
+            .resolve("main")
+            .resolve("java")
 }
-
-//enum class ReportType(val filename: String) {
-//    ITEMS("items.json"),
-//    BLOCKS("blocks.json"),
-//    COMMANDS("commands.json");
-//}

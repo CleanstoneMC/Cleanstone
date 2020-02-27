@@ -3,6 +3,7 @@ package rocks.cleanstone.mappinggenerator.tasks
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import org.gradle.api.tasks.TaskAction
+import rocks.cleanstone.mappinggenerator.util.RevisionAwareTask
 import java.net.URI
 import java.nio.file.Files
 

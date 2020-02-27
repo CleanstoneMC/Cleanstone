@@ -1,6 +1,7 @@
 package rocks.cleanstone.mappinggenerator.tasks
 
 import org.gradle.api.tasks.TaskAction
+import rocks.cleanstone.mappinggenerator.util.RevisionAwareTask
 
 open class GenerateVanillaReportTask : RevisionAwareTask() {
 
@@ -10,6 +11,8 @@ open class GenerateVanillaReportTask : RevisionAwareTask() {
                 arrayOf("java", "-cp", getServerFile().toPath().toString(), "net.minecraft.data.Main", "--server", "--reports"),
                 null,
                 getServerFolder()
-        )
+        ).waitFor()
+
+        Thread.sleep(2000)
     }
 }
