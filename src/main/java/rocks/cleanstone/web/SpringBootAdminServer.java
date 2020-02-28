@@ -7,7 +7,7 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import rocks.cleanstone.core.config.structs.WebConfig;
+import rocks.cleanstone.web.config.WebConfig;
 
 @SpringBootApplication
 @Profile("mainServer")

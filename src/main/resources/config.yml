@@ -8,23 +8,31 @@ cleanstone:
   port: 25564
   address: 0.0.0.0
 
-world:
-  datasource: leveldb
+storage:
+  world:
+    engine: noop
 
-player:
-  datasource: leveldb
+  player:
+    engine: noop
 
-minecraft:
-  java:
+endpoint:
+  vanilla:
     enabled: true
     port: 25565
     address: 0.0.0.0
+    versions:
+      - 1.12.2
+      - 1.13
+      - 1.13.1
+      - 1.13.2
+      - 1.14
 
   bedrock:
     enabled: true
     port: 19132
     address: 0.0.0.0
 
+game:
   onlineMode: true
   motd: Cleanstone Advanced Minecraft Server
   maxPlayers: 10000

@@ -3,26 +3,18 @@ package rocks.cleanstone.endpoint.minecraft.vanilla.net;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.config.structs.MinecraftConfig;
+import rocks.cleanstone.endpoint.minecraft.vanilla.config.MinecraftConfig;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.SimpleMinecraftProtocol;
 import rocks.cleanstone.net.netty.NettyNetworking;
 import rocks.cleanstone.player.PlayerManager;
 
 @Component
-@ConditionalOnProperty(name = "minecraft.java.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "endpoint.vanilla.enabled", havingValue = "true")
 //TODO: Change code to not load the package at all
 public class SimpleMinecraftNetworking extends NettyNetworking implements MinecraftNetworking {
-
-    private final MinecraftConfig minecraftConfig;
-
     @Autowired
     public SimpleMinecraftNetworking(MinecraftConfig minecraftConfig, SimpleMinecraftProtocol protocol,
                                      PlayerManager playerManager) {
-        super(minecraftConfig.getJava().getPort(), minecraftConfig.getJava().getAddress(), protocol, playerManager);
-        this.minecraftConfig = minecraftConfig;
-    }
-
-    public MinecraftConfig getMinecraftConfig() {
-        return minecraftConfig;
+        super(minecraftConfig.getPort(), minecraftConfig.getAddress(), protocol, playerManager);
     }
 }

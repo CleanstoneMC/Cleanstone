@@ -15,6 +15,7 @@ import rocks.cleanstone.game.world.region.RegionManager;
 import rocks.cleanstone.storage.world.WorldDataSource;
 import rocks.cleanstone.storage.world.WorldDataSourceCreationException;
 import rocks.cleanstone.storage.world.WorldDataSourceFactory;
+import rocks.cleanstone.storage.world.WorldDataSourceFactoryRegistry;
 
 import java.io.IOException;
 
@@ -26,10 +27,10 @@ public class SimpleWorldLoader implements WorldLoader {
     private final WorldDataSourceFactory worldDataSourceFactory;
 
     @Autowired
-    public SimpleWorldLoader(ApplicationContext context, WorldGeneratorManager worldGeneratorManager, WorldDataSourceFactory worldDataSourceFactory) {
+    public SimpleWorldLoader(ApplicationContext context, WorldGeneratorManager worldGeneratorManager, WorldDataSourceFactoryRegistry registry) {
         this.context = context;
         this.worldGeneratorManager = worldGeneratorManager;
-        this.worldDataSourceFactory = worldDataSourceFactory;
+        this.worldDataSourceFactory = registry.getWorldDataSourceFactory();
     }
 
     @Async(value = "worldExec")

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.core.config.structs.GameConfig;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.MinecraftNetworking;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.login.event.AsyncLoginEvent;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.login.event.AsyncLoginSuccessEvent;
@@ -33,16 +34,14 @@ public class LoginManager {
 
     private final Map<Connection, LoginData> connectionLoginDataMap = Maps.newConcurrentMap();
     private final SessionServerRequester sessionServerRequester;
-    private final MinecraftNetworking networking;
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
     private final boolean onlineMode;
 
     @Autowired
-    public LoginManager(MinecraftNetworking networking, SessionServerRequester sessionServerRequester) {
-        this.networking = networking;
+    public LoginManager(MinecraftNetworking networking, SessionServerRequester sessionServerRequester, GameConfig gameConfig) {
         this.sessionServerRequester = sessionServerRequester;
-        this.onlineMode = networking.getMinecraftConfig().isOnlineMode();
+        this.onlineMode = gameConfig.isOnlineMode();
         publicKey = networking.getKeyPair().getPublic();
         privateKey = networking.getKeyPair().getPrivate();
     }

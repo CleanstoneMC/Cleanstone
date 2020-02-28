@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.config.structs.MinecraftConfig;
+import rocks.cleanstone.core.config.structs.GameConfig;
 import rocks.cleanstone.core.config.structs.WorldConfig;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
@@ -18,14 +18,14 @@ import javax.annotation.Nonnull;
 public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
 
     private final WorldManager worldManager;
-    private final MinecraftConfig minecraftConfig;
+    private final GameConfig gameConfig;
     private World firstSpawnWorld;
     private boolean running = false;
 
     @Autowired
-    public SimpleOpenWorldGame(WorldManager worldManager, MinecraftConfig minecraftConfig) {
+    public SimpleOpenWorldGame(WorldManager worldManager, GameConfig gameConfig) {
         this.worldManager = worldManager;
-        this.minecraftConfig = minecraftConfig;
+        this.gameConfig = gameConfig;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class SimpleOpenWorldGame implements OpenWorldGame, SmartLifecycle {
 
     @Override
     public void start() {
-        minecraftConfig.getWorlds().stream()
+        gameConfig.getWorlds().stream()
                 .filter(WorldConfig::isAutoload)
                 .forEach(this::loadWorld);
         log.info("Started OpenWorldGame");

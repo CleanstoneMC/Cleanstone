@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.config.structs.CleanstoneConfig;
-import rocks.cleanstone.core.config.structs.MinecraftConfig;
 
 /**
  * A sub Cleanstone server instance which accepts workload allocated by the {@link CleanstoneMainServer}.
@@ -17,7 +15,7 @@ import rocks.cleanstone.core.config.structs.MinecraftConfig;
 public class CleanstoneSubServer extends CleanstoneServer {
 
     @Autowired
-    public CleanstoneSubServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig) {
-        super(cleanstoneConfig, minecraftConfig);
+    public CleanstoneSubServer() {
+        super();
     }
 }

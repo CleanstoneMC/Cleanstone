@@ -4,7 +4,7 @@ import com.whirvis.jraknet.identifier.MinecraftIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.config.structs.MinecraftConfig;
+import rocks.cleanstone.core.config.structs.GameConfig;
 import rocks.cleanstone.player.PlayerManager;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,12 +17,12 @@ public class StatusProvider extends MinecraftIdentifier {
     private final int maxPlayers;
 
     @Autowired
-    public StatusProvider(MinecraftConfig minecraftConfig, PlayerManager playerManager) {
-        super(minecraftConfig.getMotd(), 137, "1.2", playerManager.getOnlinePlayers().size(),
-                minecraftConfig.getMaxPlayers(), ThreadLocalRandom.current().nextLong(),
+    public StatusProvider(GameConfig gameConfig, PlayerManager playerManager) {
+        super(gameConfig.getMotd(), 137, "1.2", playerManager.getOnlinePlayers().size(),
+                gameConfig.getMaxPlayers(), ThreadLocalRandom.current().nextLong(),
                 "Cleanstone World", "Creative");
-        this.motd = minecraftConfig.getMotd();
-        this.maxPlayers = minecraftConfig.getMaxPlayers();
+        this.motd = gameConfig.getMotd();
+        this.maxPlayers = gameConfig.getMaxPlayers();
         this.playerManager = playerManager;
     }
 

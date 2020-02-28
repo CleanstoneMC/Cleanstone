@@ -1,6 +1,7 @@
 package rocks.cleanstone.core;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableCaching
 @EnableAsync
 @EnableAutoConfiguration
+@EnableConfigurationProperties
 @EnableScheduling
 public class MainBeanConfig {
 

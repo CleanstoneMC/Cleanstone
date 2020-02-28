@@ -2,7 +2,7 @@ package rocks.cleanstone.storage.engine.leveldb.world;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnJndi;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.chunk.ChunkDataEncoder;
 import rocks.cleanstone.game.entity.EntitySerialization;
@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 
 @Slf4j
 @Component
-@ConditionalOnProperty(name = "world.datasource", havingValue = "leveldb", matchIfMissing = true)
+@ConditionalOnJndi("leveldbjni")
 public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
 
     private final EntitySerialization entitySerialization;
@@ -29,6 +29,11 @@ public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
     ) {
         this.entitySerialization = entitySerialization;
         this.chunkDataEncoder = chunkDataEncoder;
+    }
+
+    @Override
+    public String getName() {
+        return "leveldb";
     }
 
     @Override

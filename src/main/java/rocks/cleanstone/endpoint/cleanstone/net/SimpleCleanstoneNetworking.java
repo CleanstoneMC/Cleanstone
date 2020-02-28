@@ -2,7 +2,7 @@ package rocks.cleanstone.endpoint.cleanstone.net;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.config.structs.CleanstoneConfig;
+import rocks.cleanstone.endpoint.cleanstone.config.CleanstoneConfig;
 import rocks.cleanstone.endpoint.cleanstone.net.protocol.SimpleCleanstoneProtocol;
 import rocks.cleanstone.net.netty.NettyNetworking;
 import rocks.cleanstone.player.PlayerManager;

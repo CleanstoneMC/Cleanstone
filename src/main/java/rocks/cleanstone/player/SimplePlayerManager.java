@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.core.CleanstoneServer;
+import rocks.cleanstone.core.config.structs.GameConfig;
 import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.entity.Entity;
@@ -16,7 +17,7 @@ import rocks.cleanstone.player.event.PlayerJoinEvent;
 import rocks.cleanstone.player.event.PlayerQuitEvent;
 import rocks.cleanstone.storage.player.PlayerDataSource;
 import rocks.cleanstone.storage.player.PlayerDataSourceCreationException;
-import rocks.cleanstone.storage.player.PlayerDataSourceFactory;
+import rocks.cleanstone.storage.player.PlayerDataSourceFactoryRegistry;
 
 import javax.annotation.Nullable;
 import javax.annotation.PreDestroy;
@@ -30,10 +31,12 @@ public class SimplePlayerManager implements PlayerManager {
     private final Collection<Player> onlinePlayers = new CopyOnWriteArraySet<>();
     private final Collection<Player> terminatingPlayers = new CopyOnWriteArraySet<>();
     private final Collection<Identity> playerIDs = Sets.newConcurrentHashSet();
+    private final GameConfig gameConfig;
     private final PlayerDataSource playerDataSource;
 
-    public SimplePlayerManager(PlayerDataSourceFactory playerDataSourceFactory) throws PlayerDataSourceCreationException {
-        this.playerDataSource = playerDataSourceFactory.get();
+    public SimplePlayerManager(GameConfig gameConfig, PlayerDataSourceFactoryRegistry registry) throws PlayerDataSourceCreationException {
+        this.gameConfig = gameConfig;
+        this.playerDataSource = registry.getPlayerDataSourceFactory().get();
     }
 
     @Override
@@ -98,7 +101,7 @@ public class SimplePlayerManager implements PlayerManager {
 
     @Override
     public boolean isPlayerOperator(Identity playerID) {
-        List<String> ops = CleanstoneServer.getInstance().getMinecraftConfig().getOps();
+        List<String> ops = gameConfig.getOps();
         return ops.contains(playerID.getName()) || ops.contains(playerID.getUUID().toString()); //TODO: Make this beauty <3
     }
 

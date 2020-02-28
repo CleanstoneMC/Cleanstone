@@ -10,8 +10,6 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import rocks.cleanstone.core.config.structs.CleanstoneConfig;
-import rocks.cleanstone.core.config.structs.MinecraftConfig;
 import rocks.cleanstone.core.event.CleanstoneEventPublisher;
 import rocks.cleanstone.core.event.EventExecutionException;
 
@@ -29,8 +27,6 @@ public abstract class CleanstoneServer {
     private static CleanstoneServer INSTANCE;
     private static Thread restartThread;
 
-    protected final CleanstoneConfig cleanstoneConfig;
-    protected final MinecraftConfig minecraftConfig;
     @Autowired
     protected CleanstoneEventPublisher eventPublisher;
     @Autowired
@@ -40,9 +36,7 @@ public abstract class CleanstoneServer {
     @Autowired
     protected ConfigurableApplicationContext context;
 
-    protected CleanstoneServer(CleanstoneConfig cleanstoneConfig, MinecraftConfig minecraftConfig) {
-        this.cleanstoneConfig = cleanstoneConfig;
-        this.minecraftConfig = minecraftConfig;
+    protected CleanstoneServer() {
     }
 
     public static <T> T publishEvent(T event) {
@@ -103,14 +97,6 @@ public abstract class CleanstoneServer {
 
     public MessageSource getMessageSource() {
         return messageSource;
-    }
-
-    public CleanstoneConfig getCleanstoneConfig() {
-        return cleanstoneConfig;
-    }
-
-    public MinecraftConfig getMinecraftConfig() {
-        return minecraftConfig;
     }
 
     public SpringBeanDefinitionProxy getSpringBeanDefinitionProxy() {

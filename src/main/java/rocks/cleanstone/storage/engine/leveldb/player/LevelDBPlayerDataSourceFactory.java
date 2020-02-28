@@ -1,7 +1,7 @@
 package rocks.cleanstone.storage.engine.leveldb.player;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnJndi;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.storage.player.PlayerDataSource;
 import rocks.cleanstone.storage.player.PlayerDataSourceCreationException;
@@ -14,13 +14,12 @@ import java.nio.file.Paths;
 
 @Slf4j
 @Component
-@ConditionalOnProperty(name = "player.datasource", havingValue = "leveldb", matchIfMissing = true)
+@ConditionalOnJndi("leveldbjni")
 public class LevelDBPlayerDataSourceFactory implements PlayerDataSourceFactory {
 
 
     public LevelDBPlayerDataSourceFactory() {
     }
-
 
     private Path getPlayerDataFolder() {
         Path dataFolder = Paths.get("data", "players");
@@ -30,6 +29,11 @@ public class LevelDBPlayerDataSourceFactory implements PlayerDataSourceFactory {
             log.error("Cannot create data folder (no permission?)", e);
         }
         return dataFolder;
+    }
+
+    @Override
+    public String getName() {
+        return "leveldb";
     }
 
     @Override

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.MinecraftNetworking;
+import rocks.cleanstone.core.config.structs.GameConfig;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.inbound.RequestPacket;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.ResponsePacket;
 import rocks.cleanstone.net.event.InboundPacketEvent;
@@ -20,9 +20,9 @@ public class StatusRequestListener {
     private final PlayerManager playerManager;
 
     @Autowired
-    public StatusRequestListener(MinecraftNetworking minecraftNetworking, PlayerManager playerManager) {
-        this.motd = minecraftNetworking.getMinecraftConfig().getMotd();
-        this.maxPlayers = minecraftNetworking.getMinecraftConfig().getMaxPlayers();
+    public StatusRequestListener(GameConfig gameConfig, PlayerManager playerManager) {
+        this.motd = gameConfig.getMotd();
+        this.maxPlayers = gameConfig.getMaxPlayers();
         this.playerManager = playerManager;
     }
 
