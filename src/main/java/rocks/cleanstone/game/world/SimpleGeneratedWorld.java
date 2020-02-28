@@ -2,11 +2,8 @@ package rocks.cleanstone.game.world;
 
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.config.structs.WorldConfig;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.Difficulty;
@@ -26,8 +23,6 @@ import rocks.cleanstone.storage.world.WorldDataSource;
 import javax.annotation.Nullable;
 import java.util.concurrent.ExecutionException;
 
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Slf4j
 public class SimpleGeneratedWorld implements World {
 
