@@ -1,8 +1,8 @@
 package rocks.cleanstone.player;
 
 import rocks.cleanstone.endpoint.cleanstone.entity.types.Human;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.DisplayedSkinPart;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.PlayerAbility;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.DisplayedSkinPart;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.PlayerAbility;
 import rocks.cleanstone.game.chat.ChatMode;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.game.command.CommandSender;

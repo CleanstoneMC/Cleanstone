@@ -1,6 +1,6 @@
 package rocks.cleanstone.net.protocol;
 
-import rocks.cleanstone.endpoint.minecraft.java.net.protocol.MinecraftClientProtocolLayer;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.packet.Packet;
 
 import javax.annotation.Nonnull;

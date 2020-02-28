@@ -1,6 +1,6 @@
 package rocks.cleanstone.storage.chunk;
 
-import rocks.cleanstone.endpoint.minecraft.block.VanillaBlockType;
+import rocks.cleanstone.endpoint.minecraft.vanilla.block.VanillaBlockType;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.block.state.BlockState;

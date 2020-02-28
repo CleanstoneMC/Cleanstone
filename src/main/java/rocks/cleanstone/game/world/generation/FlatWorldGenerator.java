@@ -2,9 +2,9 @@ package rocks.cleanstone.game.world.generation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.block.VanillaBlockType;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.Dimension;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.LevelType;
+import rocks.cleanstone.endpoint.minecraft.vanilla.block.VanillaBlockType;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.Dimension;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.LevelType;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.ImmutableBlock;
 import rocks.cleanstone.game.entity.RotatablePosition;

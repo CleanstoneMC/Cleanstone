@@ -2,7 +2,7 @@ package rocks.cleanstone.game.chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.OutChatMessagePacket;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.OutChatMessagePacket;
 import rocks.cleanstone.game.chat.message.ChatMessage;
 import rocks.cleanstone.game.chat.message.Text;
 import rocks.cleanstone.player.Player;

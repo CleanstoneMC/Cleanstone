@@ -1,6 +1,6 @@
 package rocks.cleanstone.game.chat.event;
 
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.inbound.InTabCompletePacket;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.inbound.InTabCompletePacket;
 import rocks.cleanstone.player.Player;
 
 public class PlayerTabCompleteEvent {

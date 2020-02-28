@@ -2,9 +2,9 @@ package rocks.cleanstone.game.world;
 
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.config.structs.WorldConfig;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.Difficulty;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.Dimension;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.LevelType;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.Difficulty;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.Dimension;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.LevelType;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.EntityRegistry;

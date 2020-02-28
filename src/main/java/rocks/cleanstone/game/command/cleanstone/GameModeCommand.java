@@ -1,8 +1,8 @@
 package rocks.cleanstone.game.command.cleanstone;
 
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.GameStateChangeReason;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.ChangeGameStatePacket;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.GameStateChangeReason;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.ChangeGameStatePacket;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;
 import rocks.cleanstone.game.gamemode.GameMode;

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import rocks.cleanstone.endpoint.minecraft.bedrock.net.BedrockClientProtocolLayer;
 import rocks.cleanstone.endpoint.minecraft.bedrock.net.packet.BedrockInboundPacketType;
 import rocks.cleanstone.endpoint.minecraft.bedrock.net.packet.BedrockOutboundPacketType;
-import rocks.cleanstone.endpoint.minecraft.java.net.protocol.VanillaProtocolState;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.VanillaProtocolState;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;

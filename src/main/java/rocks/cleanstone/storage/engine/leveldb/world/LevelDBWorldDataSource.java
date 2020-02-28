@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.data.VersionedCodec;
-import rocks.cleanstone.endpoint.minecraft.java.net.chunk.ChunkDataEncoder;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.chunk.ChunkDataEncoder;
 import rocks.cleanstone.game.entity.EntitySerialization;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;

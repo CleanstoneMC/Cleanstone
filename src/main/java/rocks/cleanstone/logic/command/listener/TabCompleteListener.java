@@ -3,7 +3,7 @@ package rocks.cleanstone.logic.command.listener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.OutTabCompletePacket;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.OutTabCompletePacket;
 import rocks.cleanstone.game.chat.event.PlayerTabCompleteEvent;
 import rocks.cleanstone.game.command.completion.CommandCompletion;
 

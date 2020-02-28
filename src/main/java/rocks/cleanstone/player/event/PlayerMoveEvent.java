@@ -1,6 +1,6 @@
 package rocks.cleanstone.player.event;
 
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.EntityTeleportPacket;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.EntityTeleportPacket;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.event.EntityMoveEvent;
 import rocks.cleanstone.player.Player;

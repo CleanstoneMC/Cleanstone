@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.java.net.chunk.ChunkDataEncoder;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.chunk.ChunkDataEncoder;
 import rocks.cleanstone.game.entity.EntitySerialization;
 import rocks.cleanstone.storage.world.WorldDataSource;
 import rocks.cleanstone.storage.world.WorldDataSourceCreationException;

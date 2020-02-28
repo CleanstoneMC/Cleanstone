@@ -1,7 +1,7 @@
 package rocks.cleanstone.player;
 
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.DisconnectPacket;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.OutChatMessagePacket;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.DisconnectPacket;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.OutChatMessagePacket;
 import rocks.cleanstone.game.Identity;
 import rocks.cleanstone.game.chat.ChatPosition;
 import rocks.cleanstone.game.chat.message.Text;

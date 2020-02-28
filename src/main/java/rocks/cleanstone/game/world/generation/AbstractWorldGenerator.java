@@ -2,8 +2,8 @@ package rocks.cleanstone.game.world.generation;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.Dimension;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.LevelType;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.Dimension;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.LevelType;
 
 import java.util.HashMap;
 import java.util.Map;

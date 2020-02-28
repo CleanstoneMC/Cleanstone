@@ -1,7 +1,7 @@
 package rocks.cleanstone.game.gamemode.vanilla;
 
 import com.google.common.base.CaseFormat;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.enums.PlayerAbility;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.enums.PlayerAbility;
 import rocks.cleanstone.game.gamemode.GameMode;
 import rocks.cleanstone.game.gamemode.GameModeRuleSet;
 

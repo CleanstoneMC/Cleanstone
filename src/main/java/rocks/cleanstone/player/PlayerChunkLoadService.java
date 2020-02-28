@@ -4,8 +4,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.ChunkDataPacket;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.UnloadChunkPacket;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.ChunkDataPacket;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 
