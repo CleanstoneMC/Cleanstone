@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
-import rocks.cleanstone.core.config.structs.WorldConfig;
+import rocks.cleanstone.game.world.config.WorldConfig;
 
 import javax.annotation.Nullable;
 import java.util.Collection;

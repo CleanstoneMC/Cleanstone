@@ -1,19 +1,16 @@
 package rocks.cleanstone.game.world;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
-
-import java.io.IOException;
-
-import lombok.extern.slf4j.Slf4j;
-import rocks.cleanstone.core.config.structs.WorldConfig;
 import rocks.cleanstone.game.entity.EntityRegistry;
 import rocks.cleanstone.game.entity.EntityRegistryFactory;
 import rocks.cleanstone.game.world.chunk.ChunkProvider;
 import rocks.cleanstone.game.world.chunk.ChunkProviderFactory;
+import rocks.cleanstone.game.world.config.WorldConfig;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.game.world.region.RegionManager;
 import rocks.cleanstone.game.world.region.RegionManagerFactory;
@@ -21,6 +18,8 @@ import rocks.cleanstone.storage.world.WorldDataSource;
 import rocks.cleanstone.storage.world.WorldDataSourceCreationException;
 import rocks.cleanstone.storage.world.WorldDataSourceFactory;
 import rocks.cleanstone.storage.world.WorldDataSourceFactoryRegistry;
+
+import java.io.IOException;
 
 @Slf4j
 @Component

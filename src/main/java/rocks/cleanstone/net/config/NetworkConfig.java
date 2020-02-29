@@ -1,4 +1,4 @@
-package rocks.cleanstone.core.config.structs;
+package rocks.cleanstone.net.config;
 
 import lombok.Data;
 

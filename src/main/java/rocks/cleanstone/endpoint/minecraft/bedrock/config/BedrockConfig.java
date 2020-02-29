@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import rocks.cleanstone.core.config.structs.NetworkConfig;
+import rocks.cleanstone.net.config.NetworkConfig;
 
 /**
  * Section of the main configuration file with various bedrock protocol-related

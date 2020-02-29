@@ -1,4 +1,4 @@
-package rocks.cleanstone.core.config.structs;
+package rocks.cleanstone.game.world.config;
 
 import lombok.Data;
 

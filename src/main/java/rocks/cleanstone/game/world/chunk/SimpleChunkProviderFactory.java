@@ -1,7 +1,7 @@
 package rocks.cleanstone.game.world.chunk;
 
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.config.structs.WorldConfig;
+import rocks.cleanstone.game.world.config.WorldConfig;
 import rocks.cleanstone.game.world.generation.WorldGenerator;
 import rocks.cleanstone.storage.world.WorldDataSource;
 

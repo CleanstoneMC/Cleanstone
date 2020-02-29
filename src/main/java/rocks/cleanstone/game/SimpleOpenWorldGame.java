@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.config.structs.WorldConfig;
 import rocks.cleanstone.game.config.GameConfig;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
+import rocks.cleanstone.game.world.config.WorldConfig;
 
 import javax.annotation.Nonnull;
 

@@ -3,7 +3,7 @@ package rocks.cleanstone.game.config;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import rocks.cleanstone.core.config.structs.WorldConfig;
+import rocks.cleanstone.game.world.config.WorldConfig;
 
 import java.util.List;
 

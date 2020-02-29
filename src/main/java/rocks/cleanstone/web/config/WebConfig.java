@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import rocks.cleanstone.core.config.structs.NetworkConfig;
+import rocks.cleanstone.net.config.NetworkConfig;
 
 /**
  * (Currently unused) Section of the main configuration file with various cleanstone protocol-related
