@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import rocks.cleanstone.core.CleanstoneServer;
-import rocks.cleanstone.core.config.structs.GameConfig;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.MinecraftNetworking;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.login.event.AsyncLoginEvent;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.login.event.AsyncLoginSuccessEvent;
@@ -18,6 +17,7 @@ import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.LoginSucc
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.SetCompressionPacket;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.VanillaProtocolState;
 import rocks.cleanstone.game.chat.message.Text;
+import rocks.cleanstone.game.config.GameConfig;
 import rocks.cleanstone.net.Connection;
 import rocks.cleanstone.net.utils.SecurityUtils;
 import rocks.cleanstone.net.utils.UUIDUtils;

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.config.structs.GameConfig;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.inbound.ClientSettingsPacket;
+import rocks.cleanstone.game.config.GameConfig;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.player.Player;
 

@@ -4,7 +4,7 @@ import com.whirvis.jraknet.identifier.MinecraftIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.core.config.structs.GameConfig;
+import rocks.cleanstone.game.config.GameConfig;
 import rocks.cleanstone.player.PlayerManager;
 
 import java.util.concurrent.ThreadLocalRandom;
