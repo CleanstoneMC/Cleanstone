@@ -2,7 +2,7 @@ package rocks.cleanstone.game.block.state.mapping;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import rocks.cleanstone.endpoint.minecraft.java.v1_14.protocol.ProtocolBlockStateMapping_v1_14;
+import rocks.cleanstone.endpoint.minecraft.vanilla.v1_14.net.protocol.ProtocolBlockStateMapping_v1_14;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.SimpleMaterialRegistry;

@@ -1,15 +1,16 @@
-package rocks.cleanstone.endpoint.minecraft.java.net.protocol;
+package rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import rocks.cleanstone.endpoint.minecraft.java.net.packet.outbound.ChunkDataPacket;
+
+import java.io.IOException;
+import java.net.URL;
+
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.generation.FlatWorldGenerator;
 import rocks.cleanstone.storage.chunk.BlockDataStorageProvider;
-
-import java.io.IOException;
-import java.net.URL;
 
 public enum EncodedChunks {
     V1_12_2_WithoutLight("V1_12_2_WithoutLight.hex"),
@@ -41,13 +42,13 @@ public enum EncodedChunks {
         return data;
     }
 
-    public byte[] getData() {
-        return data;
-    }
-
     public static ChunkDataPacket getChunkDataPacket() {
         FlatWorldGenerator flatWorldGenerator = new FlatWorldGenerator(new BlockDataStorageProvider());
         Chunk chunk = flatWorldGenerator.generateChunk(1234567890, ChunkCoords.of(0, 0));
         return new ChunkDataPacket(0, 0, true, chunk.getBlockDataStorage(), null);
+    }
+
+    public byte[] getData() {
+        return data;
     }
 }

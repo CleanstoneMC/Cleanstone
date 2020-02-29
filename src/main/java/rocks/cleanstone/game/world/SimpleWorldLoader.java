@@ -1,11 +1,14 @@
 package rocks.cleanstone.game.world;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.io.IOException;
+
+import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.core.config.structs.WorldConfig;
 import rocks.cleanstone.game.entity.EntityRegistry;
 import rocks.cleanstone.game.entity.EntityRegistryFactory;
@@ -18,8 +21,6 @@ import rocks.cleanstone.storage.world.WorldDataSource;
 import rocks.cleanstone.storage.world.WorldDataSourceCreationException;
 import rocks.cleanstone.storage.world.WorldDataSourceFactory;
 import rocks.cleanstone.storage.world.WorldDataSourceFactoryRegistry;
-
-import java.io.IOException;
 
 @Slf4j
 @Component
@@ -63,7 +64,7 @@ public class SimpleWorldLoader implements WorldLoader {
             return AsyncResult.forExecutionException(new IOException("Failed to create worldDataSource", e));
         }
 
-        ChunkProvider chunkProvider = chunkProviderFactory.get(worldDataSource, worldGenerator);
+        ChunkProvider chunkProvider = chunkProviderFactory.get(worldConfig, worldDataSource, worldGenerator);
         RegionManager regionManager = regionManagerFactory.get(chunkProvider);
         EntityRegistry entityRegistry = entityRegistryFactory.get();
         World world = worldFactory.get(worldConfig, worldGenerator, worldDataSource, regionManager, entityRegistry);

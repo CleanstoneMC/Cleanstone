@@ -1,13 +1,14 @@
-package rocks.cleanstone.endpoint.minecraft.java.v1_14.net.protocol.outbound;
+package rocks.cleanstone.endpoint.minecraft.vanilla.v1_14.net.protocol.outbound;
+
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.junit.jupiter.api.Test;
-import rocks.cleanstone.endpoint.minecraft.java.net.protocol.EncodedChunks;
-import rocks.cleanstone.endpoint.minecraft.java.v1_14.net.protocol.ChunkDataEncoder_v1_14;
-import rocks.cleanstone.endpoint.minecraft.java.v1_14.net.protocol.ProtocolBlockStateMapping_v1_14;
-
-import java.io.IOException;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.EncodedChunks;
+import rocks.cleanstone.endpoint.minecraft.vanilla.v1_14.net.protocol.ChunkDataEncoder_v1_14;
+import rocks.cleanstone.endpoint.minecraft.vanilla.v1_14.net.protocol.ProtocolBlockStateMapping_v1_14;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -97,6 +97,7 @@ public class MainBeanConfig {
     private ThreadPoolTaskExecutor createTaskExecutor(int maxSize, String name) {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setMaxPoolSize(maxSize);
+
         executor.setThreadNamePrefix(name);
 
         return executor;
