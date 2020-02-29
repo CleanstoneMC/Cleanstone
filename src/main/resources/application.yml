@@ -16,7 +16,7 @@ logging:
   level:
     org.springframework: warn
     whirvis.jraknet: warn
-    rocks.cleanstone: debug
+    rocks.cleanstone: info
     de.codecentric.boot: warn
   file: "cleanstone.log"
 
