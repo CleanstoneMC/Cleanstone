@@ -1,22 +1,23 @@
 package rocks.cleanstone.endpoint.minecraft.vanilla.v1_14.net.protocol.outbound;
 
-import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Qualifier;
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.chunk.ChunkDataEncoder;
+
+import java.io.IOException;
+
+import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.ChunkDataPacket;
+import rocks.cleanstone.endpoint.minecraft.vanilla.v1_14.net.protocol.oldchunkdata.OldChunkDataEncoder;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.net.protocol.Codec;
 import rocks.cleanstone.net.protocol.OutboundPacketCodec;
-
-import java.io.IOException;
 
 @Codec
 public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
 
     private final BlockStateMapping<Integer> blockStateMapping;
-    private final ChunkDataEncoder chunkDataEncoder;
+    private final OldChunkDataEncoder chunkDataEncoder;
 
-    public ChunkDataCodec(@Qualifier("chunkDataEncoder_v1_14") ChunkDataEncoder chunkDataEncoder,
+    public ChunkDataCodec(@Qualifier("oldChunkDataEncoder_v1_14") OldChunkDataEncoder chunkDataEncoder,
                           @Qualifier("protocolBlockStateMapping_v1_14") BlockStateMapping<Integer> blockStateMapping) {
         this.blockStateMapping = blockStateMapping;
         this.chunkDataEncoder = chunkDataEncoder;
