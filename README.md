@@ -51,7 +51,7 @@ This is possible because we don't have a global tick loop that synchronizes all 
 - Java 11
 ### Instructions
 ```
-git clone https://github.com/CleanstoneMC/Cleanstone
+git clone git@github.com:CleanstoneMC/Cleanstone.git
 cd Cleanstone
 ./gradlew assemble
 java -jar build/libs/Cleanstone-0.3.1.jar
