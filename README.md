@@ -46,6 +46,16 @@ This is possible because we don't have a global tick loop that synchronizes all 
 - Network packet encapsulation (Events for Packets)
 - Chunk/Region behavior (Physics and AI)
 
+## Installation
+### Requirements
+- Java 11
+### Instructions
+```
+git clone https://github.com/CleanstoneMC/Cleanstone
+cd Cleanstone
+./gradlew assemble
+java -jar build/libs/Cleanstone-0.3.1.jar
+```
 ## No global Tick Loop?
 We will probably not be able to avoid a tick loop completely when we get to redstone, gravity, etc. since too many other systems directly depend on it and it would cause too many race conditions and delays to synchronize it all.
 Our trick here is to divide the world into independent regions that manage their entities and work by themselves using their own worker threads and their own independent tick loops or worker servers independent of other regions.
