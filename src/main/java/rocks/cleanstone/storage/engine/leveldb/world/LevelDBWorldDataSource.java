@@ -59,7 +59,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         hasSkyLight = true;
 
         entityDataCodec = VersionedCodec.withMainCodec(0, new EntityDataCodec(entitySerialization));
-        blockDataCodec = VersionedCodec.withMainCodec(0, new BlockDataCodec());
+        blockDataCodec = VersionedCodec.withMainCodec(0, new BlockDataCodec(this, hasSkyLight));
         blockTypeIDAssociationsCodec = VersionedCodec.withMainCodec(0,
                 new BlockTypeIDAssociationsCodec(worldID, materialRegistry));
         propertyIDAssociationsCodec = VersionedCodec.withMainCodec(0,
