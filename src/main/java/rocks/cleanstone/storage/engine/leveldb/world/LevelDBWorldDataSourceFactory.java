@@ -1,34 +1,33 @@
 package rocks.cleanstone.storage.engine.leveldb.world;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnJndi;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.chunk.ChunkDataEncoder;
-import rocks.cleanstone.game.entity.EntitySerialization;
-import rocks.cleanstone.storage.world.WorldDataSource;
-import rocks.cleanstone.storage.world.WorldDataSourceCreationException;
-import rocks.cleanstone.storage.world.WorldDataSourceFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import lombok.extern.slf4j.Slf4j;
+import rocks.cleanstone.game.block.state.property.PropertyRegistry;
+import rocks.cleanstone.game.entity.EntitySerialization;
+import rocks.cleanstone.game.material.MaterialRegistry;
+import rocks.cleanstone.storage.world.WorldDataSource;
+import rocks.cleanstone.storage.world.WorldDataSourceCreationException;
+import rocks.cleanstone.storage.world.WorldDataSourceFactory;
+
 @Slf4j
 @Component
-@ConditionalOnJndi("leveldbjni")
 public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
 
     private final EntitySerialization entitySerialization;
-    private final ChunkDataEncoder chunkDataEncoder;
+    private final MaterialRegistry materialRegistry;
+    private final PropertyRegistry propertyRegistry;
 
-    public LevelDBWorldDataSourceFactory(
-            EntitySerialization entitySerialization,
-            @Qualifier("chunkDataEncoder_v1_14") ChunkDataEncoder chunkDataEncoder
-    ) {
+    public LevelDBWorldDataSourceFactory(EntitySerialization entitySerialization,
+                                         MaterialRegistry materialRegistry, PropertyRegistry propertyRegistry) {
         this.entitySerialization = entitySerialization;
-        this.chunkDataEncoder = chunkDataEncoder;
+        this.materialRegistry = materialRegistry;
+        this.propertyRegistry = propertyRegistry;
     }
 
     @Override
@@ -40,7 +39,8 @@ public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
     @SuppressWarnings("deprecation")
     public WorldDataSource get(String worldID) throws WorldDataSourceCreationException {
         try {
-            return new LevelDBWorldDataSource(entitySerialization, chunkDataEncoder, getDataFolder(), worldID);
+            return new LevelDBWorldDataSource(materialRegistry, propertyRegistry, entitySerialization,
+                    getDataFolder(), worldID);
         } catch (IOException e) {
             throw new WorldDataSourceCreationException("could not initialize leveldb", e);
         }
