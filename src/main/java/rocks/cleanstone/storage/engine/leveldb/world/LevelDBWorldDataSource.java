@@ -1,5 +1,11 @@
 package rocks.cleanstone.storage.engine.leveldb.world;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashSet;
+
+import javax.annotation.Nullable;
+
 import io.netty.buffer.ByteBuf;
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.data.InOutCodec;
@@ -10,18 +16,13 @@ import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
-import rocks.cleanstone.storage.chunk.ChunkDataKeyFactory;
 import rocks.cleanstone.storage.chunk.StandardChunkDataType;
 import rocks.cleanstone.storage.engine.leveldb.LevelDBDataSource;
 import rocks.cleanstone.storage.engine.leveldb.entity.EntityData;
 import rocks.cleanstone.storage.engine.leveldb.entity.EntityDataCodec;
+import rocks.cleanstone.storage.world.WorldDataKeyFactory;
 import rocks.cleanstone.storage.world.WorldDataSource;
 import rocks.cleanstone.storage.world.WorldDataSourceFactory;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.HashSet;
 
 @Slf4j
 public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDataSource {
@@ -48,15 +49,14 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         hasSkyLight = true;
 
         entityDataCodec = VersionedCodec.withMainCodec(0, new EntityDataCodec(entitySerialization));
-//        blockDataCodec = VersionedCodec.withMainCodec(0, chunkDataEncoder); //TODO: Use own codec
-        blockDataCodec = null;
+        blockDataCodec = VersionedCodec.withMainCodec(0, new BlockDataCodec());
     }
 
     @Nullable
     @Override
     public Chunk loadExistingChunk(ChunkCoords coords) {
-        ByteBuf blocksKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.BLOCKS);
-        ByteBuf entitiesKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.ENTITIES);
+        ByteBuf blocksKey = WorldDataKeyFactory.createForChunk(coords, StandardChunkDataType.BLOCKS);
+        ByteBuf entitiesKey = WorldDataKeyFactory.createForChunk(coords, StandardChunkDataType.ENTITIES);
         BlockDataStorage blockDataStorage;
         try {
             blockDataStorage = get(blocksKey, blockDataCodec);
@@ -88,9 +88,9 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     @Override
     public void saveChunk(Chunk chunk) {
         ChunkCoords coords = chunk.getCoordinates();
-        log.trace("persisting chunk {}, {}", coords);
-        ByteBuf blocksKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.BLOCKS);
-        ByteBuf entitiesKey = ChunkDataKeyFactory.create(coords, StandardChunkDataType.ENTITIES);
+        log.trace("persisting chunk {}", coords);
+        ByteBuf blocksKey = WorldDataKeyFactory.createForChunk(coords, StandardChunkDataType.BLOCKS);
+        ByteBuf entitiesKey = WorldDataKeyFactory.createForChunk(coords, StandardChunkDataType.ENTITIES);
         try {
             // TODO Rewrite Chunk to be a bean and add ChunkCodec
             set(blocksKey, chunk.getBlockDataStorage(), blockDataCodec);
