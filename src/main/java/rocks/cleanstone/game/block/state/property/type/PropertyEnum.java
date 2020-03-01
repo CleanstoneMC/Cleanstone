@@ -42,4 +42,9 @@ public class PropertyEnum<E extends Enum<E>> extends AbstractProperty<E> {
     public Class<E> getValueClass() {
         return enumClass;
     }
+
+    @Override
+    public int getTypeID() {
+        return 1;
+    }
 }

@@ -12,4 +12,6 @@ public interface Property<T> {
     int getNeededSerializationBitAmount();
 
     Class<T> getValueClass();
+
+    int getTypeID();
 }
