@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.data.VersionedCodec;
 import rocks.cleanstone.endpoint.minecraft.vanilla.block.VanillaBlockType;
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.chunk.ChunkDataEncoder;
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.block.state.property.PropertyRegistry;
 import rocks.cleanstone.game.entity.EntitySerialization;
@@ -50,7 +49,6 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     public LevelDBWorldDataSource(MaterialRegistry materialRegistry,
                                   PropertyRegistry propertyRegistry,
                                   EntitySerialization entitySerialization,
-                                  ChunkDataEncoder chunkDataEncoder,
                                   Path worldDataFolder,
                                   String worldID
     ) throws IOException {
@@ -126,6 +124,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         return blockTypeIDAssociations.getBlockTypeIDMap().computeIfAbsent(blockType, (type) -> {
             int numericID = blockTypeIDAssociations.getLargestAssignedNumericID() + 1;
             blockTypeIDAssociations.getBlockTypeIDMap().put(blockType, numericID);
+            blockTypeIDAssociations.setLargestAssignedNumericID(numericID);
             log.debug("Added numeric id " + numericID + " to '" + worldID + "'");
             saveBlockTypeIDAssociations(blockTypeIDAssociations);
             return numericID;
@@ -143,12 +142,14 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
 
     private BlockTypeIDAssociations loadBlockTypeIDAssociations() {
         ByteBuf blockTypesKey = WorldDataKeyFactory.create(StandardWorldDataType.BLOCK_TYPE_IDS);
+        BlockTypeIDAssociations blockTypeIDAssociations = null;
         try {
-            return get(blockTypesKey, blockTypeIDAssociationsCodec);
+            blockTypeIDAssociations = get(blockTypesKey, blockTypeIDAssociationsCodec);
         } catch (IOException e) {
             log.error("Failed to load corrupted blockTypeIDAssociations data in LevelDB '" + worldID + "'", e);
         }
-        return new BlockTypeIDAssociations();
+        if (blockTypeIDAssociations == null) blockTypeIDAssociations = new BlockTypeIDAssociations();
+        return blockTypeIDAssociations;
     }
 
     private void saveBlockTypeIDAssociations(BlockTypeIDAssociations blockTypeIDAssociations) {
@@ -165,6 +166,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         return propertyIDAssociations.getPropertyIDMap().computeIfAbsent(property, (type) -> {
             int numericID = propertyIDAssociations.getLargestAssignedNumericID() + 1;
             propertyIDAssociations.getPropertyIDMap().put(property, numericID);
+            propertyIDAssociations.setLargestAssignedNumericID(numericID);
             log.debug("Added numeric id " + numericID + " to '" + worldID + "'");
             savePropertyIDAssociations(propertyIDAssociations);
             return numericID;
@@ -181,12 +183,14 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
 
     private PropertyIDAssociations loadPropertyIDAssociations() {
         ByteBuf propertiesKey = WorldDataKeyFactory.create(StandardWorldDataType.PROPERTY_IDS);
+        PropertyIDAssociations propertyIDAssociations = null;
         try {
-            return get(propertiesKey, propertyIDAssociationsCodec);
+            propertyIDAssociations = get(propertiesKey, propertyIDAssociationsCodec);
         } catch (IOException e) {
             log.error("Failed to load corrupted propertyIDAssociations data in LevelDB '" + worldID + "'", e);
         }
-        return new PropertyIDAssociations();
+        if (propertyIDAssociations == null) propertyIDAssociations = new PropertyIDAssociations();
+        return propertyIDAssociations;
     }
 
     private void savePropertyIDAssociations(PropertyIDAssociations propertyIDAssociations) {
