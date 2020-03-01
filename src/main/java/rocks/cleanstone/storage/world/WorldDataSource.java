@@ -1,9 +1,10 @@
 package rocks.cleanstone.storage.world;
 
+import javax.annotation.Nullable;
+
+import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
-
-import javax.annotation.Nullable;
 
 public interface WorldDataSource {
 
@@ -15,4 +16,8 @@ public interface WorldDataSource {
     void saveChunk(Chunk chunk);
 
     void drop();
+
+    int getBlockTypeID(BlockType blockType);
+
+    BlockType getBlockType(int numericID);
 }
