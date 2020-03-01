@@ -43,4 +43,9 @@ public class PropertyInteger extends AbstractProperty<Integer> {
     public Class<Integer> getValueClass() {
         return Integer.class;
     }
+
+    @Override
+    public int getTypeID() {
+        return 2;
+    }
 }

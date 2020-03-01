@@ -35,4 +35,9 @@ public class PropertyBoolean extends AbstractProperty<Boolean> {
     public Class<Boolean> getValueClass() {
         return Boolean.class;
     }
+
+    @Override
+    public int getTypeID() {
+        return 0;
+    }
 }
