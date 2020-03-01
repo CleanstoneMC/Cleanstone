@@ -6,7 +6,7 @@ import rocks.cleanstone.game.block.state.property.type.PropertyInteger;
 import rocks.cleanstone.game.block.state.property.vanilla.*;
 
 /**
- * A list of Cleanstone's block state properties
+ * A list of the vanilla block state properties
  * !! GENERATED FILE. This file was generated using the php-converter script. !!
  * */
 public class VanillaBlockProperties {

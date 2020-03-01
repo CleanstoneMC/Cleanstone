@@ -12,6 +12,8 @@ import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.data.VersionedCodec;
 import rocks.cleanstone.endpoint.minecraft.vanilla.block.VanillaBlockType;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.chunk.ChunkDataEncoder;
+import rocks.cleanstone.game.block.state.property.Property;
+import rocks.cleanstone.game.block.state.property.PropertyRegistry;
 import rocks.cleanstone.game.entity.EntitySerialization;
 import rocks.cleanstone.game.material.MaterialRegistry;
 import rocks.cleanstone.game.material.block.BlockType;
@@ -34,15 +36,19 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     private final String worldID;
     private final boolean hasSkyLight;
     private final BlockTypeIDAssociations blockTypeIDAssociations;
+    private final PropertyIDAssociations propertyIDAssociations;
 
     private final InOutCodec<EntityData, ByteBuf> entityDataCodec;
     private final InOutCodec<BlockDataStorage, ByteBuf> blockDataCodec;
     private final InOutCodec<BlockTypeIDAssociations, ByteBuf> blockTypeIDAssociationsCodec;
+    private final InOutCodec<PropertyIDAssociations, ByteBuf> propertyIDAssociationsCodec;
+
 
     /**
      * @deprecated Use the {@link WorldDataSourceFactory}
      */
     public LevelDBWorldDataSource(MaterialRegistry materialRegistry,
+                                  PropertyRegistry propertyRegistry,
                                   EntitySerialization entitySerialization,
                                   ChunkDataEncoder chunkDataEncoder,
                                   Path worldDataFolder,
@@ -50,15 +56,18 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
     ) throws IOException {
         super(worldDataFolder.resolve(worldID));
         this.worldID = worldID;
+        hasSkyLight = true;
 
         entityDataCodec = VersionedCodec.withMainCodec(0, new EntityDataCodec(entitySerialization));
         blockDataCodec = VersionedCodec.withMainCodec(0, new BlockDataCodec());
         blockTypeIDAssociationsCodec = VersionedCodec.withMainCodec(0,
                 new BlockTypeIDAssociationsCodec(worldID, materialRegistry));
+        propertyIDAssociationsCodec = VersionedCodec.withMainCodec(0,
+                new PropertyIDAssociationsCodec(worldID, propertyRegistry));
 
         // TODO read general world data (dimension, seed, etc)
-        hasSkyLight = true;
         blockTypeIDAssociations = loadBlockTypeIDAssociations();
+        propertyIDAssociations = loadPropertyIDAssociations();
     }
 
     @Nullable
@@ -132,7 +141,7 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         });
     }
 
-    public BlockTypeIDAssociations loadBlockTypeIDAssociations() {
+    private BlockTypeIDAssociations loadBlockTypeIDAssociations() {
         ByteBuf blockTypesKey = WorldDataKeyFactory.create(StandardWorldDataType.BLOCK_TYPE_IDS);
         try {
             return get(blockTypesKey, blockTypeIDAssociationsCodec);
@@ -142,12 +151,50 @@ public class LevelDBWorldDataSource extends LevelDBDataSource implements WorldDa
         return new BlockTypeIDAssociations();
     }
 
-    public void saveBlockTypeIDAssociations(BlockTypeIDAssociations blockTypeIDAssociations) {
+    private void saveBlockTypeIDAssociations(BlockTypeIDAssociations blockTypeIDAssociations) {
         ByteBuf blockTypesKey = WorldDataKeyFactory.create(StandardWorldDataType.BLOCK_TYPE_IDS);
         try {
             set(blockTypesKey, blockTypeIDAssociations, blockTypeIDAssociationsCodec);
         } catch (IOException e) {
             log.error("Failed to save blockTypeIDAssociations data in LevelDB '" + worldID + "'", e);
+        }
+    }
+
+    @Override
+    public synchronized int getPropertyID(Property<?> property) {
+        return propertyIDAssociations.getPropertyIDMap().computeIfAbsent(property, (type) -> {
+            int numericID = propertyIDAssociations.getLargestAssignedNumericID() + 1;
+            propertyIDAssociations.getPropertyIDMap().put(property, numericID);
+            log.debug("Added numeric id " + numericID + " to '" + worldID + "'");
+            savePropertyIDAssociations(propertyIDAssociations);
+            return numericID;
+        });
+    }
+
+    @Override
+    public synchronized Property<?> getProperty(int numericID) throws IllegalArgumentException {
+        return propertyIDAssociations.getPropertyIDMap().inverse().computeIfAbsent(numericID, (id) -> {
+            throw new IllegalArgumentException("Cannot find property for numericID " + numericID
+                    + " in propertyIDAssociations for '" + worldID + "'!");
+        });
+    }
+
+    private PropertyIDAssociations loadPropertyIDAssociations() {
+        ByteBuf propertiesKey = WorldDataKeyFactory.create(StandardWorldDataType.PROPERTY_IDS);
+        try {
+            return get(propertiesKey, propertyIDAssociationsCodec);
+        } catch (IOException e) {
+            log.error("Failed to load corrupted propertyIDAssociations data in LevelDB '" + worldID + "'", e);
+        }
+        return new PropertyIDAssociations();
+    }
+
+    private void savePropertyIDAssociations(PropertyIDAssociations propertyIDAssociations) {
+        ByteBuf propertiesKey = WorldDataKeyFactory.create(StandardWorldDataType.PROPERTY_IDS);
+        try {
+            set(propertiesKey, propertyIDAssociations, propertyIDAssociationsCodec);
+        } catch (IOException e) {
+            log.error("Failed to save propertyIDAssociations data in LevelDB '" + worldID + "'", e);
         }
     }
 }
