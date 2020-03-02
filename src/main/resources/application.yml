@@ -1,12 +1,13 @@
+
 spring:
   boot:
     admin:
       ui:
-        public-url: http://localhost:8085
         title: "Cleanstone Admin"
       client:
-        url: http://localhost:8085
-        enabled: true
+        url: null
+        instance:
+          name: null
   profiles:
     active: mainServer
   thymeleaf:

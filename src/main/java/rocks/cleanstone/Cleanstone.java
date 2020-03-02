@@ -3,6 +3,7 @@ package rocks.cleanstone;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import rocks.cleanstone.core.FullNameBeanNameGenerator;
+import rocks.cleanstone.core.config.ConfigAliasProvider;
 import rocks.cleanstone.core.config.SimpleConfigLoader;
 
 @SpringBootApplication
@@ -11,6 +12,7 @@ public class Cleanstone {
         new SpringApplicationBuilder(Cleanstone.class)
                 .beanNameGenerator(new FullNameBeanNameGenerator())
                 .initializers(new SimpleConfigLoader())
+                .initializers(new ConfigAliasProvider())
                 .run(args).start();
     }
 }
