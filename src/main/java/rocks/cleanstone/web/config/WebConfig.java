@@ -1,9 +1,7 @@
 package rocks.cleanstone.web.config;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import rocks.cleanstone.net.config.NetworkConfig;
 
@@ -12,10 +10,17 @@ import rocks.cleanstone.net.config.NetworkConfig;
  * properties
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Configuration
-@EnableConfigurationProperties
 @ConfigurationProperties(prefix = "web")
-public class WebConfig extends NetworkConfig {
+public class WebConfig {
     private boolean enabled;
+    private SpringBootAdminClientConfig client;
+    private NetworkConfig server;
+
+    @Data
+    @SuppressWarnings("InnerClassMayBeStatic")
+    class SpringBootAdminClientConfig {
+        private String url;
+    }
 }
+

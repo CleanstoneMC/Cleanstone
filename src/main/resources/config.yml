@@ -58,5 +58,11 @@ game:
 
 web:
   enabled: true
-  port: 8085
-  address: 0.0.0.0
+
+  client:
+    url: http://127.0.0.1:8080
+
+  server:
+    address: 127.0.0.1
+    port: 8080
+    url: http://localhost:8080
