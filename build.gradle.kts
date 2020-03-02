@@ -5,8 +5,8 @@ plugins {
     application
     jacoco
     cleanstone
-    id("org.springframework.boot") version "2.1.0.RELEASE"
-    id("io.spring.dependency-management") version "1.0.6.RELEASE"
+    id("org.springframework.boot") version "2.2.5.RELEASE"
+    id("io.spring.dependency-management") version "1.0.9.RELEASE"
 }
 
 repositories {
@@ -34,11 +34,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.shell:spring-shell-starter:2.0.0.RELEASE")
-    implementation("org.springframework.shell:spring-shell-starter:2.0.0.RELEASE")
+    implementation("org.springframework.shell:spring-shell-starter:2.0.1.RELEASE")
+    implementation("org.springframework.shell:spring-shell-starter:2.0.1.RELEASE")
     implementation("org.springframework.boot:spring-boot-devtools")
-    implementation("de.codecentric:spring-boot-admin-starter-client:2.1.0")
-    implementation("de.codecentric:spring-boot-admin-starter-server:2.1.0")
+    implementation("de.codecentric:spring-boot-admin-starter-client:2.2.0")
+    implementation("de.codecentric:spring-boot-admin-starter-server:2.2.0")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     implementation("io.netty:netty-all:4.1.45.Final")
