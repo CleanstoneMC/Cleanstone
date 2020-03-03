@@ -1,7 +1,7 @@
-package rocks.cleanstone.storage.engine.leveldb.player;
+package rocks.cleanstone.storage.engine.rocksdb.player;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnJndi;
+import org.rocksdb.RocksDBException;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.storage.player.PlayerDataSource;
 import rocks.cleanstone.storage.player.PlayerDataSourceCreationException;
@@ -14,11 +14,10 @@ import java.nio.file.Paths;
 
 @Slf4j
 @Component
-@ConditionalOnJndi("leveldbjni")
-public class LevelDBPlayerDataSourceFactory implements PlayerDataSourceFactory {
+public class RocksDBPlayerDataSourceFactory implements PlayerDataSourceFactory {
 
 
-    public LevelDBPlayerDataSourceFactory() {
+    public RocksDBPlayerDataSourceFactory() {
     }
 
     private Path getPlayerDataFolder() {
@@ -33,14 +32,14 @@ public class LevelDBPlayerDataSourceFactory implements PlayerDataSourceFactory {
 
     @Override
     public String getName() {
-        return "leveldb";
+        return "rocksdb";
     }
 
     @Override
     public PlayerDataSource get() throws PlayerDataSourceCreationException {
         try {
-            return new LevelDBPlayerDataSource(getPlayerDataFolder());
-        } catch (IOException e) {
+            return new RocksDBPlayerDataSource(getPlayerDataFolder());
+        } catch (RocksDBException e) {
             throw new PlayerDataSourceCreationException(e);
         }
     }

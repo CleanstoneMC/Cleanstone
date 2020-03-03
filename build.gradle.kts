@@ -59,7 +59,7 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.4")
     annotationProcessor("org.projectlombok:lombok:1.18.4")
 
-    implementation("org.fusesource.leveldbjni:leveldbjni-all:1.8")
+    implementation("org.rocksdb:rocksdbjni:6.6.4")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.junit.jupiter:junit-jupiter-api")

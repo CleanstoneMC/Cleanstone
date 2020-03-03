@@ -1,13 +1,8 @@
-package rocks.cleanstone.storage.engine.leveldb.world;
-
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+package rocks.cleanstone.storage.engine.rocksdb.world;
 
 import lombok.extern.slf4j.Slf4j;
+import org.rocksdb.RocksDBException;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.game.block.state.property.PropertyRegistry;
 import rocks.cleanstone.game.entity.EntitySerialization;
 import rocks.cleanstone.game.material.MaterialRegistry;
@@ -15,15 +10,20 @@ import rocks.cleanstone.storage.world.WorldDataSource;
 import rocks.cleanstone.storage.world.WorldDataSourceCreationException;
 import rocks.cleanstone.storage.world.WorldDataSourceFactory;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @Slf4j
 @Component
-public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
+public class RocksDBWorldDataSourceFactory implements WorldDataSourceFactory {
 
     private final EntitySerialization entitySerialization;
     private final MaterialRegistry materialRegistry;
     private final PropertyRegistry propertyRegistry;
 
-    public LevelDBWorldDataSourceFactory(EntitySerialization entitySerialization,
+    public RocksDBWorldDataSourceFactory(EntitySerialization entitySerialization,
                                          MaterialRegistry materialRegistry, PropertyRegistry propertyRegistry) {
         this.entitySerialization = entitySerialization;
         this.materialRegistry = materialRegistry;
@@ -32,17 +32,17 @@ public class LevelDBWorldDataSourceFactory implements WorldDataSourceFactory {
 
     @Override
     public String getName() {
-        return "leveldb";
+        return "rocksdb";
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public WorldDataSource get(String worldID) throws WorldDataSourceCreationException {
         try {
-            return new LevelDBWorldDataSource(materialRegistry, propertyRegistry, entitySerialization,
+            return new RocksDBWorldDataSource(materialRegistry, propertyRegistry, entitySerialization,
                     getDataFolder(), worldID);
-        } catch (IOException e) {
-            throw new WorldDataSourceCreationException("could not initialize leveldb", e);
+        } catch (RocksDBException e) {
+            throw new WorldDataSourceCreationException("could not initialize rocksdb", e);
         }
     }
 

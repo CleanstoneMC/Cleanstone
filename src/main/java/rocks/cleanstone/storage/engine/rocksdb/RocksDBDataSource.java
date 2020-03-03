@@ -1,49 +1,51 @@
-package rocks.cleanstone.storage.engine.leveldb;
+package rocks.cleanstone.storage.engine.rocksdb;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.fusesource.leveldbjni.JniDBFactory;
-import org.iq80.leveldb.DB;
-import org.iq80.leveldb.DBIterator;
-import org.iq80.leveldb.Options;
-import org.iq80.leveldb.WriteBatch;
+import org.rocksdb.*;
 import rocks.cleanstone.data.KeyValueDataRepository;
 
 import javax.annotation.Nullable;
-import java.io.IOException;
 import java.nio.file.Path;
 
 /**
  * LevelDB data source which supports key-value based IO
  */
 @Slf4j
-public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBuf>, AutoCloseable {
+public class RocksDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBuf>, AutoCloseable {
     private final Path path;
-    private final DB database;
+    private final RocksDB database;
 
-    public LevelDBDataSource(Path path, Options options) throws IOException {
+    static {
+        RocksDB.loadLibrary();
+    }
+
+    public RocksDBDataSource(Path path, Options options) throws RocksDBException {
         this.path = path;
         if (options == null) {
             options = new Options();
         }
-        options.createIfMissing(true);
-        database = JniDBFactory.factory.open(path.toFile(), options);
+        options.setCreateIfMissing(true);
+        log.info("Opening Database: " + path.toFile().getPath());
+        database = RocksDB.open(options, path.toFile().getPath());
     }
 
-    public LevelDBDataSource(Path path) throws IOException {
+    public RocksDBDataSource(Path path) throws RocksDBException {
         this(path, null);
     }
 
     @Override
     public void close() {
         try {
-            database.close();
-        } catch (IOException e) {
+            database.closeE();
+        } catch (RocksDBException e) {
             log.error("Error occurred while closing LevelDB '" + path.getFileName() + "'", e);
         }
     }
 
+    @SneakyThrows
     @Nullable
     @Override
     public ByteBuf get(ByteBuf key) {
@@ -53,6 +55,7 @@ public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBu
         return value != null ? Unpooled.wrappedBuffer(value) : null;
     }
 
+    @SneakyThrows
     @Override
     public void set(ByteBuf key, ByteBuf value) {
         byte[] keyBytes = new byte[key.readableBytes()];
@@ -67,15 +70,19 @@ public class LevelDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBu
         database.put(keyBytes, valueBytes);
     }
 
+    @SneakyThrows
     @Override
     public void drop() {
-        WriteBatch batch = database.createWriteBatch();
+        WriteOptions options = new WriteOptions();
+        WriteBatch batch = new WriteBatch();
 
-        DBIterator iterator = database.iterator();
+        RocksIterator iterator = database.newIterator();
         iterator.seekToFirst();
-        iterator.forEachRemaining(entry -> batch.delete(entry.getKey()));
+        for (iterator.seekToFirst(); iterator.isValid(); iterator.next()) {
+            batch.delete(iterator.key());
+        }
 
-        database.write(batch);
-        log.info("dropped leveldb at {}", path);
+        database.write(options, batch);
+        log.info("dropped rocksdb at {}", path);
     }
 }
