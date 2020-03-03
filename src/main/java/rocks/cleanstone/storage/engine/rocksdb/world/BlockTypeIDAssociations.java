@@ -1,29 +1,28 @@
-package rocks.cleanstone.storage.engine.leveldb.world;
+package rocks.cleanstone.storage.engine.rocksdb.world;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import rocks.cleanstone.game.material.block.BlockType;
 
 import java.util.Map;
 
-import rocks.cleanstone.game.block.state.property.Property;
+public class BlockTypeIDAssociations {
 
-public class PropertyIDAssociations {
-
-    private final BiMap<Property<?>, Integer> propertyIDMap = HashBiMap.create();
+    private final BiMap<BlockType, Integer> blockTypeIDMap = HashBiMap.create();
 
     private int largestAssignedNumericID;
 
-    public PropertyIDAssociations(Map<Property<?>, Integer> propertyIDMap, int largestAssignedNumericID) {
-        this.propertyIDMap.putAll(propertyIDMap);
+    public BlockTypeIDAssociations(Map<BlockType, Integer> blockTypeIDMap, int largestAssignedNumericID) {
+        this.blockTypeIDMap.putAll(blockTypeIDMap);
         this.largestAssignedNumericID = largestAssignedNumericID;
     }
 
-    public PropertyIDAssociations() {
+    public BlockTypeIDAssociations() {
         largestAssignedNumericID = 0;
     }
 
-    public BiMap<Property<?>, Integer> getPropertyIDMap() {
-        return propertyIDMap;
+    public BiMap<BlockType, Integer> getBlockTypeIDMap() {
+        return blockTypeIDMap;
     }
 
     public int getLargestAssignedNumericID() {

@@ -1,4 +1,4 @@
-package rocks.cleanstone.storage.engine.leveldb.entity;
+package rocks.cleanstone.storage.engine.rocksdb.entity;
 
 import rocks.cleanstone.game.entity.Entity;
 

@@ -1,21 +1,22 @@
-package rocks.cleanstone.storage.engine.leveldb.player;
+package rocks.cleanstone.storage.engine.rocksdb.player;
 
 import io.netty.buffer.ByteBuf;
+import org.rocksdb.RocksDBException;
 import rocks.cleanstone.data.InboundCodec;
 import rocks.cleanstone.data.JavaSerializableCodec;
 import rocks.cleanstone.data.OutboundCodec;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.data.PlayerDataType;
-import rocks.cleanstone.storage.engine.leveldb.LevelDBDataSource;
+import rocks.cleanstone.storage.engine.rocksdb.RocksDBDataSource;
 import rocks.cleanstone.storage.player.PlayerDataSource;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Path;
 
-public class LevelDBPlayerDataSource extends LevelDBDataSource implements PlayerDataSource {
+public class RocksDBPlayerDataSource extends RocksDBDataSource implements PlayerDataSource {
 
-    public LevelDBPlayerDataSource(Path playerDataFolder) throws IOException {
+    public RocksDBPlayerDataSource(Path playerDataFolder) throws RocksDBException {
         super(playerDataFolder);
     }
 

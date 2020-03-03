@@ -3,7 +3,7 @@ package rocks.cleanstone.game.world.chunk;
 import rocks.cleanstone.game.block.Block;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
-import rocks.cleanstone.storage.engine.leveldb.entity.EntityData;
+import rocks.cleanstone.storage.engine.rocksdb.entity.EntityData;
 
 import java.util.Collection;
 

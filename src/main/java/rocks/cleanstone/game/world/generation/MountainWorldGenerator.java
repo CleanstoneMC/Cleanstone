@@ -15,7 +15,7 @@ import rocks.cleanstone.game.world.chunk.SimpleChunk;
 import rocks.cleanstone.game.world.generation.utils.NoiseGenerator;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
 import rocks.cleanstone.storage.chunk.BlockDataStorageProvider;
-import rocks.cleanstone.storage.engine.leveldb.entity.EntityData;
+import rocks.cleanstone.storage.engine.rocksdb.entity.EntityData;
 
 import java.util.HashSet;
 
