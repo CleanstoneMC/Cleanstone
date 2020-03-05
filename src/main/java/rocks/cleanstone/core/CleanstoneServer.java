@@ -2,10 +2,8 @@ package rocks.cleanstone.core;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
@@ -107,11 +105,5 @@ public abstract class CleanstoneServer {
     @EventListener
     public void onShutdown(ContextClosedEvent e) {
         log.info("Shutting down");
-    }
-
-    @Bean
-    @ConfigurationProperties("spring.boot.admin.client.instance.name")
-    public String instanceName() {
-        return "Cleanstone Mainserver";
     }
 }
