@@ -3,6 +3,7 @@ package rocks.cleanstone.console;
 import lombok.extern.slf4j.Slf4j;
 import org.jline.reader.LineReader;
 import org.springframework.context.SmartLifecycle;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.shell.InputProvider;
 import org.springframework.shell.Shell;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
@@ -26,6 +27,7 @@ public class InteractiveShellLifecycle implements SmartLifecycle, Runnable {
 
     private Thread thread;
 
+    @Lazy
     public InteractiveShellLifecycle(LineReader lineReader, PromptProvider promptProvider, Shell shell) {
         this.lineReader = lineReader;
         this.promptProvider = promptProvider;
