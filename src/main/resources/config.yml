@@ -57,12 +57,23 @@ game:
       autoload: true
 
 web:
-  enabled: true
-
-  client:
-    url: http://127.0.0.1:8080
-
+  # The configuration for the Webserver itself
   server:
+    # The Address on which the server should listen
     address: 127.0.0.1
-    port: 8080
-    url: http://localhost:8080
+    # The Port on which the server should listen
+    port: 8083
+
+  # The configuration for the WebAdmin client
+  client:
+    # Should this Server register itself as client on the admin server
+    enabled: true
+    # The Address on which the AdminServer is reachable
+    url: http://127.0.0.1:8083
+
+  # The configuration for the WebAdmin master
+  admin:
+    # Should this Server start a admin instance?
+    enabled: true
+    # The Public facing address for the admin server
+    url: http://localhost:8083

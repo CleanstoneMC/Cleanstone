@@ -13,14 +13,8 @@ import rocks.cleanstone.net.config.NetworkConfig;
 @Configuration
 @ConfigurationProperties(prefix = "web")
 public class WebConfig {
-    private boolean enabled;
-    private SpringBootAdminClientConfig client;
     private NetworkConfig server;
-
-    @Data
-    @SuppressWarnings("InnerClassMayBeStatic")
-    class SpringBootAdminClientConfig {
-        private String url;
-    }
+    private SpringBootAdminInstanceConfig client;
+    private SpringBootAdminInstanceConfig admin;
 }
 

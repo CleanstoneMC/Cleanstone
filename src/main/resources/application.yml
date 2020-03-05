@@ -1,12 +1,14 @@
 spring:
+  application:
+    name: "cleanstone"
   boot:
     admin:
       ui:
         title: "Cleanstone Admin"
       client:
-        url: null
+        url: ~
         instance:
-          name: null
+          prefer-ip: true
   profiles:
     active: mainServer
   thymeleaf:
