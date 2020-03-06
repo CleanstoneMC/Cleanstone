@@ -8,7 +8,6 @@ import org.springframework.lang.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class SpringBootUrlReplacer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
@@ -19,9 +18,7 @@ public class SpringBootUrlReplacer implements ApplicationContextInitializer<Conf
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
 
         String springBootAdminServerUrl = environment.getProperty("web.client.url");
-
-        Optional<Boolean> adminEnabled = Optional.ofNullable(environment.getProperty("web.admin.enabled", Boolean.class));
-        if (adminEnabled.isPresent() && adminEnabled.get()) {
+        if (environment.getProperty("web.admin.enabled", Boolean.class, false)) {
             springBootAdminServerUrl = "http://" + environment.getProperty("web.server.address") + ":" + environment.getProperty("web.server.port");
         }
         properties.put("spring.boot.admin.client.url", springBootAdminServerUrl);
