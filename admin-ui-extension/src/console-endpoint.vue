@@ -73,7 +73,7 @@
     methods: {
       sendCommand: async function () {
         await this.instance.axios.post('actuator/console', {
-          command: this.command,
+          commandString: this.command,
         });
 
         this.getConsoleLog();
