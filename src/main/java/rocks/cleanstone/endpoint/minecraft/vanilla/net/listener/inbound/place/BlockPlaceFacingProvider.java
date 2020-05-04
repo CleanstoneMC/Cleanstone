@@ -16,7 +16,8 @@ import java.util.List;
 public class BlockPlaceFacingProvider implements BlockPlacePropertyProvider<Facing> {
     private final List<BlockType> detectByBlockFace = Arrays.asList(
             VanillaBlockType.WALL_TORCH,
-            VanillaBlockType.REDSTONE_WALL_TORCH
+            VanillaBlockType.REDSTONE_WALL_TORCH,
+            VanillaBlockType.LADDER
     );
 
     @Override
@@ -46,7 +47,7 @@ public class BlockPlaceFacingProvider implements BlockPlacePropertyProvider<Faci
         } else if (yaw >= 225 && yaw < 315) {
             return Facing.WEST;
         } else {
-            throw new IllegalStateException("a circle only has 360 degrees");
+            throw new IllegalStateException("a circle only has 360 degrees" );
         }
     }
 

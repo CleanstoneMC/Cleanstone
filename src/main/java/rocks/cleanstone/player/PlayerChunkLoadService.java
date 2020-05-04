@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import rocks.cleanstone.core.CleanstoneMainServer;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.UnloadChunkPacket;
 import rocks.cleanstone.game.world.World;
@@ -12,11 +13,16 @@ import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class PlayerChunkLoadService {
     private final Multimap<UUID, ChunkCoords> playerHasLoaded = ArrayListMultimap.create();
+
+    public java.util.Set<ChunkCoords> getAllLoadedChunks() {
+        return playerHasLoaded.values().parallelStream().collect(Collectors.toSet());
+    }
 
     /**
      * Load a chunk for a player if they have not already loaded it
@@ -30,17 +36,18 @@ public class PlayerChunkLoadService {
             return;
         }
 
-        registerLoadedChunk(uuid, coords);
+        registerLoadedChunk(player, coords);
         sendChunkLoadPacket(player, coords);
     }
 
     /**
      * Mark a chunk as loaded for a given player
      *
-     * @param uuid   Player uuid to mark the chunk as loaded for
+     * @param player   Player to mark the chunk as loaded for
      * @param coords chunk coordinates
      */
-    public void registerLoadedChunk(UUID uuid, ChunkCoords coords) {
+    public void registerLoadedChunk(Player player, ChunkCoords coords) {
+        UUID uuid = player.getID().getUUID();
         playerHasLoaded.get(uuid).add(coords);
     }
 
@@ -77,17 +84,19 @@ public class PlayerChunkLoadService {
             return;
         }
 
-        unregisterLoadedChunk(uuid, coords);
+        unregisterLoadedChunk(player, coords);
         sendChunkUnloadPacket(player, coords);
     }
 
     /**
      * Mark a chunk as not loaded for a given player
      *
-     * @param uuid   Player uuid to mark the chunk as not loaded for
+     * @param player   Player to mark the chunk as not loaded for
      * @param coords chunk coordinates
      */
-    public void unregisterLoadedChunk(UUID uuid, ChunkCoords coords) {
+    public void unregisterLoadedChunk(Player player, ChunkCoords coords) {
+        UUID uuid = player.getID().getUUID();
+        CleanstoneMainServer.publishEvent(new PlayerUnloadedChunkEvent(player, player.getEntity().getWorld(), coords));
         playerHasLoaded.get(uuid).remove(coords);
     }
 
@@ -99,7 +108,7 @@ public class PlayerChunkLoadService {
     public void unloadAllChunks(Player player) {
         UUID uuid = player.getID().getUUID();
         getLoadedChunkCoords(uuid).forEach(coords -> {
-            unregisterLoadedChunk(uuid, coords);
+            unregisterLoadedChunk(player, coords);
             sendChunkUnloadPacket(player, coords);
         });
     }

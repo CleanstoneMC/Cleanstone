@@ -107,7 +107,7 @@ public class PlayerMoveChunkLoadListener {
                 .filter(chunk -> !isWithinRange(playerCoords.getX(), playerCoords.getZ(), chunk.getX(), chunk.getZ(), sendDistance))
                 .forEach(coords -> {
                     // use specific functions, because it is certain that the player has loaded these chunks
-                    playerChunkLoadService.unregisterLoadedChunk(uuid, coords);
+                    playerChunkLoadService.unregisterLoadedChunk(player, coords);
                     playerChunkLoadService.sendChunkUnloadPacket(player, coords);
                 });
     }
