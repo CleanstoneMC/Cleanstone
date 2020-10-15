@@ -1,6 +1,6 @@
 package rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound;
 
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.entity.metadata.EntityMetadata;
+import rocks.cleanstone.endpoint.minecraft.vanilla.modern.entity.metadata.EntityMetadata;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.MinecraftOutboundPacketType;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.net.packet.Packet;
