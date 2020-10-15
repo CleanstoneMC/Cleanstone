@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.endpoint.cleanstone.entity.types.Chicken;
 import rocks.cleanstone.endpoint.cleanstone.entity.types.SimpleChicken;
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.entity.VanillaMobType;
+import rocks.cleanstone.endpoint.minecraft.vanilla.modern.entity.VanillaMobType;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.command.CommandMessage;
 import rocks.cleanstone.game.command.SimpleCommand;

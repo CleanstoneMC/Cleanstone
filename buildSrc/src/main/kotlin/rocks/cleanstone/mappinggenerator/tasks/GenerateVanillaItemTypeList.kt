@@ -59,7 +59,7 @@ open class GenerateVanillaItemTypeList : ItemReportTask() {
 
         itemList.forEach { enum.addEnumConstant(it.getEnumName(), TypeSpec.anonymousClassBuilder("\$S", it.getShortName()).build()) }
 
-        JavaFile.builder("rocks.cleanstone.endpoint.minecraft.vanilla.v${getVersionString()}.item", enum.build())
+        JavaFile.builder("rocks.cleanstone.endpoint.minecraft.vanilla.modern.v${getVersionString()}.item", enum.build())
                 .skipJavaLangImports(true)
                 .indent("    ")
                 .build()
