@@ -23,16 +23,16 @@
  */
 package rocks.cleanstone.net.utils;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
-
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.HeadRotatablePosition;
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.utils.Vector;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 /**
  * A class containing various utility methods that act on byte buffers.

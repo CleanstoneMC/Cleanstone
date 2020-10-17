@@ -4,8 +4,8 @@ import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.data.InOutCodec;
-import rocks.cleanstone.endpoint.cleanstone.entity.types.SimpleChicken;
 import rocks.cleanstone.game.entity.LivingEntity;
+import rocks.cleanstone.game.entity.types.SimpleChicken;
 import rocks.cleanstone.storage.entity.LivingEntityCodec;
 
 import java.io.IOException;

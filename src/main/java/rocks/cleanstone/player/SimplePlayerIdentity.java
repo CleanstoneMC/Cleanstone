@@ -8,7 +8,7 @@ import java.util.UUID;
 public class SimplePlayerIdentity implements Identity {
 
     private final UUID uuid;
-    private String accountName;
+    private final String accountName;
     private String name;
 
     public SimplePlayerIdentity(UUID uuid, String accountName, String name) {

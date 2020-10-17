@@ -16,9 +16,9 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @Component
 public class SimpleCommandCompletion implements CommandCompletion {
-    private CommandRegistry commandRegistry;
-    private MainCommandCompletion mainCommandCompletion;
-    private CommandArgumentsCompletion argumentsCompletion;
+    private final CommandRegistry commandRegistry;
+    private final MainCommandCompletion mainCommandCompletion;
+    private final CommandArgumentsCompletion argumentsCompletion;
 
     @Autowired
     public SimpleCommandCompletion(

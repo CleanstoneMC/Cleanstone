@@ -1,12 +1,6 @@
 package rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.oldchunkdata;
 
 import com.google.common.base.Objects;
-
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.annotation.Nullable;
-
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.endpoint.minecraft.vanilla.block.VanillaBlockType;
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.oldchunkdata.section.BlockDataSection;
@@ -17,8 +11,12 @@ import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
 import rocks.cleanstone.storage.chunk.SimpleBlockDataStorage;
 
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 @Slf4j
-public class VanillaBlockDataStorage  implements OldBlockDataStorage{
+public class VanillaBlockDataStorage implements OldBlockDataStorage {
     private static final int SEC_HEIGHT = BlockDataSection.HEIGHT, SEC_WIDTH = BlockDataSection.WIDTH,
             SEC_AMNT = Chunk.HEIGHT / SEC_HEIGHT;
     private final boolean hasSkyLight;

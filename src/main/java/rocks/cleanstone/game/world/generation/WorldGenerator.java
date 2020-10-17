@@ -1,12 +1,11 @@
 package rocks.cleanstone.game.world.generation;
 
 import com.google.common.collect.Table;
-
-import java.util.Map;
-
 import rocks.cleanstone.game.entity.RotatablePosition;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
+
+import java.util.Map;
 
 public interface WorldGenerator {
 

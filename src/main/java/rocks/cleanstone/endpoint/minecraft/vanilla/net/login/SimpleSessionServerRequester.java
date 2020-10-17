@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.PublicKey;
 
 @Slf4j
@@ -29,7 +30,7 @@ public class SimpleSessionServerRequester implements SessionServerRequester {
             String authHash = LoginCrypto.generateAuthHash(connection.getSharedSecret(), publicKey);
             URL url = new URL(SESSION_SERVER_URL
                     + String.format("?username=%s&serverId=%s&ip=%s", loginData.getPlayerName(), authHash,
-                    URLEncoder.encode(connection.getAddress().getHostAddress(), "UTF-8")));
+                    URLEncoder.encode(connection.getAddress().getHostAddress(), StandardCharsets.UTF_8)));
             HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Content-Type", "application/json");

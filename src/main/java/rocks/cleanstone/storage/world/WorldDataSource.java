@@ -1,11 +1,11 @@
 package rocks.cleanstone.storage.world;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
+
+import javax.annotation.Nullable;
 
 public interface WorldDataSource {
 

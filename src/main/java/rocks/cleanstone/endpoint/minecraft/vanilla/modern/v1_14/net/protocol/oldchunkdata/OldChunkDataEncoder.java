@@ -1,16 +1,15 @@
 package rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.oldchunkdata;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.chunk.ChunkDataEncoder;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.ChunkDataPacket;
 import rocks.cleanstone.game.block.state.mapping.BlockStateMapping;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import java.io.IOException;
 
 @Component("oldChunkDataEncoder_v1_14")
 public class OldChunkDataEncoder implements ChunkDataEncoder {

@@ -2,12 +2,6 @@ package rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.ol
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import io.netty.buffer.ByteBuf;
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.endpoint.minecraft.vanilla.block.VanillaBlockType;
@@ -15,6 +9,11 @@ import rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.old
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 public class PaletteBlockStateStorage {

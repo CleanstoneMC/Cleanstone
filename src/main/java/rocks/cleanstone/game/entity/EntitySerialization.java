@@ -1,8 +1,8 @@
 package rocks.cleanstone.game.entity;
 
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
+
+import java.io.IOException;
 
 public interface EntitySerialization {
 

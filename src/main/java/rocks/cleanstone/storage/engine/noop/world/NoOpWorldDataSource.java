@@ -1,12 +1,12 @@
 package rocks.cleanstone.storage.engine.noop.world;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.game.block.state.property.Property;
 import rocks.cleanstone.game.material.block.BlockType;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.game.world.chunk.ChunkCoords;
 import rocks.cleanstone.storage.world.WorldDataSource;
+
+import javax.annotation.Nullable;
 
 public class NoOpWorldDataSource implements WorldDataSource {
     public NoOpWorldDataSource() {

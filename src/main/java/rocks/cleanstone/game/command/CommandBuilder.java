@@ -9,7 +9,7 @@ public class CommandBuilder {
 
     private final String commandName;
     private List<String> aliases = Collections.emptyList();
-    private Map<String, Command> subCommandMap = new HashMap<>();
+    private final Map<String, Command> subCommandMap = new HashMap<>();
     private CommandExecutor executor;
     private Class<?>[] expectedParameterTypes = new Class[0];
 

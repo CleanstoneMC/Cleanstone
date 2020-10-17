@@ -31,9 +31,9 @@ public class SimpleGeneratedWorld implements World {
     protected final RegionManager regionManager;
     protected final EntityRegistry entityRegistry;
     protected final WorldConfig worldConfig;
-    private Dimension dimension = Dimension.OVERWORLD; //TODO: Move
-    private Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
-    private LevelType levelType = LevelType.FLAT; //TODO: Move
+    private final Dimension dimension = Dimension.OVERWORLD; //TODO: Move
+    private final Difficulty difficulty = Difficulty.PEACEFUL; //TODO: Move
+    private final LevelType levelType = LevelType.FLAT; //TODO: Move
     private RotatablePosition spawnPosition;
 
     public SimpleGeneratedWorld(WorldConfig worldConfig, WorldGenerator generator, WorldDataSource dataSource,

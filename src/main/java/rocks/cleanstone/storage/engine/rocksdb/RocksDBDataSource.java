@@ -15,12 +15,12 @@ import java.nio.file.Path;
  */
 @Slf4j
 public class RocksDBDataSource implements KeyValueDataRepository<ByteBuf, ByteBuf>, AutoCloseable {
-    private final Path path;
-    private final RocksDB database;
-
     static {
         RocksDB.loadLibrary();
     }
+
+    private final Path path;
+    private final RocksDB database;
 
     public RocksDBDataSource(Path path, Options options) throws RocksDBException {
         this.path = path;

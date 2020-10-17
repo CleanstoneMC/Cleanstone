@@ -23,8 +23,8 @@ import java.util.stream.Stream;
 public class SimpleShell extends Shell {
 
     private final ConsoleSender consoleSender;
-    private CommandRegistry commandRegistry;
     private final CommandCompletion commandCompletion;
+    private final CommandRegistry commandRegistry;
 
     @SuppressWarnings("unchecked")
     public SimpleShell(@Qualifier("mainResultHandler") ResultHandler resultHandler,
@@ -145,22 +145,6 @@ public class SimpleShell extends Shell {
     }
 
     /**
-     * Currently this only wraps it for beauty reasons. It never calls the execute {@link CommandWrapper#execute} function.
-     */
-    class CommandWrapper {
-        private final Command command;
-
-        public CommandWrapper(Command command) {
-            this.command = command;
-        }
-
-        public Object execute(String message) {
-            command.execute(CommandMessageFactory.construct(consoleSender, message, commandRegistry));
-            return null;
-        }
-    }
-
-    /**
      * Return true if the parsed input ends up being empty (<em>e.g.</em> hitting ENTER on an
      * empty line or blank space).
      *
@@ -177,5 +161,21 @@ public class SimpleShell extends Shell {
 
     private boolean isCommand(String string) {
         return string != null && string.length() > 1 && string.charAt(0) == '/';
+    }
+
+    /**
+     * Currently this only wraps it for beauty reasons. It never calls the execute {@link CommandWrapper#execute} function.
+     */
+    class CommandWrapper {
+        private final Command command;
+
+        public CommandWrapper(Command command) {
+            this.command = command;
+        }
+
+        public Object execute(String message) {
+            command.execute(CommandMessageFactory.construct(consoleSender, message, commandRegistry));
+            return null;
+        }
     }
 }

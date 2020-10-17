@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.game.entity.RotatablePosition;
+import rocks.cleanstone.game.entity.Rotation;
 import rocks.cleanstone.game.entity.SimpleEntity;
 import rocks.cleanstone.game.world.World;
 import rocks.cleanstone.game.world.WorldManager;
@@ -37,7 +38,7 @@ public class SimpleEntityCodec implements InOutCodec<SimpleEntity, ByteBuf> {
     @Override
     public ByteBuf encode(SimpleEntity entity) throws IOException {
         ByteBuf data = Unpooled.buffer();
-        ByteBufUtils.writeRotatablePosition(data, entity.getPosition());
+        ByteBufUtils.writeRotatablePosition(data, new RotatablePosition(entity.getPosition(), new Rotation(0, 0)));
         ByteBufUtils.writeUTF8(data, entity.getWorld().getID());
         data.writeBoolean(entity.isSpawnable());
         data.writeBoolean(entity.isGlowing());

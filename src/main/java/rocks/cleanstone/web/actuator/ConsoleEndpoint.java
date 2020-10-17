@@ -31,8 +31,8 @@ public class ConsoleEndpoint {
     private final Environment environment;
     private final ConsoleSender consoleSender;
 
-    private Path externalFile;
-    private CommandRegistry commandRegistry;
+    private final Path externalFile;
+    private final CommandRegistry commandRegistry;
 
     public ConsoleEndpoint(Environment environment, Path externalFile, CommandRegistry commandRegistry) {
         this.environment = environment;

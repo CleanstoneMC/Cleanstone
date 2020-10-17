@@ -48,7 +48,7 @@ public class BlockTypeIDAssociationsCodec implements InOutCodec<BlockTypeIDAssoc
     @Override
     public ByteBuf encode(BlockTypeIDAssociations blockTypeIDAssociations) throws IOException {
         ByteBuf data = Unpooled.buffer();
-        Map<BlockType,Integer> blockTypeIDMap = blockTypeIDAssociations.getBlockTypeIDMap();
+        Map<BlockType, Integer> blockTypeIDMap = blockTypeIDAssociations.getBlockTypeIDMap();
         int blockTypeAmount = blockTypeIDMap.keySet().size();
         writeVarInt(data, blockTypeAmount);
         for (Map.Entry<BlockType, Integer> entry : blockTypeIDMap.entrySet()) {

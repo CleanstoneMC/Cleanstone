@@ -9,7 +9,7 @@ public class PongPacket implements Packet {
     /**
      * Must be the same as sent by the client in PingPacket
      */
-    private long payload;
+    private final long payload;
 
     public PongPacket(long payload) {
         this.payload = payload;

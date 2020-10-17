@@ -10,7 +10,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class SecurityUtils {
 
-    private static SecureRandom secureRandom = new SecureRandom();
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     private SecurityUtils() {
     }

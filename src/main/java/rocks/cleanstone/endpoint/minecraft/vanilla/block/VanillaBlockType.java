@@ -11,7 +11,7 @@ import static rocks.cleanstone.game.block.state.property.PropertyDefinition.defi
 /**
  * A list of Cleanstone's block types together with their properties
  * !! GENERATED FILE. This file was generated using the php-converter script. !!
- * */
+ */
 public enum VanillaBlockType implements BlockType {
     AIR("air"),
     STONE("stone"),

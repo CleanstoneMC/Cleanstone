@@ -14,7 +14,7 @@ import java.io.IOException;
 public class ChunkDataCodec implements OutboundPacketCodec<ChunkDataPacket> {
 
     private final ChunkDataEncoder chunkDataEncoder;
-    private BlockStateMapping<Integer> blockStateMapping;
+    private final BlockStateMapping<Integer> blockStateMapping;
 
     public ChunkDataCodec(@Qualifier("chunkDataEncoder_v1_12_2") ChunkDataEncoder chunkDataEncoder,
                           @Qualifier("protocolBlockStateMapping_v1_12_2") BlockStateMapping<Integer> blockStateMapping) {

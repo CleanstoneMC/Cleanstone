@@ -14,7 +14,7 @@ public class SpawnObjectCodec implements OutboundPacketCodec<SpawnObjectPacket> 
 
         ByteBufUtils.writeVarInt(byteBuf, packet.getEntityID());
         ByteBufUtils.writeUUID(byteBuf, packet.getObjectUUID());
-        //byteBuf.writeByte(spawnObjectPacket.getType().getTypeID());
+        byteBuf.writeByte(packet.getEntityType().getTypeID());
         byteBuf.writeDouble(packet.getX());
         byteBuf.writeDouble(packet.getY());
         byteBuf.writeDouble(packet.getZ());

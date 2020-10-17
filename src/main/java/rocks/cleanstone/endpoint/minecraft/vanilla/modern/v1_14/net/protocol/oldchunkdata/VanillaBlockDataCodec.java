@@ -3,13 +3,6 @@ package rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.ol
 import com.github.steveice10.opennbt.NBTIO;
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import com.github.steveice10.opennbt.tag.builtin.LongArrayTag;
-
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
-import javax.annotation.Nullable;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
@@ -17,12 +10,17 @@ import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 import rocks.cleanstone.data.InOutCodec;
 import rocks.cleanstone.endpoint.minecraft.vanilla.block.VanillaBlockType;
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.chunk.HeightMapUtil;
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.oldchunkdata.section.BlockDataSection;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.chunk.HeightMapUtil;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.world.chunk.Chunk;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
+
+import javax.annotation.Nullable;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 
 @Slf4j

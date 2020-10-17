@@ -152,8 +152,8 @@ public class NoiseGenerator {
     private float m_gradientPerturbAmp = (float) (1.0 / 0.45);
 
     // Cleanstone
-    private float[] custom_frequency = new float[MAX_OCTAVES];
-    private float[] custom_amplitude = new float[MAX_OCTAVES];
+    private final float[] custom_frequency = new float[MAX_OCTAVES];
+    private final float[] custom_amplitude = new float[MAX_OCTAVES];
 
     public NoiseGenerator() {
         this(1337);

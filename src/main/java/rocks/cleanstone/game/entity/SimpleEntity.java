@@ -1,18 +1,18 @@
 package rocks.cleanstone.game.entity;
 
 import com.google.common.base.Preconditions;
-
+import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.world.World;
 
 public class SimpleEntity implements Entity {
 
     private final World world;
     private final boolean persistent, spawnable;
-    protected RotatablePosition position;
+    protected Position position;
     private int entityID = -1;
     private boolean glowing;
 
-    public SimpleEntity(World world, RotatablePosition position, boolean persistent, boolean spawnable,
+    public SimpleEntity(World world, Position position, boolean persistent, boolean spawnable,
                         boolean glowing) {
         this.world = world;
         this.position = position;
@@ -34,13 +34,13 @@ public class SimpleEntity implements Entity {
     }
 
     @Override
-    public RotatablePosition getPosition() {
+    public Position getPosition() {
         return position;
     }
 
     @Override
-    public void setPosition(RotatablePosition rotatablePosition) {
-        this.position = rotatablePosition;
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     @Override

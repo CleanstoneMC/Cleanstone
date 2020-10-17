@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SimpleInventory implements Inventory {
-    private int size;
+    private final int size;
     private ItemStack[] inventory;
 
     public SimpleInventory(int size) {

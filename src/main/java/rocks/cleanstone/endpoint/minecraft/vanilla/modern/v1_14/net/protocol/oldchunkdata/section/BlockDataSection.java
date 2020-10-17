@@ -1,12 +1,12 @@
 package rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.oldchunkdata.section;
 
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.endpoint.minecraft.vanilla.block.VanillaBlockType;
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.oldchunkdata.DirectPalette;
 import rocks.cleanstone.game.block.state.BlockState;
 import rocks.cleanstone.game.world.chunk.Chunk;
+
+import java.io.IOException;
 
 public class BlockDataSection {
 

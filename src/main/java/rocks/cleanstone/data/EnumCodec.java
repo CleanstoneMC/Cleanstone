@@ -1,10 +1,10 @@
 package rocks.cleanstone.data;
 
-import java.io.IOException;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import rocks.cleanstone.net.utils.ByteBufUtils;
+
+import java.io.IOException;
 
 /**
  * A codec for converting enum indexes to/from byte buffers. Enum constants cannot be removed without

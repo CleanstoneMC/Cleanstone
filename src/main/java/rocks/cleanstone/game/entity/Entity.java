@@ -1,5 +1,6 @@
 package rocks.cleanstone.game.entity;
 
+import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.world.World;
 
 public interface Entity {
@@ -8,9 +9,9 @@ public interface Entity {
 
     void setEntityID(int id);
 
-    RotatablePosition getPosition();
+    Position getPosition();
 
-    void setPosition(RotatablePosition rotatablePosition);
+    void setPosition(Position position);
 
     World getWorld();
 

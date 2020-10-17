@@ -1,18 +1,17 @@
 package rocks.cleanstone.game.world.chunk;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
+import rocks.cleanstone.game.world.World;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-
-import lombok.extern.slf4j.Slf4j;
-import rocks.cleanstone.game.world.World;
 
 @Slf4j
 @Service

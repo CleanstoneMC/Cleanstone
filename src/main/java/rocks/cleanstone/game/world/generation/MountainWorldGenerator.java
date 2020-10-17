@@ -25,11 +25,11 @@ import static rocks.cleanstone.game.world.generation.WorldGenerationParameter.*;
 public class MountainWorldGenerator extends AbstractWorldGenerator {
 
     private final BlockDataStorageProvider blockDataStorageProvider;
-    private Block GRASS_BLOCK;
-    private Block DIRT;
-    private Block STONE;
-    private Block BEDROCK;
-    private NoiseGenerator noiseGenerator;
+    private final Block GRASS_BLOCK;
+    private final Block DIRT;
+    private final Block STONE;
+    private final Block BEDROCK;
+    private final NoiseGenerator noiseGenerator;
 
     public MountainWorldGenerator(BlockDataStorageProvider blockDataStorageProvider) {
         super(Dimension.OVERWORLD, LevelType.DEFAULT);
