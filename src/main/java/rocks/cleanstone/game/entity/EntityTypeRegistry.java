@@ -1,11 +1,10 @@
 package rocks.cleanstone.game.entity;
 
-import java.util.Collection;
-
-import javax.annotation.Nullable;
-
 import io.netty.buffer.ByteBuf;
 import rocks.cleanstone.data.InOutCodec;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
 
 public interface EntityTypeRegistry {
     void registerEntityType(EntityType entityType, InOutCodec<? extends Entity, ByteBuf> codec);

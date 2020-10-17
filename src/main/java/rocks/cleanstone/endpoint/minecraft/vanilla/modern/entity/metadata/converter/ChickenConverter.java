@@ -2,11 +2,11 @@ package rocks.cleanstone.endpoint.minecraft.vanilla.modern.entity.metadata.conve
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.cleanstone.entity.types.Chicken;
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.entity.VanillaEntity;
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.entity.VanillaMobType;
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.entity.data.ProtocolEntityScheme;
 import rocks.cleanstone.game.entity.Entity;
+import rocks.cleanstone.game.entity.types.Chicken;
 
 @Component
 public class ChickenConverter implements EntityConverter<Chicken> {

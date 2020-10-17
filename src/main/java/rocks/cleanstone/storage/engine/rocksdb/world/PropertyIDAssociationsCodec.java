@@ -48,7 +48,7 @@ public class PropertyIDAssociationsCodec implements InOutCodec<PropertyIDAssocia
     @Override
     public ByteBuf encode(PropertyIDAssociations propertyIDAssociations) throws IOException {
         ByteBuf data = Unpooled.buffer();
-        Map<Property<?>,Integer> propertyIDMap = propertyIDAssociations.getPropertyIDMap();
+        Map<Property<?>, Integer> propertyIDMap = propertyIDAssociations.getPropertyIDMap();
         int propertyAmount = propertyIDMap.keySet().size();
         writeVarInt(data, propertyAmount);
         for (Map.Entry<Property<?>, Integer> entry : propertyIDMap.entrySet()) {

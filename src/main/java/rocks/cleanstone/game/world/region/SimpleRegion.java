@@ -24,8 +24,8 @@ import java.util.Collection;
 public class SimpleRegion implements Region {
 
     private final String id;
-    private ChunkProvider chunkProvider;
-    private Cache<ChunkCoords, Chunk> loadedChunks = CacheBuilder.newBuilder()
+    private final ChunkProvider chunkProvider;
+    private final Cache<ChunkCoords, Chunk> loadedChunks = CacheBuilder.newBuilder()
             .maximumSize(4096)
             .removalListener(this::removeChunkListener)
             .build();

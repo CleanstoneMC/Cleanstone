@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 public class ConsoleSender implements CommandSender {
 
-    private Consumer<String> messageFunction;
+    private final Consumer<String> messageFunction;
 
     public ConsoleSender(Consumer<String> messageFunction) {
         this.messageFunction = messageFunction;

@@ -3,16 +3,13 @@ package rocks.cleanstone.game.entity;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-
+import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-import java.util.Map;
+import rocks.cleanstone.data.InOutCodec;
 
 import javax.annotation.Nullable;
-
-import io.netty.buffer.ByteBuf;
-import rocks.cleanstone.data.InOutCodec;
+import java.util.Collection;
+import java.util.Map;
 
 @Component
 public class SimpleEntityTypeRegistry implements EntityTypeRegistry {

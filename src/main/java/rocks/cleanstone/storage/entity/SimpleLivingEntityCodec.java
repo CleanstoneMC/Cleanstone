@@ -4,10 +4,7 @@ import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rocks.cleanstone.data.InOutCodec;
-import rocks.cleanstone.game.entity.Entity;
-import rocks.cleanstone.game.entity.HeadRotatablePosition;
-import rocks.cleanstone.game.entity.Rotation;
-import rocks.cleanstone.game.entity.SimpleLivingEntity;
+import rocks.cleanstone.game.entity.*;
 import rocks.cleanstone.net.utils.ByteBufUtils;
 
 import java.io.IOException;
@@ -26,8 +23,7 @@ public class SimpleLivingEntityCodec implements InOutCodec<SimpleLivingEntity, B
     public SimpleLivingEntity decode(ByteBuf data) throws IOException {
         Entity entity = entityCodec.decode(data);
         float yaw = data.readFloat(), pitch = data.readFloat();
-        HeadRotatablePosition position = new HeadRotatablePosition(entity.getPosition(),
-                new Rotation(yaw, pitch));
+        HeadRotatablePosition position = new HeadRotatablePosition(new RotatablePosition(entity.getPosition(), new Rotation(0, 0)), new Rotation(yaw, pitch));
         int health = ByteBufUtils.readVarInt(data);
         return new SimpleLivingEntity(entity.getWorld(), position, entity.isPersistent(),
                 entity.isSpawnable(), entity.isGlowing(), health);

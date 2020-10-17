@@ -1,9 +1,9 @@
 package rocks.cleanstone.endpoint.cleanstone.entity;
 
-import rocks.cleanstone.endpoint.cleanstone.entity.types.SimpleChicken;
-import rocks.cleanstone.endpoint.cleanstone.entity.types.SimpleHuman;
 import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.game.entity.EntityType;
+import rocks.cleanstone.game.entity.types.SimpleChicken;
+import rocks.cleanstone.game.entity.types.SimpleHuman;
 
 public enum CleanstoneEntityType implements EntityType {
     HUMAN(0, SimpleHuman.class),

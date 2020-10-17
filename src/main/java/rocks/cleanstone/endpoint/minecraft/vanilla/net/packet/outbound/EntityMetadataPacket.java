@@ -1,20 +1,27 @@
 package rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound;
 
-import rocks.cleanstone.endpoint.minecraft.vanilla.modern.entity.metadata.EntityMetadata;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.MinecraftOutboundPacketType;
+import rocks.cleanstone.game.entity.Entity;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.packet.PacketType;
 
 public class EntityMetadataPacket implements Packet {
 
     private final int entityID;
-    private final EntityMetadata entityMetadata;
+    private final Entity entity;
 
-    public EntityMetadataPacket(int entityID, EntityMetadata entityMetadata) {
+    public EntityMetadataPacket(int entityID, Entity entity) {
         this.entityID = entityID;
-        this.entityMetadata = entityMetadata;
+        this.entity = entity;
     }
 
+    public int getEntityID() {
+        return entityID;
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
 
     @Override
     public PacketType getType() {

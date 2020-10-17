@@ -9,7 +9,7 @@ import java.util.Arrays;
 @Component()
 public class VanillaItemTypeProvider_v1_12_2 {
 
-    private MaterialRegistry materialRegistry;
+    private final MaterialRegistry materialRegistry;
 
     public VanillaItemTypeProvider_v1_12_2(MaterialRegistry materialRegistry) {
         this.materialRegistry = materialRegistry;

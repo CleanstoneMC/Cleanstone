@@ -5,13 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.cleanstone.entity.types.Human;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.DestroyEntitiesPacket;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.SpawnMobPacket;
 import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.outbound.SpawnPlayerPacket;
+import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.entity.*;
 import rocks.cleanstone.game.entity.event.EntityTrackEvent;
 import rocks.cleanstone.game.entity.event.EntityUntrackEvent;
+import rocks.cleanstone.game.entity.types.Human;
 import rocks.cleanstone.player.Player;
 import rocks.cleanstone.player.PlayerManager;
 import rocks.cleanstone.utils.Vector;
@@ -42,15 +43,14 @@ public class EntityTrackingListener {
             Player player = playerManager.getOnlinePlayer(entity);
             UUID uuid = player != null ? player.getID().getUUID() : UUID.randomUUID();
             // TODO Add EntityMetadata
-            observer.sendPacket(new SpawnPlayerPacket(entity.getEntityID(), uuid, entity.getPosition(), null));
-        } else {
-            RotatablePosition position = entity.getPosition();
-            float headPitch = entity instanceof LivingEntity ?
-                    ((LivingEntity) entity).getPosition().getHeadRotation().getPitch() : 0f;
+            observer.sendPacket(new SpawnPlayerPacket(entity.getEntityID(), uuid, ((Human) entity).getPosition(), null));
+        } else if (entity instanceof LivingEntity) {
+            Position position = entity.getPosition();
+            float headPitch = ((LivingEntity) entity).getPosition().getHeadRotation().getPitch();
             // TODO Is the mob UUID actually used?
             // TODO Add velocity
             observer.sendPacket(new SpawnMobPacket(entity.getEntityID(), UUID.randomUUID(),
-                    new HeadRotatablePosition(position, new Rotation(0, headPitch)),
+                    new HeadRotatablePosition(new RotatablePosition(position, new Rotation(0, 0)), new Rotation(0, headPitch)),
                     new Vector(), entity
             ));
         }

@@ -1,8 +1,8 @@
 package rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.oldchunkdata;
 
-import javax.annotation.Nullable;
-
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
+
+import javax.annotation.Nullable;
 
 public interface VanillaBlockDataCodecFactory {
 

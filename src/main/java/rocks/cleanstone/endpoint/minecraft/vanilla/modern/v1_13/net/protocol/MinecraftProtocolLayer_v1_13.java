@@ -2,8 +2,6 @@ package rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_13.net.protocol;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.AutowiredServerProtocolLayer;
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.endpoint.minecraft.vanilla.legacy.v1_12_2.net.protocol.inbound.*;
 import rocks.cleanstone.endpoint.minecraft.vanilla.legacy.v1_12_2.net.protocol.outbound.*;
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_13.net.protocol.inbound.CreativeInventoryActionCodec;
@@ -12,6 +10,8 @@ import rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_13.net.protocol.out
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_13.net.protocol.outbound.ChunkDataCodec;
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_13.net.protocol.outbound.DeclareCommandsCodec;
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_13.net.protocol.outbound.OutTabCompleteCodec;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.AutowiredServerProtocolLayer;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 

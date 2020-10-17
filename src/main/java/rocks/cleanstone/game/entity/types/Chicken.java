@@ -1,4 +1,4 @@
-package rocks.cleanstone.endpoint.cleanstone.entity.types;
+package rocks.cleanstone.game.entity.types;
 
 import rocks.cleanstone.game.entity.LivingEntity;
 

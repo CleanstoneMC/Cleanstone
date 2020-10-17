@@ -1,7 +1,6 @@
 package rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.oldchunkdata;
 
 import org.springframework.stereotype.Component;
-
 import rocks.cleanstone.endpoint.minecraft.vanilla.modern.v1_14.net.protocol.oldchunkdata.section.BlockDataSection;
 import rocks.cleanstone.storage.chunk.BlockDataStorage;
 

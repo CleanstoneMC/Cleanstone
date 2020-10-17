@@ -10,6 +10,8 @@ import rocks.cleanstone.endpoint.minecraft.vanilla.net.packet.inbound.PlayerDigg
 import rocks.cleanstone.game.Position;
 import rocks.cleanstone.game.block.event.BlockBreakEvent;
 import rocks.cleanstone.game.block.event.BlockDamageEvent;
+import rocks.cleanstone.game.inventory.Hand;
+import rocks.cleanstone.game.inventory.event.ItemDropEvent;
 import rocks.cleanstone.net.event.PlayerInboundPacketEvent;
 import rocks.cleanstone.player.Player;
 
@@ -18,6 +20,7 @@ import java.util.Collections;
 @Slf4j
 @Component
 public class PlayerDiggingPacketListener {
+
     @Async(value = "playerExec")
     @EventListener
     public void onPacket(PlayerInboundPacketEvent<PlayerDiggingPacket> playerInboundPacketEvent) {
@@ -43,6 +46,12 @@ public class PlayerDiggingPacketListener {
                     CleanstoneServer.publishEvent(blockBreakEvent);
                 }
             }, e -> log.error("Could not get Block", e));
+        }
+
+        if (packet.getDiggingStatus() == DiggingStatus.DROP_ITEM) {
+            ItemDropEvent itemDropEvent = new ItemDropEvent(new Position(player.getEntity().getPosition()), player, player.getEntity().getItemByHand(Hand.MAIN_HAND));
+
+            CleanstoneServer.publishEvent(itemDropEvent);
         }
     }
 }

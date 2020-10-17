@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class SimpleConfigLoader implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-    private static String SIMPLE_CONFIG = "config.yml";
+    private static final String SIMPLE_CONFIG = "config.yml";
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {

@@ -17,7 +17,7 @@ public class SimpleIDMapping<T, I> {
     }
 
     public I getID(T type) {
-        I defaultID = type != defaultType ? getID(defaultType) : null;
+        I defaultID = !type.equals(defaultType) ? getID(defaultType) : null;
         I id = typeIDMap.get(type);
         if (id != null) {
             return id;

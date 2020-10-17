@@ -25,7 +25,7 @@ public class InteractiveShellLifecycle implements SmartLifecycle, Runnable {
 
     private boolean running;
 
-    private Thread thread;
+    private final Thread thread;
 
     @Lazy
     public InteractiveShellLifecycle(LineReader lineReader, PromptProvider promptProvider, Shell shell) {

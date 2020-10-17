@@ -11,7 +11,7 @@ import java.util.Arrays;
 @Component
 public class VanillaBlockItemTypeProvider {
 
-    private MaterialRegistry materialRegistry;
+    private final MaterialRegistry materialRegistry;
 
     public VanillaBlockItemTypeProvider(MaterialRegistry materialRegistry) {
         this.materialRegistry = materialRegistry;

@@ -1,7 +1,6 @@
 package rocks.cleanstone.game.block.state.property;
 
 import com.google.common.collect.Sets;
-
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;

@@ -2,10 +2,10 @@ package rocks.cleanstone.endpoint.minecraft.vanilla.legacy.v1_12_2.net.protocol;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.AutowiredServerProtocolLayer;
-import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.endpoint.minecraft.vanilla.legacy.v1_12_2.net.protocol.inbound.*;
 import rocks.cleanstone.endpoint.minecraft.vanilla.legacy.v1_12_2.net.protocol.outbound.*;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.AutowiredServerProtocolLayer;
+import rocks.cleanstone.endpoint.minecraft.vanilla.net.protocol.MinecraftClientProtocolLayer;
 import rocks.cleanstone.net.packet.Packet;
 import rocks.cleanstone.net.protocol.PacketCodec;
 
@@ -44,6 +44,7 @@ public class MinecraftProtocolLayer_v1_12_2 extends AutowiredServerProtocolLayer
         registerPacketCodec(PlayerCodec.class, PLAY, 0x0C);
 
         //outbound
+        registerPacketCodec(EntityMetadataCodec.class, PLAY, 0x3C);
         registerPacketCodec(DisconnectCodec.class, PLAY, 0x1A);
         registerPacketCodec(DisconnectLoginCodec.class, LOGIN, 0x00);
         registerPacketCodec(SpawnMobCodec.class, PLAY, 0x03);

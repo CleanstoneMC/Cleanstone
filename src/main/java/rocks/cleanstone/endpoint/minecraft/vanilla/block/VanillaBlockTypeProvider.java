@@ -10,7 +10,7 @@ import java.util.Arrays;
 @Component
 public class VanillaBlockTypeProvider {
 
-    private MaterialRegistry materialRegistry;
+    private final MaterialRegistry materialRegistry;
 
     public VanillaBlockTypeProvider(MaterialRegistry materialRegistry) {
         this.materialRegistry = materialRegistry;
