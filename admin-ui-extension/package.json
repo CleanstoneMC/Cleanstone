@@ -11,7 +11,7 @@
     "vue": "^2.5.16"
   },
   "dependencies": {
-    "ansi_up": "^3.0.0"
+    "ansi_up": "^5.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.1",
