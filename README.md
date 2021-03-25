@@ -1,3 +1,6 @@
+# Current State
+Please checkout [Minestom](https://github.com/Minestom/Minestom) since this Project is currently not maintained
+
 ![Cleanstone](https://i.imgur.com/A5pc55f.png)
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=CleanstoneMC_Cleanstone&metric=coverage)](https://sonarcloud.io/dashboard?id=CleanstoneMC_Cleanstone)
